@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
 
-app.get("/", (req, res, next) => {
+app.get("/api/v1/civil", (req, res, next) => {
   res.send("Civil management");
 });
 
-app.listen(4000, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log("Listing on port 4000");
 });
