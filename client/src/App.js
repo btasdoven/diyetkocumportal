@@ -64,6 +64,7 @@ class App extends Component {
               <Switch>
                 <DashboardRoute path="/dashboard" component={Home} />
                 <DashboardRoute path="/setting" component={Setting} />
+                <DashboardRoute path="/test" component={Setting} />
                 <Route path="/signin" render={() => <Redirect to="/" />} />
                 <DashboardRoute exact path="/" component={Home} />
                 <EmptyRoute component={NotFound} />
