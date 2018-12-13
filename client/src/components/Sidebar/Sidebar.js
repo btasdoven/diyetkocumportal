@@ -66,6 +66,14 @@ const Sidebar = props => {
             <ListItemText primary="Orders" />
           </ListItem>
         </Link>
+        <Link to="/test">
+          <ListItem button>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Test" />
+          </ListItem>
+        </Link>
       </List>
     </Drawer>
   );
