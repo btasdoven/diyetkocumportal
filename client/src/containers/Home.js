@@ -10,6 +10,46 @@ import { connect } from "react-redux";
 import { increment, decrement } from "../store/reducers/stepCounter";
 import { itemsFetchData } from '../store/reducers/api';
 
+import { withStyles } from '@material-ui/core/styles';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+import TextField from '@material-ui/core/TextField';
+
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+    verticalAlign: 'middle',
+  },
+  table: {
+    align: 'left'
+  },
+});
+
+function createData(id, name, value) {
+  return { id, name, value };
+}
+
+const rows = [
+  createData('basic.name', 'Name', 'Alan'),
+  createData('basic.surname', 'Surname', 'Turing'),
+  createData('basic.mobile', 'Mobile', '+1-(123)-456-7859'),
+];
+
 class Home extends React.Component {
 
   constructor(props) {
@@ -26,7 +66,7 @@ class Home extends React.Component {
 
   render() {
 
-    console.log(this.props);
+    const { classes } = this.props;
 
     return (
         <div
@@ -36,7 +76,8 @@ class Home extends React.Component {
             justifyContent: "center"
           }}
         >
-          <Card>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+          {/* <Card>
             <CardContent>
               <Typography variant="headline">
                 Redux Example
@@ -60,7 +101,82 @@ class Home extends React.Component {
                 Decrement
               </Button>
             </CardActions>
-          </Card>
+          </Card> */}
+          
+          <div className={classes.root}>
+            <ExpansionPanel defaultExpanded>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Basic Fields</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Table style={{ tableLayout: 'auto' }} className={classes.table}>
+                  <TableBody>
+                    {rows.map(row => {
+                      return (
+                        <TableRow key={row.id}>
+                          <TableCell>{row.id}</TableCell>
+                          <TableCell component="th" scope="row">
+                            {row.name}
+                          </TableCell>
+                          <TableCell>
+                            <TextField
+                              id="standard-name"
+                              value={row.value}
+                              margin="normal"
+                            />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}><img src="https://img.icons8.com/material/24/000000/facebook.png"/> Facebook Fields</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                  sit amet blandit leo lobortis eget.
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Custom</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                  sit amet blandit leo lobortis eget.
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Custom</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                  sit amet blandit leo lobortis eget.
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Custom</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                  sit amet blandit leo lobortis eget.
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </div>
         </div>
       );
     }
@@ -88,4 +204,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(withStyles(styles)(Home));

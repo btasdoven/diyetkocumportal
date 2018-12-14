@@ -15,13 +15,15 @@ app.get("/api/v1/civil", (req, res, next) => {
 });
 
 app.post("/api/v1/users/auth", (req, res, next) => {
+  setTimeout((function() {
     if (req.body.username == 'btasdoven' && req.body.password == '12341234') {
       res.setHeader('Content-Type', 'application/json');
       res.json({token: 'Civil Management', username: 'btas'});
     } else {
       res.setHeader('Content-Type', 'application/json');
-      res.send(400, JSON.stringify({message: "unauthorized access"}))
+      res.status(400).json({message: "unauthorized access"});
     }  
+  }), 5000);
 });
 
 app.listen(process.env.PORT || 4000, () => {
