@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import SigninForm from "../components/Signin";
-import { authenticate } from "../store/reducers/authenticate";
+import { login } from "../store/reducers/authenticate";
 
 const styles = () => ({
   root: {
@@ -21,26 +21,35 @@ const styles = () => ({
 });
 
 const Signin = props => {
-  const { classes } = props;
+  const { login, classes, auth } = props;
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
-        <SigninForm handleSubmit={props.login} />
+        <SigninForm auth={auth} onSubmit={(v) => {
+          console.log(v);
+          login(v.username, v.password);
+        }} />
       </Card>
     </div>
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      login: () => authenticate()
+      login: login
     },
     dispatch
   );
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(Signin));

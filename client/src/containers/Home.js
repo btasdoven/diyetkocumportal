@@ -8,49 +8,69 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { increment, decrement } from "../store/reducers/stepCounter";
+import { itemsFetchData } from '../store/reducers/api';
 
-const Home = props => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
-    >
-      <Card>
-        <CardContent>
-          <Typography variant="headline" headlineMapping={"h1"}>
-            Redux Example
-          </Typography>
-          <Typography
-            align="center"
-            variant="subheading"
-            headlineMapping={"h1"}
-          >
-            Counter: {props.stepCounter.counter}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button color="primary" variant="contained" onClick={props.increment}>
-            Increment
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={props.decrement}
-          >
-            Decrement
-          </Button>
-        </CardActions>
-      </Card>
-    </div>
-  );
+class Home extends React.Component {
+
+  constructor(props) {
+      super(props);
+
+      console.log(props);
+  }
+
+  componentDidMount() {
+    console.log(this);
+
+    this.props.itemsFetchData('http://localhost:4000/api/v1/civil');
+  }
+
+  render() {
+
+    console.log(this.props);
+
+    return (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Card>
+            <CardContent>
+              <Typography variant="headline">
+                Redux Example
+              </Typography>
+              <Typography
+                align="center"
+                variant="subheading"
+              >
+                Counter: {this.props.stepCounter.counter}
+              </Typography> <br/>
+            </CardContent>
+            <CardActions>
+              <Button color="primary" variant="contained" onClick={this.props.increment}>
+                Increment
+              </Button>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={this.props.decrement}
+              >
+                Decrement
+              </Button>
+            </CardActions>
+          </Card>
+        </div>
+      );
+    }
 };
 
 const mapStateToProps = state => {
   return {
-    stepCounter: state.stepCounter
+    stepCounter: state.stepCounter,
+    items: state.api.items,
+    api: state.api,
   };
 };
 
@@ -58,7 +78,8 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       increment: () => increment(),
-      decrement: () => decrement()
+      decrement: () => decrement(),
+      itemsFetchData: (url) => itemsFetchData(url)
     },
     dispatch
   );

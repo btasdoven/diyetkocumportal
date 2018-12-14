@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from 'react';
 import { Field, reduxForm } from "redux-form";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
@@ -19,46 +19,51 @@ const styles = () => ({
   }
 });
 
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    label={label}
+    {...input}
+    {...custom}
+  />
+)
+
 const SigninForm = props => {
-  const { handleSubmit, classes } = props;
+  const { auth, handleSubmit, onSubmit, classes } = props;
   return (
-    <form onSubmit={handleSubmit} className={classes.grid}>
+    <form onSubmit={handleSubmit(onSubmit)} className={classes.grid}>
       <div>
         <Typography
           align="left"
           headlineMapping={{ display: "h1" }}
           variant="headline"
         >
-          CompanyName
-        </Typography>
-        <Typography
-          align="left"
-          headlineMapping={{ display: "h1" }}
-          variant="title"
-        >
-          Sigin
+          Monagard
         </Typography>
       </div>
       <Field
-        className={classes.inputRoot}
         name="username"
-        type="email"
-        component={TextField}
+        component={renderTextField}
+        label="Username"
       />
       <Field
-        className={classes.inputRoot}
         name="password"
         type="password"
-        component={TextField}
+        component={renderTextField}
+        label="Password"
       />
       <div className={classes.buttons}>
         <Button
-          onClick={handleSubmit}
-          type="button"
+          type="submit"
           color="primary"
           variant="contained"
+          disabled={auth && auth.loggingIn}
         >
-          Signin
+          { auth && auth.loggingIn ? "Signing in..." : "Sign In" }
         </Button>
       </div>
     </form>

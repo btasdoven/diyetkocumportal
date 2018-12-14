@@ -60,7 +60,7 @@ class App extends Component {
         <CssBaseline />
         <div style={{ height: "100vh" }}>
           <Router>
-            {auth.authenticate ? (
+            {localStorage.getItem('user') ? (
               <Switch>
                 <DashboardRoute path="/dashboard" component={Home} />
                 <DashboardRoute path="/setting" component={Setting} />
