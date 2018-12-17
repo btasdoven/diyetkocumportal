@@ -1,6 +1,7 @@
 export const userService = {
     login,
-    logout
+    logout,
+    get_user_data
 };
 
 const HOST_NAME = process.env.NODE_ENV == 'development' ? 'http://localhost:4000' : '';
@@ -30,6 +31,21 @@ function login(username, password) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
+}
+
+function get_user_data(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    console.log(process.env);
+
+    return fetch(HOST_NAME + `/api/v1/users/` + userId, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
 }
 
 function handleResponse(response) {

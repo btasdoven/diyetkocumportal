@@ -26,7 +26,6 @@ const Signin = props => {
     <div className={classes.root}>
       <Card className={classes.card}>
         <SigninForm auth={auth} onSubmit={(v) => {
-          console.log(v);
           login(v.username, v.password);
         }} />
       </Card>

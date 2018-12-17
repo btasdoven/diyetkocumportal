@@ -21,10 +21,14 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Divider from '@material-ui/core/Divider';
+
+import UserDataExpensionPanel from '../components/UserDataExpansionPanel'
 
 import TextField from '@material-ui/core/TextField';
 
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import { userService } from "../services";
 
 const styles = theme => ({
   root: {
@@ -40,28 +44,16 @@ const styles = theme => ({
   },
 });
 
-function createData(id, name, value) {
-  return { id, name, value };
-}
-
-const rows = [
-  createData('basic.name', 'Name', 'Alan'),
-  createData('basic.surname', 'Surname', 'Turing'),
-  createData('basic.mobile', 'Mobile', '+1-(123)-456-7859'),
-];
-
 class Home extends React.Component {
 
   constructor(props) {
       super(props);
-
       console.log(props);
   }
 
   componentDidMount() {
-    console.log(this);
-
-    this.props.itemsFetchData('http://localhost:4000/api/v1/civil');
+    console.log(localStorage.getItem('user'));
+    this.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id);
   }
 
   render() {
@@ -69,6 +61,7 @@ class Home extends React.Component {
     const { classes } = this.props;
 
     return (
+      <div>
         <div
           style={{
             display: "flex",
@@ -104,34 +97,10 @@ class Home extends React.Component {
           </Card> */}
           
           <div className={classes.root}>
-            <ExpansionPanel defaultExpanded>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Basic Fields</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Table style={{ tableLayout: 'auto' }} className={classes.table}>
-                  <TableBody>
-                    {rows.map(row => {
-                      return (
-                        <TableRow key={row.id}>
-                          <TableCell>{row.id}</TableCell>
-                          <TableCell component="th" scope="row">
-                            {row.name}
-                          </TableCell>
-                          <TableCell>
-                            <TextField
-                              id="standard-name"
-                              value={row.value}
-                              margin="normal"
-                            />
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+            <UserDataExpensionPanel rows = {this.props.api.items} onSubmit={(v) => {
+              console.log(v);
+            }}>
+            </UserDataExpensionPanel>
             <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}><img src="https://img.icons8.com/material/24/000000/facebook.png"/> Facebook Fields</Typography>
@@ -176,8 +145,19 @@ class Home extends React.Component {
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
+
           </div>
         </div>
+        <br/>
+        <div>
+          
+          <Divider />
+
+        </div>
+
+        <Divider />
+
+            </div>
       );
     }
 };
@@ -185,8 +165,7 @@ class Home extends React.Component {
 const mapStateToProps = state => {
   return {
     stepCounter: state.stepCounter,
-    items: state.api.items,
-    api: state.api,
+    api: state.api
   };
 };
 

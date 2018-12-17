@@ -1,3 +1,5 @@
+import { userService } from '../../services';
+
 const ITEMS_HAS_ERRORED = "api/ITEMS_HAS_ERRORED";
 const ITEMS_IS_LOADING = "api/ITEMS_IS_LOADING";
 const ITEMS_FETCH_DATA_SUCCESS = "api/ITEMS_FETCH_DATA_SUCCESS";
@@ -13,7 +15,7 @@ export default function reducer(state = initState, action) {
       case ITEMS_HAS_ERRORED:
         return {
           ...state,
-          hasErrored: action.hasErrored
+          error: action.error
         };
   
       case ITEMS_IS_LOADING:
@@ -32,46 +34,26 @@ export default function reducer(state = initState, action) {
         return state;
         break;
     }
-  }
-  
-  export function itemsHasErrored(bool) {
-    return {
-        type: ITEMS_HAS_ERRORED,
-        hasErrored: bool
-    };
-}
-export function itemsIsLoading(bool) {
-    return {
-        type: ITEMS_IS_LOADING,
-        isLoading: bool
-    };
-}
-export function itemsFetchDataSuccess(items) {
-    return {
-        type: ITEMS_FETCH_DATA_SUCCESS,
-        items
-    };
 }
 
-export function itemsFetchData(url) {
+export function itemsFetchData(userId) {
     return (dispatch) => {
-        dispatch(itemsIsLoading(true));
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-                dispatch(itemsIsLoading(false));
-                return response;
-            })
-            .then((response) => {
-                console.log(response);
-                return response.json();
-            })
-            .then((items) => dispatch(itemsFetchDataSuccess(items)))
-            .catch((ex) => {
-                console.log(ex);
-                dispatch(itemsHasErrored(true));
-            });
+        dispatch(request(true));
+
+        userService.get_user_data(userId)
+        .then(
+            items => { 
+                dispatch(success(items));
+                //window.history.push('/');
+            },
+            error => {
+                dispatch(failure(error.toString()));
+                // dispatch(alertActions.error(error.toString()));
+            }
+        );
     };
+    
+  function request(bool) { return { type: ITEMS_IS_LOADING, isLoading: bool } }
+  function success(items) { return { type: ITEMS_FETCH_DATA_SUCCESS, items } }
+  function failure(error) { return { type: ITEMS_HAS_ERRORED, error } }
 }
