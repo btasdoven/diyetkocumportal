@@ -60,8 +60,9 @@ class Home extends React.Component {
 
     const { classes } = this.props;
 
+    console.log("lala");
+    console.log(this.props.api.items)
     return (
-      <div>
         <div
           style={{
             display: "flex",
@@ -70,94 +71,17 @@ class Home extends React.Component {
           }}
         >
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
-          {/* <Card>
-            <CardContent>
-              <Typography variant="headline">
-                Redux Example
-              </Typography>
-              <Typography
-                align="center"
-                variant="subheading"
-              >
-                Counter: {this.props.stepCounter.counter}
-              </Typography> <br/>
-            </CardContent>
-            <CardActions>
-              <Button color="primary" variant="contained" onClick={this.props.increment}>
-                Increment
-              </Button>
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={this.props.decrement}
-              >
-                Decrement
-              </Button>
-            </CardActions>
-          </Card> */}
-          
+ 
           <div className={classes.root}>
-            <UserDataExpensionPanel rows = {this.props.api.items} onSubmit={(v) => {
-              console.log(v);
-            }}>
-            </UserDataExpensionPanel>
-            <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}><img src="https://img.icons8.com/material/24/000000/facebook.png"/> Facebook Fields</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                  sit amet blandit leo lobortis eget.
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Custom</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                  sit amet blandit leo lobortis eget.
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Custom</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                  sit amet blandit leo lobortis eget.
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Custom</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                  sit amet blandit leo lobortis eget.
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-
+            <UserDataExpensionPanel form="basic" defaultExpanded="true" rows = {this.props.api.items.hasOwnProperty("basic") ? this.props.api.items["basic"] : {}} onSubmit={(v) => {
+              console.log(v); alert(v);
+            }} />
+            <UserDataExpensionPanel form="facebook" rows = {this.props.api.items.hasOwnProperty("facebook") ? this.props.api.items["facebook"] : {}} onSubmit={(v) => {
+              console.log("fff")
+              alert(v["facebook/surname"]);
+            }} />
           </div>
         </div>
-        <br/>
-        <div>
-          
-          <Divider />
-
-        </div>
-
-        <Divider />
-
-            </div>
       );
     }
 };

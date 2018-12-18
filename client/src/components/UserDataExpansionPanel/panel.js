@@ -9,11 +9,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
@@ -26,10 +28,16 @@ const styles = theme => ({
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
       verticalAlign: 'middle',
+      alignItems: 'center',
+      display: 'inline-flex',
     },
     table: {
-      align: 'left'
+      align: 'left',
+      width: '100%'
     },
+    headerImg: {
+        marginRight: theme.typography.pxToRem(5)
+    }
   });
   
 const renderTextField = ({
@@ -46,15 +54,6 @@ const renderTextField = ({
   )
 
 class UserDataExpensionPanel extends React.Component  {
- 
-    constructor(prop) {
-        super(prop);
-    }
-
-  componentDidMount() {
-    console.log("mount")
-    console.log(this.props);
-  }
 
     render() {
         console.log("render")
@@ -62,36 +61,45 @@ class UserDataExpensionPanel extends React.Component  {
         console.log(this.props)
 
         return (
-            <ExpansionPanel defaultExpanded>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>Basic Fields</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                <form onSubmit={handleSubmit(onSubmit)} className={classes.grid}>
-                    <Table style={{ tableLayout: 'auto' }} className={classes.table}>
-                        <TableBody>
-                        {rows.map(row => {
-                            return (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.id}</TableCell>
-                                <TableCell>
-                                <Field
-                                    name={row.id}
-                                    id={row.id}
-                                    value={row.value}
-                                    margin="normal"
-                                    component={renderTextField}
-                                    label={row.name}
-                                />
-                                </TableCell>
-                            </TableRow>
-                            );
-                        })}
-                        </TableBody>
-                    </Table>
-                </form>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
+                <ExpansionPanel defaultExpanded={this.props.defaultExpanded}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography className={classes.heading}>
+                            {this.props.rows && <img src={this.props.rows.headerImg}  className={classes.headerImg}/>}
+                            {this.props.rows.header}
+                        </Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <form name={this.props.form} onSubmit={handleSubmit(onSubmit)} className={classes.table}>
+                                {rows && rows.data && rows.data.length > 0 && 
+                                    (<Table className={classes.table}>
+                                        <TableBody>{rows.data.map(row => {
+                                        return (
+                                            <TableRow key={row.id}>
+                                                <TableCell style= {{ borderBottom: 0 }}>
+                                                <Field
+                                                    className={classes.table}
+                                                    name={row.id}
+                                                    id={row.id}
+                                                    value={row.value}
+                                                    margin="normal"
+                                                    component={renderTextField}
+                                                    label={row.name + " (" + row.id + ")"}
+                                                />
+                                                </TableCell>
+                                            </TableRow>
+                                        )})}</TableBody>
+                                        </Table>
+                                    )
+                                }
+                        </form>
+                    </ExpansionPanelDetails>        
+                    <Divider />
+                    <ExpansionPanelActions style={{justifyContent: 'flex-start'}}>
+                        <Button type="submit" form={this.props.form} size="small" color="primary" onClick={this.props.handleSubmit}>
+                            Save
+                        </Button>
+                    </ExpansionPanelActions>
+                </ExpansionPanel>
         )
     }
 }
@@ -99,15 +107,12 @@ class UserDataExpensionPanel extends React.Component  {
 
 const redForm = reduxForm({
     // a unique name for the form
-    form: "basic_fields",
     enableReinitialize: true
 })(withStyles(styles)(UserDataExpensionPanel));
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     console.log("mapStateToProps")
-    console.log(state)
-
-    var val = state.api.items.length > 0 ? state.api.items : { id: 'basic/name', value: "test" }
+    var val = (props.rows && props.rows.data) || []; //state.api.items.length > 0 ? state.api.items : { id: 'basic/name', value: "test" }
 
     var obj = {};
     console.log(val);

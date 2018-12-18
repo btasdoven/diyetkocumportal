@@ -7,11 +7,25 @@ function createData(id, name, value) {
   return { id, name, value };
 }
 
-const rows = [
-  createData('basic/name', 'Name', 'Cagla'),
-  createData('basic/surname', 'Surname', 'Istanbulluoglu Tasdoven'),
-  createData('basic/mobile', 'Mobile', '+1 (123)-456-7859'),
-];
+const rows = {
+  "basic": {
+    header: "Basic Fields",
+    data: [
+      createData('basic/name', 'Name', 'Cagla'),
+      createData('basic/surname', 'Surname', 'Istanbulluoglu Tasdoven'),
+      createData('basic/mobile', 'Mobile', '+1 (123)-456-7859'),
+    ]
+  },
+  "facebook": {
+    header: "Facebook Fields",
+    headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
+    data: [
+      createData('facebook/name', 'Name', 'Cagla 2'),
+      createData('facebook/surname', 'Surname', ' 2 Istanbulluoglu Tasdoven'),
+      createData('facebook/mobile', 'Mobile', '+1 (123) -456-7859'),
+    ]
+  }
+};
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
