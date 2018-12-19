@@ -11,6 +11,8 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 
 import Home from "./containers/Home";
+import Share from "./containers/Share";
+import History from "./containers/History";
 import Setting from "./containers/Setting";
 import Signin from "./containers/Signin";
 
@@ -63,8 +65,10 @@ class App extends Component {
             {localStorage.getItem('user') ? (
               <Switch>
                 <DashboardRoute path="/dashboard" component={Home} />
+                <DashboardRoute path="/share" component={Share} />
+                <DashboardRoute path="/history" component={History} />
                 <DashboardRoute path="/setting" component={Setting} />
-                <DashboardRoute path="/test" component={Setting} />
+
                 <Route path="/signin" render={() => <Redirect to="/" />} />
                 <DashboardRoute exact path="/" component={Home} />
                 <EmptyRoute component={NotFound} />
