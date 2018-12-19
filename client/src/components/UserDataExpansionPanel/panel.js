@@ -53,12 +53,40 @@ const renderTextField = ({
     />
   )
 
+
+function convertApiToForm(rowsData) {
+    var obj = {};
+
+    Object.keys(rowsData).forEach(function(key) {
+        obj[key] = rowsData[key].value;
+    });
+
+    return obj;
+}
+
+function convertFormToApi(rows, obj) {
+    Object.keys(obj).forEach(function(key) {
+        rows.data[key].value = obj[key];
+    });
+
+    return rows
+}
+
 class UserDataExpensionPanel extends React.Component  {
+
+    constructor(props) {
+        super(props)
+
+        this.onSubmitInternal = this.onSubmitInternal.bind(this);
+    }
+
+    onSubmitInternal(formValues) {
+        this.props.onSubmit(convertFormToApi(this.props.rows, formValues));
+    }
 
     render() {
         console.log("render")
-        const { rows, classes, handleSubmit, onSubmit } = this.props;
-        console.log(this.props)
+        const { rows, classes } = this.props;
 
         return (
                 <ExpansionPanel defaultExpanded={this.props.defaultExpanded}>
@@ -69,21 +97,21 @@ class UserDataExpensionPanel extends React.Component  {
                         </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <form name={this.props.form} onSubmit={handleSubmit(onSubmit)} className={classes.table}>
-                                {rows && rows.data && rows.data.length > 0 && 
+                        <form onSubmit={this.onSubmitInternal} name={this.props.form} className={classes.table}>
+                                {rows && rows.data && 
                                     (<Table className={classes.table}>
-                                        <TableBody>{rows.data.map(row => {
+                                        <TableBody>{Object.keys(rows.data).map(k => {
                                         return (
-                                            <TableRow key={row.id}>
+                                            <TableRow key={k}>
                                                 <TableCell style= {{ borderBottom: 0 }}>
                                                 <Field
                                                     className={classes.table}
-                                                    name={row.id}
-                                                    id={row.id}
-                                                    value={row.value}
+                                                    name={k}
+                                                    id={k}
+                                                    value={rows.data[k].value}
                                                     margin="normal"
                                                     component={renderTextField}
-                                                    label={row.name + " (" + row.id + ")"}
+                                                    label={rows.data[k].name + " (" + k + ")"}
                                                 />
                                                 </TableCell>
                                             </TableRow>
@@ -95,7 +123,7 @@ class UserDataExpensionPanel extends React.Component  {
                     </ExpansionPanelDetails>        
                     <Divider />
                     <ExpansionPanelActions style={{justifyContent: 'flex-start'}}>
-                        <Button type="submit" form={this.props.form} size="small" color="primary" onClick={this.props.handleSubmit}>
+                        <Button type="submit" disabled={this.props.pristine} form={this.props.form} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)}>
                             Save
                         </Button>
                     </ExpansionPanelActions>
@@ -111,17 +139,9 @@ const redForm = reduxForm({
 })(withStyles(styles)(UserDataExpensionPanel));
 
 function mapStateToProps(state, props) {
-    console.log("mapStateToProps")
-    var val = (props.rows && props.rows.data) || []; //state.api.items.length > 0 ? state.api.items : { id: 'basic/name', value: "test" }
-
-    var obj = {};
-    console.log(val);
-    for (var i = 0; i < val.length; ++i) {
-        obj[val[i].id] = val[i].value;
-    }
-    console.log(obj);
+    var val = (props.rows && props.rows.data) || {}; //state.api.items.length > 0 ? state.api.items : { id: 'basic/name', value: "test" } 
     return {
-      initialValues: obj
+      initialValues: convertApiToForm(val)
     }
 }
 

@@ -19,6 +19,8 @@ const styles = (theme) => ({
   wrapper: {
     margin: theme.spacing.unit,
     position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
   },
   buttonSuccess: {
     backgroundColor: green[500],
@@ -84,7 +86,6 @@ const SigninForm = props => {
         component={renderTextField}
         label="Password"
       />
-      <div className={classes.root}>
         <div className={classes.wrapper}>
           <Button
             type="submit"
@@ -98,7 +99,6 @@ const SigninForm = props => {
           </Button>
           {auth && auth.loggingIn && <CircularProgress size={24} className={classes.buttonProgress} />}
         </div>
-      </div>
     </form>
   );
 };

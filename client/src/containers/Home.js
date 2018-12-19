@@ -8,7 +8,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { increment, decrement } from "../store/reducers/stepCounter";
-import { itemsFetchData } from '../store/reducers/api';
+import { itemsFetchData, itemsPutData } from '../store/reducers/api';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -56,6 +56,14 @@ class Home extends React.Component {
     this.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id);
   }
 
+  onSubmit(v, field) {
+    console.log('onSubmit')
+    console.log(v);
+    console.log(field);
+
+    this.props.itemsPutData(JSON.parse(localStorage.getItem('user')).id, field, v);
+  }
+
   render() {
 
     const { classes } = this.props;
@@ -73,13 +81,8 @@ class Home extends React.Component {
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
  
           <div className={classes.root}>
-            <UserDataExpensionPanel form="basic" defaultExpanded="true" rows = {this.props.api.items.hasOwnProperty("basic") ? this.props.api.items["basic"] : {}} onSubmit={(v) => {
-              console.log(v); alert(v);
-            }} />
-            <UserDataExpensionPanel form="facebook" rows = {this.props.api.items.hasOwnProperty("facebook") ? this.props.api.items["facebook"] : {}} onSubmit={(v) => {
-              console.log("fff")
-              alert(v["facebook/surname"]);
-            }} />
+            <UserDataExpensionPanel onSubmit={(v) => this.onSubmit(v, 'basic')} form="basic" defaultExpanded={true} rows = {this.props.api.items.hasOwnProperty("basic") ? this.props.api.items["basic"] : {}} />
+            <UserDataExpensionPanel onSubmit={(v) => this.onSubmit(v, 'facebook')} form="facebook" rows = {this.props.api.items.hasOwnProperty("facebook") ? this.props.api.items["facebook"] : {}} />
           </div>
         </div>
       );
@@ -98,7 +101,8 @@ const mapDispatchToProps = dispatch => {
     {
       increment: () => increment(),
       decrement: () => decrement(),
-      itemsFetchData: (url) => itemsFetchData(url)
+      itemsFetchData: (url) => itemsFetchData(url),
+      itemsPutData: (userId, field, val) => itemsPutData(userId, field, val)
     },
     dispatch
   );

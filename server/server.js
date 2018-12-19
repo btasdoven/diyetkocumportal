@@ -2,38 +2,21 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
 var cors = require('cors');
-
-function createData(id, name, value) {
-  return { id, name, value };
-}
-
-const rows = {
-  "basic": {
-    header: "Basic Fields",
-    data: [
-      createData('basic/name', 'Name', 'Cagla'),
-      createData('basic/surname', 'Surname', 'Istanbulluoglu Tasdoven'),
-      createData('basic/mobile', 'Mobile', '+1 (123)-456-7859'),
-    ]
-  },
-  "facebook": {
-    header: "Facebook Fields",
-    headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
-    data: [
-      createData('facebook/name', 'Name', 'Cagla 2'),
-      createData('facebook/surname', 'Surname', ' 2 Istanbulluoglu Tasdoven'),
-      createData('facebook/mobile', 'Mobile', '+1 (123) -456-7859'),
-    ]
-  }
-};
+const dal = require('./dal')
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get("/api/v1/users/5", (req, res, next) => {
+app.get("/api/v1/users/:userId/fields", (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
-    res.json(rows);
+    res.json(dal.getFields(req.params.userId));
+});
+
+app.put("/api/v1/users/:userId/fields/:fieldId", (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  dal.setFields(req.params.userId, req.params.fieldId, req.body);
+  res.status(200);
 });
 
 app.post("/api/v1/users/auth", (req, res, next) => {
