@@ -81,8 +81,17 @@ class Home extends React.Component {
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
  
           <div className={classes.root}>
-            <UserDataExpensionPanel onSubmit={(v) => this.onSubmit(v, 'basic')} form="basic" defaultExpanded={true} rows = {this.props.api.items.hasOwnProperty("basic") ? this.props.api.items["basic"] : {}} />
-            <UserDataExpensionPanel onSubmit={(v) => this.onSubmit(v, 'facebook')} form="facebook" rows = {this.props.api.items.hasOwnProperty("facebook") ? this.props.api.items["facebook"] : {}} />
+            {
+              Object.keys(this.props.api.items).map( (itemKey, idx) => {
+              var item = this.props.api.items[itemKey];
+              return (
+                <UserDataExpensionPanel
+                  onSubmit={(v) => this.onSubmit(v, itemKey)}
+                  form={itemKey}
+                  defaultExpanded={idx == 0}
+                  rows = {item} />
+              )
+            })}
           </div>
         </div>
       );

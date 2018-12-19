@@ -6,23 +6,32 @@ function createData(id, name, value) {
 
 const rows = {
     5: {
-      id: 5,
       fields: {
-        "basic": {
-          header: "Basic Fields",
+        "profile": {
+          header: "Profile",
           data: {
-            'basic/name': { name: 'Name', value: 'Cagla' },
-            'basic/surname': { name: 'Surname', value: 'Istanbulluoglu 32 Tasdoven' },
-            'basic/mobile': { name: 'Mobile', value: '+1 (123)-456-7859' },
+            'profile/name': { name: 'Name', value: 'Batuhan' },
+            'profile/surname': { name: 'Surname', value: 'Tasdoven' },
+            'profile/mobile': { name: 'Mobile', value: '+1 (425)-241-5251' },
+            'profile/email': { name: 'E-mail', value: 'btasdoven@gmail.com' },
+            'profile/address': { name: 'Home Address', value: '207 - 8950 University High Street, Burnaby, BC V5A4Y8, Canada' },
+          }
+        },
+        "legal": {
+          header: "Legal",
+          data: {
+            'legal/passport': { name: 'Passport No', value: 'A01312345' },
+            'legal/sin': { name: 'SIN (Canada)', value: '123-4567' },
+            'legal/ssn': { name: 'SSN (US)', value: '123-4567' },
           }
         },
         "facebook": {
-          header: "Facebook Fields",
+          header: "Facebook",
           headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
           data: {
-            'facebook/name': { name: 'Name', value: 'Cagla 2' },
-            'facebook/surname': { name: 'Surname', value: ' 2 Istanbulluoglu Tasdoven' },
-            'facebook/mobile': { name: 'Mobile', value: '+1 (123) -456-7859' },
+            'facebook/name': { name: 'Name', value: 'Batuhan' },
+            'facebook/surname': { name: 'Surname', value: 'Tasdoven' },
+            'facebook/email': { name: 'E-mail', value: 'btasdoven@gmail.com' },
           }
         }
       }

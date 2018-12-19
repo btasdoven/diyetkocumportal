@@ -8,25 +8,34 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import PaletteIcon from "@material-ui/icons/Palette";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import CreateNewFolderIcon from "@material-ui/icons/CreateNewFolder";
 import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 
 const History = props => (
     <div>
-      <Typography variant="headline">Settings</Typography>
+      <Typography variant="headline">History of Changes and Requests</Typography>
       <Card>
         <CardContent>
           <List>
             <ListItem>
               <ListItemIcon>
-                <PaletteIcon />
+                <CloudUploadIcon />
               </ListItemIcon>
-              <ListItemText primary="selam" />
+              <ListItemText primary="profile/email field is updated." />
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <CompareArrowsIcon />
+                <CloudUploadIcon />
               </ListItemIcon>
-              <ListItemText primary="Selam 2" />
+              <ListItemText primary="legal/passport field is updated." />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CreateNewFolderIcon />
+              </ListItemIcon>
+              <ListItemText primary="facebook application is given access to profile/name, profile/surname and profile/email fields." />
             </ListItem>
           </List>
         </CardContent>
