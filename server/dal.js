@@ -8,6 +8,7 @@ const rows = {
     5: {
       fields: {
         "profile": {
+          id: 'profile',
           header: "Profile",
           data: {
             'profile/name': { name: 'Name', value: 'Batuhan' },
@@ -18,6 +19,7 @@ const rows = {
           }
         },
         "legal": {
+          id: 'legal',
           header: "Legal",
           data: {
             'legal/passport': { name: 'Passport No', value: 'A01312345' },
@@ -26,6 +28,7 @@ const rows = {
           }
         },
         "facebook": {
+          id: 'facebook',
           header: "Facebook",
           headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
           data: {

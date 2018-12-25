@@ -86,6 +86,7 @@ class Home extends React.Component {
               var item = this.props.api.items[itemKey];
               return (
                 <UserDataExpensionPanel
+                  key={"userDataPanel" + itemKey}
                   onSubmit={(v) => this.onSubmit(v, itemKey)}
                   form={itemKey}
                   defaultExpanded={idx == 0}

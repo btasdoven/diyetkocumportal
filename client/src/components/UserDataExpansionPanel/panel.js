@@ -35,6 +35,10 @@ const styles = theme => ({
       align: 'left',
       width: '100%'
     },
+    newField: {
+      align: 'left',
+      width: '33%'
+    },
     headerImg: {
         marginRight: theme.typography.pxToRem(5)
     }
@@ -50,6 +54,7 @@ const renderTextField = ({
       label={label}
       {...input}
       {...custom}
+      margin="dense"
     />
   )
 
@@ -64,10 +69,16 @@ function convertApiToForm(rowsData) {
     return obj;
 }
 
-function convertFormToApi(rows, obj) {
+function convertFormToApi(rows, obj, addingNewField) {
     Object.keys(obj).forEach(function(key) {
-        rows.data[key].value = obj[key];
+        if (rows.hasOwnProperty(key)) {
+            rows.data[key].value = obj[key];
+        }
     });
+
+    if (addingNewField) {
+        rows.data[rows.id + '/' + obj['newId']] = { name: obj['newName'], value: obj['newValue'] }
+    }
 
     return rows
 }
@@ -78,10 +89,20 @@ class UserDataExpensionPanel extends React.Component  {
         super(props)
 
         this.onSubmitInternal = this.onSubmitInternal.bind(this);
+        this.onAddNewField = this.onAddNewField.bind(this);
+
+        this.state = {
+            addingNewField: false
+        }
     }
 
     onSubmitInternal(formValues) {
-        this.props.onSubmit(convertFormToApi(this.props.rows, formValues));
+        this.props.onSubmit(convertFormToApi(this.props.rows, formValues, this.state.addingNewField));
+        this.state.addingNewField = false;
+    }
+
+    onAddNewField() {
+        this.state.addingNewField = true;
     }
 
     render() {
@@ -102,7 +123,7 @@ class UserDataExpensionPanel extends React.Component  {
                                     (<Table className={classes.table}>
                                         <TableBody>{Object.keys(rows.data).map(k => {
                                         return (
-                                            <TableRow key={k}>
+                                            <TableRow key={"homeData" + k}>
                                                 <TableCell style= {{ borderBottom: 0 }}>
                                                 <Field
                                                     className={classes.table}
@@ -115,7 +136,62 @@ class UserDataExpensionPanel extends React.Component  {
                                                 />
                                                 </TableCell>
                                             </TableRow>
-                                        )})}</TableBody>
+                                        )})}
+                                        {this.state.addingNewField &&
+                                            (
+                                                <TableRow key={"newRow"}>
+                                                    <TableCell style= {{ borderBottom: 0 }}>
+                                                    <TextField
+          id="standard-select-currency-native"
+          select
+          label="Type"
+          className={classes.textField}
+          value={this.state.currency}
+          onChange={ (event) => this.setState({currency: event.target.value}) }
+          SelectProps={{
+            native: true,
+            MenuProps: {
+              className: classes.menu,
+            },
+          }}
+          margin="normal"
+        >
+            <option key={1} value={"11"}>
+              111
+            </option>
+            <option key={2} value={"22"}>
+              222
+            </option>
+        </TextField>
+                                                        <Field
+                                                            className={classes.newField}
+                                                            name='newId'
+                                                            id='newId'
+                                                            margin="normal"
+                                                            component={renderTextField}
+                                                            label='Id'
+                                                        />
+                                                        <Field
+                                                            className={classes.newField}
+                                                            name='newName'
+                                                            id='newName'
+                                                            margin="normal"
+                                                            component={renderTextField}
+                                                            label='Name'
+                                                        />
+                                                        <Field
+                                                            className={classes.newField}
+                                                            name='newValue'
+                                                            id='newValue'
+                                                            margin="normal"
+                                                            component={renderTextField}
+                                                            label='Value'
+                                                        />
+                                                    </TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                        </TableBody>
                                         </Table>
                                     )
                                 }
@@ -125,6 +201,9 @@ class UserDataExpensionPanel extends React.Component  {
                     <ExpansionPanelActions style={{justifyContent: 'flex-start'}}>
                         <Button type="submit" disabled={this.props.pristine} form={this.props.form} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)}>
                             Save
+                        </Button>
+                        <Button disabled={this.state.addingNewField} form={this.props.form} size="small" color="primary" onClick={this.props.handleSubmit(this.onAddNewField)}>
+                            Add
                         </Button>
                     </ExpansionPanelActions>
                 </ExpansionPanel>
