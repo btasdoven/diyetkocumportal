@@ -17,8 +17,10 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
+import green from '@material-ui/core/colors/green';
 
 const styles = theme => ({
     root: {
@@ -41,7 +43,23 @@ const styles = theme => ({
     },
     headerImg: {
         marginRight: theme.typography.pxToRem(5)
-    }
+    },
+    buttonProgress: {
+      top: '50%',
+      left: '50%',
+    },
+    rootLoading: {
+        height: "inherit",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    gridLoading: {
+        padding: "20px",
+        display: "grid",
+        gridTemplateRows: "85px 1fr 1fr 1fr",
+        height: "inherit"
+      },
   });
   
 const renderTextField = ({
@@ -58,6 +76,15 @@ const renderTextField = ({
     />
   )
 
+function renderLoadingButton(classes) {
+    return (
+        //<div className={classes.rootLoading}>
+        //    <div className={classes.gridLoading}>
+                <CircularProgress size={24} className={classes.buttonProgress} />
+        //    </div>
+        //</div>
+    )
+}
 
 function convertApiToForm(rowsData) {
     var obj = {};
@@ -92,7 +119,13 @@ class UserDataExpensionPanel extends React.Component  {
         this.onAddNewField = this.onAddNewField.bind(this);
 
         this.state = {
-            addingNewField: false
+            addingNewField: false,
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.defaultExpanded) {
+            this.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, this.props.form)
         }
     }
 
@@ -106,21 +139,29 @@ class UserDataExpensionPanel extends React.Component  {
     }
 
     render() {
-        console.log("render")
-        const { rows, classes } = this.props;
+        const { rows, groupData, classes } = this.props;
 
         return (
-                <ExpansionPanel defaultExpanded={this.props.defaultExpanded}>
+                <ExpansionPanel 
+                    defaultExpanded={this.props.defaultExpanded}
+                    onChange={(event, expanded) => {
+                        if (expanded && this.props.rows === undefined) {
+                            this.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, this.props.form)
+                        }
+                    }}
+                >
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography className={classes.heading}>
-                            {this.props.rows && <img src={this.props.rows.headerImg}  className={classes.headerImg}/>}
-                            {this.props.rows.header}
+                            {groupData.headerImg && <img src={groupData.headerImg}  className={classes.headerImg}/>}
+                            {groupData.header}
                         </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <form onSubmit={this.onSubmitInternal} name={this.props.form} className={classes.table}>
-                                {rows && rows.data && 
-                                    (<Table className={classes.table}>
+                        {!rows && renderLoadingButton(classes)}
+                        {rows && rows.data && 
+                            (
+                                <form onSubmit={this.onSubmitInternal} name={this.props.form} className={classes.table}>
+                                    <Table className={classes.table}>
                                         <TableBody>{Object.keys(rows.data).map(k => {
                                         return (
                                             <TableRow key={"homeData" + k}>
@@ -141,28 +182,28 @@ class UserDataExpensionPanel extends React.Component  {
                                             (
                                                 <TableRow key={"newRow"}>
                                                     <TableCell style= {{ borderBottom: 0 }}>
-                                                    <TextField
-          id="standard-select-currency-native"
-          select
-          label="Type"
-          className={classes.textField}
-          value={this.state.currency}
-          onChange={ (event) => this.setState({currency: event.target.value}) }
-          SelectProps={{
-            native: true,
-            MenuProps: {
-              className: classes.menu,
-            },
-          }}
-          margin="normal"
-        >
-            <option key={1} value={"11"}>
-              111
-            </option>
-            <option key={2} value={"22"}>
-              222
-            </option>
-        </TextField>
+                                                        <TextField
+                                                            id="standard-select-currency-native"
+                                                            select
+                                                            label="Type"
+                                                            className={classes.textField}
+                                                            value={this.state.currency}
+                                                            onChange={ (event) => this.setState({currency: event.target.value}) }
+                                                            SelectProps={{
+                                                                native: true,
+                                                                MenuProps: {
+                                                                className: classes.menu,
+                                                                },
+                                                            }}
+                                                            margin="normal"
+                                                            >
+                                                                <option key={1} value={"11"}>
+                                                                111
+                                                                </option>
+                                                                <option key={2} value={"22"}>
+                                                                222
+                                                                </option>
+                                                        </TextField>
                                                         <Field
                                                             className={classes.newField}
                                                             name='newId'
@@ -192,10 +233,10 @@ class UserDataExpensionPanel extends React.Component  {
                                             )
                                         }
                                         </TableBody>
-                                        </Table>
-                                    )
-                                }
-                        </form>
+                                    </Table>
+                                </form>
+                            )
+                        }
                     </ExpansionPanelDetails>        
                     <Divider />
                     <ExpansionPanelActions style={{justifyContent: 'flex-start'}}>

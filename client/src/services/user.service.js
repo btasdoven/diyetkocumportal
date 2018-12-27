@@ -1,8 +1,9 @@
 export const userService = {
     login,
     logout,
-    get_user_data,
-    put_field_data
+    get_groups,
+    get_group_data,
+    put_group_data
 };
 
 const HOST_NAME = process.env.NODE_ENV == 'development' ? 'http://localhost:4000' : '';
@@ -34,23 +35,36 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function get_user_data(userId) {
+function get_groups(userId) {
     const requestOptions = {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/fields`, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;
         });
 }
 
-function put_field_data(userId, fieldId, val) {
+function get_group_data(userId, groupId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function put_group_data(userId, groupId, val) {
 
     console.log('put_field_data')
-    console.log(fieldId)
+    console.log(groupId)
     console.log(val);
 
     const requestOptions = {
@@ -59,7 +73,7 @@ function put_field_data(userId, fieldId, val) {
         body: JSON.stringify(val)
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/fields/` + fieldId, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

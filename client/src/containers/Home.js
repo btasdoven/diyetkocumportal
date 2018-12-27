@@ -8,7 +8,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { increment, decrement } from "../store/reducers/stepCounter";
-import { itemsFetchData, itemsPutData } from '../store/reducers/api';
+import { itemsFetchData, itemsPutData } from '../store/reducers/api.fields';
+import { groupsFetchData } from '../store/reducers/api.groups';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -24,9 +25,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 
 import UserDataExpensionPanel from '../components/UserDataExpansionPanel'
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
-
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../services";
 
@@ -45,31 +45,22 @@ const styles = theme => ({
 });
 
 class Home extends React.Component {
-
-  constructor(props) {
-      super(props);
-      console.log(props);
-  }
-
   componentDidMount() {
     console.log(localStorage.getItem('user'));
-    this.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id);
+    this.props.groupsFetchData(JSON.parse(localStorage.getItem('user')).id);
   }
 
-  onSubmit(v, field) {
+  onSubmit(v, groupId) {
     console.log('onSubmit')
     console.log(v);
-    console.log(field);
+    console.log(groupId);
 
-    this.props.itemsPutData(JSON.parse(localStorage.getItem('user')).id, field, v);
+    this.props.itemsPutData(JSON.parse(localStorage.getItem('user')).id, groupId, v);
   }
 
   render() {
-
     const { classes } = this.props;
 
-    console.log("lala");
-    console.log(this.props.api.items)
     return (
         <div
           style={{
@@ -81,18 +72,22 @@ class Home extends React.Component {
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
  
           <div className={classes.root}>
-            {
-              Object.keys(this.props.api.items).map( (itemKey, idx) => {
-              var item = this.props.api.items[itemKey];
-              return (
-                <UserDataExpensionPanel
-                  key={"userDataPanel" + itemKey}
-                  onSubmit={(v) => this.onSubmit(v, itemKey)}
-                  form={itemKey}
-                  defaultExpanded={idx == 0}
-                  rows = {item} />
-              )
-            })}
+            {Object.keys(this.props.apiGroups.items).length == 0 &&
+              (<CircularProgress size={24} className={classes.buttonProgress} />)}
+            {Object.keys(this.props.apiGroups.items).map( (groupId, idx) => {
+                return (
+                  <UserDataExpensionPanel
+                    key={"userDataPanel" + groupId}
+                    onSubmit={(v) => this.onSubmit(v, groupId)}
+                    form={groupId}
+                    defaultExpanded={idx == 0} 
+                    itemsFetchData={(userId, groupId) => this.props.itemsFetchData(userId, groupId)}
+                    groupData = {this.props.apiGroups.items[groupId]}
+                    rows = {this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
+                      ? this.props.apiFields[groupId].items
+                      : undefined} />
+                )
+              })}
           </div>
         </div>
       );
@@ -102,7 +97,8 @@ class Home extends React.Component {
 const mapStateToProps = state => {
   return {
     stepCounter: state.stepCounter,
-    api: state.api
+    apiFields: state.apiFields,
+    apiGroups: state.apiGroups,
   };
 };
 
@@ -111,8 +107,9 @@ const mapDispatchToProps = dispatch => {
     {
       increment: () => increment(),
       decrement: () => decrement(),
-      itemsFetchData: (url) => itemsFetchData(url),
-      itemsPutData: (userId, field, val) => itemsPutData(userId, field, val)
+      itemsFetchData: (userId, groupId) => itemsFetchData(userId, groupId),
+      groupsFetchData: (userId) => groupsFetchData(userId),
+      itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal)
     },
     dispatch
   );

@@ -1,11 +1,22 @@
 const storage = require('node-persist');
 
-function createData(id, name, value) {
-    return { id, name, value };
-}
-
 const rows = {
     5: {
+      groups: {
+        "profile": {
+          id: 'profile',
+          header: "Profile",
+        },
+        "legal": {
+          id: 'legal',
+          header: "Legal",
+        },
+        "facebook": {
+          id: 'facebook',
+          header: "Facebook",
+          headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
+        }
+      },
       fields: {
         "profile": {
           id: 'profile',
@@ -54,10 +65,16 @@ async function start() {
 start();
 
 
-exports.getFields =  function (id) {
+exports.getGroups =  function (id) {
+  console.log('getGroups');
+  console.log(rows[id].groups);
+  return rows[id].groups;
+}
+
+exports.getFields =  function (id, fieldId) {
     console.log('getFields');
     console.log(rows[id].fields);
-    return rows[id].fields;
+    return rows[id].fields[fieldId];
 }
 
 exports.setFields = function (id, fieldId, value) {
