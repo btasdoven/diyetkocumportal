@@ -124,7 +124,7 @@ class UserDataExpensionPanel extends React.Component  {
     }
 
     componentDidMount() {
-        if (this.props.defaultExpanded) {
+        if (this.props.defaultExpanded && !this.props.rows) {
             this.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, this.props.form)
         }
     }

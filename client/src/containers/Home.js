@@ -51,10 +51,6 @@ class Home extends React.Component {
   }
 
   onSubmit(v, groupId) {
-    console.log('onSubmit')
-    console.log(v);
-    console.log(groupId);
-
     this.props.itemsPutData(JSON.parse(localStorage.getItem('user')).id, groupId, v);
   }
 
@@ -81,7 +77,11 @@ class Home extends React.Component {
                     onSubmit={(v) => this.onSubmit(v, groupId)}
                     form={groupId}
                     defaultExpanded={idx == 0} 
-                    itemsFetchData={(userId, groupId) => this.props.itemsFetchData(userId, groupId)}
+                    itemsFetchData={(userId, groupId) => {
+                      return this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
+                        ? this.props.apiFields[groupId].items
+                        : this.props.itemsFetchData(userId, groupId)
+                    }}
                     groupData = {this.props.apiGroups.items[groupId]}
                     rows = {this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
                       ? this.props.apiFields[groupId].items
