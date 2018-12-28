@@ -18,6 +18,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 
+import Icon from '@material-ui/core/Icon';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FieldDialog from './dialog';
@@ -64,7 +65,11 @@ const styles = theme => ({
         display: "grid",
         gridTemplateRows: "85px 1fr 1fr 1fr",
         height: "inherit"
-      },
+    },
+    editButton: {
+        width: '24px',
+        height: '24px',
+    },
   });
 
 function renderLoadingButton(classes) {
@@ -150,7 +155,7 @@ class UserDataExpensionPanel extends React.Component  {
                             {groupData.header}
                         </Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
+                    <ExpansionPanelDetails style={{padding: 0, paddingBottom: 8}}>
                         {showLoader && renderLoadingButton(classes)}
                         {rows && rows.data && (
                             <Table className={classes.table}>
@@ -171,15 +176,17 @@ class UserDataExpensionPanel extends React.Component  {
                                                 />
                                                 <IconButton 
                                                     aria-label="Edit"
+                                                    className={classes.editButton}
                                                     onClick={() => this.onEditField(k)}
                                                 >
-                                                    <CreateIcon />
+                                                    <Icon style={{fontSize: '16px'}}>create</Icon>
                                                 </IconButton>
                                                 <IconButton 
                                                     aria-label="Delete"
+                                                    className={classes.editButton}
                                                     onClick={() => this.onDeleteField(k)}
                                                 >
-                                                    <DeleteIcon />
+                                                    <Icon style={{fontSize: '16px'}}>delete</Icon>
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
