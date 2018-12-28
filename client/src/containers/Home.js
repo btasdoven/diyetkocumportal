@@ -46,7 +46,6 @@ const styles = theme => ({
 
 class Home extends React.Component {
   componentDidMount() {
-    console.log(localStorage.getItem('user'));
     this.props.groupsFetchData(JSON.parse(localStorage.getItem('user')).id);
   }
 
@@ -77,12 +76,15 @@ class Home extends React.Component {
                     onSubmit={(v) => this.onSubmit(v, groupId)}
                     form={groupId}
                     defaultExpanded={idx == 0} 
-                    itemsFetchData={(userId, groupId) => {
-                      return this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
+                    itemsFetchData={(userId, groupId, force=false) => {
+                      return this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) && !force
                         ? this.props.apiFields[groupId].items
                         : this.props.itemsFetchData(userId, groupId)
                     }}
                     groupData = {this.props.apiGroups.items[groupId]}
+                    fieldData = {this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
+                      ? this.props.apiFields[groupId]
+                      : undefined}
                     rows = {this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
                       ? this.props.apiFields[groupId].items
                       : undefined} />

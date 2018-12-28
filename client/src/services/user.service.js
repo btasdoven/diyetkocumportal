@@ -15,8 +15,6 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    console.log(process.env);
-
     return fetch(HOST_NAME + `/api/v1/users/auth`, requestOptions)
         .then(handleResponse)
         .then(user => {
@@ -26,13 +24,18 @@ function login(username, password) {
                 localStorage.setItem('user', JSON.stringify(user));
             }
 
+            console.log(user)
+            console.log(localStorage.getItem('user'));
+
             return user;
         });
 }
 
 function logout() {
     // remove user from local storage to log user out
+    console.log("logout")
     localStorage.removeItem('user');
+    console.log(localStorage.getItem('user'));
 }
 
 function get_groups(userId) {

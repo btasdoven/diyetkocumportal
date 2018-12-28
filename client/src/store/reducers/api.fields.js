@@ -17,7 +17,7 @@ export default function reducer(state = initState, action) {
         return {
           ...state,
           [action.groupId]: {
-            error: action.error
+            error: action.error,
           }
         };
   
@@ -33,7 +33,7 @@ export default function reducer(state = initState, action) {
         return {
           ...state,
           [action.groupId]: {
-            items: action.items
+            items: action.items,
           }
         };
   

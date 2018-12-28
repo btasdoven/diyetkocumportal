@@ -17,6 +17,7 @@ app.get("/api/v1/users/:userId/groups", (req, res, next) => {
 });
 
 app.get("/api/v1/users/:userId/groups/:fieldId", (req, res, next) => {
+  console.log(req.params);
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.getFields(req.params.userId, req.params.fieldId));
