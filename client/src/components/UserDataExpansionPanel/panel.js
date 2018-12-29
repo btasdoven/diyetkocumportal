@@ -19,9 +19,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 
 import Icon from '@material-ui/core/Icon';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FieldDialog from './dialog';
+
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
@@ -58,7 +61,9 @@ const styles = theme => ({
         height: "inherit",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        width: '100%',
+        alignItems: "center",
+        margin: '8px'
     },
     gridLoading: {
         padding: "20px",
@@ -74,11 +79,9 @@ const styles = theme => ({
 
 function renderLoadingButton(classes) {
     return (
-        //<div className={classes.rootLoading}>
-        //    <div style={{display: 'flex', align: 'center'}}>
-                <CircularProgress size={24} className={classes.buttonProgress} />
-        //    </div>
-        //</div>
+        <div className={classes.rootLoading}>
+           <CircularProgress size={24} className={classes.buttonProgress} />
+        </div>
     )
 }
 
@@ -155,9 +158,15 @@ class UserDataExpensionPanel extends React.Component  {
                             {groupData.header}
                         </Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails style={{padding: 0, paddingBottom: 8}}>
+                    <Divider />
+                    <ExpansionPanelDetails style={{padding: 0}}>
                         {showLoader && renderLoadingButton(classes)}
-                        {rows && rows.data && (
+                        {rows && rows.data && Object.keys(rows.data).length == 0 && (
+                            <div className={classes.rootLoading}>
+                                No field found.
+                            </div>
+                        )}
+                        {rows && rows.data && Object.keys(rows.data).length > 0 && (
                             <Table className={classes.table}>
                                 <TableBody>{Object.keys(rows.data).map(k => {
                                     return (
@@ -171,7 +180,7 @@ class UserDataExpensionPanel extends React.Component  {
                                                     margin="dense"
                                                     label={rows.data[k].name + " (" + k + ")"}
                                                     inputProps={{
-                                                        readOnly: true
+                                                        readOnly: true,
                                                     }}
                                                 />
                                                 <IconButton 

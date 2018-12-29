@@ -7,6 +7,14 @@ const rows = {
           id: 'profile',
           header: "Profile",
         },
+        "addresses": {
+          id: 'addresses',
+          header: "Addresses",
+        },
+        "creditcards": {
+          id: 'creditcards',
+          header: "Credit Cards"
+        },
         "legal": {
           id: 'legal',
           header: "Legal",
@@ -22,20 +30,35 @@ const rows = {
           id: 'profile',
           header: "Profile",
           data: {
-            'profile/name': { id:'profile/name', name: 'Name', value: 'Batuhan' },
-            'profile/surname': { id:'profile/surname', name: 'Surname', value: 'Tasdoven' },
-            'profile/mobile': { id:'profile/mobile', id:'profile/name', name: 'Mobile', value: '+1 (425)-241-5251' },
-            'profile/email': { id:'profile/email', name: 'E-mail', value: 'btasdoven@gmail.com' },
-            'profile/address': { id:'profile/address', name: 'Home Address', value: '207 - 8950 University High Street, Burnaby, BC V5A4Y8, Canada' },
+            'profile/name': { id:'profile/name', name: 'Name', type: 'text', value: 'Batuhan' },
+            'profile/surname': { id:'profile/surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
+            'profile/mobile': { id:'profile/mobile', name: 'Mobile', type: 'tel', value: '+1 (425)-241-5251' },
+            'profile/email': { id:'profile/email', name: 'E-mail', type: 'email', value: 'btasdoven@gmail.com' },
+            'profile/address': { id:'profile/address', name: 'Home Address', type: 'address', value: '207 - 8950 University High Street, Burnaby, BC V5A4Y8, Canada' },
+          }
+        },
+        "addresses": {
+          id: "addresses",
+          header: "Addresses",
+          data: {
+
+          }
+        },
+        "creditcards": {
+          id: 'creditcards',
+          header: "Credit Cards",
+          headerImg: "https://static.thenounproject.com/png/29661-200.png",
+          data: {
+
           }
         },
         "legal": {
           id: 'legal',
           header: "Legal",
           data: {
-            'legal/passport': { id: 'legal/passport', name: 'Passport No', value: 'A11312345' },
-            'legal/sin': { id: 'legal/sin', name: 'SIN (Canada)', value: '123-4567' },
-            'legal/ssn': { id: 'legal/ssn', name: 'SSN (US)', value: '123-4567' },
+            'legal/passport': { id: 'legal/passport', name: 'Passport No', type: 'text', value: 'A11312345' },
+            'legal/sin': { id: 'legal/sin', name: 'SIN (Canada)', type: 'text', value: '123-4567' },
+            'legal/ssn': { id: 'legal/ssn', name: 'SSN (US)', type: 'text', value: '123-4567' },
           }
         },
         "facebook": {
@@ -43,9 +66,9 @@ const rows = {
           header: "Facebook",
           headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
           data: {
-            'facebook/name': { id: 'facebook/name', name: 'Name', value: 'Batuhan' },
-            'facebook/surname': { id: 'facebook/surname', name: 'Surname', value: 'Tasdoven' },
-            'facebook/email': { id: 'facebook/email', name: 'E-mail', value: 'btasdoven@gmail.com' },
+            'facebook/name': { id: 'facebook/name', name: 'Name', type: 'text', value: 'Batuhan' },
+            'facebook/surname': { id: 'facebook/surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
+            'facebook/email': { id: 'facebook/email', name: 'E-mail', type: 'email', value: 'btasdoven@gmail.com' },
           }
         }
       }

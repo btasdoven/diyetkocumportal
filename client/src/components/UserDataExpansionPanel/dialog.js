@@ -7,6 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import MenuItem from '@material-ui/core/MenuItem';
+
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 
@@ -45,8 +47,33 @@ const styles = theme => ({
         gridTemplateRows: "85px 1fr 1fr 1fr",
         height: "inherit"
       },
-  });
+});
   
+const renderTypeField = ({
+    input,
+    label,
+    meta: { touched, error },
+    ...custom
+  }) => (
+    <TextField
+        select
+        label={label}
+        {...input}
+        {...custom}
+        margin="dense"
+    >
+        <MenuItem key="text" value="text">
+            text
+        </MenuItem>
+        <MenuItem key="email" value="email">
+            email
+        </MenuItem>
+        <MenuItem key="address" value="address">
+            address
+        </MenuItem>
+    </TextField>
+)
+
 const renderTextField = ({
     input,
     label,
@@ -79,9 +106,11 @@ class FieldDialog extends React.Component {
     render() {
         const { classes } = this.props;
         
+        console.log(this.props);
+
         var fieldData = this.props.fieldData != null 
             ? this.props.fieldData
-            : { id: '', name: "", value: ''};
+            : { id: '', name: "", value: 'text'};
 
         return (
             <form
@@ -102,32 +131,52 @@ class FieldDialog extends React.Component {
                         <DialogContentText>
                             
                         </DialogContentText>
-                        {/* <TextField
-                            id="standard-select-currency-native"
-                            select
-                            label="Type"
-                            className={classes.textField}
-                            value={this.state.currency}
-                            onChange={ (event) => this.setState({currency: event.target.value}) }
-                            SelectProps={{
-                                native: true,
-                                MenuProps: {
-                                className: classes.menu,
-                                },
-                            }}
-                            margin="normal"
-                        >
-                            <option key={1} value={"11"}>
-                                111
-                            </option>
-                            <option key={2} value={"22"}>
-                                222
-                            </option>
-                        </TextField> */}
-
+                            <Field
+                                key="id"
+                                className={classes.newField}
+                                name="id"
+                                id="id"
+                                component={renderTextField}
+                                label="id"
+                                disabled={true}
+                            />
+                            <Field
+                                key="name"
+                                className={classes.newField}
+                                name="name"
+                                id="name"
+                                component={renderTextField}
+                                label="name"
+                            />
+                            <Field
+                                key="type"
+                                className={classes.newField}
+                                name="type"
+                                id="type"
+                                component={renderTypeField}
+                                label="type"
+                            />
                         {
                             Object.keys(fieldData).map((key) => {
-                                var isReadOnly = this.props.fieldData != null && key == 'id';
+                                if (key == 'type' || key == 'id' || key == 'name') {
+                                    return;
+                                }
+                                
+                                if (this.props.reduxForm && this.props.reduxForm.values['type'] == 'address') {
+                                    return (
+                                        <div key={key}>
+                                            <Field
+                                                key={key + '_'}
+                                                className={classes.newField}
+                                                name={key}
+                                                id={key}
+                                                component={renderTextField}
+                                                label={key}
+                                            />
+                                        </div>
+                                    )
+                                }
+
                                 return (
                                     <Field
                                         key={key}
@@ -136,13 +185,15 @@ class FieldDialog extends React.Component {
                                         id={key}
                                         component={renderTextField}
                                         label={key}
-                                        disabled={isReadOnly}
                                     />
                                 )
                             })
                         }
                     </DialogContent>
                     <DialogActions>
+                        <Button onClick={() => this.props.handleClose(null)} color="primary">
+                            Cancel
+                        </Button>
                         <Button type="submit" onClick={this.props.handleSubmit(this.onSubmitInternal)} color="primary">
                             Save
                         </Button>
@@ -160,8 +211,10 @@ const redForm = reduxForm({
 function mapStateToProps(state, props) {
     var val = (props.fieldData) || {};
     console.log(val);
+    console.log(state.form[props.form]);
     return {
-      initialValues: val
+      initialValues: val,
+      reduxForm: state.form[props.form]
     }
 }
 
