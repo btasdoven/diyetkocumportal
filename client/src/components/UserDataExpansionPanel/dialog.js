@@ -65,6 +65,9 @@ const renderTypeField = ({
         <MenuItem key="text" value="text">
             text
         </MenuItem>
+        <MenuItem key="tel" value="tel">
+            tel
+        </MenuItem>
         <MenuItem key="email" value="email">
             email
         </MenuItem>
@@ -138,7 +141,7 @@ class FieldDialog extends React.Component {
                                 id="id"
                                 component={renderTextField}
                                 label="id"
-                                disabled={true}
+                                disabled={this.props.fieldData != null}
                             />
                             <Field
                                 key="name"
@@ -194,7 +197,7 @@ class FieldDialog extends React.Component {
                         <Button onClick={() => this.props.handleClose(null)} color="primary">
                             Cancel
                         </Button>
-                        <Button type="submit" onClick={this.props.handleSubmit(this.onSubmitInternal)} color="primary">
+                        <Button disabled={this.props.pristine} type="submit" onClick={this.props.handleSubmit(this.onSubmitInternal)} color="primary">
                             Save
                         </Button>
                     </DialogActions>
@@ -209,7 +212,7 @@ const redForm = reduxForm({
 })(withStyles(styles)(FieldDialog));
 
 function mapStateToProps(state, props) {
-    var val = (props.fieldData) || {};
+    var val = (props.fieldData) || { type: 'text'};
     console.log(val);
     console.log(state.form[props.form]);
     return {

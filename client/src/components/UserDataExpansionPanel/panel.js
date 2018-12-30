@@ -75,7 +75,19 @@ const styles = theme => ({
         width: '24px',
         height: '24px',
     },
+    typeIcon: {
+        marginRight: '5px',
+        marginLeft: '5px',
+        color: 'rgba(0, 0, 0, 0.54)',
+    }
   });
+
+const typeToIconMap = {
+    "address": "home",
+    "text": "message",
+    "email": "alternate_email",
+    "tel": "phone"
+};
 
 function renderLoadingButton(classes) {
     return (
@@ -172,6 +184,12 @@ class UserDataExpensionPanel extends React.Component  {
                                     return (
                                         <TableRow key={"homeData" + k}>
                                             <TableCell style= {{ display: 'flex', borderBottom: 0 }}>
+                                                <Icon 
+                                                    style={{lineHeight: '65px', height: '45px', fontSize: '18px'}}
+                                                    className={classes.typeIcon}
+                                                >
+                                                    {typeToIconMap[rows.data[k].type]}
+                                                </Icon>
                                                 <TextField
                                                     className={classes.table}
                                                     name={k}
@@ -185,17 +203,19 @@ class UserDataExpensionPanel extends React.Component  {
                                                 />
                                                 <IconButton 
                                                     aria-label="Edit"
+                                                    style={{lineHeight: '65px', marginTop: '20px'}}
                                                     className={classes.editButton}
                                                     onClick={() => this.onEditField(k)}
                                                 >
-                                                    <Icon style={{fontSize: '16px'}}>create</Icon>
+                                                    <Icon style={{fontSize: '18px'}}>create</Icon>
                                                 </IconButton>
                                                 <IconButton 
                                                     aria-label="Delete"
+                                                    style={{lineHeight: '65px', marginTop: '20px'}}
                                                     className={classes.editButton}
                                                     onClick={() => this.onDeleteField(k)}
                                                 >
-                                                    <Icon style={{fontSize: '16px'}}>delete</Icon>
+                                                    <Icon style={{fontSize: '18px'}}>delete</Icon>
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
