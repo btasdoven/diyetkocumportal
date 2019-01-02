@@ -84,6 +84,7 @@ const renderTextField = ({
     ...custom
   }) => (
     <TextField
+      multiline
       label={label}
       {...input}
       {...custom}

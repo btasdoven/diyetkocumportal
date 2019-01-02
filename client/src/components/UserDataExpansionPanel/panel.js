@@ -79,6 +79,9 @@ const styles = theme => ({
         marginRight: '5px',
         marginLeft: '5px',
         color: 'rgba(0, 0, 0, 0.54)',
+    },
+    tableCell: {
+        padding: '4px 4px 4px 8px',
     }
   });
 
@@ -183,7 +186,7 @@ class UserDataExpensionPanel extends React.Component  {
                                 <TableBody>{Object.keys(rows.data).map(k => {
                                     return (
                                         <TableRow key={"homeData" + k}>
-                                            <TableCell style= {{ display: 'flex', borderBottom: 0 }}>
+                                            <TableCell className={classes.tableCell} style= {{paddingRight: '8px', display: 'flex', borderBottom: 0 }}>
                                                 <Icon 
                                                     style={{lineHeight: '65px', height: '45px', fontSize: '18px'}}
                                                     className={classes.typeIcon}
@@ -191,6 +194,7 @@ class UserDataExpensionPanel extends React.Component  {
                                                     {typeToIconMap[rows.data[k].type]}
                                                 </Icon>
                                                 <TextField
+                                                    multiline
                                                     className={classes.table}
                                                     name={k}
                                                     id={k}

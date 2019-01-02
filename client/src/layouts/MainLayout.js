@@ -16,7 +16,10 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    marginLeft: theme.spacing.unit * 9,
+    marginLeft: theme.spacing.unit * 7,
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing.unit * 9
+    },
     padding: theme.spacing.unit * 1,
     marginTop: theme.spacing.unit * 8,
     overflowX: "hidden"
