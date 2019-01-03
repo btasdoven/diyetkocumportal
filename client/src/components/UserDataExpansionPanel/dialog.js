@@ -12,6 +12,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 
+import { TelFieldWrapper } from "./fields"
+
 import { Field, reduxForm } from "redux-form";
 const styles = theme => ({
     root: {
@@ -122,6 +124,7 @@ class FieldDialog extends React.Component {
                 name={this.props.form} 
             >
                 <Dialog
+                    disableEnforceFocus 
                     open={this.props.open}
                     onClose={() => this.props.handleClose(null)}
                     aria-labelledby="form-dialog-title"
@@ -166,18 +169,11 @@ class FieldDialog extends React.Component {
                                     return;
                                 }
                                 
-                                if (this.props.reduxForm && this.props.reduxForm.values['type'] == 'address') {
+                                console.log(key);
+                                
+                                if (this.props.reduxForm && this.props.reduxForm.values['type'] == 'tel') {
                                     return (
-                                        <div key={key}>
-                                            <Field
-                                                key={key + '_'}
-                                                className={classes.newField}
-                                                name={key}
-                                                id={key}
-                                                component={renderTextField}
-                                                label={key}
-                                            />
-                                        </div>
+                                        <TelFieldWrapper keykey={key} />
                                     )
                                 }
 
