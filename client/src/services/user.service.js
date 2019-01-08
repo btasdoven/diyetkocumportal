@@ -1,3 +1,6 @@
+
+import envService from './env.service'
+
 export const userService = {
     login,
     logout,
@@ -6,7 +9,7 @@ export const userService = {
     put_group_data
 };
 
-const HOST_NAME = process.env.NODE_ENV == 'development' ? 'http://localhost:4000' : '';
+const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
 
 function login(username, password) {
     const requestOptions = {
