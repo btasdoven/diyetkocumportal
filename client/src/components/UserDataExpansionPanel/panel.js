@@ -44,7 +44,10 @@ const styles = theme => ({
     },
     table: {
       align: 'left',
-      width: '100%'
+      width: '100%',
+    },
+    textFieldColor: {
+        color: 'rgba(0, 0, 0, 0.87)'
     },
     newField: {
       align: 'left',
@@ -76,7 +79,7 @@ const styles = theme => ({
         height: '24px',
     },
     typeIcon: {
-        marginRight: '5px',
+        marginRight: '9px',
         marginLeft: '5px',
         color: 'rgba(0, 0, 0, 0.54)',
     },
@@ -89,7 +92,8 @@ const typeToIconMap = {
     "address": "home",
     "text": "message",
     "email": "alternate_email",
-    "tel": "phone"
+    "tel": "phone",
+    "link": "link",
 };
 
 function renderLoadingButton(classes) {
@@ -194,6 +198,7 @@ class UserDataExpensionPanel extends React.Component  {
                                                     {typeToIconMap[rows.data[k].type]}
                                                 </Icon>
                                                 <TextField
+                                                    disabled
                                                     multiline
                                                     className={classes.table}
                                                     name={k}
@@ -203,6 +208,9 @@ class UserDataExpensionPanel extends React.Component  {
                                                     label={rows.data[k].name + " (" + k + ")"}
                                                     inputProps={{
                                                         readOnly: true,
+                                                        classes: {
+                                                            textarea: classes.textFieldColor,
+                                                        },
                                                     }}
                                                 />
                                                 <IconButton 

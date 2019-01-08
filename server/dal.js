@@ -105,7 +105,16 @@ exports.setFields = function (id, fieldId, value) {
     console.log('setFields');
     console.log(rows[id].fields[fieldId]);
     rows[id].fields[fieldId] = value;
- 
+    var fieldData = rows[id].fields[fieldId].data;
+
+    Object.keys(fieldData).forEach((fieldId) => {
+      if (fieldData[fieldId].type == 'link') {
+        var refFieldId = fieldData[fieldId].link;
+        var refGroup = refFieldId.split('/')[0];
+        fieldData[fieldId].value = rows[id].fields[refGroup].data[refFieldId].value;
+      }
+    });
+
     storage.setItem(id, rows[id]);
     console.log(rows[id].fields[fieldId]);
 }

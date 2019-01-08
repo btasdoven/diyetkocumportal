@@ -12,7 +12,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 
-import { TelFieldWrapper } from "./fields"
+import {
+    RetrieveFormValuesForType,
+    AddressFieldWrapper,
+    LinkFieldWrapper,
+    TelFieldWrapper 
+} from "./fields"
 
 import { Field, reduxForm } from "redux-form";
 const styles = theme => ({
@@ -76,6 +81,9 @@ const renderTypeField = ({
         <MenuItem key="address" value="address">
             address
         </MenuItem>
+        <MenuItem key="link" value="link">
+            link
+        </MenuItem>
     </TextField>
 )
 
@@ -95,28 +103,56 @@ const renderTextField = ({
     />
   )
 
+function getFieldWrapper(form) {
+    var fieldId = form && form.values['id'];
+
+    if (form && form.values['type'] == 'tel') {
+        return (
+            <TelFieldWrapper fieldId={fieldId} />
+        )
+    } else if (form && form.values['type'] == 'address') {
+        return (
+            <AddressFieldWrapper fieldId={fieldId} />
+        )
+    } else if (form && form.values['type'] == 'link') {
+        return (
+            <LinkFieldWrapper fieldId={fieldId} />
+        )
+    }
+
+    return (
+        <Field
+            key={fieldId}
+            name="value"
+            id="value"
+            component={renderTextField}
+            label="Value"
+        />
+    )
+}
+
 class FieldDialog extends React.Component {
  
     constructor(props) {
         super(props)
-
         this.onSubmitInternal = this.onSubmitInternal.bind(this);
         this.state = {
         }
     }
 
     onSubmitInternal(formValues) {
+        console.log('onSubmitInternal');
+        console.log(formValues);
+
+        RetrieveFormValuesForType(formValues)
+
+        console.log(formValues);
+ 
         this.props.handleClose(formValues);
     }
 
     render() {
         const { classes } = this.props;
-        
-        console.log(this.props);
-
-        var fieldData = this.props.fieldData != null 
-            ? this.props.fieldData
-            : { id: '', name: "", value: 'text'};
 
         return (
             <form
@@ -164,30 +200,7 @@ class FieldDialog extends React.Component {
                                 label="type"
                             />
                         {
-                            Object.keys(fieldData).map((key) => {
-                                if (key == 'type' || key == 'id' || key == 'name') {
-                                    return;
-                                }
-                                
-                                console.log(key);
-                                
-                                if (this.props.reduxForm && this.props.reduxForm.values['type'] == 'tel') {
-                                    return (
-                                        <TelFieldWrapper keykey={key} />
-                                    )
-                                }
-
-                                return (
-                                    <Field
-                                        key={key}
-                                        className={classes.newField}
-                                        name={key}
-                                        id={key}
-                                        component={renderTextField}
-                                        label={key}
-                                    />
-                                )
-                            })
+                            getFieldWrapper(this.props.reduxForm)
                         }
                     </DialogContent>
                     <DialogActions>
