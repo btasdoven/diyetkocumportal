@@ -31,6 +31,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
 import green from '@material-ui/core/colors/green';
 
+import LinkField from '../../containers/LinkField'
+
 const styles = theme => ({
     root: {
       width: '100%',
@@ -104,6 +106,47 @@ function renderLoadingButton(classes) {
     )
 }
 
+function getPanelField(classes, row, fieldId) {
+    if (row.type == 'link') {
+        return (
+            <LinkField
+                disabled
+                multiline
+                className={classes.table}
+                name={fieldId}
+                id={fieldId}
+                label={row.name + " (" + fieldId + ")"}
+                inputProps={{
+                    readOnly: true,
+                    classes: {
+                        textarea: classes.textFieldColor,
+                    },
+                }}
+                fieldRef={row.link}
+                fieldId={fieldId}
+            />
+        )
+    } else {
+        return (
+            <TextField
+                disabled
+                multiline
+                className={classes.table}
+                name={fieldId}
+                id={fieldId}
+                value={row.value}
+                margin="dense"
+                label={row.name + " (" + fieldId + ")"}
+                inputProps={{
+                    readOnly: true,
+                    classes: {
+                        textarea: classes.textFieldColor,
+                    },
+                }}
+            />
+        )
+    }
+}
 class UserDataExpensionPanel extends React.Component  {
 
     constructor(props) {
@@ -197,22 +240,9 @@ class UserDataExpensionPanel extends React.Component  {
                                                 >
                                                     {typeToIconMap[rows.data[k].type]}
                                                 </Icon>
-                                                <TextField
-                                                    disabled
-                                                    multiline
-                                                    className={classes.table}
-                                                    name={k}
-                                                    id={k}
-                                                    value={rows.data[k].value}
-                                                    margin="dense"
-                                                    label={rows.data[k].name + " (" + k + ")"}
-                                                    inputProps={{
-                                                        readOnly: true,
-                                                        classes: {
-                                                            textarea: classes.textFieldColor,
-                                                        },
-                                                    }}
-                                                />
+
+                                                { getPanelField(classes, rows.data[k], k) }
+                                                
                                                 <IconButton 
                                                     aria-label="Edit"
                                                     style={{lineHeight: '65px', marginTop: '20px'}}

@@ -34,7 +34,7 @@ const rows = {
             'profile/surname': { id:'profile/surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
             'profile/mobile': { id:'profile/mobile', name: 'Mobile', type: 'tel', value: '+1 (425)-241-5251' },
             'profile/email': { id:'profile/email', name: 'E-mail', type: 'email', value: 'btasdoven@gmail.com' },
-            'profile/address': { id:'profile/address', name: 'Home Address', type: 'address', value: '207 - 8950 University High Street, Burnaby, BC V5A4Y8, Canada' },
+            'profile/address': { id:'profile/address', name: 'Home Address', type: 'address', value: '207 - 8950 University High Street, Burnaby, BC V5A 4Y8, Canada' },
           }
         },
         "addresses": {
@@ -103,17 +103,16 @@ exports.getFields =  function (id, fieldId) {
 
 exports.setFields = function (id, fieldId, value) {
     console.log('setFields');
-    console.log(rows[id].fields[fieldId]);
     rows[id].fields[fieldId] = value;
-    var fieldData = rows[id].fields[fieldId].data;
+    // var fieldData = rows[id].fields[fieldId].data;
 
-    Object.keys(fieldData).forEach((fieldId) => {
-      if (fieldData[fieldId].type == 'link') {
-        var refFieldId = fieldData[fieldId].link;
-        var refGroup = refFieldId.split('/')[0];
-        fieldData[fieldId].value = rows[id].fields[refGroup].data[refFieldId].value;
-      }
-    });
+    // Object.keys(fieldData).forEach((fieldId) => {
+    //   if (fieldData[fieldId].type == 'link') {
+    //     var refFieldId = fieldData[fieldId].link;
+    //     var refGroup = refFieldId.split('/')[0];
+    //     fieldData[fieldId].value = rows[id].fields[refGroup].data[refFieldId].value;
+    //   }
+    // });
 
     storage.setItem(id, rows[id]);
     console.log(rows[id].fields[fieldId]);

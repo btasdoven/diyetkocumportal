@@ -51,6 +51,31 @@ const renderTextField = ({
     />
 )
 
+
+function getFieldRefValue(self, fieldId) {
+  var parts = fieldId.split('/');
+  if (parts.length < 2) {
+    return;
+  }
+
+  var groupId = parts[0];
+  console.log(groupId);
+
+  if (self.props.apiFields &&
+    self.props.apiFields[groupId] && 
+    self.props.apiFields[groupId].items.data[fieldId]) {
+      self.setState({
+        refId: fieldId,
+        refValue: self.props.apiFields[groupId].items.data[fieldId].value
+      });
+  } else {
+    self.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, groupId);
+    self.setState({
+      refId: fieldId
+    });
+  }
+}
+
 class LinkField extends React.Component {
 
   constructor(props) {
@@ -63,8 +88,17 @@ class LinkField extends React.Component {
     this.handleOnChange = this.handleOnChange.bind(this);
   }
   
+  componentDidMount() {
+    if (this.props.fieldRef) {
+      getFieldRefValue(this, this.props.fieldRef);
+    }
+  }
+
   handleOnChange(event) {
-    console.log(this)
+    if (this.props.fieldRef) {
+      return;
+    }
+
     if (this.state.typingTimeout) {
       clearTimeout(this.state.typingTimeout);
     } 
@@ -73,33 +107,19 @@ class LinkField extends React.Component {
     var parts = fieldId.split('/');
 
     if (parts.length >= 2) {
-      var groupId = parts[0];
-      console.log(groupId);
       var self = this;
       this.setState({
         typingTimeout: setTimeout(function () {
-          if (self.props.apiFields &&
-            self.props.apiFields[groupId] && 
-            self.props.apiFields[groupId].items.data[fieldId]) {
-              self.setState({
-                refId: fieldId,
-                refValue: self.props.apiFields[groupId].items.data[fieldId].value
-              });
-          } else {
-            self.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, groupId);
-            self.setState({
-              refId: fieldId
-            });
-          }
+          getFieldRefValue(self, fieldId);
         }, 1000)
       });
     }
   }
 
   render() {
-
     console.log('linkfield')
     console.log(this.props);
+
     var key = this.props.fieldId
     var refValue = this.state.refValue;
     var parts = this.state.refId.split('/');
@@ -114,20 +134,33 @@ class LinkField extends React.Component {
       }
     }
 
-    return (
-        <div>
-            <Field
-                key={key}
-                name={key + '_link'}
-                id={key + '_link'}
-                component={renderTextField}
-                label="Link"
-                onChange={this.handleOnChange}
-                helperText={refValue || ""}
-            />
-        </div>
+    if (this.props.fieldRef) {
+      var {fieldId, fieldRef, inputProps, className, disabled, multiline, id, name, label} = this.props;
+      return <TextField
+            disabled={disabled}
+            key={key}
+            name={name}
+            id={id}
+            inputProps={inputProps}
+            multiline={multiline}
+            className={className}
+            label={label}
+            value={'(' + fieldRef + ') ' + refValue}
+      />
+    } else {
+      return (
+        <Field
+            key={key}
+            name={key + '_link'}
+            id={key + '_link'}
+            component={renderTextField}
+            label="Link"
+            onChange={this.handleOnChange}
+            helperText={refValue || ""}
+        />
       );
     }
+  }
 };
 
 const mapStateToProps = state => {
