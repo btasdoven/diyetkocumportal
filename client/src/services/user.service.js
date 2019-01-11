@@ -9,6 +9,9 @@ export const userService = {
     put_group_data
 };
 
+console.log("user.service");
+console.log(envService);
+console.log(envService.isProduction);
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
 
 function login(username, password) {
