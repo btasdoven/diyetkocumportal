@@ -34,14 +34,35 @@ const rows = {
             'profile/surname': { id:'profile/surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
             'profile/mobile': { id:'profile/mobile', name: 'Mobile', type: 'tel', value: '+1 (425)-241-5251' },
             'profile/email': { id:'profile/email', name: 'E-mail', type: 'email', value: 'btasdoven@gmail.com' },
-            'profile/address': { id:'profile/address', name: 'Home Address', type: 'address', value: '207 - 8950 University High Street, Burnaby, BC V5A 4Y8, Canada' },
+            'profile/address': { id:'profile/address', name: 'Current Address', type: 'link', link: 'addresses/sfu', 'profile/address_link': 'addresses/sfu'  },
           }
         },
         "addresses": {
           id: "addresses",
           header: "Addresses",
           data: {
-
+            'addresses/sfu': { 
+              id:'addresses/sfu',
+              name: 'SFU Address',
+              type: 'address',
+              value: '207 - 8950 University High Street, Burnaby, BC V5A 4Y8, Canada', 
+              'addresses/sfu_street': '207 - 8950 University High Street',
+              'addresses/sfu_city': 'Burnaby',
+              'addresses/sfu_state': 'BC',
+              'addresses/sfu_pk': 'V5A 4Y8',
+              'addresses/sfu_country': 'Canada'
+            },
+            'addresses/vancouver': {
+              id:'addresses/vancouver',
+              name: 'Vancouver Address',
+              type: 'address',
+              value: '1704 - 501 Pacific Street, Vancouver, BC V6Z 2X6, Canada',
+              'addresses/vancouver_street': '1705 - 501 Pacific Street',
+              'addresses/vancouver_city': 'Vancouver',
+              'addresses/vancouver_state': 'BC',
+              'addresses/vancouver_pk': 'V6Z 2X6',
+              'addresses/vancouver_country': 'Canada'
+            },
           }
         },
         "creditcards": {
@@ -66,9 +87,9 @@ const rows = {
           header: "Facebook",
           headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
           data: {
-            'facebook/name': { id: 'facebook/name', name: 'Name', type: 'text', value: 'Batuhan' },
-            'facebook/surname': { id: 'facebook/surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
-            'facebook/email': { id: 'facebook/email', name: 'E-mail', type: 'email', value: 'btasdoven@gmail.com' },
+            'facebook/name': { id:'facebook/name', name: 'Name', type: 'link', link: 'profile/name', 'facebook/name_link': 'profile/name'  },
+            'facebook/surname': { id:'facebook/surname', name: 'Surame', type: 'link', link: 'profile/surname', 'facebook/surname_link': 'profile/surname'  },
+            'facebook/email': { id:'facebook/email', name: 'E-mail', type: 'link', link: 'profile/email', 'facebook/email_link': 'profile/email' },
           }
         }
       }
