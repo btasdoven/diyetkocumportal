@@ -17,9 +17,6 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     marginLeft: theme.spacing.unit * 7,
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing.unit * 9
-    },
     padding: theme.spacing.unit * 1,
     marginTop: theme.spacing.unit * 8,
     overflowX: "hidden"
@@ -56,13 +53,13 @@ class MainLayout extends Component {
           />
           <main
             className={classNames(classes.content, {
-              [classes.contentShift]: this.state.open
+              [classes.contentShift]: false
             })}
           >
             {children}
           </main>
         </div>
-        <Sidebar open={this.state.open} drawerWidth={drawerWidth} />
+        <Sidebar open={false} drawerWidth={drawerWidth} />
       </Fragment>
     );
   }

@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 
 import { toggleThemeMode, swapThemeColors } from "../store/reducers/settings";
 
-const Settings = props => (
+const Apps = props => (
   <div>
     <Typography variant="headline">Settings</Typography>
     <Card>
@@ -70,4 +70,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Settings);
+)(Apps);

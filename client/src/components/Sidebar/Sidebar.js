@@ -9,8 +9,15 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsIcon from "@material-ui/icons/Settings";
 import HistoryIcon from "@material-ui/icons/History";
 import PeopleIcon from "@material-ui/icons/People";
+import AppsIcon from "@material-ui/icons/Apps";
+import FingerprintIcon from "@material-ui/icons/Fingerprint";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
+import MenuItem from '@material-ui/core/MenuItem';
+
+import { withRouter } from 'react-router'
+
+import Tooltip from '@material-ui/core/Tooltip';
 
 const drawerWidth = 240;
 
@@ -31,15 +38,15 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    width: theme.spacing.unit * 7,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 9
-    }
+    width: theme.spacing.unit * 7
   }
 });
 
 const Sidebar = props => {
-  const { open, classes } = props;
+  const { open, classes, location } = props;
+
+  console.log('Sidebar')
+  console.log(location);
   return (
     <Drawer
       variant="permanent"
@@ -53,40 +60,48 @@ const Sidebar = props => {
     >
       <List>
         <Link to="/">
-          <ListItem button>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
+          <Tooltip title="Dashboard" placement="right">
+            <ListItem button selected={location.pathname === '/'}>
+              <ListItemIcon>
+                  <FingerprintIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+          </Tooltip>
         </Link>
         <Link to="/share">
-          <ListItem button>
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Share" />
-          </ListItem>
+          <Tooltip title="Sharing" placement="right">
+            <ListItem button selected={location.pathname === '/share'}>
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Sharing" />
+            </ListItem>
+          </Tooltip>
         </Link>
         <Link to="/history">
-          <ListItem button>
-            <ListItemIcon>
-              <HistoryIcon />
-            </ListItemIcon>
-            <ListItemText primary="History" />
-          </ListItem>
+          <Tooltip title="History" placement="right">
+            <ListItem button selected={location.pathname === '/history'}>
+              <ListItemIcon>
+                <HistoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="History" />
+            </ListItem>
+          </Tooltip>
         </Link>
-        <Link to="/setting">
-          <ListItem button>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
+        <Link to="/apps">
+          <Tooltip title="Applications" placement="right">
+            <ListItem button selected={location.pathname === '/apps'}>
+              <ListItemIcon>
+                <AppsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Applications" />
+            </ListItem>
+          </Tooltip>
         </Link>
       </List>
     </Drawer>
   );
 };
 
-export default withStyles(styles)(Sidebar);
+export default withStyles(styles)(withRouter(Sidebar));

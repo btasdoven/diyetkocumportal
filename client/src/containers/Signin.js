@@ -108,7 +108,7 @@ const Signin = props => {
         <Avatar className={classes.avatar}>
           <LockIcon />
         </Avatar>
-        <Typography component="h2" variant="headline">
+        <Typography component="h2" variant="h5">
           Log into your account
         </Typography>
 
@@ -116,7 +116,7 @@ const Signin = props => {
           login(v.username, v.password);
         }} />
 
-        <Typography component="h4" variant="subheading" className={classes.registerTypo}>
+        <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
           Don't you have an account?
         </Typography>
         <Button

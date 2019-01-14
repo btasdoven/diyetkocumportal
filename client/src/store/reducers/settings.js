@@ -49,7 +49,10 @@ export default function reducer(state = initState, action) {
               primary: state.theme.palette.primary,
               secondary: state.theme.palette.secondary,
               type: "dark"
-            }
+            },
+            typography: {
+              useNextVariants: true,
+            },
           }),
           darkMode: true
         };

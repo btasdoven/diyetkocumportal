@@ -56,7 +56,7 @@ const styles = theme => ({
       width: '33%'
     },
     headerImg: {
-        marginRight: theme.typography.pxToRem(5)
+        margin: '0 5px 0 5px'
     },
     buttonProgress: {
       top: '50%',
@@ -106,7 +106,7 @@ function renderLoadingButton(classes) {
     )
 }
 
-function getPanelField(classes, row, fieldId) {
+function getPanelField(props, classes, row, fieldId) {
     if (row.type == 'link') {
         return (
             <LinkField
@@ -214,9 +214,10 @@ class UserDataExpensionPanel extends React.Component  {
                         }
                     }}
                 >
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <ExpansionPanelSummary style={{padding: '0 24px 0 5px'}} expandIcon={<ExpandMoreIcon />}>
                         <Typography className={classes.heading}>
-                            {groupData.headerImg && <img src={groupData.headerImg}  className={classes.headerImg}/>}
+                            {groupData.headerImg && <img width="24px" src={groupData.headerImg} className={classes.headerImg}/>}
+                            {groupData.headerIcon && <Icon className={classes.typeIcon}>{groupData.headerIcon}</Icon>}
                             {groupData.header}
                         </Typography>
                     </ExpansionPanelSummary>
@@ -241,7 +242,7 @@ class UserDataExpensionPanel extends React.Component  {
                                                     {typeToIconMap[rows.data[k].type]}
                                                 </Icon>
 
-                                                { getPanelField(classes, rows.data[k], k) }
+                                                { getPanelField(this.props, classes, rows.data[k], k) }
                                                 
                                                 <IconButton 
                                                     aria-label="Edit"
@@ -273,17 +274,29 @@ class UserDataExpensionPanel extends React.Component  {
                                 handleClose={this.onDialogClosed}
                             />
                         )}
-                    </ExpansionPanelDetails>        
+                    </ExpansionPanelDetails>       
                     <Divider />
                     <ExpansionPanelActions style={{justifyContent: 'flex-start'}}>
-                        <Button 
-                            disabled={this.state.addingNewField} 
-                            size="small"
-                            color="primary"
-                            onClick={this.onAddNewField}
-                        >
-                            Add
-                        </Button>
+                        {this.props.insertable && 
+                            <Button 
+                                disabled={this.state.addingNewField} 
+                                size="small"
+                                color="primary"
+                                onClick={this.onAddNewField}
+                            >
+                                Add
+                            </Button>
+                        }                        
+                        {!this.props.insertable && 
+                            <Button 
+                                disabled={this.state.addingNewField} 
+                                size="small"
+                                color="primary"
+                                onClick={this.onAddNewField}
+                            >
+                                Revoke access
+                            </Button>
+                        }
                     </ExpansionPanelActions>
                 </ExpansionPanel>
         )

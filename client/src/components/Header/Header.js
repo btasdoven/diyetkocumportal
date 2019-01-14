@@ -8,6 +8,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from 'react-router'
 
 const styles = theme => ({
   toolbarRoot: {
@@ -22,8 +23,20 @@ const styles = theme => ({
   }
 });
 
+const getPageTitle = (pathname) => {
+  if (pathname === '/') {
+    return "Dashboard"
+  } else if (pathname === '/share') {
+    return "Sharing"
+  } else if (pathname === '/history') {
+    return "History of Actions"
+  }
+
+  return "xxxxx";
+}
+
 const Header = props => {
-  const { classes, handleToggleDrawer } = props;
+  const { classes, handleToggleDrawer, location } = props;
   return (
     <AppBar position="fixed">
       <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
@@ -41,7 +54,7 @@ const Header = props => {
           noWrap
           className={classes.title}
         >
-          Dashboard
+          {getPageTitle(location.pathname)}
         </Typography>
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
@@ -56,4 +69,4 @@ const Header = props => {
   );
 };
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(withRouter(Header));

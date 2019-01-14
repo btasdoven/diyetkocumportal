@@ -13,8 +13,9 @@ import { connect } from "react-redux";
 import Home from "./containers/Home";
 import Share from "./containers/Share";
 import History from "./containers/History";
-import Setting from "./containers/Setting";
+import Apps from "./containers/Apps";
 import Signin from "./containers/Signin";
+import LandingPage from "./containers/LandingPage";
 
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
@@ -67,7 +68,7 @@ class App extends Component {
                 <DashboardRoute path="/dashboard" component={Home} />
                 <DashboardRoute path="/share" component={Share} />
                 <DashboardRoute path="/history" component={History} />
-                <DashboardRoute path="/setting" component={Setting} />
+                <DashboardRoute path="/apps" component={Apps} />
 
                 <Route path="/signin" render={() => <Redirect to="/" />} />
                 <DashboardRoute exact path="/" component={Home} />
@@ -76,7 +77,8 @@ class App extends Component {
             ) : (
               <Switch>
                 <EmptyRoute path="/signin" component={Signin} />
-                <Redirect to="/signin" />
+                <EmptyRoute exact path="/" component={LandingPage} />
+                <Redirect to="/" />
               </Switch>
             )}
           </Router>

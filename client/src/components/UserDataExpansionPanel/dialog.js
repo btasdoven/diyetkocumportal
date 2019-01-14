@@ -182,6 +182,7 @@ class FieldDialog extends React.Component {
                                 component={renderTextField}
                                 label="id"
                                 disabled={this.props.fieldData != null}
+                                autoFocus={this.props.fieldData == null}
                             />
                             <Field
                                 key="name"
@@ -190,6 +191,7 @@ class FieldDialog extends React.Component {
                                 id="name"
                                 component={renderTextField}
                                 label="name"
+                                autoFocus={this.props.fieldData != null}
                             />
                             <Field
                                 key="type"
@@ -198,6 +200,7 @@ class FieldDialog extends React.Component {
                                 id="type"
                                 component={renderTypeField}
                                 label="type"
+                                fullWidth
                             />
                         {
                             getFieldWrapper(this.props.reduxForm)

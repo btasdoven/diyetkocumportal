@@ -14,8 +14,6 @@ import CreateNewFolderIcon from "@material-ui/icons/CreateNewFolder";
 import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 
 const History = props => (
-    <div>
-      <Typography variant="headline">History of Changes and Requests</Typography>
       <Card>
         <CardContent>
           <List>
@@ -40,7 +38,6 @@ const History = props => (
           </List>
         </CardContent>
       </Card>
-    </div>
   );
 
   export default History;

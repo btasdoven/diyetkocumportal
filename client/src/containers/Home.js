@@ -70,12 +70,17 @@ class Home extends React.Component {
             {Object.keys(this.props.apiGroups.items).length == 0 &&
               (<CircularProgress size={24} className={classes.buttonProgress} />)}
             {Object.keys(this.props.apiGroups.items).map( (groupId, idx) => {
+                if (this.props.apiGroups.items[groupId].app) {
+                  return;
+                }
+                              
                 return (
                   <UserDataExpensionPanel
+                    insertable={true}
                     key={"userDataPanel" + groupId}
                     onSubmit={(v) => this.onSubmit(v, groupId)}
                     form={groupId}
-                    defaultExpanded={idx == 0} 
+                    defaultExpanded={false} 
                     itemsFetchData={(userId, groupId, force=false) => {
                       return this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) && !force
                         ? this.props.apiFields[groupId].items

@@ -6,23 +6,40 @@ const rows = {
         "profile": {
           id: 'profile',
           header: "Profile",
+          headerIcon: 'person'
         },
         "addresses": {
           id: 'addresses',
           header: "Addresses",
+          headerIcon: 'location_city'
         },
         "creditcards": {
           id: 'creditcards',
-          header: "Credit Cards"
+          header: "Credit Cards",
+          headerIcon: 'credit_card'
         },
         "legal": {
           id: 'legal',
           header: "Legal",
+          headerIcon: 'work'
         },
         "facebook": {
           id: 'facebook',
           header: "Facebook",
           headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
+          app: true
+        },
+        "bchydro": {
+          id: 'bchydro',
+          header: "BC Hydro",
+          headerImg: "https://www.mycowichanvalleynow.com/wp-content/uploads/2015/09/BC-Hydro-Logo.png",
+          app: true
+        },
+        "telus": {
+          id: 'telus',
+          header: "Telus",
+          headerImg: "https://media.glassdoor.com/sqll/8006/telus-squarelogo-1528814538191.png",
+          app: true
         }
       },
       fields: {
@@ -88,8 +105,23 @@ const rows = {
           headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
           data: {
             'facebook/name': { id:'facebook/name', name: 'Name', type: 'link', link: 'profile/name', 'facebook/name_link': 'profile/name'  },
-            'facebook/surname': { id:'facebook/surname', name: 'Surame', type: 'link', link: 'profile/surname', 'facebook/surname_link': 'profile/surname'  },
+            'facebook/surname': { id:'facebook/surname', name: 'Surname', type: 'link', link: 'profile/surname', 'facebook/surname_link': 'profile/surname'  },
             'facebook/email': { id:'facebook/email', name: 'E-mail', type: 'link', link: 'profile/email', 'facebook/email_link': 'profile/email' },
+          }
+        },
+        "bchydro": {
+          data: {
+            'bchydro/name': { id:'bchydro/name', name: 'Name', type: 'link', link: 'profile/name', 'bchydro/name_link': 'profile/name'  },
+            'bchydro/surname': { id:'bchydro/surname', name: 'Surname', type: 'link', link: 'profile/surname', 'bchydro/surname_link': 'profile/surname'  },
+            'bchydro/email': { id:'bchydro/email', name: 'E-mail', type: 'link', link: 'profile/email', 'bchydro/email_link': 'profile/email' },
+            'bchydro/phone': { id:'bchydro/phone', name: 'E-mail', type: 'link', link: 'profile/mobile', 'bchydro/phone_link': 'profile/mobile' },
+            'bchydro/address': { id:'bchydro/address', name: 'Home Address', type: 'link', link: 'profile/address', 'bchydro/address_link': 'profile/address' },
+          }
+        },
+        "telus": {
+          data: {
+            'telus/email': { id:'telus/email', name: 'E-mail', type: 'link', link: 'profile/email', 'telus/email_link': 'profile/email' },
+            'telus/address': { id:'telus/address', name: 'Home Address', type: 'link', link: 'profile/address', 'telus/address_link': 'profile/address' },
           }
         }
       }

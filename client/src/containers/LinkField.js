@@ -64,10 +64,18 @@ function getFieldRefValue(self, fieldId) {
   if (self.props.apiFields &&
     self.props.apiFields[groupId] && 
     self.props.apiFields[groupId].items.data[fieldId]) {
-      self.setState({
-        refId: fieldId,
-        refValue: self.props.apiFields[groupId].items.data[fieldId].value
-      });
+      var refField = self.props.apiFields[groupId].items.data[fieldId];
+      console.log(refField);
+      if (refField.type === "link") {
+        console.log("link type")
+        console.log(refField.link);
+        getFieldRefValue(self, refField.link)
+      } else {
+        self.setState({
+          refId: fieldId,
+          refValue: refField.value
+        });
+      }
   } else {
     self.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, groupId);
     self.setState({
@@ -130,12 +138,17 @@ class LinkField extends React.Component {
         this.props.apiFields[groupId] && 
         this.props.apiFields[groupId].items &&
         this.props.apiFields[groupId].items.data[this.state.refId]) {
-          refValue = this.props.apiFields[groupId].items.data[this.state.refId].value;
+          var refField = this.props.apiFields[groupId].items.data[this.state.refId];
+          if (refField.type === "link") {
+            getFieldRefValue(this, refField.link);
+          } else {
+            refValue = this.props.apiFields[groupId].items.data[this.state.refId].value;
+          }
       }
     }
 
     if (this.props.fieldRef) {
-      var {fieldId, fieldRef, inputProps, className, disabled, multiline, id, name, label} = this.props;
+      var {fieldId, fieldRef, inputProps, className, disabled, multiline, id, name, label, helperText} = this.props;
       return <TextField
             disabled={disabled}
             key={key}
@@ -146,6 +159,7 @@ class LinkField extends React.Component {
             className={className}
             label={label}
             value={'(' + fieldRef + ') ' + refValue}
+            helperText={helperText}
       />
     } else {
       return (
