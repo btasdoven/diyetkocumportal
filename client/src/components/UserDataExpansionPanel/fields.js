@@ -129,6 +129,8 @@ class TelFieldWrapperClass extends React.Component {
 class LinkFieldWrapperClass extends React.Component {
     render() {
         var key = this.props.fieldId
+        console.log('linkfieldwrapper')
+        console.log(this.props);
         return (
             <LinkField
                 fieldId={key}

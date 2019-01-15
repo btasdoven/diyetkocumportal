@@ -99,6 +99,8 @@ class LinkField extends React.Component {
   componentDidMount() {
     if (this.props.fieldRef) {
       getFieldRefValue(this, this.props.fieldRef);
+    } else if (this.props.fieldId && this.props.form && this.props.form[this.props.fieldId]) {
+      getFieldRefValue(this, this.props.form[this.props.fieldId].values.link);
     }
   }
 
@@ -157,8 +159,8 @@ class LinkField extends React.Component {
             inputProps={inputProps}
             multiline={multiline}
             className={className}
-            label={label}
-            value={'(' + fieldRef + ') ' + refValue}
+            label={label + " (linked to " + fieldRef + ")"}
+            value={refValue}
             helperText={helperText}
       />
     } else {
@@ -179,7 +181,8 @@ class LinkField extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    apiFields: state.apiFields
+    apiFields: state.apiFields,
+    form: state.form
   };
 };
 

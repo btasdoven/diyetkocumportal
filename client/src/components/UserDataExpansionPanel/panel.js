@@ -22,6 +22,7 @@ import Icon from '@material-ui/core/Icon';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
+import MoreVertIcon from '@material-ui/icons/MoreHoriz';
 import FieldDialog from './dialog';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -31,7 +32,17 @@ import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
 import green from '@material-ui/core/colors/green';
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import LinkField from '../../containers/LinkField'
+
+const options = [
+    'None',
+    'Atria',
+    'Callisto',
+    'Dione',
+    'Ganymede']
 
 const styles = theme => ({
     root: {
@@ -115,7 +126,7 @@ function getPanelField(props, classes, row, fieldId) {
                 className={classes.table}
                 name={fieldId}
                 id={fieldId}
-                label={row.name + " (" + fieldId + ")"}
+                label={row.name}
                 inputProps={{
                     readOnly: true,
                     classes: {
@@ -136,7 +147,7 @@ function getPanelField(props, classes, row, fieldId) {
                 id={fieldId}
                 value={row.value}
                 margin="dense"
-                label={row.name + " (" + fieldId + ")"}
+                label={row.name}
                 inputProps={{
                     readOnly: true,
                     classes: {
@@ -189,6 +200,7 @@ class UserDataExpensionPanel extends React.Component  {
 
     onEditField(fieldId) {
         this.setState({
+            anchorEl: null,
             editingFieldId: fieldId,
         })
     }
@@ -197,6 +209,10 @@ class UserDataExpensionPanel extends React.Component  {
         delete this.props.rows.data[fieldId];
         this.props.onSubmit(this.props.rows);
     }
+    
+    handleClick = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
 
     render() {
         const { fieldData, groupData, classes } = this.props;
@@ -244,7 +260,23 @@ class UserDataExpensionPanel extends React.Component  {
 
                                                 { getPanelField(this.props, classes, rows.data[k], k) }
                                                 
-                                                <IconButton 
+                                                <div>
+                                                    <IconButton
+                                                    onClick={this.handleClick}
+                                                    >
+                                                    <MoreVertIcon />
+                                                    </IconButton>
+                                                    <Menu
+                                                    id="long-menu"
+                                                    anchorEl={this.state.anchorEl}
+                                                    open={this.state.anchorEl ? true : false}
+                                                    onClose={() => this.setState({anchorEl: null})}
+                                                    >
+                                                    <MenuItem onClick={() => this.onEditField(k)}>Edit this field</MenuItem>
+                                                    </Menu>
+                                                </div>
+
+                                                {/* <IconButton 
                                                     aria-label="Edit"
                                                     style={{lineHeight: '65px', marginTop: '20px'}}
                                                     className={classes.editButton}
@@ -259,7 +291,7 @@ class UserDataExpensionPanel extends React.Component  {
                                                     onClick={() => this.onDeleteField(k)}
                                                 >
                                                     <Icon style={{fontSize: '18px'}}>delete</Icon>
-                                                </IconButton>
+                                                </IconButton> */}
                                             </TableCell>
                                         </TableRow>
                                     )})}

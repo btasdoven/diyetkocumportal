@@ -11,9 +11,11 @@ const secondaryColor = green;
 
 const themeConfig = {
   palette: {
-    primary: indigo,
+    primary: {
+      main: 'rgb(38,55,70)'
+    },
     secondary: {
-      main: '#388e3c'
+      main: 'rgb(255,109,33)'
     },
     error: red,
     // Used by `getContrastText()` to maximize the contrast between the background and
