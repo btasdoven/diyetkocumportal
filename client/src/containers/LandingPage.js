@@ -97,7 +97,7 @@ function Album(props) {
       <CssBaseline />
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.layout}>
-          <CameraIcon className={classes.icon} />
+          <img src="/static/favicon.png" style={{marginLeft:'8px', marginRight: '8px', height:'32px'}}/>
           <Typography variant="title" color="inherit" noWrap>
             Monagard
           </Typography>
