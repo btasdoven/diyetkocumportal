@@ -19,30 +19,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 
 import Icon from '@material-ui/core/Icon';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import CreateIcon from '@material-ui/icons/Create';
-import DeleteIcon from '@material-ui/icons/Delete';
-import MoreVertIcon from '@material-ui/icons/MoreHoriz';
 import FieldDialog from './dialog';
-
-import InputAdornment from '@material-ui/core/InputAdornment';
+import PanelField from './PanelField';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
-import green from '@material-ui/core/colors/green';
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-
-import LinkField from '../../containers/LinkField'
-
-const options = [
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede']
 
 const styles = theme => ({
     root: {
@@ -101,14 +82,6 @@ const styles = theme => ({
     }
   });
 
-const typeToIconMap = {
-    "address": "home",
-    "text": "message",
-    "email": "alternate_email",
-    "tel": "phone",
-    "link": "link",
-};
-
 function renderLoadingButton(classes) {
     return (
         <div className={classes.rootLoading}>
@@ -117,47 +90,6 @@ function renderLoadingButton(classes) {
     )
 }
 
-function getPanelField(props, classes, row, fieldId) {
-    if (row.type == 'link') {
-        return (
-            <LinkField
-                disabled
-                multiline
-                className={classes.table}
-                name={fieldId}
-                id={fieldId}
-                label={row.name}
-                inputProps={{
-                    readOnly: true,
-                    classes: {
-                        textarea: classes.textFieldColor,
-                    },
-                }}
-                fieldRef={row.link}
-                fieldId={fieldId}
-            />
-        )
-    } else {
-        return (
-            <TextField
-                disabled
-                multiline
-                className={classes.table}
-                name={fieldId}
-                id={fieldId}
-                value={row.value}
-                margin="dense"
-                label={row.name}
-                inputProps={{
-                    readOnly: true,
-                    classes: {
-                        textarea: classes.textFieldColor,
-                    },
-                }}
-            />
-        )
-    }
-}
 class UserDataExpensionPanel extends React.Component  {
 
     constructor(props) {
@@ -200,7 +132,6 @@ class UserDataExpensionPanel extends React.Component  {
 
     onEditField(fieldId) {
         this.setState({
-            anchorEl: null,
             editingFieldId: fieldId,
         })
     }
@@ -209,10 +140,6 @@ class UserDataExpensionPanel extends React.Component  {
         delete this.props.rows.data[fieldId];
         this.props.onSubmit(this.props.rows);
     }
-    
-    handleClick = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
 
     render() {
         const { fieldData, groupData, classes } = this.props;
@@ -250,49 +177,11 @@ class UserDataExpensionPanel extends React.Component  {
                                 <TableBody>{Object.keys(rows.data).map(k => {
                                     return (
                                         <TableRow key={"homeData" + k}>
-                                            <TableCell className={classes.tableCell} style= {{paddingRight: '8px', display: 'flex', borderBottom: 0 }}>
-                                                <Icon 
-                                                    style={{lineHeight: '65px', height: '45px', fontSize: '18px'}}
-                                                    className={classes.typeIcon}
-                                                >
-                                                    {typeToIconMap[rows.data[k].type]}
-                                                </Icon>
-
-                                                { getPanelField(this.props, classes, rows.data[k], k) }
-                                                
-                                                <div>
-                                                    <IconButton
-                                                    onClick={this.handleClick}
-                                                    >
-                                                    <MoreVertIcon />
-                                                    </IconButton>
-                                                    <Menu
-                                                    id="long-menu"
-                                                    anchorEl={this.state.anchorEl}
-                                                    open={this.state.anchorEl ? true : false}
-                                                    onClose={() => this.setState({anchorEl: null})}
-                                                    >
-                                                    <MenuItem onClick={() => this.onEditField(k)}>Edit this field</MenuItem>
-                                                    </Menu>
-                                                </div>
-
-                                                {/* <IconButton 
-                                                    aria-label="Edit"
-                                                    style={{lineHeight: '65px', marginTop: '20px'}}
-                                                    className={classes.editButton}
-                                                    onClick={() => this.onEditField(k)}
-                                                >
-                                                    <Icon style={{fontSize: '18px'}}>create</Icon>
-                                                </IconButton>
-                                                <IconButton 
-                                                    aria-label="Delete"
-                                                    style={{lineHeight: '65px', marginTop: '20px'}}
-                                                    className={classes.editButton}
-                                                    onClick={() => this.onDeleteField(k)}
-                                                >
-                                                    <Icon style={{fontSize: '18px'}}>delete</Icon>
-                                                </IconButton> */}
-                                            </TableCell>
+                                            <PanelField
+                                                fieldId={k}
+                                                fieldData={rows.data[k]}
+                                                onEditField={this.onEditField}
+                                                onDeleteField={this.onDeleteField} />
                                         </TableRow>
                                     )})}
                                 </TableBody>

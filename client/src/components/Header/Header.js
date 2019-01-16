@@ -36,18 +36,11 @@ const getPageTitle = (pathname) => {
 }
 
 const Header = props => {
-  const { classes, handleToggleDrawer, location } = props;
+  const { classes, location } = props;
   return (
     <AppBar position="fixed">
       <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
-        <IconButton
-          color="inherit"
-          aria-label="Open drawer"
-          onClick={handleToggleDrawer}
-          className={classes.menuButton}
-        >
-          <MenuIcon />
-        </IconButton>
+        <img src="/static/favicon.png" style={{marginLeft:'8px', marginRight: '8px', height:'32px'}}/>
         <Typography
           variant="title"
           color="inherit"
