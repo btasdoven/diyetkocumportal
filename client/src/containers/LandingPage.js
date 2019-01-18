@@ -48,6 +48,7 @@ const styles = theme => ({
     width: 'auto',
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
+    padding: 0,
     [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
       width: 1100,
       marginLeft: 'auto',
@@ -97,7 +98,7 @@ function Album(props) {
       <CssBaseline />
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.layout}>
-          <img src="/static/favicon.png" style={{marginLeft:'8px', marginRight: '8px', height:'32px'}}/>
+          <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
           <Typography variant="title" color="inherit" noWrap>
             Monagard
           </Typography>
