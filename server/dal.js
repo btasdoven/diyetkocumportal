@@ -3,32 +3,37 @@ const storage = require('node-persist');
 const rows = {
     5: {
       allFieldList: {
-        "profile/name": true,
-        "profile/surname": true,
-        'profile/mobile': true,
-        'profile/email': true,
-        'profile/address': true,
-        'addresses/sfu': true,
-        'addresses/vancouver': true,
-        'legal/passport': true,
-        'legal/sin': true,
-        'legal/ssn': true,
-        'facebook/name': true,
-        'facebook/surname': true,
-        'facebook/email': true,
-        'bchydro/name': true,
-        'bchydro/surname': true,
-        'bchydro/email': true,
-        'bchydro/phone': true,
-        'bchydro/address': true,
-        'telus/email': true,
-        'telus/address': true
+        "profile/name": 'text',
+        "profile/surname": 'text',
+        'profile/address': 'address',
+        'phones/us': 'mobile',
+        'phones/canada': 'mobile',
+        'emails/gmail': 'email',
+        'emails/hotmail': 'email',
+        'emails/work': 'email',
+        'emails/school': 'email',
+        'emails/junk': 'email',
+        'addresses/sfu': 'address',
+        'addresses/vancouver': 'address',
+        'legal/passport': 'text',
+        'legal/sin': 'text',
+        'legal/ssn': 'text',
       },
       groups: {
         "profile": {
           id: 'profile',
-          header: "Profile",
+          header: "About Me",
           headerIcon: 'person'
+        },
+        "phones": {
+          id: 'phones',
+          header: "Phone Numbers",
+          headerIcon: 'phone'
+        },        
+        "emails": {
+          id: "emails",
+          header: "E-mails",   
+          headerIcon: 'alternate_email'
         },
         "addresses": {
           id: 'addresses',
@@ -45,12 +50,6 @@ const rows = {
           header: "Legal",
           headerIcon: 'work'
         },
-        "facebook": {
-          id: 'facebook',
-          header: "Facebook",
-          headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
-          app: true
-        },
         "bchydro": {
           id: 'bchydro',
           header: "BC Hydro",
@@ -62,18 +61,40 @@ const rows = {
           header: "Telus",
           headerImg: "https://media.glassdoor.com/sqll/8006/telus-squarelogo-1528814538191.png",
           app: true
+        }, 
+        "icbc": {
+          id: 'icbc',
+          header: "ICBC",
+          headerImg: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c7/Insurance_Corporation_of_British_Columbia_Logo.svg/220px-Insurance_Corporation_of_British_Columbia_Logo.svg.png",
+          app: true,
         }
       },
       fields: {
         "profile": {
           id: 'profile',
-          header: "Profile",
+          header: "About Me",
           data: {
             'profile/name': { id:'profile/name', fieldId: 'name', name: 'Name', type: 'text', value: 'Batuhan' },
             'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
-            'profile/mobile': { id:'profile/mobile', fieldId: 'mobiel', name: 'Mobile', type: 'tel', value: '+1 (425)-241-5251' },
-            'profile/email': { id:'profile/email', fieldId: 'email', name: 'E-mail', type: 'email', value: 'btasdoven@gmail.com' },
-            'profile/address': { id:'profile/address', fieldId: 'address', name: 'Current Address', type: 'link', link: 'addresses/sfu', 'profile/address_link': 'addresses/sfu'  },
+          }
+        },
+        "phones": {
+          id: "phones",
+          header: "Phone Numbers",
+          data: {
+            'phones/us': { id:'phones/us', fieldId: 'us', name: 'US Number', type: 'tel', value: '+1 (425)-241-5251' },
+            'phones/canada': { id:'phones/canada', fieldId: 'canada', name: 'Canada Number', type: 'tel', value: '+1 (604)-754-0155' }
+          }
+        },
+        "emails": {
+          id: "emails",
+          header: "E-mail Addresses",
+          data: {
+            'emails/gmail': { id:'emails/gmail', fieldId: 'gmail', name: 'Gmail', type: 'email', value: 'btasdoven@gmail.com' },
+            'emails/hotmail': { id:'emails/hotmail', fieldId: 'hotmail', name: 'Hotmail', type: 'email', value: 'btasdoven@hotmail.com' },
+            'emails/school': { id:'emails/school', fieldId: 'work', name: 'School METU', type: 'email', value: 'e1746346@ceng.metu.edu.tr' },
+            'emails/work': { id:'emails/work', fieldId: 'work', name: 'MS Work', type: 'email', value: 'batasdov@microsoft.com' },
+            'emails/junk': { id:'emails/junk', fieldId: 'junk', name: 'For Junk', type: 'email', value: 'xxbatu_352xx@hotmail.com' },
           }
         },
         "addresses": {
@@ -123,29 +144,29 @@ const rows = {
             'legal/ssn': { id: 'legal/ssn', fieldId: 'ssn', name: 'SSN (US)', type: 'text', value: '123-4567' },
           }
         },
-        "facebook": {
-          id: 'facebook',
-          header: "Facebook",
-          headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
-          data: {
-            'facebook/name': { id:'facebook/name', fieldId: 'name', name: 'Name', type: 'link', link: 'profile/name', 'facebook/name_link': 'profile/name'  },
-            'facebook/surname': { id:'facebook/surname', fieldId: 'surname', name: 'Surname', type: 'link', link: 'profile/surname', 'facebook/surname_link': 'profile/surname'  },
-            'facebook/email': { id:'facebook/email', fieldId: 'email', name: 'E-mail', type: 'link', link: 'profile/email', 'facebook/email_link': 'profile/email' },
-          }
-        },
         "bchydro": {
           data: {
             'bchydro/name': { id:'bchydro/name', fieldId: 'name', name: 'Name', type: 'link', link: 'profile/name', 'bchydro/name_link': 'profile/name'  },
-            'bchydro/surname': { id:'bchydro/surname', fieldId: 'surname', name: 'Surname', type: 'link', link: 'profile/surname', 'bchydro/surname_link': 'profile/surname'  },
-            'bchydro/email': { id:'bchydro/email', fieldId: 'email', name: 'E-mail', type: 'link', link: 'profile/email', 'bchydro/email_link': 'profile/email' },
-            'bchydro/phone': { id:'bchydro/phone', fieldId: 'phone', name: 'E-mail', type: 'link', link: 'profile/mobile', 'bchydro/phone_link': 'profile/mobile' },
-            'bchydro/address': { id:'bchydro/address', fieldId: 'address', name: 'Home Address', type: 'link', link: 'profile/address', 'bchydro/address_link': 'profile/address' },
+            'bchydro/surname': { id:'bchydro/surname', fieldId: 'surname', name: 'Surname', type: 'link', link_type: 'text', link: 'profile/surname', 'bchydro/surname_link': 'profile/surname'  },
+            'bchydro/email': { id:'bchydro/email', fieldId: 'email', name: 'E-mail', type: 'link', link_type: 'email', link: 'emails/gmail', 'bchydro/email_link': 'emails/gmail' },
+            'bchydro/phone': { id:'bchydro/phone', fieldId: 'phone', name: 'Phone', type: 'link', link_type: 'mobile', link: 'phones/us', 'bchydro/phone_link': 'phones/us' },
+            'bchydro/address': { id:'bchydro/address', fieldId: 'address', name: 'Home Address', type: 'link', link_type: 'address', link: 'addresses/sfu', 'bchydro/address_link': 'addresses/sfu' },
           }
         },
         "telus": {
           data: {
-            'telus/email': { id:'telus/email', fieldId: 'email', name: 'E-mail', type: 'link', link: 'profile/email', 'telus/email_link': 'profile/email' },
-            'telus/address': { id:'telus/address', fieldId: 'address', name: 'Home Address', type: 'link', link: 'profile/address', 'telus/address_link': 'profile/address' },
+            'telus/id': {id: 'telus/id', fieldId: 'id', name: 'Account ID', type:'text', value: 'T574622', isReadOnly: true},
+            'telus/phone': { id:'telus/phone', fieldId: 'phone', name: 'Phone Number', type: 'link', link_type: 'mobile', link: 'phones/canada', 'telus/phone_link': 'phones/canada' },
+            'telus/address': { id:'telus/address', fieldId: 'address', name: 'Home Address', type: 'link', link_type: 'addresses', link: 'addresses/sfu', 'telus/address_link': 'addresses/sfu' },
+          }
+        },
+        "icbc": {
+          data: {
+            "icbc/license": { id: 'icbc/license', fieldId: 'license', name: 'License No', type: 'text', value: '946-8762', isReadOnly: true},
+            "icbc/vehicle": { id: 'icbc/vehicle', fieldId: 'vehicle', name: 'Vehicle Info', type: 'text', value: 'Jeep, Compass, 2018, Gray', isReadOnly: true},
+            "icbc/insurance": { id: 'icbc/insurance', fieldId: 'insurance', name: 'Insurance Info', type: 'text', value: 'Level 3 Coverage, $1M liability, $500 deductable', isReadOnly: true},
+            'icbc/phone': { id:'icbc/phone', fieldId: 'phone', name: 'Phone Number', type: 'link', link_type:'mobile', link: 'phones/canada', 'icbc/phone_link': 'phones/canada' },
+            "icbc/creditcard": { id: 'icbc/creditcard', fieldId: 'creditcard', name: 'Credit Card', type: 'text', value: 'xxxx-xxxx-xxxx-8644'},
           }
         }
       }
@@ -156,7 +177,7 @@ const rows = {
 async function start() {
     await storage.init({ dir: 'stg', logging: true });
 
-    if (!process.env.PORT) {
+    if (process.env.PORT) {
       await storage.clear();
       await storage.setItem('5', rows[5]);
     }

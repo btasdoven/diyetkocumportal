@@ -105,7 +105,53 @@ const renderTextField = ({
     />
   )
 
-function getFieldWrapper(form) {
+
+function getDefaultFields(props) {
+    if (!props.isApp) {
+        return (
+            <div>
+            <Field
+                key="fieldId"
+                className={props.classes.newField}
+                name="fieldId"
+                id="fieldId"
+                component={renderTextField}
+                label="Identifier"
+                disabled={props.fieldData != null}
+                autoFocus={props.fieldData == null}
+                InputProps={{
+                    startAdornment: 
+                        <InputAdornment position="start" style={{marginRight:0}}>
+                            {props.groupId + "/"}
+                        </InputAdornment>,
+                }}
+            />
+            <Field
+                key="name"
+                className={props.classes.newField}
+                name="name"
+                id="name"
+                component={renderTextField}
+                label="Display Name"
+                autoFocus={props.fieldData != null}
+            />
+            <Field
+                key="type"
+                className={props.classes.newField}
+                name="type"
+                id="type"
+                component={renderTypeField}
+                label="Field Type"
+                fullWidth
+            />
+            </div>
+        )
+    } 
+        
+    return;
+}
+
+function getFieldWrapper(form, isApp) {
     var fieldId = form && form.values['id'];
 
     if (form && form.values['type'] == 'tel') {
@@ -118,7 +164,10 @@ function getFieldWrapper(form) {
         )
     } else if (form && form.values['type'] == 'link') {
         return (
-            <LinkFieldWrapper fieldId={fieldId} />
+            <LinkFieldWrapper 
+                fieldId={fieldId} 
+                label={isApp ? "" : "Select a field to link the current field to"}
+            />
         )
     }
 
@@ -128,7 +177,7 @@ function getFieldWrapper(form) {
             name="value"
             id="value"
             component={renderTextField}
-            label="Value"
+            label="Field Value"
         />
     )
 }
@@ -149,14 +198,14 @@ class FieldDialog extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
-
         return (
             <form
                 onSubmit={this.onSubmitInternal}
                 name={this.props.form} 
             >
                 <Dialog
+                    fullWidth={true}
+                    maxWidth="sm"
                     disableEnforceFocus 
                     open={this.props.open}
                     onClose={() => this.props.handleClose(null)}
@@ -165,49 +214,18 @@ class FieldDialog extends React.Component {
                     <DialogTitle id="form-dialog-title">{
                         this.props.fieldData == null
                             ? "Add New Field"
-                            : "Edit Field"
+                            : this.props.isApp 
+                                ? "Select a field to link the current field to"
+                                : "Edit Field"
                     }</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            
-                        </DialogContentText>
-                            <Field
-                                key="fieldId"
-                                className={classes.newField}
-                                name="fieldId"
-                                id="fieldId"
-                                component={renderTextField}
-                                label="Id"
-                                disabled={this.props.fieldData != null}
-                                autoFocus={this.props.fieldData == null}
-                                InputProps={{
-                                    startAdornment: 
-                                        <InputAdornment position="start" style={{marginRight:0}}>
-                                            {this.props.groupId + "/"}
-                                        </InputAdornment>,
-                                  }}
-                            />
-                            <Field
-                                key="name"
-                                className={classes.newField}
-                                name="name"
-                                id="name"
-                                component={renderTextField}
-                                label="Name"
-                                autoFocus={this.props.fieldData != null}
-                            />
-                            <Field
-                                key="type"
-                                className={classes.newField}
-                                name="type"
-                                id="type"
-                                component={renderTypeField}
-                                label="Type"
-                                fullWidth
-                            />
-                        {
-                            getFieldWrapper(this.props.reduxForm)
-                        }
+                        <DialogContentText></DialogContentText>
+                            {
+                                getDefaultFields(this.props)
+                            }
+                            {
+                                getFieldWrapper(this.props.reduxForm, this.props.isApp)
+                            }
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => this.props.handleClose(null)} color="primary">

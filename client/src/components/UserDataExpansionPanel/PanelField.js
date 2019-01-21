@@ -175,7 +175,7 @@ class PanelField extends React.Component  {
         return (
             <TableCell className={classes.tableCell} style= {{paddingRight: '8px', display: 'flex', borderBottom: 0 }}>
                 <Icon 
-                    style={{lineHeight: '65px', height: '45px', fontSize: '18px'}}
+                    style={{marginLeft: '12px', marginRight: '12px', lineHeight: '65px', height: '45px', fontSize: '18px'}}
                     className={classes.typeIcon}
                 >
                     {typeToIconMap[this.props.fieldData.type]}
@@ -193,13 +193,13 @@ class PanelField extends React.Component  {
                         open={this.state.anchorEl ? true : false}
                         onClose={() => this.setState({anchorEl: null})}
                     >
-                        <MenuItem onClick={this.handleEdit}>
+                        <MenuItem disabled={this.props.fieldData.isReadOnly} onClick={this.handleEdit}>
                             <ListItemIcon>
                                 <CreateIcon/>
                             </ListItemIcon>
                             <ListItemText inset primary="Edit" />
                         </MenuItem>
-                        <MenuItem onClick={this.handleDelete}>
+                        <MenuItem disabled={this.props.fieldData.isReadOnly} onClick={this.handleDelete}>
                             <ListItemIcon>
                                 <DeleteIcon/>
                             </ListItemIcon>

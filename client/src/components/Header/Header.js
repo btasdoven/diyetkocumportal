@@ -25,11 +25,11 @@ const styles = theme => ({
 
 const getPageTitle = (pathname) => {
   if (pathname === '/') {
-    return "Dashboard"
+    return "Profile"
   } else if (pathname === '/share') {
-    return "Sharing"
+    return "Linked Applications"
   } else if (pathname === '/history') {
-    return "History of Actions"
+    return "History"
   }
 
   return "xxxxx";

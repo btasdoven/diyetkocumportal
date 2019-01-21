@@ -192,6 +192,7 @@ class UserDataExpensionPanel extends React.Component  {
                                 open={true}
                                 form={this.state.addingNewField ? "newField" : this.state.editingFieldId}
                                 groupId={groupData.id}
+                                isApp={groupData.app}
                                 fieldData={this.state.addingNewField ? null : rows.data[this.state.editingFieldId]}
                                 handleClose={this.onDialogClosed}
                             />

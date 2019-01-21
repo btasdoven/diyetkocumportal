@@ -133,6 +133,7 @@ class LinkFieldWrapperClass extends React.Component {
         return (
             <LinkField
                 fieldId={key}
+                label={this.props.label}
             />
         )
     }

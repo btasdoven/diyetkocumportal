@@ -105,16 +105,37 @@ renderTextFieldOption = ({
   meta: { touched, error },
   ...custom
 }) => {
-  console.log('renderTextFieldOption');
-  console.log(custom);
-  console.log(this.props.apiAllFieldList)
-
-  var opts = '';
-  var items = custom.itemList;
+  var opts = 
+    <MenuItem key={this.props.fieldId} value={this.props.fieldId}>
+      {this.props.fieldId}
+  </MenuItem>;
+  
+  var self = this;
+  var items = custom.itemlist;
   if (items) {
     var opts = Object.keys(items).map(fieldId => {
       if (fieldId === this.props.fieldId) {
         return;
+      }
+
+      if (!self.props.apiFields) {
+        return;
+      }
+      
+      console.log(this.props.fieldId)
+      console.log(fieldId)
+      console.log(items[fieldId])
+      console.log(self.props.apiFields)
+      var groupId = this.props.fieldId.split('/')[0];
+
+      if (items[fieldId] != true &&
+        self.props.apiFields[groupId] &&
+        self.props.apiFields[groupId].items &&
+        self.props.apiFields[groupId].items.data[this.props.fieldId] &&
+        self.props.apiFields[groupId].items.data[this.props.fieldId].link_type !== items[fieldId]) {
+          console.log(self.props.apiFields[groupId].items.data[this.props.fieldId].link_type)
+          console.log(items[fieldId])
+          return;
       }
 
       return (
@@ -157,17 +178,12 @@ renderTextFieldOption = ({
   }
 
   render() {
-    console.log('linkfield')
-    console.log(this.props);
-    console.log(this.state);
-
     var key = this.props.fieldId
     var refValue = this.state.refValue;
 
     if (!refValue) {
       refValue = getFieldRefValue(this, key).refValue;
     }
-    console.log(refValue);
     // if (!refValue && parts.length >= 2) {
     //   var groupId = parts[0];
     //   if (this.props.apiFields &&
@@ -193,22 +209,21 @@ renderTextFieldOption = ({
             inputProps={inputProps}
             multiline={multiline}
             className={className}
-            label={label + " (linked to " + fieldRef + ")"}
+            label={label}
             value={refValue}
             helperText={helperText}
       />
     } else {
-      console.log("render field")
       return (
         <Field
             key={key}
             name={key + '_link'}
             id={key + '_link'}
             component={this.renderTextFieldOption}
-            label="Link"
+            label={label}
             onChange={this.handleOnChange}
             helperText={refValue || ""}
-            itemList={this.props.apiAllFieldList ? this.props.apiAllFieldList.items : { [this.props.fieldId]: true }}
+            itemlist={this.props.apiAllFieldList ? this.props.apiAllFieldList.items : { [this.props.fieldId]: true }}
         />
       );
     }
