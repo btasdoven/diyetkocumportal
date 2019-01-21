@@ -11,6 +11,7 @@ const initState = {
 };
 
 export default function reducer(state = initState, action) {
+  
     switch (action.type) {
       case ITEMS_GET_ERRORED:
       case ITEMS_PUT_ERRORED:
@@ -32,7 +33,9 @@ export default function reducer(state = initState, action) {
       case ITEMS_GET_SUCCESS:
         return {
           ...state,
+          lastStateChangeTime: (state.lastStateChangeTime ? state.lastStateChangeTime : 0) + 1,
           [action.groupId]: {
+            isGetLoading: false,
             items: action.items,
           }
         };

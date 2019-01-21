@@ -2,6 +2,28 @@ const storage = require('node-persist');
 
 const rows = {
     5: {
+      allFieldList: {
+        "profile/name": true,
+        "profile/surname": true,
+        'profile/mobile': true,
+        'profile/email': true,
+        'profile/address': true,
+        'addresses/sfu': true,
+        'addresses/vancouver': true,
+        'legal/passport': true,
+        'legal/sin': true,
+        'legal/ssn': true,
+        'facebook/name': true,
+        'facebook/surname': true,
+        'facebook/email': true,
+        'bchydro/name': true,
+        'bchydro/surname': true,
+        'bchydro/email': true,
+        'bchydro/phone': true,
+        'bchydro/address': true,
+        'telus/email': true,
+        'telus/address': true
+      },
       groups: {
         "profile": {
           id: 'profile',
@@ -47,11 +69,11 @@ const rows = {
           id: 'profile',
           header: "Profile",
           data: {
-            'profile/name': { id:'profile/name', name: 'Name', type: 'text', value: 'Batuhan' },
-            'profile/surname': { id:'profile/surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
-            'profile/mobile': { id:'profile/mobile', name: 'Mobile', type: 'tel', value: '+1 (425)-241-5251' },
-            'profile/email': { id:'profile/email', name: 'E-mail', type: 'email', value: 'btasdoven@gmail.com' },
-            'profile/address': { id:'profile/address', name: 'Current Address', type: 'link', link: 'addresses/sfu', 'profile/address_link': 'addresses/sfu'  },
+            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Name', type: 'text', value: 'Batuhan' },
+            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
+            'profile/mobile': { id:'profile/mobile', fieldId: 'mobiel', name: 'Mobile', type: 'tel', value: '+1 (425)-241-5251' },
+            'profile/email': { id:'profile/email', fieldId: 'email', name: 'E-mail', type: 'email', value: 'btasdoven@gmail.com' },
+            'profile/address': { id:'profile/address', fieldId: 'address', name: 'Current Address', type: 'link', link: 'addresses/sfu', 'profile/address_link': 'addresses/sfu'  },
           }
         },
         "addresses": {
@@ -60,9 +82,10 @@ const rows = {
           data: {
             'addresses/sfu': { 
               id:'addresses/sfu',
+              fieldId: 'sfu',
               name: 'SFU Address',
               type: 'address',
-              value: '207 - 8950 University High Street, Burnaby, BC V5A 4Y8, Canada', 
+              value: '207 - 8950 University High Street, Burnaby, BC V5A4Y8, Canada', 
               'addresses/sfu_street': '207 - 8950 University High Street',
               'addresses/sfu_city': 'Burnaby',
               'addresses/sfu_state': 'BC',
@@ -71,6 +94,7 @@ const rows = {
             },
             'addresses/vancouver': {
               id:'addresses/vancouver',
+              fieldId: 'vancouver',
               name: 'Vancouver Address',
               type: 'address',
               value: '1704 - 501 Pacific Street, Vancouver, BC V6Z 2X6, Canada',
@@ -94,9 +118,9 @@ const rows = {
           id: 'legal',
           header: "Legal",
           data: {
-            'legal/passport': { id: 'legal/passport', name: 'Passport No', type: 'text', value: 'A11312345' },
-            'legal/sin': { id: 'legal/sin', name: 'SIN (Canada)', type: 'text', value: '123-4567' },
-            'legal/ssn': { id: 'legal/ssn', name: 'SSN (US)', type: 'text', value: '123-4567' },
+            'legal/passport': { id: 'legal/passport', fieldId: 'passport', name: 'Passport No', type: 'text', value: 'A11312345' },
+            'legal/sin': { id: 'legal/sin', fieldId: 'sin', name: 'SIN (Canada)', type: 'text', value: '123-4567' },
+            'legal/ssn': { id: 'legal/ssn', fieldId: 'ssn', name: 'SSN (US)', type: 'text', value: '123-4567' },
           }
         },
         "facebook": {
@@ -104,24 +128,24 @@ const rows = {
           header: "Facebook",
           headerImg: "https://img.icons8.com/material/24/000000/facebook.png",
           data: {
-            'facebook/name': { id:'facebook/name', name: 'Name', type: 'link', link: 'profile/name', 'facebook/name_link': 'profile/name'  },
-            'facebook/surname': { id:'facebook/surname', name: 'Surname', type: 'link', link: 'profile/surname', 'facebook/surname_link': 'profile/surname'  },
-            'facebook/email': { id:'facebook/email', name: 'E-mail', type: 'link', link: 'profile/email', 'facebook/email_link': 'profile/email' },
+            'facebook/name': { id:'facebook/name', fieldId: 'name', name: 'Name', type: 'link', link: 'profile/name', 'facebook/name_link': 'profile/name'  },
+            'facebook/surname': { id:'facebook/surname', fieldId: 'surname', name: 'Surname', type: 'link', link: 'profile/surname', 'facebook/surname_link': 'profile/surname'  },
+            'facebook/email': { id:'facebook/email', fieldId: 'email', name: 'E-mail', type: 'link', link: 'profile/email', 'facebook/email_link': 'profile/email' },
           }
         },
         "bchydro": {
           data: {
-            'bchydro/name': { id:'bchydro/name', name: 'Name', type: 'link', link: 'profile/name', 'bchydro/name_link': 'profile/name'  },
-            'bchydro/surname': { id:'bchydro/surname', name: 'Surname', type: 'link', link: 'profile/surname', 'bchydro/surname_link': 'profile/surname'  },
-            'bchydro/email': { id:'bchydro/email', name: 'E-mail', type: 'link', link: 'profile/email', 'bchydro/email_link': 'profile/email' },
-            'bchydro/phone': { id:'bchydro/phone', name: 'E-mail', type: 'link', link: 'profile/mobile', 'bchydro/phone_link': 'profile/mobile' },
-            'bchydro/address': { id:'bchydro/address', name: 'Home Address', type: 'link', link: 'profile/address', 'bchydro/address_link': 'profile/address' },
+            'bchydro/name': { id:'bchydro/name', fieldId: 'name', name: 'Name', type: 'link', link: 'profile/name', 'bchydro/name_link': 'profile/name'  },
+            'bchydro/surname': { id:'bchydro/surname', fieldId: 'surname', name: 'Surname', type: 'link', link: 'profile/surname', 'bchydro/surname_link': 'profile/surname'  },
+            'bchydro/email': { id:'bchydro/email', fieldId: 'email', name: 'E-mail', type: 'link', link: 'profile/email', 'bchydro/email_link': 'profile/email' },
+            'bchydro/phone': { id:'bchydro/phone', fieldId: 'phone', name: 'E-mail', type: 'link', link: 'profile/mobile', 'bchydro/phone_link': 'profile/mobile' },
+            'bchydro/address': { id:'bchydro/address', fieldId: 'address', name: 'Home Address', type: 'link', link: 'profile/address', 'bchydro/address_link': 'profile/address' },
           }
         },
         "telus": {
           data: {
-            'telus/email': { id:'telus/email', name: 'E-mail', type: 'link', link: 'profile/email', 'telus/email_link': 'profile/email' },
-            'telus/address': { id:'telus/address', name: 'Home Address', type: 'link', link: 'profile/address', 'telus/address_link': 'profile/address' },
+            'telus/email': { id:'telus/email', fieldId: 'email', name: 'E-mail', type: 'link', link: 'profile/email', 'telus/email_link': 'profile/email' },
+            'telus/address': { id:'telus/address', fieldId: 'address', name: 'Home Address', type: 'link', link: 'profile/address', 'telus/address_link': 'profile/address' },
           }
         }
       }
@@ -142,6 +166,11 @@ async function start() {
 
 start();
 
+exports.getAllFieldList = function(id) {
+  console.log('getAllFieldList');
+  return rows[id].allFieldList;
+}
+
 exports.getGroups =  function (id) {
   console.log('getGroups');
   console.log(rows[id].groups);
@@ -157,6 +186,7 @@ exports.getFields =  function (id, fieldId) {
 exports.setFields = function (id, fieldId, value) {
     console.log('setFields');
     rows[id].fields[fieldId] = value;
+    rows[id].allFieldList[fieldId] = true;
     // var fieldData = rows[id].fields[fieldId].data;
 
     // Object.keys(fieldData).forEach((fieldId) => {

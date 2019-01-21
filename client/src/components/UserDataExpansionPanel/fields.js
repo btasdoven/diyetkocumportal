@@ -97,7 +97,6 @@ class AddressFieldWrapperClass extends React.Component {
 export const RetrieveFormValuesForType = (formValues) => {
     var fieldId = formValues['id']
     var type = formValues['type'];
-
     if (type == 'address') {
         formValues['value'] = 
             formValues[fieldId + '_street'] + ', ' + formValues[fieldId + '_city'] + ', ' +

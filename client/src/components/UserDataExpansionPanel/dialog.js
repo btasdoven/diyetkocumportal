@@ -7,6 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import InputAdornment from '@material-ui/core/InputAdornment';
+
 import MenuItem from '@material-ui/core/MenuItem';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -141,13 +143,8 @@ class FieldDialog extends React.Component {
     }
 
     onSubmitInternal(formValues) {
-        console.log('onSubmitInternal');
-        console.log(formValues);
-
         RetrieveFormValuesForType(formValues)
-
-        console.log(formValues);
- 
+        formValues['id'] = this.props.groupId + '/' + formValues['fieldId']
         this.props.handleClose(formValues);
     }
 
@@ -175,14 +172,20 @@ class FieldDialog extends React.Component {
                             
                         </DialogContentText>
                             <Field
-                                key="id"
+                                key="fieldId"
                                 className={classes.newField}
-                                name="id"
-                                id="id"
+                                name="fieldId"
+                                id="fieldId"
                                 component={renderTextField}
-                                label="id"
+                                label="Id"
                                 disabled={this.props.fieldData != null}
                                 autoFocus={this.props.fieldData == null}
+                                InputProps={{
+                                    startAdornment: 
+                                        <InputAdornment position="start" style={{marginRight:0}}>
+                                            {this.props.groupId + "/"}
+                                        </InputAdornment>,
+                                  }}
                             />
                             <Field
                                 key="name"
@@ -190,7 +193,7 @@ class FieldDialog extends React.Component {
                                 name="name"
                                 id="name"
                                 component={renderTextField}
-                                label="name"
+                                label="Name"
                                 autoFocus={this.props.fieldData != null}
                             />
                             <Field
@@ -199,7 +202,7 @@ class FieldDialog extends React.Component {
                                 name="type"
                                 id="type"
                                 component={renderTypeField}
-                                label="type"
+                                label="Type"
                                 fullWidth
                             />
                         {
@@ -225,12 +228,10 @@ const redForm = reduxForm({
 })(withStyles(styles)(FieldDialog));
 
 function mapStateToProps(state, props) {
-    var val = (props.fieldData) || { type: 'text'};
-    console.log(val);
-    console.log(state.form[props.form]);
+    var val = (props.fieldData) || { id:'', type: 'text'};
     return {
       initialValues: val,
-      reduxForm: state.form[props.form]
+      reduxForm: state.form[props.form],
     }
 }
 

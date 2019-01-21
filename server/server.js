@@ -9,6 +9,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
+app.get("/api/v1/users/:userId/getAllFieldList", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getAllFieldList(req.params.userId));
+  }), 500);
+});
+
 app.get("/api/v1/users/:userId/groups", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
