@@ -177,7 +177,7 @@ const rows = {
 async function start() {
     await storage.init({ dir: 'stg', logging: true });
 
-    if (process.env.PORT) {
+    if (!process.env.PORT) {
       await storage.clear();
       await storage.setItem('5', rows[5]);
     }
