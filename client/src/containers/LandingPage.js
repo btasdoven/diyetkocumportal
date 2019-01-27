@@ -14,7 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import { Buffer } from 'mdi-material-ui'
+import { Buffer, Basket, ThumbUpOutline } from 'mdi-material-ui'
 import SvgIcon from '@material-ui/core/SvgIcon';
 
 import List from '@material-ui/core/List';
@@ -66,9 +66,10 @@ const styles = theme => ({
     },
   },
   cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`,
+    padding: `${theme.spacing.unit * 4}px 0`,
   },
   card: {
+    paddingLeft: '8px',
     height: '100%',
     display: 'flex',
   },
@@ -87,26 +88,62 @@ const styles = theme => ({
   },
 });
 
+const footers = [
+  {
+    title: 'Company',
+    description: ['Team', 'History', 'Contact us', 'Locations'],
+  },
+  {
+    title: 'Features',
+    description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
+  },
+  {
+    title: 'Resources',
+    description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
+  },
+  {
+    title: 'Legal',
+    description: ['Privacy policy', 'Terms of use'],
+  },
+];
+
 const cards = [
     {
         'title': 'All your data in one basket',
-        'subtitle': "Don't get confused with investments. It's easier to manage who accesses to which data of yours.",
+        'subtitle': "Don't get confused with investments. It's easier to control who accesses to your data.",
+        'items':
+            <ul>
+              <li><Typography>Quick and secure way to build your profile</Typography></li>
+              <li><Typography><i>Login with Monagard</i> feature to share your data with companies, applications and governments</Typography></li>
+              <li><Typography>100+ natively supported applications</Typography></li>
+              <li><Typography>Easy to export your data</Typography></li>
+            </ul>,
+        'icon': <Basket />
     },
     {
         'title': 'Access Control',
         'subtitle': 'Monagard gives all the power to you.',
         'items':
-          <ul>
-            <li>Application only accesses the hashed version of your data</li>
-            <li>Monitor when applications access to your data.</li>
-            <li>Be asked or notified whenever an application accesses your data.</li>
-            <li>Revoke applications' access forever</li>
-            <li>Let applications add data to your profile.</li>
-          </ul>,
+            <ul>
+              <li><Typography>Allow applications to only access encrypted version of your data</Typography></li>
+              <li><Typography>Get notified whenever an application uses your data</Typography></li>
+              <li><Typography>Let applications add more data to your profile</Typography></li>
+              <li><Typography>Revoke applications' permission</Typography></li>
+              <li><Typography>Enable full auditing on your data</Typography></li>
+            </ul>,
+        'icon': <Buffer/>
     },
     {
-        'title': 'ACL-based permissions',
-        'subtitle': '',
+        'title': 'A life-changing solution',
+        'subtitle': 'Say goodbye to your day-to-day problems',
+        'items':
+            <ul>
+              <li><Typography>Integrate with a tax-filing application to manage your tax return</Typography></li>
+              <li><Typography>Track your home or car insurance automatically</Typography></li>
+              <li><Typography>Worried about sharing your phone or e-mail number? Monagard can help.</Typography></li>
+              <li><Typography>The most secure way for online shopping</Typography></li>
+            </ul>,
+        'icon': <ThumbUpOutline/>
     },
 ];
 
@@ -135,20 +172,20 @@ function Album(props) {
                 A secure way to store and share your personal data
             </Typography>
             <Typography variant="subtitle2" align="left" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} gutterBottom>
-              Your data is your own. Why let others keep your private data and use it without your explicit permission? <br/>
-              Monagard helps you only share the information you want with the applications you choose as long as you like.  
+              Your data is your own. Why allow tens of applications store your data without your explicit permission? <br/>
+              With Monagard, you can share the data you want with the applications you choose as long as you like.  
             </Typography>
             <div className={classes.heroButtons}>
-                  <Button variant="contained" align="left" color="primary" className={classes.loginButton}>
+                  <Button variant="contained" align="left" color="primary" href="/signup" className={classes.loginButton}>
                     Register for free
                   </Button>
             </div>
           </div>
         </div>
         <div className={classNames(classes.layout, classes.cardGrid)}>
-          <Grid key={"grid_"} container spacing={40}>
+          <Grid key={"grid_"} container spacing={24}>
             {cards.map((card, idx) => (
-              <Grid key={"grid_child_" + idx} item sm={6} md={4} lg={4}>
+              <Grid key={"grid_child_" + idx} item md={4} lg={4}>
                 <Paper elevation={1}>
                     <Card className={classes.card}>
                         <CardContent className={classes.cardContent}>
@@ -159,18 +196,10 @@ function Album(props) {
                                 {card['subtitle']}
                             </Typography>
                             <div style={{marginTop: '16px', marginLeft: '16px', display:'flex', alignItems: 'center'}}>
-                              <p>
-                                <ul>
-                                  <li><Typography>Application only accesses the hashed version of your data</Typography></li>
-                                  <li><Typography>Monitor when applications access to your data.</Typography></li>
-                                  <li><Typography>Be asked or notified whenever an application accesses your data.</Typography></li>
-                                  <li><Typography>Revoke applications' access forever</Typography></li>
-                                  <li><Typography>Let applications add data to your profile.</Typography></li>
-                                </ul>
-                              </p>
+                              {card['items']}
                               <div style={{height:'100%'}}>
                                 <SvgIcon style={{fontSize: 96, height: '100%'}}>
-                                  <Buffer/>
+                                  {card['icon']}
                                 </SvgIcon>
                               </div>
                             </div>
@@ -199,12 +228,20 @@ function Album(props) {
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
-        <Typography variant="body1" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography variant="button" align="center" color="textSecondary">
-          Something here to give the footer a purpose!
-        </Typography>
+       <Grid className={classes.layout} container spacing={32} align="center" justify="space-evenly">
+          {footers.map(footer => (
+            <Grid item xs key={footer.title}>
+              <Typography variant="subtitle1" color="textPrimary" gutterBottom>
+                {footer.title}
+              </Typography>
+              {footer.description.map(item => (
+                <Typography key={item} variant="body1" color="textSecondary">
+                  {item}
+                </Typography>
+              ))}
+            </Grid>
+          ))}
+        </Grid>
       </footer>
       {/* End footer */}
     </React.Fragment>

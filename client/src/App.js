@@ -15,6 +15,7 @@ import Share from "./containers/Share";
 import History from "./containers/History";
 import Apps from "./containers/Apps";
 import Signin from "./containers/Signin";
+import Register from "./containers/Register/Register";
 import LandingPage from "./containers/LandingPage";
 
 import MainLayout from "./layouts/MainLayout";
@@ -76,6 +77,7 @@ class App extends Component {
               </Switch>
             ) : (
               <Switch>
+                <EmptyRoute path="/signup" component={Register} />
                 <EmptyRoute path="/signin" component={Signin} />
                 <EmptyRoute exact path="/" component={LandingPage} />
                 <Redirect to="/" />
