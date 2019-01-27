@@ -5,7 +5,6 @@ const rows = {
       allFieldList: {
         "profile/name": 'text',
         "profile/surname": 'text',
-        'profile/address': 'address',
         'phones/us': 'mobile',
         'phones/canada': 'mobile',
         'emails/gmail': 'email',
@@ -13,6 +12,7 @@ const rows = {
         'emails/work': 'email',
         'emails/school': 'email',
         'emails/junk': 'email',
+        'addresses/current': 'address',
         'addresses/sfu': 'address',
         'addresses/vancouver': 'address',
         'legal/passport': 'text',
@@ -101,6 +101,14 @@ const rows = {
           id: "addresses",
           header: "Addresses",
           data: {
+            'addresses/current': { 
+              id:'addresses/current', 
+              fieldId: 'current', 
+              name: 'My Current Address', 
+              type: 'link', 
+              link_type: 'address', 
+              link: 'addresses/sfu', 
+              'addresses/current_link': 'addresses/sfu' },
             'addresses/sfu': { 
               id:'addresses/sfu',
               fieldId: 'sfu',
@@ -146,7 +154,7 @@ const rows = {
         },
         "bchydro": {
           data: {
-            'bchydro/name': { id:'bchydro/name', fieldId: 'name', name: 'Name', type: 'link', link: 'profile/name', 'bchydro/name_link': 'profile/name'  },
+            'bchydro/name': { id:'bchydro/name', fieldId: 'name', name: 'Name', type: 'link', link_type: 'text', link: 'profile/name', 'bchydro/name_link': 'profile/name'  },
             'bchydro/surname': { id:'bchydro/surname', fieldId: 'surname', name: 'Surname', type: 'link', link_type: 'text', link: 'profile/surname', 'bchydro/surname_link': 'profile/surname'  },
             'bchydro/email': { id:'bchydro/email', fieldId: 'email', name: 'E-mail', type: 'link', link_type: 'email', link: 'emails/gmail', 'bchydro/email_link': 'emails/gmail' },
             'bchydro/phone': { id:'bchydro/phone', fieldId: 'phone', name: 'Phone', type: 'link', link_type: 'mobile', link: 'phones/us', 'bchydro/phone_link': 'phones/us' },
@@ -157,7 +165,7 @@ const rows = {
           data: {
             'telus/id': {id: 'telus/id', fieldId: 'id', name: 'Account ID', type:'text', value: 'T574622', isReadOnly: true},
             'telus/phone': { id:'telus/phone', fieldId: 'phone', name: 'Phone Number', type: 'link', link_type: 'mobile', link: 'phones/canada', 'telus/phone_link': 'phones/canada' },
-            'telus/address': { id:'telus/address', fieldId: 'address', name: 'Home Address', type: 'link', link_type: 'addresses', link: 'addresses/sfu', 'telus/address_link': 'addresses/sfu' },
+            'telus/address': { id:'telus/address', fieldId: 'address', name: 'Home Address', type: 'link', link_type: 'address', link: 'addresses/sfu', 'telus/address_link': 'addresses/sfu' },
           }
         },
         "icbc": {

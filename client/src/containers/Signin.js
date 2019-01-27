@@ -123,6 +123,7 @@ const Signin = props => {
           fullWidth
           variant="contained"
           color="secondary"
+          href="/signup"
         >
           Register for free!
         </Button>

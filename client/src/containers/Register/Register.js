@@ -66,7 +66,7 @@ const styles = theme => ({
   },
 });
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Login credentials', 'Security questions', 'About you'];
 
 function getStepContent(step) {
   switch (step) {
@@ -125,7 +125,7 @@ class Checkout extends React.Component {
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Typography component="h1" variant="h4" align="center">
-              Checkout
+              Register
             </Typography>
             <Stepper activeStep={activeStep} className={classes.stepper}>
               {steps.map(label => (

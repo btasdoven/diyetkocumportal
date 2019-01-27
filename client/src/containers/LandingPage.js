@@ -66,7 +66,7 @@ const styles = theme => ({
     },
   },
   cardGrid: {
-    padding: `${theme.spacing.unit * 4}px 0`,
+    padding: `${theme.spacing.unit * 4}px 0 0 0`,
   },
   card: {
     paddingLeft: '8px',
@@ -84,6 +84,7 @@ const styles = theme => ({
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
+    marginTop: theme.spacing.unit * 4,
     padding: theme.spacing.unit * 6,
   },
 });
@@ -225,6 +226,31 @@ function Album(props) {
             ))}
           </Grid>
         </div>
+
+        {/* <div className={classNames(classes.layout, classes.cardGrid)}>
+          <Grid key={"gridlar_"} container spacing={24}>
+              <Grid key={"grid_childlar"} item md={12} lg={12}>
+                <Paper elevation={1}>
+                    <Card className={classes.card}>
+                        <CardContent className={classes.cardContent}>
+                            <Typography gutterBottom variant="h5">
+                              Mikimmil bir baslik
+                            </Typography>
+                            <div style={{marginTop: '16px', marginLeft: '16px', display:'flex', alignItems: 'center'}}>
+                            <ul>
+              <li><Typography>Integrate with a tax-filing application to manage your tax return</Typography></li>
+              <li><Typography>Track your home or car insurance automatically</Typography></li>
+              <li><Typography>Worried about sharing your phone or e-mail number? Monagard can help.</Typography></li>
+              <li><Typography>The most secure way for online shopping</Typography></li>
+            </ul>
+                                <img src='static/icbc.png'/>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Paper>
+              </Grid>
+          </Grid>
+        </div> */}
       </main>
       {/* Footer */}
       <footer className={classes.footer}>

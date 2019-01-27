@@ -56,7 +56,10 @@ const renderTextField = ({
 function getFieldRefValue(self, fieldId) {
   var parts = fieldId && fieldId.split('/');
   if (!parts || parts.length < 2) {
-    return;
+    return {
+      refId: fieldId,
+      refValue: ''
+    };
   }
 
   var groupId = parts[0];
