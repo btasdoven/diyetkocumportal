@@ -34,11 +34,11 @@ export default function reducer(state = initState, action) {
     }
 }
 
-export function groupsFetchData(userId) {
+export function groupsFetchData(userId, groupId) {
     return (dispatch) => {
         dispatch(request(true));
 
-        userService.get_groups(userId)
+        userService.get_groups(userId, groupId)
         .then(
             items => { 
                 dispatch(success(items));

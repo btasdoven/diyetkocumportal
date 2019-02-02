@@ -67,6 +67,13 @@ const rows = {
           header: "ICBC",
           headerImg: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c7/Insurance_Corporation_of_British_Columbia_Logo.svg/220px-Insurance_Corporation_of_British_Columbia_Logo.svg.png",
           app: true,
+        }, 
+        "91ea6e8f-e15e-4cd8-937e-893092f600fc": {
+          id: '91ea6e8f-e15e-4cd8-937e-893092f600fc',
+          header: "My travel information",
+          headerIcon: 'work',
+          app: true,
+          shareLink: true
         }
       },
       fields: {
@@ -140,7 +147,6 @@ const rows = {
           header: "Credit Cards",
           headerImg: "https://static.thenounproject.com/png/29661-200.png",
           data: {
-
           }
         },
         "legal": {
@@ -176,6 +182,13 @@ const rows = {
             'icbc/phone': { id:'icbc/phone', fieldId: 'phone', name: 'Phone Number', type: 'link', link_type:'mobile', link: 'phones/canada', 'icbc/phone_link': 'phones/canada' },
             "icbc/creditcard": { id: 'icbc/creditcard', fieldId: 'creditcard', name: 'Credit Card', type: 'text', value: 'xxxx-xxxx-xxxx-8644'},
           }
+        }, 
+        "91ea6e8f-e15e-4cd8-937e-893092f600fc": {
+          data: {
+            '91ea6e8f-e15e-4cd8-937e-893092f600fc/id': {id: '91ea6e8f-e15e-4cd8-937e-893092f600fc/id', fieldId: 'id', name: 'Account ID', type:'text', value: 'T574622', isReadOnly: true},
+            '91ea6e8f-e15e-4cd8-937e-893092f600fc/phone': { id:'91ea6e8f-e15e-4cd8-937e-893092f600fc/phone', fieldId: 'phone', name: 'Phone Number', type: 'link', link_type: 'mobile', link: 'phones/canada', '91ea6e8f-e15e-4cd8-937e-893092f600fc/phone_link': 'phones/canada' },
+            '91ea6e8f-e15e-4cd8-937e-893092f600fc/address': { id:'91ea6e8f-e15e-4cd8-937e-893092f600fc/address', fieldId: 'address', name: 'Home Address', type: 'link', link_type: 'address', link: 'addresses/sfu', '91ea6e8f-e15e-4cd8-937e-893092f600fc/address_link': 'addresses/sfu' },
+          }
         }
       }
     }
@@ -200,16 +213,31 @@ exports.getAllFieldList = function(id) {
   return rows[id].allFieldList;
 }
 
-exports.getGroups =  function (id) {
+exports.getGroups =  function (id, groupId) {
   console.log('getGroups');
-  console.log(rows[id].groups);
-  return rows[id].groups;
+  console.log(groupId);
+  
+  if (groupId == "undefined") {
+    console.log("group id undefined")
+    return rows[id].groups;
+  }
+
+  return { [groupId] : rows[id].groups[groupId] };
 }
 
 exports.getFields =  function (id, fieldId) {
     console.log('getFields');
     console.log(rows[id].fields);
     return rows[id].fields[fieldId];
+}
+
+exports.getLink =  function (id, linkId) {
+    console.log('getLink');
+    if (!row[id].fields[linkId].shareLink) {
+      console.log("incorrect link request " + id + " " + linkId)
+    }
+    
+    return rows[id].fields[linkId];
 }
 
 exports.setFields = function (id, fieldId, value) {

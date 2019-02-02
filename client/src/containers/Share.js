@@ -77,6 +77,7 @@ class Home extends React.Component {
                 return (
                   <UserDataExpensionPanel
                     insertable={false}
+                    updateable={true}
                     key={"userDataPanel" + groupId}
                     onSubmit={(v) => this.onSubmit(v, groupId)}
                     form={groupId}
@@ -86,6 +87,7 @@ class Home extends React.Component {
                         ? this.props.apiFields[groupId].items
                         : this.props.itemsFetchData(userId, groupId)
                     }}
+                    userId={JSON.parse(localStorage.getItem('user')).id}
                     groupData = {this.props.apiGroups.items[groupId]}
                     fieldData = {this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
                       ? this.props.apiFields[groupId]

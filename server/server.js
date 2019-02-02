@@ -16,18 +16,26 @@ app.get("/api/v1/users/:userId/getAllFieldList", (req, res, next) => {
   }), 500);
 });
 
-app.get("/api/v1/users/:userId/groups", (req, res, next) => {
+app.get("/api/v1/users/:userId/groups/:groupId?", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getGroups(req.params.userId));
+    res.json(dal.getGroups(req.params.userId, req.params.groupId));
   }), 500);
 });
 
-app.get("/api/v1/users/:userId/groups/:fieldId", (req, res, next) => {
+app.get("/api/v1/users/:userId/groups/:groupId/fields", (req, res, next) => {
   console.log(req.params);
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getFields(req.params.userId, req.params.fieldId));
+    res.json(dal.getFields(req.params.userId, req.params.groupId));
+  }), 500);
+});
+
+app.get("/api/v1/links/:userId/:linkId", (req, res, next) => {
+  console.log(req.params);
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getLink(req.params.userId, req.params.linkId));
   }), 500);
 });
 

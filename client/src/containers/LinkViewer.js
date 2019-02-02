@@ -33,6 +33,7 @@ import { userService } from "../services";
 const styles = theme => ({
   root: {
     width: '100%',
+    padding: '16px'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -44,17 +45,16 @@ const styles = theme => ({
   },
 });
 
-class Home extends React.Component {
+class LinkViewer extends React.Component {
   componentDidMount() {
-    this.props.groupsFetchData(JSON.parse(localStorage.getItem('user')).id);
-  }
-
-  onSubmit(v, groupId) {
-    this.props.itemsPutData(JSON.parse(localStorage.getItem('user')).id, groupId, v);
+    console.log(this.props.match.params);
+    var params = this.props.match.params;
+    this.props.groupsFetchData(params.userId, params.linkId);
   }
 
   render() {
     const { classes } = this.props;
+    var params = this.props.match.params;
 
     return (
         <div
@@ -68,24 +68,29 @@ class Home extends React.Component {
             {Object.keys(this.props.apiGroups.items).length == 0 &&
               (<CircularProgress size={24} className={classes.buttonProgress} />)}
             {Object.keys(this.props.apiGroups.items).map( (groupId, idx) => {
-                if (this.props.apiGroups.items[groupId].app) {
+
+                if (groupId != params.linkId) {
+                  return;
+                }
+
+                if (!this.props.apiGroups.items[groupId].shareLink) {
                   return;
                 }
                               
                 return (
                   <UserDataExpensionPanel
-                    insertable={true}
-                    updateable={true}
+                    insertable={false}
+                    updateable={false}
                     key={"userDataPanel" + groupId}
                     onSubmit={(v) => this.onSubmit(v, groupId)}
                     form={groupId}
-                    defaultExpanded={false} 
+                    defaultExpanded={true} 
+                    userId={params.userId}
                     itemsFetchData={(userId, groupId, force=false) => {
                       return this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) && !force
                         ? this.props.apiFields[groupId].items
                         : this.props.itemsFetchData(userId, groupId)
                     }}
-                    userId={JSON.parse(localStorage.getItem('user')).id}
                     groupData = {this.props.apiGroups.items[groupId]}
                     fieldData = {this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
                       ? this.props.apiFields[groupId]
@@ -115,7 +120,7 @@ const mapDispatchToProps = dispatch => {
       increment: () => increment(),
       decrement: () => decrement(),
       itemsFetchData: (userId, groupId) => itemsFetchData(userId, groupId),
-      groupsFetchData: (userId) => groupsFetchData(userId),
+      groupsFetchData: (userId, groupId) => groupsFetchData(userId, groupId),
       itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal)
     },
     dispatch
@@ -125,4 +130,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Home));
+)(withStyles(styles)(LinkViewer));

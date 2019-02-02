@@ -17,6 +17,8 @@ import Apps from "./containers/Apps";
 import Signin from "./containers/Signin";
 import Register from "./containers/Register/Register";
 import LandingPage from "./containers/LandingPage";
+import LinkViewer from "./containers/LinkViewer";
+
 
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
@@ -72,6 +74,7 @@ class App extends Component {
                 <DashboardRoute path="/apps" component={Apps} />
 
                 <Route path="/signin" render={() => <Redirect to="/" />} />
+                <DashboardRoute path="/links/:userId/:linkId" component={LinkViewer} />
                 <DashboardRoute exact path="/" component={Home} />
                 <EmptyRoute component={NotFound} />
               </Switch>
@@ -79,6 +82,7 @@ class App extends Component {
               <Switch>
                 <EmptyRoute path="/signup" component={Register} />
                 <EmptyRoute path="/signin" component={Signin} />
+                <EmptyRoute path="/links/:userId/:linkId" component={LinkViewer} />
                 <EmptyRoute exact path="/" component={LandingPage} />
                 <Redirect to="/" />
               </Switch>

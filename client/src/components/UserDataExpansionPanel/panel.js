@@ -120,7 +120,7 @@ class UserDataExpensionPanel extends React.Component  {
 
     componentDidMount() {
         if (this.props.defaultExpanded && !this.props.rows) {
-            this.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, this.props.form)
+            this.props.itemsFetchData(this.props.userId, this.props.form)
         }
     }
 
@@ -153,7 +153,7 @@ class UserDataExpensionPanel extends React.Component  {
                     defaultExpanded={this.props.defaultExpanded}
                     onChange={(event, expanded) => {
                         if (expanded && rows === undefined) {
-                            this.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, this.props.form)
+                            this.props.itemsFetchData(this.props.userId, this.props.form)
                         }
                     }}
                 >
@@ -179,6 +179,7 @@ class UserDataExpensionPanel extends React.Component  {
                                         <TableRow key={"homeData" + k}>
                                             <PanelField
                                                 fieldId={k}
+                                                userId={this.props.userId}
                                                 fieldData={rows.data[k]}
                                                 onEditField={this.onEditField}
                                                 onDeleteField={this.onDeleteField} />
@@ -192,6 +193,7 @@ class UserDataExpensionPanel extends React.Component  {
                                 open={true}
                                 form={this.state.addingNewField ? "newField" : this.state.editingFieldId}
                                 groupId={groupData.id}
+                                userId={this.props.userId}
                                 isApp={groupData.app}
                                 fieldData={this.state.addingNewField ? null : rows.data[this.state.editingFieldId]}
                                 handleClose={this.onDialogClosed}
@@ -210,7 +212,7 @@ class UserDataExpensionPanel extends React.Component  {
                                 Add
                             </Button>
                         }                        
-                        {!this.props.insertable && 
+                        {this.props.updateable && 
                             <Button 
                                 disabled={this.state.addingNewField} 
                                 size="small"

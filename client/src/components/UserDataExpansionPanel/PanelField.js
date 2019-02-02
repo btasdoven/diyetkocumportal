@@ -104,7 +104,7 @@ const typeToIconMap = {
     "link": "link",
 };
 
-function getPanelField(classes, row, fieldId) {
+function getPanelField(classes, row, fieldId, userId) {
     if (row.type == 'link') {
         return (
             <LinkField
@@ -122,6 +122,7 @@ function getPanelField(classes, row, fieldId) {
                 }}
                 fieldRef={row.link}
                 fieldId={fieldId}
+                userId={userId}
             />
         )
     } else {
@@ -181,7 +182,7 @@ class PanelField extends React.Component  {
                     {typeToIconMap[this.props.fieldData.type]}
                 </Icon>
 
-                { getPanelField(classes, this.props.fieldData, this.props.fieldId) }
+                { getPanelField(classes, this.props.fieldData, this.props.fieldId, this.props.userId) }
                 
                 <div>
                     <IconButton onClick={this.handleClick}>

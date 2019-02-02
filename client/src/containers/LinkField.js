@@ -81,7 +81,7 @@ function getFieldRefValue(self, fieldId) {
     if (!self.props.apiFields ||
       !self.props.apiFields[groupId] ||
       !self.props.apiFields[groupId].isGetLoading) {
-      self.props.itemsFetchData(JSON.parse(localStorage.getItem('user')).id, groupId);
+      self.props.itemsFetchData(self.props.userId, groupId);
     }
     return {
       refId: fieldId,
@@ -148,7 +148,7 @@ renderTextFieldOption = ({
       );
     })
   } else if (!this.props.apiAllFieldList.isGetLoading) {
-    this.props.allFieldItemsFetchData(JSON.parse(localStorage.getItem('user')).id);
+    this.props.allFieldItemsFetchData(this.props.userId);
   }
 
   return (

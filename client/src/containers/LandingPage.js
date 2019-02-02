@@ -172,7 +172,7 @@ function Album(props) {
             <Typography variant="h4" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} align="left" gutterBottom>
                 A secure way to store and share your personal data
             </Typography>
-            <Typography variant="subtitle2" align="left" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} gutterBottom>
+            <Typography align="left" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} gutterBottom>
               Your data is your own. Why allow tens of applications store your data without your explicit permission? <br/>
               With Monagard, you can share the data you want with the applications you choose as long as you like.  
             </Typography>
@@ -199,7 +199,7 @@ function Album(props) {
                             <div style={{marginTop: '16px', marginLeft: '16px', display:'flex', alignItems: 'center'}}>
                               {card['items']}
                               <div style={{height:'100%'}}>
-                                <SvgIcon style={{fontSize: 96, height: '100%'}}>
+                                <SvgIcon style={{color: 'rgb(38,55,70)', fontSize: 96, height: '100%'}}>
                                   {card['icon']}
                                 </SvgIcon>
                               </div>

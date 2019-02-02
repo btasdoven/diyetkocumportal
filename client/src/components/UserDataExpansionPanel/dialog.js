@@ -151,7 +151,7 @@ function getDefaultFields(props) {
     return;
 }
 
-function getFieldWrapper(form, isApp) {
+function getFieldWrapper(form, isApp, userId) {
     var fieldId = form && form.values['id'];
 
     if (form && form.values['type'] == 'tel') {
@@ -167,6 +167,7 @@ function getFieldWrapper(form, isApp) {
             <LinkFieldWrapper 
                 fieldId={fieldId} 
                 label={isApp ? "" : "Select a field to link the current field to"}
+                userid={userId}
             />
         )
     }
@@ -224,7 +225,7 @@ class FieldDialog extends React.Component {
                                 getDefaultFields(this.props)
                             }
                             {
-                                getFieldWrapper(this.props.reduxForm, this.props.isApp)
+                                getFieldWrapper(this.props.reduxForm, this.props.isApp, this.props.userId)
                             }
                     </DialogContent>
                     <DialogActions>

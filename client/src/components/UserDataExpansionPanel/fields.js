@@ -134,6 +134,7 @@ class LinkFieldWrapperClass extends React.Component {
             <LinkField
                 fieldId={key}
                 label={this.props.label}
+                userId={this.props.userId}
             />
         )
     }

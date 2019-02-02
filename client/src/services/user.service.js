@@ -42,13 +42,13 @@ function logout() {
     console.log(localStorage.getItem('user'));
 }
 
-function get_groups(userId) {
+function get_groups(userId, groupId) {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/`, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;
@@ -61,7 +61,9 @@ function get_group_data(userId, groupId) {
         headers: { 'Content-Type': 'application/json' }
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId, requestOptions)
+    groupId = groupId || "";
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId + `/fields`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;
