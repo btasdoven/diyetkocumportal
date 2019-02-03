@@ -42,7 +42,9 @@ const Header = props => {
   return (
     <AppBar position="fixed">
       <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
+        <a href='/'>
           <img src="/static/favicon.png" style={{marginRight: '10px', marginLeft: '10px', height:'40px'}}/>
+        </a>
         <Typography
           variant="title"
           color="inherit"
