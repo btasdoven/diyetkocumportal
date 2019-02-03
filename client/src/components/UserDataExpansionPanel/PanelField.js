@@ -194,13 +194,13 @@ class PanelField extends React.Component  {
                         open={this.state.anchorEl ? true : false}
                         onClose={() => this.setState({anchorEl: null})}
                     >
-                        <MenuItem disabled={this.props.fieldData.isReadOnly} onClick={this.handleEdit}>
+                        <MenuItem disabled={!this.props.groupUpdateable || this.props.fieldData.isReadOnly} onClick={this.handleEdit}>
                             <ListItemIcon>
                                 <CreateIcon/>
                             </ListItemIcon>
                             <ListItemText inset primary="Edit" />
                         </MenuItem>
-                        <MenuItem disabled={this.props.fieldData.isReadOnly} onClick={this.handleDelete}>
+                        <MenuItem disabled={!this.props.groupUpdateable || this.props.fieldData.isReadOnly} onClick={this.handleDelete}>
                             <ListItemIcon>
                                 <DeleteIcon/>
                             </ListItemIcon>

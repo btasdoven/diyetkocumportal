@@ -179,6 +179,7 @@ class UserDataExpensionPanel extends React.Component  {
                                         <TableRow key={"homeData" + k}>
                                             <PanelField
                                                 fieldId={k}
+                                                groupUpdateable={this.props.updateable}
                                                 userId={this.props.userId}
                                                 fieldData={rows.data[k]}
                                                 onEditField={this.onEditField}
@@ -226,6 +227,7 @@ class UserDataExpensionPanel extends React.Component  {
                             <Button 
                                 size="small"
                                 color="primary"
+                                target="_blank"
                                 href={"/links/" + this.props.userId + "/" + groupData.id}
                             >
                                 View as
