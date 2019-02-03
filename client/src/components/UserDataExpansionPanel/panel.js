@@ -221,6 +221,15 @@ class UserDataExpensionPanel extends React.Component  {
                             >
                                 Revoke access
                             </Button>
+                        }                      
+                        {this.props.updateable && groupData && groupData.shareLink &&
+                            <Button 
+                                size="small"
+                                color="primary"
+                                href={"/links/" + this.props.userId + "/" + groupData.id}
+                            >
+                                View as
+                            </Button>
                         }
                     </ExpansionPanelActions>
                 </ExpansionPanel>

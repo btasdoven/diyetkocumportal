@@ -6,6 +6,9 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import { increment, decrement } from "../store/reducers/stepCounter";
 import { itemsFetchData, itemsPutData } from '../store/reducers/api.fields';
@@ -31,9 +34,22 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../services";
 
 const styles = theme => ({
+  appBar: {
+    backgroundColor: 'rgb(38,55,70)'
+  },
+  loginButton: {
+    marginLeft: 'auto',
+    backgroundColor: 'rgb(255, 109, 33)'
+  },
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    padding: 0,
+  },
   root: {
     width: '100%',
-    padding: '16px'
+    padding: theme.spacing.unit * 2,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -57,13 +73,33 @@ class LinkViewer extends React.Component {
     var params = this.props.match.params;
 
     return (
+      <React.Fragment>
+        <CssBaseline />
+
+        { !localStorage.getItem('user') && (
+          <AppBar position="static" className={classes.appBar}>
+            <Toolbar className={classes.layout}>
+              <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
+              <Typography variant="h6" color="inherit" noWrap>
+                Monagard
+              </Typography>
+              <Button className={classes.loginButton} variant="contained" color="primary" href="/signin">
+                Login / Register
+              </Button>
+            </Toolbar>
+          </AppBar>
+        )}
+      <main>
         <div
           style={{
-            display: "flex",
+            //display: "flex",
             alignItems: "center",
             justifyContent: "center"
           }}
         >
+          <Typography variant="subtitle1" align="center" style={{margin: '10px'}} >
+            Someone has just shared this link with you. You can continue to access below information as long as they don't revoke your permissions.           
+          </Typography>
           <div className={classes.root}>
             {Object.keys(this.props.apiGroups.items).length == 0 &&
               (<CircularProgress size={24} className={classes.buttonProgress} />)}
@@ -102,6 +138,8 @@ class LinkViewer extends React.Component {
               })}
           </div>
         </div>
+        </main>
+    </React.Fragment>
       );
     }
 };

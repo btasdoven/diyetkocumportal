@@ -30,6 +30,8 @@ const getPageTitle = (pathname) => {
     return "Linked Applications"
   } else if (pathname === '/history') {
     return "History"
+  } else if (pathname.startsWith('/links/')) {
+    return "View Shared Link As"
   }
 
   return "xxxxx";
