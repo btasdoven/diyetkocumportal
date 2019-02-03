@@ -218,7 +218,7 @@ class UserDataExpensionPanel extends React.Component  {
                                 disabled={this.state.addingNewField} 
                                 size="small"
                                 color="primary"
-                                onClick={this.onAddNewField}
+                                //onClick={this.onAddNewField}
                             >
                                 Revoke access
                             </Button>

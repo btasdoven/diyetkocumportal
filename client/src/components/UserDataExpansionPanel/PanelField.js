@@ -184,32 +184,32 @@ class PanelField extends React.Component  {
 
                 { getPanelField(classes, this.props.fieldData, this.props.fieldId, this.props.userId) }
                 
-                <div>
-                    <IconButton onClick={this.handleClick}>
-                        <MoreVertIcon />
-                    </IconButton>
-                    {this.props.groupUpdateable && (
-                        <Menu
-                            id="long-menu"
-                            anchorEl={this.state.anchorEl}
-                            open={this.state.anchorEl ? true : false}
-                            onClose={() => this.setState({anchorEl: null})}
-                        >
-                            <MenuItem disabled={this.props.fieldData.isReadOnly} onClick={this.handleEdit}>
-                                <ListItemIcon>
-                                    <CreateIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset primary="Edit" />
-                            </MenuItem>
-                            <MenuItem disabled={this.props.fieldData.isReadOnly} onClick={this.handleDelete}>
-                                <ListItemIcon>
-                                    <DeleteIcon/>
-                                </ListItemIcon>
-                                <ListItemText inset primary="Delete" />
-                            </MenuItem>
-                        </Menu>
-                    )}
-                </div>
+                {this.props.groupUpdateable && (
+                    <div>
+                        <IconButton onClick={this.handleClick}>
+                            <MoreVertIcon />
+                        </IconButton>
+                            <Menu
+                                id="long-menu"
+                                anchorEl={this.state.anchorEl}
+                                open={this.state.anchorEl ? true : false}
+                                onClose={() => this.setState({anchorEl: null})}
+                            >
+                                <MenuItem disabled={this.props.fieldData.isReadOnly} onClick={this.handleEdit}>
+                                    <ListItemIcon>
+                                        <CreateIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText inset primary="Edit" />
+                                </MenuItem>
+                                <MenuItem disabled={this.props.fieldData.isReadOnly} onClick={this.handleDelete}>
+                                    <ListItemIcon>
+                                        <DeleteIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText inset primary="Delete" />
+                                </MenuItem>
+                            </Menu>
+                    </div>
+                )}
             </TableCell>
         )
     }

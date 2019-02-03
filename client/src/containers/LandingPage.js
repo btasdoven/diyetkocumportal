@@ -96,12 +96,12 @@ const footers = [
   },
   {
     title: 'Features',
-    description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
+    description: ['Login with Monagard', 'Encryption at rest', 'One-Time ID', 'Multi-factor Auth'],
   },
-  {
-    title: 'Resources',
-    description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
-  },
+  // {
+  //   title: 'Resources',
+  //   description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
+  // },
   {
     title: 'Legal',
     description: ['Privacy policy', 'Terms of use'],
@@ -111,7 +111,7 @@ const footers = [
 const cards = [
     {
         'title': 'All your data in one basket',
-        'subtitle': "Don't get confused with investments. It's easier to control who accesses to your data.",
+        'subtitle': "Don't get confused with investments. This is the right way to manage your data.",
         'items':
             <ul>
               <li><Typography>Quick and secure way to build your profile</Typography></li>
@@ -136,12 +136,12 @@ const cards = [
     },
     {
         'title': 'A life-changing solution',
-        'subtitle': 'Say goodbye to your day-to-day problems',
+        'subtitle': 'Say goodbye to many of your day-to-day problems.',
         'items':
             <ul>
-              <li><Typography>Integrate with a tax-filing application to manage your tax return</Typography></li>
-              <li><Typography>Track your home or car insurance automatically</Typography></li>
-              <li><Typography>Worried about sharing your phone or e-mail number? Monagard can help.</Typography></li>
+              <li><Typography>Integrate with a tax-filing application to automatically manage your tax return</Typography></li>
+              <li><Typography>Track your home or car insurance</Typography></li>
+              <li><Typography>Worried about sharing your phone or e-mail number? Monagard is the answer.</Typography></li>
               <li><Typography>The most secure way for online shopping</Typography></li>
             </ul>,
         'icon': <ThumbUpOutline/>
@@ -173,8 +173,8 @@ function Album(props) {
                 A secure way to store and share your personal data
             </Typography>
             <Typography align="left" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} gutterBottom>
-              Your data is your own. Why allow tens of applications store your data without your explicit permission? <br/>
-              With Monagard, you can share the data you want with the applications you choose as long as you like.  
+              Your data is your own. Why allow tens of applications store your data in their untrusted environment without your explicit permission? <br/>
+              With Monagard, you can store your data and securely share with the applications you choose as long as you like.  
             </Typography>
             <div className={classes.heroButtons}>
                   <Button variant="contained" align="left" color="primary" href="/signup" className={classes.loginButton}>
@@ -254,7 +254,7 @@ function Album(props) {
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
-       <Grid className={classes.layout} container spacing={32} align="center" justify="space-evenly">
+       <Grid className={classes.layout} container spacing={16} align="center" justify="space-evenly">
           {footers.map(footer => (
             <Grid item xs key={footer.title}>
               <Typography variant="subtitle1" color="textPrimary" gutterBottom>

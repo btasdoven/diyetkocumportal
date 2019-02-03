@@ -167,7 +167,7 @@ function getFieldWrapper(form, isApp, userId) {
             <LinkFieldWrapper 
                 fieldId={fieldId} 
                 label={isApp ? "" : "Select a field to link the current field to"}
-                userid={userId}
+                userId={userId}
             />
         )
     }

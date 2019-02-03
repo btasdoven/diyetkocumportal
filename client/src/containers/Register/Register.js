@@ -113,7 +113,9 @@ class Checkout extends React.Component {
       <CssBaseline />
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbarLayout}>
-          <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
+          <a href="/">
+            <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
+          </a>
           <Typography variant="h6" color="inherit" noWrap>
             Monagard
           </Typography>

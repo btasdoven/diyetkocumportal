@@ -89,7 +89,7 @@ const Sidebar = props => {
             </ListItem>
           </Tooltip>
         </Link>
-        <Link to="/apps">
+        {/* <Link to="/apps">
           <Tooltip title="Applications" placement="right">
             <ListItem button selected={location.pathname === '/apps'}>
               <ListItemIcon>
@@ -98,7 +98,7 @@ const Sidebar = props => {
               <ListItemText primary="Applications" />
             </ListItem>
           </Tooltip>
-        </Link>
+        </Link> */}
       </List>
     </Drawer>
   );

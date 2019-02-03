@@ -10,6 +10,13 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from 'react-router'
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
 const styles = theme => ({
   toolbarRoot: {
     paddingRight: 24
@@ -37,33 +44,64 @@ const getPageTitle = (pathname) => {
   return "xxxxx";
 }
 
-const Header = props => {
-  const { classes, location } = props;
-  return (
-    <AppBar position="fixed">
-      <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
-        <a href='/'>
-          <img src="/static/favicon.png" style={{marginRight: '10px', marginLeft: '10px', height:'40px'}}/>
-        </a>
-        <Typography
-          variant="title"
-          color="inherit"
-          noWrap
-          className={classes.title}
-        >
-          {getPageTitle(location.pathname)}
-        </Typography>
-        <IconButton color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <IconButton onClick={props.logout} color="inherit">
-          <PersonIcon />
-        </IconButton>
-      </Toolbar>
-    </AppBar>
-  );
-};
+class Header extends React.Component  {
+
+  constructor(props) {
+      super(props)
+
+      this.state = {
+          anchorEl: null
+      }
+  }
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  render() {
+    const { classes, location } = this.props;
+    return (
+      <AppBar position="fixed">
+        <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
+          <a href='/'>
+            <img src="/static/favicon.png" style={{marginRight: '10px', marginLeft: '10px', height:'40px'}}/>
+          </a>
+            <Typography
+              variant="title"
+              color="inherit"
+              noWrap
+              className={classes.title}
+            >
+              {getPageTitle(location.pathname)}
+            </Typography>
+
+          {/* <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton> */}
+          <div>
+            <IconButton onClick={this.handleClick} color="inherit">
+              <PersonIcon />
+            </IconButton>
+            <Menu
+                id="long-menu"
+                anchorEl={this.state.anchorEl}
+                open={this.state.anchorEl ? true : false}
+                onClose={() => this.setState({anchorEl: null})}
+            >
+                <MenuItem onClick={this.props.logout}>
+                    <ListItemIcon>
+                        <DeleteIcon />
+                    </ListItemIcon>
+                    <ListItemText inset primary="Sign out" />
+                </MenuItem>
+            </Menu>
+          </div>
+        </Toolbar>
+      </AppBar>
+    );
+  }
+}
 
 export default withStyles(styles)(withRouter(Header));
