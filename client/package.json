@@ -5,9 +5,11 @@
   "dependencies": {
     "@material-ui/core": "^3.8.3",
     "@material-ui/icons": "^2.0.0",
+    "@material-ui/lab": "^3.0.0-alpha.30",
     "isomorphic-fetch": "^2.2.1",
     "material-ui-phone-number": "^1.2.3",
     "mdi-material-ui": "^5.8.0",
+    "net-browserify": "^0.2.4",
     "react": "16.4.1",
     "react-dom": "16.4.1",
     "react-phone-input-2": "^2.7.1",

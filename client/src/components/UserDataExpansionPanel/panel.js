@@ -120,7 +120,7 @@ class UserDataExpensionPanel extends React.Component  {
 
     componentDidMount() {
         if (this.props.defaultExpanded && !this.props.rows) {
-            this.props.itemsFetchData(this.props.userId, this.props.form)
+            this.props.getMaterialFn(this.props.userId, this.props.form)
         }
     }
 
@@ -138,35 +138,35 @@ class UserDataExpensionPanel extends React.Component  {
 
     onDeleteField(fieldId) {
         delete this.props.rows.data[fieldId];
-        this.props.onSubmit(this.props.rows);
+        this.props.onSubmit(this.props.rows); 
     }
 
     render() {
-        const { fieldData, groupData, classes } = this.props;
-        var rows = fieldData && fieldData.items
-            ? fieldData.items
-            : undefined;
-        var showLoader = rows == undefined || fieldData.isGetLoading;
+        const { classes } = this.props;
+        var materialHeaderData = this.props.materialHeaderData;
+        var rows = this.props.materialData == undefined ? undefined : this.props.materialData.items;
+        var showLoader = rows == undefined || this.props.materialData.isGetLoading;
 
         return (
                 <ExpansionPanel 
                     defaultExpanded={this.props.defaultExpanded}
                     onChange={(event, expanded) => {
                         if (expanded && rows === undefined) {
-                            this.props.itemsFetchData(this.props.userId, this.props.form)
+                            this.props.getMaterialFn(this.props.userId, this.props.form)
                         }
                     }}
                 >
                     <ExpansionPanelSummary style={{padding: '0 24px 0 5px'}} expandIcon={<ExpandMoreIcon />}>
                         <Typography className={classes.heading}>
-                            {groupData.headerImg && <img width="24px" src={groupData.headerImg} className={classes.headerImg}/>}
-                            {groupData.headerIcon && <Icon className={classes.typeIcon}>{groupData.headerIcon}</Icon>}
-                            {groupData.header}
+                            {materialHeaderData.headerImg && <img width="24px" src={materialHeaderData.headerImg} className={classes.headerImg}/>}
+                            {materialHeaderData.headerIcon && <Icon className={classes.typeIcon}>{materialHeaderData.headerIcon}</Icon>}
+                            {materialHeaderData.header}
                         </Typography>
                     </ExpansionPanelSummary>
                     <Divider />
                     <ExpansionPanelDetails style={{padding: 0}}>
                         {showLoader && renderLoadingButton(classes)}
+
                         {rows && rows.data && Object.keys(rows.data).length == 0 && (
                             <div className={classes.rootLoading}>
                                 No field found.
@@ -193,9 +193,9 @@ class UserDataExpensionPanel extends React.Component  {
                             <FieldDialog
                                 open={true}
                                 form={this.state.addingNewField ? "newField" : this.state.editingFieldId}
-                                groupId={groupData.id}
+                                groupId={materialHeaderData.id}
                                 userId={this.props.userId}
-                                isApp={groupData.app}
+                                isApp={materialHeaderData.app}
                                 fieldData={this.state.addingNewField ? null : rows.data[this.state.editingFieldId]}
                                 handleClose={this.onDialogClosed}
                             />
@@ -223,12 +223,12 @@ class UserDataExpensionPanel extends React.Component  {
                                 Revoke access
                             </Button>
                         }                      
-                        {this.props.updateable && groupData && groupData.shareLink &&
+                        {this.props.updateable && materialHeaderData && materialHeaderData.shareLink &&
                             <Button 
                                 size="small"
                                 color="primary"
                                 target="_blank"
-                                href={"/links/" + this.props.userId + "/" + groupData.id}
+                                href={"/links/" + this.props.userId + "/" + materialHeaderData.id}
                             >
                                 View as
                             </Button>

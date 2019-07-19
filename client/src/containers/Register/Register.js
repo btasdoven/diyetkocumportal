@@ -66,25 +66,41 @@ const styles = theme => ({
   },
 });
 
-const steps = ['Login credentials', 'Security questions', 'About you'];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
+const steps = ['','','','','', '','','','',''];
 
 class Checkout extends React.Component {
   state = {
     activeStep: 0,
+    responses: [],
   };
+
+  getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <AddressForm 
+          question="Sence andimiz ilkokul ve ortaokulda ders oncesi okutulmali midir?"
+          choices={["Okutulmalidir", "Okutulmamalidir"]}
+          response={this.state.responses[step]}
+          handleResponse={this.handleResponse}
+          handleNext={this.handleNext}/>;
+      case 1:
+        return <AddressForm 
+          question="Sence FETO'nun siyasi ayagi ortaya cikartilmali midir?"
+          choices={["Cikartirmalidir", "Cikartilmamalidir"]}
+          response={this.state.responses[step]}
+          handleResponse={this.handleResponse}
+          handleNext={this.handleNext}/>;
+      case 2:
+        return <Review />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+
+  handleResponse = (response) => {
+    this.state.responses[this.state.activeStep] = response;
+    this.setState(this.state);
+  }
 
   handleNext = () => {
     this.setState(state => ({
@@ -117,25 +133,12 @@ class Checkout extends React.Component {
             <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
           </a>
           <Typography variant="h6" color="inherit" noWrap>
-            Monagard
+            Ben Olsam
           </Typography>
-          <Button className={classes.loginButton} variant="contained" color="primary" href="/signin">
-            Login
-          </Button>
         </Toolbar>
       </AppBar>
         <main className={classes.layout}>
           <Paper className={classes.paper}>
-            <Typography component="h1" variant="h4" align="center">
-              Register
-            </Typography>
-            <Stepper activeStep={activeStep} className={classes.stepper}>
-              {steps.map(label => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
             <React.Fragment>
               {activeStep === steps.length ? (
                 <React.Fragment>
@@ -149,22 +152,14 @@ class Checkout extends React.Component {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  {getStepContent(activeStep)}
-                  <div className={classes.buttons}>
-                    {activeStep !== 0 && (
+                  {this.getStepContent(activeStep)}
+
+                    {/* {activeStep !== 0 && (
                       <Button onClick={this.handleBack} className={classes.button}>
                         Back
                       </Button>
-                    )}
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}
-                      className={classes.button}
-                    >
-                      {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                    </Button>
-                  </div>
+                    )} */}
+                    
                 </React.Fragment>
               )}
             </React.Fragment>

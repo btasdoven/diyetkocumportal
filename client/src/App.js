@@ -19,7 +19,7 @@ import Register from "./containers/Register/Register";
 import LandingPage from "./containers/LandingPage";
 import LinkViewer from "./containers/LinkViewer";
 
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
 

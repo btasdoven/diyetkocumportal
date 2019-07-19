@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 import { increment, decrement } from "../store/reducers/stepCounter";
 import { itemsFetchData, itemsPutData } from '../store/reducers/api.fields';
-import { groupsFetchData } from '../store/reducers/api.groups';
+import { groupsFetchData } from '../store/reducers/api.materials';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';

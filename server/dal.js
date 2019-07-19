@@ -19,7 +19,7 @@ const rows = {
         'legal/sin': 'text',
         'legal/ssn': 'text',
       },
-      groups: {
+      materialHeaders: {
         "profile": {
           id: 'profile',
           header: "About Me",
@@ -76,7 +76,7 @@ const rows = {
           shareLink: true
         }
       },
-      fields: {
+      materials: {
         "profile": {
           id: 'profile',
           header: "About Me",
@@ -207,6 +207,17 @@ async function start() {
 }
 
 start();
+
+exports.getMaterials =  function (userId, materialId) {
+  console.log('getMaterials');
+  console.log(materialId);
+  
+  if (materialId == "undefined") {
+    return rows[userId].materialHeaders;
+  }
+
+  return { [materialId] : rows[userId].materials[materialId] };
+}
 
 exports.getAllFieldList = function(id) {
   console.log('getAllFieldList');

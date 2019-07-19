@@ -54,11 +54,11 @@ export default function reducer(state = initState, action) {
     }
 }
 
-export function itemsFetchData(userId, groupId) {
+export function getMaterial(userId, groupId) {
     return (dispatch) => {
         dispatch(request(true, groupId));
 
-        userService.get_group_data(userId, groupId)
+        userService.get_materials(userId, groupId)
         .then(
             items => { 
                 dispatch(success(items, groupId));
@@ -83,7 +83,7 @@ export function itemsPutData(userId, groupId, val) {
         userService.put_group_data(userId, groupId, val)
         .then(
             (data) => { 
-              itemsFetchData(userId, groupId)(dispatch);
+              getMaterial(userId, groupId)(dispatch);
             },
             error => {
                 dispatch(failure(error.toString(), groupId));

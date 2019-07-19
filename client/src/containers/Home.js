@@ -8,8 +8,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { increment, decrement } from "../store/reducers/stepCounter";
-import { itemsFetchData, itemsPutData } from '../store/reducers/api.fields';
-import { groupsFetchData } from '../store/reducers/api.groups';
+import { getMaterial, itemsPutData } from '../store/reducers/api.materials';
+import { getMaterialHeaders } from '../store/reducers/api.materialHeaders';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -45,8 +45,13 @@ const styles = theme => ({
 });
 
 class Home extends React.Component {
+  
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
-    this.props.groupsFetchData(JSON.parse(localStorage.getItem('user')).id);
+    this.props.getMaterialHeaders(JSON.parse(localStorage.getItem('user')).id);
   }
 
   onSubmit(v, groupId) {
@@ -54,7 +59,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, apiMaterials } = this.props;
 
     return (
         <div
@@ -65,34 +70,30 @@ class Home extends React.Component {
           }}
         >
           <div className={classes.root}>
-            {Object.keys(this.props.apiGroups.items).length == 0 &&
-              (<CircularProgress size={24} className={classes.buttonProgress} />)}
-            {Object.keys(this.props.apiGroups.items).map( (groupId, idx) => {
-                if (this.props.apiGroups.items[groupId].app) {
-                  return;
-                }
+
+            {!apiMaterials.isLoaded && (<CircularProgress size={24} className={classes.buttonProgress} />)}
+
+            {Object.keys(apiMaterials.items).map( (materialId, idx) => {
                               
                 return (
                   <UserDataExpensionPanel
                     insertable={true}
                     updateable={true}
-                    key={"userDataPanel" + groupId}
-                    onSubmit={(v) => this.onSubmit(v, groupId)}
-                    form={groupId}
+                    key={"userDataPanel" + materialId}
+                    onSubmit={(v) => this.onSubmit(v, materialId)}
+                    form={materialId}
                     defaultExpanded={false} 
-                    itemsFetchData={(userId, groupId, force=false) => {
-                      return this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) && !force
-                        ? this.props.apiFields[groupId].items
-                        : this.props.itemsFetchData(userId, groupId)
+                    getMaterialFn={(userId, materialId, force=false) => {
+                      return this.props.apiMaterials && this.props.apiMaterials.hasOwnProperty(materialId) && !force
+                        ? this.props.apiMaterials[materialId].items
+                        : this.props.getMaterial(userId, materialId)
                     }}
                     userId={JSON.parse(localStorage.getItem('user')).id}
-                    groupData = {this.props.apiGroups.items[groupId]}
-                    fieldData = {this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
-                      ? this.props.apiFields[groupId]
-                      : undefined}
-                    rows = {this.props.apiFields && this.props.apiFields.hasOwnProperty(groupId) 
-                      ? this.props.apiFields[groupId].items
-                      : undefined} />
+                    materialHeaderData = {this.props.apiMaterialHeaders.items[materialId]} 
+                    materialData = {this.props.apiMaterials && this.props.apiMaterials.hasOwnProperty(materialId)
+                        ? this.props.apiMaterials[materialId].items
+                        : undefined} 
+                    />
                 )
               })}
           </div>
@@ -103,20 +104,17 @@ class Home extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    stepCounter: state.stepCounter,
-    apiFields: state.apiFields,
-    apiGroups: state.apiGroups,
+    apiMaterialHeaders: state.apiMaterialHeaders,
+    apiMaterials: state.apiMaterials,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      increment: () => increment(),
-      decrement: () => decrement(),
-      itemsFetchData: (userId, groupId) => itemsFetchData(userId, groupId),
-      groupsFetchData: (userId) => groupsFetchData(userId),
-      itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal)
+      itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal),
+      getMaterialHeaders: (userId) => getMaterialHeaders(userId),
+      getMaterial: (userId, materialId) => getMaterial(userId, materialId),
     },
     dispatch
   );

@@ -158,7 +158,7 @@ function Album(props) {
         <Toolbar className={classes.layout}>
           <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
           <Typography variant="h6" color="inherit" noWrap>
-            Monagard
+            Digital Lab Book
           </Typography>
           <Button className={classes.loginButton} variant="contained" color="primary" href="/signin">
             Login
@@ -170,7 +170,7 @@ function Album(props) {
         <div className={classes.heroUnit}>
           <div className={classes.heroContent}>
             <Typography variant="h4" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} align="left" gutterBottom>
-                A secure way to store and share your personal data
+                A secure way to track your research
             </Typography>
             <Typography align="left" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} gutterBottom>
               Your data is your own. Why allow tens of applications store your data in their untrusted environment without your explicit permission? <br/>

@@ -8,6 +8,7 @@ export const userService = {
     get_group_data,
     put_group_data,
     get_all_field_list,
+    get_materials,
 };
 
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
@@ -64,6 +65,21 @@ function get_group_data(userId, groupId) {
     groupId = groupId || "";
     
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId + `/fields`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function get_materials(userId, materialId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    materialId = materialId || "";
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/materials/` + materialId, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

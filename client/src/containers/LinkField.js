@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { itemsFetchData } from '../store/reducers/api.fields';
+import { itemsFetchData } from '../store/reducers/api.materials';
 import { allFieldItemsFetchData } from '../store/reducers/api.allFieldList';
 
 import { withStyles } from '@material-ui/core/styles';
