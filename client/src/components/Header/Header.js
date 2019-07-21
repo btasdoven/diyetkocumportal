@@ -32,7 +32,7 @@ const styles = theme => ({
 
 const getPageTitle = (pathname) => {
   if (pathname === '/') {
-    return "Profile"
+    return "My Library"
   } else if (pathname === '/share') {
     return "Linked Applications"
   } else if (pathname === '/history') {

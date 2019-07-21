@@ -11,7 +11,6 @@ const initState = {
 };
 
 export default function reducer(state = initState, action) {
-  
     switch (action.type) {
       case ITEMS_GET_ERRORED:
       case ITEMS_PUT_ERRORED:

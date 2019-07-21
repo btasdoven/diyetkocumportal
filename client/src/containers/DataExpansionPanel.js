@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { Field, reduxForm } from "redux-form";
@@ -12,15 +13,18 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
+
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 
+import { getMaterial, itemsPutData } from '../store/reducers/api.materials';
+
 import Icon from '@material-ui/core/Icon';
-import FieldDialog from './dialog';
-import PanelField from './PanelField';
+import FieldDialog from '../components/UserDataExpansionPanel/dialog';
+import PanelField from '../components/UserDataExpansionPanel/PanelField';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from "@material-ui/core/Typography";
@@ -90,7 +94,7 @@ function renderLoadingButton(classes) {
     )
 }
 
-class UserDataExpensionPanel extends React.Component  {
+class DataExpensionPanel extends React.Component  {
 
     constructor(props) {
         super(props)
@@ -120,7 +124,7 @@ class UserDataExpensionPanel extends React.Component  {
 
     componentDidMount() {
         if (this.props.defaultExpanded && !this.props.rows) {
-            this.props.getMaterialFn(this.props.userId, this.props.form)
+            this.props.getMaterial(this.props.userId, this.props.form)
         }
     }
 
@@ -144,17 +148,21 @@ class UserDataExpensionPanel extends React.Component  {
     render() {
         const { classes } = this.props;
         var materialHeaderData = this.props.materialHeaderData;
-        var rows = this.props.materialData == undefined || this.props.materialData.items == undefined 
-            ? undefined 
-            : this.props.materialData.items[materialHeaderData.id];
-        var showLoader = rows == undefined || this.props.materialData.isGetLoading;
+        var materialId = materialHeaderData.id;
+        
+        var showLoader = 
+            this.props.apiMaterials[materialId] == undefined || 
+            this.props.apiMaterials[materialId].items == undefined || 
+            this.props.apiMaterials[materialId].isGetLoading;
+
+        var rows = showLoader ? undefined : this.props.apiMaterials[materialId].items[materialId];
 
         return (
                 <ExpansionPanel 
                     defaultExpanded={this.props.defaultExpanded}
                     onChange={(event, expanded) => {
                         if (expanded && rows === undefined) {
-                            this.props.getMaterialFn(this.props.userId, this.props.form)
+                            this.props.getMaterial(this.props.userId, materialId)
                         }
                     }}
                 >
@@ -195,7 +203,7 @@ class UserDataExpensionPanel extends React.Component  {
                             <FieldDialog
                                 open={true}
                                 form={this.state.addingNewField ? "newField" : this.state.editingFieldId}
-                                groupId={materialHeaderData.id}
+                                groupId={materialId}
                                 userId={this.props.userId}
                                 isApp={materialHeaderData.app}
                                 fieldData={this.state.addingNewField ? null : rows.data[this.state.editingFieldId]}
@@ -215,7 +223,7 @@ class UserDataExpensionPanel extends React.Component  {
                                 Add
                             </Button>
                         }                        
-                        {this.props.updateable && 
+                        {/* {this.props.updateable && 
                             <Button 
                                 disabled={this.state.addingNewField} 
                                 size="small"
@@ -224,7 +232,7 @@ class UserDataExpensionPanel extends React.Component  {
                             >
                                 Revoke access
                             </Button>
-                        }                      
+                        }                       */}
                         {this.props.updateable && materialHeaderData && materialHeaderData.shareLink &&
                             <Button 
                                 size="small"
@@ -241,4 +249,23 @@ class UserDataExpensionPanel extends React.Component  {
     }
 }
 
-export default withStyles(styles)(UserDataExpensionPanel);
+const mapStateToProps = state => {
+    return {
+      apiMaterials: state.apiMaterials,
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return bindActionCreators(
+      {
+        itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal),
+        getMaterial: (userId, materialId) => getMaterial(userId, materialId),
+      },
+      dispatch
+    );
+  };
+  
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withStyles(styles)(DataExpensionPanel));

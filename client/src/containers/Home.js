@@ -17,6 +17,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -25,6 +26,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 
 import UserDataExpensionPanel from '../components/UserDataExpansionPanel'
+import DataExpensionPanel from './DataExpansionPanelMaterial'
+import DataExpensionCard from './DataExpansionCard'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -33,6 +36,7 @@ import { userService } from "../services";
 const styles = theme => ({
   root: {
     width: '100%',
+    flexGrow: 1,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -59,8 +63,9 @@ class Home extends React.Component {
   }
 
   render() {
-    const { classes, apiMaterials } = this.props;
-
+    const { classes } = this.props;
+    var apiMaterialHeaders = this.props.apiMaterialHeaders;
+    
     return (
         <div
           style={{
@@ -71,31 +76,39 @@ class Home extends React.Component {
         >
           <div className={classes.root}>
 
-            {!apiMaterials.isLoaded && (<CircularProgress size={24} className={classes.buttonProgress} />)}
+            {!apiMaterialHeaders.isLoaded && (<CircularProgress size={24} className={classes.buttonProgress} />)}
 
-            {Object.keys(apiMaterials.items).map( (materialId, idx) => {
-                              
+            <Grid container spacing={8}>
+              {Object.keys(apiMaterialHeaders.items).map( (materialId, idx) => {
                 return (
-                  <UserDataExpensionPanel
-                    insertable={true}
-                    updateable={true}
-                    key={"userDataPanel" + materialId}
-                    onSubmit={(v) => this.onSubmit(v, materialId)}
-                    form={materialId}
-                    defaultExpanded={false} 
-                    getMaterialFn={(userId, materialId, force=false) => {
-                      return this.props.apiMaterials && this.props.apiMaterials.hasOwnProperty(materialId) && !force
-                        ? this.props.apiMaterials[materialId].items
-                        : this.props.getMaterial(userId, materialId)
-                    }}
-                    userId={JSON.parse(localStorage.getItem('user')).id}
-                    materialHeaderData = {this.props.apiMaterialHeaders.items[materialId]} 
-                    materialData = {this.props.apiMaterials && this.props.apiMaterials.hasOwnProperty(materialId)
-                        ? this.props.apiMaterials[materialId].items
-                        : undefined} 
-                    />
+                  <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <DataExpensionCard
+                      key={"userDataPanel" + materialId}
+                      userId={JSON.parse(localStorage.getItem('user')).id}
+                      materialHeaderData = {this.props.apiMaterialHeaders.items[materialId]} 
+                      />
+                  </Grid>
+                  // <DataExpensionPanel
+                  //   insertable={true}
+                  //   updateable={true}
+                  //   key={"userDataPanel" + materialId}
+                  //   onSubmit={(v) => this.onSubmit(v, materialId)}
+                  //   form={materialId}
+                  //   defaultExpanded={true} 
+                  //   // getMaterialFn={(userId, materialId, force=false) => {
+                  //   //   return this.props.apiMaterials && this.props.apiMaterials.hasOwnProperty(materialId) && !force
+                  //   //     ? this.props.apiMaterials[materialId].items
+                  //   //     : this.props.getMaterial(userId, materialId)
+                  //   // }}
+                  //   userId={JSON.parse(localStorage.getItem('user')).id}
+                  //   materialHeaderData = {this.props.apiMaterialHeaders.items[materialId]} 
+                  //   // materialData = {this.props.apiMaterials && this.props.apiMaterials.hasOwnProperty(materialId)
+                  //   //     ? this.props.apiMaterials[materialId]
+                  //   //     : undefined} 
+                  //   />
                 )
               })}
+            </Grid>
           </div>
         </div>
       );

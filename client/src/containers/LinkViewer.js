@@ -10,9 +10,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
-import { increment, decrement } from "../store/reducers/stepCounter";
-import { itemsFetchData, itemsPutData } from '../store/reducers/api.fields';
-import { groupsFetchData } from '../store/reducers/api.materials';
+import { getMaterialHeaders } from '../store/reducers/api.materialHeaders';
+import { getMaterial, itemsPutData } from '../store/reducers/api.materials';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -105,7 +104,7 @@ class LinkViewer extends React.Component {
           <div className={classes.root}>
             {Object.keys(this.props.apiGroups.items).length == 0 &&
               (<CircularProgress size={24} className={classes.buttonProgress} />)}
-            {Object.keys(this.props.apiGroups.items).map( (groupId, idx) => {
+            {/* {Object.keys(this.props.apiGroups.items).map( (groupId, idx) => {
 
                 if (groupId != params.linkId) {
                   return;
@@ -137,7 +136,7 @@ class LinkViewer extends React.Component {
                       ? this.props.apiFields[groupId].items
                       : undefined} />
                 )
-              })}
+              })} */}
           </div>
         </div>
         </main>
@@ -148,19 +147,16 @@ class LinkViewer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    stepCounter: state.stepCounter,
-    apiFields: state.apiFields,
-    apiGroups: state.apiGroups,
+    apiMaterials: state.apiMaterials,
+    apiMaterialHeaders: state.apiMaterialHeaders,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      increment: () => increment(),
-      decrement: () => decrement(),
-      itemsFetchData: (userId, groupId) => itemsFetchData(userId, groupId),
-      groupsFetchData: (userId, groupId) => groupsFetchData(userId, groupId),
+      getMaterial: (userId, groupId) => getMaterial(userId, groupId),
+      getMaterialHeaders: (userId) => getMaterialHeaders(userId),
       itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal)
     },
     dispatch

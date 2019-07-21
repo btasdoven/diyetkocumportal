@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { itemsFetchData } from '../store/reducers/api.materials';
+import { getMaterial } from '../store/reducers/api.materials';
 import { allFieldItemsFetchData } from '../store/reducers/api.allFieldList';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -81,7 +81,7 @@ function getFieldRefValue(self, fieldId) {
     if (!self.props.apiFields ||
       !self.props.apiFields[groupId] ||
       !self.props.apiFields[groupId].isGetLoading) {
-      self.props.itemsFetchData(self.props.userId, groupId);
+      self.props.getMaterial(self.props.userId, groupId);
     }
     return {
       refId: fieldId,
@@ -235,7 +235,7 @@ renderTextFieldOption = ({
 
 const mapStateToProps = state => {
   return {
-    apiFields: state.apiFields,
+    apiMaterials: state.apiMaterials,
     apiAllFieldList: state.apiAllFieldList,
     form: state.form,
   };
@@ -244,7 +244,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      itemsFetchData: (userId, groupId) => itemsFetchData(userId, groupId),
+      getMaterial: (userId, groupId) => getMaterial(userId, groupId),
       allFieldItemsFetchData: (userId) => allFieldItemsFetchData(userId)
     },
     dispatch

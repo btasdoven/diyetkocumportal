@@ -22,174 +22,102 @@ const rows = {
       materialHeaders: {
         "profile": {
           id: 'profile',
-          header: "About Me",
-          headerIcon: 'person'
+          header: "2-Methylthiophene",
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png'
         },
-        "phones": {
-          id: 'phones',
-          header: "Phone Numbers",
-          headerIcon: 'phone'
-        },        
-        "emails": {
-          id: "emails",
-          header: "E-mails",   
-          headerIcon: 'alternate_email'
+        "X": {
+          id: 'X',
+          header: "2-Methylthiophene",
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png'
         },
-        "addresses": {
-          id: 'addresses',
-          header: "Addresses",
-          headerIcon: 'location_city'
+        "profile2": {
+          id: 'profile2',
+          header: "2-Methylthiophene",
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png'
         },
-        "creditcards": {
-          id: 'creditcards',
-          header: "Credit Cards",
-          headerIcon: 'credit_card'
+        "X2": {
+          id: 'X2',
+          header: "2-Methylthiophene",
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png'
         },
-        "legal": {
-          id: 'legal',
-          header: "Legal",
-          headerIcon: 'work'
+        "profile3": {
+          id: 'profile3',
+          header: "2-Methylthiophene",
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png'
         },
-        "bchydro": {
-          id: 'bchydro',
-          header: "BC Hydro",
-          headerImg: "https://www.mycowichanvalleynow.com/wp-content/uploads/2015/09/BC-Hydro-Logo.png",
-          app: true
-        },
-        "telus": {
-          id: 'telus',
-          header: "Telus",
-          headerImg: "https://media.glassdoor.com/sqll/8006/telus-squarelogo-1528814538191.png",
-          app: true
-        }, 
-        "icbc": {
-          id: 'icbc',
-          header: "ICBC",
-          headerImg: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c7/Insurance_Corporation_of_British_Columbia_Logo.svg/220px-Insurance_Corporation_of_British_Columbia_Logo.svg.png",
-          app: true,
-        }, 
-        "91ea6e8f-e15e-4cd8-937e-893092f600fc": {
-          id: '91ea6e8f-e15e-4cd8-937e-893092f600fc',
-          header: "My travel information",
-          headerIcon: 'work',
-          app: true,
-          shareLink: true
+        "X3": {
+          id: 'X3',
+          header: "2-Methylthiophene",
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png'
         }
       },
       materials: {
         "profile": {
-          id: 'profile',
-          header: "About Me",
           data: {
-            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Name', type: 'text', value: 'Batuhan' },
-            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Surname', type: 'text', value: 'Tasdoven' },
+            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
+            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
+            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
+            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
+            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
           }
         },
-        "phones": {
-          id: "phones",
-          header: "Phone Numbers",
+        "X": {
           data: {
-            'phones/us': { id:'phones/us', fieldId: 'us', name: 'US Number', type: 'tel', value: '+1 (425)-241-5251' },
-            'phones/canada': { id:'phones/canada', fieldId: 'canada', name: 'Canada Number', type: 'tel', value: '+1 (604)-754-0155' }
+            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
+            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
+            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
+            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
+            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
           }
         },
-        "emails": {
-          id: "emails",
-          header: "E-mail Addresses",
+        "profile2": {
           data: {
-            'emails/gmail': { id:'emails/gmail', fieldId: 'gmail', name: 'Gmail', type: 'email', value: 'btasdoven@gmail.com' },
-            'emails/hotmail': { id:'emails/hotmail', fieldId: 'hotmail', name: 'Hotmail', type: 'email', value: 'btasdoven@hotmail.com' },
-            'emails/school': { id:'emails/school', fieldId: 'work', name: 'School METU', type: 'email', value: 'e1746346@ceng.metu.edu.tr' },
-            'emails/work': { id:'emails/work', fieldId: 'work', name: 'MS Work', type: 'email', value: 'batasdov@microsoft.com' },
-            'emails/junk': { id:'emails/junk', fieldId: 'junk', name: 'For Junk', type: 'email', value: 'xxbatu_352xx@hotmail.com' },
+            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
+            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
+            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
+            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
+            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
           }
         },
-        "addresses": {
-          id: "addresses",
-          header: "Addresses",
+        "X2": {
           data: {
-            'addresses/current': { 
-              id:'addresses/current', 
-              fieldId: 'current', 
-              name: 'My Current Address', 
-              type: 'link', 
-              link_type: 'address', 
-              link: 'addresses/sfu', 
-              'addresses/current_link': 'addresses/sfu' },
-            'addresses/sfu': { 
-              id:'addresses/sfu',
-              fieldId: 'sfu',
-              name: 'SFU Address',
-              type: 'address',
-              value: '207 - 8950 University High Street, Burnaby, BC V5A4Y8, Canada', 
-              'addresses/sfu_street': '207 - 8950 University High Street',
-              'addresses/sfu_city': 'Burnaby',
-              'addresses/sfu_state': 'BC',
-              'addresses/sfu_pk': 'V5A 4Y8',
-              'addresses/sfu_country': 'Canada'
-            },
-            'addresses/vancouver': {
-              id:'addresses/vancouver',
-              fieldId: 'vancouver',
-              name: 'Vancouver Address',
-              type: 'address',
-              value: '1704 - 501 Pacific Street, Vancouver, BC V6Z 2X6, Canada',
-              'addresses/vancouver_street': '1705 - 501 Pacific Street',
-              'addresses/vancouver_city': 'Vancouver',
-              'addresses/vancouver_state': 'BC',
-              'addresses/vancouver_pk': 'V6Z 2X6',
-              'addresses/vancouver_country': 'Canada'
-            },
+            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
+            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
+            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
+            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
+            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
           }
         },
-        "creditcards": {
-          id: 'creditcards',
-          header: "Credit Cards",
-          headerImg: "https://static.thenounproject.com/png/29661-200.png",
+        "profile3": {
           data: {
+            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
+            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
+            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
+            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
+            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
           }
         },
-        "legal": {
-          id: 'legal',
-          header: "Legal",
+        "X3": {
           data: {
-            'legal/passport': { id: 'legal/passport', fieldId: 'passport', name: 'Passport No', type: 'text', value: 'A11312345' },
-            'legal/sin': { id: 'legal/sin', fieldId: 'sin', name: 'SIN (Canada)', type: 'text', value: '123-4567' },
-            'legal/ssn': { id: 'legal/ssn', fieldId: 'ssn', name: 'SSN (US)', type: 'text', value: '123-4567' },
+            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
+            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
+            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
+            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
+            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
           }
         },
-        "bchydro": {
-          data: {
-            'bchydro/name': { id:'bchydro/name', fieldId: 'name', name: 'Name', type: 'link', link_type: 'text', link: 'profile/name', 'bchydro/name_link': 'profile/name'  },
-            'bchydro/surname': { id:'bchydro/surname', fieldId: 'surname', name: 'Surname', type: 'link', link_type: 'text', link: 'profile/surname', 'bchydro/surname_link': 'profile/surname'  },
-            'bchydro/email': { id:'bchydro/email', fieldId: 'email', name: 'E-mail', type: 'link', link_type: 'email', link: 'emails/gmail', 'bchydro/email_link': 'emails/gmail' },
-            'bchydro/phone': { id:'bchydro/phone', fieldId: 'phone', name: 'Phone', type: 'link', link_type: 'mobile', link: 'phones/us', 'bchydro/phone_link': 'phones/us' },
-            'bchydro/address': { id:'bchydro/address', fieldId: 'address', name: 'Home Address', type: 'link', link_type: 'address', link: 'addresses/sfu', 'bchydro/address_link': 'addresses/sfu' },
-          }
-        },
-        "telus": {
-          data: {
-            'telus/id': {id: 'telus/id', fieldId: 'id', name: 'Account ID', type:'text', value: 'T574622', isReadOnly: true},
-            'telus/phone': { id:'telus/phone', fieldId: 'phone', name: 'Phone Number', type: 'link', link_type: 'mobile', link: 'phones/canada', 'telus/phone_link': 'phones/canada' },
-            'telus/address': { id:'telus/address', fieldId: 'address', name: 'Home Address', type: 'link', link_type: 'address', link: 'addresses/sfu', 'telus/address_link': 'addresses/sfu' },
-          }
-        },
-        "icbc": {
-          data: {
-            "icbc/license": { id: 'icbc/license', fieldId: 'license', name: 'License No', type: 'text', value: '946-8762', isReadOnly: true},
-            "icbc/vehicle": { id: 'icbc/vehicle', fieldId: 'vehicle', name: 'Vehicle Info', type: 'text', value: 'Jeep, Compass, 2018, Gray', isReadOnly: true},
-            "icbc/insurance": { id: 'icbc/insurance', fieldId: 'insurance', name: 'Insurance Info', type: 'text', value: 'Level 3 Coverage, $1M liability, $500 deductable', isReadOnly: true},
-            'icbc/phone': { id:'icbc/phone', fieldId: 'phone', name: 'Phone Number', type: 'link', link_type:'mobile', link: 'phones/canada', 'icbc/phone_link': 'phones/canada' },
-            "icbc/creditcard": { id: 'icbc/creditcard', fieldId: 'creditcard', name: 'Credit Card', type: 'text', value: 'xxxx-xxxx-xxxx-8644'},
-          }
-        }, 
-        "91ea6e8f-e15e-4cd8-937e-893092f600fc": {
-          data: {
-            '91ea6e8f-e15e-4cd8-937e-893092f600fc/id': {id: '91ea6e8f-e15e-4cd8-937e-893092f600fc/id', fieldId: 'id', name: 'Account ID', type:'text', value: 'T574622', isReadOnly: true},
-            '91ea6e8f-e15e-4cd8-937e-893092f600fc/phone': { id:'91ea6e8f-e15e-4cd8-937e-893092f600fc/phone', fieldId: 'phone', name: 'Phone Number', type: 'link', link_type: 'mobile', link: 'phones/canada', '91ea6e8f-e15e-4cd8-937e-893092f600fc/phone_link': 'phones/canada' },
-            '91ea6e8f-e15e-4cd8-937e-893092f600fc/address': { id:'91ea6e8f-e15e-4cd8-937e-893092f600fc/address', fieldId: 'address', name: 'Home Address', type: 'link', link_type: 'address', link: 'addresses/sfu', '91ea6e8f-e15e-4cd8-937e-893092f600fc/address_link': 'addresses/sfu' },
-          }
-        }
       }
     }
 };
@@ -212,7 +140,7 @@ exports.getMaterials =  function (userId, materialId) {
   console.log('getMaterials');
   console.log(materialId);
   
-  if (materialId == "undefined") {
+  if (materialId == undefined) {
     return rows[userId].materialHeaders;
   }
 
@@ -226,9 +154,9 @@ exports.getAllFieldList = function(id) {
 
 exports.getGroups =  function (id, groupId) {
   console.log('getGroups');
-  console.log(groupId);
+  console.log(groupId); 
   
-  if (groupId == "undefined") {
+  if (groupId == undefined) {
     console.log("group id undefined")
     return rows[id].groups;
   }

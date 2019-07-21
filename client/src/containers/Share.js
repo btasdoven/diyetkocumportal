@@ -7,9 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { increment, decrement } from "../store/reducers/stepCounter";
-import { itemsFetchData, itemsPutData } from '../store/reducers/api.fields';
-import { groupsFetchData } from '../store/reducers/api.materials';
+import { getMaterialHeaders } from '../store/reducers/api.materialHeaders';
+import { getMaterial, itemsPutData } from '../store/reducers/api.materials';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -46,11 +45,11 @@ const styles = theme => ({
 
 class Home extends React.Component {
   componentDidMount() {
-    this.props.groupsFetchData(JSON.parse(localStorage.getItem('user')).id);
+    //this.props.groupsFetchData(JSON.parse(localStorage.getItem('user')).id);
   }
 
   onSubmit(v, groupId) {
-    this.props.itemsPutData(JSON.parse(localStorage.getItem('user')).id, groupId, v);
+    //this.props.itemsPutData(JSON.parse(localStorage.getItem('user')).id, groupId, v);
   }
 
   render() {
@@ -69,7 +68,7 @@ class Home extends React.Component {
           <div className={classes.root}>
             {Object.keys(this.props.apiGroups.items).length == 0 &&
               (<CircularProgress size={24} className={classes.buttonProgress} />)}
-            {Object.keys(this.props.apiGroups.items).map((groupId, idx) => {
+            {/* {Object.keys(this.props.apiGroups.items).map((groupId, idx) => {
                 if (!this.props.apiGroups.items[groupId].app) {
                   return;
                 }
@@ -96,7 +95,7 @@ class Home extends React.Component {
                       ? this.props.apiFields[groupId].items
                       : undefined} />
                 )
-              })}
+              })} */}
           </div>
         </div>
       );
@@ -105,19 +104,16 @@ class Home extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    stepCounter: state.stepCounter,
-    apiFields: state.apiFields,
-    apiGroups: state.apiGroups,
+    apiMaterials: state.apiMaterials,
+    apiMaterialHeaders: state.apiMaterialHeaders,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      increment: () => increment(),
-      decrement: () => decrement(),
-      itemsFetchData: (userId, groupId) => itemsFetchData(userId, groupId),
-      groupsFetchData: (userId) => groupsFetchData(userId),
+      getMaterial: (userId, groupId) => getMaterial(userId, groupId),
+      getMaterialHeaders: (userId) => getMaterialHeaders(userId),
       itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal)
     },
     dispatch

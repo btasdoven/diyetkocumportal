@@ -10,7 +10,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import HistoryIcon from "@material-ui/icons/History";
 import PeopleIcon from "@material-ui/icons/People";
 import AppsIcon from "@material-ui/icons/Apps";
-import FingerprintIcon from "@material-ui/icons/Fingerprint";
+import StoreIcon from "@material-ui/icons/Store";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from '@material-ui/core/MenuItem';
@@ -63,7 +63,7 @@ const Sidebar = props => {
           <Tooltip title="Dashboard" placement="right">
             <ListItem button selected={location.pathname === '/'}>
               <ListItemIcon>
-                  <FingerprintIcon />
+                  <StoreIcon />
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
