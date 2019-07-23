@@ -72,13 +72,21 @@ const styles = theme => ({
       margin: '0px'
   },
   photothumbnail: {
-    border: "solid 1px rgba(0, 0, 0, 0.15)",
+    border: "solid 1px rgba(38, 55, 70, 1)",
     boxSizing: "border-box",
-    //margin: "1px",
+    marginRight: "-1px",
+    marginTop: "-1px",
+    cursor: "pointer",
+    '&:hover': {
+      opacity: 0.5,
+    }
   },
   divider: {
     marginBottom: "0.35em",
     marginTop: "0.35em",
+  },
+  subheaderTitle: {
+    color: "rgba(38, 55, 70, 1)"
   }
 });
 
@@ -192,7 +200,7 @@ class DataExpensionPanel extends React.Component  {
                 { !showLoader && (
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
 
-                    <Typography variant="subheading" color="textSecondary" gutterBottom>Procedure</Typography>
+                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>Procedure</Typography>
                     
                     <Typography variant="body1" color="textPrimary">
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
@@ -201,7 +209,7 @@ class DataExpensionPanel extends React.Component  {
 
                     <Divider className={classes.divider} />
 
-                    <Typography variant="subheading" color="textSecondary" gutterBottom>Hints</Typography>
+                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>Hints</Typography>
                     
                     <Typography variant="body1" color="textPrimary">
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
@@ -210,7 +218,7 @@ class DataExpensionPanel extends React.Component  {
 
                     <Divider className={classes.divider} />
 
-                    <Typography variant="subheading" color="textSecondary" gutterBottom>NMRs</Typography>
+                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>NMRs</Typography>
                     
                     <Grid container>
                       <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
@@ -235,7 +243,7 @@ class DataExpensionPanel extends React.Component  {
 
                     <Divider className={classes.divider}/>
 
-                    <Typography variant="subheading" color="textSecondary" gutterBottom>MCDSes</Typography>
+                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>MCDSes</Typography>
 
                     <Grid container>
                       <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
@@ -251,7 +259,7 @@ class DataExpensionPanel extends React.Component  {
 
                     <Divider className={classes.divider}/>
 
-                    <Typography variant="subheading" color="textSecondary" gutterBottom>Notes</Typography>
+                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>Notes</Typography>
                     
                     <Typography variant="body1" color="textPrimary">
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
@@ -262,15 +270,16 @@ class DataExpensionPanel extends React.Component  {
                 )}
               </CardContent>
             )}
-            <CardActions disableSpacing>
+            { expanded && (
+              <CardActions disableSpacing>
                 <IconButton aria-label="Add to favorites">
                 <FavoriteIcon />
                 </IconButton>
                 <IconButton aria-label="Share">
                 <ShareIcon />
                 </IconButton>
-                
-            </CardActions>
+              </CardActions>
+            )}
           </Card>
         );
     }   

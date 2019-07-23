@@ -65,7 +65,8 @@ class Home extends React.Component {
   render() {
     const { classes } = this.props;
     var apiMaterialHeaders = this.props.apiMaterialHeaders;
-    
+    const showLoader = !apiMaterialHeaders.isLoaded && Object.keys(apiMaterialHeaders.items).length == 0;
+
     return (
         <div
           style={{
@@ -76,7 +77,7 @@ class Home extends React.Component {
         >
           <div className={classes.root}>
 
-            {!apiMaterialHeaders.isLoaded && (<CircularProgress size={24} className={classes.buttonProgress} />)}
+            {showLoader && (<CircularProgress size={24} className={classes.buttonProgress} />)}
 
             <Grid container spacing={8}>
               {Object.keys(apiMaterialHeaders.items).map( (materialId, idx) => {
