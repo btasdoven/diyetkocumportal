@@ -18,8 +18,17 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
-
+import Chip from '@material-ui/core/Chip';
 import { getMaterial, itemsPutData } from '../store/reducers/api.materials';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Divider, CardActionArea } from '@material-ui/core';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
   card: {
@@ -42,7 +51,44 @@ const styles = theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+  buttonProgress: {
+    top: '50%',
+    left: '50%',
+  },
+  rootLoading: {
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      width: '100%',
+      alignItems: "center",
+      margin: '8px'
+  },
+  rootViewDetails: {
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      width: '100%',
+      alignItems: "center",
+      margin: '0px'
+  },
+  photothumbnail: {
+    border: "solid 1px rgba(0, 0, 0, 0.15)",
+    boxSizing: "border-box",
+    //margin: "1px",
+  },
+  divider: {
+    marginBottom: "0.35em",
+    marginTop: "0.35em",
+  }
 });
+
+function renderLoadingButton(classes) {
+  return (
+    <div className={classes.rootLoading}>
+      <CircularProgress size={24} className={classes.buttonProgress} />
+    </div>
+  )
+} 
 
 class DataExpensionPanel extends React.Component  {
 
@@ -64,54 +110,15 @@ class DataExpensionPanel extends React.Component  {
     }
 
     componentDidMount() {
-        this.props.getMaterial(this.props.userId, this.props.materialHeaderData.id)
+        //this.props.getMaterial(this.props.userId, this.props.materialHeaderData.id)
     }
 
     handleExpandClick() {
-        this.setState({expanded: !this.state.expanded})
-    }
-
-    getCardContent() {
-      const classes = this.props.classes;
-      const materialHeaderData = this.props.materialHeaderData;
-      const materialId = materialHeaderData.id;
-        
-      const showLoader = 
-          this.props.apiMaterials[materialId] == undefined || 
-          this.props.apiMaterials[materialId].items == undefined || 
-          this.props.apiMaterials[materialId].isGetLoading;
-          
-      if (showLoader) {
-        return (<div>zs</div>)
+      if (this.props.apiMaterials[this.props.materialHeaderData.id] == undefined) {
+        this.props.getMaterial(this.props.userId, this.props.materialHeaderData.id)
       }
 
-      const material = this.props.apiMaterials[materialId].items[materialId];
-
-      return (
-        <span>
-          {
-            Object.keys(material.data).map(fieldId => {
-              const field = material.data[fieldId];
-
-              if (field.type == "image") {
-                return (
-                  <CardMedia
-                    className={classes.media}
-                    image={field.value}
-                    title="Paella dish"
-                  />
-                )
-              }
-            })
-          }
-          <CardContent>
-              <Typography variant="body2" color="textSecondary" component="p">
-              This impressive paella is a perfect party dish and a fun meal to cook together with your
-              guests. Add 1 cup of frozen peas along with the mussels, if you like.
-              </Typography>
-          </CardContent>
-        </span>
-      );
+      this.setState({expanded: !this.state.expanded})
     }
 
     render() {
@@ -129,30 +136,43 @@ class DataExpensionPanel extends React.Component  {
         const bull = <span className={classes.bullet}>•</span>;
 
         return (
-            <Card className={classes.card}>
-                <CardHeader
-                    avatar={
-                      <Avatar aria-label="Recipe" className={classes.avatar} src={materialHeaderData.headerImg} />
-                    }
-                    action={
-                      <IconButton
-                        className={clsx(classes.expand, {
-                            [classes.expandOpen]: expanded,
-                        })}
-                        onClick={this.handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="Show more"
-                      >
-                        <ExpandMoreIcon />
-                      </IconButton>
-                    }
-                    title={materialHeaderData.header}
-                    //subheader="September 14, 2016"
-                />
+          <Card className={classes.card}>
+            <CardActionArea
+              onClick={this.handleExpandClick}>
+              <CardHeader
+                  avatar={
+                    <Avatar aria-label="Recipe" className={classes.avatar} src={materialHeaderData.headerImg} />
+                  }
+                  action={
+                    <IconButton
+                      className={clsx(classes.expand, {
+                          [classes.expandOpen]: expanded,
+                      })}
+                      //onClick={this.handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label="Show more"
+                    >
+                      <ExpandMoreIcon />
+                    </IconButton>
+                  }
+                  title={materialHeaderData.header}
+                  subheader={materialHeaderData.state + " at " + materialHeaderData.purity + materialHeaderData.purityUnit + " purity, " +
+                    "left " + materialHeaderData.weight + materialHeaderData.weightUnit}
+                    //{<Chip size="small" color="secondary" label="Basic Chip" className={classes.chip} />}
+              />
+              {/* { !expanded && (
+                <CardContent>
+                  <div className={classes.rootViewDetails}>
+                    Click to view details
+                  </div>
+                </CardContent>
+              )} */}
+            </CardActionArea>
+            { expanded && (
+              <CardContent>
+                { showLoader && renderLoadingButton(classes) }
 
-                { showLoader && (<div></div>) }
-
-                { !showLoader && (
+                {/* { !showLoader && (
                   <Grid container spacing={8}>
                     {
                       Object.keys(material.data).map(fieldId => {
@@ -160,67 +180,98 @@ class DataExpensionPanel extends React.Component  {
                         if (field.type == "text") {
                           return (
                             <Grid item xs={6} sm={6} md={4} xl={3}>
-                              <Typography paragraph color="textSecondary">{field.name}{bull}{field.value}</Typography>
+                              <Typography inline color="textSecondary">{field.name}</Typography>{bull}
+                              <Typography inline>{field.value}</Typography>
                             </Grid>
                           )
                         }
                       })
                     }
                   </Grid>
-                )}
+                )} */}
                 { !showLoader && (
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                    <Typography paragraph>Method:</Typography>
-                    <Typography paragraph>
+
+                    <Typography variant="subheading" color="textSecondary" gutterBottom>Procedure</Typography>
+                    
+                    <Typography variant="body1" color="textPrimary">
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
                         minutes.
                     </Typography>
-                    { 
-                      Object.keys(material.data).map(fieldId => {
-                          const field = material.data[fieldId];
-                          if (field.type == "image") {
-                            return (
-                              <CardMedia
-                                className={classes.media}
-                                image={field.value}
-                                title="Paella dish"
-                              />
-                            )
-                          }
-                      })
-                    }
-                    <Typography paragraph>
-                        Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-                        heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-                        browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-                        and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
-                        pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-                        saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
+
+                    <Divider className={classes.divider} />
+
+                    <Typography variant="subheading" color="textSecondary" gutterBottom>Hints</Typography>
+                    
+                    <Typography variant="body1" color="textPrimary">
+                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+                        minutes.
                     </Typography>
-                    <Typography paragraph>
-                        Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-                        without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-                        medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
-                        again without stirring, until mussels have opened and rice is just tender, 5 to 7
-                        minutes more. (Discard any mussels that don’t open.)
+
+                    <Divider className={classes.divider} />
+
+                    <Typography variant="subheading" color="textSecondary" gutterBottom>NMRs</Typography>
+                    
+                    <Grid container>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                    </Grid>
+
+                    <Divider className={classes.divider}/>
+
+                    <Typography variant="subheading" color="textSecondary" gutterBottom>MCDSes</Typography>
+
+                    <Grid container>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
+                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
+                      </Grid>
+                    </Grid>
+
+                    <Divider className={classes.divider}/>
+
+                    <Typography variant="subheading" color="textSecondary" gutterBottom>Notes</Typography>
+                    
+                    <Typography variant="body1" color="textPrimary">
+                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+                        minutes.
                     </Typography>
-                    <Typography>
-                        Set aside off of the heat to let rest for 10 minutes, and then serve.
-                    </Typography>
-                    </CardContent>
-                </Collapse>
-              )}
-              <CardActions disableSpacing>
-                  <IconButton aria-label="Add to favorites">
-                  <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="Share">
-                  <ShareIcon />
-                  </IconButton>
-                  
-              </CardActions>
-            </Card>
+
+                  </Collapse>
+                )}
+              </CardContent>
+            )}
+            <CardActions disableSpacing>
+                <IconButton aria-label="Add to favorites">
+                <FavoriteIcon />
+                </IconButton>
+                <IconButton aria-label="Share">
+                <ShareIcon />
+                </IconButton>
+                
+            </CardActions>
+          </Card>
         );
     }   
 }
