@@ -188,7 +188,7 @@ class DataExpensionPanel extends React.Component  {
                   }
                   title={materialHeaderData.header}
                   subheader={
-                    <Typography>
+                    <Typography color="textSecondary">
                       {materialHeaderData.state} at {materialHeaderData.purity}{materialHeaderData.purityUnit} purity, left {materialHeaderData.weight}{materialHeaderData.weightUnit}
                     </Typography>
                   }
