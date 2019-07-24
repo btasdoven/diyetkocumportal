@@ -17,10 +17,10 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    marginBottom: theme.spacing.unit * 7,
-    //marginLeft: theme.spacing.unit * 7,
-    padding: theme.spacing.unit * 1,
-    marginTop: theme.spacing.unit * 7,
+    marginBottom: theme.spacing(7),
+    //marginLeft: theme.spacing(7),
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(7),
     overflowX: "hidden"
   },
   contentShift: {

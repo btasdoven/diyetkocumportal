@@ -30,7 +30,7 @@ const styles = theme => ({
     backgroundColor: 'rgb(38,55,70)'
   },
   icon: {
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing(2),
   },
   loginButton: {
     marginLeft: 'auto',
@@ -42,31 +42,31 @@ const styles = theme => ({
   },
   heroContent: {
     width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(1100 + theme.spacing(6))]: {
         width: 1100,
         marginLeft: 'auto',
         marginRight: 'auto',
     },
-    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`,
+    padding: `${theme.spacing(8)}px 0 ${theme.spacing(6)}px`,
   },
   heroButtons: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing(4),
   },
   layout: {
     width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
     padding: 0,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+    [theme.breakpoints.up(1100 + theme.spacing(6))]: {
       width: 1100,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
   },
   cardGrid: {
-    padding: `${theme.spacing.unit * 4}px 0 0 0`,
+    padding: `${theme.spacing(4)}px 0 0 0`,
   },
   card: {
     paddingLeft: '8px',
@@ -84,8 +84,8 @@ const styles = theme => ({
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    marginTop: theme.spacing.unit * 4,
-    padding: theme.spacing.unit * 6,
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(6),
   },
 });
 

@@ -42,13 +42,13 @@ const styles = theme => ({
   },
   layout: {
     width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
     padding: 0,
   },
   root: {
     width: '100%',
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),

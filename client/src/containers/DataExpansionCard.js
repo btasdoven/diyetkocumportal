@@ -176,6 +176,7 @@ class DataExpensionPanel extends React.Component  {
                   }
                   action={
                     <IconButton
+                      disabled={true}
                       className={clsx(classes.expand, {
                           [classes.expandOpen]: expanded,
                       })}
@@ -188,7 +189,7 @@ class DataExpensionPanel extends React.Component  {
                   }
                   title={materialHeaderData.header}
                   subheader={
-                    <Typography color="textSecondary">
+                    <Typography variant="caption" color="textSecondary">
                       {materialHeaderData.state} at {materialHeaderData.purity}{materialHeaderData.purityUnit} purity, left {materialHeaderData.weight}{materialHeaderData.weightUnit}
                     </Typography>
                   }
@@ -226,25 +227,25 @@ class DataExpensionPanel extends React.Component  {
                 { !showLoader && (
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
 
-                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>Procedure</Typography>
+                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Procedure</Typography>
                     
-                    <Typography variant="body1" color="textPrimary">
+                    <Typography variant="body2" color="textPrimary">
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
                         minutes.
                     </Typography>
 
                     <Divider className={classes.divider} />
 
-                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>Hints</Typography>
+                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Hints</Typography>
                     
-                    <Typography variant="body1" color="textPrimary">
+                    <Typography variant="body2" color="textPrimary">
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
                         minutes.
                     </Typography>
 
                     <Divider className={classes.divider} />
 
-                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>NMRs</Typography>
+                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>NMRs</Typography>
                     
                     <Grid container>
                       {
@@ -266,7 +267,7 @@ class DataExpensionPanel extends React.Component  {
 
                     <Divider className={classes.divider}/>
 
-                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>MCDSes</Typography>
+                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>MCDSes</Typography>
 
                     <Grid container>
                       <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
@@ -282,9 +283,9 @@ class DataExpensionPanel extends React.Component  {
 
                     <Divider className={classes.divider}/>
 
-                    <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>Notes</Typography>
+                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Notes</Typography>
                     
-                    <Typography variant="body1" color="textPrimary">
+                    <Typography variant="body2" color="textPrimary">
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
                         minutes.
                     </Typography>

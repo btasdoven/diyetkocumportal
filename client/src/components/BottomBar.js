@@ -7,6 +7,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsIcon from "@material-ui/icons/Settings";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import HistoryIcon from "@material-ui/icons/History";
 import PeopleIcon from "@material-ui/icons/People";
 import AppsIcon from "@material-ui/icons/Apps";
@@ -27,29 +28,11 @@ import { Paper } from "@material-ui/core";
 const drawerWidth = 240;
 
 const styles = theme => ({
-  drawerPaper: {
-    position: "fixed",
-    top: theme.spacing.unit * 8,
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  drawerPaperClose: {
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    width: theme.spacing.unit * 7
-  },
   stickToBottom: {
     width: '100%',
     position: 'fixed',
     bottom: 0,
-    height: theme.spacing.unit * 7,
+    height: theme.spacing(7),
   },
 });
 
@@ -69,14 +52,14 @@ const BottomBar = props => {
       component={Paper}
     >
         <BottomNavigationAction 
-          label="Dashboard"
+          label="Storage"
           icon={<StoreIcon />}
           component={Link}
           to="/"
         />
         <BottomNavigationAction 
-          label="Share"
-          icon={<PeopleIcon />}
+          label="Calendar"
+          icon={<CalendarTodayIcon />}
           component={Link}
           to="/share"
         />

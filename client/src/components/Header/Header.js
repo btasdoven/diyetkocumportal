@@ -27,14 +27,16 @@ const styles = theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  appBar: {
   }
 });
 
 const getPageTitle = (pathname) => {
   if (pathname === '/') {
-    return "My Library"
+    return "My Storage"
   } else if (pathname === '/share') {
-    return "Linked Applications"
+    return "Calendar"
   } else if (pathname === '/history') {
     return "History"
   } else if (pathname.startsWith('/links/')) {
@@ -61,13 +63,13 @@ class Header extends React.Component  {
   render() {
     const { classes, location } = this.props;
     return (
-      <AppBar position="fixed">
+      <AppBar className={classes.appBar} position="fixed">
         <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
           <a href='/'>
             <img src="/static/favicon.png" style={{marginRight: '10px', marginLeft: '10px', height:'40px'}}/>
           </a>
             <Typography
-              variant="title"
+              variant="h6"
               color="inherit"
               noWrap
               className={classes.title}

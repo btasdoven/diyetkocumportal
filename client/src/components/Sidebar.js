@@ -24,7 +24,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   drawerPaper: {
     position: "fixed",
-    top: theme.spacing.unit * 8,
+    top: theme.spacing(8),
     whiteSpace: "nowrap",
     width: drawerWidth,
     transition: theme.transitions.create("width", {
@@ -38,7 +38,7 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    width: theme.spacing.unit * 7
+    width: theme.spacing(7)
   }
 });
 

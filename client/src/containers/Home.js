@@ -95,7 +95,7 @@ class Home extends React.Component {
 
           { showLoader && renderLoadingButton(classes) }
 
-            <Grid container spacing={8}>
+            <Grid container spacing={1}>
               {Object.keys(apiMaterialHeaders.items).map( (materialId, idx) => {
                 return (
                   <Grid key={materialId} item xs={12} sm={6} md={4} xl={3}>
