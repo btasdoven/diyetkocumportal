@@ -38,6 +38,14 @@ const styles = theme => ({
     width: '100%',
     flexGrow: 1,
   },
+  rootLoading: {
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      width: '100%',
+      alignItems: "center",
+      margin: '8px'
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -47,6 +55,14 @@ const styles = theme => ({
     align: 'left'
   },
 });
+
+function renderLoadingButton(classes) {
+  return (
+    <div className={classes.rootLoading}>
+      <CircularProgress size={24} className={classes.buttonProgress} />
+    </div>
+  )
+} 
 
 class Home extends React.Component {
   
@@ -77,7 +93,7 @@ class Home extends React.Component {
         >
           <div className={classes.root}>
 
-            {showLoader && (<CircularProgress size={24} className={classes.buttonProgress} />)}
+          { showLoader && renderLoadingButton(classes) }
 
             <Grid container spacing={8}>
               {Object.keys(apiMaterialHeaders.items).map( (materialId, idx) => {
