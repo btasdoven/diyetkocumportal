@@ -82,7 +82,7 @@ class Home extends React.Component {
             <Grid container spacing={8}>
               {Object.keys(apiMaterialHeaders.items).map( (materialId, idx) => {
                 return (
-                  <Grid item xs={12} sm={6} md={4} xl={3}>
+                  <Grid key={materialId} item xs={12} sm={6} md={4} xl={3}>
                     <DataExpensionCard
                       key={"userDataPanel" + materialId}
                       userId={JSON.parse(localStorage.getItem('user')).id}

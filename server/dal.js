@@ -32,51 +32,21 @@ const rows = {
         },
         "X": {
           id: 'X',
-          header: "2-Methylthiophene",
-          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png',
-          weight: '1.38',
-          weightUnit: 'g',
-          purity: '78',
-          purityUnit: '%',
-          state: 'Solid'
-        },
-        "profile2": {
-          id: 'profile2',
-          header: "2-Methylthiophene",
-          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png',
-          weight: '1.38',
-          weightUnit: 'g',
-          purity: '78',
-          purityUnit: '%',
-          state: 'Solid'
-        },
-        "X2": {
-          id: 'X2',
-          header: "2-Methylthiophene",
-          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png',
-          weight: '7.18',
-          weightUnit: 'g',
-          purity: '35',
+          header: "2-Mercaptoethanol",
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/080/mfcd00004890.eps/_jcr_content/renditions/mfcd00004890-medium.png',
+          weight: '0.42',
+          weightUnit: 'ml',
+          purity: '99',
           purityUnit: '%',
           state: 'Liquid'
         },
-        "profile3": {
-          id: 'profile3',
-          header: "2-Methylthiophene",
-          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png',
-          weight: '1.38',
+        "profile2": {
+          id: 'profile2',
+          header: "1,6-Hexanediamine",
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure1/102/mfcd00008243.eps/_jcr_content/renditions/mfcd00008243-medium.png',
+          weight: '2.13',
           weightUnit: 'g',
-          purity: '78',
-          purityUnit: '%',
-          state: 'Solid'
-        },
-        "X3": {
-          id: 'X3',
-          header: "2-Methylthiophene",
-          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png',
-          weight: '1.38',
-          weightUnit: 'g',
-          purity: '78',
+          purity: '98',
           purityUnit: '%',
           state: 'Solid'
         }
@@ -84,67 +54,52 @@ const rows = {
       materials: {
         "profile": {
           data: {
-            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
-            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
-            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
-            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
+            'procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: [
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+            ]},
+            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
           }
         },
         "X": {
           data: {
-            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
-            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
-            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
-            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
-            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
-            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
-            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
+            'procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: [
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+            ]},
+            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
           }
         },
         "profile2": {
           data: {
-            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
-            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
-            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
-            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
-            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
-            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
-            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
+            'procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
+            'hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
+            'NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: [
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              './static/nmr.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+            ]},
+            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
           }
-        },
-        "X2": {
-          data: {
-            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
-            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
-            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
-            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
-            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
-            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
-            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
-          }
-        },
-        "profile3": {
-          data: {
-            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
-            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
-            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
-            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
-            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
-            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
-            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
-          }
-        },
-        "X3": {
-          data: {
-            'profile/name': { id:'profile/name', fieldId: 'name', name: 'Weight', type: 'text', value: '1.38g' },
-            'profile/surname': { id:'profile/surname', fieldId: 'surname', name: 'Purity', type: 'text', value: '74%' },
-            'profile/procedure': { id:'profile/procedure', fieldId: 'procedure', name: 'Procedure', type: 'text', value: 'how to synthesize' },
-            'profile/hints': { id:'profile/hints', fieldId: 'hints', name: 'Hints', type: 'text', value: 'Be Careful' },
-            'profile/NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: 'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png' },
-            'profile/MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
-            'profile/phase': { id:'profile/phase', fieldId: 'phase', name: 'States', type: 'text', value: 'Liquid' },
-          }
-        },
+        }
       }
     }
 };

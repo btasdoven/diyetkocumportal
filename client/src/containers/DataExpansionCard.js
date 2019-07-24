@@ -30,6 +30,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+
 const styles = theme => ({
   card: {
     //maxWidth: 345,
@@ -72,7 +75,7 @@ const styles = theme => ({
       margin: '0px'
   },
   photothumbnail: {
-    border: "solid 1px rgba(38, 55, 70, 1)",
+    border: "solid 1px rgba(38, 55, 70, 0.6)",
     boxSizing: "border-box",
     marginRight: "-1px",
     marginTop: "-1px",
@@ -98,22 +101,34 @@ function renderLoadingButton(classes) {
   )
 } 
 
+function SimpleDialog(props, classes) {
+  const { onClose, ...other } = props;
+  const emails = ['username@gmail.com'];
+
+  function handleClose() {
+    onClose();
+  }
+
+  return (
+    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" {...other}>
+      <img width="100%" src={props.url}/>
+    </Dialog>
+  );
+}
+
 class DataExpensionPanel extends React.Component  {
 
     constructor(props) {
         super(props)
 
-        // this.onAddNewField = this.onAddNewField.bind(this);
-        // this.onEditField = this.onEditField.bind(this);
-        // this.onDeleteField = this.onDeleteField.bind(this);
-        // this.onDialogClosed = this.onDialogClosed.bind(this);
-        
         this.handleExpandClick = this.handleExpandClick.bind(this);
+        this.handleCollapseImg = this.handleCollapseImg.bind(this);
+        this.handleExpandImg = this.handleExpandImg.bind(this);
 
         this.state = {
-            addingNewField: false,
-            editingFieldId: null,
-            expanded: false,
+          addingNewField: false,
+          editingFieldId: null,
+          expanded: false,
         }
     }
 
@@ -127,6 +142,14 @@ class DataExpensionPanel extends React.Component  {
       }
 
       this.setState({expanded: !this.state.expanded})
+    }
+
+    handleCollapseImg() {
+      this.setState({ selectedImageUrl: undefined });
+    }
+
+    handleExpandImg(url) {
+      this.setState({ selectedImageUrl: url });
     }
 
     render() {
@@ -149,7 +172,7 @@ class DataExpensionPanel extends React.Component  {
               onClick={this.handleExpandClick}>
               <CardHeader
                   avatar={
-                    <Avatar aria-label="Recipe" className={classes.avatar} src={materialHeaderData.headerImg} />
+                    <Avatar aria-label="Recipe" className={classes.avatar} width="100%" src={materialHeaderData.headerImg} />
                   }
                   action={
                     <IconButton
@@ -164,8 +187,11 @@ class DataExpensionPanel extends React.Component  {
                     </IconButton>
                   }
                   title={materialHeaderData.header}
-                  subheader={materialHeaderData.state + " at " + materialHeaderData.purity + materialHeaderData.purityUnit + " purity, " +
-                    "left " + materialHeaderData.weight + materialHeaderData.weightUnit}
+                  subheader={
+                    <Typography>
+                      {materialHeaderData.state} at {materialHeaderData.purity}{materialHeaderData.purityUnit} purity, left {materialHeaderData.weight}{materialHeaderData.weightUnit}
+                    </Typography>
+                  }
                     //{<Chip size="small" color="secondary" label="Basic Chip" className={classes.chip} />}
               />
               {/* { !expanded && (
@@ -221,25 +247,22 @@ class DataExpensionPanel extends React.Component  {
                     <Typography variant="subheading" className={classes.subheaderTitle} gutterBottom>NMRs</Typography>
                     
                     <Grid container>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
+                      {
+                        material.data['NMR'].value.map((url, idx) => {
+                          return (
+                            <Grid key={idx} item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleExpandImg(url)}>
+                              <img width="100%" src={url} />
+                            </Grid>
+                          )
+                        })
+                      }
                     </Grid>
+                    
+                    <SimpleDialog 
+                      url={this.state.selectedImageUrl}
+                      open={this.state.selectedImageUrl != undefined}
+                      maxWidth="lg"
+                      onClose={this.handleCollapseImg} />
 
                     <Divider className={classes.divider}/>
 
@@ -271,7 +294,7 @@ class DataExpensionPanel extends React.Component  {
               </CardContent>
             )}
             { expanded && (
-              <CardActions disableSpacing>
+              <CardActions>
                 <IconButton aria-label="Add to favorites">
                 <FavoriteIcon />
                 </IconButton>

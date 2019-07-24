@@ -22,23 +22,34 @@ import LinkViewer from "./containers/LinkViewer";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
+import MainLayoutBottomNav from "./layouts/MainLayoutBottomNav";
+
+import withWidth from '@material-ui/core/withWidth';
 
 const NotFound = () => {
   return <div>NotFound</div>;
 };
 
-const DashboardRoute = ({ component: Component, ...rest }) => {
+
+const DashboardRoute = withWidth()(({ width, component: Component, ...rest }) => {
+
   return (
     <Route
       {...rest}
-      render={matchProps => (
-        <MainLayout>
-          <Component {...matchProps} />
-        </MainLayout>
-      )}
+      render={matchProps => 
+        width != 'xs' && width != 'sm'
+          ? (
+            <MainLayout>
+              <Component {...matchProps} />
+            </MainLayout>
+          ) : (
+            <MainLayoutBottomNav>
+              <Component {...matchProps} />
+            </MainLayoutBottomNav>
+          )}
     />
   );
-};
+});
 
 const EmptyRoute = ({ component: Component, ...rest }) => {
   return (
@@ -60,6 +71,7 @@ class App extends Component {
 
   render() {
     const { settings, auth } = this.props;
+    const shouldUseBottomNav = true;//useMediaQuery(settings.theme.breakpoints.down('sm'));
 
     return (
       <MuiThemeProvider theme={settings.theme}>
@@ -68,14 +80,14 @@ class App extends Component {
           <Router>
             {localStorage.getItem('user') ? (
               <Switch>
-                <DashboardRoute path="/dashboard" component={Home} />
-                <DashboardRoute path="/share" component={Share} />
-                <DashboardRoute path="/history" component={History} />
-                <DashboardRoute path="/apps" component={Apps} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/dashboard" component={Home} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/share" component={History} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/history" component={History} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/apps" component={Apps} />
 
                 <Route path="/signin" render={() => <Redirect to="/" />} />
-                <DashboardRoute path="/links/:userId/:linkId" component={LinkViewer} />
-                <DashboardRoute exact path="/" component={Home} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/links/:userId/:linkId" component={LinkViewer} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/" component={Home} />
                 <EmptyRoute component={NotFound} />
               </Switch>
             ) : (
