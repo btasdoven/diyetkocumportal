@@ -50,6 +50,7 @@ const BottomBar = props => {
       showLabels={true}
       className={classes.stickToBottom}
       component={Paper}
+      elevation={2}
     >
         <BottomNavigationAction 
           label="Storage"

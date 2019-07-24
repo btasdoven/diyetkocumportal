@@ -84,9 +84,12 @@ const styles = theme => ({
       opacity: 0.5,
     }
   },
+  photoGrid: {
+    paddingBottom: "0.2em"
+  },
   divider: {
-    marginBottom: "0.35em",
-    marginTop: "0.35em",
+    marginBottom: "0.55em",
+    marginTop: "0.55em",
   },
   subheaderTitle: {
     color: "rgba(38, 55, 70, 1)"
@@ -247,7 +250,7 @@ class DataExpensionPanel extends React.Component  {
 
                     <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>NMRs</Typography>
                     
-                    <Grid container>
+                    <Grid container className={classes.photoGrid}>
                       {
                         material.data['NMR'].value.map((url, idx) => {
                           return (
@@ -269,7 +272,7 @@ class DataExpensionPanel extends React.Component  {
 
                     <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>MCDSes</Typography>
 
-                    <Grid container>
+                    <Grid container className={classes.photoGrid}>
                       <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
                         <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
                       </Grid>
