@@ -12,13 +12,15 @@ const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    //backgroundColor: "red",
   },
   content: {
     flexGrow: 1,
+    marginBottom: theme.spacing.unit * 7,
     //marginLeft: theme.spacing.unit * 7,
     padding: theme.spacing.unit * 1,
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing.unit * 7,
     overflowX: "hidden"
   },
   contentShift: {

@@ -13,6 +13,7 @@ import AppsIcon from "@material-ui/icons/Apps";
 import StoreIcon from "@material-ui/icons/Store";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
 import MenuItem from '@material-ui/core/MenuItem';
 
 import { withRouter } from 'react-router'
@@ -21,6 +22,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import { Paper } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -47,6 +49,7 @@ const styles = theme => ({
     width: '100%',
     position: 'fixed',
     bottom: 0,
+    height: theme.spacing.unit * 7,
   },
 });
 
@@ -60,49 +63,29 @@ const BottomBar = props => {
   console.log(location);
   return (
     <BottomNavigation
-      // variant="permanent"
-      // classes={{
-      //   paper: classNames(
-      //     classes.drawerPaper,
-      //     !open && classes.drawerPaperClose
-      //   )
-      // }}
-      // open={open}
       value={selected}
       showLabels={true}
       className={classes.stickToBottom}
+      component={Paper}
     >
         <BottomNavigationAction 
           label="Dashboard"
-          //selected={location.pathname === '/'}>
           icon={<StoreIcon />}
           component={Link}
           to="/"
         />
         <BottomNavigationAction 
           label="Share"
-          //selected={location.pathname === '/'}>
           icon={<PeopleIcon />}
           component={Link}
           to="/share"
         />
         <BottomNavigationAction 
           label="History"
-          //selected={location.pathname === '/'}>
           icon={<HistoryIcon />}
           component={Link}
           to="/history"
         />
-        {/* <Link to="/apps">
-          <Tooltip title="Applications" placement="right">
-            <ListItem button selected={location.pathname === '/apps'}>
-              <ListItemIcon>
-                <AppsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Applications" />
-            </ListItem>
-          </Tooltip>
-        </Link> */}
     </BottomNavigation>
   );
 };
