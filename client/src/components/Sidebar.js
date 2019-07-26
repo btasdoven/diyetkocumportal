@@ -14,6 +14,7 @@ import StoreIcon from "@material-ui/icons/Store";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from '@material-ui/core/MenuItem';
+import FolderSpecialIcon from "@material-ui/icons/FolderSpecial";
 
 import { withRouter } from 'react-router'
 
@@ -80,12 +81,12 @@ const Sidebar = props => {
           </Tooltip>
         </Link>
         <Link to="/history">
-          <Tooltip title="History" placement="right">
+          <Tooltip title="Projects" placement="right">
             <ListItem button selected={location.pathname === '/history'}>
               <ListItemIcon>
-                <HistoryIcon />
+                <FolderSpecialIcon />
               </ListItemIcon>
-              <ListItemText primary="History" />
+              <ListItemText primary="Projects" />
             </ListItem>
           </Tooltip>
         </Link>

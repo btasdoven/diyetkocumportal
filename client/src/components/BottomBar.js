@@ -10,7 +10,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import HistoryIcon from "@material-ui/icons/History";
 import PeopleIcon from "@material-ui/icons/People";
-import AppsIcon from "@material-ui/icons/Apps";
+import FolderSpecialIcon from "@material-ui/icons/FolderSpecial";
 import StoreIcon from "@material-ui/icons/Store";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
@@ -66,7 +66,7 @@ const BottomBar = props => {
         />
         <BottomNavigationAction 
           label="Projects"
-          icon={<HistoryIcon />}
+          icon={<FolderSpecialIcon />}
           component={Link}
           to="/history"
         />
