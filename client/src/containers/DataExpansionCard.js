@@ -109,7 +109,6 @@ function renderLoadingButton(classes) {
 
 function SimpleDialog(props, classes) {
   const { onClose, ...other } = props;
-  const emails = ['username@gmail.com'];
 
   function handleClose() {
     onClose();
@@ -130,7 +129,9 @@ function TakePhotoDialog(props, classes) {
   }
 
   return (
-    <Dialog fullScreen open={true} onClose={handleClose} aria-labelledby="simple-dialog-title" {...other}>
+    <Dialog fullScreen open={true} 
+      classes={{container: { height: "none" }}}
+      onClose={handleClose} aria-labelledby="simple-dialog-title" {...other}>
       <CamareWrapper 
         onTakePhoto={(uri) => 
         { 
@@ -171,11 +172,15 @@ class DataExpensionPanel extends React.Component  {
     }
 
     handleCollapseImg() {
-      this.setState({ selectedImageUrl: undefined });
+      this.setState({ selectedImageUrl: undefined, selectedImageType: undefined });
     }
 
-    handleExpandImg(url) {
-      this.setState({ selectedImageUrl: url });
+    handleExpandImg(url, isBase64) {
+      if (isBase64) {
+        this.setState({ selectedImageUrl: url, selectedImageType: 'base64' });
+      } else {
+        this.setState({ selectedImageUrl: url, selectedImageType: 'url' });
+      }
     }
 
     handleTakePicture() {
@@ -275,6 +280,15 @@ class DataExpensionPanel extends React.Component  {
                         minutes.
                     </Typography>
                     <br />
+
+                    { this.state.takenPictureUrl && 
+                      <Grid container className={classes.photoGrid}>
+                          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleExpandImg(this.state.takenPictureUrl, true)}>
+                            <img width="100%" alt="star" src={this.state.takenPictureUrl} />
+                          </Grid>
+                      </Grid>
+                    }
+                    <br />
                     <label htmlFor="contained-button-file">
                       <Button variant="outlined" size="small" color="primary" component="div" onClick={() => this.handleTakePicture()}>
                         Take a Picture
@@ -317,6 +331,7 @@ class DataExpensionPanel extends React.Component  {
                     
                     <SimpleDialog 
                       url={this.state.selectedImageUrl}
+                      urlType={this.state.selectedImageType}
                       open={this.state.selectedImageUrl != undefined}
                       maxWidth="lg"
                       onClose={this.handleCollapseImg} />
