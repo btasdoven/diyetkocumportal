@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
@@ -22,13 +23,15 @@ import Chip from '@material-ui/core/Chip';
 import { getMaterial, itemsPutData } from '../store/reducers/api.materials';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Divider, CardActionArea } from '@material-ui/core';
-
+import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import CamareWrapper from './Project'
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -119,6 +122,25 @@ function SimpleDialog(props, classes) {
   );
 }
 
+function TakePhotoDialog(props, classes) {
+  const { onClose, ...other } = props;
+
+  function handleClose() {
+    onClose();
+  }
+
+  return (
+    <Dialog fullScreen open={true} onClose={handleClose} aria-labelledby="simple-dialog-title" {...other}>
+      <CamareWrapper 
+        onTakePhoto={(uri) => 
+        { 
+            props.onTakePhoto(uri);
+        }}
+      />
+    </Dialog>
+  );
+}
+
 class DataExpensionPanel extends React.Component  {
 
     constructor(props) {
@@ -127,6 +149,7 @@ class DataExpensionPanel extends React.Component  {
         this.handleExpandClick = this.handleExpandClick.bind(this);
         this.handleCollapseImg = this.handleCollapseImg.bind(this);
         this.handleExpandImg = this.handleExpandImg.bind(this);
+        this.handleTakePicture = this.handleTakePicture.bind(this);
 
         this.state = {
           addingNewField: false,
@@ -155,6 +178,10 @@ class DataExpensionPanel extends React.Component  {
       this.setState({ selectedImageUrl: url });
     }
 
+    handleTakePicture() {
+      this.setState({ takingPicture: true });
+    }
+
     render() {
         const classes = this.props.classes;
         const expanded = this.state.expanded;
@@ -167,7 +194,18 @@ class DataExpensionPanel extends React.Component  {
           this.props.apiMaterials[materialId].isGetLoading;
           
         const material = showLoader ? undefined : this.props.apiMaterials[materialId].items[materialId];
-        const bull = <span className={classes.bullet}>•</span>;
+
+        if (this.state.takingPicture) {
+          return (
+            <TakePhotoDialog 
+              onTakePhoto={(uri) => 
+              { 
+                  console.log(uri); 
+                  this.setState({ takingPicture: false, takenPictureUrl: uri }); 
+              }}
+            />
+          )
+        }
 
         return (
           <Card className={classes.card}>
@@ -236,6 +274,21 @@ class DataExpensionPanel extends React.Component  {
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
                         minutes.
                     </Typography>
+                    <br />
+                    <label htmlFor="contained-button-file">
+                      <Button variant="outlined" size="small" color="primary" component="div" onClick={() => this.handleTakePicture()}>
+                        Take a Picture
+                      </Button>
+                    </label>
+
+                    <Divider className={classes.divider}/>
+
+                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Purification</Typography>
+                    
+                    <Typography variant="body2" color="textPrimary">
+                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+                        minutes.
+                    </Typography>
 
                     <Divider className={classes.divider} />
 
@@ -254,7 +307,7 @@ class DataExpensionPanel extends React.Component  {
                       {
                         material.data['NMR'].value.map((url, idx) => {
                           return (
-                            <Grid key={idx} item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleExpandImg(url)}>
+                            <Grid key={idx} item xs={6} sm={6} md={6} xl={6} className={classes.photothumbnail} onClick={() => this.handleExpandImg(url)}>
                               <img width="100%" src={url} />
                             </Grid>
                           )
@@ -273,15 +326,15 @@ class DataExpensionPanel extends React.Component  {
                     <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>MCDSes</Typography>
 
                     <Grid container className={classes.photoGrid}>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail}>
-                        <img width="100%" src="https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png" />
-                      </Grid>
+                      {
+                        material.data['MSDS'].value.map((url, idx) => {
+                          return (
+                            <Grid key={idx} item xs={6} sm={6} md={6} xl={6} className={classes.photothumbnail} onClick={() => this.handleExpandImg(url)}>
+                              <img width="100%" src={url} />
+                            </Grid>
+                          )
+                        })
+                      }
                     </Grid>
 
                     <Divider className={classes.divider}/>
@@ -303,7 +356,7 @@ class DataExpensionPanel extends React.Component  {
                 <FavoriteIcon />
                 </IconButton>
                 <IconButton aria-label="Share">
-                <ShareIcon />
+                <EditIcon />
                 </IconButton>
               </CardActions>
             )}

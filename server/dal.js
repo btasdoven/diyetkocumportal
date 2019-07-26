@@ -59,13 +59,11 @@ const rows = {
             'NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: [
               './static/nmr.png',
               'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+            ]},
+            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'image', value: [
               './static/nmr.png',
-              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
-              './static/nmr.png',
-              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
               'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
             ]},
-            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
           }
         },
         "X": {
@@ -75,13 +73,11 @@ const rows = {
             'NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: [
               './static/nmr.png',
               'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+            ]},
+            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'image', value: [
               './static/nmr.png',
-              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
-              './static/nmr.png',
-              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
               'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
             ]},
-            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
           }
         },
         "profile2": {
@@ -91,13 +87,11 @@ const rows = {
             'NMR': { id:'profile/NMR', fieldId: 'NMR', name: 'NMR', type: 'image', value: [
               './static/nmr.png',
               'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
+            ]},
+            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'image', value: [
               './static/nmr.png',
-              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
-              './static/nmr.png',
-              'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
               'https://www.researchgate.net/profile/Stephanie_Schubert2/publication/227269936/figure/fig2/AS:586258921316352@1516786427136/13-C-NMR-spectrum-of-thiophene-2-carboxylic-cyclodextrin-ester-a-sample-2-400-MHz.png',
             ]},
-            'MSDS': { id:'profile/MSDS', fieldId: 'MSDS', name: 'MSDS', type: 'text', value: 'Sigma INFO' },
           }
         }
       }

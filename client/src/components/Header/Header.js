@@ -38,7 +38,7 @@ const getPageTitle = (pathname) => {
   } else if (pathname === '/share') {
     return "Calendar"
   } else if (pathname === '/history') {
-    return "History"
+    return "Projects"
   } else if (pathname.startsWith('/links/')) {
     return "View Shared Link As"
   }

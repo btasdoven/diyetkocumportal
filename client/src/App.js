@@ -14,6 +14,7 @@ import Home from "./containers/Home";
 import Share from "./containers/Share";
 import History from "./containers/History";
 import Apps from "./containers/Apps";
+import Project from "./containers/Project";
 import Signin from "./containers/Signin";
 import Register from "./containers/Register/Register";
 import LandingPage from "./containers/LandingPage";
@@ -82,7 +83,7 @@ class App extends Component {
               <Switch>
                 <DashboardRoute bottomNav={shouldUseBottomNav} path="/dashboard" component={Home} />
                 <DashboardRoute bottomNav={shouldUseBottomNav} path="/share" component={History} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/history" component={History} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/history" component={Project} />
                 <DashboardRoute bottomNav={shouldUseBottomNav} path="/apps" component={Apps} />
 
                 <Route path="/signin" render={() => <Redirect to="/" />} />

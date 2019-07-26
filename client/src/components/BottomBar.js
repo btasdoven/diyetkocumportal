@@ -65,7 +65,7 @@ const BottomBar = props => {
           to="/share"
         />
         <BottomNavigationAction 
-          label="History"
+          label="Projects"
           icon={<HistoryIcon />}
           component={Link}
           to="/history"
