@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -78,14 +79,14 @@ const styles = theme => ({
       margin: '0px'
   },
   photothumbnail: {
-    border: "solid 1px rgba(38, 55, 70, 0.6)",
+    //border: "solid 1px rgba(38, 55, 70, 0.6)",
     boxSizing: "border-box",
-    marginRight: "-1px",
-    marginTop: "-1px",
+    padding: "2px",
     cursor: "pointer",
     '&:hover': {
       opacity: 0.5,
-    }
+    },
+    maxHeight: "10em"
   },
   photoGrid: {
     paddingBottom: "0.2em"
@@ -275,25 +276,27 @@ class DataExpensionPanel extends React.Component  {
 
                     <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Procedure</Typography>
                     
-                    <Typography variant="body2" color="textPrimary">
-                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                        minutes.
+                    <Typography variant="body2" color="textPrimary" align="justify">
+                        {
+                          material.data['procedure'].value
+                        }
                     </Typography>
                     <br />
 
-                    { this.state.takenPictureUrl && 
-                      <Grid container className={classes.photoGrid}>
+                    { <Grid container className={classes.photoGrid}>
+                        <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleTakePicture()}>
+                          <IconButton aria-label="Add to favorites">
+                            <AddAPhotoIcon />
+                          </IconButton>
+                        </Grid>
+                        { this.state.takenPictureUrl && 
                           <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleExpandImg(this.state.takenPictureUrl, true)}>
                             <img width="100%" alt="star" src={this.state.takenPictureUrl} />
                           </Grid>
+                        }
                       </Grid>
                     }
                     <br />
-                    <label htmlFor="contained-button-file">
-                      <Button variant="outlined" size="small" color="primary" component="div" onClick={() => this.handleTakePicture()}>
-                        Take a Picture
-                      </Button>
-                    </label>
 
                     <Divider className={classes.divider}/>
 
@@ -322,7 +325,7 @@ class DataExpensionPanel extends React.Component  {
                         material.data['NMR'].value.map((url, idx) => {
                           return (
                             <Grid key={idx} item xs={6} sm={6} md={6} xl={6} className={classes.photothumbnail} onClick={() => this.handleExpandImg(url)}>
-                              <img width="100%" src={url} />
+                              <img height="100%" src={url} />
                             </Grid>
                           )
                         })
@@ -345,7 +348,7 @@ class DataExpensionPanel extends React.Component  {
                         material.data['MSDS'].value.map((url, idx) => {
                           return (
                             <Grid key={idx} item xs={6} sm={6} md={6} xl={6} className={classes.photothumbnail} onClick={() => this.handleExpandImg(url)}>
-                              <img width="100%" src={url} />
+                              <img height="100%" src={url} />
                             </Grid>
                           )
                         })
