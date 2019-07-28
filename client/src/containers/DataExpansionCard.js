@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import SaveIcon from '@material-ui/icons/Save';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -31,6 +32,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import DataExpansionEditDialog from './DataExpansionEditDialog'
 
 import CamareWrapper from './Project'
 
@@ -97,6 +100,15 @@ const styles = theme => ({
   },
   subheaderTitle: {
     color: "rgba(38, 55, 70, 1)"
+  },
+  editGridButton: {
+    display: "flex",
+    justifyContent: "flex-end",
+    paddingRight: "0.5em"
+  },
+  editGridText: {
+    display: "flex",
+    alignItems: "center",
   }
 });
 
@@ -143,6 +155,48 @@ function TakePhotoDialog(props, classes) {
   );
 }
 
+const FieldDetail = props => {
+  const classes = props.classes;
+  const title = props.title;
+  const component = props.component;
+  const onEdit = props.onEdit;
+  const onEditComplete = props.onEditComplete;
+  const editing = props.editing;
+  const fieldData = props.fieldData;
+  const headerOnly = props.headerOnly;
+
+  return (
+    <span>
+      <Grid container>
+        <Grid item xs={9} sm={9} md={9} xl={9} className={classes.editGridText}>
+          <Typography variant="subtitle1" className={classes.subheaderTitle}>{title}</Typography>
+        </Grid>
+
+        { !headerOnly && !editing &&
+          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.editGridButton} onClick={onEdit}>
+            <IconButton aria-label="Add to favorites">
+              <EditIcon />
+            </IconButton>
+          </Grid>
+        }
+        { !headerOnly && editing &&
+          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.editGridButton} onClick={onEditComplete}>
+            <IconButton aria-label="Add to favorites">
+              <SaveIcon />
+            </IconButton>
+          </Grid>
+        }
+      </Grid>
+
+      { !headerOnly && !editing && component}
+      { !headerOnly && editing && 
+        <DataExpansionEditDialog form={title} fieldData={fieldData} open={true} />
+      }
+    </span>
+  )
+};
+
+
 class DataExpensionPanel extends React.Component  {
 
     constructor(props) {
@@ -154,8 +208,7 @@ class DataExpensionPanel extends React.Component  {
         this.handleTakePicture = this.handleTakePicture.bind(this);
 
         this.state = {
-          addingNewField: false,
-          editingFieldId: null,
+          addingField: undefined,
           expanded: false,
         }
     }
@@ -173,15 +226,11 @@ class DataExpensionPanel extends React.Component  {
     }
 
     handleCollapseImg() {
-      this.setState({ selectedImageUrl: undefined, selectedImageType: undefined });
+      this.setState({ selectedImageUrl: undefined });
     }
 
-    handleExpandImg(url, isBase64) {
-      if (isBase64) {
-        this.setState({ selectedImageUrl: url, selectedImageType: 'base64' });
-      } else {
-        this.setState({ selectedImageUrl: url, selectedImageType: 'url' });
-      }
+    handleExpandImg(url) {
+      this.setState({ selectedImageUrl: url });
     }
 
     handleTakePicture() {
@@ -274,52 +323,59 @@ class DataExpensionPanel extends React.Component  {
                 { !showLoader && (
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
 
-                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Procedure</Typography>
-                    
-                    <Typography variant="body2" color="textPrimary" align="justify">
-                        {
-                          material.data['procedure'].value
-                        }
-                    </Typography>
+                    <FieldDetail 
+                      classes={classes} 
+                      editing={this.state.editingField == "Procedure"}
+                      title="Procedure" 
+                      fieldData={material.data['Procedure'].value}
+                      onEdit = {() => this.setState({editingField: "Procedure"})}
+                      onEditComplete = {() => this.setState({editingField: undefined})}
+                      component={
+                        <Typography variant="body2" color="textPrimary" align="justify">
+                            {material.data['Procedure'].value}
+                        </Typography>
+                      }
+                    />
                     <br />
 
-                    { <Grid container className={classes.photoGrid}>
+                    { 
+                      <Grid container className={classes.photoGrid}>
                         <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleTakePicture()}>
                           <IconButton aria-label="Add to favorites">
                             <AddAPhotoIcon />
                           </IconButton>
                         </Grid>
                         { this.state.takenPictureUrl && 
-                          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleExpandImg(this.state.takenPictureUrl, true)}>
+                          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleExpandImg(this.state.takenPictureUrl)}>
                             <img width="100%" alt="star" src={this.state.takenPictureUrl} />
                           </Grid>
                         }
                       </Grid>
                     }
                     <br />
-
                     <Divider className={classes.divider}/>
 
-                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Purification</Typography>
-                    
-                    <Typography variant="body2" color="textPrimary">
-                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                        minutes.
-                    </Typography>
-
+                    <FieldDetail 
+                      classes={classes} 
+                      editing={this.state.editingField == "Purification"}
+                      title="Purification" 
+                      fieldData={material.data['Purification'].value}
+                      onEdit = {() => this.setState({editingField: "Purification"})}
+                      onEditComplete = {() => this.setState({editingField: undefined})}
+                      component={
+                        <Typography variant="body2" color="textPrimary" align="justify">
+                            {material.data['Purification'].value}
+                        </Typography>
+                      }
+                    />
+                    <br />
                     <Divider className={classes.divider} />
 
-                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Hints</Typography>
-                    
-                    <Typography variant="body2" color="textPrimary">
-                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                        minutes.
-                    </Typography>
-
-                    <Divider className={classes.divider} />
-
-                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>NMRs</Typography>
-                    
+                    <FieldDetail 
+                      classes={classes} 
+                      title="NMRs"
+                      headerOnly={true}
+                    />
                     <Grid container className={classes.photoGrid}>
                       {
                         material.data['NMR'].value.map((url, idx) => {
@@ -331,18 +387,13 @@ class DataExpensionPanel extends React.Component  {
                         })
                       }
                     </Grid>
-                    
-                    <SimpleDialog 
-                      url={this.state.selectedImageUrl}
-                      urlType={this.state.selectedImageType}
-                      open={this.state.selectedImageUrl != undefined}
-                      maxWidth="lg"
-                      onClose={this.handleCollapseImg} />
-
                     <Divider className={classes.divider}/>
 
-                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>MCDSes</Typography>
-
+                    <FieldDetail 
+                      classes={classes} 
+                      title="MSDSes"
+                      headerOnly={true}
+                    />
                     <Grid container className={classes.photoGrid}>
                       {
                         material.data['MSDS'].value.map((url, idx) => {
@@ -354,15 +405,29 @@ class DataExpensionPanel extends React.Component  {
                         })
                       }
                     </Grid>
-
                     <Divider className={classes.divider}/>
 
-                    <Typography variant="subtitle1" className={classes.subheaderTitle} gutterBottom>Notes</Typography>
-                    
-                    <Typography variant="body2" color="textPrimary">
-                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                        minutes.
-                    </Typography>
+                    <FieldDetail 
+                      classes={classes} 
+                      editing={this.state.editingField == "Hints"}
+                      title="Hints" 
+                      fieldData={material.data['Hints'].value}
+                      onEdit = {() => this.setState({editingField: "Hints"})}
+                      onEditComplete = {() => this.setState({editingField: undefined})}
+                      component={
+                        <Typography variant="body2" color="textPrimary" align="justify">
+                            {material.data['Hints'].value}
+                        </Typography>
+                      }
+                    />
+
+                    { this.state.selectedImageUrl &&   
+                      <SimpleDialog 
+                        url={this.state.selectedImageUrl}
+                        open={this.state.selectedImageUrl != undefined}
+                        maxWidth="lg"
+                        onClose={this.handleCollapseImg} />
+                    }
 
                   </Collapse>
                 )}
@@ -371,10 +436,7 @@ class DataExpensionPanel extends React.Component  {
             { expanded && (
               <CardActions>
                 <IconButton aria-label="Add to favorites">
-                <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="Share">
-                <EditIcon />
+                  <FavoriteIcon />
                 </IconButton>
               </CardActions>
             )}
