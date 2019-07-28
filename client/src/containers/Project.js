@@ -36,6 +36,7 @@ class CameraWrapper extends Component {
             className={this.props.classes.card}
             idealFacingMode="environment"
             isFullscreen={false}
+            isImageMirror={false}
             onTakePhoto = { (dataUri) => { this.setState({url: dataUri}) } }
           />
         }
