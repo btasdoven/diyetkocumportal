@@ -219,6 +219,15 @@ const FieldDetail = props => {
   )
 };
 
+const renderTextField = (fieldData) => {
+  return fieldData.split('\n').map((item, i) => {
+    return (
+      <Typography key={i} variant="body2" color="textPrimary" align="justify">
+        {item == '' ? '\u00A0' : item}
+      </Typography>
+    )
+  })
+}
 
 class DataExpensionPanel extends React.Component  {
 
@@ -357,11 +366,7 @@ class DataExpensionPanel extends React.Component  {
                       title="Procedure" 
                       fieldData={material.data['Procedure'].value}
                       parent = {this}
-                      component={
-                        <Typography variant="body2" color="textPrimary" align="justify">
-                            {material.data['Procedure'].value}
-                        </Typography>
-                      }
+                      component={renderTextField(material.data['Procedure'].value)}
                     />
                     <br />
 
@@ -381,11 +386,6 @@ class DataExpensionPanel extends React.Component  {
                             <AddAPhotoIcon />
                           </IconButton>
                         </Grid>
-                        {/* { this.state.takenPictureUrl && 
-                          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleExpandImg(this.state.takenPictureUrl)}>
-                            <img width="100%" alt="star" src={this.state.takenPictureUrl} />
-                          </Grid>
-                        } */}
                       </Grid>
                     }
                     <br />
@@ -396,11 +396,7 @@ class DataExpensionPanel extends React.Component  {
                       title="Purification" 
                       fieldData={material.data['Purification'].value}
                       parent = {this}
-                      component={
-                        <Typography variant="body2" color="textPrimary" align="justify">
-                            {material.data['Purification'].value}
-                        </Typography>
-                      }
+                      component={renderTextField(material.data['Purification'].value)}
                     />
                     <br />
                     <Divider className={classes.divider} />
@@ -446,11 +442,15 @@ class DataExpensionPanel extends React.Component  {
                       parent = {this}
                       title="Hints" 
                       fieldData={material.data['Hints'].value}
-                      component={
-                        <Typography variant="body2" color="textPrimary" align="justify">
-                            {material.data['Hints'].value}
-                        </Typography>
-                      }
+                      component={renderTextField(material.data['Hints'].value)}
+                      //   material.data['Hints'].value.split('\n').map((item, i) => {
+                      //     return (
+                      //       <Typography key={i} variant="body2" color="textPrimary" align="justify">
+                      //         {item == '' ? '\u00A0' : item}
+                      //       </Typography>
+                      //     )
+                      //   })
+                      // }
                     />
 
                     { this.state.selectedImageUrl &&   
