@@ -9,6 +9,7 @@ export const userService = {
     put_group_data,
     get_all_field_list,
     get_materials,
+    set_material_part,
 };
 
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
@@ -80,6 +81,26 @@ function get_materials(userId, materialId) {
     materialId = materialId || "";
     
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/materials/` + materialId, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function set_material_part(userId, groupId, partId, val) {
+
+    console.log('set_material')
+    console.log(groupId)
+    console.log(partId)
+    console.log(val);
+
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(val)
+    };
+
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/materials/` + groupId + `/` + partId, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

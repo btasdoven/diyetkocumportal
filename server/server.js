@@ -16,6 +16,18 @@ app.get("/api/v1/users/:userId/materials/:materialId?", (req, res, next) => {
   }), 500);
 });
 
+app.put("/api/v1/users/:userId/materials/:materialId/:partId", (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  dal.setMaterialPart(req.params.userId, req.params.materialId, req.params.partId, req.body);
+  res.status(200).json('success');
+});
+
+app.put("/api/v1/users/:userId/groups/:fieldId", (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  dal.setFields(req.params.userId, req.params.fieldId, req.body);
+  res.status(200).json('success');
+});
+
 app.get("/api/v1/users/:userId/getAllFieldList", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
@@ -44,12 +56,6 @@ app.get("/api/v1/links/:userId/:linkId", (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.getLink(req.params.userId, req.params.linkId));
   }), 500);
-});
-
-app.put("/api/v1/users/:userId/groups/:fieldId", (req, res, next) => {
-    res.setHeader('Content-Type', 'application/json');
-    dal.setFields(req.params.userId, req.params.fieldId, req.body);
-    res.status(200).json('success');
 });
 
 app.post("/api/v1/users/auth", (req, res, next) => {

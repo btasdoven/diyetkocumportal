@@ -21,7 +21,7 @@ import {
     TelFieldWrapper 
 } from "../components/UserDataExpansionPanel/fields.js"
 
-import { Field, reduxForm } from "redux-form";
+import { Form, Field, reduxForm } from "redux-form";
 const styles = theme => ({
     root: {
       width: '100%',
@@ -118,15 +118,15 @@ class FieldDialog extends React.Component {
     }
 
     onSubmitInternal(formValues) {
-        RetrieveFormValuesForType(formValues)
-        formValues['id'] = this.props.groupId + '/' + formValues['fieldId']
+        //RetrieveFormValuesForType(formValues)
+        console.log(formValues);
         this.props.handleClose(formValues);
     }
 
     render() {
         return (
-            <form
-                onSubmit={this.onSubmitInternal}
+            <Form
+                onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
             >
               <Field
@@ -137,7 +137,7 @@ class FieldDialog extends React.Component {
                 autoFocus={true}
                 multiline
               />
-            </form>
+            </Form>
         )
     }
 }

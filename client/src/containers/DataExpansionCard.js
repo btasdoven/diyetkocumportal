@@ -22,7 +22,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
-import { getMaterial, itemsPutData } from '../store/reducers/api.materials';
+import { getMaterial, setMaterialPart } from '../store/reducers/api.materials';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Divider, CardActionArea } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -34,6 +34,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import DataExpansionEditDialog from './DataExpansionEditDialog'
+import { submit } from 'redux-form'
 
 import CamareWrapper from './Project'
 
@@ -159,11 +160,11 @@ const FieldDetail = props => {
   const classes = props.classes;
   const title = props.title;
   const component = props.component;
-  const onEdit = props.onEdit;
-  const onEditComplete = props.onEditComplete;
-  const editing = props.editing;
   const fieldData = props.fieldData;
   const headerOnly = props.headerOnly;
+  const parent = props.parent;
+
+  const editing = parent && parent.state.editingField == title;
 
   return (
     <span>
@@ -173,14 +174,14 @@ const FieldDetail = props => {
         </Grid>
 
         { !headerOnly && !editing &&
-          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.editGridButton} onClick={onEdit}>
+          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.editGridButton} onClick={() => parent.setState({editingField: title})}>
             <IconButton aria-label="Add to favorites">
               <EditIcon />
             </IconButton>
           </Grid>
         }
         { !headerOnly && editing &&
-          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.editGridButton} onClick={onEditComplete}>
+          <Grid item xs={3} sm={3} md={3} xl={3} className={classes.editGridButton} onClick={() => parent.props.remoteSubmitForm(title)}>
             <IconButton aria-label="Add to favorites">
               <SaveIcon />
             </IconButton>
@@ -190,7 +191,15 @@ const FieldDetail = props => {
 
       { !headerOnly && !editing && component}
       { !headerOnly && editing && 
-        <DataExpansionEditDialog form={title} fieldData={fieldData} open={true} />
+        <DataExpansionEditDialog 
+          form={title} 
+          fieldData={fieldData}
+          open={true}
+          handleClose={ (values) => {
+            parent.props.setMaterialPart(parent.props.userId, parent.props.materialHeaderData.id, title, values);
+            parent.setState({editingField: null});
+          }}
+        />
       }
     </span>
   )
@@ -235,6 +244,10 @@ class DataExpensionPanel extends React.Component  {
 
     handleTakePicture() {
       this.setState({ takingPicture: true });
+    }
+
+    handleEditFieldComplete() {
+
     }
 
     render() {
@@ -325,11 +338,9 @@ class DataExpensionPanel extends React.Component  {
 
                     <FieldDetail 
                       classes={classes} 
-                      editing={this.state.editingField == "Procedure"}
                       title="Procedure" 
                       fieldData={material.data['Procedure'].value}
-                      onEdit = {() => this.setState({editingField: "Procedure"})}
-                      onEditComplete = {() => this.setState({editingField: undefined})}
+                      parent = {this}
                       component={
                         <Typography variant="body2" color="textPrimary" align="justify">
                             {material.data['Procedure'].value}
@@ -357,11 +368,9 @@ class DataExpensionPanel extends React.Component  {
 
                     <FieldDetail 
                       classes={classes} 
-                      editing={this.state.editingField == "Purification"}
                       title="Purification" 
                       fieldData={material.data['Purification'].value}
-                      onEdit = {() => this.setState({editingField: "Purification"})}
-                      onEditComplete = {() => this.setState({editingField: undefined})}
+                      parent = {this}
                       component={
                         <Typography variant="body2" color="textPrimary" align="justify">
                             {material.data['Purification'].value}
@@ -409,11 +418,9 @@ class DataExpensionPanel extends React.Component  {
 
                     <FieldDetail 
                       classes={classes} 
-                      editing={this.state.editingField == "Hints"}
+                      parent = {this}
                       title="Hints" 
                       fieldData={material.data['Hints'].value}
-                      onEdit = {() => this.setState({editingField: "Hints"})}
-                      onEditComplete = {() => this.setState({editingField: undefined})}
                       component={
                         <Typography variant="body2" color="textPrimary" align="justify">
                             {material.data['Hints'].value}
@@ -454,8 +461,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
       {
-        itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal),
+        setMaterialPart: (userId, groupId, partId, groupVal) => setMaterialPart(userId, groupId, partId, groupVal),
         getMaterial: (userId, materialId) => getMaterial(userId, materialId),
+        remoteSubmitForm: (formId) => dispatch(submit(formId)),
       },
       dispatch
     );

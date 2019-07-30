@@ -75,6 +75,25 @@ export function getMaterial(userId, groupId) {
   function failure(error, groupId) { return { type: ITEMS_GET_ERRORED, groupId, error } }
 }
 
+export function setMaterialPart(userId, groupId, partId, val) {
+  return (dispatch) => {
+      dispatch(request(groupId));
+
+      userService.set_material_part(userId, groupId, partId, val)
+      .then(
+          (data) => { 
+            getMaterial(userId, groupId)(dispatch);
+          },
+          error => {
+              dispatch(failure(error.toString(), groupId));
+          }
+      );
+  };
+
+  function request(groupId) { return { type: ITEMS_PUT_LOADING, groupId, isPutLoading: true } }
+  function failure(error, groupId) { return { type: ITEMS_PUT_ERRORED, groupId, error } }
+}
+
 export function itemsPutData(userId, groupId, val) {
     return (dispatch) => {
         dispatch(request(true, groupId));
