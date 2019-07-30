@@ -5,9 +5,10 @@ var cors = require('cors');
 const dal = require('./dal')
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.get("/api/v1/users/:userId/materials/:materialId?", (req, res, next) => {
   setTimeout((function() {

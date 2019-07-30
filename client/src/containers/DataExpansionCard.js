@@ -83,14 +83,28 @@ const styles = theme => ({
       margin: '0px'
   },
   photothumbnail: {
-    //border: "solid 1px rgba(38, 55, 70, 0.6)",
+    display: "flex",
     boxSizing: "border-box",
     padding: "2px",
     cursor: "pointer",
     '&:hover': {
       opacity: 0.5,
     },
-    maxHeight: "10em"
+    maxHeight: theme.spacing(16)
+  },
+  photothumbnailSm: {
+    display: "flex",
+    alignItems: "center",
+    boxSizing: "border-box",
+    padding: theme.spacing(0.2),
+    justifyContent: "center",
+    cursor: "pointer",
+    '&:hover': {
+      opacity: 0.5,
+    },
+    maxHeight: theme.spacing(8),
+    width: "auto",
+    maxWidth: "100%"
   },
   photoGrid: {
     paddingBottom: "0.2em"
@@ -144,12 +158,12 @@ function TakePhotoDialog(props, classes) {
 
   return (
     <Dialog fullScreen open={true} 
-      classes={{container: { height: "none" }}}
-      onClose={handleClose} aria-labelledby="simple-dialog-title" {...other}>
+      //classes={{container: { height: "none" }}}
+      onClose={handleClose} aria-labelledby="simple-dialog-title">
       <CamareWrapper 
-        onTakePhoto={(uri) => 
+        handleTakePhoto={(uri) => 
         { 
-            props.onTakePhoto(uri);
+            props.handleTakePhoto(uri);
         }}
       />
     </Dialog>
@@ -242,8 +256,8 @@ class DataExpensionPanel extends React.Component  {
       this.setState({ selectedImageUrl: url });
     }
 
-    handleTakePicture() {
-      this.setState({ takingPicture: true });
+    handleTakePicture(takePictureFor) {
+      this.setState({ takingPicture: true, takingPictureFor: takePictureFor });
     }
 
     handleEditFieldComplete() {
@@ -266,10 +280,12 @@ class DataExpensionPanel extends React.Component  {
         if (this.state.takingPicture) {
           return (
             <TakePhotoDialog 
-              onTakePhoto={(uri) => 
+              handleTakePhoto={(uri) => 
               { 
                   console.log(uri); 
-                  this.setState({ takingPicture: false, takenPictureUrl: uri }); 
+                  material.data[this.state.takingPictureFor].value.push(uri);
+                  this.props.setMaterialPart(this.props.userId, materialId, this.state.takingPictureFor, material.data[this.state.takingPictureFor]);
+                  this.setState({ takingPicture: false, takingPictureFor: undefined }); 
               }}
             />
           )
@@ -351,16 +367,25 @@ class DataExpensionPanel extends React.Component  {
 
                     { 
                       <Grid container className={classes.photoGrid}>
-                        <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleTakePicture()}>
-                          <IconButton aria-label="Add to favorites">
+                        {
+                          material.data['ProcedurePhotos'].value.map((url, idx) => {
+                            return (
+                              <Grid key={idx} item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnailSm} onClick={() => this.handleExpandImg(url)}>
+                                <img width="auto" style={{maxHeight: "100%", maxWidth: "100%"}} src={url} />
+                              </Grid>
+                            )
+                          })
+                        }
+                        <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnailSm} onClick={() => this.handleTakePicture('ProcedurePhotos')}>
+                          <IconButton style={{alignItems: "center"}} aria-label="Add to favorites">
                             <AddAPhotoIcon />
                           </IconButton>
                         </Grid>
-                        { this.state.takenPictureUrl && 
+                        {/* { this.state.takenPictureUrl && 
                           <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnail} onClick={() => this.handleExpandImg(this.state.takenPictureUrl)}>
                             <img width="100%" alt="star" src={this.state.takenPictureUrl} />
                           </Grid>
-                        }
+                        } */}
                       </Grid>
                     }
                     <br />

@@ -21,10 +21,10 @@ class CameraWrapper extends Component {
   }
 
   onTakePhoto() {
-    if (this.props.onTakePhoto == undefined) {
+    if (this.props.handleTakePhoto == undefined) {
       console.log(this.state.url)
     } else {
-      this.props.onTakePhoto(this.state.url)
+      this.props.handleTakePhoto(this.state.url)
     }
   }
 
@@ -35,6 +35,7 @@ class CameraWrapper extends Component {
           <Camera
             className={this.props.classes.card}
             idealFacingMode="environment"
+            sizeFactor={0.5}
             isFullscreen={false}
             isImageMirror={false}
             onTakePhoto = { (dataUri) => { this.setState({url: dataUri}) } }
