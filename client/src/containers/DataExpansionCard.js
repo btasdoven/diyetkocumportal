@@ -9,11 +9,15 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Input from '@material-ui/core/Input';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import ShareIcon from '@material-ui/icons/Share';
 import SaveIcon from '@material-ui/icons/Save';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
@@ -32,11 +36,14 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import DataExpansionEditDialog from './DataExpansionEditDialog'
 import { submit } from 'redux-form'
 
 import CamareWrapper from './Project'
+
+import FileBase64 from 'react-file-base64';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -106,6 +113,16 @@ const styles = theme => ({
     width: "auto",
     maxWidth: "100%"
   },
+  photothumbnailSmNoClick: {
+    display: "flex",
+    alignItems: "center",
+    boxSizing: "border-box",
+    padding: theme.spacing(0.2),
+    justifyContent: "center",
+    maxHeight: theme.spacing(8),
+    width: "auto",
+    maxWidth: "100%"
+  },
   photoGrid: {
     paddingBottom: "0.2em"
   },
@@ -136,15 +153,16 @@ function renderLoadingButton(classes) {
 } 
 
 function SimpleDialog(props, classes) {
-  const { onClose, ...other } = props;
-
-  function handleClose() {
-    onClose();
-  }
+  const { onClose, onDelete, ...other } = props;
 
   return (
-    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" {...other}>
+    <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" {...other}>
       <img width="100%" src={props.url}/>
+      <DialogActions>
+          <Button onClick={() => onDelete(props.url)} color="primary">
+            Delete
+          </Button>
+        </DialogActions>
     </Dialog>
   );
 }
@@ -238,10 +256,13 @@ class DataExpensionPanel extends React.Component  {
         this.handleCollapseImg = this.handleCollapseImg.bind(this);
         this.handleExpandImg = this.handleExpandImg.bind(this);
         this.handleTakePicture = this.handleTakePicture.bind(this);
+        this.handlePhotoUpload = this.handlePhotoUpload.bind(this);
+        this.handleDeleteImage = this.handleDeleteImage.bind(this);
 
         this.state = {
           addingField: undefined,
           expanded: false,
+          files: [],
         }
     }
 
@@ -258,19 +279,32 @@ class DataExpensionPanel extends React.Component  {
     }
 
     handleCollapseImg() {
-      this.setState({ selectedImageUrl: undefined });
+      this.setState({ selectedImageUrl: undefined, selectedImageTitle: undefined });
     }
 
-    handleExpandImg(url) {
-      this.setState({ selectedImageUrl: url });
+    handleExpandImg(title, url) {
+      this.setState({ selectedImageUrl: url, selectedImageTitle: title });
+    }
+
+    handleDeleteImage(title, url) {
+      console.log(url);
+      const materialId = this.props.materialHeaderData.id;
+      const material = this.props.apiMaterials[materialId].items[materialId];
+      material.data[title].value.splice(material.data[title].value.indexOf(url), 1)
+      this.props.setMaterialPart(this.props.userId, materialId, title, material.data[title]);
+      this.setState({ selectedImageUrl: undefined, selectedImageTitle: undefined });
     }
 
     handleTakePicture(takePictureFor) {
       this.setState({ takingPicture: true, takingPictureFor: takePictureFor });
     }
 
-    handleEditFieldComplete() {
-
+    handlePhotoUpload(title, files) {
+      console.log(files);
+      const materialId = this.props.materialHeaderData.id;
+      const material = this.props.apiMaterials[materialId].items[materialId];
+      material.data[title].value.push(files.base64);
+      this.props.setMaterialPart(this.props.userId, materialId, title, material.data[title]);
     }
 
     render() {
@@ -341,23 +375,6 @@ class DataExpensionPanel extends React.Component  {
               <CardContent>
                 { showLoader && renderLoadingButton(classes) }
 
-                {/* { !showLoader && (
-                  <Grid container spacing={8}>
-                    {
-                      Object.keys(material.data).map(fieldId => {
-                        const field = material.data[fieldId];
-                        if (field.type == "text") {
-                          return (
-                            <Grid item xs={6} sm={6} md={4} xl={3}>
-                              <Typography inline color="textSecondary">{field.name}</Typography>{bull}
-                              <Typography inline>{field.value}</Typography>
-                            </Grid>
-                          )
-                        }
-                      })
-                    }
-                  </Grid>
-                )} */}
                 { !showLoader && (
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
 
@@ -375,16 +392,27 @@ class DataExpensionPanel extends React.Component  {
                         {
                           material.data['ProcedurePhotos'].value.map((url, idx) => {
                             return (
-                              <Grid key={idx} item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnailSm} onClick={() => this.handleExpandImg(url)}>
-                                <img width="auto" style={{maxHeight: "100%", maxWidth: "100%"}} src={url} />
+                              <Grid key={idx} item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnailSm} onClick={() => this.handleExpandImg('ProcedurePhotos', url)}>
+                                <img height="100%" style={{maxHeight: "100%", maxWidth: "100%"}} src={url} />
                               </Grid>
                             )
                           })
                         }
-                        <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnailSm} onClick={() => this.handleTakePicture('ProcedurePhotos')}>
-                          <IconButton style={{alignItems: "center"}} aria-label="Add to favorites">
+                        <Grid item xs={3} sm={3} md={3} xl={3} className={classes.photothumbnailSmNoClick} >
+                        {/* <ButtonGroup  aria-label="small outlined button group"> */}
+                          <IconButton size="small" style={{alignItems: "center"}} onClick={() => this.handleTakePicture('ProcedurePhotos')} aria-label="Add to favorites">
                             <AddAPhotoIcon />
                           </IconButton>
+                          <IconButton size="small" style={{alignItems: "center"}} aria-label="Add to favorites" component="label">
+                            <CloudUploadIcon />
+                            <span style={{ display: "none" }}>
+                              <FileBase64
+                                multiple={ false }
+                                onDone={ (files) => this.handlePhotoUpload('ProcedurePhotos', files) } 
+                              />
+                            </span>
+                          </IconButton>
+                        {/* </ButtonGroup> */}
                         </Grid>
                       </Grid>
                     }
@@ -410,7 +438,7 @@ class DataExpensionPanel extends React.Component  {
                       {
                         material.data['NMR'].value.map((url, idx) => {
                           return (
-                            <Grid key={idx} item xs={6} sm={6} md={6} xl={6} className={classes.photothumbnail} onClick={() => this.handleExpandImg(url)}>
+                            <Grid key={idx} item xs={6} sm={6} md={6} xl={6} className={classes.photothumbnail} onClick={() => this.handleExpandImg('NMR', url)}>
                               <img height="100%" src={url} />
                             </Grid>
                           )
@@ -428,7 +456,7 @@ class DataExpensionPanel extends React.Component  {
                       {
                         material.data['MSDS'].value.map((url, idx) => {
                           return (
-                            <Grid key={idx} item xs={6} sm={6} md={6} xl={6} className={classes.photothumbnail} onClick={() => this.handleExpandImg(url)}>
+                            <Grid key={idx} item xs={6} sm={6} md={6} xl={6} className={classes.photothumbnail} onClick={() => this.handleExpandImg('MSDS', url)}>
                               <img height="100%" src={url} />
                             </Grid>
                           )
@@ -458,7 +486,8 @@ class DataExpensionPanel extends React.Component  {
                         url={this.state.selectedImageUrl}
                         open={this.state.selectedImageUrl != undefined}
                         maxWidth="lg"
-                        onClose={this.handleCollapseImg} />
+                        onClose={this.handleCollapseImg}
+                        onDelete={(url) => this.handleDeleteImage(this.state.selectedImageTitle, url)} />
                     }
 
                   </Collapse>
@@ -467,9 +496,23 @@ class DataExpensionPanel extends React.Component  {
             )}
             { expanded && (
               <CardActions>
-                <IconButton aria-label="Add to favorites">
-                  <FavoriteIcon />
-                </IconButton>
+                <Chip
+                  size="small"
+                  avatar={<Avatar alt="Natacha" src="http://oceaneos.org/wp-content/uploads/2016/11/Neil-1.png" />}
+                  label="Neil Branda"
+                />
+                <Chip
+                  size="small"
+                  avatar={<Avatar alt="Natacha" src="https://media.licdn.com/dms/image/C5603AQH1moo_3ahUCQ/profile-displayphoto-shrink_800_800/0?e=1570060800&v=beta&t=2SnmtGhBvH_A78gOYGs9vudRFmOaLVciEGsmMU3gwZ4" />}
+                  label="Cagla Istanbulluoglu"
+                />
+
+                <span style={{display: "flex", justifyContent: "flex-end", width: "100%"}}>
+                  <IconButton aria-label="Add to favorites">
+                    <ShareIcon />
+                  </IconButton>
+                </span>
+
               </CardActions>
             )}
           </Card>
