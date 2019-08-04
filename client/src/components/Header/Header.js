@@ -25,14 +25,19 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
   toolbarRoot: {
-    paddingRight: 24
+    // paddingRight: theme.spacing(2),
+    // paddingLeft: theme.spacing(2),
   },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36
+  icon: {
+    width: theme.spacing(3.5),
+    height: theme.spacing(3.5),
+    margin: theme.spacing(1),
+    display: 'flex'
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'center',
   },
   appBar: {
   },
@@ -125,11 +130,11 @@ class Header extends React.Component  {
               )}
               {!this.props.backButton && (
                 <a href='/'>
-                  <img src="/static/favicon.png" style={{marginRight: '10px', marginLeft: '10px', height:'40px'}}/>
+                  <img src="/static/favicon.png" className={classes.icon} />
                 </a>
               )}
               <Typography
-                variant="h6"
+                variant="button"
                 color="inherit"
                 noWrap
                 className={classes.title}
@@ -144,7 +149,9 @@ class Header extends React.Component  {
                 </Badge>
               </IconButton> */}
               <IconButton onClick={this.handleClick} color="inherit">
-                <PersonIcon />
+                <Badge badgeContent={4} color="secondary">
+                  <PersonIcon />
+                </Badge>
               </IconButton>
               <Menu
                 id="long-menu"

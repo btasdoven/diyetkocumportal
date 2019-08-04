@@ -174,7 +174,9 @@ class DataExpensionPanel extends React.Component  {
             this.props.getMaterialHeaders(userId);
         }
 
-        if (this.props.apiMaterials[projectId] == undefined)
+        if (this.props.apiMaterials[projectId] == undefined ||
+            this.props.apiMaterials[projectId].items == undefined ||
+            this.props.apiMaterials[projectId].items[projectId] == undefined)
         {
             this.props.getMaterial(userId, projectId);
         }
@@ -224,7 +226,7 @@ class DataExpensionPanel extends React.Component  {
         const showLoader = 
           this.props.apiMaterials[materialId] == undefined || 
           this.props.apiMaterials[materialId].items == undefined || 
-          this.props.apiMaterials[materialId].isGetLoading ||
+          this.props.apiMaterials[materialId].isGetLoading == true ||
           this.props.apiMaterialHeaders.items == undefined || 
           this.props.apiMaterialHeaders.items[materialId] == undefined;
         
