@@ -35,8 +35,14 @@ const styles = theme => ({
 
 class MainLayoutBottomNav extends Component {
   state = {
-    open: false
+    open: false,
+    title: '',
   };
+
+  componentWillUpdate() {
+    this.state.title = undefined;
+    this.state.backButton = false;
+  }
 
   handleToggleDrawer = () => {
     this.setState(prevState => {
@@ -45,20 +51,26 @@ class MainLayoutBottomNav extends Component {
   };
 
   render() {
-    const { classes, children } = this.props;
+    const { classes, component: Component, ...rest } = this.props;
     return (
       <Fragment>
         <div className={classes.root}>
           <Header
             logout={this.props.logout}
             handleToggleDrawer={this.handleToggleDrawer}
+            title={this.state.title}
+            backButton={this.state.backButton}
           />
           <main
             className={classNames(classes.content, {
               [classes.contentShift]: false
             })}
           >
-            {children}
+            <Component 
+              setBackButton={(bb) => this.state.backButton != bb && this.setState({backButton: bb})}
+              setTitle={(title) => this.state.title != title && this.setState({title: title})}
+              {...rest} 
+            />
           </main>
         </div>
         <BottomBar />

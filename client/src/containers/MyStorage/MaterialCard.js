@@ -26,7 +26,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
-import { getMaterial, setMaterialPart } from '../store/reducers/api.materials';
+import { getMaterial, setMaterialPart } from '../../store/reducers/api.materials';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Divider, CardActionArea } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -38,10 +38,10 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
-import DataExpansionEditDialog from './DataExpansionEditDialog'
+import MaterialFieldEdit from './MaterialFieldEdit'
 import { submit } from 'redux-form'
 
-import CamareWrapper from './Project'
+import CamareWrapper from '../CameraWrapper'
 
 import FileBase64 from 'react-file-base64';
 
@@ -223,7 +223,7 @@ const FieldDetail = props => {
 
       { !headerOnly && !editing && component}
       { !headerOnly && editing && 
-        <DataExpansionEditDialog 
+        <MaterialFieldEdit 
           form={title} 
           fieldData={fieldData}
           open={true}
@@ -247,7 +247,7 @@ const renderTextField = (fieldData) => {
   })
 }
 
-class DataExpensionPanel extends React.Component  {
+class MaterialCard extends React.Component  {
 
     constructor(props) {
         super(props)
@@ -540,4 +540,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withStyles(styles)(DataExpensionPanel));
+  )(withStyles(styles)(MaterialCard));

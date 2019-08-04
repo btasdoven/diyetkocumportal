@@ -70,9 +70,9 @@ const Sidebar = props => {
             </ListItem>
           </Tooltip>
         </Link>
-        <Link to="/share">
+        <Link to="/history">
           <Tooltip title="Sharing" placement="right">
-            <ListItem button selected={location.pathname === '/share'}>
+            <ListItem button selected={location.pathname === '/history'}>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
@@ -80,9 +80,9 @@ const Sidebar = props => {
             </ListItem>
           </Tooltip>
         </Link>
-        <Link to="/history">
+        <Link to="/projects">
           <Tooltip title="Projects" placement="right">
-            <ListItem button selected={location.pathname === '/history'}>
+            <ListItem button selected={location.pathname === '/projects'}>
               <ListItemIcon>
                 <FolderSpecialIcon />
               </ListItemIcon>

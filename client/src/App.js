@@ -10,11 +10,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 
-import Home from "./containers/Home";
 import Share from "./containers/Share";
 import History from "./containers/History";
 import Apps from "./containers/Apps";
-import Project from "./containers/Project";
+import ProjectList from "./containers/Project/ProjectList";
+import Project from "./containers/Project/Project";
 import Signin from "./containers/Signin";
 import Register from "./containers/Register/Register";
 import LandingPage from "./containers/LandingPage";
@@ -24,7 +24,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayoutBottomNav from "./layouts/MainLayoutBottomNav";
-
+import MaterialList from "./containers/MyStorage/MaterialList"
 import withWidth from '@material-ui/core/withWidth';
 
 const NotFound = () => {
@@ -44,9 +44,7 @@ const DashboardRoute = withWidth()(({ width, component: Component, ...rest }) =>
               <Component {...matchProps} />
             </MainLayout>
           ) : (
-            <MainLayoutBottomNav>
-              <Component {...matchProps} />
-            </MainLayoutBottomNav>
+            <MainLayoutBottomNav component={Component} {...matchProps} />
           )}
     />
   );
@@ -81,14 +79,13 @@ class App extends Component {
           <Router>
             {localStorage.getItem('user') ? (
               <Switch>
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/dashboard" component={Home} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/share" component={History} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/history" component={Project} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/apps" component={Apps} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/history" component={History} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/projects/:projectId" component={Project} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/projects" component={ProjectList} />
 
                 <Route path="/signin" render={() => <Redirect to="/" />} />
                 <DashboardRoute bottomNav={shouldUseBottomNav} path="/links/:userId/:linkId" component={LinkViewer} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/" component={Home} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/" component={MaterialList} />
                 <EmptyRoute component={NotFound} />
               </Switch>
             ) : (
