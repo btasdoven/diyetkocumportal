@@ -10,6 +10,13 @@ app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
+app.get("/api/v1/users/:userId/diaries/:date?", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getDiary(req.params.userId, req.params.date));
+  }), 500);
+});
+
 app.get("/api/v1/users/:userId/materials/:materialId?", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

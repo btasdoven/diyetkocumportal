@@ -16,11 +16,15 @@ import { Badge } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import dateFnsFormat from 'date-fns/format';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 import SpeedDial from "./SpeedDial/SpeedDial"
 import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import { getDiary } from '../store/reducers/api.diary';
 
 import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -59,21 +63,52 @@ const styles = theme => ({
   }
 });
 
-function History(props) {
-    const [selectedDate, handleDateChange] = React.useState(new Date());
-    const classes = props.classes;
+class History extends React.Component {
 
-    const ChangeDate = (dayDiff) => {
-      selectedDate.setDate(selectedDate.getDate() + dayDiff)
-      handleDateChange(new Date(selectedDate));
+  constructor(props) {
+    super(props);
+
+    this.ChangeDate = this.ChangeDate.bind(this);
+
+    this.state = {
+      selectedDate: new Date()
     }
+  }
+
+  componentDidMount() {
+    if (this.props.apiDiary[this.state.selectedDate] == undefined) {
+      this.props.getDiary(JSON.parse(localStorage.getItem('user')).id, this.state.selectedDate);
+    }
+  }
+
+  ChangeDate(dayDiff) {
+    this.state.selectedDate.setDate(this.state.selectedDate.getDate() + dayDiff);
+    
+    if (this.props.apiDiary[this.state.selectedDate] == undefined) {
+      this.props.getDiary(JSON.parse(localStorage.getItem('user')).id, this.state.selectedDate);
+    }
+    
+    this.setState({
+      selectedDate: new Date(this.state.selectedDate)
+    });
+  }
+
+  render() {
+    const classes = this.props.classes;
+    const selectedDate = this.state.selectedDate;
+
+    const diaryData = 
+      this.props.apiDiary[selectedDate] == undefined || 
+      this.props.apiDiary[selectedDate].isLoaded != true 
+      ? undefined 
+      : this.props.apiDiary[selectedDate].items;
 
     return (  
       <span>
         <span className={classes.toolbarRoot}>
           <IconButton
             className={classes.prevButton}
-            onClick={() => ChangeDate(-1)}
+            onClick={() => this.ChangeDate(-1)}
           >
             <ExpandMoreIcon />
           </IconButton>
@@ -87,7 +122,7 @@ function History(props) {
           </Typography>
           <IconButton
             className={classes.nextButton}            
-            onClick={() => ChangeDate(1)}
+            onClick={() => this.ChangeDate(1)}
           >
             <ExpandMoreIcon />
           </IconButton>
@@ -109,7 +144,7 @@ function History(props) {
           />
         </MuiPickersUtilsProvider> */}
 
-        <DairyList />
+        <DairyList date={selectedDate} diaryData={diaryData}/>
 
         <SpeedDial 
           onClickFab={() => 
@@ -125,7 +160,26 @@ function History(props) {
           ]}
         />
       </span>
-    )
+    );
+  }
 }
 
-export default withStyles(styles)(History);
+const mapStateToProps = state => {
+  return {
+    apiDiary: state.apiDiary,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      getDiary: (userId, date) => getDiary(userId, date),
+    },
+    dispatch
+  );
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(History));

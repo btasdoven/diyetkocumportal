@@ -10,8 +10,7 @@ import { connect } from "react-redux";
 
 import SpeedDial from "../SpeedDial/SpeedDial"
 
-import { getMaterial, itemsPutData } from '../../store/reducers/api.materials';
-import { getMaterialHeaders } from '../../store/reducers/api.materialHeaders';
+import { getDiary } from '../../store/reducers/api.diary';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -70,20 +69,9 @@ class Home extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    if (this.props.apiMaterialHeaders.isLoaded != true) {
-      this.props.getMaterialHeaders(JSON.parse(localStorage.getItem('user')).id);
-    }
-  }
-
-  onSubmit(v, groupId) {
-    this.props.itemsPutData(JSON.parse(localStorage.getItem('user')).id, groupId, v);
-  }
-
   render() {
-    const { classes } = this.props;
-    var apiMaterialHeaders = this.props.apiMaterialHeaders;
-    const showLoader = apiMaterialHeaders.isLoaded != true && Object.keys(apiMaterialHeaders.items).length == 0;
+    const { classes, diaryData } = this.props;
+    const showLoader = diaryData == undefined;
 
     return (
         <div
@@ -95,33 +83,33 @@ class Home extends React.Component {
         >
           <div className={classes.root}>
             { showLoader && renderLoadingButton(classes) }
-            <Grid container spacing={1}>
-              {Object.keys(apiMaterialHeaders.items).map( (materialId, idx) => {
-                const materialHeaderData = this.props.apiMaterialHeaders.items[materialId];
-
-                return (
-                  <Grid key={materialId} item xs={12} sm={6} md={4} xl={3}>
-                    <Card>
-                      <CardActionArea
-                        //onClick={() => this.props.history.push("projects/" + materialHeaderData.id)}
-                      >
-                        <CardHeader
-                          avatar={
-                            <Avatar aria-label="Recipe" width="100%" src={materialHeaderData.headerImg} />
-                          }
-                          title={materialHeaderData.header}
-                          subheader={
-                            <Typography variant="caption" color="textSecondary">
-                              {materialHeaderData.state} at {materialHeaderData.purity}{materialHeaderData.purityUnit} purity, left {materialHeaderData.weight}{materialHeaderData.weightUnit}
-                            </Typography>
-                          }
-                        />
-                      </CardActionArea>
-                    </Card>
-                  </Grid>
-                )
-              })}
-            </Grid>
+            { !showLoader && 
+                <Grid container spacing={1}>
+                { diaryData.entries.map( (dairyEntry, idx) => {
+                    return (
+                    <Grid key={idx} item xs={12} sm={6} md={4} xl={3}>
+                        <Card>
+                        <CardActionArea
+                            //onClick={() => this.props.history.push("projects/" + materialHeaderData.id)}
+                        >
+                            <CardHeader
+                            //   avatar={
+                            //     <Avatar aria-label="Recipe" width="100%" src={materialHeaderData.headerImg} />
+                            //   }
+                            title={dairyEntry.type}
+                            subheader={
+                                <Typography variant="caption" color="textSecondary">
+                                    {dairyEntry.description}
+                                </Typography>
+                            }
+                            />
+                        </CardActionArea>
+                        </Card>
+                    </Grid>
+                    )
+                })}
+                </Grid>
+            }
           </div>
         </div>
       );
@@ -130,17 +118,14 @@ class Home extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    apiMaterialHeaders: state.apiMaterialHeaders,
-    apiMaterials: state.apiMaterials,
+    apiDiary: state.apiDiary,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      itemsPutData: (userId, groupId, groupVal) => itemsPutData(userId, groupId, groupVal),
-      getMaterialHeaders: (userId) => getMaterialHeaders(userId),
-      getMaterial: (userId, materialId) => getMaterial(userId, materialId),
+      getDiary: (userId, date) => getDiary(userId, date),
     },
     dispatch
   );

@@ -65,6 +65,7 @@ export default function SpeedDials(props) {
         >
           {props.actions.map(action => (
             <SpeedDialAction
+                tooltipOpen
                 key={action.name}
                 icon={action.icon}
                 tooltipTitle={action.name}

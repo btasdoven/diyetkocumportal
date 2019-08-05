@@ -1,5 +1,6 @@
 
 import envService from './env.service'
+import dateFnsFormat from 'date-fns/format';
 
 export const userService = {
     login,
@@ -8,6 +9,7 @@ export const userService = {
     get_group_data,
     put_group_data,
     get_all_field_list,
+    get_diary,
     get_materials,
     set_material_part,
 };
@@ -66,6 +68,20 @@ function get_group_data(userId, groupId) {
     groupId = groupId || "";
     
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId + `/fields`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function get_diary(userId, date) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    var fmtDate = dateFnsFormat(date, "yyyyMMdd"); 
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/diaries/` + fmtDate, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

@@ -12,6 +12,18 @@ const rows = {
       projects: {
 
       },
+      diaries: {
+        "20190805": {
+          entries: [
+            {
+              type: 'synthesis',
+              materialOut: 'X',
+              materialsIn: ['profile', 'profile2'],
+              description: 'test test'
+            },
+          ]
+        }
+      },
       materialHeaders: {
         "profile": {
           id: 'profile',
@@ -114,6 +126,15 @@ async function start() {
 }
 
 start();
+
+exports.getDiary =  function (userId, date) {
+  console.log('getDiary');
+  console.log(date);
+
+  var ret = rows[userId].diaries[date];
+
+  return ret == undefined ? { entries: [] } : ret;
+}
 
 exports.getMaterials =  function (userId, materialId) {
   console.log('getMaterials');
