@@ -16,10 +16,26 @@ const rows = {
         "20190805": {
           entries: [
             {
-              type: 'synthesis',
+              type: 'synthesis of X',
               materialOut: 'X',
               materialsIn: ['profile', 'profile2'],
               description: 'test test'
+            },
+            {
+              type: 'synthesis of Y',
+              materialOut: 'X',
+              materialsIn: ['profile', 'profile2'],
+              description: 'test test test'
+            },
+          ]
+        },
+        "20190806": {
+          entries: [
+            {
+              type: 'synthesis of X',
+              materialOut: 'X',
+              materialsIn: ['profile', 'profile2'],
+              description: 'test test 2'
             },
           ]
         }
