@@ -57,13 +57,18 @@ const styles = theme => ({
     paddingTop: '56.25%', // 16:9
   },
   expand: {
+    color: 'rgba(0, 0, 0, 0.3)',
+    margin: theme.spacing(1.5),
+    marginTop: theme.spacing(2.5),
     transform: 'rotate(0deg)',
-    marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
   },
   expandOpen: {
+    color: 'rgba(0, 0, 0, 0.3)',
+    margin: theme.spacing(1.5),
+    marginTop: theme.spacing(2.5),
     transform: 'rotate(180deg)',
   },
   avatar: {
@@ -343,17 +348,13 @@ class MaterialCard extends React.Component  {
                     <Avatar aria-label="Recipe" className={classes.avatar} width="100%" src={materialHeaderData.headerImg} />
                   }
                   action={
-                    <IconButton
-                      disabled={true}
-                      className={clsx(classes.expand, {
+                      <ExpandMoreIcon 
+                        disabled={true}
+                        aria-expanded={expanded}
+                        aria-label="Show more"
+                        className={clsx(classes.expand, {
                           [classes.expandOpen]: expanded,
-                      })}
-                      //onClick={this.handleExpandClick}
-                      aria-expanded={expanded}
-                      aria-label="Show more"
-                    >
-                      <ExpandMoreIcon />
-                    </IconButton>
+                        })} />
                   }
                   title={materialHeaderData.header}
                   subheader={

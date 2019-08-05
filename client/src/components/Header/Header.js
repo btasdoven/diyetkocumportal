@@ -25,13 +25,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
   toolbarRoot: {
-    // paddingRight: theme.spacing(2),
-    // paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
   },
   icon: {
     width: theme.spacing(3.5),
     height: theme.spacing(3.5),
-    margin: theme.spacing(1),
+    margin: theme.spacing(1.25),
     display: 'flex'
   },
   title: {

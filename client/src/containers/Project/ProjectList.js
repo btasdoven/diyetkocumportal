@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
+import SpeedDial from "../SpeedDial/SpeedDial"
+
 import { getMaterial, itemsPutData } from '../../store/reducers/api.materials';
 import { getMaterialHeaders } from '../../store/reducers/api.materialHeaders';
 
@@ -69,7 +71,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.apiMaterialHeaders.items == undefined) {
+    if (this.props.apiMaterialHeaders.isLoaded != true) {
       this.props.getMaterialHeaders(JSON.parse(localStorage.getItem('user')).id);
     }
   }
@@ -81,7 +83,7 @@ class Home extends React.Component {
   render() {
     const { classes } = this.props;
     var apiMaterialHeaders = this.props.apiMaterialHeaders;
-    const showLoader = !apiMaterialHeaders.isLoaded && Object.keys(apiMaterialHeaders.items).length == 0;
+    const showLoader = apiMaterialHeaders.isLoaded != true && Object.keys(apiMaterialHeaders.items).length == 0;
 
     return (
         <div
@@ -119,6 +121,7 @@ class Home extends React.Component {
                 )
               })}
             </Grid>
+            <SpeedDial />
           </div>
         </div>
       );

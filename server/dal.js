@@ -2,22 +2,15 @@ const storage = require('node-persist');
 
 const rows = {
     5: {
-      allFieldList: {
-        "profile/name": 'text',
-        "profile/surname": 'text',
-        'phones/us': 'mobile',
-        'phones/canada': 'mobile',
-        'emails/gmail': 'email',
-        'emails/hotmail': 'email',
-        'emails/work': 'email',
-        'emails/school': 'email',
-        'emails/junk': 'email',
-        'addresses/current': 'address',
-        'addresses/sfu': 'address',
-        'addresses/vancouver': 'address',
-        'legal/passport': 'text',
-        'legal/sin': 'text',
-        'legal/ssn': 'text',
+      projectHeaders: {
+        "project1": {
+          id: 'project1',
+          header: 'Super Project 1',
+          headerImg: 'https://www.sigmaaldrich.com/content/dam/sigma-aldrich/structure5/183/mfcd00005451.eps/_jcr_content/renditions/mfcd00005451-medium.png',
+        }
+      },
+      projects: {
+
       },
       materialHeaders: {
         "profile": {

@@ -15,6 +15,7 @@ import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 import { Badge } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import SpeedDial from "./SpeedDial/SpeedDial"
 
 function History() {
     const [selectedDays, setSelectedDays] = useState([1, 2, 15]);
@@ -29,22 +30,25 @@ function History() {
     };
 
     return (  
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <DatePicker
-          variant="static"
-          disableToolbar={true}
-          value={selectedDate}
-          onChange={handleDateChange}
-          onMonthChange={handleMonthChange}
-          renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
-            //const date = makeJSDateObject(day); // skip this step, it is required to support date libs
-            const isSelected = isInCurrentMonth && selectedDays.includes(selectedDate.getDate());
+      <span>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DatePicker
+            variant="static"
+            disableToolbar={true}
+            value={selectedDate}
+            onChange={handleDateChange}
+            onMonthChange={handleMonthChange}
+            renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
+              //const date = makeJSDateObject(day); // skip this step, it is required to support date libs
+              const isSelected = isInCurrentMonth && selectedDays.includes(selectedDate.getDate());
 
-            // You can also use our internal <Day /> component
-            return <Badge badgeContent={isSelected ? "🌚" : undefined}>{dayComponent}</Badge>;
-          }}
-        />
-      </MuiPickersUtilsProvider>
+              // You can also use our internal <Day /> component
+              return <Badge badgeContent={isSelected ? "🌚" : undefined}>{dayComponent}</Badge>;
+            }}
+          />
+        </MuiPickersUtilsProvider>
+        <SpeedDial />
+      </span>
     )
 }
 

@@ -238,7 +238,7 @@ class DataExpensionPanel extends React.Component  {
 
         const material = showLoader ? undefined : this.props.apiMaterials[materialId].items[materialId];
 
-        this.props.setTitle(materialHeaderData && materialHeaderData.id);
+        this.props.setTitle(materialHeaderData && materialHeaderData.header);
         this.props.setBackButton(true);
 
         return (
