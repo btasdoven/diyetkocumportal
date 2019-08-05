@@ -8,8 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import SpeedDial from "../SpeedDial/SpeedDial"
-
 import { getDiary } from '../../store/reducers/api.diary';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -26,7 +24,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 
-import Dairy from './Dairy'
+import Diary from './DiaryCard'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';

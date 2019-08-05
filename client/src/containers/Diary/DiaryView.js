@@ -19,12 +19,12 @@ import dateFnsFormat from 'date-fns/format';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import SpeedDial from "./SpeedDial/SpeedDial"
+import SpeedDial from "../SpeedDial/SpeedDial"
 import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { getDiary } from '../store/reducers/api.diary';
+import { getDiary } from '../../store/reducers/api.diary';
 
 import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -32,7 +32,7 @@ import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import DairyList from './Dairy/DairyList'
+import DiaryList from './DiaryList'
 
 const styles = theme => ({
   toolbarRoot: {
@@ -83,7 +83,7 @@ class History extends React.Component {
 
   ChangeDate(dayDiff) {
     this.state.selectedDate.setDate(this.state.selectedDate.getDate() + dayDiff);
-    
+
     if (this.props.apiDiary[this.state.selectedDate] == undefined) {
       this.props.getDiary(JSON.parse(localStorage.getItem('user')).id, this.state.selectedDate);
     }
@@ -144,7 +144,7 @@ class History extends React.Component {
           />
         </MuiPickersUtilsProvider> */}
 
-        <DairyList date={selectedDate} diaryData={diaryData}/>
+        <DiaryList date={selectedDate} diaryData={diaryData}/>
 
         <SpeedDial 
           onClickFab={() => 
@@ -152,11 +152,11 @@ class History extends React.Component {
             console.log('default')
           }}
           actions={[
-            { icon: <FileCopyIcon />, name: 'Copy', onClick: (btnName) => console.log(btnName)},
-            { icon: <SaveIcon />, name: 'Save', onClick: (btnName) => console.log(btnName) },
-            { icon: <PrintIcon />, name: 'Print', onClick: (btnName) => console.log(btnName) },
-            { icon: <ShareIcon />, name: 'Share', onClick: (btnName) => console.log(btnName) },
-            { icon: <DeleteIcon />, name: 'Delete', onClick: (btnName) => console.log(btnName) },
+            { icon: <FileCopyIcon />, name: 'Synthesis', onClick: (btnName) => console.log(btnName)},
+            { icon: <SaveIcon />, name: 'UV Studies', onClick: (btnName) => console.log(btnName) },
+            // { icon: <PrintIcon />, name: 'Print', onClick: (btnName) => console.log(btnName) },
+            // { icon: <ShareIcon />, name: 'Share', onClick: (btnName) => console.log(btnName) },
+            // { icon: <DeleteIcon />, name: 'Delete', onClick: (btnName) => console.log(btnName) },
           ]}
         />
       </span>

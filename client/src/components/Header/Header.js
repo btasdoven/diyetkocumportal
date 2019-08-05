@@ -50,10 +50,10 @@ const styles = theme => ({
 const getPageTitle = (props) => {
   const pathname = props.location.pathname;
 
-  if (pathname === '/') {
+  if (pathname === '/materials') {
     return "My Storage"
-  } else if (pathname === '/history') {
-    return "Calendar"
+  } else if (pathname === '/') {
+    return "Diary"
   } else if (pathname === '/projects') {
     return "Projects"
   }
@@ -149,7 +149,7 @@ class Header extends React.Component  {
                 </Badge>
               </IconButton> */}
               <IconButton onClick={this.handleClick} color="inherit">
-                <Badge badgeContent={4} color="secondary">
+                <Badge badgeContent={1} color="secondary">
                   <PersonIcon />
                 </Badge>
               </IconButton>

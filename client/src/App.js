@@ -11,7 +11,7 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 
 import Share from "./containers/Share";
-import History from "./containers/History";
+import Diary from "./containers/Diary/DiaryView";
 import Apps from "./containers/Apps";
 import ProjectList from "./containers/Project/ProjectList";
 import Project from "./containers/Project/Project";
@@ -79,13 +79,11 @@ class App extends Component {
           <Router>
             {localStorage.getItem('user') ? (
               <Switch>
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/history" component={History} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/" component={Diary} />
                 <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/projects/:projectId" component={Project} />
                 <DashboardRoute bottomNav={shouldUseBottomNav} path="/projects" component={ProjectList} />
-
+                <DashboardRoute bottomNav={shouldUseBottomNav} path="/materials" component={MaterialList} />
                 <Route path="/signin" render={() => <Redirect to="/" />} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/links/:userId/:linkId" component={LinkViewer} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/" component={MaterialList} />
                 <EmptyRoute component={NotFound} />
               </Switch>
             ) : (

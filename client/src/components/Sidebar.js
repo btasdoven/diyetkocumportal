@@ -60,23 +60,23 @@ const Sidebar = props => {
       open={open}
     >
       <List>
-        <Link to="/">
-          <Tooltip title="Dashboard" placement="right">
-            <ListItem button selected={location.pathname === '/'}>
+        <Link to="/materials">
+          <Tooltip title="Storage" placement="right">
+            <ListItem button selected={location.pathname === '/materials'}>
               <ListItemIcon>
                   <StoreIcon />
               </ListItemIcon>
-              <ListItemText primary="Dashboard" />
+              <ListItemText primary="Storage" />
             </ListItem>
           </Tooltip>
         </Link>
-        <Link to="/history">
-          <Tooltip title="Sharing" placement="right">
-            <ListItem button selected={location.pathname === '/history'}>
+        <Link to="/">
+          <Tooltip title="Diary" placement="right">
+            <ListItem button selected={location.pathname === '/'}>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Sharing" />
+              <ListItemText primary="Diary" />
             </ListItem>
           </Tooltip>
         </Link>

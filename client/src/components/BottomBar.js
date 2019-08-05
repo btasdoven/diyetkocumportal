@@ -22,7 +22,7 @@ const styles = theme => ({
 const BottomBar = props => {
   const { classes, location } = props;
 
-  const locs = ['/', '/history', '/projects']
+  const locs = ['/materials', '/', '/projects']
   const selected = locs.indexOf(location.pathname);
 
   console.log('BottomBar')
@@ -39,13 +39,13 @@ const BottomBar = props => {
           label="Storage"
           icon={<StoreIcon />}
           component={Link}
-          to="/"
+          to="/materials"
         />
         <BottomNavigationAction 
-          label="Calendar"
+          label="Diary"
           icon={<CalendarTodayIcon />}
           component={Link}
-          to="/history"
+          to="/"
         />
         <BottomNavigationAction 
           label="Projects"
