@@ -15,23 +15,84 @@ import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 import { Badge } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import dateFnsFormat from 'date-fns/format';
+
 import SpeedDial from "./SpeedDial/SpeedDial"
+import { withStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-function History() {
-    const [selectedDays, setSelectedDays] = useState([1, 2, 15]);
-    const [selectedDate, handleDateChange] = useState(new Date());
+import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
+import SaveIcon from '@material-ui/icons/Save';
+import PrintIcon from '@material-ui/icons/Print';
+import ShareIcon from '@material-ui/icons/Share';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-    const handleMonthChange = async () => {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, 1000);
-      });
-    };
+import DairyList from './Dairy/DairyList'
+
+const styles = theme => ({
+  toolbarRoot: {
+    // paddingRight: theme.spacing(1),
+    // paddingLeft: theme.spacing(1),
+    flexGrow: 1,
+    display: 'flex',
+  },
+  icon: {
+    width: theme.spacing(3.5),
+    height: theme.spacing(3.5),
+    margin: theme.spacing(1.25),
+    display: 'flex'
+  },
+  title: {
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  appBar: {
+  },
+  prevButton: {
+    transform: 'rotate(90deg)',
+  },
+  nextButton: {
+    transform: 'rotate(270deg)',
+  }
+});
+
+function History(props) {
+    const [selectedDate, handleDateChange] = React.useState(new Date());
+    const classes = props.classes;
+
+    const ChangeDate = (dayDiff) => {
+      selectedDate.setDate(selectedDate.getDate() + dayDiff)
+      handleDateChange(new Date(selectedDate));
+    }
 
     return (  
       <span>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <span className={classes.toolbarRoot}>
+          <IconButton
+            className={classes.prevButton}
+            onClick={() => ChangeDate(-1)}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+          <Typography
+            variant="subtitle1"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            { dateFnsFormat(selectedDate, 'd MMMM yyyy') }
+          </Typography>
+          <IconButton
+            className={classes.nextButton}            
+            onClick={() => ChangeDate(1)}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </span>
+        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DatePicker
             variant="static"
             disableToolbar={true}
@@ -46,10 +107,25 @@ function History() {
               return <Badge badgeContent={isSelected ? "🌚" : undefined}>{dayComponent}</Badge>;
             }}
           />
-        </MuiPickersUtilsProvider>
-        <SpeedDial />
+        </MuiPickersUtilsProvider> */}
+
+        <DairyList />
+
+        <SpeedDial 
+          onClickFab={() => 
+          {
+            console.log('default')
+          }}
+          actions={[
+            { icon: <FileCopyIcon />, name: 'Copy', onClick: (btnName) => console.log(btnName)},
+            { icon: <SaveIcon />, name: 'Save', onClick: (btnName) => console.log(btnName) },
+            { icon: <PrintIcon />, name: 'Print', onClick: (btnName) => console.log(btnName) },
+            { icon: <ShareIcon />, name: 'Share', onClick: (btnName) => console.log(btnName) },
+            { icon: <DeleteIcon />, name: 'Delete', onClick: (btnName) => console.log(btnName) },
+          ]}
+        />
       </span>
     )
 }
 
-export default History;
+export default withStyles(styles)(History);

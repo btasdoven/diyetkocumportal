@@ -29,19 +29,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
-  { icon: <DeleteIcon />, name: 'Delete' },
-];
-
-export default function SpeedDials() {
+export default function SpeedDials(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
+    props.onClickFab && props.onClickFab();
     setOpen(prevOpen => !prevOpen);
   };
 
@@ -70,12 +63,19 @@ export default function SpeedDials() {
           open={open}
           direction="up"
         >
-          {actions.map(action => (
+          {props.actions.map(action => (
             <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-              onClick={handleClick}
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+                onClick={() => 
+                {
+                    if (action.onClick != undefined) {
+                        action.onClick(action.name); 
+                    }
+
+                    setOpen(prevOpen => !prevOpen);
+                }}
             />
           ))}
         </SpeedDial>

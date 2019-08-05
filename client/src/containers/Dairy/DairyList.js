@@ -27,7 +27,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 
-import Project from './Project'
+import Dairy from './Dairy'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -103,7 +103,8 @@ class Home extends React.Component {
                   <Grid key={materialId} item xs={12} sm={6} md={4} xl={3}>
                     <Card>
                       <CardActionArea
-                        onClick={() => this.props.history.push("projects/" + materialHeaderData.id)}>
+                        //onClick={() => this.props.history.push("projects/" + materialHeaderData.id)}
+                      >
                         <CardHeader
                           avatar={
                             <Avatar aria-label="Recipe" width="100%" src={materialHeaderData.headerImg} />
@@ -121,7 +122,6 @@ class Home extends React.Component {
                 )
               })}
             </Grid>
-            {/* <SpeedDial /> */}
           </div>
         </div>
       );
