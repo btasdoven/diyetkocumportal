@@ -32,10 +32,12 @@ const useStyles = makeStyles(theme => ({
 export default function SpeedDials(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [action, setAction] = React.useState(undefined);
 
   const handleClick = () => {
     props.onClickFab && props.onClickFab();
     setOpen(prevOpen => !prevOpen);
+    setAction(undefined);
   };
 
   const handleBlur = () => {
@@ -53,6 +55,20 @@ export default function SpeedDials(props) {
     setOpen(true);
   };
 
+  const handleMouseEnter = () => {
+    console.log("handleMouseEnter")
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    console.log("handleMouseLeave")
+console.log(action);
+    action != undefined && action[0](action[1]);
+    //action != undefined && action();
+    setAction(undefined);
+    setOpen(false);
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.exampleWrapper}>
@@ -60,29 +76,29 @@ export default function SpeedDials(props) {
           ariaLabel="SpeedDial example"
           className={classes.speedDial}
           icon={<SpeedDialIcon />}
-          // onBlur={handleBlur}
+          onBlur={handleMouseLeave}
           onClick={handleClick}
-          // onClose={handleClose}
+          onClose={handleClose}
           // onFocus={handleOpen}
-          // onMouseEnter={handleOpen}
-          // onMouseLeave={handleClose}
+          // onMouseEnter={handleMouseEnter}
+          // onMouseLeave={handleMouseLeave}
           open={open}
           direction="up"
         >
-          {props.actions.map(action => (
+          {props.actions.map((action, idx) => (
             <SpeedDialAction
-                tooltipOpen
+                // tooltipOpen
                 key={action.name}
                 icon={action.icon}
                 tooltipTitle={action.name}
                 onClick={() => 
                 {
                   console.log("actionCLick")
-                    if (action.onClick != undefined) {
-                        action.onClick(action.name); 
-                    }
-
-                    setOpen(prevOpen => !prevOpen);
+                  if (action.onClick != undefined) {
+                      setAction([action.onClick, action.name]); 
+                  }
+                  //e.preventDefault();
+                  setOpen(prevOpen => !prevOpen);
                 }}
             />
           ))}
