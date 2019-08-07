@@ -86,6 +86,8 @@ app.post("/api/v1/users/auth", (req, res, next) => {
   }), 500);
 });
 
+console.log(process.env.PORT);
+
 app.listen(process.env.PORT || 4000, () => {
   console.log("Listing on port 4000");
 });
