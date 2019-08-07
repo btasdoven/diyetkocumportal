@@ -38,14 +38,20 @@ export default function SpeedDials(props) {
     setOpen(prevOpen => !prevOpen);
   };
 
+  const handleBlur = () => {
+    console.log("handleBlur")
+    setOpen(false)
+  };
+
   const handleClose = () => {
-    setOpen(false);
+    console.log("handleClose")
+    setOpen(false)
   };
 
   const handleOpen = () => {
+    console.log("handleOpen")
     setOpen(true);
   };
-
 
   return (
     <div className={classes.root}>
@@ -54,11 +60,11 @@ export default function SpeedDials(props) {
           ariaLabel="SpeedDial example"
           className={classes.speedDial}
           icon={<SpeedDialIcon />}
-          onBlur={handleClose}
+          // onBlur={handleBlur}
           onClick={handleClick}
           onClose={handleClose}
-          onFocus={handleOpen}
-          onMouseEnter={handleOpen}
+          // onFocus={handleOpen}
+          // onMouseEnter={handleOpen}
           onMouseLeave={handleClose}
           open={open}
           direction="up"
@@ -71,6 +77,7 @@ export default function SpeedDials(props) {
                 tooltipTitle={action.name}
                 onClick={() => 
                 {
+                  console.log("actionCLick")
                     if (action.onClick != undefined) {
                         action.onClick(action.name); 
                     }
