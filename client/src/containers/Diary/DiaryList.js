@@ -83,29 +83,29 @@ class Home extends React.Component {
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
                 <Grid container spacing={1}>
-                { diaryData.entries.map( (dairyEntry, idx) => {
+                  { diaryData.entries.map( (dairyEntry, idx) => {
                     return (
-                    <Grid key={idx} item xs={12} sm={6} md={4} xl={3}>
-                        <Card>
-                        <CardActionArea
-                            //onClick={() => this.props.history.push("projects/" + materialHeaderData.id)}
-                        >
-                            <CardHeader
-                            //   avatar={
-                            //     <Avatar aria-label="Recipe" width="100%" src={materialHeaderData.headerImg} />
-                            //   }
-                            title={dairyEntry.type}
-                            subheader={
-                                <Typography variant="caption" color="textSecondary">
-                                    {dairyEntry.description}
-                                </Typography>
-                            }
-                            />
-                        </CardActionArea>
-                        </Card>
-                    </Grid>
+                      <Grid key={idx} item xs={12} sm={6} md={4} xl={3}>
+                          <Card>
+                          <CardActionArea
+                              //onClick={() => this.props.history.push("projects/" + materialHeaderData.id)}
+                          >
+                              <CardHeader
+                              //   avatar={
+                              //     <Avatar aria-label="Recipe" width="100%" src={materialHeaderData.headerImg} />
+                              //   }
+                              title={dairyEntry.type}
+                              subheader={
+                                  <Typography variant="caption" color="textSecondary">
+                                      {dairyEntry.description}
+                                  </Typography>
+                              }
+                              />
+                          </CardActionArea>
+                          </Card>
+                      </Grid>
                     )
-                })}
+                  })}
                 </Grid>
             }
           </div>

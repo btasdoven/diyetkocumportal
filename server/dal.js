@@ -143,7 +143,14 @@ async function start() {
 
 start();
 
-exports.getDiary =  function (userId, date) {
+exports.putDiary = function (userId, date, val) {
+  console.log('putDiary');
+  console.log(date);
+
+  rows[userId].diaries[date] = val;
+}
+
+exports.getDiary = function (userId, date) {
   console.log('getDiary');
   console.log(date);
 

@@ -10,6 +10,7 @@ export const userService = {
     put_group_data,
     get_all_field_list,
     get_diary,
+    put_diary,
     get_materials,
     set_material_part,
 };
@@ -68,6 +69,21 @@ function get_group_data(userId, groupId) {
     groupId = groupId || "";
     
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId + `/fields`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function put_diary(userId, date, val) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(val)
+    };
+    
+    var fmtDate = dateFnsFormat(date, "yyyyMMdd"); 
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/diaries/` + fmtDate, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

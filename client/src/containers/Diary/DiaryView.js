@@ -19,12 +19,13 @@ import dateFnsFormat from 'date-fns/format';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
+import DiaryAddDialog from "./DiaryAddDialog"
 import SpeedDial from "../SpeedDial/SpeedDial"
 import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { getDiary } from '../../store/reducers/api.diary';
+import { getDiary, putDiary } from '../../store/reducers/api.diary';
 
 import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import SaveIcon from '@material-ui/icons/Save';
@@ -69,6 +70,7 @@ class History extends React.Component {
     super(props);
 
     this.ChangeDate = this.ChangeDate.bind(this);
+    this.handleCloseAddDiary = this.handleCloseAddDiary.bind(this);
 
     this.state = {
       selectedDate: new Date()
@@ -93,6 +95,18 @@ class History extends React.Component {
     });
   }
 
+  handleCloseAddDiary(values) {
+    console.log(values);
+
+    if (values != undefined) {
+      var diaryData = this.props.apiDiary[this.state.selectedDate].items;
+      diaryData.entries.push(values);
+      this.props.putDiary(JSON.parse(localStorage.getItem('user')).id, this.state.selectedDate, diaryData);
+    }
+
+    this.setState({adding: undefined});
+  }
+
   render() {
     const classes = this.props.classes;
     const selectedDate = this.state.selectedDate;
@@ -105,6 +119,14 @@ class History extends React.Component {
 
     return (  
       <span>
+
+        { this.state.adding != undefined && (
+          <DiaryAddDialog 
+            form={this.state.adding} 
+            handleClose={this.handleCloseAddDiary}
+          />
+        )}
+
         <span className={classes.toolbarRoot}>
           <IconButton
             className={classes.prevButton}
@@ -152,7 +174,7 @@ class History extends React.Component {
             console.log('default')
           }}
           actions={[
-            { icon: <FileCopyIcon />, name: 'Synthesis', onClick: (btnName) => console.log(btnName)},
+            { icon: <FileCopyIcon />, name: 'Synthesis', onClick: (btnName) => this.setState({adding: btnName})},
             { icon: <SaveIcon />, name: 'UV Studies', onClick: (btnName) => console.log(btnName) },
             // { icon: <PrintIcon />, name: 'Print', onClick: (btnName) => console.log(btnName) },
             // { icon: <ShareIcon />, name: 'Share', onClick: (btnName) => console.log(btnName) },
@@ -174,6 +196,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getDiary: (userId, date) => getDiary(userId, date),
+      putDiary: (userId, date, val) => putDiary(userId, date, val),
     },
     dispatch
   );
