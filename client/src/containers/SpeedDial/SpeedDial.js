@@ -62,10 +62,10 @@ export default function SpeedDials(props) {
           icon={<SpeedDialIcon />}
           // onBlur={handleBlur}
           onClick={handleClick}
-          onClose={handleClose}
+          // onClose={handleClose}
           // onFocus={handleOpen}
           // onMouseEnter={handleOpen}
-          onMouseLeave={handleClose}
+          // onMouseLeave={handleClose}
           open={open}
           direction="up"
         >
