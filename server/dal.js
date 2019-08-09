@@ -148,7 +148,7 @@ exports.putDiary = function (userId, date, val) {
   console.log(date);
 
   rows[userId].diaries[date] = val;
-  storage.setItem(id, rows[id]);
+  storage.setItem(userId, rows[userId]);
 }
 
 exports.getDiary = function (userId, date) {
