@@ -109,7 +109,7 @@ const Signin = props => {
           <LockIcon />
         </Avatar>
         <Typography component="h2" variant="h5">
-          Log into your account
+          VerKos Sistemine Giriş
         </Typography>
 
         <SigninForm auth={auth} onSubmit={(v) => {
@@ -117,7 +117,7 @@ const Signin = props => {
         }} />
 
         <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
-          Don't you have an account?
+          Hesabın yok mu?
         </Typography>
         <Button
           fullWidth
@@ -125,7 +125,7 @@ const Signin = props => {
           color="secondary"
           href="/signup"
         >
-          Register for free!
+          ŞİMDİ KAYIT YAPTIR!
         </Button>
       </Paper>
     </div>

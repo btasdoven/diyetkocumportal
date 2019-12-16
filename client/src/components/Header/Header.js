@@ -19,6 +19,7 @@ import { getMaterialHeaders } from '../../store/reducers/api.materialHeaders';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -161,9 +162,9 @@ class Header extends React.Component  {
               >
                 <MenuItem onClick={this.props.logout}>
                   <ListItemIcon>
-                      <DeleteIcon />
+                      <ExitToAppIcon />
                   </ListItemIcon>
-                  <ListItemText inset primary="Sign out" />
+                  <ListItemText inset primary="Çıkış yap" />
                 </MenuItem>
               </Menu>
             </Toolbar>

@@ -163,7 +163,7 @@ const SigninForm = props => {
           id="username"
           name="username"
           component={renderTextField}
-          label="Username"
+          label="Kullanıcı Adı"
           autoComplete="username"
           autoFocus={true}
         />
@@ -175,13 +175,13 @@ const SigninForm = props => {
           name="password"
           type="password"
           component={renderTextField}
-          label="Password"
+          label="Şifre"
           autoComplete="current-password"
         />
       </FormControl>
       <FormControlLabel
         control={<Checkbox value="remember" color="primary" />}
-        label="Remember me"
+        label="Beni hatırla"
       />
       <div className={classes.buttonRoot}>
       <div className={classes.buttonWrapper}>
@@ -193,7 +193,7 @@ const SigninForm = props => {
           className={classes.submit}
           disabled={auth && auth.loggingIn}
         >
-          Sign in
+          GİRİŞ YAP
         </Button>
         {auth && auth.loggingIn && <CircularProgress size={24} className={classes.buttonProgress} />}
       </div>
