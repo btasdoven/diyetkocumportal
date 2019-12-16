@@ -123,7 +123,7 @@ const Signin = props => {
           fullWidth
           variant="contained"
           color="secondary"
-          href="/signup"
+          href="/"
         >
           ŞİMDİ KAYIT YAPTIR!
         </Button>

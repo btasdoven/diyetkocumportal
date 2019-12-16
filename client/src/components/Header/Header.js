@@ -162,9 +162,10 @@ class Header extends React.Component  {
               >
                 <MenuItem onClick={this.props.logout}>
                   <ListItemIcon>
-                      <ExitToAppIcon />
+                      <ExitToAppIcon fontSize="small"/>
                   </ListItemIcon>
-                  <ListItemText inset primary="Çıkış yap" />
+                  <Typography variant="inherit">Çıkış yap</Typography>
+                  {/* <ListItemText inset primary="Çıkış yap" /> */}
                 </MenuItem>
               </Menu>
             </Toolbar>

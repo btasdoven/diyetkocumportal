@@ -35,24 +35,24 @@ const BottomBar = props => {
       component={Paper}
       elevation={2}
     >
-        <BottomNavigationAction 
+        {/* <BottomNavigationAction 
           label="Storage"
           icon={<StoreIcon />}
           component={Link}
           to="/materials"
-        />
+        /> */}
         <BottomNavigationAction 
-          label="Kişisel Veri İşleme Envanter"
+          label="Kişisel Veri İşleme"
           icon={<CalendarTodayIcon />}
           component={Link}
           to="/"
         />
-        <BottomNavigationAction 
+        {/* <BottomNavigationAction 
           label="Projects"
           icon={<FolderSpecialIcon />}
           component={Link}
           to="/projects"
-        />
+        /> */}
     </BottomNavigation>
   );
 };

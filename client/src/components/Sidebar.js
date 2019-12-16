@@ -74,7 +74,7 @@ const Sidebar = props => {
       open={open}
     >
       <List>
-        <Link to="/materials">
+        {/* <Link to="/materials">
           <Tooltip title="Storage" placement="right">
             <ListItem button selected={location.pathname === '/materials'}>
               <ListItemIcon>
@@ -83,7 +83,7 @@ const Sidebar = props => {
               <ListItemText primary="Storage" />
             </ListItem>
           </Tooltip>
-        </Link>
+        </Link> */}
         <Link to="/">
           <Tooltip title="Kişisel Veri İşleme Envanter" placement="right">
             <ListItem button selected={location.pathname === '/'}>
@@ -94,7 +94,7 @@ const Sidebar = props => {
             </ListItem>
           </Tooltip>
         </Link>
-        <Link to="/projects">
+        {/* <Link to="/projects">
           <Tooltip title="Projects" placement="right">
             <ListItem button selected={location.pathname === '/projects'}>
               <ListItemIcon>
@@ -103,7 +103,7 @@ const Sidebar = props => {
               <ListItemText primary="Projects" />
             </ListItem>
           </Tooltip>
-        </Link>
+        </Link> */}
         {/* <Link to="/apps">
           <Tooltip title="Applications" placement="right">
             <ListItem button selected={location.pathname === '/apps'}>
