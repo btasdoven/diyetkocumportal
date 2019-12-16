@@ -2,6 +2,21 @@ const storage = require('node-persist');
 
 const rows = {
     5: {
+      envanter: [
+        {
+          alici: "SGK ve diğer yetkili kurum ve kuruluşlar",
+          departman: "İnsan Kaynakları",
+          faaliyet: "Çalışan Özlük Dosyası Oluşturma",
+          hukuki_sahibi: "Sözleşme İmzalaması",
+          islem_amaci: "Çalışanlar için iş akdi ve mevzuat kaynaklı yükümlülüklerin yerine getirilmesi",
+          kisisel_veri: "Ad, Soyad",
+          ozel_nitelikli_kisisel_veri: "",
+          saklama_suresi: "İşten ayrılmasından itibaren 10 yıl",
+          veri_kategorisi: "Kimlik",
+          veri_konusu_kisi_grubu: "Çalışanlar",
+          yabanci_ulkelere_aktarilan_veriler: ""
+        }
+      ],
       projectHeaders: {
         "project1": {
           id: 'project1',
@@ -158,6 +173,22 @@ exports.getDiary = function (userId, date) {
   var ret = rows[userId].diaries[date];
 
   return ret == undefined ? { entries: [] } : ret;
+}
+
+
+exports.putEnvanter = function (userId, val) {
+  console.log('putEnvanter');
+  console.log(val);
+  rows[userId].envanter = val;
+  storage.setItem(userId, rows[userId]);
+}
+
+exports.getEnvanter = function (userId) {
+  console.log('getEnvanter');
+
+  var ret = rows[userId].envanter;
+
+  return ret == undefined ? [] : ret;
 }
 
 exports.getMaterials =  function (userId, materialId) {

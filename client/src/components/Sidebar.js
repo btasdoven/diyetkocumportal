@@ -16,6 +16,8 @@ import { withStyles } from "@material-ui/core/styles";
 import MenuItem from '@material-ui/core/MenuItem';
 import FolderSpecialIcon from "@material-ui/icons/FolderSpecial";
 
+import Typography from "@material-ui/core/Typography";
+
 import { withRouter } from 'react-router'
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -40,6 +42,17 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen
     }),
     width: theme.spacing(7)
+  },
+  drawerPaperOpen: {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    width: theme.spacing(21)
+  },
+  text: {
+
   }
 });
 
@@ -54,7 +67,8 @@ const Sidebar = props => {
       classes={{
         paper: classNames(
           classes.drawerPaper,
-          !open && classes.drawerPaperClose
+          !open && classes.drawerPaperClose,
+          open && classes.drawerPaperOpen
         )
       }}
       open={open}
@@ -71,12 +85,12 @@ const Sidebar = props => {
           </Tooltip>
         </Link>
         <Link to="/">
-          <Tooltip title="Diary" placement="right">
+          <Tooltip title="Kişisel Veri İşleme Envanter" placement="right">
             <ListItem button selected={location.pathname === '/'}>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Diary" />
+              <ListItemText disableTypography primary={<Typography type="body2">Kişisel Veri İşleme Envanter</Typography>} />
             </ListItem>
           </Tooltip>
         </Link>

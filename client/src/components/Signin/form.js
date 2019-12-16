@@ -205,8 +205,8 @@ const SigninForm = props => {
 export default reduxForm({
   // a unique name for the form
   initialValues: {
-    username: 'btasdoven',
-    password: '12341234'
+    username: 'ediz',
+    password: '1234'
   },
   form: "login"
 })(withStyles(styles)(SigninForm));

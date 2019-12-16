@@ -4,6 +4,7 @@ import auth from "./authenticate";
 import apiAllFieldList from "./api.allFieldList";
 import apiMaterials from "./api.materials";
 import apiMaterialHeaders from "./api.materialHeaders";
+import apiEnvanter from "./api.envanter";
 import apiDiary from "./api.diary";
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   apiMaterials,
   apiMaterialHeaders,
   apiDiary,
+  apiEnvanter,
 });
 
 export default reducers;

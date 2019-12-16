@@ -9,6 +9,8 @@ export const userService = {
     get_group_data,
     put_group_data,
     get_all_field_list,
+    get_envanter,
+    put_envanter,
     get_diary,
     put_diary,
     get_materials,
@@ -75,29 +77,33 @@ function get_group_data(userId, groupId) {
         });
 }
 
-function put_diary(userId, date, val) {
+function put_envanter(userId, val) {
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(val)
     };
     
-    var fmtDate = dateFnsFormat(date, "yyyyMMdd"); 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/diaries/` + fmtDate, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/envanter`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;
         });
 }
 
-function get_diary(userId, date) {
+function get_diary(userId) {
+}
+
+function put_diary(userId) {
+}
+
+function get_envanter(userId) {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
     
-    var fmtDate = dateFnsFormat(date, "yyyyMMdd"); 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/diaries/` + fmtDate, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/envanter`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

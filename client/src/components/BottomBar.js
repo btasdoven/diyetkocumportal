@@ -42,7 +42,7 @@ const BottomBar = props => {
           to="/materials"
         />
         <BottomNavigationAction 
-          label="Diary"
+          label="Kişisel Veri İşleme Envanter"
           icon={<CalendarTodayIcon />}
           component={Link}
           to="/"

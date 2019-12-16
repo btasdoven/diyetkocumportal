@@ -25,6 +25,22 @@ app.get("/api/v1/users/:userId/diaries/:date?", (req, res, next) => {
   }), 500);
 });
 
+
+app.put("/api/v1/users/:userId/envanter", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    dal.putEnvanter(req.params.userId, req.body);
+    res.status(200).json('success');
+  }), 500);
+});
+
+app.get("/api/v1/users/:userId/envanter", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getEnvanter(req.params.userId));
+  }), 500);
+});
+
 app.get("/api/v1/users/:userId/materials/:materialId?", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
@@ -76,9 +92,9 @@ app.get("/api/v1/links/:userId/:linkId", (req, res, next) => {
 
 app.post("/api/v1/users/auth", (req, res, next) => {
   setTimeout((function() {
-    if (req.body.username == 'btasdoven' && req.body.password == '12341234') {
+    if (req.body.username == 'ediz' && req.body.password == '1234') {
       res.setHeader('Content-Type', 'application/json');
-      res.json({token: 'Civil Management', username: 'btas', id: 5});
+      res.json({token: 'Civil Management', username: 'ediz', id: 5});
     } else {
       res.setHeader('Content-Type', 'application/json');
       res.status(400).json({message: "unauthorized access"});

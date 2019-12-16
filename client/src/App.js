@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import Share from "./containers/Share";
 import Diary from "./containers/Diary/DiaryView";
 import Apps from "./containers/Apps";
+import Envanter from "./containers/Envanter/Envanter";
 import ProjectList from "./containers/Project/ProjectList";
 import Project from "./containers/Project/Project";
 import Signin from "./containers/Signin";
@@ -79,7 +80,7 @@ class App extends Component {
           <Router>
             {localStorage.getItem('user') ? (
               <Switch>
-                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/" component={Diary} />
+                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/" component={Envanter} />
                 <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/projects/:projectId" component={Project} />
                 <DashboardRoute bottomNav={shouldUseBottomNav} path="/projects" component={ProjectList} />
                 <DashboardRoute bottomNav={shouldUseBottomNav} path="/materials" component={MaterialList} />
@@ -91,7 +92,7 @@ class App extends Component {
                 <EmptyRoute path="/signup" component={Register} />
                 <EmptyRoute path="/signin" component={Signin} />
                 <EmptyRoute path="/links/:userId/:linkId" component={LinkViewer} />
-                <EmptyRoute exact path="/" component={LandingPage} />
+                <Route exact path="/" render={() => <Redirect to="/signin" />} />
                 <Redirect to="/" />
               </Switch>
             )}

@@ -53,7 +53,7 @@ const getPageTitle = (props) => {
   if (pathname === '/materials') {
     return "My Storage"
   } else if (pathname === '/') {
-    return "Diary"
+    return "KİŞİSEL VERİ İŞLEME ENVANTER"
   } else if (pathname === '/projects') {
     return "Projects"
   }
