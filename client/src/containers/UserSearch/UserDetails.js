@@ -151,7 +151,6 @@ class Envanter extends React.Component {
   componentDidMount() {
       console.log('mount')
       console.log(this.state)
-      console.log(this.props.user.username)
     if (this.state.currentUser != this.props.user.username)
     {
         this.setState({
@@ -165,7 +164,6 @@ class Envanter extends React.Component {
   componentDidUpdate() {
     console.log('update')
     console.log(this.state)
-    console.log(this.props.user.username)
     if (this.state.currentUser != this.props.user.username)
     {
         this.setState({
