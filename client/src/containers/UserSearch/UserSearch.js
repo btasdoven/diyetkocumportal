@@ -52,8 +52,10 @@ const styles = theme => ({
     //alignItems: "center"
   },
   main: {
-    width: 'auto',
+    width: '100%',
     display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     //top: 0,
     [theme.breakpoints.up(600 + theme.spacing(6))]: {
       width: 600,

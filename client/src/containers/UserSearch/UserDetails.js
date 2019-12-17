@@ -44,23 +44,6 @@ import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
 
 const styles = theme => ({
-  root: {
-    height: "inherit",
-    display: "flex",
-    justifyContent: "center",
-    //alignItems: "center"
-  },
-  main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    //top: 0,
-    [theme.breakpoints.up(600 + theme.spacing(6))]: {
-      width: 600,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-    //backgroundColor: 'red',
-  },
   profile: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
