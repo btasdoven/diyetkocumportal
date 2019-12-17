@@ -12,14 +12,9 @@ import { reducer as formReducer } from "redux-form";
 var reds = {
 }
 const reducers = combineReducers({
-  stepCounter,
   settings,
   auth,
-  apiAllFieldList,
   form: formReducer,
-  apiMaterials,
-  apiMaterialHeaders,
-  apiDiary,
   apiEnvanter,
 });
 

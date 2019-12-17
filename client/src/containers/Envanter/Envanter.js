@@ -176,7 +176,7 @@ class Envanter extends React.Component {
                                 <TableCell align="left">Özel Nitelikli Kişisel Veri</TableCell>
                                 <TableCell align="left">İşlem Amacı</TableCell>
                                 <TableCell align="left">Veri Konusu Kişi Grubu</TableCell>
-                                <TableCell align="left">Hukuki Sahibi</TableCell>
+                                <TableCell align="left">Hukuki Sebebi</TableCell>
                                 <TableCell align="left">Saklama Süresi</TableCell>
                                 <TableCell align="left">Alıcı</TableCell>
                                 <TableCell align="left">Yabancı Ülkelere Aktarılan Veriler</TableCell>

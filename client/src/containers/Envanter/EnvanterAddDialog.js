@@ -170,7 +170,7 @@ class FieldDialog extends React.Component {
                         {createTextField('ozel_nitelikli_kisisel_veri', 'Özel Nitelikli Kişisel Veri', false)}
                         {createTextField('islem_amaci', 'İşlem Amacı', false)}
                         {createTextField('veri_konusu_kisi_grubu', 'Veri Konusu Kişi Grubu', false)}
-                        {createTextField('hukuki_sahibi', 'Hukuki Sahibi', false)}
+                        {createTextField('hukuki_sahibi', 'Hukuki Sebebi', false)}
                         {createSelect('saklama_suresi', 'Saklama Süresi', false, 
                         [
                             {

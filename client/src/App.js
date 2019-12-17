@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import Share from "./containers/Share";
 import Diary from "./containers/Diary/DiaryView";
 import Apps from "./containers/Apps";
-import Envanter from "./containers/Envanter/Envanter";
+import UserSearch from "./containers/UserSearch/UserSearch";
 import ProjectList from "./containers/Project/ProjectList";
 import Project from "./containers/Project/Project";
 import Signin from "./containers/Signin";
@@ -65,13 +65,9 @@ const EmptyRoute = ({ component: Component, ...rest }) => {
 };
 
 class App extends Component {
-  state = {
-    auth: false
-  };
 
   render() {
-    const { settings, auth } = this.props;
-    const shouldUseBottomNav = true;//useMediaQuery(settings.theme.breakpoints.down('sm'));
+    const { settings } = this.props;
 
     return (
       <MuiThemeProvider theme={settings.theme}>
@@ -80,20 +76,16 @@ class App extends Component {
           <Router>
             {localStorage.getItem('user') ? (
               <Switch>
-                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/" component={Envanter} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} exact path="/projects/:projectId" component={Project} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/projects" component={ProjectList} />
-                <DashboardRoute bottomNav={shouldUseBottomNav} path="/materials" component={MaterialList} />
+                {/* <DashboardRoute exact path="/" component={Envanter} />
+                <DashboardRoute exact path="/projects/:projectId" component={Project} />
+                <DashboardRoute path="/projects" component={ProjectList} />
+                <DashboardRoute path="/materials" component={MaterialList} />
                 <Route path="/signin" render={() => <Redirect to="/" />} />
-                <EmptyRoute component={NotFound} />
+                <EmptyRoute component={NotFound} /> */}
               </Switch>
             ) : (
               <Switch>
-                <EmptyRoute path="/signup" component={Register} />
-                <EmptyRoute path="/signin" component={Signin} />
-                <EmptyRoute path="/links/:userId/:linkId" component={LinkViewer} />
-                <Route exact path="/" render={() => <Redirect to="/signin" />} />
-                <Redirect to="/" />
+                <EmptyRoute path="/" component={UserSearch} />
               </Switch>
             )}
           </Router>
@@ -108,7 +100,7 @@ App.propTypes = {};
 const mapStateToProps = state => {
   return {
     settings: state.settings,
-    auth: state.auth
+    auth: state.auth,
   };
 };
 

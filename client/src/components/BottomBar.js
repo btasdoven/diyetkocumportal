@@ -1,7 +1,5 @@
 import React from "react";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import FolderSpecialIcon from "@material-ui/icons/FolderSpecial";
-import StoreIcon from "@material-ui/icons/Store";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from 'react-router'
@@ -25,8 +23,6 @@ const BottomBar = props => {
   const locs = ['/materials', '/', '/projects']
   const selected = locs.indexOf(location.pathname);
 
-  console.log('BottomBar')
-  console.log(location);
   return (
     <BottomNavigation
       value={selected}

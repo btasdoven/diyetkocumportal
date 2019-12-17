@@ -4,17 +4,10 @@ const rows = {
     5: {
       envanter: [
         {
-          alici: "SGK ve diğer yetkili kurum ve kuruluşlar",
-          departman: "İnsan Kaynakları",
-          faaliyet: "Çalışan Özlük Dosyası Oluşturma",
-          hukuki_sahibi: "Sözleşme İmzalaması",
-          islem_amaci: "Çalışanlar için iş akdi ve mevzuat kaynaklı yükümlülüklerin yerine getirilmesi",
-          kisisel_veri: "Ad, Soyad",
-          ozel_nitelikli_kisisel_veri: "",
-          saklama_suresi: "İşten ayrılmasından itibaren 10 yıl",
-          veri_kategorisi: "Kimlik",
-          veri_konusu_kisi_grubu: "Çalışanlar",
-          yabanci_ulkelere_aktarilan_veriler: ""
+          text: "I hate Batuhan, he is ugly, unprofessional and he has a beautiful wife, I so envy him."
+        },
+        {
+          text: "Batuhan is my secret love <3 <3 <3333, Batuu, my loveee, reply me backkk!!!"
         }
       ],
       projectHeaders: {

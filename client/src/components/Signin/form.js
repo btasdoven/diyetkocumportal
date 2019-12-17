@@ -111,51 +111,8 @@ const renderTextField = ({
 
 const SigninForm = props => {
   const { auth, handleSubmit, onSubmit, classes } = props;
-  const buttonClassname = classNames({
-    [classes.buttonSuccess]: auth && auth.loggedIn,
-  });
 
   return (
-    // <form onSubmit={handleSubmit(onSubmit)} className={classes.grid}>
-    //   <div>
-    //     <Typography
-    //       align="left"
-    //       headlineMapping={{ display: "h1" }}
-    //       variant="headline"
-    //     >
-    //       Monagard
-    //     </Typography>
-    //   </div>
-    //   <Field
-    //     required
-    //     name="username"
-    //     component={renderTextField}
-    //     label="Username"
-    //     autoFocus={true}
-    //   />
-    //   <Field
-    //     required
-    //     name="password"
-    //     type="password"
-    //     component={renderTextField}
-    //     label="Password"
-    //   />
-    //   <div className={classes.root}>
-    //     <div className={classes.wrapper}>
-    //       <Button
-    //         type="submit"
-    //         variant="contained"
-    //         color="primary"
-    //         className={buttonClassname}
-    //         disabled={auth && auth.loggingIn}
-    //         onClick={this.handleButtonClick}
-    //       >
-    //       Login
-    //       </Button>
-    //       {auth && auth.loggingIn && <CircularProgress size={24} className={classes.buttonProgress} />}
-    //     </div>
-    //   </div>
-    // </form>
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <FormControl margin="normal" required fullWidth>
         <Field
@@ -203,7 +160,6 @@ const SigninForm = props => {
 };
 
 export default reduxForm({
-  // a unique name for the form
   initialValues: {
     username: 'ediz',
     password: '1234'

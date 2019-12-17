@@ -178,6 +178,8 @@ function put_group_data(userId, groupId, val) {
 }
 
 function handleResponse(response) {
+    
+    console.log("handleresponse")
     return response.text().then(text => {
         console.log(text);
         const data = text && JSON.parse(text);

@@ -90,7 +90,7 @@ const Sidebar = props => {
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText disableTypography primary={<Typography type="body2">Kişisel Veri İşleme Envanter</Typography>} />
+              {/* <ListItemText disableTypography primary={<Typography type="body2">Kişisel Veri İşleme Envanter</Typography>} /> */}
             </ListItem>
           </Tooltip>
         </Link>

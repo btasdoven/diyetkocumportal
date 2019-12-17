@@ -69,126 +69,73 @@ const getPageTitle = (props) => {
 class Header extends React.Component  {
 
   constructor(props) {
-      super(props)
-
-      this.shouldShowLoader = this.shouldShowLoader.bind(this);
+      super(props);
 
       this.state = {
           anchorEl: null
       }
   }
 
-  shouldShowLoader() {
-    return false;
-    // if (this.props.location.pathname.startsWith('/projects/') && 
-    //     this.props.match.params.projectId != undefined)
-    // {
-    //   const projectId = this.props.match.params.projectId;
-    //   if (this.props.apiMaterialHeaders.items == undefined ||
-    //       this.props.apiMaterialHeaders.items[projectId] == undefined) {
-    //     return true;
-    //   }
-    // }
-
-    // return false;
-  }
-
-  componentDidMount() {
-    // if (this.props.location.pathname.startsWith('/projects/') && 
-    //     this.props.match.params.projectId != undefined)
-    // {
-    //   const userId = JSON.parse(localStorage.getItem('user')).id;
-    //   const projectId = this.props.match.params.projectId;
-    //   if (this.props.apiMaterialHeaders.items == undefined ||
-    //       this.props.apiMaterialHeaders.items[projectId] == undefined)
-    //   {
-    //       this.props.getMaterialHeaders(userId);
-    //   }
-    // }
-}
-
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
   render() {
-    const { classes, location } = this.props;
-    const showLoader = this.shouldShowLoader();
+    const { classes } = this.props;
     
     return (
-      <span>
-        {/* { showLoader && renderLoadingButton(classes) } */}
-        { !showLoader &&
-          <AppBar className={classes.appBar} position="fixed">
-            <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
-              {this.props.backButton && (
-                <IconButton
-                  className={classes.backButton}
-                  onClick={() => this.props.history.goBack()}
-                >
-                  <ExpandMoreIcon />
-                </IconButton>
-              )}
-              {!this.props.backButton && (
-                <a href='/'>
-                  <img src="/static/favicon.png" className={classes.icon} />
-                </a>
-              )}
-              <Typography
-                variant="button"
-                color="inherit"
-                noWrap
-                className={classes.title}
-              >
-                {this.props.title || getPageTitle(this.props) || ''} 
-                {/* getPageTitle(this.props)} */}
-              </Typography>
+      <AppBar className={classes.appBar} position="fixed">
+        <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
+          {this.props.backButton && (
+            <IconButton
+              className={classes.backButton}
+              onClick={() => this.props.history.goBack()}
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          )}
+          {!this.props.backButton && (
+            <a href='/'>
+              <img src="/static/favicon.png" className={classes.icon} />
+            </a>
+          )}
+          <Typography
+            variant="button"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            {this.props.title || getPageTitle(this.props) || ''}
+          </Typography>
 
-              {/* <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton> */}
-              <IconButton onClick={this.handleClick} color="inherit">
-                <Badge badgeContent={1} color="secondary">
-                  <PersonIcon />
-                </Badge>
-              </IconButton>
-              <Menu
-                id="long-menu"
-                anchorEl={this.state.anchorEl}
-                open={this.state.anchorEl ? true : false}
-                onClose={() => this.setState({anchorEl: null})}
-              >
-                <MenuItem onClick={this.props.logout}>
-                  <ListItemIcon>
-                      <ExitToAppIcon fontSize="small"/>
-                  </ListItemIcon>
-                  <Typography variant="inherit">Çıkış yap</Typography>
-                  {/* <ListItemText inset primary="Çıkış yap" /> */}
-                </MenuItem>
-              </Menu>
-            </Toolbar>
-          </AppBar>
-        }
-      </span>
+          {/* <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton> */}
+          <IconButton onClick={this.handleClick} color="inherit">
+            <Badge badgeContent={1} color="secondary">
+              <PersonIcon />
+            </Badge>
+          </IconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={this.state.anchorEl}
+            open={this.state.anchorEl ? true : false}
+            onClose={() => this.setState({anchorEl: null})}
+          >
+            <MenuItem onClick={this.props.logout}>
+              <ListItemIcon>
+                  <ExitToAppIcon fontSize="small"/>
+              </ListItemIcon>
+              <Typography variant="inherit">Çıkış yap</Typography>
+              {/* <ListItemText inset primary="Çıkış yap" /> */}
+            </MenuItem>
+          </Menu>
+        </Toolbar>
+      </AppBar>
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    apiMaterialHeaders: state.apiMaterialHeaders,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      getMaterialHeaders: (userId) => getMaterialHeaders(userId),
-    },
-    dispatch
-  );
-};
 
 export default withStyles(styles)(withRouter(Header));
