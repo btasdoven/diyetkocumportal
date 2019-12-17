@@ -26,18 +26,18 @@ app.get("/api/v1/users/:userId/diaries/:date?", (req, res, next) => {
 });
 
 
-app.put("/api/v1/users/:userId/envanter", (req, res, next) => {
+app.put("/api/v1/users/:userId/envanter/:user", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    dal.putEnvanter(req.params.userId, req.body);
+    dal.putEnvanter(req.params.userId, req.params.user, req.body);
     res.status(200).json('success');
   }), 500);
 });
 
-app.get("/api/v1/users/:userId/envanter", (req, res, next) => {
+app.get("/api/v1/users/:userId/envanter/:user", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getEnvanter(req.params.userId));
+    res.json(dal.getEnvanter(req.params.userId, req.params.user));
   }), 500);
 });
 

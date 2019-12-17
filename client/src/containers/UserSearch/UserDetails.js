@@ -43,6 +43,8 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
 
+import {reset} from 'redux-form';
+
 const styles = theme => ({
   profile: {
     width: 'auto',
@@ -133,15 +135,44 @@ class Envanter extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+        currentUser: undefined,
+        prevUser: undefined,
+    };
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
   }
 
+  isLoaded() {
+      return this.props.apiEnvanter != undefined &&
+        this.props.apiEnvanter[this.props.user.username] != undefined &&
+        this.props.apiEnvanter[this.props.user.username].isLoaded == true;
+  }
+
   componentDidMount() {
-    if (this.props.apiEnvanter == undefined ||
-        this.props.apiEnvanter.items == undefined ||
-        this.props.apiEnvanter.isLoaded != true)
+      console.log('mount')
+      console.log(this.state)
+      console.log(this.props.user.username)
+    if (this.state.currentUser != this.props.user.username)
     {
-        this.props.getEnvanter(5);
+        this.setState({
+            prevUser: this.state.currentUser,
+            currentUser: this.props.user.username
+        });
+        this.props.getEnvanter(5, this.props.user.username);
+    }
+  }
+
+  componentDidUpdate() {
+    console.log('update')
+    console.log(this.state)
+    console.log(this.props.user.username)
+    if (this.state.currentUser != this.props.user.username)
+    {
+        this.setState({
+            prevUser: this.state.currentUser,
+            currentUser: this.props.user.username
+        });
+        this.props.getEnvanter(5, this.props.user.username);
     }
   }
 
@@ -150,23 +181,20 @@ class Envanter extends React.Component {
       console.log(formValues);
 
       if (formValues != undefined) {
-        var currentEnvanter = this.props.apiEnvanter.items;
-        console.log(currentEnvanter);
+        var currentEnvanter = this.props.apiEnvanter[this.props.user.username].items;
         currentEnvanter.push(formValues);
-        console.log(currentEnvanter);
-        this.props.putEnvanter(5, currentEnvanter);
+        this.props.putEnvanter(5, this.props.user.username, currentEnvanter);
+        this.props.reset();
       }
   }
 
   render() {
     const { classes } = this.props;
-    const showLoader = 
-        this.props.apiEnvanter == undefined ||
-        this.props.apiEnvanter.items == undefined ||
-        this.props.apiEnvanter.isLoaded != true;
+    const showLoader = !this.isLoaded();
 
     const user = this.props.user;
     console.log(user);
+
     return (
         <span>
             <Card className={classes.card}>
@@ -246,7 +274,7 @@ class Envanter extends React.Component {
             
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
-                this.props.apiEnvanter.items.map( (row, idx) => (
+                this.props.apiEnvanter[this.props.user.username].items.map( (row, idx) => (
                     <Card key={idx} className={classes.card}>
                         {/* <CardMedia
                         className={classes.media}
@@ -287,8 +315,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      getEnvanter: (userId) => getEnvanter(userId),
-      putEnvanter: (userId, values) => putEnvanter(userId, values),
+      getEnvanter: (userId, user) => getEnvanter(userId, user),
+      putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
     },
     dispatch
   );

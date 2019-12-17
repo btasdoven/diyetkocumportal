@@ -7,7 +7,6 @@ const ENVANTER_PUT_ERRORED = "api/ENVANTER_PUT_ERRORED";
 const ENVANTER_PUT_LOADING = "api/ENVANTER_PUT_LOADING";
 
 const initState = {
-    items: {}
 };
 
 export default function reducer(state = initState, action) {
@@ -16,29 +15,37 @@ export default function reducer(state = initState, action) {
       case ENVANTER_GET_ERRORED:
         return {
           ...state,
-            isLoaded: true,
-            error: action.error,
+            [action.user]: {
+              isLoaded: true,
+              error: action.error,
+            }
         };
   
       case ENVANTER_GET_LOADING:
         return {
           ...state,
-            isPutLoading: false,
-            isLoaded: false,
+            [action.user] : {
+              isPutLoading: false,
+              isLoaded: false,
+            }
         };
   
       case ENVANTER_GET_SUCCESS:
         return {
           ...state,
-            items: action.items,
-            isLoaded: true,
+            [action.user] : {
+              items: action.items,
+              isLoaded: true,
+            }
         };
   
       case ENVANTER_PUT_LOADING:
         return {
           ...state,
-            isPutLoading: true,
-            isLoaded: false,
+            [action.user]: {
+              isPutLoading: true,
+              isLoaded: false,
+            }
         };
 
       default:
@@ -47,43 +54,43 @@ export default function reducer(state = initState, action) {
     }
 }
 
-export function putEnvanter(userId, val) {
+export function putEnvanter(userId, user, val) {
     return (dispatch) => {
-        dispatch(request());
+        dispatch(request(user));
 
-        userService.put_envanter(userId, val)
+        userService.put_envanter(userId, user, val)
         .then(
             (data) => { 
-                getEnvanter(userId)(dispatch);
+                getEnvanter(userId, user)(dispatch);
             },
             error => {
-                dispatch(failure(error.toString()));
+                dispatch(failure(user, error.toString()));
             }
         );
     };
   
-  function request() { return { type: ENVANTER_PUT_LOADING, isPutLoading: true } }
-  function failure(error) { return { type: ENVANTER_PUT_ERRORED, error } }
+  function request() { return { type: ENVANTER_PUT_LOADING, user, isPutLoading: true } }
+  function failure(error) { return { type: ENVANTER_PUT_ERRORED, user, error } }
 }
 
-export function getEnvanter(userId) {
+export function getEnvanter(userId, user) {
   return (dispatch) => {
-      dispatch(request());
+      dispatch(request(user));
 
-      userService.get_envanter(userId)
+      userService.get_envanter(userId, user)
       .then(
           items => { 
-              dispatch(success(items));
+              dispatch(success(user, items));
               //window.history.push('/');
           },
           error => {
-              dispatch(failure(error.toString()));
+              dispatch(failure(user, error.toString()));
               // dispatch(alertActions.error(error.toString()));
           }
       );
   };
     
-  function request() { return { type: ENVANTER_GET_LOADING } }
-  function success(items) { return { type: ENVANTER_GET_SUCCESS, items } }
-  function failure(error) { return { type: ENVANTER_GET_ERRORED, error } }
+  function request(user) { return { type: ENVANTER_GET_LOADING, user } }
+  function success(user, items) { return { type: ENVANTER_GET_SUCCESS, user, items } }
+  function failure(user, error) { return { type: ENVANTER_GET_ERRORED, user, error } }
 }

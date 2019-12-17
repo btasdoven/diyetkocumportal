@@ -2,14 +2,16 @@ const storage = require('node-persist');
 
 const rows = {
     5: {
-      envanter: [
-        {
-          text: "I hate Batuhan, he is ugly, unprofessional and he has a beautiful wife, I so envy him."
-        },
-        {
-          text: "Batuhan is my secret love <3 <3 <3333, Batuu, my loveee, reply me backkk!!!"
-        }
-      ],
+      envanter: {
+        'btasdoven': [
+          {
+            text: "I hate Batuhan, he is ugly, unprofessional and he has a beautiful wife, I so envy him."
+          },
+          {
+            text: "Batuhan is my secret love <3 <3 <3333, Batuu, my loveee, reply me backkk!!!"
+          }
+        ],
+      },
       projectHeaders: {
         "project1": {
           id: 'project1',
@@ -169,17 +171,18 @@ exports.getDiary = function (userId, date) {
 }
 
 
-exports.putEnvanter = function (userId, val) {
+exports.putEnvanter = function (userId, user, val) {
   console.log('putEnvanter');
   console.log(val);
-  rows[userId].envanter = val;
+  rows[userId].envanter[user] = val;
   storage.setItem(userId, rows[userId]);
 }
 
-exports.getEnvanter = function (userId) {
+exports.getEnvanter = function (userId, user) {
   console.log('getEnvanter');
-
-  var ret = rows[userId].envanter;
+  console.log(user)
+  
+  var ret = rows[userId].envanter[user];
 
   return ret == undefined ? [] : ret;
 }

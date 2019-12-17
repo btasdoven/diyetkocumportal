@@ -77,14 +77,14 @@ function get_group_data(userId, groupId) {
         });
 }
 
-function put_envanter(userId, val) {
+function put_envanter(userId, user, val) {
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(val)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/envanter`, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/envanter/` + user, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;
@@ -97,13 +97,13 @@ function get_diary(userId) {
 function put_diary(userId) {
 }
 
-function get_envanter(userId) {
+function get_envanter(userId, user) {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/envanter`, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/envanter/` + user, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;
@@ -179,7 +179,6 @@ function put_group_data(userId, groupId, val) {
 
 function handleResponse(response) {
     
-    console.log("handleresponse")
     return response.text().then(text => {
         console.log(text);
         const data = text && JSON.parse(text);

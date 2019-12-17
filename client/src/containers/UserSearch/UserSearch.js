@@ -207,8 +207,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      getEnvanter: (userId) => getEnvanter(userId),
-      putEnvanter: (userId, values) => putEnvanter(userId, values),
     },
     dispatch
   );
