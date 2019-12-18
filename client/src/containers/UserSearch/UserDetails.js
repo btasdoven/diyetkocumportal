@@ -35,6 +35,7 @@ import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import SendIcon from '@material-ui/icons/Send';
+import ChatIcon from '@material-ui/icons/Chat';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
@@ -50,24 +51,12 @@ import { Link } from "react-router-dom";
 import {reset} from 'redux-form';
 
 const styles = theme => ({
-  profile: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    padding: theme.spacing(3),
-    //backgroundColor: 'blue',
-  },
-  form: {
-    display: 'flex',
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-  },
-  button: {
-    marginLeft: theme.spacing(1),
-    float: 'right'
-  },
   avatar: {
     width: theme.spacing(7),
     height: theme.spacing(7),
+  },
+  profileCardContent: {
+      paddingTop: theme.spacing(1),
   },
   card: {
       marginBottom: theme.spacing(1),
@@ -80,6 +69,12 @@ const styles = theme => ({
       alignItems: "center",
       marginTop: theme.spacing(5)
   },
+  divider: {
+      marginBottom: theme.spacing(1)
+  },
+  grid: {
+    marginBottom: theme.spacing(2)
+  }
 });
 
 function renderLoadingButton(classes) {
@@ -133,6 +128,26 @@ function createData(name, calories, fat, carbs, protein) {
     //   fullwidth
     // />
   )
+
+  const StyledBadge = withStyles(theme => ({
+    badge: {
+      backgroundColor: '#44b700',
+      color: 'white',
+      //transform: 'scale(.8)',
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      '&::after': {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+        animation: '$ripple 1.2s infinite ease-in-out',
+        border: '1px solid currentColor',
+        content: '""',
+      },
+    }
+  }))(Badge);
 
 class Envanter extends React.Component {
   
@@ -221,6 +236,7 @@ class Envanter extends React.Component {
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
                 <span>
+                    <Divider variant="fullWidth" className={classes.divider}/>
                     <Card className={classes.card}>
                         <CardHeader
                         avatar={
@@ -239,7 +255,34 @@ class Envanter extends React.Component {
                         image="/static/images/cards/paella.jpg"
                         title="Paella dish"
                         /> */}
-                        <CardContent>
+                        <CardContent className={classes.profileCardContent}>
+                            <Grid container alignItems="center" spacing={0} className={classes.grid}>
+                                <Grid item xs={4} style={{textAlign: 'center', borderRight: '1px solid rgba(0,0,0,0.35)'}}>
+                                    <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
+                                        <StyledBadge badgeContent={4}>
+                                            <ChatIcon/>
+                                        </StyledBadge>
+                                        <Typography variant="body2">Private Messages</Typography>
+                                    </span>
+                                </Grid>
+                                <Grid item xs={4} style={{textAlign: 'center', borderRight: '1px solid rgba(0,0,0,0.35)'}}>
+                                    <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
+                                        <StyledBadge badgeContent={3}>
+                                            <ChatIcon/>
+                                        </StyledBadge>
+                                        <Typography variant="body2">Linked Accounts</Typography>
+                                    </span>
+                                </Grid>
+                                <Grid item xs={4} style={{textAlign: 'center'}}>
+                                    <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
+                                        <StyledBadge badgeContent={4}>
+                                            <ChatIcon/>
+                                        </StyledBadge>
+                                        <Typography variant="body2">Private Messages</Typography>
+                                    </span>
+                                </Grid>
+                            </Grid>
+
                             {!userLocalInfo.isClaimed && 
                                 <Button component={Link} to={"/u?claim=" + userIgInfo.username} variant="outlined" color="primary" fullWidth>
                                     CLAIM THIS PROFILE
