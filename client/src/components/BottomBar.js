@@ -18,56 +18,93 @@ const styles = theme => ({
   },
 });
 
-const links = [
-  {
-    path: '/s',
-    label: 'Search Users',
-    icon: SearchIcon
-  },
-  {
-    path: '/u',
-    label: 'My Profile',
-    icon: AccountCircleIcon,
-  }
-]
-
-
-const BottomBar = props => {
-  const { classes, location } = props;
-
-  var selected = -1;
-  if (location.pathname.indexOf('/s') != -1)
-    selected = 0;
-  else if (location.pathname == '/u') {
-    selected = 1;
-  }
-
+const StyledIcon = ({ component: Component, ...rest }) => {
   return (
-    <BottomNavigation
-      value={selected}
-      showLabels={true}
-      className={classes.stickToBottom}
-      component={Paper}
-      elevation={2}
-    >
-        { links.map((l, idx) => {
-            const DashboardRoute = ({ component: Component, ...rest }) => {
-              return (
-                  <Component {...rest} />
-              );
-            };
-            return (<BottomNavigationAction 
-              key={idx}
-              label={l.label}
-              icon={<DashboardRoute component={l.icon} color={selected == idx ? "primary" : "inherit"}/>}
-              component={Link}
-              to={l.path}
-              color={selected == idx ? "primary" : "inherit"}
-            />)
-          })
-        }
-    </BottomNavigation>
+      <Component {...rest} />
   );
+};
+
+class BottomBar extends React.Component {
+  
+  constructor(props) {
+    super(props);
+
+    this.handleChange = this.handleChange.bind(this);
+    this.getSelected = this.getSelected.bind(this);
+
+    this.state = {
+      links: [
+        {
+          pathMatch: '/s',
+          path: '/s',
+          label: 'Search Users',
+          icon: SearchIcon
+        },
+        {
+          pathMatch: '/u',
+          path: '/u',
+          label: 'My Profile',
+          icon: AccountCircleIcon,
+        }
+      ]
+    }
+  }
+
+  componentDidMount() {
+    const selected = this.getSelected();
+
+    if (this.state.links[selected].path != this.props.location.pathname) {
+      this.state.links[selected].path = this.props.location.pathname;
+      this.setState(this.state);
+    }   
+  }
+
+  getSelected() {
+    for (var i = 0; i < this.state.links.length; ++i) {
+      if (this.props.location.pathname.indexOf(this.state.links[i].pathMatch) == 0) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  handleChange(ev, newValue) {
+    const selected = this.getSelected();
+
+    if (newValue != selected && this.state.links[selected].path != this.props.location.pathname) {
+      this.state.links[selected].path = this.props.location.pathname;
+      this.setState(this.state);
+    } 
+  }
+  
+  render() {
+    const { classes, location } = this.props;
+    const selected = this.getSelected();
+
+    return (
+      <BottomNavigation
+        value={selected}
+        showLabels={true}
+        className={classes.stickToBottom}
+        component={Paper}
+        elevation={2}
+        onChange={this.handleChange}
+      >
+          { this.state.links.map((l, idx) => {
+              return (<BottomNavigationAction 
+                key={idx}
+                label={l.label}
+                icon={<StyledIcon component={l.icon} color={selected == idx ? "primary" : "inherit"}/>}
+                component={Link}
+                to={selected == idx ? location.pathname : l.path}
+                color={selected == idx ? "primary" : "inherit"}
+              />)
+            })
+          }
+      </BottomNavigation>
+    );
+  }
 };
 
 export default withStyles(styles)(withRouter(BottomBar));

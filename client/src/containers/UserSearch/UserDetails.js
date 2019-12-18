@@ -286,7 +286,6 @@ class Envanter extends React.Component {
                                     multiline
                                     rows="4"
                                     variant="outlined"
-                                    autoFocus={true}
                                     //style={{backgroundColor:'red'}}
                                 />
                             </CardContent>
