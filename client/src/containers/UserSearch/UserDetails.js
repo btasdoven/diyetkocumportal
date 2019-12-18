@@ -33,6 +33,8 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ShareIcon from '@material-ui/icons/Share';
 import SendIcon from '@material-ui/icons/Send';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -42,6 +44,7 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import InputBase from '@material-ui/core/InputBase';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../../services";
@@ -186,13 +189,19 @@ class Envanter extends React.Component {
           .then(data => this.setState({ userIgInfo: data.graphql.user}))
           .catch(err => console.log(err));
 
-        this.props.getEnvanter(5, this.props.username);
+        if (this.props.apiEnvanter == undefined ||
+            this.props.apiEnvanter[this.props.username] == undefined ||
+            this.props.apiEnvanter[this.props.username].isLoaded != true)
+        {
+            this.props.getEnvanter(5, this.props.username);   
+        }
     }
   }
 
   componentDidUpdate() {
     console.log('update')
     console.log(this.state)
+    console.log(this.props)
 
     if (this.state.currentUser != this.props.username)
     {
@@ -205,7 +214,8 @@ class Envanter extends React.Component {
           .then(response => response.json())
           .then(data => this.setState({ userIgInfo: data.graphql.user}))
           .catch(err => console.log(err));
-        this.props.getEnvanter(5, this.props.username);
+
+        this.props.getEnvanter(5, this.props.username);   
     }
   }
 
@@ -258,27 +268,29 @@ class Envanter extends React.Component {
                         <CardContent className={classes.profileCardContent}>
                             <Grid container alignItems="center" spacing={0} className={classes.grid}>
                                 <Grid item xs={4} style={{textAlign: 'center', borderRight: '1px solid rgba(0,0,0,0.35)'}}>
-                                    <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
-                                        <StyledBadge badgeContent={4}>
-                                            <ChatIcon/>
-                                        </StyledBadge>
-                                        <Typography variant="body2">Private Messages</Typography>
-                                    </span>
+                                    <Tooltip title="Delete">
+                                        <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
+                                            <StyledBadge badgeContent={4}>
+                                                <ChatIcon/>
+                                            </StyledBadge>
+                                            <Typography variant="body2">Private Messages</Typography>
+                                        </span>
+                                    </Tooltip>
                                 </Grid>
                                 <Grid item xs={4} style={{textAlign: 'center', borderRight: '1px solid rgba(0,0,0,0.35)'}}>
                                     <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
                                         <StyledBadge badgeContent={3}>
-                                            <ChatIcon/>
+                                            <DeleteSweepIcon/>
                                         </StyledBadge>
-                                        <Typography variant="body2">Linked Accounts</Typography>
+                                        <Typography variant="body2">Deleted Messages</Typography>
                                     </span>
                                 </Grid>
                                 <Grid item xs={4} style={{textAlign: 'center'}}>
                                     <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
                                         <StyledBadge badgeContent={4}>
-                                            <ChatIcon/>
+                                            <QuestionAnswerIcon/>
                                         </StyledBadge>
-                                        <Typography variant="body2">Private Messages</Typography>
+                                        <Typography variant="body2">Answered Questions</Typography>
                                     </span>
                                 </Grid>
                             </Grid>

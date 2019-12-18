@@ -148,7 +148,7 @@ class Envanter extends React.Component {
       //RetrieveFormValuesForType(formValues)
       console.log(formValues);
 
-      this.props.history.push(`/s/` + formValues['username'])
+      this.props.history.push(`/s/` + formValues['username'].toLowerCase())
       //this.setState({username: formValues['username']});
       this.props.reset();
   }
@@ -186,7 +186,7 @@ class Envanter extends React.Component {
                     </Button>
                   </Form>
 
-                  {this.props.match.params.username && <UserDetails username={this.props.match.params.username}/>}
+                  {this.props.match.params.username && <UserDetails username={this.props.match.params.username.toLowerCase()}/>}
                 </span>
             }
         </div>
