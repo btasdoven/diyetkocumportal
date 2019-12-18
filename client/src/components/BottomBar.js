@@ -59,10 +59,10 @@ const BottomBar = props => {
             return (<BottomNavigationAction 
               key={idx}
               label={l.label}
-              icon={<DashboardRoute component={l.icon} color={selected == idx ? "primary" : "default"}/>}
+              icon={<DashboardRoute component={l.icon} color={selected == idx ? "primary" : "inherit"}/>}
               component={Link}
               to={l.path}
-              color={selected == idx ? "primary" : "default"}
+              color={selected == idx ? "primary" : "inherit"}
             />)
           })
         }

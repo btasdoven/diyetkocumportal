@@ -20,7 +20,7 @@ const styles = theme => ({
     marginBottom: theme.spacing(7),
     //marginLeft: theme.spacing(7),
     padding: theme.spacing(1),
-    marginTop: theme.spacing(7),
+    //marginTop: theme.spacing(7),
     overflowX: "hidden"
   },
   contentShift: {
@@ -55,12 +55,12 @@ class MainLayoutBottomNav extends Component {
     return (
       <Fragment>
         <div className={classes.root}>
-          <Header
+          {/* <Header
             logout={this.props.logout}
             handleToggleDrawer={this.handleToggleDrawer}
             title={this.state.title}
             backButton={this.state.backButton}
-          />
+          /> */}
           <main
             className={classNames(classes.content, {
               [classes.contentShift]: false

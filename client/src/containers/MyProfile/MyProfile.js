@@ -183,9 +183,13 @@ class Envanter extends React.Component {
                     >
                         GO
                     </Button> */}
+                    <span style={{width: '100%'}}>
+                      <Typography align="center">Login with your Instagram account</Typography>
+                    </span>
+                    
                   </Form>
 
-                  {this.props.match.params.username && <UserDetails username={this.props.match.params.username}/>}
+                  {/* {this.props.match.params.username && <UserDetails username={this.props.match.params.username}/>} */}
                 </span>
             }
         </div>

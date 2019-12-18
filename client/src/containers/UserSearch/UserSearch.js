@@ -54,8 +54,8 @@ const styles = theme => ({
   main: {
     width: '100%',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
     //top: 0,
     [theme.breakpoints.up(600 + theme.spacing(6))]: {
       width: 600,
@@ -72,8 +72,8 @@ const styles = theme => ({
   },
   form: {
     display: 'flex',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(3),
+    //paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
   },
   button: {
     marginLeft: theme.spacing(1),

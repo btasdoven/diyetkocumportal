@@ -46,6 +46,7 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
 
+import { Link } from "react-router-dom";
 import {reset} from 'redux-form';
 
 const styles = theme => ({
@@ -240,7 +241,7 @@ class Envanter extends React.Component {
                         /> */}
                         <CardContent>
                             {!userLocalInfo.isClaimed && 
-                                <Button variant="outlined" color="primary" fullWidth>
+                                <Button component={Link} to={"/u?claim=" + userIgInfo.username} variant="outlined" color="primary" fullWidth>
                                     CLAIM THIS PROFILE
                                 </Button>
                             }
@@ -318,6 +319,7 @@ class Envanter extends React.Component {
                             <CardActions disableSpacing style={{justifyContent: "flex-end"}}>
                                 <span style={{marginRight: 'auto'}}>
                                     <Button
+                                        style={{color: 'rgba(0,0,0,0.54)'}}
                                         color="default"
                                         size="small"
                                         startIcon={<ThumbUpIcon/>}
@@ -325,6 +327,7 @@ class Envanter extends React.Component {
                                         {row.like || 0}
                                     </Button>
                                     <Button
+                                        style={{color: 'rgba(0,0,0,0.54)'}}
                                         color="inherit"
                                         size="small"
                                         startIcon={<ThumbDownIcon/>}
