@@ -1,5 +1,6 @@
 import React from "react";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import SearchIcon from "@material-ui/icons/Search";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from 'react-router'
@@ -17,11 +18,29 @@ const styles = theme => ({
   },
 });
 
+const links = [
+  {
+    path: '/s',
+    label: 'Search Users',
+    icon: SearchIcon
+  },
+  {
+    path: '/u',
+    label: 'My Profile',
+    icon: AccountCircleIcon,
+  }
+]
+
+
 const BottomBar = props => {
   const { classes, location } = props;
 
-  const locs = ['/materials', '/', '/projects']
-  const selected = locs.indexOf(location.pathname);
+  var selected = -1;
+  if (location.pathname.indexOf('/s') != -1)
+    selected = 0;
+  else if (location.pathname == '/u') {
+    selected = 1;
+  }
 
   return (
     <BottomNavigation
@@ -31,24 +50,22 @@ const BottomBar = props => {
       component={Paper}
       elevation={2}
     >
-        {/* <BottomNavigationAction 
-          label="Storage"
-          icon={<StoreIcon />}
-          component={Link}
-          to="/materials"
-        /> */}
-        <BottomNavigationAction 
-          label="Kişisel Veri İşleme"
-          icon={<CalendarTodayIcon />}
-          component={Link}
-          to="/"
-        />
-        {/* <BottomNavigationAction 
-          label="Projects"
-          icon={<FolderSpecialIcon />}
-          component={Link}
-          to="/projects"
-        /> */}
+        { links.map((l, idx) => {
+            const DashboardRoute = ({ component: Component, ...rest }) => {
+              return (
+                  <Component {...rest} />
+              );
+            };
+            return (<BottomNavigationAction 
+              key={idx}
+              label={l.label}
+              icon={<DashboardRoute component={l.icon} color={selected == idx ? "primary" : "default"}/>}
+              component={Link}
+              to={l.path}
+              color={selected == idx ? "primary" : "default"}
+            />)
+          })
+        }
     </BottomNavigation>
   );
 };

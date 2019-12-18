@@ -14,6 +14,7 @@ import Share from "./containers/Share";
 import Diary from "./containers/Diary/DiaryView";
 import Apps from "./containers/Apps";
 import UserSearch from "./containers/UserSearch/UserSearch";
+import MyProfile from "./containers/MyProfile/MyProfile";
 import ProjectList from "./containers/Project/ProjectList";
 import Project from "./containers/Project/Project";
 import Signin from "./containers/Signin";
@@ -85,7 +86,9 @@ class App extends Component {
               </Switch>
             ) : (
               <Switch>
-                <EmptyRoute path="/" component={UserSearch} />
+                <Route exact path="/" render={() => <Redirect to="/s" />} />
+                <DashboardRoute path="/s/:username?" component={UserSearch} />
+                <DashboardRoute path="/u" component={MyProfile} />
               </Switch>
             )}
           </Router>

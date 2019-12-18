@@ -48,6 +48,7 @@ class MainLayout extends Component {
       <Fragment>
         <div className={classes.root}>
           <Header
+            backButton={this.props.backButton}
             logout={this.props.logout}
             handleToggleDrawer={this.handleToggleDrawer}
           />

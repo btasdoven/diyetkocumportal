@@ -15,7 +15,7 @@ const themeConfig = {
       main: 'rgb(38,55,70)'
     },
     secondary: {
-      main: 'rgb(255,109,33)'
+      main: '#FF6F61'
     },
     error: red,
     // Used by `getContrastText()` to maximize the contrast between the background and

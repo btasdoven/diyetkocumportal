@@ -113,11 +113,11 @@ class Header extends React.Component  {
               <NotificationsIcon />
             </Badge>
           </IconButton> */}
-          <IconButton onClick={this.handleClick} color="inherit">
+          {/* <IconButton onClick={this.handleClick} color="inherit">
             <Badge badgeContent={1} color="secondary">
               <PersonIcon />
             </Badge>
-          </IconButton>
+          </IconButton> */}
           <Menu
             id="long-menu"
             anchorEl={this.state.anchorEl}

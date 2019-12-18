@@ -166,14 +166,13 @@ class Envanter extends React.Component {
                   <Form 
                     onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                     className={classes.form}>
-                    <Field
+                    {/* <Field
                       className={classes.field}
                       name="username"
                       component={renderTextField}
                       placeholder="Enter Instagram username"
                       variant="outlined"
                       size="small"
-                      autoFocus
                     />
                     <Button
                         onClick={this.props.handleSubmit(this.onSubmitInternal)}
@@ -183,7 +182,7 @@ class Envanter extends React.Component {
                         startIcon={<SearchIcon />}
                     >
                         GO
-                    </Button>
+                    </Button> */}
                   </Form>
 
                   {this.props.match.params.username && <UserDetails username={this.props.match.params.username}/>}
