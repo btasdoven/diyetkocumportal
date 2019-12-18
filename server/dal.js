@@ -27,8 +27,8 @@ async function start() {
     await storage.init({ dir: 'stg', logging: true });
 
     if (process.env.PORT == undefined) {
-      await storage.clear();
-      await storage.setItem('5', rows[5]);
+      // await storage.clear();
+      // await storage.setItem('5', rows[5]);
     }
 
     rows[5] = await storage.getItem('5');
