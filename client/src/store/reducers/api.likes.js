@@ -67,11 +67,11 @@ export default function reducer(state = initState, action) {
     }
 }
 
-export function putLikes(userId, user, user2, val) {
+export function putLikes(userId, user, user2, commentIdx, val) {
     return (dispatch) => {
         dispatch(request(user, user2));
 
-        userService.put_likes(userId, user, user2, val)
+        userService.put_likes(userId, user, user2, commentIdx, val)
         .then(
             (data) => { 
                 getLikes(userId, user, user2)(dispatch);

@@ -53,6 +53,7 @@ import { Form, Field, reduxForm } from "redux-form";
 
 import { Link } from "react-router-dom";
 import {reset} from 'redux-form';
+import { withSnackbar } from 'notistack';
 
 const styles = theme => ({
   avatar: {
@@ -154,7 +155,7 @@ function createData(name, calories, fat, carbs, protein) {
   }))(Badge);
 
 class Envanter extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -258,6 +259,11 @@ class Envanter extends React.Component {
         this.props.apiLikes[loggedInUser._profile.username] &&
         this.props.apiLikes[loggedInUser._profile.username][this.props.username] &&
         this.props.apiLikes[loggedInUser._profile.username][this.props.username].isLoaded) {
+
+        if (!this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[idx]) {
+            return { liked: false, disliked: false }
+        }
+
         return { 
             liked: this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[idx].liked,
             disliked: this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[idx].disliked
@@ -269,16 +275,15 @@ class Envanter extends React.Component {
 
   likeDislike = (commentIdx, liked, disliked) => {
     return () => {        
-        this.state.thumbs[commentIdx] = {
-            liked: liked,
-            disliked: disliked,
-        };
-
-        this.setState(this.state);
-
-        
         const loggedInUser = JSON.parse(localStorage.getItem('userig'));
         if (loggedInUser) {
+            this.state.thumbs[commentIdx] = {
+                liked: liked,
+                disliked: disliked,
+            };
+    
+            this.setState(this.state);
+
             console.log(this.props.apiLikes[loggedInUser._profile.username][this.props.username]);
 
             if (!this.props.apiLikes[loggedInUser._profile.username][this.props.username].isLoaded) {
@@ -292,8 +297,11 @@ class Envanter extends React.Component {
                 disliked: disliked,
             }
 
-            this.props.putLikes(5, loggedInUser._profile.username, this.props.username, 
-                this.props.apiLikes[loggedInUser._profile.username][this.props.username].items)
+            this.props.putLikes(5, loggedInUser._profile.username, this.props.username, commentIdx,
+                this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[commentIdx])
+        }
+        else {
+            this.props.enqueueSnackbar('Go to My Profile and log in to like/dislike a comment.')
         }
         //this.props.putEnvanter(5, this.props.username, this.props.apiEnvanter[this.props.username].items);
     }
@@ -494,7 +502,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getLikes: (userId, user, user2) => getLikes(userId, user, user2),
-      putLikes: (userId, user, user2, val) => putLikes(userId, user, user2, val),
+      putLikes: (userId, user, user2, commentIdx, val) => putLikes(userId, user, user2, commentIdx, val),
       getEnvanter: (userId, user) => getEnvanter(userId, user),
       putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
     },
@@ -505,4 +513,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'CommentForm' })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'CommentForm' })(withStyles(styles)(withSnackbar(Envanter))));

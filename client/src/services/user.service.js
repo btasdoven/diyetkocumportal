@@ -106,14 +106,19 @@ function get_envanter(userId, user) {
         });
 }
 
-function put_likes(userId, kim, kimi, val) {
+function put_likes(userId, kim, kimi, commentIdx, val) {
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(val)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/likes/` + kim + `/` + kimi, requestOptions)
+    
+    console.log("put_likes")
+    console.log(commentIdx)
+    console.log(val)
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/likes/` + kim + `/` + kimi + `/` + commentIdx, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

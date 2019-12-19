@@ -44,6 +44,7 @@ import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
 
 import UserDetails from './UserDetails'
+import { SnackbarProvider } from 'notistack';
 
 const styles = theme => ({
   root: {
@@ -186,7 +187,11 @@ class Envanter extends React.Component {
                     </Button>
                   </Form>
 
-                  {this.props.match.params.username && <UserDetails username={this.props.match.params.username.toLowerCase()}/>}
+                  {this.props.match.params.username && 
+                    <SnackbarProvider maxSnack={3}>
+                      <UserDetails username={this.props.match.params.username.toLowerCase()}/>
+                    </SnackbarProvider>
+                  }
                 </span>
             }
         </div>
