@@ -2,6 +2,15 @@ const storage = require('node-persist');
 
 const rows = {
     5: {
+      likes: {
+        'btasdoven': {
+          'barankucukguzel': {
+            0: {
+              liked: true
+            }
+          }
+        }
+      },
       envanter: {
         'btasdoven': {
           isClaimed: false,
@@ -27,14 +36,49 @@ async function start() {
     await storage.init({ dir: 'stg', logging: true });
 
     if (process.env.PORT == undefined) {
-      // await storage.clear();
-      // await storage.setItem('5', rows[5]);
+      await storage.clear();
+      await storage.setItem('5', rows[5]);
     }
 
     rows[5] = await storage.getItem('5');
 }
 
 start();
+
+exports.getLikes = function (userId, kim, kimi) {
+  console.log('getLikes');
+  console.log(kim);
+  console.log(kimi);
+  
+  var kim = rows[userId].likes[kim];
+
+  if (!kim) {
+    return { }
+  }
+
+  var kimi = kim[kimi]
+
+  if (!kimi) {
+    return {}
+  }
+
+  return kimi;
+}
+
+exports.putLikes = function (userId, kim, kimi, val) {
+  console.log('getLikes');
+  console.log(kim);
+  console.log(kimi);
+
+  if (!rows[userId].likes || 
+      !rows[userId].likes[kim]) {
+    rows[userId].likes[kim] = { [kimi]: val };
+  } else {
+    rows[userId].likes[kim][kimi] = val;
+  }
+  
+  storage.setItem(userId, rows[userId]);
+}
 
 exports.putDiary = function (userId, date, val) {
   console.log('putDiary');

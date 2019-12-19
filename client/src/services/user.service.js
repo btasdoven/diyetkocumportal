@@ -11,6 +11,8 @@ export const userService = {
     get_all_field_list,
     get_envanter,
     put_envanter,
+    put_likes,
+    get_likes,
     get_diary,
     put_diary,
     get_materials,
@@ -91,12 +93,6 @@ function put_envanter(userId, user, val) {
         });
 }
 
-function get_diary(userId) {
-}
-
-function put_diary(userId) {
-}
-
 function get_envanter(userId, user) {
     const requestOptions = {
         method: 'GET',
@@ -108,6 +104,39 @@ function get_envanter(userId, user) {
         .then(data => {
             return data;
         });
+}
+
+function put_likes(userId, kim, kimi, val) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(val)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/likes/` + kim + `/` + kimi, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function get_likes(userId, kim, kimi) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/likes/` + kim + `/` + kimi, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function get_diary(userId) {
+}
+
+function put_diary(userId) {
 }
 
 function get_materials(userId, materialId) {

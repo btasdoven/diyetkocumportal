@@ -19,6 +19,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { getEnvanter, putEnvanter } from '../../store/reducers/api.envanter';
+import { getLikes, putLikes } from '../../store/reducers/api.likes';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -166,6 +167,7 @@ class Envanter extends React.Component {
 
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
     this.likeDislike = this.likeDislike.bind(this);
+    this.calculateLikes = this.calculateLikes.bind(this);
   }
 
   isLoaded() {
@@ -198,6 +200,11 @@ class Envanter extends React.Component {
         {
             this.props.getEnvanter(5, this.props.username);   
         }
+    }
+
+    const loggedInUser = JSON.parse(localStorage.getItem('userig'))
+    if (loggedInUser) {
+        this.props.getLikes(5, loggedInUser._profile.username, this.props.username);
     }
   }
 
@@ -234,6 +241,32 @@ class Envanter extends React.Component {
       }
   }
 
+  calculateLikes(idx) {
+    console.log("liking")
+    console.log(this.state.thumbs[idx]);
+    console.log(this.props.apiLikes);
+
+    if (this.state.thumbs[idx]) {
+        return { 
+            liked: this.state.thumbs[idx].liked, 
+            disliked: this.state.thumbs[idx].disliked 
+        }
+    }
+
+    const loggedInUser = JSON.parse(localStorage.getItem('userig'));
+    if (loggedInUser && this.props.apiLikes && 
+        this.props.apiLikes[loggedInUser._profile.username] &&
+        this.props.apiLikes[loggedInUser._profile.username][this.props.username] &&
+        this.props.apiLikes[loggedInUser._profile.username][this.props.username].isLoaded) {
+        return { 
+            liked: this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[idx].liked,
+            disliked: this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[idx].disliked
+        }
+    }
+
+    return {liked: false, disliked: false}
+  }
+
   likeDislike = (commentIdx, liked, disliked) => {
     return () => {        
         this.state.thumbs[commentIdx] = {
@@ -242,6 +275,26 @@ class Envanter extends React.Component {
         };
 
         this.setState(this.state);
+
+        
+        const loggedInUser = JSON.parse(localStorage.getItem('userig'));
+        if (loggedInUser) {
+            console.log(this.props.apiLikes[loggedInUser._profile.username][this.props.username]);
+
+            if (!this.props.apiLikes[loggedInUser._profile.username][this.props.username].isLoaded) {
+                console.log("setting timeout")
+                setTimeout(() => this.likeDislike(commentIdx, liked, disliked), 200);
+                return;
+            }
+
+            this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[commentIdx] = {
+                liked: liked,
+                disliked: disliked,
+            }
+
+            this.props.putLikes(5, loggedInUser._profile.username, this.props.username, 
+                this.props.apiLikes[loggedInUser._profile.username][this.props.username].items)
+        }
         //this.props.putEnvanter(5, this.props.username, this.props.apiEnvanter[this.props.username].items);
     }
 };
@@ -358,7 +411,7 @@ class Envanter extends React.Component {
                                         className={classes.field}
                                         name="text"
                                         component={renderTextField}
-                                        placeholder="Enter your thoughts here..."
+                                        placeholder="Share your thoughts here..."
                                         variant="outlined"
                                         multiline
                                         rows="4"
@@ -377,51 +430,53 @@ class Envanter extends React.Component {
                         </Form>
                     }
 
-                    { userLocalInfo.comments.map( (row, idx) => (
-                        <Card key={idx} className={classes.card}>
-                            {/* <CardMedia
-                            className={classes.media}
-                            image="/static/images/cards/paella.jpg"
-                            title="Paella dish"
-                            /> */}
-                            {/* <CardHeader
-                            //title={<Typography variant="h5" component="h2">{user.full_name}</Typography>}
-                            subheader="September 14, 2016"
-                            /> */}
-                            <CardContent style={{paddingBottom:0}}>
-                                <Typography variant="body2" color="textPrimary" component="p">
-                                    {row.text}
-                                </Typography>
-                            </CardContent>
-                            <CardActions disableSpacing style={{justifyContent: "flex-end"}}>
-                                <span style={{marginRight: 'auto'}}>
-                                    <Button
-                                        style={this.state.thumbs[idx] && this.state.thumbs[idx].liked ? {} : {color: 'rgba(0,0,0,0.54)'}}
-                                        color={this.state.thumbs[idx] && this.state.thumbs[idx].liked ? "secondary" : "default"}
-                                        size="small"
-                                        onClick={this.likeDislike(idx, true, false)}
-                                        startIcon={<ThumbUpIcon/>}
-                                    >
-                                    {(row.like || 0) + (this.state.thumbs[idx] && this.state.thumbs[idx].liked ? 1 : 0)}
-                                    </Button>
-                                    <Button
-                                        style={this.state.thumbs[idx] && this.state.thumbs[idx].disliked ? {} : {color: 'rgba(0,0,0,0.54)'}}
-                                        color={this.state.thumbs[idx] && this.state.thumbs[idx].disliked ? "secondary" : "default"}
-                                        size="small"
-                                        onClick={this.likeDislike(idx, false, true)}
-                                        startIcon={<ThumbDownIcon/>}
-                                    >
-                                    {(row.dislike || 0) + (this.state.thumbs[idx] && this.state.thumbs[idx].disliked ? 1 : 0)}
-                                    </Button>
-                                </span>
-                                <span style={{justifyContent: "flex-end"}}>
-                                <Typography variant="caption"  component="p">
-                                    5 mins ago
-                                </Typography>
-                                </span>
-                            </CardActions>
-                        </Card>
-                    ))}
+                    { userLocalInfo.comments.map( (row, idx) => {
+                        const userLikes = this.calculateLikes(idx);
+                        return (
+                            <Card key={idx} className={classes.card}>
+                                {/* <CardMedia
+                                className={classes.media}
+                                image="/static/images/cards/paella.jpg"
+                                title="Paella dish"
+                                /> */}
+                                {/* <CardHeader
+                                //title={<Typography variant="h5" component="h2">{user.full_name}</Typography>}
+                                subheader="September 14, 2016"
+                                /> */}
+                                <CardContent style={{paddingBottom:0}}>
+                                    <Typography variant="body2" color="textPrimary" component="p">
+                                        {row.text}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions disableSpacing style={{justifyContent: "flex-end"}}>
+                                    <span style={{marginRight: 'auto'}}>
+                                        <Button
+                                            style={userLikes.liked ? {} : {color: 'rgba(0,0,0,0.54)'}}
+                                            color={userLikes.liked ? "secondary" : "default"}
+                                            size="small"
+                                            onClick={this.likeDislike(idx, true, false)}
+                                            startIcon={<ThumbUpIcon/>}
+                                        >
+                                        {(row.like || 0) + (userLikes.liked ? 1 : 0)}
+                                        </Button>
+                                        <Button
+                                            style={userLikes.disliked ? {} : {color: 'rgba(0,0,0,0.54)'}}
+                                            color={userLikes.disliked ? "secondary" : "default"}
+                                            size="small"
+                                            onClick={this.likeDislike(idx, false, true)}
+                                            startIcon={<ThumbDownIcon/>}
+                                        >
+                                        {(row.dislike || 0) + (userLikes.disliked ? 1 : 0)}
+                                        </Button>
+                                    </span>
+                                    <span style={{justifyContent: "flex-end"}}>
+                                    <Typography variant="caption"  component="p">
+                                        5 mins ago
+                                    </Typography>
+                                    </span>
+                                </CardActions>
+                            </Card>
+                        )})}
                 </span>
             }
         </span>
@@ -431,12 +486,15 @@ class Envanter extends React.Component {
 const mapStateToProps = state => {
   return {
     apiEnvanter: state.apiEnvanter,
+    apiLikes: state.apiLikes,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      getLikes: (userId, user, user2) => getLikes(userId, user, user2),
+      putLikes: (userId, user, user2, val) => putLikes(userId, user, user2, val),
       getEnvanter: (userId, user) => getEnvanter(userId, user),
       putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
     },

@@ -41,6 +41,21 @@ app.get("/api/v1/users/:userId/envanter/:user", (req, res, next) => {
   }), 500);
 });
 
+app.get("/api/v1/users/:userId/likes/:kim/:kimi", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getLikes(req.params.userId, req.params.kim, req.params.kimi));
+  }), 500);
+});
+
+app.put("/api/v1/users/:userId/likes/:kim/:kimi", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    dal.putLikes(req.params.userId, req.params.kim, req.params.kimi, req.body);
+    res.status(200).json('success');
+  }), 500);
+});
+
 app.get("/api/v1/users/:userId/materials/:materialId?", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

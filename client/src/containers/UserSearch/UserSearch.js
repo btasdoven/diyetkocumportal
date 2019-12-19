@@ -19,6 +19,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { getEnvanter, putEnvanter } from '../../store/reducers/api.envanter';
+import { getLikes } from '../../store/reducers/api.likes';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -197,12 +198,14 @@ class Envanter extends React.Component {
 const mapStateToProps = state => {
   return {
     apiEnvanter: state.apiEnvanter,
+    apiLikes: state.apiLikes,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      getLikes: (userId, user, user2) => getLikes(userId, user, user2),
     },
     dispatch
   );
