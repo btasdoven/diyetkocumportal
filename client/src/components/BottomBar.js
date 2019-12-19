@@ -8,6 +8,7 @@ import { withRouter } from 'react-router'
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { Paper } from "@material-ui/core";
+import Avatar from '@material-ui/core/Avatar';
 
 const styles = theme => ({
   stickToBottom: {
@@ -16,6 +17,10 @@ const styles = theme => ({
     bottom: 0,
     height: theme.spacing(7),
   },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  }
 });
 
 const StyledIcon = ({ component: Component, ...rest }) => {
@@ -37,14 +42,33 @@ class BottomBar extends React.Component {
         {
           pathMatch: '/s',
           path: '/s',
-          label: 'Search Users',
-          icon: SearchIcon
+          func: (user, cls) => {
+            return {
+              label: 'Search Users',
+              icon: SearchIcon,
+            }
+          }
         },
         {
           pathMatch: '/u',
           path: '/u',
-          label: 'My Profile',
-          icon: AccountCircleIcon,
+          func: (user, cls) => {
+            if (user) {
+              return {
+                label: 'My Profile',
+                icon: Avatar,
+                otherProps: {
+                  src: user._profile.profilePicURL,
+                  className: cls.small
+                }
+              }
+            } else {
+              return {
+                label: 'My Profile',
+                icon: AccountCircleIcon,
+              }
+            }
+          }
         }
       ]
     }
@@ -81,6 +105,7 @@ class BottomBar extends React.Component {
   render() {
     const { classes, location } = this.props;
     const selected = this.getSelected();
+    const loggedInUser = JSON.parse(localStorage.getItem('userig'));
 
     return (
       <BottomNavigation
@@ -92,10 +117,13 @@ class BottomBar extends React.Component {
         onChange={this.handleChange}
       >
           { this.state.links.map((l, idx) => {
+
+              var props = l.func(loggedInUser, classes);
+
               return (<BottomNavigationAction 
                 key={idx}
-                label={l.label}
-                icon={<StyledIcon component={l.icon} color={selected == idx ? "primary" : "inherit"}/>}
+                label={props.label}
+                icon={<StyledIcon component={props.icon} {...props.otherProps} color={selected == idx ? "primary" : "inherit"}/>}
                 component={Link}
                 to={selected == idx ? location.pathname : l.path}
                 color={selected == idx ? "primary" : "inherit"}

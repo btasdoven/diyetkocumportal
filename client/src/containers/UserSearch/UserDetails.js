@@ -52,6 +52,7 @@ import { Form, Field, reduxForm } from "redux-form";
 
 import { Link } from "react-router-dom";
 import {reset} from 'redux-form';
+import uuid from 'react-uuid'
 
 const styles = theme => ({
   avatar: {
@@ -161,8 +162,11 @@ class Envanter extends React.Component {
         currentUser: undefined,
         prevUser: undefined,
         userIgInfo: undefined,
+        thumbs: [],
     };
+
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
+    this.likeDislike = this.likeDislike.bind(this);
   }
 
   isLoaded() {
@@ -207,7 +211,7 @@ class Envanter extends React.Component {
     {
         this.setState({
             prevUser: this.state.currentUser,
-            currentUser: this.props.username,
+            currentUser: this.props.username
         });
 
         fetch('https://www.instagram.com/' + this.props.username + '/?__a=1')
@@ -224,12 +228,25 @@ class Envanter extends React.Component {
       console.log(formValues);
 
       if (formValues != undefined) {
+        formValues['uuid'] = uuid();
         var currentEnvanter = this.props.apiEnvanter[this.props.username].items;
         currentEnvanter.comments.push(formValues);
         this.props.putEnvanter(5, this.props.username, currentEnvanter);
         this.props.reset();
       }
   }
+
+  likeDislike = (commentIdx, liked, disliked) => {
+    return () => {        
+        this.state.thumbs[commentIdx] = {
+            liked: liked,
+            disliked: disliked,
+        };
+
+        this.setState(this.state);
+        //this.props.putEnvanter(5, this.props.username, this.props.apiEnvanter[this.props.username].items);
+    }
+};
 
   render() {
     const { classes } = this.props;
@@ -243,6 +260,7 @@ class Envanter extends React.Component {
 
     console.log(userIgInfo);
     console.log(userLocalInfo);
+
 
     return (
         <span>
@@ -271,7 +289,7 @@ class Envanter extends React.Component {
                         <CardContent className={classes.profileCardContent}>
                             <Grid container alignItems="center" spacing={0} className={classes.grid}>
                                 <Grid item xs={4} style={{textAlign: 'center', borderRight: '1px solid rgba(0,0,0,0.35)'}}>
-                                    <Tooltip title="Delete" enterTouchDelay={0}>
+                                    <Tooltip title="Claim this profile to see all messages" enterTouchDelay={0}>
                                         <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
                                             <StyledBadge badgeContent={4}>
                                                 <ChatIcon/>
@@ -281,20 +299,22 @@ class Envanter extends React.Component {
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={4} style={{textAlign: 'center', borderRight: '1px solid rgba(0,0,0,0.35)'}}>
-                                    <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
-                                        <StyledBadge badgeContent={3}>
-                                            <DeleteSweepIcon/>
-                                        </StyledBadge>
-                                        <Typography variant="body2">Deleted Messages</Typography>
-                                    </span>
+                                        <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
+                                            <StyledBadge badgeContent={3}>
+                                                <DeleteSweepIcon/>
+                                            </StyledBadge>
+                                            <Typography variant="body2">Deleted Messages</Typography>
+                                        </span>
                                 </Grid>
                                 <Grid item xs={4} style={{textAlign: 'center'}}>
-                                    <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
-                                        <StyledBadge badgeContent={4}>
-                                            <QuestionAnswerIcon/>
-                                        </StyledBadge>
-                                        <Typography variant="body2">Answered Questions</Typography>
-                                    </span>
+                                    <Tooltip title="Claim this profile to see all questions" enterTouchDelay={0}>
+                                        <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
+                                            <StyledBadge badgeContent={4}>
+                                                <QuestionAnswerIcon/>
+                                            </StyledBadge>
+                                            <Typography variant="body2">Asked Questions</Typography>
+                                        </span>
+                                    </Tooltip>
                                 </Grid>
                             </Grid>
 
@@ -378,20 +398,22 @@ class Envanter extends React.Component {
                             <CardActions disableSpacing style={{justifyContent: "flex-end"}}>
                                 <span style={{marginRight: 'auto'}}>
                                     <Button
-                                        style={{color: 'rgba(0,0,0,0.54)'}}
-                                        color="default"
+                                        style={this.state.thumbs[idx] && this.state.thumbs[idx].liked ? {} : {color: 'rgba(0,0,0,0.54)'}}
+                                        color={this.state.thumbs[idx] && this.state.thumbs[idx].liked ? "secondary" : "default"}
                                         size="small"
+                                        onClick={this.likeDislike(idx, true, false)}
                                         startIcon={<ThumbUpIcon/>}
                                     >
-                                        {row.like || 0}
+                                    {(row.like || 0) + (this.state.thumbs[idx] && this.state.thumbs[idx].liked ? 1 : 0)}
                                     </Button>
                                     <Button
-                                        style={{color: 'rgba(0,0,0,0.54)'}}
-                                        color="inherit"
+                                        style={this.state.thumbs[idx] && this.state.thumbs[idx].disliked ? {} : {color: 'rgba(0,0,0,0.54)'}}
+                                        color={this.state.thumbs[idx] && this.state.thumbs[idx].disliked ? "secondary" : "default"}
                                         size="small"
+                                        onClick={this.likeDislike(idx, false, true)}
                                         startIcon={<ThumbDownIcon/>}
                                     >
-                                        {row.dislike || 0}
+                                    {(row.dislike || 0) + (this.state.thumbs[idx] && this.state.thumbs[idx].disliked ? 1 : 0)}
                                     </Button>
                                 </span>
                                 <span style={{justifyContent: "flex-end"}}>

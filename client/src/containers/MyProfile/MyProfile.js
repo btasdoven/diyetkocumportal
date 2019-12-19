@@ -44,7 +44,7 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
 
-import UserDetails from './UserDetails'
+import UserDetails from './ProfileDetails'
 import InstagramLogin from 'react-instagram-login';
 import FontAwesome from 'react-fontawesome'
 import SocialLogin from 'react-social-login'
@@ -56,7 +56,7 @@ const styles = theme => ({
     height: "inherit",
     display: "flex",
     justifyContent: "center",
-    //alignItems: "center"
+    alignItems: "center"
   },
   main: {
     width: '100%',
@@ -222,7 +222,7 @@ class Envanter extends React.Component {
                     </UberSocialButton>
                   }
                  
-                 {!user &&
+                 {/* {!user &&
                     <UberSocialButton
                       autoCleanUri
                       provider='google'
@@ -234,7 +234,7 @@ class Envanter extends React.Component {
                     >
                       Login with Google
                     </UberSocialButton>
-                  }
+                  } */}
 
                   {user && 
                     <UberSocialButton 
@@ -266,6 +266,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
     },
     dispatch
   );
