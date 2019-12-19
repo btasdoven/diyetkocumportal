@@ -52,7 +52,6 @@ import { Form, Field, reduxForm } from "redux-form";
 
 import { Link } from "react-router-dom";
 import {reset} from 'redux-form';
-import uuid from 'react-uuid'
 
 const styles = theme => ({
   avatar: {
@@ -228,7 +227,6 @@ class Envanter extends React.Component {
       console.log(formValues);
 
       if (formValues != undefined) {
-        formValues['uuid'] = uuid();
         var currentEnvanter = this.props.apiEnvanter[this.props.username].items;
         currentEnvanter.comments.push(formValues);
         this.props.putEnvanter(5, this.props.username, currentEnvanter);
