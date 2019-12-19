@@ -2,15 +2,6 @@ const storage = require('node-persist');
 
 const rows = {
     5: {
-      likes: {
-        'btasdoven': {
-          'barankucukguzel': {
-            0: {
-              liked: true
-            }
-          }
-        }
-      },
       envanter: {
         'btasdoven': {
           isClaimed: false,
@@ -65,18 +56,49 @@ exports.getLikes = function (userId, kim, kimi) {
   return kimi;
 }
 
-exports.putLikes = function (userId, kim, kimi, val) {
-  console.log('getLikes');
+exports.putLikes = function (userId, kim, kimi, commentIdx, val) {
+  console.log('putLikes');
   console.log(kim);
   console.log(kimi);
+  console.log(commentIdx);
+  console.log(val);
 
-  if (!rows[userId].likes || 
-      !rows[userId].likes[kim]) {
-    rows[userId].likes[kim] = { [kimi]: val };
+  oldVal = { liked: false, disliked: false };
+
+  if (!rows[userId].likes) {
+    rows[userId].likes = {
+      [kim]: { [kimi] : {[commentIdx]: val}}
+    }
+  } else if (!rows[userId].likes[kim]) {
+    rows[userId].likes[kim] = { 
+      [kimi]: { 
+        [commentIdx]: val 
+      }
+    };
+  } else if (!rows[userId].likes[kim][kimi]) {
+    rows[userId].likes[kim][kimi] = { 
+      [commentIdx]: val
+    };
   } else {
-    rows[userId].likes[kim][kimi] = val;
+    oldVal = rows[userId].likes[kim][kimi][commentIdx];
+    rows[userId].likes[kim][kimi][commentIdx] = val
   }
-  
+
+  likedChange = oldVal.liked 
+  ? (val.liked ? 0 : -1)
+  : (val.liked ? 1 : 0);
+  dislikedChange = oldVal.disliked 
+  ? (val.disliked ? 0 : -1)
+  : (val.disliked ? 1 : 0);
+
+  rows[userId].envanter[kimi].comments[commentIdx] = {
+    ...rows[userId].envanter[kimi].comments[commentIdx],
+    like: (rows[userId].envanter[kimi].comments[commentIdx].like || 0) + likedChange,
+    dislike: (rows[userId].envanter[kimi].comments[commentIdx].dislike || 0) + dislikedChange,
+  }
+
+  console.log(rows[userId].envanter[kimi].comments[commentIdx]);
+
   storage.setItem(userId, rows[userId]);
 }
 
