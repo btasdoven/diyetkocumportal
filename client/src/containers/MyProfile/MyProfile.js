@@ -35,6 +35,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
@@ -43,6 +45,11 @@ import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
 
 import UserDetails from './UserDetails'
+import InstagramLogin from 'react-instagram-login';
+import FontAwesome from 'react-fontawesome'
+import SocialLogin from 'react-social-login'
+import 'font-awesome/css/font-awesome.min.css'; 
+import { InstagramLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 
 const styles = theme => ({
   root: {
@@ -89,6 +96,7 @@ const styles = theme => ({
   }
 });
 
+
 function renderLoadingButton(classes) {
   return (
     <div className={classes.rootLoading}>
@@ -97,99 +105,150 @@ function renderLoadingButton(classes) {
   )
 } 
 
-function createData(name, calories, fat, carbs, protein) {
-    return { 
-        name, 
-        calories, 
-        fat, 
-        carbs, 
-        protein 
-    };
+class __SocialButton extends React.Component {  
+  render () {
+    const { component: Component, children, ...props } = this.props
+
+    return (
+      <Component
+        onClick={this.props.triggerLogin} 
+        {...props}
+      >
+        {children}
+      </Component>
+    )
   }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
+}
 
-
-  const renderTextField = ({
-    label,
-    input,
-    meta: { touched, invalid, error },
-    ...custom
-  }) => (
-    <TextField
-      label={label}
-      placeholder={label}
-      error={touched && invalid}
-      helperText={touched && error}
-      {...input}
-      {...custom}
-      fullWidth
-    />
-  )
+const UberSocialButton = SocialLogin(__SocialButton)
 
 class Envanter extends React.Component {
   
   constructor(props) {
     super(props);
 
-    this.onSubmitInternal = this.onSubmitInternal.bind(this);
+    this.handleSocialLogin = this.handleSocialLogin.bind(this);
+    this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
+    this.handleSocialLogout = this.handleSocialLogout.bind(this);
+
+    this.state = {
+      user: undefined,
+      userIgInfo: undefined
+    }
+  }
+  
+  componentWillMount() {
+    var user = localStorage.getItem('userig')
+
+    if (user != undefined) {
+      this.setState({userIgInfo: JSON.parse(user)});
+    }
   }
 
-  componentDidMount() {
+  handleSocialLogout() {
+    console.log('handle social logout')
+    localStorage.removeItem('userig');
+    this.setState({
+      userIgInfo: undefined,
+      showLoader: false,
+    })
   }
 
-  onSubmitInternal(formValues) {
-      //RetrieveFormValuesForType(formValues)
-      console.log(formValues);
+  handleSocialLogin(user) {
+    console.log('handle social')
+    console.log(user)
 
-      this.props.history.push(`/s/` + formValues['username'])
-      //this.setState({username: formValues['username']});
-      this.props.reset();
+    if (user._provider == 'instagram') {
+      fetch('https://api.instagram.com/v1/users/self/?access_token=' + user._token.accessToken)
+        .then(response => response.json())
+        .then(data => {
+          user._profile['username'] = data.data.username
+          localStorage.setItem('userig', JSON.stringify(user));
+          this.setState({userIgInfo: user, showLoader:false})
+        })
+        .catch(err => console.log(err));
+    } else if (user._provider == 'google') {
+      user._profile['username'] = user._profile.email;
+      localStorage.setItem('userig', JSON.stringify(user));
+      this.setState({userIgInfo: user, showLoader:false})
+    } else {    
+      localStorage.setItem('userig', JSON.stringify(user));
+      this.setState({userIgInfo: user, showLoader:false})
+    }
+  }
+  
+  handleSocialLoginFailure(err) {
+    this.handleSocialLogout();
+
+    console.error(err)
   }
 
   render() {
     const { classes } = this.props;
-    const showLoader = false;
+    const showLoader = this.state.showLoader;
+
+    const user = this.state.userIgInfo;
+    console.log(user);
+    console.log(this.state);
+    console.log(this.props);
 
     return (
         <div className={classes.root}>
         <div className={classes.main}>
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
-                <span>
-                  <Form 
-                    onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
-                    className={classes.form}>
-                    {/* <Field
-                      className={classes.field}
-                      name="username"
-                      component={renderTextField}
-                      placeholder="Enter Instagram username"
-                      variant="outlined"
-                      size="small"
-                    />
-                    <Button
-                        onClick={this.props.handleSubmit(this.onSubmitInternal)}
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        startIcon={<SearchIcon />}
+                <span>                    
+                  {!user &&
+                    // <SocialButton
+                    //   autoCleanUri
+                    //   provider='instagram'
+                    //   appId='5bff3a93e155401fb02b2bbc789e01b4'
+                    //   redirect={this.props.location.pathname}
+                    //   onLoginSuccess={this.handleSocialLogin}
+                    //   onLoginFailure={this.handleSocialLoginFailure}
+                    // >
+                    //   Login with Instagram
+                    // </SocialButton>
+                    <UberSocialButton
+                      autoCleanUri
+                      provider='instagram'
+                      appId='5bff3a93e155401fb02b2bbc789e01b4'
+                      redirect={this.props.location.pathname}
+                      onLoginSuccess={this.handleSocialLogin}
+                      onLoginFailure={this.handleSocialLoginFailure}
+                      component={InstagramLoginButton}
                     >
-                        GO
-                    </Button> */}
-                    <span style={{width: '100%'}}>
-                      <Typography align="center">Login with your Instagram account</Typography>
-                    </span>
-                    
-                  </Form>
+                      Login with Instagram
+                    </UberSocialButton>
+                  }
+                 
+                 {!user &&
+                    <UberSocialButton
+                      autoCleanUri
+                      provider='google'
+                      appId='755813466643-tqjd3qieai0angldsndr7du6pj75v0sd.apps.googleusercontent.com'
+                      redirect={this.props.location.pathname}
+                      onLoginSuccess={this.handleSocialLogin}
+                      onLoginFailure={this.handleSocialLoginFailure}
+                      component={GoogleLoginButton}
+                    >
+                      Login with Google
+                    </UberSocialButton>
+                  }
 
-                  {/* {this.props.match.params.username && <UserDetails username={this.props.match.params.username}/>} */}
+                  {user && 
+                    <UberSocialButton 
+                      autoCleanUri
+                      provider='instagram'
+                      redirect={this.props.location.pathname} 
+                      onLogoutSuccess={this.handleSocialLogout}
+                      onLoginFailure={this.handleSocialLoginFailure}
+                      onLogoutFailure={this.handleSocialLoginFailure}
+                      user={user}
+                      component={UserDetails}
+                    >
+                    </UberSocialButton>
+                    }
                 </span>
             }
         </div>
@@ -215,4 +274,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'UsernameForm' })(withStyles(styles)(Envanter)));
+)(withStyles(styles)(Envanter));

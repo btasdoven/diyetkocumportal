@@ -45,7 +45,8 @@ import InputBase from '@material-ui/core/InputBase';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
-
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import {reset} from 'redux-form';
 
 const styles = theme => ({
@@ -89,25 +90,6 @@ function renderLoadingButton(classes) {
   )
 } 
 
-function createData(name, calories, fat, carbs, protein) {
-    return { 
-        name, 
-        calories, 
-        fat, 
-        carbs, 
-        protein 
-    };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-
-
   const renderTextField = ({
     label,
     input,
@@ -138,79 +120,44 @@ class Envanter extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-        currentUser: undefined,
-        prevUser: undefined,
-        userIgInfo: undefined,
-    };
-    this.onSubmitInternal = this.onSubmitInternal.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
+    this.state = {anchorEl: undefined}
   }
 
   isLoaded() {
       return this.props.apiEnvanter != undefined &&
-        this.props.apiEnvanter[this.props.username] != undefined &&
-        this.props.apiEnvanter[this.props.username].isLoaded == true &&
-        this.state.userIgInfo != undefined &&
-        this.state.userIgInfo.username == this.props.username;
+        this.props.apiEnvanter[this.props.user._profile.username] != undefined &&
+        this.props.apiEnvanter[this.props.user._profile.username].isLoaded == true;
   }
 
   componentDidMount() {
       console.log('mount')
-      console.log(this.state)
-
-    if (this.state.currentUser != this.props.username)
-    {
-        this.setState({
-            prevUser: this.state.currentUser,
-            currentUser: this.props.username
-        });
-
-        fetch('https://www.instagram.com/' + this.props.username + '/?__a=1')
-          .then(response => response.json())
-          .then(data => this.setState({ userIgInfo: data.graphql.user}))
-          .catch(err => console.log(err));
-
-        this.props.getEnvanter(5, this.props.username);
-    }
-  }
-
-  componentDidUpdate() {
-    console.log('update')
-    console.log(this.state)
-
-    if (this.state.currentUser != this.props.username)
-    {
-        this.setState({
-            prevUser: this.state.currentUser,
-            currentUser: this.props.username
-        });
-
-        fetch('https://www.instagram.com/' + this.props.username + '/?__a=1')
-          .then(response => response.json())
-          .then(data => this.setState({ userIgInfo: data.graphql.user}))
-          .catch(err => console.log(err));
-        this.props.getEnvanter(5, this.props.username);
-    }
-  }
-
-  onSubmitInternal(formValues) {
-      //RetrieveFormValuesForType(formValues)
-      console.log(formValues);
-
-      if (formValues != undefined) {
-        var currentEnvanter = this.props.apiEnvanter[this.props.username].items;
-        currentEnvanter.comments.push(formValues);
-        this.props.putEnvanter(5, this.props.username, currentEnvanter);
-        this.props.reset();
+      console.log(this.props);
+      
+      if (!this.isLoaded()) {
+        this.props.getEnvanter(5, this.props.user._profile.username)
       }
   }
+  handleClick = event => {
+    this.setState({anchorEl: event.currentTarget});
+  };
+
+  handleClose = (ev) => {
+    if (ev == 'logout') {
+      this.props.triggerLogout();
+    }
+    this.setState({anchorEl: undefined});
+  };
 
   render() {
+    console.log(this.props);
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
 
-    const userIgInfo = showLoader ? undefined : this.state.userIgInfo;
-    const userLocalInfo = showLoader ? undefined : this.props.apiEnvanter[this.props.username].items;
+    const userIgInfo = showLoader ? undefined : this.props.user._profile;
+    const userLocalInfo = showLoader ? undefined : this.props.apiEnvanter[userIgInfo.username].items;
 
     console.log(userIgInfo);
     console.log(userLocalInfo);
@@ -223,14 +170,25 @@ class Envanter extends React.Component {
                     <Card className={classes.card}>
                         <CardHeader
                         avatar={
-                            <Avatar className={classes.avatar} alt={userIgInfo.full_name} src={userIgInfo.profile_pic_url} />
+                            <Avatar className={classes.avatar} alt={userIgInfo.name} src={userIgInfo.profilePicURL} />
                         }
-                        // action={
-                        //   <IconButton aria-label="settings">
-                        //     <MoreVertIcon />
-                        //   </IconButton>
-                        // }
-                        title={<Typography variant="h5" component="h2">{userIgInfo.full_name}</Typography>}
+                        action={
+                          <div>
+                            <IconButton aria-label="settings" onClick={this.handleClick}>
+                              <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                              id="simple-menu"
+                              anchorEl={this.state.anchorEl}
+                              keepMounted
+                              open={this.state.anchorEl != undefined}
+                              onClose={this.handleClose}
+                            >
+                              <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
+                            </Menu>
+                          </div>
+                        }
+                        title={<Typography variant="h5" component="h2">{userIgInfo.name}</Typography>}
                         //subheader={JSON.stringify(user)}
                         />
                         {/* <CardMedia
@@ -238,16 +196,12 @@ class Envanter extends React.Component {
                         image="/static/images/cards/paella.jpg"
                         title="Paella dish"
                         /> */}
-                        <CardContent>
-                            {!userLocalInfo.isClaimed && 
-                                <Button variant="outlined" color="primary" fullWidth>
-                                    CLAIM THIS PROFILE
-                                </Button>
-                            }
-                            {/*<Typography variant="body2" color="textSecondary" component="p">
+                        {/* <CardContent>
+                            
+                            <Typography variant="body2" color="textSecondary" component="p">
                                 {userLocalInfo.isClaimed ? "hh" : "aa"}
-                            </Typography> */}
-                        </CardContent>
+                            </Typography>
+                        </CardContent> */}
                         {/* <CardActions disableSpacing>
                         <IconButton aria-label="add to favorites">
                             <FavoriteIcon />
@@ -267,79 +221,6 @@ class Envanter extends React.Component {
                         </IconButton>
                         </CardActions> */}
                     </Card>
-
-                    <Form onSubmit={this.props.handleSubmit(this.onSubmitInternal)}>
-                        <Card className={classes.card}>
-                            {/* <CardMedia
-                            className={classes.media}
-                            image="/static/images/cards/paella.jpg"
-                            title="Paella dish"
-                            /> */}
-                            <CardContent style={{paddingBottom:0}}>
-                                <Field
-                                    className={classes.field}
-                                    name="text"
-                                    component={renderTextField}
-                                    placeholder="Enter your thoughts here..."
-                                    variant="outlined"
-                                    multiline
-                                    rows="4"
-                                    variant="outlined"
-                                    autoFocus={true}
-                                    //style={{backgroundColor:'red'}}
-                                />
-                            </CardContent>
-                            <CardActions disableSpacing  style={{paddingTop:0}}>
-                                <IconButton 
-                                    style={{marginLeft:'auto'}}
-                                    onClick={this.props.handleSubmit(this.onSubmitInternal)}>
-                                    <SendIcon />
-                                </IconButton>
-                            </CardActions>
-                        </Card>
-                    </Form>
-                    
-                    { userLocalInfo.comments.map( (row, idx) => (
-                        <Card key={idx} className={classes.card}>
-                            {/* <CardMedia
-                            className={classes.media}
-                            image="/static/images/cards/paella.jpg"
-                            title="Paella dish"
-                            /> */}
-                            {/* <CardHeader
-                            //title={<Typography variant="h5" component="h2">{user.full_name}</Typography>}
-                            subheader="September 14, 2016"
-                            /> */}
-                            <CardContent style={{paddingBottom:0}}>
-                                <Typography variant="body2" color="textPrimary" component="p">
-                                    {row.text}
-                                </Typography>
-                            </CardContent>
-                            <CardActions disableSpacing style={{justifyContent: "flex-end"}}>
-                                <span style={{marginRight: 'auto'}}>
-                                    <Button
-                                        color="default"
-                                        size="small"
-                                        startIcon={<ThumbUpIcon/>}
-                                    >
-                                        {row.like || 0}
-                                    </Button>
-                                    <Button
-                                        color="inherit"
-                                        size="small"
-                                        startIcon={<ThumbDownIcon/>}
-                                    >
-                                        {row.dislike || 0}
-                                    </Button>
-                                </span>
-                                <span style={{justifyContent: "flex-end"}}>
-                                <Typography variant="caption"  component="p">
-                                    5 mins ago
-                                </Typography>
-                                </span>
-                            </CardActions>
-                        </Card>
-                    ))}
                 </span>
             }
         </span>

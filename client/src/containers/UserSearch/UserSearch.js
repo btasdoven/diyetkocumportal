@@ -173,7 +173,6 @@ class Envanter extends React.Component {
                       placeholder="Enter Instagram username"
                       variant="outlined"
                       size="small"
-                      autoFocus={true}
                     />
                     <Button
                         onClick={this.props.handleSubmit(this.onSubmitInternal)}

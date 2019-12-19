@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+# persisted storage
+/stg
+
 # misc
 .DS_Store
 .env.local

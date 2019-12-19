@@ -207,7 +207,7 @@ class Envanter extends React.Component {
     {
         this.setState({
             prevUser: this.state.currentUser,
-            currentUser: this.props.username
+            currentUser: this.props.username,
         });
 
         fetch('https://www.instagram.com/' + this.props.username + '/?__a=1')
@@ -234,6 +234,9 @@ class Envanter extends React.Component {
   render() {
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
+
+    const loggedInUser = JSON.parse(localStorage.getItem('userig'));
+    console.log(loggedInUser);
 
     const userIgInfo = showLoader ? undefined : this.state.userIgInfo;
     const userLocalInfo = showLoader ? undefined : this.props.apiEnvanter[this.props.username].items;
@@ -268,7 +271,7 @@ class Envanter extends React.Component {
                         <CardContent className={classes.profileCardContent}>
                             <Grid container alignItems="center" spacing={0} className={classes.grid}>
                                 <Grid item xs={4} style={{textAlign: 'center', borderRight: '1px solid rgba(0,0,0,0.35)'}}>
-                                    <Tooltip title="Delete">
+                                    <Tooltip title="Delete" enterTouchDelay={0}>
                                         <span style= {{display: 'inline-flex', alignItems: 'center', flexDirection:'column', justifyContent:'center'}}>
                                             <StyledBadge badgeContent={4}>
                                                 <ChatIcon/>
@@ -295,7 +298,7 @@ class Envanter extends React.Component {
                                 </Grid>
                             </Grid>
 
-                            {!userLocalInfo.isClaimed && 
+                            {!userLocalInfo.isClaimed && !loggedInUser &&
                                 <Button component={Link} to={"/u?claim=" + userIgInfo.username} variant="outlined" color="primary" fullWidth>
                                     CLAIM THIS PROFILE
                                 </Button>
@@ -324,36 +327,38 @@ class Envanter extends React.Component {
                         </CardActions> */}
                     </Card>
 
-                    <Form onSubmit={this.props.handleSubmit(this.onSubmitInternal)}>
-                        <Card className={classes.card}>
-                            {/* <CardMedia
-                            className={classes.media}
-                            image="/static/images/cards/paella.jpg"
-                            title="Paella dish"
-                            /> */}
-                            <CardContent style={{paddingBottom:0}}>
-                                <Field
-                                    className={classes.field}
-                                    name="text"
-                                    component={renderTextField}
-                                    placeholder="Enter your thoughts here..."
-                                    variant="outlined"
-                                    multiline
-                                    rows="4"
-                                    variant="outlined"
-                                    //style={{backgroundColor:'red'}}
-                                />
-                            </CardContent>
-                            <CardActions disableSpacing  style={{paddingTop:0}}>
-                                <IconButton 
-                                    style={{marginLeft:'auto'}}
-                                    onClick={this.props.handleSubmit(this.onSubmitInternal)}>
-                                    <SendIcon />
-                                </IconButton>
-                            </CardActions>
-                        </Card>
-                    </Form>
-                    
+                    { (!loggedInUser || loggedInUser._profile.username != userIgInfo.username) &&
+                        <Form onSubmit={this.props.handleSubmit(this.onSubmitInternal)}>
+                            <Card className={classes.card}>
+                                {/* <CardMedia
+                                className={classes.media}
+                                image="/static/images/cards/paella.jpg"
+                                title="Paella dish"
+                                /> */}
+                                <CardContent style={{paddingBottom:0}}>
+                                    <Field
+                                        className={classes.field}
+                                        name="text"
+                                        component={renderTextField}
+                                        placeholder="Enter your thoughts here..."
+                                        variant="outlined"
+                                        multiline
+                                        rows="4"
+                                        variant="outlined"
+                                        //style={{backgroundColor:'red'}}
+                                    />
+                                </CardContent>
+                                <CardActions disableSpacing  style={{paddingTop:0}}>
+                                    <IconButton 
+                                        style={{marginLeft:'auto'}}
+                                        onClick={this.props.handleSubmit(this.onSubmitInternal)}>
+                                        <SendIcon />
+                                    </IconButton>
+                                </CardActions>
+                            </Card>
+                        </Form>
+                    }
+
                     { userLocalInfo.comments.map( (row, idx) => (
                         <Card key={idx} className={classes.card}>
                             {/* <CardMedia
