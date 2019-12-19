@@ -133,7 +133,16 @@ exports.getDiary = function (userId, date) {
 exports.putEnvanter = function (userId, user, val) {
   console.log('putEnvanter');
   console.log(val);
-  rows[userId].envanter[user] = val;
+  if (!rows[userId].envanter[user]) {
+    rows[userId].envanter[user] = {};
+  }
+  
+  if (!rows[userId].envanter[user].comments) {
+    rows[userId].envanter[user].comments = [];
+  }
+
+  rows[userId].envanter[user].comments.push(val);
+  
   storage.setItem(userId, rows[userId]);
 }
 

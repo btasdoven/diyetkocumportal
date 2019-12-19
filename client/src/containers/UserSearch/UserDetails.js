@@ -235,9 +235,7 @@ class Envanter extends React.Component {
       console.log(formValues);
 
       if (formValues != undefined) {
-        var currentEnvanter = this.props.apiEnvanter[this.props.username].items;
-        currentEnvanter.comments.push(formValues);
-        this.props.putEnvanter(5, this.props.username, currentEnvanter);
+        this.props.putEnvanter(5, this.props.username, formValues);
         this.props.reset();
       }
   }
