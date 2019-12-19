@@ -260,7 +260,8 @@ class Envanter extends React.Component {
         this.props.apiLikes[loggedInUser._profile.username][this.props.username] &&
         this.props.apiLikes[loggedInUser._profile.username][this.props.username].isLoaded) {
 
-        if (!this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[idx]) {
+        if (!this.props.apiLikes[loggedInUser._profile.username][this.props.username].items ||
+            !this.props.apiLikes[loggedInUser._profile.username][this.props.username].items[idx]) {
             return { liked: false, disliked: false }
         }
 

@@ -41,6 +41,10 @@ exports.getLikes = function (userId, kim, kimi) {
   console.log(kim);
   console.log(kimi);
   
+  if (!rows[userId].likes) {
+    return {}
+  }
+
   var kim = rows[userId].likes[kim];
 
   if (!kim) {
@@ -84,12 +88,18 @@ exports.putLikes = function (userId, kim, kimi, commentIdx, val) {
     rows[userId].likes[kim][kimi][commentIdx] = val
   }
 
+  if (!oldVal) {
+    oldVal = { liked: false, disliked: false };
+  }
+
   likedChange = oldVal.liked 
   ? (val.liked ? 0 : -1)
   : (val.liked ? 1 : 0);
   dislikedChange = oldVal.disliked 
   ? (val.disliked ? 0 : -1)
   : (val.disliked ? 1 : 0);
+  
+  console.log(rows[userId].envanter[kimi].comments[commentIdx]);
 
   rows[userId].envanter[kimi].comments[commentIdx] = {
     ...rows[userId].envanter[kimi].comments[commentIdx],
