@@ -112,6 +112,43 @@ exports.putLikes = function (userId, kim, kimi, commentIdx, val) {
   storage.setItem(userId, rows[userId]);
 }
 
+exports.putClaim = function (userId, user) {
+  console.log('putClaim');
+
+  if (!rows[userId].envanter[user]) {
+    rows[userId].envanter[user] = {};
+  }
+  
+  rows[userId].envanter[user].isClaimed = true;
+
+  storage.setItem(userId, rows[userId]);
+}
+
+exports.putEnvanter = function (userId, user, val) {
+  console.log('putEnvanter');
+  console.log(val);
+  if (!rows[userId].envanter[user]) {
+    rows[userId].envanter[user] = {};
+  }
+  
+  if (!rows[userId].envanter[user].comments) {
+    rows[userId].envanter[user].comments = [];
+  }
+
+  rows[userId].envanter[user].comments.push(val);
+
+  storage.setItem(userId, rows[userId]);
+}
+
+exports.getEnvanter = function (userId, user) {
+  console.log('getEnvanter');
+  console.log(user)
+
+  var ret = rows[userId].envanter[user];
+
+  return ret == undefined ? { comments: [] } : ret;
+}
+
 exports.putDiary = function (userId, date, val) {
   console.log('putDiary');
   console.log(date);
@@ -127,32 +164,6 @@ exports.getDiary = function (userId, date) {
   var ret = rows[userId].diaries[date];
 
   return ret == undefined ? { entries: [] } : ret;
-}
-
-
-exports.putEnvanter = function (userId, user, val) {
-  console.log('putEnvanter');
-  console.log(val);
-  if (!rows[userId].envanter[user]) {
-    rows[userId].envanter[user] = {};
-  }
-  
-  if (!rows[userId].envanter[user].comments) {
-    rows[userId].envanter[user].comments = [];
-  }
-
-  rows[userId].envanter[user].comments.push(val);
-  
-  storage.setItem(userId, rows[userId]);
-}
-
-exports.getEnvanter = function (userId, user) {
-  console.log('getEnvanter');
-  console.log(user)
-
-  var ret = rows[userId].envanter[user];
-
-  return ret == undefined ? { comments: [] } : ret;
 }
 
 exports.getMaterials =  function (userId, materialId) {

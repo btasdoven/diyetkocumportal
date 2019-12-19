@@ -18,7 +18,7 @@ import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { getEnvanter, putEnvanter } from '../../store/reducers/api.envanter';
+import { getEnvanter, putEnvanter, putClaim } from '../../store/reducers/api.envanter';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -164,12 +164,14 @@ class Envanter extends React.Component {
         .then(data => {
           user._profile['username'] = data.data.username
           localStorage.setItem('userig', JSON.stringify(user));
+          this.props.putClaim(5, user._profile['username'])
           this.setState({userIgInfo: user, showLoader:false})
         })
         .catch(err => console.log(err));
     } else if (user._provider == 'google') {
       user._profile['username'] = user._profile.email;
       localStorage.setItem('userig', JSON.stringify(user));
+      this.props.putClaim(5, user._profile['username'])
       this.setState({userIgInfo: user, showLoader:false})
     } else {    
       localStorage.setItem('userig', JSON.stringify(user));
@@ -267,6 +269,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
+      putClaim: (userId, user) => putClaim(userId, user),
     },
     dispatch
   );

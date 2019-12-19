@@ -11,6 +11,7 @@ export const userService = {
     get_all_field_list,
     get_envanter,
     put_envanter,
+    put_claim,
     put_likes,
     get_likes,
     get_diary,
@@ -79,6 +80,19 @@ function get_group_data(userId, groupId) {
         });
 }
 
+function put_claim(userId, user) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/envanter/` + user + '/claim', requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
 function put_envanter(userId, user, val) {
     const requestOptions = {
         method: 'PUT',
@@ -117,7 +131,7 @@ function put_likes(userId, kim, kimi, commentIdx, val) {
     console.log("put_likes")
     console.log(commentIdx)
     console.log(val)
-    
+
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/likes/` + kim + `/` + kimi + `/` + commentIdx, requestOptions)
         .then(handleResponse)
         .then(data => {

@@ -25,6 +25,13 @@ app.get("/api/v1/users/:userId/diaries/:date?", (req, res, next) => {
   }), 500);
 });
 
+app.put("/api/v1/users/:userId/envanter/:user/claim", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    dal.putClaim(req.params.userId, req.params.user);
+    res.status(200).json('success');
+  }), 500);
+});
 
 app.put("/api/v1/users/:userId/envanter/:user", (req, res, next) => {
   setTimeout((function() {

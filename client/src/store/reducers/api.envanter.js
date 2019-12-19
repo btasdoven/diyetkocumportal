@@ -54,6 +54,25 @@ export default function reducer(state = initState, action) {
     }
 }
 
+export function putClaim(userId, user) {
+    return (dispatch) => {
+        dispatch(request(user));
+
+        userService.put_claim(userId, user)
+        .then(
+            (data) => { 
+                getEnvanter(userId, user)(dispatch);
+            },
+            error => {
+                dispatch(failure(user, error.toString()));
+            }
+        );
+    };
+  
+  function request() { return { type: ENVANTER_PUT_LOADING, user, isPutLoading: true } }
+  function failure(error) { return { type: ENVANTER_PUT_ERRORED, user, error } }
+}
+
 export function putEnvanter(userId, user, val) {
     return (dispatch) => {
         dispatch(request(user));
