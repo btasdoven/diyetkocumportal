@@ -237,12 +237,6 @@ class Envanter extends React.Component {
     console.log(this.state);
     console.log(this.props);
 
-    var danisans = [ 
-      {name: 'Bilgin Aktaş', username: 'bilginaktas', url: 'https://material-ui.com/static/images/avatar/1.jpg'},
-      {name: 'Cemil Burakoğlu', username: 'cemilburakoglu', url: 'https://material-ui.com/static/images/avatar/2.jpg'},
-      {name: 'Sibel Cemre Günaydın', username: 'sibelcemregunaydin', url: 'https://material-ui.com/static/images/avatar/3.jpg'},
-    ];
-
     return (
         <div className={classes.root}>
         <div className={classes.main}>
@@ -279,27 +273,17 @@ class Envanter extends React.Component {
 
                                  
                   {/* {!user &&
-                    // <SocialButton
-                    //   autoCleanUri
-                    //   provider='instagram'
-                    //   appId='5bff3a93e155401fb02b2bbc789e01b4'
-                    //   redirect={this.props.location.pathname}
-                    //   onLoginSuccess={this.handleSocialLogin}
-                    //   onLoginFailure={this.handleSocialLoginFailure}
-                    // >
-                    //   Login with Instagram
-                    // </SocialButton>
-                    // <UberSocialButton
-                    //   autoCleanUri
-                    //   provider='instagram'
-                    //   appId='5bff3a93e155401fb02b2bbc789e01b4'
-                    //   redirect={this.props.location.pathname}
-                    //   onLoginSuccess={this.handleSocialLogin}
-                    //   onLoginFailure={this.handleSocialLoginFailure}
-                    //   component={InstagramLoginButton}
-                    // >
-                    //   Login with Instagram
-                    // </UberSocialButton>
+                    <UberSocialButton
+                      autoCleanUri
+                      provider='instagram'
+                      appId='5bff3a93e155401fb02b2bbc789e01b4'
+                      redirect={this.props.location.pathname}
+                      onLoginSuccess={this.handleSocialLogin}
+                      onLoginFailure={this.handleSocialLoginFailure}
+                      component={InstagramLoginButton}
+                    >
+                      Login with Instagram
+                    </UberSocialButton>
                   } */}
                  
                  {/* {!user &&
@@ -316,7 +300,8 @@ class Envanter extends React.Component {
                     </UberSocialButton>
                   } */}
 
-                  {user && 
+                  {
+                    //user && 
                     <UberSocialButton 
                       autoCleanUri
                       provider='instagram'

@@ -165,6 +165,10 @@ class Envanter extends React.Component {
   componentDidMount() {
       console.log('mount')
       console.log(this.props);
+      
+      if (!this.isLoaded()) {
+        this.props.getEnvanter(5, this.props.user._profile.username)
+      }
   }
   handleClick = event => {
     this.setState({anchorEl: event.currentTarget});
@@ -184,7 +188,13 @@ class Envanter extends React.Component {
   render() {
     console.log(this.props);
     const { classes } = this.props;
-    const showLoader = false;
+    const showLoader = !this.isLoaded();
+
+    const userIgInfo = showLoader ? undefined : this.props.user._profile;
+    const userLocalInfo = showLoader ? undefined : this.props.apiEnvanter[userIgInfo.username].items;
+
+    console.log(userIgInfo);
+    console.log(userLocalInfo);
 
     return (
       <Slide direction="up" in={true}>
@@ -217,7 +227,7 @@ class Envanter extends React.Component {
                   <Card className={classes.card}>
                         <CardHeader
                         avatar={
-                            <Avatar className={classes.avatar} alt="Murat Aktas" src="https://material-ui.com/static/images/avatar/5.jpg" />
+                            <Avatar className={classes.avatar} alt={userIgInfo.name} src={userIgInfo.profilePicURL} />
                         }
                         action={
                           <div>
@@ -235,7 +245,7 @@ class Envanter extends React.Component {
                             </Menu>
                           </div>
                         }
-                        title={<Typography variant="h5" component="h2">Murat Aktas</Typography>}
+                        title={<Typography variant="h5" component="h2">{userIgInfo.name}</Typography>}
                         //subheader={JSON.stringify(user)}
                         />
                         {/* <CardMedia
