@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -106,18 +106,21 @@ class Header extends React.Component  {
           {this.props.backButton && (
             <IconButton
               className={classes.backButton}
-              onClick={() => this.props.history.goBack()}
+              //onClick={() => this.props.history.goBack()}
+              component={Link}
+              to={this.props.backButton}
             >
               <ExpandMoreIcon />
             </IconButton>
           )}
-
-          <IconButton
-            className={classes.menuButton}
-            onClick={() => this.props.handleOpenDrawer()}
-          >
-            <MenuIcon />
-          </IconButton>
+          {!this.props.backButton && (
+            <IconButton
+              className={classes.menuButton}
+              onClick={() => this.props.handleOpenDrawer()}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
 
           {/* <a href='/' >
             <img src="/static/favicon.png" className={classes.icon} />

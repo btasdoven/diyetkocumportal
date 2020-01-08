@@ -18,6 +18,8 @@ import ProjectList from "./containers/Project/ProjectList";
 import Project from "./containers/Project/Project";
 import Signin from "./containers/Signin";
 import Register from "./containers/Register/Register";
+import DanisanView from "./containers/Danisanlar/DanisanView";
+import DanisanList from "./containers/Danisanlar/DanisanList";
 import LandingPage from "./containers/LandingPage";
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -32,7 +34,7 @@ const NotFound = () => {
 };
 
 
-const DashboardRoute = withWidth()(({ width, component: Component, ...rest }) => {
+const DashboardRoute = withWidth()(({ width, component: Component, backButton, ...rest }) => {
 
   return (
     <Route
@@ -40,7 +42,7 @@ const DashboardRoute = withWidth()(({ width, component: Component, ...rest }) =>
       render={matchProps => 
         true //width != 'xs' && width != 'sm'
           ? (
-            <MainLayout permanentDrawer={width != 'xs' && width != 'sm' ? true : false}>
+            <MainLayout backButton={backButton} permanentDrawer={width != 'xs' && width != 'sm' ? true : false}>
               <Component {...matchProps} />
             </MainLayout>
           ) : (
@@ -76,7 +78,8 @@ class App extends Component {
             {localStorage.getItem('user') ? (
               <Switch>
                 <DashboardRoute exact path="/" component={MyProfile} />
-                <DashboardRoute exact path="/d" component={MyProfile} />
+                <DashboardRoute exact path="/d" component={DanisanList} />
+                <DashboardRoute exact backButton="/d" path="/d/:danisan" component={DanisanView} />
                 <DashboardRoute path="/m" component={MyProfile} />
                 <DashboardRoute path="/r" component={MyProfile} />
                 <DashboardRoute path="/f" component={MyProfile} />
