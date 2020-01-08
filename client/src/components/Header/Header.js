@@ -1,4 +1,6 @@
 import React from "react";
+
+import Avatar from '@material-ui/core/Avatar';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -42,21 +44,36 @@ const styles = theme => ({
   },
   appBar: {
   },
+  appBarShifted: {
+    left: '240px',
+    width: `calc(100% - 240px)`,
+  },
   backButton: {
     transform: 'rotate(90deg)',
     color: "white"
-  }
+  },
+  menuButton: {
+    color: "white"
+  },
+  avatar: {
+    width: theme.spacing(3.25),
+    height: theme.spacing(3.25),
+  },
 });
 
 const getPageTitle = (props) => {
   const pathname = props.location.pathname;
 
-  if (pathname === '/materials') {
-    return "My Storage"
-  } else if (pathname === '/') {
-    return "KİŞİSEL VERİ İŞLEME ENVANTER"
-  } else if (pathname === '/projects') {
-    return "Projects"
+  if (pathname === '/') {
+    return "Ana Sayfa"
+  } else if (pathname === '/d') {
+    return "Danışanlarım"
+  } else if (pathname === '/m') {
+    return "Mesajlarım"
+  } else if (pathname === '/r') {
+    return "Randevularım"
+  } else if (pathname === '/f') {
+    return "Finanslarım"
   }
 
   // } else if (pathname.startsWith('/projects/')) {
@@ -84,8 +101,8 @@ class Header extends React.Component  {
     const { classes } = this.props;
     
     return (
-      <AppBar className={classes.appBar} position="fixed">
-        <Toolbar disableGutters={true} classes={{ root: classes.toolbarRoot }}>
+      <AppBar className={this.props.permanentDrawer ? classes.appBarShifted : classes.appBar} position="fixed">
+        <Toolbar variant="dense" disableGutters={true} classes={{ root: classes.toolbarRoot }}>
           {this.props.backButton && (
             <IconButton
               className={classes.backButton}
@@ -94,11 +111,18 @@ class Header extends React.Component  {
               <ExpandMoreIcon />
             </IconButton>
           )}
-          {!this.props.backButton && (
-            <a href='/'>
-              <img src="/static/favicon.png" className={classes.icon} />
-            </a>
-          )}
+
+          <IconButton
+            className={classes.menuButton}
+            onClick={() => this.props.handleOpenDrawer()}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          {/* <a href='/' >
+            <img src="/static/favicon.png" className={classes.icon} />
+          </a> */}
+
           <Typography
             variant="button"
             color="inherit"
@@ -108,14 +132,14 @@ class Header extends React.Component  {
             {this.props.title || getPageTitle(this.props) || ''}
           </Typography>
 
-          {/* <IconButton color="inherit">
+          <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
-          </IconButton> */}
+          </IconButton>
           {/* <IconButton onClick={this.handleClick} color="inherit">
             <Badge badgeContent={1} color="secondary">
-              <PersonIcon />
+              <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </Badge>
           </IconButton> */}
           <Menu

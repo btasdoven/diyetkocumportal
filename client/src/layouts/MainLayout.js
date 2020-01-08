@@ -3,7 +3,9 @@ import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
+import { withRouter } from 'react-router'
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { logout } from "../store/reducers/authenticate";
@@ -16,9 +18,9 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    marginLeft: theme.spacing(7),
+    //marginLeft: theme.spacing(7),
     padding: theme.spacing(1),
-    marginTop: theme.spacing(7),
+    marginTop: theme.spacing(6),
     overflowX: "hidden"
   },
   contentShift: {
@@ -36,11 +38,29 @@ class MainLayout extends Component {
     open: false
   };
 
+  handleOpenDrawer = () => {
+    this.setState(prevState => {
+      return { open: true };
+    });
+  };
+
+  handleCloseDrawer = () => {
+    this.setState(prevState => {
+      return { open: false };
+    });
+  };
+
   handleToggleDrawer = () => {
     this.setState(prevState => {
       return { open: !prevState.open };
     });
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.handleCloseDrawer();
+    }
+  }
 
   render() {
     const { classes, children } = this.props;
@@ -48,19 +68,26 @@ class MainLayout extends Component {
       <Fragment>
         <div className={classes.root}>
           <Header
+            permanentDrawer={this.props.permanentDrawer} 
             backButton={this.props.backButton}
             logout={this.props.logout}
-            handleToggleDrawer={this.handleToggleDrawer}
+            handleOpenDrawer={this.handleToggleDrawer}
           />
           <main
             className={classNames(classes.content, {
-              [classes.contentShift]: false
+              [classes.contentShift]: this.props.permanentDrawer
             })}
           >
             {children}
           </main>
         </div>
-        <Sidebar open={false} drawerWidth={drawerWidth} />
+        
+        {/* <ClickAwayListener mouseEvent={false} onClickAway={() => this.handleCloseDrawer()}> */}
+          <Sidebar 
+            permanentDrawer={this.props.permanentDrawer} 
+            logout={this.props.logout}
+            open={this.props.permanentDrawer ? true : this.state.open} handleClose={this.handleCloseDrawer} drawerWidth={drawerWidth} />
+        {/* </ClickAwayListener> */}
       </Fragment>
     );
   }
@@ -78,4 +105,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   null,
   mapDispatchToProps
-)(withStyles(styles)(MainLayout));
+)(withStyles(styles)(withRouter(MainLayout)));

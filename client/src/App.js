@@ -10,7 +10,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 
-import Share from "./containers/Share";
 import Diary from "./containers/Diary/DiaryView";
 import Apps from "./containers/Apps";
 import UserSearch from "./containers/UserSearch/UserSearch";
@@ -20,7 +19,6 @@ import Project from "./containers/Project/Project";
 import Signin from "./containers/Signin";
 import Register from "./containers/Register/Register";
 import LandingPage from "./containers/LandingPage";
-import LinkViewer from "./containers/LinkViewer";
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MainLayout from "./layouts/MainLayout";
@@ -40,9 +38,9 @@ const DashboardRoute = withWidth()(({ width, component: Component, ...rest }) =>
     <Route
       {...rest}
       render={matchProps => 
-        width != 'xs' && width != 'sm'
+        true //width != 'xs' && width != 'sm'
           ? (
-            <MainLayout>
+            <MainLayout permanentDrawer={width != 'xs' && width != 'sm' ? true : false}>
               <Component {...matchProps} />
             </MainLayout>
           ) : (
@@ -77,18 +75,20 @@ class App extends Component {
           <Router>
             {localStorage.getItem('user') ? (
               <Switch>
-                {/* <DashboardRoute exact path="/" component={Envanter} />
-                <DashboardRoute exact path="/projects/:projectId" component={Project} />
-                <DashboardRoute path="/projects" component={ProjectList} />
-                <DashboardRoute path="/materials" component={MaterialList} />
+                <DashboardRoute exact path="/" component={MyProfile} />
+                <DashboardRoute exact path="/d" component={MyProfile} />
+                <DashboardRoute path="/m" component={MyProfile} />
+                <DashboardRoute path="/r" component={MyProfile} />
+                <DashboardRoute path="/f" component={MyProfile} />
                 <Route path="/signin" render={() => <Redirect to="/" />} />
-                <EmptyRoute component={NotFound} /> */}
+                <EmptyRoute component={NotFound} />
               </Switch>
             ) : (
               <Switch>
-                <Route exact path="/" render={() => <Redirect to="/s" />} />
-                <DashboardRoute path="/s/:username?" component={UserSearch} />
-                <DashboardRoute path="/u" component={MyProfile} />
+                <EmptyRoute path="/signup" component={Register} />
+                <EmptyRoute path="/signin" component={Signin} />
+                <Route exact path="/" render={() => <Redirect to="/signin" />} />
+                <Redirect to="/" />
               </Switch>
             )}
           </Router>

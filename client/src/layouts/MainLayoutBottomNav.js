@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import Header from "../components/Header";
-import BottomBar from "../components/BottomBar";
+//import BottomBar from "../components/BottomBar";
 import { logout } from "../store/reducers/authenticate";
 
 const drawerWidth = 240;
@@ -73,7 +73,7 @@ class MainLayoutBottomNav extends Component {
             />
           </main>
         </div>
-        <BottomBar />
+        {/* <BottomBar /> */}
       </Fragment>
     );
   }
