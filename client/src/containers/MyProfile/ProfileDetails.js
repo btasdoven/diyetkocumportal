@@ -17,6 +17,9 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
 
 import { getEnvanter, putEnvanter } from '../../store/reducers/api.envanter';
 
@@ -71,6 +74,7 @@ const styles = theme => ({
   },
   card: {
       marginBottom: theme.spacing(1),
+      margin: theme.spacing(1),
   },
   rootLoading: {
       height: "inherit",
@@ -115,6 +119,30 @@ function renderLoadingButton(classes) {
     // />
   )
 
+
+  function a11yProps(index) {
+    return {
+      id: `scrollable-auto-tab-${index}`,
+      'aria-controls': `scrollable-auto-tabpanel-${index}`,
+    };
+  }
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <Typography
+        component="div"
+        role="tabpanel"
+        hidden={value !== index}
+        id={`scrollable-auto-tabpanel-${index}`}
+        aria-labelledby={`scrollable-auto-tab-${index}`}
+        {...other}
+      >
+        {value === index && <div>{children}</div>}
+      </Typography>
+    );
+  }
+  
 class Envanter extends React.Component {
   
   constructor(props) {
@@ -122,8 +150,9 @@ class Envanter extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
 
-    this.state = {anchorEl: undefined}
+    this.state = {anchorEl: undefined, value: 0}
   }
 
   isLoaded() {
@@ -151,6 +180,10 @@ class Envanter extends React.Component {
     this.setState({anchorEl: undefined});
   };
 
+  handleValueChange = (ev, newVal) => {
+    this.setState({value: newVal})
+  }
+
   render() {
     console.log(this.props);
     const { classes } = this.props;
@@ -167,7 +200,28 @@ class Envanter extends React.Component {
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
                 <span>
-                    <Card className={classes.card}>
+                  {/* <AppBar position="relative"> */}
+                  <Tabs
+                    value={this.state.value}
+                    onChange={this.handleValueChange}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    aria-label="scrollable auto tabs example"
+                  >
+                    <Tab label="KİŞİSEL BİLGİLER" {...a11yProps(0)} />
+                    <Tab label="KAN TAHLİLİ" {...a11yProps(1)} />
+                    <Tab label="TERCİHLER" {...a11yProps(2)} />
+                    <Tab label="ÖĞÜN GEÇMİŞİ" {...a11yProps(3)} />
+                    <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} />
+                    <Tab label="FİNANS GEÇMİŞİ" {...a11yProps(5)} />
+                    <Tab label="NOTLARIM" {...a11yProps(6)} />
+                  </Tabs>
+                  {/* </AppBar> */}
+                  <TabPanel value={this.state.value} index={0}>
+                    
+                  <Card className={classes.card}>
                         <CardHeader
                         avatar={
                             <Avatar className={classes.avatar} alt={userIgInfo.name} src={userIgInfo.profilePicURL} />
@@ -221,6 +275,25 @@ class Envanter extends React.Component {
                         </IconButton>
                         </CardActions> */}
                     </Card>
+                  </TabPanel>
+                  <TabPanel value={this.state.value} index={1}>
+                    Item Two
+                  </TabPanel>
+                  <TabPanel value={this.state.value} index={2}>
+                    Item Three
+                  </TabPanel>
+                  <TabPanel value={this.state.value} index={3}>
+                    Item Four
+                  </TabPanel>
+                  <TabPanel value={this.state.value} index={4}>
+                    Item Five
+                  </TabPanel>
+                  <TabPanel value={this.state.value} index={5}>
+                    Item Six
+                  </TabPanel>
+                  <TabPanel value={this.state.value} index={6}>
+                    Item Seven
+                  </TabPanel>
                 </span>
             }
         </span>

@@ -161,7 +161,7 @@ const SigninForm = props => {
 
 export default reduxForm({
   initialValues: {
-    username: 'ediz',
+    username: 'demo',
     password: '1234'
   },
   form: "login"

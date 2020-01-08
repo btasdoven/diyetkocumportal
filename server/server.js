@@ -114,9 +114,9 @@ app.get("/api/v1/links/:userId/:linkId", (req, res, next) => {
 
 app.post("/api/v1/users/auth", (req, res, next) => {
   setTimeout((function() {
-    if (req.body.username == 'ediz' && req.body.password == '1234') {
+    if (req.body.username == 'demo' && req.body.password == '1234') {
       res.setHeader('Content-Type', 'application/json');
-      res.json({token: 'Civil Management', username: 'ediz', id: 5});
+      res.json({token: 'Civil Management', username: 'demo', id: 5});
     } else {
       res.setHeader('Content-Type', 'application/json');
       res.status(400).json({message: "unauthorized access"});

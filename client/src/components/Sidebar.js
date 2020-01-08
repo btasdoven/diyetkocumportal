@@ -100,7 +100,7 @@ class Sidebar extends React.Component {
                   <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/favicon.png" />
                 {/* </Badge> */}
               </ListItemIcon>
-              <Typography>Diyet Kocum Test</Typography>
+              <Typography>Diyet Koçum Test</Typography>
               {/* <ListItemSecondaryAction>
                   {this.state.openProfileMenu ? <ExpandLess /> : <ExpandMore />}
               </ListItemSecondaryAction> */}

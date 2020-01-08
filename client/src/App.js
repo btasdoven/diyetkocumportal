@@ -80,6 +80,7 @@ class App extends Component {
                 <DashboardRoute path="/m" component={MyProfile} />
                 <DashboardRoute path="/r" component={MyProfile} />
                 <DashboardRoute path="/f" component={MyProfile} />
+                <DashboardRoute path="/kd" component={MyProfile} />
                 <Route path="/signin" render={() => <Redirect to="/" />} />
                 <EmptyRoute component={NotFound} />
               </Switch>

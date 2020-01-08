@@ -106,11 +106,11 @@ const Signin = props => {
     <div className={classes.root}>
     <div className={classes.main}>
       <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar className={classes.avatar} >
           <LockIcon />
         </Avatar>
         <Typography component="h2" variant="h5">
-          VerKos Sistemine Giriş
+          Diyet Koçum Sistemine Giriş
         </Typography>
 
         <SigninForm auth={auth} onSubmit={(v) => {
