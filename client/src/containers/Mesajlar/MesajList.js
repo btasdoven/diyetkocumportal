@@ -19,6 +19,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import DirectionsIcon from '@material-ui/icons/Directions';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import { getEnvanter, putEnvanter, putClaim } from '../../store/reducers/api.envanter';
 
@@ -33,6 +35,7 @@ import Divider from '@material-ui/core/Divider';
 
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
+import AddIcon from '@material-ui/icons/Add';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import SearchIcon from '@material-ui/icons/Search';
@@ -49,13 +52,13 @@ import { Form, Field, reduxForm } from "redux-form";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import UserDetails from './Danisan'
 import InstagramLogin from 'react-instagram-login';
 import FontAwesome from 'react-fontawesome'
 import SocialLogin from 'react-social-login'
 import 'font-awesome/css/font-awesome.min.css'; 
 import { InstagramLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 
+import InputAdornment from '@material-ui/core/InputAdornment';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -116,6 +119,7 @@ const styles = theme => ({
       backgroundColor: fade(theme.palette.common.white, 0.99),
     },
     margin: theme.spacing(1),
+    flex: 1
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -136,6 +140,13 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
+  },
+  yeniDanisanBtn: {
+    margin: theme.spacing(1)
+  },
+  divider: {
+    height: 28,
+    margin: 4,
   },
 });
 
@@ -238,9 +249,11 @@ class Envanter extends React.Component {
     console.log(this.props);
 
     var danisans = [ 
-      {name: 'Bilgin Aktaş', username: 'bilginaktas', url: 'https://material-ui.com/static/images/avatar/1.jpg'},
-      {name: 'Cemil Burakoğlu', username: 'cemilburakoglu', url: 'https://material-ui.com/static/images/avatar/2.jpg'},
-      {name: 'Sibel Cemre Günaydın', username: 'sibelcemregunaydin', url: 'https://material-ui.com/static/images/avatar/3.jpg'},
+      {name: 'Bilgin Aktaş', username: 'bilginaktas', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '13 dk. önce', url: 'https://material-ui.com/static/images/avatar/1.jpg'},
+      {name: 'Cemil Burakoğlu', username: 'cemilburakoglu', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '1 gün önce', url: 'https://material-ui.com/static/images/avatar/2.jpg'},
+      {name: 'Sibel Cemre Günaydın', username: 'sibelcemregunaydin', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '4 gün önce', url: 'https://material-ui.com/static/images/avatar/3.jpg'},
+      {name: 'Halil Sahinde', username: 'halilsahinde', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '2 hafta önce', url: 'https://material-ui.com/static/images/avatar/4.jpg'},
+      {name: 'Görkem Duymaz', username: 'gorkemduymaz', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '1 ay önce', url: 'https://material-ui.com/static/images/avatar/5.jpg'},
     ];
 
     return (
@@ -249,34 +262,85 @@ class Envanter extends React.Component {
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
                 <span> 
-                  {/* <Card key={idx} className={classes.card}>
-                    <CardActionArea>
-                      <CardHeader
-                        avatar={
-                            <Avatar className={classes.avatar} src={danisan.url} />
-                        }
-                        action={
-                          <div>
-                            <IconButton aria-label="settings" onClick={this.handleClick}>
-                              <MoreVertIcon />
-                            </IconButton>
-                            <Menu
-                              id="simple-menu"
-                              anchorEl={this.state.anchorEl}
-                              keepMounted
-                              open={this.state.anchorEl != undefined}
-                              onClose={this.handleClose}
-                            >
-                              <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
-                            </Menu>
-                        </div>
-                        }
-                        title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
-                        subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions">
+                      <PersonAddIcon />
+                    </IconButton>
+                    <Divider className={classes.divider} orientation="vertical" />
+                    <InputBase
+                      className={classes.search}
+                      placeholder="Danışan Ara..."
+                      inputProps={{ 'aria-label': 'search google maps' }}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <SearchIcon />
+                        </InputAdornment>
+                      }
                     />
-                    </CardActionArea>
-                  </Card>   */}
+                    {/* <Button startIcon={<AddIcon />} className={classes.yeniDanisanBtn} component="span" size="small" variant="outlined" color="primary">
+                      DANIŞAN EKLE
+                    </Button>
+                    <div className={classes.search}>
+                      <div className={classes.searchIcon}>
+                        <SearchIcon />
+                      </div>
+                      <InputBase
+                        placeholder="Danışan Ara..."
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputInput,
+                        }}
+                        inputProps={{ 'aria-label': 'search' }}
+                      />
+                    </div> */}
+                  </div>
+                  <Divider />
 
+                  <List disablePadding>
+                    {danisans.map( (danisan, idx) => {
+
+                      // <Card key={idx} className={classes.card}>
+                        //   <CardActionArea>
+                        //     <CardHeader
+                        //       avatar={
+                        //           <Avatar className={classes.avatar} src={danisan.url} />
+                        //       }
+                        //       action={
+                        //         <div>
+                        //           <IconButton aria-label="settings" onClick={this.handleClick}>
+                        //             <MoreVertIcon />
+                        //           </IconButton>
+                        //           <Menu
+                        //             id="simple-menu"
+                        //             anchorEl={this.state.anchorEl}
+                        //             keepMounted
+                        //             open={this.state.anchorEl != undefined}
+                        //             onClose={this.handleClose}
+                        //           >
+                        //             <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
+                        //           </Menu>
+                        //         </div>
+                        //       }
+                        //       title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
+                        //       subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
+                        //     />
+                        //   </CardActionArea>
+                        // </Card>  
+
+                      return (
+                        <span key={idx}>
+                          <ListItem button component={Link} to={"/m/" + danisan.username}>
+                            <ListItemAvatar>
+                            <Avatar src={danisan.url} />
+                            </ListItemAvatar>
+                            <ListItemText primary={danisan.name} secondary={danisan.mesaj}/>
+                            <Typography color="initial" variant="caption">{danisan.aktivite}</Typography>
+                          </ListItem>
+                          <Divider component="li" />
+                        </span>
+                      )
+                    })}  
+                  </List>
                                  
                   {/* {!user &&
                     // <SocialButton
@@ -316,7 +380,7 @@ class Envanter extends React.Component {
                     </UberSocialButton>
                   } */}
 
-                  {user && 
+                  {/* {user && 
                     <UberSocialButton 
                       autoCleanUri
                       provider='instagram'
@@ -326,10 +390,8 @@ class Envanter extends React.Component {
                       onLogoutFailure={this.handleSocialLoginFailure}
                       user={user}
                       component={UserDetails}
-                      viewParam={this.props.viewParam}
                     >
-                    </UberSocialButton>
-                  }
+                    </UberSocialButton> */}
                 </span>
             }
         </div>

@@ -122,12 +122,12 @@ class Sidebar extends React.Component {
               
           <Divider />
           <List dense={true}>
-            <ListItem button component={Link} to='/' selected={location.pathname === '/'}>
+            {/* <ListItem button component={Link} to='/' selected={location.pathname === '/'}>
               <ListItemIcon>
                 <DashboardIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Ana Sayfa</Typography>
-            </ListItem>
+            </ListItem> */}
               
             <ListItem button component={Link} to='/d' selected={location.pathname === '/d'}>
               <ListItemIcon>
@@ -151,17 +151,17 @@ class Sidebar extends React.Component {
               <ListItemIcon>
                 <CalendarTodayIcon color="primary"/>
               </ListItemIcon>
-              <Typography variant="overline">Randevularım</Typography>
+              <Typography variant="overline">RANDEVULARIM</Typography>
             </ListItem>
 
-          </List>
+          {/* </List>
           <Divider />
-          <List dense={true}>
+          <List dense={true}> */}
             <ListItem button component={Link} to='/f' selected={location.pathname === '/f'}>
               <ListItemIcon>
                 <CreditCardIcon color="primary"/>
               </ListItemIcon>
-              <Typography variant="overline">Finanslarım</Typography>
+              <Typography variant="overline">FİNANSLARIM</Typography>
             </ListItem>
             <ListItem button component={Link} to='/kd' selected={location.pathname === '/kd'}>
               <ListItemIcon>

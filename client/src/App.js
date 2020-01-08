@@ -18,8 +18,10 @@ import ProjectList from "./containers/Project/ProjectList";
 import Project from "./containers/Project/Project";
 import Signin from "./containers/Signin";
 import Register from "./containers/Register/Register";
+import MesajList from "./containers/Mesajlar/MesajList";
 import DanisanView from "./containers/Danisanlar/DanisanView";
 import DanisanList from "./containers/Danisanlar/DanisanList";
+import AnaSayfaView from "./containers/AnaSayfa/AnaSayfa";
 import LandingPage from "./containers/LandingPage";
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -34,7 +36,9 @@ const NotFound = () => {
 };
 
 
-const DashboardRoute = withWidth()(({ width, component: Component, backButton, ...rest }) => {
+const DashboardRoute = withWidth()(({ width, component: Component, backButton, viewParam, ...rest }) => {
+
+  console.log(rest);
 
   return (
     <Route
@@ -43,7 +47,7 @@ const DashboardRoute = withWidth()(({ width, component: Component, backButton, .
         true //width != 'xs' && width != 'sm'
           ? (
             <MainLayout backButton={backButton} permanentDrawer={width != 'xs' && width != 'sm' ? true : false}>
-              <Component {...matchProps} />
+              <Component viewParam={viewParam} {...matchProps} />
             </MainLayout>
           ) : (
             <MainLayoutBottomNav component={Component} {...matchProps} />
@@ -77,10 +81,12 @@ class App extends Component {
           <Router>
             {localStorage.getItem('user') ? (
               <Switch>
-                <DashboardRoute exact path="/" component={MyProfile} />
+                <DashboardRoute exact path="/" render={() => <Redirect to="/d" />} />
                 <DashboardRoute exact path="/d" component={DanisanList} />
                 <DashboardRoute exact backButton="/d" path="/d/:danisan" component={DanisanView} />
-                <DashboardRoute path="/m" component={MyProfile} />
+                <DashboardRoute exact path="/m" component={MesajList} />
+                <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
+
                 <DashboardRoute path="/r" component={MyProfile} />
                 <DashboardRoute path="/f" component={MyProfile} />
                 <DashboardRoute path="/kd" component={MyProfile} />

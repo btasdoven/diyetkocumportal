@@ -64,6 +64,7 @@ class MainLayout extends Component {
 
   render() {
     const { classes, children } = this.props;
+    console.log(this.props);
     return (
       <Fragment>
         <div className={classes.root}>

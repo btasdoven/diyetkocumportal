@@ -153,7 +153,7 @@ class Envanter extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
 
-    this.state = {anchorEl: undefined, value: 0}
+    this.state = {anchorEl: undefined, value: this.props.viewParam == 'messages' ? 6 : 0}
   }
 
   isLoaded() {
@@ -218,7 +218,8 @@ class Envanter extends React.Component {
                     <Tab label="ÖĞÜN GEÇMİŞİ" {...a11yProps(3)} />
                     <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} />
                     <Tab label="FİNANS GEÇMİŞİ" {...a11yProps(5)} />
-                    <Tab label="NOTLARIM" {...a11yProps(6)} />
+                    <Tab label="MESAJLAR" {...a11yProps(6)} />
+                    <Tab label="NOTLARIM" {...a11yProps(7)} />
                   </Tabs>
                   {/* </AppBar> */}
                   <TabPanel value={this.state.value} index={0}>
@@ -295,6 +296,9 @@ class Envanter extends React.Component {
                   </TabPanel>
                   <TabPanel value={this.state.value} index={6}>
                     Item Seven
+                  </TabPanel>
+                  <TabPanel value={this.state.value} index={7}>
+                    Item Eight
                   </TabPanel>
                 </span>
             }

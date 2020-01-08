@@ -250,11 +250,11 @@ class Envanter extends React.Component {
     console.log(this.props);
 
     var danisans = [ 
-      {name: 'Bilgin Aktaş', username: 'bilginaktas', url: 'https://material-ui.com/static/images/avatar/1.jpg'},
-      {name: 'Cemil Burakoğlu', username: 'cemilburakoglu', url: 'https://material-ui.com/static/images/avatar/2.jpg'},
-      {name: 'Sibel Cemre Günaydın', username: 'sibelcemregunaydin', url: 'https://material-ui.com/static/images/avatar/3.jpg'},
-      {name: 'Halil Sahinde', username: 'halilsahinde', url: 'https://material-ui.com/static/images/avatar/4.jpg'},
-      {name: 'Görkem Duymaz', username: 'gorkemduymaz', url: 'https://material-ui.com/static/images/avatar/5.jpg'},
+      {name: 'Bilgin Aktaş', username: 'bilginaktas', kilo: '86kg', boy: '184cm', aktivite: '4 saat önce', url: 'https://material-ui.com/static/images/avatar/1.jpg'},
+      {name: 'Cemil Burakoğlu', username: 'cemilburakoglu', kilo: '91kg', boy: '184cm', aktivite: '1 gün önce', url: 'https://material-ui.com/static/images/avatar/2.jpg'},
+      {name: 'Sibel Cemre Günaydın', username: 'sibelcemregunaydin', kilo: '73kg', boy: '164cm', aktivite: '4 gün önce', url: 'https://material-ui.com/static/images/avatar/3.jpg'},
+      {name: 'Halil Sahinde', username: 'halilsahinde', kilo: '121kg', boy: '187cm', aktivite: '2 hafta önce', url: 'https://material-ui.com/static/images/avatar/4.jpg'},
+      {name: 'Görkem Duymaz', username: 'gorkemduymaz', kilo: '94kg', boy: '179cm', aktivite: '1 ay önce', url: 'https://material-ui.com/static/images/avatar/5.jpg'},
     ];
 
     return (
@@ -334,7 +334,8 @@ class Envanter extends React.Component {
                             <ListItemAvatar>
                             <Avatar src={danisan.url} />
                             </ListItemAvatar>
-                            <ListItemText primary={danisan.name} secondary="86kg, 167cm, Son görüşme 6 gün önce" />
+                            <ListItemText primary={danisan.name} secondary={danisan.kilo + ", " + danisan.boy}/>
+                            <Typography color="initial" variant="caption">{danisan.aktivite}</Typography>
                           </ListItem>
                           <Divider component="li" />
                         </span>
