@@ -110,7 +110,7 @@ const Signin = props => {
           <LockIcon />
         </Avatar>
         <Typography component="h2" variant="h5">
-          Diyet Koçum Sistemine Giriş
+          Diyet Koçum Portalına Giriş
         </Typography>
 
         <SigninForm auth={auth} onSubmit={(v) => {

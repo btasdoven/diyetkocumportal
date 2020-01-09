@@ -21,8 +21,9 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import DirectionsIcon from '@material-ui/icons/Directions';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import Badge from "@material-ui/core/Badge";
 
-import { getEnvanter, putEnvanter, putClaim } from '../../store/reducers/api.envanter';
+import { getMessagePreviews } from '../../store/reducers/api.messagePreviews';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -70,6 +71,14 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
+  },
+  rootLoading: {
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      width: '100%',
+      alignItems: "center",
+      margin: '8px'
   },
   main: {
     width: '100%',
@@ -159,102 +168,43 @@ function renderLoadingButton(classes) {
   )
 } 
 
-class __SocialButton extends React.Component {  
-  render () {
-    const { component: Component, children, ...props } = this.props
-
-    return (
-      <Component
-        onClick={this.props.triggerLogin} 
-        {...props}
-      >
-        {children}
-      </Component>
-    )
-  }
-}
-
-const UberSocialButton = SocialLogin(__SocialButton)
-
 class Envanter extends React.Component {
   
   constructor(props) {
     super(props);
 
-    this.handleSocialLogin = this.handleSocialLogin.bind(this);
-    this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
-    this.handleSocialLogout = this.handleSocialLogout.bind(this);
+    this.isLoaded = this.isLoaded.bind(this);
 
     this.state = {
-      user: undefined,
-      userIgInfo: undefined
+      userId: JSON.parse(localStorage.getItem('user')).id
     }
   }
   
-  componentWillMount() {
-    var user = localStorage.getItem('userig')
+  isLoaded() {
+    console.log(this.props.apiMessagePreviews);
 
-    if (user != undefined) {
-      this.setState({userIgInfo: JSON.parse(user)});
+    var userId = this.state.userId;
+
+    var loaded = 
+      this.props.apiMessagePreviews[userId] != undefined &&
+      this.props.apiMessagePreviews[userId].isGetLoading != true &&
+      this.props.apiMessagePreviews[userId].data != undefined;
+
+    console.log(loaded);
+    return loaded;
+  }
+
+  componentDidMount() {
+    if (!this.isLoaded()) {
+      this.props.getMessagePreviews(this.state.userId);
     }
-  }
-
-  handleSocialLogout() {
-    console.log('handle social logout')
-    localStorage.removeItem('userig');
-    this.setState({
-      userIgInfo: undefined,
-      showLoader: false,
-    })
-  }
-
-  handleSocialLogin(user) {
-    console.log('handle social')
-    console.log(user)
-
-    if (user._provider == 'instagram') {
-      fetch('https://api.instagram.com/v1/users/self/?access_token=' + user._token.accessToken)
-        .then(response => response.json())
-        .then(data => {
-          user._profile['username'] = data.data.username
-          localStorage.setItem('userig', JSON.stringify(user));
-          this.props.putClaim(5, user._profile['username'])
-          this.setState({userIgInfo: user, showLoader:false})
-        })
-        .catch(err => console.log(err));
-    } else if (user._provider == 'google') {
-      user._profile['username'] = user._profile.email;
-      localStorage.setItem('userig', JSON.stringify(user));
-      this.props.putClaim(5, user._profile['username'])
-      this.setState({userIgInfo: user, showLoader:false})
-    } else {    
-      localStorage.setItem('userig', JSON.stringify(user));
-      this.setState({userIgInfo: user, showLoader:false})
-    }
-  }
-  
-  handleSocialLoginFailure(err) {
-    this.handleSocialLogout();
-
-    console.error(err)
   }
 
   render() {
     const { classes } = this.props;
-    const showLoader = this.state.showLoader;
+    const showLoader = !this.isLoaded();
 
-    const user = this.state.userIgInfo;
-    console.log(user);
-    console.log(this.state);
-    console.log(this.props);
-
-    var danisans = [ 
-      {name: 'Bilgin Aktaş', username: 'bilginaktas', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '13 dk. önce', url: 'https://material-ui.com/static/images/avatar/1.jpg'},
-      {name: 'Cemil Burakoğlu', username: 'cemilburakoglu', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '1 gün önce', url: 'https://material-ui.com/static/images/avatar/2.jpg'},
-      {name: 'Sibel Cemre Günaydın', username: 'sibelcemregunaydin', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '4 gün önce', url: 'https://material-ui.com/static/images/avatar/3.jpg'},
-      {name: 'Halil Sahinde', username: 'halilsahinde', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '2 hafta önce', url: 'https://material-ui.com/static/images/avatar/4.jpg'},
-      {name: 'Görkem Duymaz', username: 'gorkemduymaz', mesaj: 'Çok teşekkür ederim diyetisyen hanım', aktivite: '1 ay önce', url: 'https://material-ui.com/static/images/avatar/5.jpg'},
-    ];
+    var danisans = showLoader ? undefined : this.props.apiMessagePreviews[this.state.userId].data;
 
     return (
         <div className={classes.root}>
@@ -262,136 +212,31 @@ class Envanter extends React.Component {
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
                 <span> 
-                  <div style={{display: 'flex', alignItems: 'center'}}>
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-                      <PersonAddIcon />
-                    </IconButton>
-                    <Divider className={classes.divider} orientation="vertical" />
-                    <InputBase
-                      className={classes.search}
-                      placeholder="Danışan Ara..."
-                      inputProps={{ 'aria-label': 'search google maps' }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <SearchIcon />
-                        </InputAdornment>
-                      }
-                    />
-                    {/* <Button startIcon={<AddIcon />} className={classes.yeniDanisanBtn} component="span" size="small" variant="outlined" color="primary">
-                      DANIŞAN EKLE
-                    </Button>
-                    <div className={classes.search}>
-                      <div className={classes.searchIcon}>
-                        <SearchIcon />
-                      </div>
-                      <InputBase
-                        placeholder="Danışan Ara..."
-                        classes={{
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                      />
-                    </div> */}
-                  </div>
-                  <Divider />
-
                   <List disablePadding>
-                    {danisans.map( (danisan, idx) => {
-
-                      // <Card key={idx} className={classes.card}>
-                        //   <CardActionArea>
-                        //     <CardHeader
-                        //       avatar={
-                        //           <Avatar className={classes.avatar} src={danisan.url} />
-                        //       }
-                        //       action={
-                        //         <div>
-                        //           <IconButton aria-label="settings" onClick={this.handleClick}>
-                        //             <MoreVertIcon />
-                        //           </IconButton>
-                        //           <Menu
-                        //             id="simple-menu"
-                        //             anchorEl={this.state.anchorEl}
-                        //             keepMounted
-                        //             open={this.state.anchorEl != undefined}
-                        //             onClose={this.handleClose}
-                        //           >
-                        //             <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
-                        //           </Menu>
-                        //         </div>
-                        //       }
-                        //       title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
-                        //       subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
-                        //     />
-                        //   </CardActionArea>
-                        // </Card>  
-
+                    {Object.keys(danisans).map((danisanKey, idx) => {                      
+                      var danisan = danisans[danisanKey];
+                      var fontWeight = danisan.unread == 0 ? 400 : 600;
                       return (
                         <span key={idx}>
                           <ListItem button component={Link} to={"/m/" + danisan.username}>
                             <ListItemAvatar>
                             <Avatar src={danisan.url} />
                             </ListItemAvatar>
-                            <ListItemText primary={danisan.name} secondary={danisan.mesaj}/>
-                            <Typography color="initial" variant="caption">{danisan.aktivite}</Typography>
+                            <ListItemText primaryTypographyProps={{style: {fontWeight: fontWeight}}} secondaryTypographyProps={{style: {fontWeight: fontWeight}}} primary={danisan.name} secondary={danisan.mesaj}/>
+                            <div style={{flex: 'none', display: 'flex', flexDirection: 'column'}}>
+                              <Typography style={{textAlign: 'right', fontWeight: fontWeight}} color="initial" variant="caption">{danisan.aktivite}</Typography>
+                              { danisan.unread > 0 && (
+                                <div>
+                                  <Badge style={{marginLeft: 'calc(100% - 10px)', }} badgeContent={danisan.unread} color="secondary"></Badge>
+                                </div>
+                              )}
+                            </div>
                           </ListItem>
                           <Divider component="li" />
                         </span>
                       )
                     })}  
                   </List>
-                                 
-                  {/* {!user &&
-                    // <SocialButton
-                    //   autoCleanUri
-                    //   provider='instagram'
-                    //   appId='5bff3a93e155401fb02b2bbc789e01b4'
-                    //   redirect={this.props.location.pathname}
-                    //   onLoginSuccess={this.handleSocialLogin}
-                    //   onLoginFailure={this.handleSocialLoginFailure}
-                    // >
-                    //   Login with Instagram
-                    // </SocialButton>
-                    // <UberSocialButton
-                    //   autoCleanUri
-                    //   provider='instagram'
-                    //   appId='5bff3a93e155401fb02b2bbc789e01b4'
-                    //   redirect={this.props.location.pathname}
-                    //   onLoginSuccess={this.handleSocialLogin}
-                    //   onLoginFailure={this.handleSocialLoginFailure}
-                    //   component={InstagramLoginButton}
-                    // >
-                    //   Login with Instagram
-                    // </UberSocialButton>
-                  } */}
-                 
-                 {/* {!user &&
-                    <UberSocialButton
-                      autoCleanUri
-                      provider='google'
-                      appId='755813466643-tqjd3qieai0angldsndr7du6pj75v0sd.apps.googleusercontent.com'
-                      redirect={this.props.location.pathname}
-                      onLoginSuccess={this.handleSocialLogin}
-                      onLoginFailure={this.handleSocialLoginFailure}
-                      component={GoogleLoginButton}
-                    >
-                      Login with Google
-                    </UberSocialButton>
-                  } */}
-
-                  {/* {user && 
-                    <UberSocialButton 
-                      autoCleanUri
-                      provider='instagram'
-                      redirect={this.props.location.pathname} 
-                      onLogoutSuccess={this.handleSocialLogout}
-                      onLoginFailure={this.handleSocialLoginFailure}
-                      onLogoutFailure={this.handleSocialLoginFailure}
-                      user={user}
-                      component={UserDetails}
-                    >
-                    </UberSocialButton> */}
                 </span>
             }
         </div>
@@ -402,15 +247,14 @@ class Envanter extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    apiEnvanter: state.apiEnvanter,
+    apiMessagePreviews: state.apiMessagePreviews,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
-      putClaim: (userId, user) => putClaim(userId, user),
+      getMessagePreviews: (userId) => getMessagePreviews(userId),
     },
     dispatch
   );

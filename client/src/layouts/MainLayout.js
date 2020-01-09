@@ -14,7 +14,8 @@ const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    height: '100%',
   },
   content: {
     flexGrow: 1,
@@ -35,7 +36,8 @@ const styles = theme => ({
 
 class MainLayout extends Component {
   state = {
-    open: false
+    open: false,
+    titleFromComp: undefined
   };
 
   handleOpenDrawer = () => {
@@ -56,6 +58,13 @@ class MainLayout extends Component {
     });
   };
 
+  componentWillUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      console.log('reset title from ' + this.state.titleFromComp)
+      this.setState({ titleFromComp: undefined})
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       this.handleCloseDrawer();
@@ -63,7 +72,7 @@ class MainLayout extends Component {
   }
 
   render() {
-    const { classes, children } = this.props;
+    const { classes, component: Component, ...rest } = this.props;
     console.log(this.props);
     return (
       <Fragment>
@@ -73,13 +82,14 @@ class MainLayout extends Component {
             backButton={this.props.backButton}
             logout={this.props.logout}
             handleOpenDrawer={this.handleToggleDrawer}
+            title={this.state.titleFromComp}
           />
           <main
             className={classNames(classes.content, {
               [classes.contentShift]: this.props.permanentDrawer
             })}
           >
-            {children}
+            <Component {...rest} setTitle={(title) => this.setState({ titleFromComp: title })} />
           </main>
         </div>
         

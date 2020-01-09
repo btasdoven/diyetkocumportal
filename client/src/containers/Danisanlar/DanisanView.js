@@ -237,6 +237,9 @@ class Envanter extends React.Component {
     console.log(this.state);
     console.log(this.props);
 
+    var pathParams = this.props.location.pathname.split('/');
+    var danisanUserName = pathParams[pathParams.length - 1];
+
     return (
         <div className={classes.root}>
         <div className={classes.main}>
@@ -312,6 +315,8 @@ class Envanter extends React.Component {
                       user={user}
                       component={UserDetails}
                       viewParam={this.props.viewParam}
+                      setTitle={this.props.setTitle}
+                      danisanUserName={danisanUserName}
                     >
                     </UberSocialButton>
                   }

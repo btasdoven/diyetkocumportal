@@ -142,7 +142,7 @@ class Sidebar extends React.Component {
               </ListItemIcon>
               <Typography variant="overline">Mesajlarım</Typography>
               <ListItemSecondaryAction>
-                <Badge badgeContent={12} color="secondary">
+                <Badge badgeContent={2} color="secondary">
                 </Badge>
               </ListItemSecondaryAction>
             </ListItem>

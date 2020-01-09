@@ -21,8 +21,9 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import DirectionsIcon from '@material-ui/icons/Directions';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import ClearIcon from '@material-ui/icons/Clear';
 
-import { getEnvanter, putEnvanter, putClaim } from '../../store/reducers/api.envanter';
+import { getDanisanPreviews } from '../../store/reducers/api.danisanPreviews';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -146,8 +147,23 @@ const styles = theme => ({
     margin: theme.spacing(1)
   },
   divider: {
-    height: 28,
+    height: 44,
     margin: 4,
+  },
+  iconButton: {
+    margin: theme.spacing(1),
+  },
+  searchWrapper: {
+    display: 'flex', 
+    alignItems: 'center',
+  },
+  rootLoading: {
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      width: '100%',
+      alignItems: "center",
+      marginTop: theme.spacing(5)
   },
 });
 
@@ -160,241 +176,148 @@ function renderLoadingButton(classes) {
   )
 } 
 
-class __SocialButton extends React.Component {  
-  render () {
-    const { component: Component, children, ...props } = this.props
-
-    return (
-      <Component
-        onClick={this.props.triggerLogin} 
-        {...props}
-      >
-        {children}
-      </Component>
-    )
-  }
-}
-
-const UberSocialButton = SocialLogin(__SocialButton)
-
 class Envanter extends React.Component {
   
   constructor(props) {
     super(props);
 
-    this.handleSocialLogin = this.handleSocialLogin.bind(this);
-    this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
-    this.handleSocialLogout = this.handleSocialLogout.bind(this);
+    this.handleOnSearchChange = this.handleOnSearchChange.bind(this);
+    this.isLoaded = this.isLoaded.bind(this);
 
     this.state = {
-      user: undefined,
-      userIgInfo: undefined
+      searchKey: '',
+      userId: JSON.parse(localStorage.getItem('user')).id
     }
+  }
+
+  isLoaded() {
+    console.log(this.props);
+    console.log(this.state.userId);
+
+    var loaded = this.props.apiDanisanPreviews != undefined &&
+      this.props.apiDanisanPreviews[this.state.userId] != undefined &&
+      this.props.apiDanisanPreviews[this.state.userId].isGetLoading != true &&
+      this.props.apiDanisanPreviews[this.state.userId].data != undefined;
+
+      console.log(loaded);
+      return loaded;
   }
   
-  componentWillMount() {
-    var user = localStorage.getItem('userig')
-
-    if (user != undefined) {
-      this.setState({userIgInfo: JSON.parse(user)});
+  componentDidMount() {
+    if (!this.isLoaded()) {
+      this.props.getDanisanPreviews(this.state.userId);
     }
   }
 
-  handleSocialLogout() {
-    console.log('handle social logout')
-    localStorage.removeItem('userig');
-    this.setState({
-      userIgInfo: undefined,
-      showLoader: false,
-    })
-  }
-
-  handleSocialLogin(user) {
-    console.log('handle social')
-    console.log(user)
-
-    if (user._provider == 'instagram') {
-      fetch('https://api.instagram.com/v1/users/self/?access_token=' + user._token.accessToken)
-        .then(response => response.json())
-        .then(data => {
-          user._profile['username'] = data.data.username
-          localStorage.setItem('userig', JSON.stringify(user));
-          this.props.putClaim(5, user._profile['username'])
-          this.setState({userIgInfo: user, showLoader:false})
-        })
-        .catch(err => console.log(err));
-    } else if (user._provider == 'google') {
-      user._profile['username'] = user._profile.email;
-      localStorage.setItem('userig', JSON.stringify(user));
-      this.props.putClaim(5, user._profile['username'])
-      this.setState({userIgInfo: user, showLoader:false})
-    } else {    
-      localStorage.setItem('userig', JSON.stringify(user));
-      this.setState({userIgInfo: user, showLoader:false})
-    }
-  }
-  
-  handleSocialLoginFailure(err) {
-    this.handleSocialLogout();
-
-    console.error(err)
+  handleOnSearchChange(e) {
+    this.setState({ searchKey: e.currentTarget.value.toLowerCase()})
   }
 
   render() {
     const { classes } = this.props;
-    const showLoader = this.state.showLoader;
+    const showLoader = !this.isLoaded();
 
-    const user = this.state.userIgInfo;
-    console.log(user);
-    console.log(this.state);
-    console.log(this.props);
-
-    var danisans = [ 
-      {name: 'Bilgin Aktaş', username: 'bilginaktas', kilo: '86kg', boy: '184cm', aktivite: '4 saat önce', url: 'https://material-ui.com/static/images/avatar/1.jpg'},
-      {name: 'Cemil Burakoğlu', username: 'cemilburakoglu', kilo: '91kg', boy: '184cm', aktivite: '1 gün önce', url: 'https://material-ui.com/static/images/avatar/2.jpg'},
-      {name: 'Sibel Cemre Günaydın', username: 'sibelcemregunaydin', kilo: '73kg', boy: '164cm', aktivite: '4 gün önce', url: 'https://material-ui.com/static/images/avatar/3.jpg'},
-      {name: 'Halil Sahinde', username: 'halilsahinde', kilo: '121kg', boy: '187cm', aktivite: '2 hafta önce', url: 'https://material-ui.com/static/images/avatar/4.jpg'},
-      {name: 'Görkem Duymaz', username: 'gorkemduymaz', kilo: '94kg', boy: '179cm', aktivite: '1 ay önce', url: 'https://material-ui.com/static/images/avatar/5.jpg'},
-    ];
+    var danisans = showLoader ? undefined : this.props.apiDanisanPreviews[this.state.userId].data;
 
     return (
         <div className={classes.root}>
         <div className={classes.main}>
-            { showLoader && renderLoadingButton(classes) }
-            { !showLoader && 
-                <span> 
-                  <div style={{display: 'flex', alignItems: 'center'}}>
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-                      <PersonAddIcon />
-                    </IconButton>
-                    <Divider className={classes.divider} orientation="vertical" />
-                    <InputBase
-                      className={classes.search}
-                      placeholder="Danışan Ara..."
-                      inputProps={{ 'aria-label': 'search google maps' }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <SearchIcon />
-                        </InputAdornment>
-                      }
-                    />
-                    {/* <Button startIcon={<AddIcon />} className={classes.yeniDanisanBtn} component="span" size="small" variant="outlined" color="primary">
-                      DANIŞAN EKLE
-                    </Button>
-                    <div className={classes.search}>
-                      <div className={classes.searchIcon}>
-                        <SearchIcon />
-                      </div>
-                      <InputBase
-                        placeholder="Danışan Ara..."
-                        classes={{
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                      />
-                    </div> */}
-                  </div>
-                  <Divider />
+          <div className={classes.searchWrapper}>
+            <IconButton color="primary" className={classes.iconButton} aria-label="directions">
+              <PersonAddIcon />
+            </IconButton>
+            <Divider className={classes.divider} orientation="vertical" />
+            <InputBase
+              onChange={this.handleOnSearchChange}
+              className={classes.search}
+              placeholder="Danışan Ara..."
+              inputProps={{ 'aria-label': 'search google maps' }}
+              value={this.state.searchKey}
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              }
+              endAdornment={this.state.searchKey != '' &&
+                (<InputAdornment position="end">
+                  <ClearIcon onClick={() => this.setState({ searchKey: '' })} />
+                </InputAdornment>)
+              }
+            />
+            {/* <Button startIcon={<AddIcon />} className={classes.yeniDanisanBtn} component="span" size="small" variant="outlined" color="primary">
+              DANIŞAN EKLE
+            </Button>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Danışan Ara..."
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </div> */}
+          </div>
+          <Divider />
 
-                  <List disablePadding>
-                    {danisans.map( (danisan, idx) => {
+          { showLoader && renderLoadingButton(classes) }
+          { !showLoader && 
+            <List disablePadding>
+              {Object.keys(danisans).map( (danisanKey, idx) => {
 
-                      // <Card key={idx} className={classes.card}>
-                        //   <CardActionArea>
-                        //     <CardHeader
-                        //       avatar={
-                        //           <Avatar className={classes.avatar} src={danisan.url} />
-                        //       }
-                        //       action={
-                        //         <div>
-                        //           <IconButton aria-label="settings" onClick={this.handleClick}>
-                        //             <MoreVertIcon />
-                        //           </IconButton>
-                        //           <Menu
-                        //             id="simple-menu"
-                        //             anchorEl={this.state.anchorEl}
-                        //             keepMounted
-                        //             open={this.state.anchorEl != undefined}
-                        //             onClose={this.handleClose}
-                        //           >
-                        //             <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
-                        //           </Menu>
-                        //         </div>
-                        //       }
-                        //       title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
-                        //       subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
-                        //     />
-                        //   </CardActionArea>
-                        // </Card>  
+                var danisan = danisans[danisanKey];
 
-                      return (
-                        <span key={idx}>
-                          <ListItem button component={Link} to={"/d/" + danisan.username}>
-                            <ListItemAvatar>
-                            <Avatar src={danisan.url} />
-                            </ListItemAvatar>
-                            <ListItemText primary={danisan.name} secondary={danisan.kilo + ", " + danisan.boy}/>
-                            <Typography color="initial" variant="caption">{danisan.aktivite}</Typography>
-                          </ListItem>
-                          <Divider component="li" />
-                        </span>
-                      )
-                    })}  
-                  </List>
-                                 
-                  {/* {!user &&
-                    // <SocialButton
-                    //   autoCleanUri
-                    //   provider='instagram'
-                    //   appId='5bff3a93e155401fb02b2bbc789e01b4'
-                    //   redirect={this.props.location.pathname}
-                    //   onLoginSuccess={this.handleSocialLogin}
-                    //   onLoginFailure={this.handleSocialLoginFailure}
-                    // >
-                    //   Login with Instagram
-                    // </SocialButton>
-                    // <UberSocialButton
-                    //   autoCleanUri
-                    //   provider='instagram'
-                    //   appId='5bff3a93e155401fb02b2bbc789e01b4'
-                    //   redirect={this.props.location.pathname}
-                    //   onLoginSuccess={this.handleSocialLogin}
-                    //   onLoginFailure={this.handleSocialLoginFailure}
-                    //   component={InstagramLoginButton}
-                    // >
-                    //   Login with Instagram
-                    // </UberSocialButton>
-                  } */}
-                 
-                 {/* {!user &&
-                    <UberSocialButton
-                      autoCleanUri
-                      provider='google'
-                      appId='755813466643-tqjd3qieai0angldsndr7du6pj75v0sd.apps.googleusercontent.com'
-                      redirect={this.props.location.pathname}
-                      onLoginSuccess={this.handleSocialLogin}
-                      onLoginFailure={this.handleSocialLoginFailure}
-                      component={GoogleLoginButton}
-                    >
-                      Login with Google
-                    </UberSocialButton>
-                  } */}
+                if (this.state.searchKey != '' &&
+                    danisan.name.toLowerCase().indexOf(this.state.searchKey) == -1)
+                {
+                  return;
+                }
+                // <Card key={idx} className={classes.card}>
+                  //   <CardActionArea>
+                  //     <CardHeader
+                  //       avatar={
+                  //           <Avatar className={classes.avatar} src={danisan.url} />
+                  //       }
+                  //       action={
+                  //         <div>
+                  //           <IconButton aria-label="settings" onClick={this.handleClick}>
+                  //             <MoreVertIcon />
+                  //           </IconButton>
+                  //           <Menu
+                  //             id="simple-menu"
+                  //             anchorEl={this.state.anchorEl}
+                  //             keepMounted
+                  //             open={this.state.anchorEl != undefined}
+                  //             onClose={this.handleClose}
+                  //           >
+                  //             <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
+                  //           </Menu>
+                  //         </div>
+                  //       }
+                  //       title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
+                  //       subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
+                  //     />
+                  //   </CardActionArea>
+                  // </Card>  
 
-                  {/* {user && 
-                    <UberSocialButton 
-                      autoCleanUri
-                      provider='instagram'
-                      redirect={this.props.location.pathname} 
-                      onLogoutSuccess={this.handleSocialLogout}
-                      onLoginFailure={this.handleSocialLoginFailure}
-                      onLogoutFailure={this.handleSocialLoginFailure}
-                      user={user}
-                      component={UserDetails}
-                    >
-                    </UberSocialButton> */}
-                </span>
-            }
+                return (
+                  <span key={idx}>
+                    <ListItem button component={Link} to={"/d/" + danisan.username}>
+                      <ListItemAvatar>
+                      <Avatar src={danisan.url} />
+                      </ListItemAvatar>
+                      <ListItemText primary={danisan.name} secondary={danisan.kilo + "kg, " + danisan.boy + "cm, " + danisan.yas + " yaşında"}/>
+                      {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
+                    </ListItem>
+                    <Divider component="li" />
+                  </span>
+                )
+              })}  
+            </List>
+          }
         </div>
         </div>
       );
@@ -403,15 +326,14 @@ class Envanter extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    apiEnvanter: state.apiEnvanter,
+    apiDanisanPreviews: state.apiDanisanPreviews,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
-      putClaim: (userId, user) => putClaim(userId, user),
+      getDanisanPreviews: (userId) => getDanisanPreviews(userId),
     },
     dispatch
   );

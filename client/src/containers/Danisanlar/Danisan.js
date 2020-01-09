@@ -21,7 +21,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 
-import { getEnvanter, putEnvanter } from '../../store/reducers/api.envanter';
+import { getDanisanProfile } from '../../store/reducers/api.danisanProfile';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -52,6 +52,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {reset} from 'redux-form';
 import Slide from '@material-ui/core/Slide';
+
+import KisiselBilgiler from './KisiselBilgiler';
 
 const styles = theme => ({
   profile: {
@@ -153,7 +155,11 @@ class Envanter extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
 
-    this.state = {anchorEl: undefined, value: this.props.viewParam == 'messages' ? 6 : 0}
+    this.state = {
+      anchorEl: undefined, 
+      value: this.props.viewParam == 'messages' ? 6 : 0,
+      userId: JSON.parse(localStorage.getItem('user')).id
+    }
   }
 
   isLoaded() {
@@ -163,9 +169,9 @@ class Envanter extends React.Component {
   }
 
   componentDidMount() {
-      console.log('mount')
-      console.log(this.props);
+    //this.handleValueChange(undefined, this.state.value);
   }
+
   handleClick = event => {
     this.setState({anchorEl: event.currentTarget});
   };
@@ -178,7 +184,9 @@ class Envanter extends React.Component {
   };
 
   handleValueChange = (ev, newVal) => {
-    this.setState({value: newVal})
+    if (this.state.value != newVal) {
+      this.setState({value: newVal})
+    }
   }
 
   render() {
@@ -213,61 +221,7 @@ class Envanter extends React.Component {
                   </Tabs>
                   {/* </AppBar> */}
                   <TabPanel value={this.state.value} index={0}>
-                    
-                  <Card className={classes.card}>
-                        <CardHeader
-                        avatar={
-                            <Avatar className={classes.avatar} alt="Murat Aktas" src="https://material-ui.com/static/images/avatar/5.jpg" />
-                        }
-                        action={
-                          <div>
-                            <IconButton aria-label="settings" onClick={this.handleClick}>
-                              <MoreVertIcon />
-                            </IconButton>
-                            <Menu
-                              id="simple-menu"
-                              anchorEl={this.state.anchorEl}
-                              keepMounted
-                              open={this.state.anchorEl != undefined}
-                              onClose={this.handleClose}
-                            >
-                              <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
-                            </Menu>
-                          </div>
-                        }
-                        title={<Typography variant="h5" component="h2">Murat Aktas</Typography>}
-                        //subheader={JSON.stringify(user)}
-                        />
-                        {/* <CardMedia
-                        className={classes.media}
-                        image="/static/images/cards/paella.jpg"
-                        title="Paella dish"
-                        /> */}
-                        {/* <CardContent>
-                            
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {userLocalInfo.isClaimed ? "hh" : "aa"}
-                            </Typography>
-                        </CardContent> */}
-                        {/* <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
-                            <FavoriteIcon />
-                        </IconButton>
-                        <IconButton aria-label="share">
-                            <ShareIcon />
-                        </IconButton>
-                        <IconButton
-                            // className={clsx(classes.expand, {
-                            //   [classes.expandOpen]: expanded,
-                            // })}
-                            //onClick={handleExpandClick}
-                            //aria-expanded={expanded}
-                            aria-label="show more"
-                        >
-                            <ExpandMoreIcon />
-                        </IconButton>
-                        </CardActions> */}
-                    </Card>
+                    <KisiselBilgiler danisanUserName={this.props.danisanUserName} />
                   </TabPanel>
                   <TabPanel value={this.state.value} index={1}>
                     Item Two
@@ -285,7 +239,7 @@ class Envanter extends React.Component {
                     Item Six
                   </TabPanel>
                   <TabPanel value={this.state.value} index={6}>
-                    Item Seven
+                    Mesajlar kismi daha kodlanmadi
                   </TabPanel>
                   <TabPanel value={this.state.value} index={7}>
                     Item Eight
@@ -299,15 +253,14 @@ class Envanter extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    apiEnvanter: state.apiEnvanter,
+    apiDanisanProfile: state.apiDanisanProfile,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      getEnvanter: (userId, user) => getEnvanter(userId, user),
-      putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
+      getDanisanProfile: (userId, danisanUserName) => getDanisanProfile(userId, danisanUserName),
     },
     dispatch
   );

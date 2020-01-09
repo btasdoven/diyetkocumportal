@@ -46,8 +46,7 @@ const DashboardRoute = withWidth()(({ width, component: Component, backButton, v
       render={matchProps => 
         true //width != 'xs' && width != 'sm'
           ? (
-            <MainLayout backButton={backButton} permanentDrawer={width != 'xs' && width != 'sm' ? true : false}>
-              <Component viewParam={viewParam} {...matchProps} />
+            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
             </MainLayout>
           ) : (
             <MainLayoutBottomNav component={Component} {...matchProps} />

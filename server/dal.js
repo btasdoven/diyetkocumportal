@@ -2,22 +2,145 @@ const storage = require('node-persist');
 
 const rows = {
     5: {
-      envanter: {
-        'btasdoven': {
-          isClaimed: false,
-          comments: [
-            {
-              text: "I hate Batuhan, he is ugly, unprofessional and he has a beautiful wife, I so envy him.",
-              like: 12,
-              dislike: 1,
-            },
-            {
-              text: "Batuhan is my secret love <3 <3 <3333, Batuu, my loveee, reply me backkk!!!",
-              like: 3,
-              dislike: 0,
-            }
-          ]
+      messagePreviews: {
+        'bilginaktas': {
+          name: 'Bilgin Aktaş', 
+          username: 'bilginaktas', 
+          unread: 0, 
+          mesaj: 'Çok teşekkür ederim diyetisyen hanım 💙 lay lay lommm', 
+          aktivite: '5:44 PM', 
+          url: 'https://material-ui.com/static/images/avatar/1.jpg'
         },
+        'cemilburakoglu': {
+          name: 'Cemil Burakoğlu', 
+          username: 'cemilburakoglu', 
+          unread: 4, 
+          mesaj: 'Sizce nasil olur?', 
+          aktivite: '7:12 PM', 
+          url: 'https://material-ui.com/static/images/avatar/2.jpg'
+        },
+        'sibelcemregunaydin': {
+          name: 'Sibel Cemre Günaydın', 
+          username: 'sibelcemregunaydin', 
+          unread: 3,
+          mesaj: 'Iyi ki varsiniz 😇', 
+          aktivite: '1/6/20', 
+          url: 'https://material-ui.com/static/images/avatar/3.jpg'
+        },
+        'halilsahinde': {
+          name: 'Halil Sahinde', 
+          username: 'halilsahinde', 
+          unread: 0, 
+          mesaj: 'Tam olarak 2 kg fark etmis 😋', 
+          aktivite: '12/23/19', 
+          url: 'https://material-ui.com/static/images/avatar/4.jpg'
+        },
+      },
+
+      danisanPreviews: {
+        'bilginaktas': {
+          name: 'Bilgin Aktaş', 
+          username: 'bilginaktas', 
+          aktivite: '5:44 PM', 
+          kilo: '86',
+          boy: '184',
+          yas: '24',
+          url: 'https://material-ui.com/static/images/avatar/1.jpg'
+        },
+        'cemilburakoglu': {
+          name: 'Cemil Burakoğlu', 
+          username: 'cemilburakoglu',
+          aktivite: '7:12 PM', 
+          kilo: '91',
+          boy: '181',
+          yas: '21',
+          url: 'https://material-ui.com/static/images/avatar/2.jpg'
+        },
+        'sibelcemregunaydin': {
+          name: 'Sibel Cemre Günaydın', 
+          username: 'sibelcemregunaydin', 
+          aktivite: '1/6/20', 
+          kilo: '73',
+          boy: '164',
+          yas: '28',
+          url: 'https://material-ui.com/static/images/avatar/3.jpg'
+        },
+        'halilsahinde': {
+          name: 'Halil Sahinde', 
+          username: 'halilsahinde', 
+          aktivite: '12/23/19', 
+          kilo: '121',
+          boy: '187',
+          yas: '36',
+          url: 'https://material-ui.com/static/images/avatar/4.jpg'
+        },
+        'gorkemduymaz': {
+          name: 'Görkem Duymaz', 
+          username: 'gorkemduymaz', 
+          aktivite: '12/12/19', 
+          kilo: '94',
+          boy: '179',
+          yas: '29',
+          url: 'https://material-ui.com/static/images/avatar/5.jpg'
+        }
+      },
+
+      danisans: {
+        'bilginaktas': {
+          profile: {
+            name: 'Bilgin Aktaş', 
+            email: 'bilginaktas@gmail.com',
+            tel: '505 376 58 90',
+            kilo: '86',
+            boy: '184',
+            yas: '24',
+            url: 'https://material-ui.com/static/images/avatar/1.jpg'
+          }
+        },
+        'cemilburakoglu': {
+          profile: {
+            name: 'Cemil Burakoğlu', 
+            email: 'cemilburakoglu@gmail.com',
+            tel: '535 862 12 44',
+            kilo: '91',
+            boy: '181',
+            yas: '21',
+            url: 'https://material-ui.com/static/images/avatar/2.jpg'
+          }
+        },
+        'sibelcemregunaydin': {
+          profile: {
+            name: 'Sibel Cemre Günaydın', 
+            email: 's.cemregunaydin@gmail.com',
+            tel: '554 940 18 74',
+            kilo: '73',
+            boy: '164',
+            yas: '28',
+            url: 'https://material-ui.com/static/images/avatar/3.jpg'
+          }
+        },
+        'halilsahinde': {
+          profile: {
+            name: 'Halil Sahinde',
+            url: 'https://material-ui.com/static/images/avatar/4.jpg',
+            email: 'halilsahinde@gmail.com',
+            tel: '532 375 34 22',
+            kilo: '91',
+            boy: '165',
+            yas: '36',
+          }
+        },
+        'gorkemduymaz': {
+          profile: {
+            name: 'Görkem Duymaz',
+            url: 'https://material-ui.com/static/images/avatar/5.jpg',
+            email: 'gorkemduymaz@gmail.com',
+            tel: '505 868 12 49',
+            kilo: '104',
+            boy: '184',
+            yas: '29',
+          }
+        }
       }
     }
 };
@@ -36,28 +159,29 @@ async function start() {
 
 start();
 
-exports.getLikes = function (userId, kim, kimi) {
-  console.log('getLikes');
-  console.log(kim);
-  console.log(kimi);
-  
-  if (!rows[userId].likes) {
-    return {}
+exports.getMessagePreviews = function (userId) {
+  console.log('getMessagePreviews');
+
+  return rows[userId].messagePreviews;
+}
+
+exports.getDanisanPreviews = function (userId) {
+  console.log('getDanisanPreviews');
+
+  return rows[userId].danisanPreviews;
+}
+
+exports.getDanisanProfile = function (userId, danisanUserName) {
+  console.log('getDanisanProfile');
+  console.log(danisanUserName);
+
+  var danisan = rows[userId].danisans[danisanUserName];
+
+  if (!danisan) {
+    return {};
   }
 
-  var kim = rows[userId].likes[kim];
-
-  if (!kim) {
-    return { }
-  }
-
-  var kimi = kim[kimi]
-
-  if (!kimi) {
-    return {}
-  }
-
-  return kimi;
+  return danisan.profile;
 }
 
 exports.putLikes = function (userId, kim, kimi, commentIdx, val) {

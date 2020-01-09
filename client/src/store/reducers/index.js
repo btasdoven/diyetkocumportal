@@ -1,23 +1,19 @@
 import stepCounter from "./stepCounter";
 import settings from "./settings";
 import auth from "./authenticate";
-import apiAllFieldList from "./api.allFieldList";
-import apiMaterials from "./api.materials";
-import apiMaterialHeaders from "./api.materialHeaders";
-import apiEnvanter from "./api.envanter";
-import apiLikes from "./api.likes";
-import apiDiary from "./api.diary";
+import apiMessagePreviews from "./api.messagePreviews";
+import apiDanisanPreviews from "./api.danisanPreviews";
+import apiDanisanProfile from "./api.danisanProfile";
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 
-var reds = {
-}
 const reducers = combineReducers({
   settings,
   auth,
   form: formReducer,
-  apiEnvanter,
-  apiLikes,
+  apiMessagePreviews,
+  apiDanisanPreviews,
+  apiDanisanProfile,
 });
 
 export default reducers;

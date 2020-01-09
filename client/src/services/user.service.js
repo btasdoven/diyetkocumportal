@@ -5,19 +5,9 @@ import dateFnsFormat from 'date-fns/format';
 export const userService = {
     login,
     logout,
-    get_groups,
-    get_group_data,
-    put_group_data,
-    get_all_field_list,
-    get_envanter,
-    put_envanter,
-    put_claim,
-    put_likes,
-    get_likes,
-    get_diary,
-    put_diary,
-    get_materials,
-    set_material_part,
+    get_message_previews,
+    get_danisan_previews,
+    get_danisan_profile,
 };
 
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
@@ -52,28 +42,39 @@ function logout() {
     console.log(localStorage.getItem('user'));
 }
 
-function get_groups(userId, groupId) {
+function get_message_previews(userId) {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/messagePreviews`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;
         });
 }
 
-function get_group_data(userId, groupId) {
+function get_danisan_previews(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    };
+
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisanPreviews`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function get_danisan_profile(userId, danisanUserName) {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
-
-    groupId = groupId || "";
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/groups/` + groupId + `/fields`, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/profile`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;
