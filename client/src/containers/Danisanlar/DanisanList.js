@@ -23,7 +23,7 @@ import DirectionsIcon from '@material-ui/icons/Directions';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ClearIcon from '@material-ui/icons/Clear';
 
-import { getDanisanPreviews } from '../../store/reducers/api.danisanPreviews';
+import { getDanisanPreviews, addDanisan } from '../../store/reducers/api.danisanPreviews';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -65,6 +65,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+
+import DanisanAddDialog from './DanisanAddDialog'
 
 const styles = theme => ({
   root: {
@@ -182,9 +184,11 @@ class Envanter extends React.Component {
     super(props);
 
     this.handleOnSearchChange = this.handleOnSearchChange.bind(this);
+    this.handleCloseAddDanisan = this.handleCloseAddDanisan.bind(this);
     this.isLoaded = this.isLoaded.bind(this);
 
     this.state = {
+      newDanisan: false,
       searchKey: '',
       userId: JSON.parse(localStorage.getItem('user')).id
     }
@@ -213,6 +217,16 @@ class Envanter extends React.Component {
     this.setState({ searchKey: e.currentTarget.value.toLowerCase()})
   }
 
+  handleCloseAddDanisan(values) {
+    console.log(values);
+
+    if (values != undefined) {
+      this.props.addDanisan(this.state.userId, values);
+    }
+
+    this.setState({newDanisan: false});
+  }
+
   render() {
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
@@ -222,9 +236,17 @@ class Envanter extends React.Component {
     return (
         <div className={classes.root}>
         <div className={classes.main}>
+
+          { this.state.newDanisan == true && (
+              <DanisanAddDialog 
+                  form='newDanisan' 
+                  handleClose={this.handleCloseAddDanisan}
+              />
+          )}
+
           <div className={classes.searchWrapper}>
             <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-              <PersonAddIcon />
+              <PersonAddIcon onClick={() => this.setState({newDanisan: true})} />
             </IconButton>
             <Divider className={classes.divider} orientation="vertical" />
             <InputBase
@@ -334,6 +356,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getDanisanPreviews: (userId) => getDanisanPreviews(userId),
+      addDanisan: (userId, newDanisanPreview) => addDanisan(userId, newDanisanPreview),
     },
     dispatch
   );

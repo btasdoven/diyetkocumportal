@@ -30,6 +30,7 @@ export default function reducer(state = initState, action) {
         return {
           ...state,
           [action.userId]: {
+            ...state[action.userId],
             isGetLoading: true,
           }
         }
@@ -40,12 +41,19 @@ export default function reducer(state = initState, action) {
           [action.userId]: {
             lastStateChangeTime: (state[action.userId].lastStateChangeTime ? state[action.userId].lastStateChangeTime : 0) + 1,
             isGetLoading: false,
+            isPutLoading: false,
             data: action.items,
           }
         }
 
       case DANISAN_PREVIEWS_PUT_LOADING:
-        break;
+        return {
+          ...state,
+          [action.userId]: {
+            ...state[action.userId],
+            isPutLoading: true
+          }
+        }
 
       default:
         break;
@@ -74,4 +82,23 @@ export function getDanisanPreviews(userId) {
   function request(userId) { return { type: DANISAN_PREVIEWS_GET_LOADING, userId } }
   function success(items, userId) { return { type: DANISAN_PREVIEWS_GET_SUCCESS, userId, items } }
   function failure(error, userId) { return { type: DANISAN_PREVIEWS_GET_ERRORED, userId, error } }
+}
+
+export function addDanisan(userId, newDanisanPreview) {
+    return (dispatch) => {
+        dispatch(request(userId));
+
+        userService.new_danisan(userId, newDanisanPreview)
+        .then(
+            (data) => { 
+              getDanisanPreviews(userId)(dispatch);
+            },
+            error => {
+                dispatch(failure(userId, error.toString()));
+            }
+        );
+    };
+  
+  function request(userId) { return { type: DANISAN_PREVIEWS_PUT_LOADING, userId, isPutLoading: true } }
+  function failure(userId, error) { return { type: DANISAN_PREVIEWS_PUT_ERRORED, userId, error } }
 }

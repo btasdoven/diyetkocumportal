@@ -7,7 +7,9 @@ export const userService = {
     logout,
     get_message_previews,
     get_danisan_previews,
+    new_danisan,
     get_danisan_profile,
+    put_danisan_profile,
 };
 
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
@@ -68,6 +70,20 @@ function get_danisan_previews(userId) {
         });
 }
 
+function new_danisan(userId, newDanisanPreview) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newDanisanPreview)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + newDanisanPreview.username, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
 function get_danisan_profile(userId, danisanUserName) {
     const requestOptions = {
         method: 'GET',
@@ -81,13 +97,14 @@ function get_danisan_profile(userId, danisanUserName) {
         });
 }
 
-function put_claim(userId, user) {
+function put_danisan_profile(userId, danisanUserName, danisanProfile) {
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(danisanProfile)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/envanter/` + user + '/claim', requestOptions)
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/profile`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

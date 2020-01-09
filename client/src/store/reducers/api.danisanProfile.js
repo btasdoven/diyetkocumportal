@@ -48,13 +48,22 @@ export default function reducer(state = initState, action) {
             [action.danisanUserName]: {
               lastStateChangeTime: (state[action.userId][action.danisanUserName].lastStateChangeTime ? state[action.userId][action.danisanUserName].lastStateChangeTime : 0) + 1,
               isGetLoading: false,
+              isPutLoading: false,
               data: action.items,
             },
           }
         }
 
       case DANISAN_PROFILE_PUT_LOADING:
-        break;
+        return {
+          ...state,
+          [action.userId]: {
+            ...state[action.userId],
+            [action.danisanUserName]: {
+              isPutLoading: true,
+            },
+          }
+        };
 
       default:
         break;
@@ -83,4 +92,23 @@ export function getDanisanProfile(userId, danisanUserName) {
   function request(userId, danisanUserName) { return { type: DANISAN_PROFILE_GET_LOADING, userId, danisanUserName } }
   function success(items, userId, danisanUserName) { return { type: DANISAN_PROFILE_GET_SUCCESS, userId, danisanUserName, items } }
   function failure(error, userId, danisanUserName) { return { type: DANISAN_PROFILE_GET_ERRORED, userId, danisanUserName, error } }
+}
+
+export function putDanisanProfile(userId, danisanUserName, danisanProfile) {
+    return (dispatch) => {
+        dispatch(request(userId, danisanUserName));
+
+        userService.put_danisan_profile(userId, danisanUserName, danisanProfile)
+        .then(
+            (data) => { 
+              getDanisanProfile(userId, danisanUserName)(dispatch);
+            },
+            error => {
+                dispatch(failure(userId, danisanUserName, error.toString()));
+            }
+        );
+    };
+  
+  function request(userId, danisanUserName) { return { type: DANISAN_PROFILE_PUT_LOADING, userId, danisanUserName, isPutLoading: true } }
+  function failure(userId, danisanUserName, error) { return { type: DANISAN_PROFILE_PUT_ERRORED, userId, danisanUserName, error } }
 }

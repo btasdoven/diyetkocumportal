@@ -184,6 +184,53 @@ exports.getDanisanProfile = function (userId, danisanUserName) {
   return danisan.profile;
 }
 
+exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
+  console.log('putDanisanProfile');
+  console.log(danisanUserName);
+  console.log(danisanProfile);
+
+  var danisan = rows[userId].danisans[danisanUserName];
+
+  if (!danisan) {
+    danisan = { };
+  }
+
+  danisan.profile = danisanProfile;
+
+  return danisan.profile;
+}
+
+exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
+  console.log('addDanisan')
+  console.log(danisanUserName)
+  console.log(danisanPreview);
+
+  rows[userId].danisanPreviews[danisanUserName] = danisanPreview;
+
+  if (rows[userId].danisans[danisanUserName] == undefined) {
+    rows[userId].danisans[danisanUserName] = { profile: {} }
+  }
+
+  
+  // name: 'Görkem Duymaz',
+  // url: 'https://material-ui.com/static/images/avatar/5.jpg',
+  // email: 'gorkemduymaz@gmail.com',
+  // tel: '505 868 12 49',
+  // kilo: '104',
+  // boy: '184',
+  // yas: '29',
+
+  rows[userId].danisans[danisanUserName].profile = {
+    ...rows[userId].danisans[danisanUserName].profile,
+    ...danisanPreview,
+  };
+
+  console.log(rows[userId].danisanPreviews[danisanUserName]);
+  console.log(rows[userId].danisans[danisanUserName]);
+
+  storage.setItem(userId, rows[userId]);
+}
+
 exports.putLikes = function (userId, kim, kimi, commentIdx, val) {
   console.log('putLikes');
   console.log(kim);

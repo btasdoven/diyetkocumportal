@@ -22,7 +22,7 @@ import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDanisanProfile } from '../../store/reducers/api.danisanProfile';
+import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -37,6 +37,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import SaveIcon from '@material-ui/icons/Save';
 import ShareIcon from '@material-ui/icons/Share';
 import SendIcon from '@material-ui/icons/Send';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -50,7 +51,11 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
 import Menu from '@material-ui/core/Menu';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
 import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import {reset} from 'redux-form';
 import Slide from '@material-ui/core/Slide';
 
@@ -101,29 +106,71 @@ function renderLoadingButton(classes) {
   )
 } 
 
+const createSelect = (key, label, autoFocus, values) => (
+  <FormControl
+      style={{width: '100%'}}>
+      <InputLabel id={label+"_label"}>{label}</InputLabel>
+
+      <Field
+          name={key}
+          options={values}
+          autoFocus={autoFocus}
+          component={reduxFormSelect}
+      />
+  </FormControl>
+)
+  
+const reduxFormSelect = props => {
+  const { input, options } = props;
+
+  { console.log(input, options)}
+
+  return (
+    <Select 
+      {...input} 
+      onChange={value => input.onChange(value)} 
+      onBlur={() => input.onBlur(input.value)} 
+      value={input.value}
+    >
+      {options.map((val) => <MenuItem key={val.value} value={val.value}>{val.label}</MenuItem>)}
+    </Select>
+  )
+}
+
+const createTextField = (key, label, inputProps) => (
+  <Field
+      key={key}
+      name={key}
+      id={key}
+      component={renderTextField}
+      autoFocus={false}
+      label={label}
+      InputProps={inputProps}
+  />)
+
   const renderTextField = ({
     label,
     input,
     meta: { touched, invalid, error },
     ...custom
   }) => (
-    <InputBase
-        label={label}
-        placeholder={label}
-        error={touched && invalid}
-        {...input}
-        {...custom}
-        fullWidth
-    />
-    // <TextField
-    //   label={label}
-    //   placeholder={label}
-    //   error={touched && invalid}
-    //   helperText={touched && error}
-    //   {...input}
-    //   {...custom}
-    //   fullwidth
+    // <InputBase
+    //     label={label}
+    //     placeholder={label}
+    //     error={touched && invalid}
+    //     {...input}
+    //     {...custom}
+    //     fullWidth
     // />
+    <TextField
+      label={label}
+      error={touched && invalid}
+      helperText={touched && error}
+      {...input}
+      {...custom}
+      fullWidth
+      InputLabelProps={{shrink: true}}
+    />
   )
   
 class Envanter extends React.Component {
@@ -132,6 +179,7 @@ class Envanter extends React.Component {
     super(props);
 
     this.isLoaded = this.isLoaded.bind(this);
+    this.onSubmitInternal = this.onSubmitInternal.bind(this);
 
     this.state = {
       userId: JSON.parse(localStorage.getItem('user')).id
@@ -158,8 +206,16 @@ class Envanter extends React.Component {
     }
   }
 
+  onSubmitInternal(formValues) {
+      console.log(formValues);
+      this.props.putDanisanProfile(this.state.userId, this.props.danisanUserName, formValues);
+  }
+
   render() {
     console.log(this.props);
+    console.log('dirty');
+    console.log(this.props.dirty);
+
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
 
@@ -170,106 +226,143 @@ class Envanter extends React.Component {
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
           <div className={classes.root}>
-            <Card className={classes.card}>
-              <CardHeader
-                avatar={
-                    <Avatar className={classes.avatar} alt={danisanProfile.name} src={danisanProfile.url} />
-                }
-                // action={
-                //   <div>
-                //     <IconButton aria-label="settings" onClick={this.handleClick}>
-                //       <MoreVertIcon />
-                //     </IconButton>
-                //     <Menu
-                //       id="simple-menu"
-                //       anchorEl={this.state.anchorEl}
-                //       keepMounted
-                //       open={this.state.anchorEl != undefined}
-                //       onClose={this.handleClose}
-                //     >
-                //       <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
-                //     </Menu>
-                //   </div>
-                // }
-                title={<Typography variant="h5" component="h2">{danisanProfile.name}</Typography>}
-                //subheader={JSON.stringify(user)}
-              />
-              {/* <CardMedia
-              className={classes.media}
-              image="/static/images/cards/paella.jpg"
-              title="Paella dish"
-              /> */}
-              {/* <CardContent>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                      {userLocalInfo.isClaimed ? "hh" : "aa"}
-                  </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                  <ShareIcon />
-              </IconButton>
-              <IconButton
-                  // className={clsx(classes.expand, {
-                  //   [classes.expandOpen]: expanded,
-                  // })}
-                  //onClick={handleExpandClick}
-                  //aria-expanded={expanded}
-                  aria-label="show more"
-              >
-                  <ExpandMoreIcon />
-              </IconButton>
-              </CardActions> */}
-            </Card>
-            
-            <div style={{margin: '8px'}}>
-              <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="primary" variant="button" display="block" gutterBottom>
-                İLETİŞİM BİLGİLERİ
-              </Typography>
+            <Form
+                onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
+                name={this.props.form}
+            >
+              <Card className={classes.card}>
+                <CardHeader
+                  avatar={
+                      <Avatar className={classes.avatar} alt={danisanProfile.name} src={danisanProfile.url} />
+                  }
+                  // action={
+                  //   <div>
+                  //     <IconButton aria-label="settings" onClick={this.handleClick}>
+                  //       <MoreVertIcon />
+                  //     </IconButton>
+                  //     <Menu
+                  //       id="simple-menu"
+                  //       anchorEl={this.state.anchorEl}
+                  //       keepMounted
+                  //       open={this.state.anchorEl != undefined}
+                  //       onClose={this.handleClose}
+                  //     >
+                  //       <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
+                  //     </Menu>
+                  //   </div>
+                  // }
+                  title={<Typography variant="h5" component="h2">{danisanProfile.name}</Typography>}
+                  //subheader={JSON.stringify(user)}
+                />
+                {/* <CardMedia
+                className={classes.media}
+                image="/static/images/cards/paella.jpg"
+                title="Paella dish"
+                /> */}
+                {/* <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {userLocalInfo.isClaimed ? "hh" : "aa"}
+                    </Typography>
+                </CardContent>
+                */}
+                <Divider />
+                <CardActions disableSpacing>
+                  <Button disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
+                    KAYDET
+                  </Button>
+                  {/* <IconButton aria-label="add to favorites">
+                      <FavoriteIcon />
+                  </IconButton>
+                  <IconButton aria-label="share">
+                      <ShareIcon />
+                  </IconButton>
+                  <IconButton
+                      className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                      })}
+                      onClick={handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label="show more"
+                  >
+                      <ExpandMoreIcon />
+                  </IconButton> */}
+                </CardActions> 
+              </Card>
+              
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="primary" variant="button" display="block" gutterBottom>
+                  İLETİŞİM BİLGİLERİ
+                </Typography>
 
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <TextField fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="E-posta adresi" value={danisanProfile.email} />
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                    { createTextField("email", "E-posta adresi") }
+                    {/* <TextField fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="E-posta adresi" value={danisanProfile.email} /> */}
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                    { createTextField("tel", "Telefon numarası") }
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                    { createTextField("address", "Adresi") }
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <TextField  fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="Telefon numarasi" value={danisanProfile.tel} />
-                </Grid>
-                <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <TextField fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="Adresi" value={danisanProfile.address} />
-                </Grid>
-              </Grid>
-            </div>
+              </div>
 
-            <div style={{margin: '8px'}}>
-              <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="primary" variant="button" display="block" gutterBottom>
-                FİZİKSEL BİLGİLER
-              </Typography>
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="primary" variant="button" display="block" gutterBottom>
+                  FİZİKSEL BİLGİLER
+                </Typography>
 
-              <Grid container spacing={2}>
-                <Grid item xs={4} sm={4} md={3} lg={3}>
-                    <TextField fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="Yaşı" value={danisanProfile.yas} />
+                <Grid container spacing={2}>
+                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                    { createTextField("yas", "Yaşı") }
+                  </Grid>
+                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                    { createTextField("kilo", "Kilosu", {endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment> }) }
+                  </Grid>
+                  <Grid item xs={4} sm={6} md={3} lg={3}>
+                    { createTextField("boy", "Boyu", {endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment> }) }
+                  </Grid>
+
+                  <Grid item xs={4} sm={6} md={3} lg={3}>
+                    {
+                      createSelect('cinsiyet', 'Cinsiyeti', false, 
+                      [
+                          {
+                          label: 'Kadın',
+                          value: 'Kadın',
+                          },
+                          {
+                          label: 'Erkek',
+                          value: 'Erkek',
+                          },
+                          {
+                          label: 'Diğer',
+                          value: 'Diğer',
+                          },
+                      ])
+                    }
+                  </Grid>
                 </Grid>
-                <Grid item xs={4} sm={4} md={3} lg={3}>
-                    <TextField fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="Kilosu" value={danisanProfile.kilo} 
-                      InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment> }}/>
-                </Grid>
-                <Grid item xs={4} sm={6} md={3} lg={3}>
-                    <TextField fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="Boyu" value={danisanProfile.boy} 
-                      InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment> }}/>
-                </Grid>
-              </Grid>
-            </div>
+              </div>
+            </Form>
           </div>
         }
       </span>
     )}
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+  console.log('mapstatetoprops')
+  console.log(ownProps);
+  console.log(state);
+
   return {
     apiDanisanProfile: state.apiDanisanProfile,
+    initialValues: 
+      state.apiDanisanProfile[5] && state.apiDanisanProfile[5][ownProps.danisanUserName] 
+        ? state.apiDanisanProfile[5][ownProps.danisanUserName].data
+        : {},
   };
 };
 
@@ -277,6 +370,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getDanisanProfile: (userId, danisanUserName) => getDanisanProfile(userId, danisanUserName),
+      putDanisanProfile: (userId, danisanUserName, danisanProfile) => putDanisanProfile(userId, danisanUserName, danisanProfile)
     },
     dispatch
   );
@@ -285,4 +379,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'CommentForm' })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'DanisanProfileForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

@@ -207,17 +207,16 @@ class Envanter extends React.Component {
                     indicatorColor="primary"
                     textColor="primary"
                     variant="scrollable"
-                    scrollButtons="auto"
+                    scrollButtons="on"
                     aria-label="scrollable auto tabs example"
                   >
-                    <Tab label="KİŞİSEL BİLGİLER" {...a11yProps(0)} />
-                    <Tab label="KAN TAHLİLİ" {...a11yProps(1)} />
-                    <Tab label="TERCİHLER" {...a11yProps(2)} />
-                    <Tab label="ÖĞÜN GEÇMİŞİ" {...a11yProps(3)} />
+                    <Tab label="TEMEL BİLGİLER" {...a11yProps(0)} />
+                    <Tab label="TAHLİLLER" {...a11yProps(1)} />
+                    <Tab label="NOTLARIM" {...a11yProps(2)} />
+                    <Tab label="DİYET LİSTESİ" {...a11yProps(3)} />
                     <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} />
-                    <Tab label="FİNANS GEÇMİŞİ" {...a11yProps(5)} />
+                    <Tab label="FİNANS" {...a11yProps(5)} />
                     <Tab label="MESAJLAR" {...a11yProps(6)} />
-                    <Tab label="NOTLARIM" {...a11yProps(7)} />
                   </Tabs>
                   {/* </AppBar> */}
                   <TabPanel value={this.state.value} index={0}>

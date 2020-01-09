@@ -39,6 +39,21 @@ app.get("/api/v1/users/:userId/danisans/:danisanUserName/profile", (req, res, ne
   }), 500);
 });
 
+app.put("/api/v1/users/:userId/danisans/:danisanUserName/profile", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.putDanisanProfile(req.params.userId, req.params.danisanUserName, req.body));
+  }), 500);
+});
+
+app.put("/api/v1/users/:userId/danisans/:danisanUserName", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    dal.addDanisan(req.params.userId, req.params.danisanUserName, req.body);
+    res.status(200).json('success');
+  }), 500);
+});
+
 // app.get("/api/v1/users/:userId/materials/:materialId?", (req, res, next) => {
 //   setTimeout((function() {
 //     res.setHeader('Content-Type', 'application/json');
