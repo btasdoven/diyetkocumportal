@@ -197,56 +197,61 @@ class Envanter extends React.Component {
     const showLoader = false;
 
     return (
-      <Slide direction="up" in={true}>
-        <span>
-            { showLoader && renderLoadingButton(classes) }
-            { !showLoader && 
-                <span>
-                  {/* <AppBar position="relative"> */}
-                  <Tabs
-                    value={this.state.value}
-                    onChange={this.handleValueChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="scrollable"
-                    scrollButtons="on"
-                    aria-label="scrollable auto tabs example"
-                  >
-                    <Tab label="TEMEL BİLGİLER" {...a11yProps(0)} />
-                    <Tab label="TAHLİLLER" {...a11yProps(1)} />
-                    <Tab label="NOTLARIM" {...a11yProps(2)} />
-                    <Tab label="DİYET LİSTESİ" {...a11yProps(3)} />
-                    <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} />
-                    <Tab label="FİNANS" {...a11yProps(5)} />
-                    <Tab label="MESAJLAR" {...a11yProps(6)} />
-                  </Tabs>
-                  {/* </AppBar> */}
-                  <TabPanel value={this.state.value} index={0}>
-                    <KisiselBilgiler danisanUserName={this.props.danisanUserName} />
-                  </TabPanel>
-                  <TabPanel value={this.state.value} index={1}>
-                    <Tahliller danisanUserName={this.props.danisanUserName} />
-                  </TabPanel>
-                  <TabPanel value={this.state.value} index={2}>
-                    <Notlar danisanUserName={this.props.danisanUserName} />
-                  </TabPanel>
-                  <TabPanel value={this.state.value} index={3}>
-                  </TabPanel>
-                  <TabPanel value={this.state.value} index={4}>
-                  </TabPanel>
-                  <TabPanel value={this.state.value} index={5}>
-                  </TabPanel>
-                  <TabPanel value={this.state.value} index={6}>
-                    <div className={classes.rootLoading}>
-                      <Typography>Mesajlar kismi daha kodlanmadi</Typography>
-                    </div>
-                  </TabPanel>
-                  <TabPanel value={this.state.value} index={7}>
-                  </TabPanel>
-                </span>
-            }
-        </span>
-      </Slide>
+      <span>
+        { showLoader && renderLoadingButton(classes) }
+        { !showLoader && 
+          <span>
+            {/* <AppBar position="relative"> */}
+            <Tabs
+              value={this.state.value}
+              onChange={this.handleValueChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="scrollable"
+              scrollButtons="on"
+              aria-label="scrollable auto tabs example"
+            >
+              <Tab label="TEMEL BİLGİLER" {...a11yProps(0)} />
+              <Tab label="NOTLARIM" {...a11yProps(1)} />
+              <Tab label="TAHLİLLER/ÖLÇÜMLER" {...a11yProps(2)} />
+              <Tab label="DİYET LİSTESİ" {...a11yProps(3)} />
+              <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} />
+              <Tab label="ÖDEME BİLGİLERİ" {...a11yProps(5)} />
+              <Tab label="MESAJLAR" {...a11yProps(6)} />
+            </Tabs>
+            {/* </AppBar> */}
+            <TabPanel value={this.state.value} index={0}>
+              <KisiselBilgiler danisanUserName={this.props.danisanUserName} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={1}>
+              <Notlar danisanUserName={this.props.danisanUserName} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={2}>
+              <Tahliller danisanUserName={this.props.danisanUserName} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={3}>
+              <div className={classes.rootLoading}>
+                <Typography>Diyet listesi kismi daha kodlanmadi</Typography>
+              </div>
+            </TabPanel>
+            <TabPanel value={this.state.value} index={4}>
+              <div className={classes.rootLoading}>
+                <Typography>Bu danışana ait diyet geçmişi bulunamadı.</Typography>
+              </div>
+            </TabPanel>
+            <TabPanel value={this.state.value} index={5}>
+              <div className={classes.rootLoading}>
+                <Typography>Bu danışana ait ödeme bilgisi bulunamadı.</Typography>
+              </div>
+            </TabPanel>
+            <TabPanel value={this.state.value} index={6}>
+              <div className={classes.rootLoading}>
+                <Typography>Mesajlar kismi daha kodlanmadi</Typography>
+              </div>
+            </TabPanel>
+          </span>
+        }
+      </span>
     )}
 };
 

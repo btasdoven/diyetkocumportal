@@ -320,13 +320,13 @@ class Envanter extends React.Component {
 
                 <Grid container spacing={2}>
                   <Grid item xs={4} sm={4} md={3} lg={3}>
-                    <ReduxFormTextField name="yas" label="Yaşı" />
+                    <ReduxFormTextField name="yas" label="Yaşı" type="number"/>
                   </Grid>
                   <Grid item xs={4} sm={4} md={3} lg={3}>
-                    <ReduxFormTextField name="kilo" label="Kilosu" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
+                    <ReduxFormTextField name="kilo" label="Kilosu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
                   </Grid>
                   <Grid item xs={4} sm={4} md={3} lg={3}>
-                    <ReduxFormTextField name="boy" label="Boyu" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
+                    <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
                   </Grid>
 
                   <Grid item xs={4} sm={4} md={3} lg={3}>
