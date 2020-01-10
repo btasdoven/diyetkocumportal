@@ -20,7 +20,8 @@ import { connect } from "react-redux";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
-
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
 
@@ -214,20 +215,26 @@ class Envanter extends React.Component {
   render() {
     console.log(this.props);
     const { classes } = this.props;
-    
+
     const showLoader = false
 
     return (
-      <span>
+      <div className={classes.root}>     
+        <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={true} color="primary" startIcon={<NoteAddIcon />}>
+          KAN TAHLİLİ EKLE
+        </Button>
+        <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={true} color="primary" startIcon={<PostAddIcon />}>
+          TARTI ÖLÇÜMÜ EKLE
+        </Button>
+        <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
+
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
-          <div className={classes.root}>
-            <div className={classes.rootLoading}>
-              <Typography>Bu danışana ait tahlil bulunmamaktadır.</Typography>
-            </div>
-          </div>
+          <span>
+            <Typography style={{textAlign: 'center'}}>Bu danışana ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>
+          </span>
         }
-      </span>
+      </div>
     )}
 };
 

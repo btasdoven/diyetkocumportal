@@ -105,25 +105,25 @@ function renderLoadingButton(classes) {
     </div>
   )
 } 
-
-const createSelect = (key, label, autoFocus, values) => (
+  
+const ReduxFormSelect = ({name, label, values, ...props}) => (
   <FormControl
-      style={{width: '100%'}}>
-      <InputLabel id={label+"_label"}>{label}</InputLabel>
+    //margin="normal"
+    style={{width: '100%'}}
+  >
+    <InputLabel shrink={true} id={label}>{label}</InputLabel>
 
-      <Field
-          name={key}
-          options={values}
-          autoFocus={autoFocus}
-          component={reduxFormSelect}
-      />
+    <Field
+      name={name}
+      options={values}
+      component={renderSelect}
+      {...props}
+    />
   </FormControl>
 )
-  
-const reduxFormSelect = props => {
-  const { input, options } = props;
 
-  { console.log(input, options)}
+const renderSelect = props => {
+  const { input, options } = props;
 
   return (
     <Select 
@@ -137,41 +137,39 @@ const reduxFormSelect = props => {
   )
 }
 
-const createTextField = (key, label, inputProps) => (
+const ReduxFormTextField = ({name, label, ...props}) => (
   <Field
-      key={key}
-      name={key}
-      id={key}
+      name={name}
       component={renderTextField}
-      autoFocus={false}
       label={label}
-      InputProps={inputProps}
+      {...props}
   />)
 
-  const renderTextField = ({
-    label,
-    input,
-    meta: { touched, invalid, error },
-    ...custom
-  }) => (
-    // <InputBase
-    //     label={label}
-    //     placeholder={label}
-    //     error={touched && invalid}
-    //     {...input}
-    //     {...custom}
-    //     fullWidth
-    // />
-    <TextField
-      label={label}
-      error={touched && invalid}
-      helperText={touched && error}
-      {...input}
-      {...custom}
-      fullWidth
-      InputLabelProps={{shrink: true}}
-    />
-  )
+const renderTextField = ({
+  label,
+  input,
+  meta: { touched, invalid, error },
+  ...custom
+}) => (
+  // <InputBase
+  //     label={label}
+  //     placeholder={label}
+  //     error={touched && invalid}
+  //     {...input}
+  //     {...custom}
+  //     fullWidth
+  // />
+  <TextField
+    label={label}
+    error={touched && invalid}
+    helperText={touched && error}
+    {...input}
+    {...custom}
+    fullWidth
+    color="primary"
+    InputLabelProps={{color: 'primary', shrink: true}}
+  />
+)
   
 class Envanter extends React.Component {
   
@@ -222,14 +220,21 @@ class Envanter extends React.Component {
     const danisanProfile = showLoader ? undefined : this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data;
 
     return (
-      <span>
+      <div className={classes.root}>
+        <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
+          KAYDET
+        </Button>
+        <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
+
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
-          <div className={classes.root}>
+          <span>
             <Form
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
             >
+
+
               <Card className={classes.card}>
                 <CardHeader
                   avatar={
@@ -265,12 +270,12 @@ class Envanter extends React.Component {
                     </Typography>
                 </CardContent>
                 */}
-                <Divider />
+                {/* <Divider />
                 <CardActions disableSpacing>
                   <Button disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
                     KAYDET
                   </Button>
-                  {/* <IconButton aria-label="add to favorites">
+                  <IconButton aria-label="add to favorites">
                       <FavoriteIcon />
                   </IconButton>
                   <IconButton aria-label="share">
@@ -285,70 +290,160 @@ class Envanter extends React.Component {
                       aria-label="show more"
                   >
                       <ExpandMoreIcon />
-                  </IconButton> */}
-                </CardActions> 
+                  </IconButton>
+                </CardActions>  */}
               </Card>
               
               <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="primary" variant="button" display="block" gutterBottom>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   İLETİŞİM BİLGİLERİ
                 </Typography>
 
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={4} lg={4}>
-                    { createTextField("email", "E-posta adresi") }
+                    <ReduxFormTextField name="email" label="E-posta adresi" />
                     {/* <TextField fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="E-posta adresi" value={danisanProfile.email} /> */}
                   </Grid>
                   <Grid item xs={12} sm={12} md={4} lg={4}>
-                    { createTextField("tel", "Telefon numarası") }
+                    <ReduxFormTextField name="tel" label="Telefon numarası" />
                   </Grid>
                   <Grid item xs={12} sm={12} md={4} lg={4}>
-                    { createTextField("address", "Adresi") }
+                    <ReduxFormTextField name="address" label="Adresi" />
                   </Grid>
                 </Grid>
               </div>
 
               <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="primary" variant="button" display="block" gutterBottom>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   FİZİKSEL BİLGİLER
                 </Typography>
 
                 <Grid container spacing={2}>
                   <Grid item xs={4} sm={4} md={3} lg={3}>
-                    { createTextField("yas", "Yaşı") }
+                    <ReduxFormTextField name="yas" label="Yaşı" />
                   </Grid>
                   <Grid item xs={4} sm={4} md={3} lg={3}>
-                    { createTextField("kilo", "Kilosu", {endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment> }) }
+                    <ReduxFormTextField name="kilo" label="Kilosu" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
                   </Grid>
-                  <Grid item xs={4} sm={6} md={3} lg={3}>
-                    { createTextField("boy", "Boyu", {endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment> }) }
+                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                    <ReduxFormTextField name="boy" label="Boyu" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
                   </Grid>
 
-                  <Grid item xs={4} sm={6} md={3} lg={3}>
-                    {
-                      createSelect('cinsiyet', 'Cinsiyeti', false, 
-                      [
-                          {
-                          label: 'Kadın',
-                          value: 'Kadın',
-                          },
-                          {
-                          label: 'Erkek',
-                          value: 'Erkek',
-                          },
-                          {
-                          label: 'Diğer',
-                          value: 'Diğer',
-                          },
-                      ])
-                    }
+                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                    <ReduxFormSelect
+                      name="cinsiyet"
+                      label="Cinsiyeti"
+                      values={[
+                        {
+                        label: 'Kadın',
+                        value: 'Kadın',
+                        },
+                        {
+                        label: 'Erkek',
+                        value: 'Erkek',
+                        },
+                        {
+                        label: 'Diğer',
+                        value: 'Diğer',
+                        },
+                      ]}
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  SAĞLIK BİLGİLERİ
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={6}>
+                    <ReduxFormTextField name="hastalıklar" label="Tanısı Konmuş Hastalıkları" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={6} lg={6}>
+                    <ReduxFormTextField name="ilaclar" label="Düzenli Alınan İlaçlar" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={6} lg={6}>
+                    <ReduxFormTextField name="alerji" label="Besin Alerjileri" />
+                  </Grid>
+                  <Grid item xs={6} sm={6} md={4} lg={3}>
+                    <ReduxFormSelect
+                      name="uyku_duzeni"
+                      label="Günlük Uyku Düzeni"
+                      values={[
+                        {
+                          label: 'Düzenli',
+                          value: 'Düzenli',
+                        },
+                        {
+                          label: 'Düzensiz',
+                          value: 'Düzensiz',
+                        },
+                      ]}
+                    />
+                  </Grid>
+                  <Grid item xs={6} sm={6} md={4} lg={3}>
+                    <ReduxFormSelect
+                      name="regl_duzeni"
+                      label="Regl Düzeni"
+                      values={[
+                        {
+                          label: 'Düzenli',
+                          value: 'Düzenli',
+                        },
+                        {
+                          label: 'Düzensiz',
+                          value: 'Düzensiz',
+                        },
+                      ]}
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  BESLENME ALIŞKANLIKLARI
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="ogun_duzeni" label="Öğün Düzeni" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="atlanan_ogunler" label="Atlanan Öğünler" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="tuketilmeyen_besinler" label="Tüketilmeyen Besinler" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="disarida_yemek" label="Dışarıda Yemek Yeme Sıklığı" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="gece_yemek" label="Gece Yemek Yeme Sıklığı" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="gunluk_su" label="Günlük Su Tüketimi" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="gunluk_cay" label="Günlük Çay\Kahve Tüketimi" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="gunluk_seker" label="Günlük Şeker Tüketimi" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="gunluk_sigara" label="Günlük Sigara Tüketimi" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="gunluk_alkol" label="Günlük Alkol Tüketimi" />
                   </Grid>
                 </Grid>
               </div>
             </Form>
-          </div>
+          </span>
         }
-      </span>
+      </div>
     )}
 };
 

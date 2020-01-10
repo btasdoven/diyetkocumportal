@@ -214,27 +214,28 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     return (
-      <span>
+      <div className={classes.root}>
+        <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={this.props.pristine} color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
+          KAYDET
+        </Button>
+        <Divider style={{marginTop: '8px'}} />
+        
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
-          <div className={classes.root}>
+          <span>
             <Form
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
             >
-              <Button disabled={this.props.pristine} color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
-                KAYDET
-              </Button>
-              <Divider />
               <Field
                 name="notes"
                 component={renderTextField}
-                label="Danışan ile ilgili notlar"
+                label="Danışan ile ilgili notlar..."
               />
             </Form>
-          </div>
+          </span>
         }
-      </span>
+      </div>
     )}
 };
 

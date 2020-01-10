@@ -98,6 +98,7 @@ export const reduxFormSelect = props => {
 
 const createSelect = (key, label, autoFocus, values) => (
     <FormControl
+        margin="normal"
         style={{width: '100%'}}>
         <InputLabel id={label+"_label"}>{label}</InputLabel>
 
