@@ -262,4 +262,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'DanisanTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'DanisanNotesForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

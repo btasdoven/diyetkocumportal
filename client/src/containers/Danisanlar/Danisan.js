@@ -231,19 +231,17 @@ class Envanter extends React.Component {
                     <Notlar />
                   </TabPanel>
                   <TabPanel value={this.state.value} index={3}>
-                    Item Four
                   </TabPanel>
                   <TabPanel value={this.state.value} index={4}>
-                    Item Five
                   </TabPanel>
                   <TabPanel value={this.state.value} index={5}>
-                    Item Six
                   </TabPanel>
                   <TabPanel value={this.state.value} index={6}>
-                    Mesajlar kismi daha kodlanmadi
+                    <div className={classes.rootLoading}>
+                      <Typography>Mesajlar kismi daha kodlanmadi</Typography>
+                    </div>
                   </TabPanel>
                   <TabPanel value={this.state.value} index={7}>
-                    Item Eight
                   </TabPanel>
                 </span>
             }

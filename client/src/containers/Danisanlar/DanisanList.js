@@ -245,8 +245,8 @@ class Envanter extends React.Component {
           )}
 
           <div className={classes.searchWrapper}>
-            <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-              <PersonAddIcon onClick={() => this.setState({newDanisan: true})} />
+            <IconButton onClick={() => this.setState({newDanisan: true})} color="primary" className={classes.iconButton} aria-label="directions">
+              <PersonAddIcon />
             </IconButton>
             <Divider className={classes.divider} orientation="vertical" />
             <InputBase
