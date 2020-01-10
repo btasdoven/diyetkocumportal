@@ -172,6 +172,7 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     //this.handleValueChange(undefined, this.state.value);
+    this.props.setTitle(this.props.danisanUserName)
   }
 
   handleClick = event => {

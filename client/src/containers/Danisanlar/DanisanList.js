@@ -327,7 +327,7 @@ class Envanter extends React.Component {
 
                 return (
                   <span key={idx}>
-                    <ListItem button component={Link} to={"/d/" + danisan.username}>
+                    <ListItem button component={Link} to={"/d/" + danisan.name}>
                       <ListItemAvatar>
                       <Avatar src={danisan.url} />
                       </ListItemAvatar>

@@ -65,15 +65,17 @@ const getPageTitle = (props) => {
   const pathname = props.location.pathname;
 
   if (pathname === '/') {
-    return "Ana Sayfa"
+    return "ANA SAYFA"
   } else if (pathname === '/d') {
-    return "Danışanlarım"
+    return "DANIŞANLARIM"
   } else if (pathname === '/m') {
-    return "Mesajlarım"
+    return "MESAJLARIM"
   } else if (pathname === '/r') {
-    return "Randevularım"
+    return "RANDEVULARIM"
   } else if (pathname === '/f') {
-    return "Finanslarım"
+    return "FİNANSLARIM"
+  } else if (pathname === '/kd') {
+    return "KAYITLI DİYETLERİM"
   }
 
   // } else if (pathname.startsWith('/projects/')) {

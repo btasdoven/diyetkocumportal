@@ -3,33 +3,33 @@ const storage = require('node-persist');
 const rows = {
     5: {
       messagePreviews: {
-        'bilginaktas': {
+        'Bilgin Aktaş': {
           name: 'Bilgin Aktaş', 
-          username: 'bilginaktas', 
+          username: 'Bilgin Aktaş', 
           unread: 0, 
           mesaj: 'Çok teşekkür ederim diyetisyen hanım 💙 lay lay lommm', 
           aktivite: '5:44 PM', 
           url: 'https://material-ui.com/static/images/avatar/1.jpg'
         },
-        'cemilburakoglu': {
+        'Cemil Burakoğlu': {
           name: 'Cemil Burakoğlu', 
-          username: 'cemilburakoglu', 
+          username: 'Cemil Burakoğlu', 
           unread: 4, 
           mesaj: 'Sizce nasil olur?', 
           aktivite: '7:12 PM', 
           url: 'https://material-ui.com/static/images/avatar/2.jpg'
         },
-        'sibelcemregunaydin': {
+        'Sibel Cemre Günaydın': {
           name: 'Sibel Cemre Günaydın', 
-          username: 'sibelcemregunaydin', 
+          username: 'Sibel Cemre Günaydın', 
           unread: 3,
           mesaj: 'Iyi ki varsiniz 😇', 
           aktivite: '1/6/20', 
           url: 'https://material-ui.com/static/images/avatar/3.jpg'
         },
-        'halilsahinde': {
+        'Halil Sahinde': {
           name: 'Halil Sahinde', 
-          username: 'halilsahinde', 
+          username: 'Halil Sahinde', 
           unread: 0, 
           mesaj: 'Tam olarak 2 kg fark etmis 😋', 
           aktivite: '12/23/19', 
@@ -38,45 +38,45 @@ const rows = {
       },
 
       danisanPreviews: {
-        'bilginaktas': {
+        'Bilgin Aktaş': {
           name: 'Bilgin Aktaş', 
-          username: 'bilginaktas', 
+          username: 'Bilgin Aktaş', 
           aktivite: '5:44 PM', 
           kilo: '86',
           boy: '184',
           yas: '24',
           url: 'https://material-ui.com/static/images/avatar/1.jpg'
         },
-        'cemilburakoglu': {
+        'Cemil Burakoğlu': {
           name: 'Cemil Burakoğlu', 
-          username: 'cemilburakoglu',
+          username: 'Cemil Burakoğlu',
           aktivite: '7:12 PM', 
           kilo: '91',
           boy: '181',
           yas: '21',
           url: 'https://material-ui.com/static/images/avatar/2.jpg'
         },
-        'sibelcemregunaydin': {
+        'Sibel Cemre Günaydın': {
           name: 'Sibel Cemre Günaydın', 
-          username: 'sibelcemregunaydin', 
+          username: 'Sibel Cemre Günaydın', 
           aktivite: '1/6/20', 
           kilo: '73',
           boy: '164',
           yas: '28',
           url: 'https://material-ui.com/static/images/avatar/3.jpg'
         },
-        'halilsahinde': {
+        'Halil Sahinde': {
           name: 'Halil Sahinde', 
-          username: 'halilsahinde', 
+          username: 'Halil Sahinde', 
           aktivite: '12/23/19', 
           kilo: '121',
           boy: '187',
           yas: '36',
           url: 'https://material-ui.com/static/images/avatar/4.jpg'
         },
-        'gorkemduymaz': {
+        'Görkem Duymaz': {
           name: 'Görkem Duymaz', 
-          username: 'gorkemduymaz', 
+          username: 'Görkem Duymaz', 
           aktivite: '12/12/19', 
           kilo: '94',
           boy: '179',
@@ -86,7 +86,7 @@ const rows = {
       },
 
       danisans: {
-        'bilginaktas': {
+        'Bilgin Aktaş': {
           profile: {
             name: 'Bilgin Aktaş', 
             email: 'bilginaktas@gmail.com',
@@ -97,7 +97,7 @@ const rows = {
             url: 'https://material-ui.com/static/images/avatar/1.jpg'
           }
         },
-        'cemilburakoglu': {
+        'Cemil Burakoğlu': {
           profile: {
             name: 'Cemil Burakoğlu', 
             email: 'cemilburakoglu@gmail.com',
@@ -108,7 +108,7 @@ const rows = {
             url: 'https://material-ui.com/static/images/avatar/2.jpg'
           }
         },
-        'sibelcemregunaydin': {
+        'Sibel Cemre Günaydın': {
           profile: {
             name: 'Sibel Cemre Günaydın', 
             email: 's.cemregunaydin@gmail.com',
@@ -119,7 +119,7 @@ const rows = {
             url: 'https://material-ui.com/static/images/avatar/3.jpg'
           }
         },
-        'halilsahinde': {
+        'Halil Sahinde': {
           profile: {
             name: 'Halil Sahinde',
             url: 'https://material-ui.com/static/images/avatar/4.jpg',
@@ -128,9 +128,12 @@ const rows = {
             kilo: '91',
             boy: '165',
             yas: '36',
+          },
+          notes: {
+            notes: "Danışan son haftaki listeye pek uymadı\n\nHaftaya detoks ver"
           }
         },
-        'gorkemduymaz': {
+        'Görkem Duymaz': {
           profile: {
             name: 'Görkem Duymaz',
             url: 'https://material-ui.com/static/images/avatar/5.jpg',

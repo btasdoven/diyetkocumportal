@@ -93,7 +93,15 @@ const styles = theme => ({
   avatar: {
     width: theme.spacing(7),
     height: theme.spacing(7),
-  }
+  },
+  rootLoading: {
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      width: '100%',
+      alignItems: "center",
+      marginTop: theme.spacing(5)
+  },
 });
 
 
@@ -199,59 +207,62 @@ class Envanter extends React.Component {
         <div className={classes.main}>
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
-                <span>                    
-                  {!user &&
-                    // <SocialButton
-                    //   autoCleanUri
-                    //   provider='instagram'
-                    //   appId='5bff3a93e155401fb02b2bbc789e01b4'
-                    //   redirect={this.props.location.pathname}
-                    //   onLoginSuccess={this.handleSocialLogin}
-                    //   onLoginFailure={this.handleSocialLoginFailure}
-                    // >
-                    //   Login with Instagram
-                    // </SocialButton>
-                    <UberSocialButton
-                      autoCleanUri
-                      provider='instagram'
-                      appId='5bff3a93e155401fb02b2bbc789e01b4'
-                      redirect={this.props.location.pathname}
-                      onLoginSuccess={this.handleSocialLogin}
-                      onLoginFailure={this.handleSocialLoginFailure}
-                      component={InstagramLoginButton}
-                    >
-                      Login with Instagram
-                    </UberSocialButton>
-                  }
+              <div className={classes.rootLoading}>
+                <Typography>Bu kısım daha kodlanmadi</Typography>
+              </div>
+                // <span>                    
+                //   {!user &&
+                //     // <SocialButton
+                //     //   autoCleanUri
+                //     //   provider='instagram'
+                //     //   appId='5bff3a93e155401fb02b2bbc789e01b4'
+                //     //   redirect={this.props.location.pathname}
+                //     //   onLoginSuccess={this.handleSocialLogin}
+                //     //   onLoginFailure={this.handleSocialLoginFailure}
+                //     // >
+                //     //   Login with Instagram
+                //     // </SocialButton>
+                //     <UberSocialButton
+                //       autoCleanUri
+                //       provider='instagram'
+                //       appId='5bff3a93e155401fb02b2bbc789e01b4'
+                //       redirect={this.props.location.pathname}
+                //       onLoginSuccess={this.handleSocialLogin}
+                //       onLoginFailure={this.handleSocialLoginFailure}
+                //       component={InstagramLoginButton}
+                //     >
+                //       Login with Instagram
+                //     </UberSocialButton>
+                //   }
                  
-                 {/* {!user &&
-                    <UberSocialButton
-                      autoCleanUri
-                      provider='google'
-                      appId='755813466643-tqjd3qieai0angldsndr7du6pj75v0sd.apps.googleusercontent.com'
-                      redirect={this.props.location.pathname}
-                      onLoginSuccess={this.handleSocialLogin}
-                      onLoginFailure={this.handleSocialLoginFailure}
-                      component={GoogleLoginButton}
-                    >
-                      Login with Google
-                    </UberSocialButton>
-                  } */}
+                //  {/* {!user &&
+                //     <UberSocialButton
+                //       autoCleanUri
+                //       provider='google'
+                //       appId='755813466643-tqjd3qieai0angldsndr7du6pj75v0sd.apps.googleusercontent.com'
+                //       redirect={this.props.location.pathname}
+                //       onLoginSuccess={this.handleSocialLogin}
+                //       onLoginFailure={this.handleSocialLoginFailure}
+                //       component={GoogleLoginButton}
+                //     >
+                //       Login with Google
+                //     </UberSocialButton>
+                //   } */}
 
-                  {user && 
-                    <UberSocialButton 
-                      autoCleanUri
-                      provider='instagram'
-                      redirect={this.props.location.pathname} 
-                      onLogoutSuccess={this.handleSocialLogout}
-                      onLoginFailure={this.handleSocialLoginFailure}
-                      onLogoutFailure={this.handleSocialLoginFailure}
-                      user={user}
-                      component={UserDetails}
-                    >
-                    </UberSocialButton>
-                    }
-                </span>
+                //   {user && 
+                //     <UberSocialButton 
+                //       autoCleanUri
+                //       provider='instagram'
+                //       redirect={this.props.location.pathname} 
+                //       onLogoutSuccess={this.handleSocialLogout}
+                //       onLoginFailure={this.handleSocialLoginFailure}
+                //       onLogoutFailure={this.handleSocialLoginFailure}
+                //       user={user}
+                //       component={UserDetails}
+                //     >
+                //     </UberSocialButton>
+                //     }
+                // </span>
             }
         </div>
         </div>
