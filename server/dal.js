@@ -189,15 +189,40 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
   console.log(danisanUserName);
   console.log(danisanProfile);
 
+  if (!rows[userId].danisans[danisanUserName]) {
+    rows[userId].danisans[danisanUserName] = { };
+  }
+
+  rows[userId].danisans[danisanUserName].profile = danisanProfile;
+
+  storage.setItem(userId, rows[userId]);
+}
+
+exports.getDanisanNotes = function (userId, danisanUserName) {
+  console.log('getDanisanNotes');
+  console.log(danisanUserName);
+
   var danisan = rows[userId].danisans[danisanUserName];
 
   if (!danisan) {
-    danisan = { };
+    return {};
   }
 
-  danisan.profile = danisanProfile;
+  return danisan.notes;
+}
 
-  return danisan.profile;
+exports.putDanisanNotes = function (userId, danisanUserName, danisanNotes) {
+  console.log('putDanisanNotes');
+  console.log(danisanUserName);
+  console.log(danisanNotes);
+
+  if (!rows[userId].danisans[danisanUserName]) {
+    rows[userId].danisans[danisanUserName] = { };
+  }
+
+  rows[userId].danisans[danisanUserName].notes = danisanNotes;
+
+  storage.setItem(userId, rows[userId]);
 }
 
 exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
@@ -210,15 +235,6 @@ exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
   if (rows[userId].danisans[danisanUserName] == undefined) {
     rows[userId].danisans[danisanUserName] = { profile: {} }
   }
-
-  
-  // name: 'Görkem Duymaz',
-  // url: 'https://material-ui.com/static/images/avatar/5.jpg',
-  // email: 'gorkemduymaz@gmail.com',
-  // tel: '505 868 12 49',
-  // kilo: '104',
-  // boy: '184',
-  // yas: '29',
 
   rows[userId].danisans[danisanUserName].profile = {
     ...rows[userId].danisans[danisanUserName].profile,

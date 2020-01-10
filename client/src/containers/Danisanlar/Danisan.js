@@ -54,6 +54,8 @@ import {reset} from 'redux-form';
 import Slide from '@material-ui/core/Slide';
 
 import KisiselBilgiler from './KisiselBilgiler';
+import Tahliller from './Tahliller';
+import Notlar from './Notlar';
 
 const styles = theme => ({
   profile: {
@@ -223,10 +225,10 @@ class Envanter extends React.Component {
                     <KisiselBilgiler danisanUserName={this.props.danisanUserName} />
                   </TabPanel>
                   <TabPanel value={this.state.value} index={1}>
-                    Item Two
+                    <Tahliller danisanUserName={this.props.danisanUserName} />
                   </TabPanel>
                   <TabPanel value={this.state.value} index={2}>
-                    Item Three
+                    <Notlar />
                   </TabPanel>
                   <TabPanel value={this.state.value} index={3}>
                     Item Four

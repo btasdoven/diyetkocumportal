@@ -78,7 +78,7 @@ const styles = theme => ({
       justifyContent: "center",
       width: '100%',
       alignItems: "center",
-      margin: '8px'
+      marginTop: theme.spacing(5)
   },
   main: {
     width: '100%',
