@@ -204,8 +204,8 @@ exports.getDanisanNotes = function (userId, danisanUserName) {
 
   var danisan = rows[userId].danisans[danisanUserName];
 
-  if (!danisan) {
-    return {};
+  if (!danisan || !danisan.notes) {
+    return { notes: ''};
   }
 
   return danisan.notes;
@@ -247,178 +247,178 @@ exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
   storage.setItem(userId, rows[userId]);
 }
 
-exports.putLikes = function (userId, kim, kimi, commentIdx, val) {
-  console.log('putLikes');
-  console.log(kim);
-  console.log(kimi);
-  console.log(commentIdx);
-  console.log(val);
+// exports.putLikes = function (userId, kim, kimi, commentIdx, val) {
+//   console.log('putLikes');
+//   console.log(kim);
+//   console.log(kimi);
+//   console.log(commentIdx);
+//   console.log(val);
 
-  oldVal = { liked: false, disliked: false };
+//   oldVal = { liked: false, disliked: false };
 
-  if (!rows[userId].likes) {
-    rows[userId].likes = {
-      [kim]: { [kimi] : {[commentIdx]: val}}
-    }
-  } else if (!rows[userId].likes[kim]) {
-    rows[userId].likes[kim] = { 
-      [kimi]: { 
-        [commentIdx]: val 
-      }
-    };
-  } else if (!rows[userId].likes[kim][kimi]) {
-    rows[userId].likes[kim][kimi] = { 
-      [commentIdx]: val
-    };
-  } else {
-    oldVal = rows[userId].likes[kim][kimi][commentIdx];
-    rows[userId].likes[kim][kimi][commentIdx] = val
-  }
+//   if (!rows[userId].likes) {
+//     rows[userId].likes = {
+//       [kim]: { [kimi] : {[commentIdx]: val}}
+//     }
+//   } else if (!rows[userId].likes[kim]) {
+//     rows[userId].likes[kim] = { 
+//       [kimi]: { 
+//         [commentIdx]: val 
+//       }
+//     };
+//   } else if (!rows[userId].likes[kim][kimi]) {
+//     rows[userId].likes[kim][kimi] = { 
+//       [commentIdx]: val
+//     };
+//   } else {
+//     oldVal = rows[userId].likes[kim][kimi][commentIdx];
+//     rows[userId].likes[kim][kimi][commentIdx] = val
+//   }
 
-  if (!oldVal) {
-    oldVal = { liked: false, disliked: false };
-  }
+//   if (!oldVal) {
+//     oldVal = { liked: false, disliked: false };
+//   }
 
-  likedChange = oldVal.liked 
-  ? (val.liked ? 0 : -1)
-  : (val.liked ? 1 : 0);
-  dislikedChange = oldVal.disliked 
-  ? (val.disliked ? 0 : -1)
-  : (val.disliked ? 1 : 0);
+//   likedChange = oldVal.liked 
+//   ? (val.liked ? 0 : -1)
+//   : (val.liked ? 1 : 0);
+//   dislikedChange = oldVal.disliked 
+//   ? (val.disliked ? 0 : -1)
+//   : (val.disliked ? 1 : 0);
   
-  console.log(rows[userId].envanter[kimi].comments[commentIdx]);
+//   console.log(rows[userId].envanter[kimi].comments[commentIdx]);
 
-  rows[userId].envanter[kimi].comments[commentIdx] = {
-    ...rows[userId].envanter[kimi].comments[commentIdx],
-    like: (rows[userId].envanter[kimi].comments[commentIdx].like || 0) + likedChange,
-    dislike: (rows[userId].envanter[kimi].comments[commentIdx].dislike || 0) + dislikedChange,
-  }
+//   rows[userId].envanter[kimi].comments[commentIdx] = {
+//     ...rows[userId].envanter[kimi].comments[commentIdx],
+//     like: (rows[userId].envanter[kimi].comments[commentIdx].like || 0) + likedChange,
+//     dislike: (rows[userId].envanter[kimi].comments[commentIdx].dislike || 0) + dislikedChange,
+//   }
 
-  console.log(rows[userId].envanter[kimi].comments[commentIdx]);
+//   console.log(rows[userId].envanter[kimi].comments[commentIdx]);
 
-  storage.setItem(userId, rows[userId]);
-}
+//   storage.setItem(userId, rows[userId]);
+// }
 
-exports.putClaim = function (userId, user) {
-  console.log('putClaim');
+// exports.putClaim = function (userId, user) {
+//   console.log('putClaim');
 
-  if (!rows[userId].envanter[user]) {
-    rows[userId].envanter[user] = {};
-  }
+//   if (!rows[userId].envanter[user]) {
+//     rows[userId].envanter[user] = {};
+//   }
   
-  rows[userId].envanter[user].isClaimed = true;
+//   rows[userId].envanter[user].isClaimed = true;
 
-  storage.setItem(userId, rows[userId]);
-}
+//   storage.setItem(userId, rows[userId]);
+// }
 
-exports.putEnvanter = function (userId, user, val) {
-  console.log('putEnvanter');
-  console.log(val);
-  if (!rows[userId].envanter[user]) {
-    rows[userId].envanter[user] = {};
-  }
+// exports.putEnvanter = function (userId, user, val) {
+//   console.log('putEnvanter');
+//   console.log(val);
+//   if (!rows[userId].envanter[user]) {
+//     rows[userId].envanter[user] = {};
+//   }
   
-  if (!rows[userId].envanter[user].comments) {
-    rows[userId].envanter[user].comments = [];
-  }
+//   if (!rows[userId].envanter[user].comments) {
+//     rows[userId].envanter[user].comments = [];
+//   }
 
-  rows[userId].envanter[user].comments.push(val);
+//   rows[userId].envanter[user].comments.push(val);
 
-  storage.setItem(userId, rows[userId]);
-}
+//   storage.setItem(userId, rows[userId]);
+// }
 
-exports.getEnvanter = function (userId, user) {
-  console.log('getEnvanter');
-  console.log(user)
+// exports.getEnvanter = function (userId, user) {
+//   console.log('getEnvanter');
+//   console.log(user)
 
-  var ret = rows[userId].envanter[user];
+//   var ret = rows[userId].envanter[user];
 
-  return ret == undefined ? { comments: [] } : ret;
-}
+//   return ret == undefined ? { comments: [] } : ret;
+// }
 
-exports.putDiary = function (userId, date, val) {
-  console.log('putDiary');
-  console.log(date);
+// exports.putDiary = function (userId, date, val) {
+//   console.log('putDiary');
+//   console.log(date);
 
-  rows[userId].diaries[date] = val;
-  storage.setItem(userId, rows[userId]);
-}
+//   rows[userId].diaries[date] = val;
+//   storage.setItem(userId, rows[userId]);
+// }
 
-exports.getDiary = function (userId, date) {
-  console.log('getDiary');
-  console.log(date);
+// exports.getDiary = function (userId, date) {
+//   console.log('getDiary');
+//   console.log(date);
 
-  var ret = rows[userId].diaries[date];
+//   var ret = rows[userId].diaries[date];
 
-  return ret == undefined ? { entries: [] } : ret;
-}
+//   return ret == undefined ? { entries: [] } : ret;
+// }
 
-exports.getMaterials =  function (userId, materialId) {
-  console.log('getMaterials');
-  console.log(materialId);
+// exports.getMaterials =  function (userId, materialId) {
+//   console.log('getMaterials');
+//   console.log(materialId);
   
-  if (materialId == undefined) {
-    return rows[userId].materialHeaders;
-  }
+//   if (materialId == undefined) {
+//     return rows[userId].materialHeaders;
+//   }
 
-  return { [materialId] : rows[userId].materials[materialId] };
-}
+//   return { [materialId] : rows[userId].materials[materialId] };
+// }
 
-exports.setMaterialPart = function (userId, materialId, partId, values) {
-    console.log('setMaterial');
-    rows[userId].materials[materialId].data[partId].value = values.value;
+// exports.setMaterialPart = function (userId, materialId, partId, values) {
+//     console.log('setMaterial');
+//     rows[userId].materials[materialId].data[partId].value = values.value;
 
-    storage.setItem(userId, rows[userId]);
-    //console.log(rows[userId].materials[materialId]);
-}
+//     storage.setItem(userId, rows[userId]);
+//     //console.log(rows[userId].materials[materialId]);
+// }
 
-exports.getAllFieldList = function(id) {
-  console.log('getAllFieldList');
-  return rows[id].allFieldList;
-}
+// exports.getAllFieldList = function(id) {
+//   console.log('getAllFieldList');
+//   return rows[id].allFieldList;
+// }
 
-exports.getGroups =  function (id, groupId) {
-  console.log('getGroups');
-  console.log(groupId); 
+// exports.getGroups =  function (id, groupId) {
+//   console.log('getGroups');
+//   console.log(groupId); 
   
-  if (groupId == undefined) {
-    console.log("group id undefined")
-    return rows[id].groups;
-  }
+//   if (groupId == undefined) {
+//     console.log("group id undefined")
+//     return rows[id].groups;
+//   }
 
-  return { [groupId] : rows[id].groups[groupId] };
-}
+//   return { [groupId] : rows[id].groups[groupId] };
+// }
 
-exports.getFields =  function (id, fieldId) {
-    console.log('getFields');
-    console.log(rows[id].fields);
-    return rows[id].fields[fieldId];
-}
+// exports.getFields =  function (id, fieldId) {
+//     console.log('getFields');
+//     console.log(rows[id].fields);
+//     return rows[id].fields[fieldId];
+// }
 
-exports.getLink =  function (id, linkId) {
-    console.log('getLink');
-    if (!row[id].fields[linkId].shareLink) {
-      console.log("incorrect link request " + id + " " + linkId)
-    }
+// exports.getLink =  function (id, linkId) {
+//     console.log('getLink');
+//     if (!row[id].fields[linkId].shareLink) {
+//       console.log("incorrect link request " + id + " " + linkId)
+//     }
     
-    return rows[id].fields[linkId];
-}
+//     return rows[id].fields[linkId];
+// }
 
-exports.setFields = function (id, fieldId, value) {
-    console.log('setFields');
-    rows[id].fields[fieldId] = value;
-    rows[id].allFieldList[fieldId] = true;
-    // var fieldData = rows[id].fields[fieldId].data;
+// exports.setFields = function (id, fieldId, value) {
+//     console.log('setFields');
+//     rows[id].fields[fieldId] = value;
+//     rows[id].allFieldList[fieldId] = true;
+//     // var fieldData = rows[id].fields[fieldId].data;
 
-    // Object.keys(fieldData).forEach((fieldId) => {
-    //   if (fieldData[fieldId].type == 'link') {
-    //     var refFieldId = fieldData[fieldId].link;
-    //     var refGroup = refFieldId.split('/')[0];
-    //     fieldData[fieldId].value = rows[id].fields[refGroup].data[refFieldId].value;
-    //   }
-    // });
+//     // Object.keys(fieldData).forEach((fieldId) => {
+//     //   if (fieldData[fieldId].type == 'link') {
+//     //     var refFieldId = fieldData[fieldId].link;
+//     //     var refGroup = refFieldId.split('/')[0];
+//     //     fieldData[fieldId].value = rows[id].fields[refGroup].data[refFieldId].value;
+//     //   }
+//     // });
 
-    storage.setItem(id, rows[id]);
-    console.log(rows[id].fields[fieldId]);
-}
+//     storage.setItem(id, rows[id]);
+//     console.log(rows[id].fields[fieldId]);
+// }
   

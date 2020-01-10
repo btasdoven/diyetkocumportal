@@ -239,6 +239,9 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps)
+  console.log(state)
+  
   return {
     apiDanisanNotes: state.apiDanisanNotes,
     initialValues: 

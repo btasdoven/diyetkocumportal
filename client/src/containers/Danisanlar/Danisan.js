@@ -228,7 +228,7 @@ class Envanter extends React.Component {
                     <Tahliller danisanUserName={this.props.danisanUserName} />
                   </TabPanel>
                   <TabPanel value={this.state.value} index={2}>
-                    <Notlar />
+                    <Notlar danisanUserName={this.props.danisanUserName} />
                   </TabPanel>
                   <TabPanel value={this.state.value} index={3}>
                   </TabPanel>
