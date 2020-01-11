@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
+import { withRouter } from "react-router-dom";
 
 import { getDanisanProfile } from '../../store/reducers/api.danisanProfile';
 
@@ -56,6 +57,8 @@ import Slide from '@material-ui/core/Slide';
 import KisiselBilgiler from './KisiselBilgiler';
 import Tahliller from './Tahliller';
 import Notlar from './Notlar';
+import Finans from './Finans';
+import { trackModelView } from '../../components/Signin/PageTracker'
 
 const styles = theme => ({
   profile: {
@@ -189,6 +192,18 @@ class Envanter extends React.Component {
   handleValueChange = (ev, newVal) => {
     if (this.state.value != newVal) {
       this.setState({value: newVal})
+
+      const valToUriMap = {
+        0: '/',
+        1: '/notes',
+        2: '/records',
+        3: '/diet',
+        4: '/diethistory',
+        5: '/finance',
+        6: '/messages'
+      };
+
+      trackModelView(this.props.location.pathname + valToUriMap[newVal]);
     }
   }
 
@@ -222,13 +237,13 @@ class Envanter extends React.Component {
             </Tabs>
             {/* </AppBar> */}
             <TabPanel value={this.state.value} index={0}>
-              <KisiselBilgiler danisanUserName={this.props.danisanUserName} />
+              <KisiselBilgiler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
             </TabPanel>
             <TabPanel value={this.state.value} index={1}>
-              <Notlar danisanUserName={this.props.danisanUserName} />
+              <Notlar userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
             </TabPanel>
             <TabPanel value={this.state.value} index={2}>
-              <Tahliller danisanUserName={this.props.danisanUserName} />
+              <Tahliller userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
             </TabPanel>
             <TabPanel value={this.state.value} index={3}>
               <div className={classes.rootLoading}>
@@ -241,9 +256,7 @@ class Envanter extends React.Component {
               </div>
             </TabPanel>
             <TabPanel value={this.state.value} index={5}>
-              <div className={classes.rootLoading}>
-                <Typography>Bu danışana ait ödeme bilgisi bulunamadı.</Typography>
-              </div>
+              <Finans danisanUserName={this.props.danisanUserName} />
             </TabPanel>
             <TabPanel value={this.state.value} index={6}>
               <div className={classes.rootLoading}>
@@ -274,4 +287,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'CommentForm' })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'CommentForm' })(withStyles(styles)(withRouter(Envanter))));

@@ -75,15 +75,24 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName", (req, res, next) => {
 //   }), 500);
 // });
 
+const users = [
+  { id: 5, username: 'demo', password: '1234' },
+  { id: 6, username: 'berfu', password: '1234' },
+];
+
 app.post("/api/v1/users/auth", (req, res, next) => {
   setTimeout((function() {
-    if (req.body.username == 'demo' && req.body.password == '1234') {
-      res.setHeader('Content-Type', 'application/json');
-      res.json({token: 'Civil Management', username: 'demo', id: 5});
-    } else {
-      res.setHeader('Content-Type', 'application/json');
-      res.status(400).json({message: "unauthorized access"});
-    }  
+    for (let i in users) {
+      if (req.body.username == users[i].username &&
+          req.body.password == users[i].password) {
+            res.setHeader('Content-Type', 'application/json');
+            res.json({token: 'Civil Management', username: users[i].username, id: users[i].id});
+            return;
+          }
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(400).json({message: "unauthorized access"});
   }), 500);
 });
 

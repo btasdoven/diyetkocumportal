@@ -65,6 +65,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import { withRouter } from "react-router-dom";
 
 import DanisanAddDialog from './DanisanAddDialog'
 
@@ -222,6 +223,7 @@ class Envanter extends React.Component {
 
     if (values != undefined) {
       this.props.addDanisan(this.state.userId, values);
+      this.props.history.push('/d/' + values.username)
     }
 
     this.setState({newDanisan: false});
@@ -365,4 +367,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Envanter));
+)(withStyles(styles)(withRouter(Envanter)));

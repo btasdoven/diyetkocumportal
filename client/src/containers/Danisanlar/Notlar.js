@@ -246,9 +246,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     apiDanisanNotes: state.apiDanisanNotes,
     initialValues: 
-        state.apiDanisanNotes[5] != undefined && 
-        state.apiDanisanNotes[5][ownProps.danisanUserName] != undefined
-        ? state.apiDanisanNotes[5][ownProps.danisanUserName].data
+        state.apiDanisanNotes[ownProps.userId] != undefined && 
+        state.apiDanisanNotes[ownProps.userId][ownProps.danisanUserName] != undefined
+        ? state.apiDanisanNotes[ownProps.userId][ownProps.danisanUserName].data
         : {},
   };
 };

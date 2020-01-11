@@ -145,7 +145,10 @@ const rows = {
           }
         }
       }
-    }
+    },
+  6: {
+    
+  }
 };
  
 
@@ -155,9 +158,12 @@ async function start() {
     if (process.env.PORT == undefined) {
       await storage.clear();
       await storage.setItem('5', rows[5]);
+      await storage.setItem('6', rows[6]);
     }
-
-    rows[5] = await storage.getItem('5');
+    
+    storage.forEach(async function(datum) {
+      rows[datum.key] = datum.value;
+    });
 }
 
 start();
@@ -233,9 +239,19 @@ exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
   console.log(danisanUserName)
   console.log(danisanPreview);
 
-  rows[userId].danisanPreviews[danisanUserName] = danisanPreview;
+  if (rows[userId].danisanPreviews == undefined) {
+    rows[userId].danisanPreviews = {
+      [danisanUserName]: danisanPreview
+    };
+  } else if (rows[userId].danisanPreviews[danisanUserName] == undefined) {
+    rows[userId].danisanPreviews[danisanUserName]= danisanPreview;
+  }
 
-  if (rows[userId].danisans[danisanUserName] == undefined) {
+  if (rows[userId].danisans == undefined) {
+    rows[userId].danisans = {
+      [danisanUserName]: { profile: {} }
+    };
+  } else if (rows[userId].danisans[danisanUserName] == undefined) {
     rows[userId].danisans[danisanUserName] = { profile: {} }
   }
 

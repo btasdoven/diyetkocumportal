@@ -293,25 +293,6 @@ class Envanter extends React.Component {
                   </IconButton>
                 </CardActions>  */}
               </Card>
-              
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  İLETİŞİM BİLGİLERİ
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <ReduxFormTextField name="email" label="E-posta adresi" />
-                    {/* <TextField fullWidth InputLabelProps={{shrink: true}} id="standard-required" label="E-posta adresi" value={danisanProfile.email} /> */}
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <ReduxFormTextField name="tel" label="Telefon numarası" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <ReduxFormTextField name="address" label="Adresi" />
-                  </Grid>
-                </Grid>
-              </div>
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
@@ -348,6 +329,24 @@ class Envanter extends React.Component {
                         },
                       ]}
                     />
+                  </Grid>
+                </Grid>
+              </div>
+              
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  İLETİŞİM BİLGİLERİ
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                    <ReduxFormTextField name="email" label="E-posta adresi" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                    <ReduxFormTextField name="tel" label="Telefon numarası" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                    <ReduxFormTextField name="address" label="Adresi" />
                   </Grid>
                 </Grid>
               </div>
@@ -433,10 +432,52 @@ class Envanter extends React.Component {
                     <ReduxFormTextField name="gunluk_seker" label="Günlük Şeker Tüketimi" />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gunluk_sigara" label="Günlük Sigara Tüketimi" />
+                    <ReduxFormSelect
+                      name="gunluk_sigara"
+                      label="Sigara Tüketimi"
+                      values={[
+                        {
+                          label: 'Her gün',
+                          value: 'Her gün',
+                        },
+                        {
+                          label: 'Haftada 3-5 defa',
+                          value: 'haftada 3-5 defa',
+                        },
+                        {
+                          label: 'Haftada 1-2 defa',
+                          value: 'Haftada 1-2 defa',
+                        },
+                        {
+                          label: 'Yok',
+                          value: 'Yok',
+                        },
+                      ]}
+                    />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gunluk_alkol" label="Günlük Alkol Tüketimi" />
+                    <ReduxFormSelect
+                      name="gunluk_alkol"
+                      label="Alkol Tüketimi"
+                      values={[
+                        {
+                          label: 'Her gün',
+                          value: 'Her gün',
+                        },
+                        {
+                          label: 'Haftada 3-5 defa',
+                          value: 'haftada 3-5 defa',
+                        },
+                        {
+                          label: 'Haftada 1-2 defa',
+                          value: 'Haftada 1-2 defa',
+                        },
+                        {
+                          label: 'Yok',
+                          value: 'Yok',
+                        },
+                      ]}
+                    />
                   </Grid>
                 </Grid>
               </div>
@@ -455,8 +496,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     apiDanisanProfile: state.apiDanisanProfile,
     initialValues: 
-      state.apiDanisanProfile[5] && state.apiDanisanProfile[5][ownProps.danisanUserName] 
-        ? state.apiDanisanProfile[5][ownProps.danisanUserName].data
+      state.apiDanisanProfile[ownProps.userId] != undefined && 
+      state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName] != undefined
+        ? state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName].data
         : {},
   };
 };

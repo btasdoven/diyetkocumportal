@@ -30,15 +30,14 @@ import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayoutBottomNav from "./layouts/MainLayoutBottomNav";
 import MaterialList from "./containers/MyStorage/MaterialList"
 import withWidth from '@material-ui/core/withWidth';
+import withTracker from './components/Signin/PageTracker'
 
 const NotFound = () => {
   return <div>NotFound</div>;
 };
 
 
-const DashboardRoute = withWidth()(({ width, component: Component, backButton, viewParam, ...rest }) => {
-
-  console.log(rest);
+const DashboardRoute = withTracker(withWidth()(({ width, component: Component, backButton, viewParam, ...rest }) => {
 
   return (
     <Route
@@ -53,9 +52,9 @@ const DashboardRoute = withWidth()(({ width, component: Component, backButton, v
           )}
     />
   );
-});
+}));
 
-const EmptyRoute = ({ component: Component, ...rest }) => {
+const EmptyRoute = withTracker(({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -66,7 +65,7 @@ const EmptyRoute = ({ component: Component, ...rest }) => {
       )}
     />
   );
-};
+});
 
 class App extends Component {
 

@@ -11,11 +11,6 @@ const initState = {
 };
 
 export default function reducer(state = initState, action) {
-
-    console.log('reduc')
-    console.log(action);
-    console.log(state);
-
     switch (action.type) {
       case DANISAN_PREVIEWS_GET_ERRORED:
       case DANISAN_PREVIEWS_PUT_ERRORED:
