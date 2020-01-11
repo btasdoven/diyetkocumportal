@@ -221,13 +221,13 @@ class Envanter extends React.Component {
             <Tabs
               value={this.state.value}
               onChange={this.handleValueChange}
-              indicatorColor="primary"
-              textColor="primary"
+              indicatorColor="secondary"
+              textColor="inherit"
               variant="scrollable"
               scrollButtons="on"
               aria-label="scrollable auto tabs example"
             >
-              <Tab label="TEMEL BİLGİLER" {...a11yProps(0)} />
+              <Tab label="PROFİL" {...a11yProps(0)} />
               <Tab label="NOTLARIM" {...a11yProps(1)} />
               <Tab label="TAHLİLLER/ÖLÇÜMLER" {...a11yProps(2)} />
               <Tab label="DİYET LİSTESİ" {...a11yProps(3)} />

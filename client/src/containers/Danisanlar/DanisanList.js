@@ -118,13 +118,17 @@ const styles = theme => ({
   },
   search: {
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: theme.spacing(4), //theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.95),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.99),
     },
     margin: theme.spacing(1),
+    padding: theme.spacing(0.5),
     flex: 1
+  },
+  searchIconStart: {
+    paddingLeft: theme.spacing(1),
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -255,10 +259,9 @@ class Envanter extends React.Component {
               onChange={this.handleOnSearchChange}
               className={classes.search}
               placeholder="Danışan Ara..."
-              inputProps={{ 'aria-label': 'search google maps' }}
               value={this.state.searchKey}
               startAdornment={
-                <InputAdornment position="start">
+                <InputAdornment className={classes.searchIconStart} position="start">
                   <SearchIcon />
                 </InputAdornment>
               }

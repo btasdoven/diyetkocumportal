@@ -151,8 +151,8 @@ class FieldDialog extends React.Component {
                         </DialogContentText> */}
 
                         {createTextField('name', 'Adı ve Soyadı', false)}
-                        {createTextField('kilo', 'Kilosu', false)}
-                        {createTextField('boy', 'Boyu', false)}
+                        {createTextField('kilo', 'Kilosu (kg)', false)}
+                        {createTextField('boy', 'Boyu (cm)', false)}
                         {createTextField('yas', 'Yaşı', false)}
                         {createSelect('cinsiyet', 'Cinsiyeti', false, 
                             [
