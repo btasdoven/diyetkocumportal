@@ -336,7 +336,7 @@ class Envanter extends React.Component {
                       <ListItemAvatar>
                       <Avatar src={danisan.url} />
                       </ListItemAvatar>
-                      <ListItemText primary={danisan.name} secondary={danisan.kilo + "kg, " + danisan.boy + "cm, " + danisan.yas + " yaşında"}/>
+                      <ListItemText primary={danisan.name} />
                       {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
                     </ListItem>
                     <Divider component="li" />

@@ -127,7 +127,7 @@ const rows = {
             tel: '532 375 34 22',
             kilo: '91',
             boy: '165',
-            yas: '36',
+            birthday: '10.09.1985',
           },
           notes: {
             notes: "Danışan son haftaki listeye pek uymadı\n\nHaftaya detoks ver"
@@ -141,7 +141,7 @@ const rows = {
             tel: '505 868 12 49',
             kilo: '104',
             boy: '184',
-            yas: '29',
+            birthday: '11.02.1991',
           }
         }
       }
