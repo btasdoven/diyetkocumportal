@@ -54,6 +54,8 @@ import Menu from '@material-ui/core/Menu';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
+import DateTimePicker from '../../components/DateTimePicker'
+
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import {reset} from 'redux-form';
@@ -300,17 +302,11 @@ class Envanter extends React.Component {
                 </Typography>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={4} sm={4} md={3} lg={3}>
-                    <ReduxFormTextField name="yas" label="Yaşı" type="number"/>
+                  <Grid item xs={6} sm={6} md={3} lg={3}>
+                    <Field name='birthday' label="Doğum tarihi" component={DateTimePicker} />
+                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
                   </Grid>
-                  <Grid item xs={4} sm={4} md={3} lg={3}>
-                    <ReduxFormTextField name="kilo" label="Kilosu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
-                  </Grid>
-                  <Grid item xs={4} sm={4} md={3} lg={3}>
-                    <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
-                  </Grid>
-
-                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                  <Grid item xs={6} sm={6} md={3} lg={3}>
                     <ReduxFormSelect
                       name="cinsiyet"
                       label="Cinsiyeti"
@@ -329,6 +325,12 @@ class Envanter extends React.Component {
                         },
                       ]}
                     />
+                  </Grid>
+                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                    <ReduxFormTextField name="kilo" label="Kilosu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
+                  </Grid>
+                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                    <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
                   </Grid>
                 </Grid>
               </div>

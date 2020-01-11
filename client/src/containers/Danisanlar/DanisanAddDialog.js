@@ -6,6 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DateTimePicker from '../../components/DateTimePicker'
+import Typography from "@material-ui/core/Typography";
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -66,11 +68,22 @@ const renderTextField = ({
       {...custom}
       margin="normal"
       fullWidth
+      color="primary"
+      InputLabelProps={{color: 'primary', shrink: true}}
     />
   )
 
+const ReduxFormTextField = ({name, label, ...props}) => (
+<Field
+    name={name}
+    component={renderTextField}
+    label={label}
+    {...props}
+/>)
+
 const createTextField = (key, label, autoFocus) => (
 <Field
+    InputLabelProps={{shrink: true}}
     key={key}
     name={key}
     id={key}
@@ -100,7 +113,7 @@ const createSelect = (key, label, autoFocus, values) => (
     <FormControl
         margin="normal"
         style={{width: '100%'}}>
-        <InputLabel id={label+"_label"}>{label}</InputLabel>
+        <InputLabel shrink={true} id={label+"_label"}>{label}</InputLabel>
 
         <Field
             name={key}
@@ -150,10 +163,27 @@ class FieldDialog extends React.Component {
                             Enter the title of the synthesis you have done and share some more details below:
                         </DialogContentText> */}
 
-                        {createTextField('name', 'Adı ve Soyadı', false)}
-                        {createTextField('kilo', 'Kilosu (kg)', false)}
-                        {createTextField('boy', 'Boyu (cm)', false)}
-                        {createTextField('yas', 'Yaşı', false)}
+                        <ReduxFormTextField 
+                            name="name" 
+                            label="Adı ve Soyadı" 
+                        />
+
+                        <ReduxFormTextField 
+                            name="kilo" 
+                            label="Kilosu"
+                            type="number" 
+                            InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} 
+                        />
+
+                        <ReduxFormTextField 
+                            name="boy" 
+                            label="Boyu"
+                            type="number" 
+                            InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} 
+                        />
+
+                        <Field fullWidth margin="normal" name='birthday' label="Doğum tarihi" component={DateTimePicker} />
+
                         {createSelect('cinsiyet', 'Cinsiyeti', false, 
                             [
                                 {

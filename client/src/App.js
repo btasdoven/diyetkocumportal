@@ -31,6 +31,8 @@ import MainLayoutBottomNav from "./layouts/MainLayoutBottomNav";
 import MaterialList from "./containers/MyStorage/MaterialList"
 import withWidth from '@material-ui/core/withWidth';
 import withTracker from './components/Signin/PageTracker'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns';
 
 const NotFound = () => {
   return <div>NotFound</div>;
@@ -74,33 +76,35 @@ class App extends Component {
 
     return (
       <MuiThemeProvider theme={settings.theme}>
-        <CssBaseline />
-        <div style={{ height: "100vh" }}>
-          <Router>
-            {localStorage.getItem('user') ? (
-              <Switch>
-                <Route exact path="/" render={() => <Redirect to="/d" />} />
-                <DashboardRoute exact path="/d" component={DanisanList} />
-                <DashboardRoute exact backButton="/d" path="/d/:danisan" component={DanisanView} />
-                <DashboardRoute exact path="/m" component={MesajList} />
-                <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <CssBaseline />
+          <div style={{ height: "100vh" }}>
+            <Router>
+              {localStorage.getItem('user') ? (
+                <Switch>
+                  <Route exact path="/" render={() => <Redirect to="/d" />} />
+                  <DashboardRoute exact path="/d" component={DanisanList} />
+                  <DashboardRoute exact backButton="/d" path="/d/:danisan" component={DanisanView} />
+                  <DashboardRoute exact path="/m" component={MesajList} />
+                  <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
-                <DashboardRoute path="/r" component={MyProfile} />
-                <DashboardRoute path="/f" component={MyProfile} />
-                <DashboardRoute path="/kd" component={MyProfile} />
-                <Route path="/signin" render={() => <Redirect to="/" />} />
-                <EmptyRoute component={NotFound} />
-              </Switch>
-            ) : (
-              <Switch>
-                <EmptyRoute path="/signup" component={Register} />
-                <EmptyRoute path="/signin" component={Signin} />
-                <Route exact path="/" render={() => <Redirect to="/signin" />} />
-                <Redirect to="/" />
-              </Switch>
-            )}
-          </Router>
-        </div>
+                  <DashboardRoute path="/r" component={MyProfile} />
+                  <DashboardRoute path="/f" component={MyProfile} />
+                  <DashboardRoute path="/kd" component={MyProfile} />
+                  <Route path="/signin" render={() => <Redirect to="/" />} />
+                  <EmptyRoute component={NotFound} />
+                </Switch>
+              ) : (
+                <Switch>
+                  <EmptyRoute path="/signup" component={Register} />
+                  <EmptyRoute path="/signin" component={Signin} />
+                  <Route exact path="/" render={() => <Redirect to="/signin" />} />
+                  <Redirect to="/" />
+                </Switch>
+              )}
+            </Router>
+          </div>
+        </MuiPickersUtilsProvider>
       </MuiThemeProvider>
     );
   }
