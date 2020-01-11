@@ -169,7 +169,7 @@ class FieldDialog extends React.Component {
                                 value: 'Diğer',
                                 },
                             ])}
-                        {createTextField('url', 'Profil Fotoğrafı', false)}
+                        {/* {createTextField('url', 'Profil Fotoğrafı', false)} */}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => this.props.handleClose(undefined)} color="secondary">
