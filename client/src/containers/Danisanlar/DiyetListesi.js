@@ -22,7 +22,7 @@ import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
+import { getDanisanDietList, putDanisanDietList } from '../../store/reducers/api.danisanDietList';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -161,15 +161,13 @@ const renderTextField = ({
   //     {...custom}
   //     fullWidth
   // />
-  <TextField
+  <InputBase
     label={label}
     error={touched && invalid}
-    helperText={touched && error}
     {...input}
     {...custom}
     fullWidth
     color="primary"
-    InputLabelProps={{color: 'primary', shrink: true}}
   />
 )
   
@@ -190,11 +188,11 @@ class Envanter extends React.Component {
     console.log(this.props);
     console.log(this.state.userId);
 
-    var loaded = this.props.apiDanisanProfile != undefined &&
-      this.props.apiDanisanProfile[this.state.userId] != undefined &&
-      this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data != undefined;
+    var loaded = this.props.apiDanisanDietList != undefined &&
+      this.props.apiDanisanDietList[this.state.userId] != undefined &&
+      this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -202,13 +200,13 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDanisanProfile(this.state.userId, this.props.danisanUserName);
+      this.props.getDanisanDietList(this.state.userId, this.props.danisanUserName);
     }
   }
 
   onSubmitInternal(formValues) {
       console.log(formValues);
-      this.props.putDanisanProfile(this.state.userId, this.props.danisanUserName, formValues);
+      this.props.putDanisanDietList(this.state.userId, this.props.danisanUserName, formValues);
   }
 
   render() {
@@ -218,8 +216,6 @@ class Envanter extends React.Component {
 
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
-
-    const danisanProfile = showLoader ? undefined : this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data;
 
     return (
       <div className={classes.root}>
@@ -241,187 +237,112 @@ class Envanter extends React.Component {
                 </Typography>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={6} sm={6} md={3} lg={3}>
-                    <Field name='birthday' label="Doğum tarihi" component={DateTimePicker} />
-                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
-                  </Grid>
-                  <Grid item xs={6} sm={6} md={3} lg={3}>
-                    <ReduxFormSelect
-                      name="cinsiyet"
-                      label="Cinsiyeti"
-                      values={[
-                        {
-                        label: 'Kadın',
-                        value: 'Kadın',
-                        },
-                        {
-                        label: 'Erkek',
-                        value: 'Erkek',
-                        },
-                        {
-                        label: 'Diğer',
-                        value: 'Diğer',
-                        },
-                      ]}
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField 
+                        multiline
+                        name="program"
+                        placeholder="Programın detaylarını, beklediğiniz fiziksel aktiviteleri, tüketilecek su miktarını vs. buraya yazabilirsiniz..."
                     />
-                  </Grid>
-                  <Grid item xs={3} sm={3} md={3} lg={3}>
-                    <ReduxFormTextField name="kilo" label="Kilosu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
-                  </Grid>
-                  <Grid item xs={3} sm={3} md={3} lg={3}>
-                    <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
                   </Grid>
                 </Grid>
               </div>
               
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  İLETİŞİM BİLGİLERİ
+                  KAHVALTI
                 </Typography>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <ReduxFormTextField name="email" label="E-posta adresi" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <ReduxFormTextField name="tel" label="Telefon numarası" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <ReduxFormTextField name="address" label="Adresi" />
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField 
+                        multiline
+                        name="kahvalti"
+                        placeholder="Kahvaltıda danışanınızın tüketmesini beklediğiniz besinleri buraya yazabilirsiniz.."
+                    />
                   </Grid>
                 </Grid>
               </div>
-
+              
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  SAĞLIK BİLGİLERİ
+                  1. ARA ÖĞÜN
                 </Typography>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <ReduxFormTextField name="hastalıklar" label="Tanısı Konmuş Hastalıkları" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <ReduxFormTextField name="ilaclar" label="Düzenli Alınan İlaçlar" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <ReduxFormTextField name="alerji" label="Besin Alerjileri" />
-                  </Grid>
-                  <Grid item xs={6} sm={6} md={4} lg={3}>
-                    <ReduxFormSelect
-                      name="uyku_duzeni"
-                      label="Günlük Uyku Düzeni"
-                      values={[
-                        {
-                          label: 'Düzenli',
-                          value: 'Düzenli',
-                        },
-                        {
-                          label: 'Düzensiz',
-                          value: 'Düzensiz',
-                        },
-                      ]}
-                    />
-                  </Grid>
-                  <Grid item xs={6} sm={6} md={4} lg={3}>
-                    <ReduxFormSelect
-                      name="regl_duzeni"
-                      label="Regl Düzeni"
-                      values={[
-                        {
-                          label: 'Düzenli',
-                          value: 'Düzenli',
-                        },
-                        {
-                          label: 'Düzensiz',
-                          value: 'Düzensiz',
-                        },
-                      ]}
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField 
+                        multiline
+                        name="ara_ogun_1"
+                        placeholder="Kahvaltı ile öğle yemeği arası..."
                     />
                   </Grid>
                 </Grid>
               </div>
-
+              
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  BESLENME ALIŞKANLIKLARI
+                  ÖĞLE YEMEĞİ
                 </Typography>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="ogun_duzeni" label="Öğün Düzeni" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="atlanan_ogunler" label="Atlanan Öğünler" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="tuketilmeyen_besinler" label="Tüketilmeyen Besinler" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="disarida_yemek" label="Dışarıda Yemek Yeme Sıklığı" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gece_yemek" label="Gece Yemek Yeme Sıklığı" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gunluk_su" label="Günlük Su Tüketimi" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gunluk_cay" label="Günlük Çay\Kahve Tüketimi" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gunluk_seker" label="Günlük Şeker Tüketimi" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormSelect
-                      name="gunluk_sigara"
-                      label="Sigara Tüketimi"
-                      values={[
-                        {
-                          label: 'Her gün',
-                          value: 'Her gün',
-                        },
-                        {
-                          label: 'Haftada 3-5 defa',
-                          value: 'haftada 3-5 defa',
-                        },
-                        {
-                          label: 'Haftada 1-2 defa',
-                          value: 'Haftada 1-2 defa',
-                        },
-                        {
-                          label: 'Yok',
-                          value: 'Yok',
-                        },
-                      ]}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormSelect
-                      name="gunluk_alkol"
-                      label="Alkol Tüketimi"
-                      values={[
-                        {
-                          label: 'Her gün',
-                          value: 'Her gün',
-                        },
-                        {
-                          label: 'Haftada 3-5 defa',
-                          value: 'haftada 3-5 defa',
-                        },
-                        {
-                          label: 'Haftada 1-2 defa',
-                          value: 'Haftada 1-2 defa',
-                        },
-                        {
-                          label: 'Yok',
-                          value: 'Yok',
-                        },
-                      ]}
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField 
+                        multiline
+                        name="ogle_yemegi"
+                        placeholder="Öğle yemeği..."
                     />
                   </Grid>
                 </Grid>
               </div>
+              
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  2. ARA ÖĞÜN
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField 
+                        multiline
+                        name="ara_ogun_2"
+                        placeholder="Öğle yemeği ile akşam yemeği arası..."
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+              
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  AKŞAM YEMEĞİ
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField 
+                        multiline
+                        name="aksam_yemegi"
+                        placeholder="Akşam yemeği..."
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+              
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  SON ÖĞÜN
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField 
+                        multiline
+                        name="son_ogun"
+                        placeholder="Akşam yemeğinden sonra ve yatmadan önce..."
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+
             </Form>
           </span>
         }
@@ -435,11 +356,11 @@ const mapStateToProps = (state, ownProps) => {
   console.log(state);
 
   return {
-    apiDanisanProfile: state.apiDanisanProfile,
+    apiDanisanDietList: state.apiDanisanDietList,
     initialValues: 
-      state.apiDanisanProfile[ownProps.userId] != undefined && 
-      state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName] != undefined
-        ? state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName].data
+      state.apiDanisanDietList[ownProps.userId] != undefined && 
+      state.apiDanisanDietList[ownProps.userId][ownProps.danisanUserName] != undefined
+        ? state.apiDanisanDietList[ownProps.userId][ownProps.danisanUserName].data
         : {},
   };
 };
@@ -447,8 +368,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      getDanisanProfile: (userId, danisanUserName) => getDanisanProfile(userId, danisanUserName),
-      putDanisanProfile: (userId, danisanUserName, danisanProfile) => putDanisanProfile(userId, danisanUserName, danisanProfile)
+      getDanisanDietList: (userId, danisanUserName) => getDanisanDietList(userId, danisanUserName),
+      putDanisanDietList: (userId, danisanUserName, danisanDietList) => putDanisanDietList(userId, danisanUserName, danisanDietList)
     },
     dispatch
   );

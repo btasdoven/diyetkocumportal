@@ -60,6 +60,20 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName/notes", (req, res, next
   }), 500);
 });
 
+app.put("/api/v1/users/:userId/danisans/:danisanUserName/dietlist", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.putDanisanDietList(req.params.userId, req.params.danisanUserName, req.body));
+  }), 500);
+});
+
+app.get("/api/v1/users/:userId/danisans/:danisanUserName/dietlist", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getDanisanDietList(req.params.userId, req.params.danisanUserName));
+  }), 500);
+});
+
 app.put("/api/v1/users/:userId/danisans/:danisanUserName", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

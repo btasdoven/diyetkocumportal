@@ -256,6 +256,35 @@ exports.putDanisanNotes = function (userId, danisanUserName, danisanNotes) {
   storage.setItem(userId, rows[userId]);
 }
 
+exports.getDanisanDietList = function (userId, danisanUserName) {
+  console.log('getDanisanDietList');
+  console.log(danisanUserName);
+
+  var danisan = rows[userId].danisans[danisanUserName];
+
+  if (!danisan || !danisan.dietList) {
+    return { };
+  }
+
+  console.log(danisan.dietList)
+  
+  return danisan.dietList;
+}
+
+exports.putDanisanDietList = function (userId, danisanUserName, danisanDietList) {
+  console.log('putDanisanDietList');
+  console.log(danisanUserName);
+  console.log(danisanDietList);
+
+  if (!rows[userId].danisans[danisanUserName]) {
+    rows[userId].danisans[danisanUserName] = { };
+  }
+
+  rows[userId].danisans[danisanUserName].dietList = danisanDietList;
+
+  storage.setItem(userId, rows[userId]);
+}
+
 exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
   console.log('addDanisan')
   console.log(danisanUserName)
