@@ -68,7 +68,8 @@ const styles = theme => ({
 class Sidebar extends React.Component {
 
   state = {
-    openProfileMenu: true
+    openProfileMenu: true,
+    user: JSON.parse(localStorage.getItem('user'))
   }
 
   render() {
@@ -97,10 +98,10 @@ class Sidebar extends React.Component {
             <ListItem button onClick={() => this.setState({openProfileMenu: !this.state.openProfileMenu})}>
               <ListItemIcon>
                 {/* <Badge badgeContent={1} color="secondary"> */}
-                  <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/favicon.png" />
+                  <Avatar className={classes.avatar} alt={this.state.user.name} src={this.state.user.url} />
                 {/* </Badge> */}
               </ListItemIcon>
-              <Typography>Diyet Koçum Test</Typography>
+              <Typography>{this.state.user.name}</Typography>
               {/* <ListItemSecondaryAction>
                   {this.state.openProfileMenu ? <ExpandLess /> : <ExpandMore />}
               </ListItemSecondaryAction> */}

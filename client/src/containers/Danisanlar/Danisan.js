@@ -56,6 +56,7 @@ import Slide from '@material-ui/core/Slide';
 
 import KisiselBilgiler from './KisiselBilgiler';
 import Tahliller from './Tahliller';
+import DiyetListesi from './DiyetListesi';
 import Notlar from './Notlar';
 import Finans from './Finans';
 import { trackPage } from '../../components/Signin/PageTracker'
@@ -246,9 +247,10 @@ class Envanter extends React.Component {
               <Tahliller userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
             </TabPanel>
             <TabPanel value={this.state.value} index={3}>
-              <div className={classes.rootLoading}>
+              <DiyetListesi userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+              {/* <div className={classes.rootLoading}>
                 <Typography>Diyet listesi kismi daha kodlanmadi</Typography>
-              </div>
+              </div> */}
             </TabPanel>
             <TabPanel value={this.state.value} index={4}>
               <div className={classes.rootLoading}>

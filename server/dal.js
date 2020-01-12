@@ -145,20 +145,22 @@ const rows = {
           }
         }
       }
-    },
-  6: {
-    
-  }
+    }
 };
- 
+
+const users = [
+  { id: 5, username: 'demo', name: 'Diyet Koçum Test', password: '1234', url: '/static/favicon.png' },
+  { id: 6, username: 'dyt.kubra_aydin', name: 'Kübra Aydın', password: '1234', url: 'https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.2885-19/s150x150/79369500_2619425271482161_1159096052670791680_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_ohc=_ZSwjUzpLQcAX-ZZBKU&oh=29310039c3379c1e71f5e6d008fc525d&oe=5E98B832' },
+];
 
 async function start() {
     await storage.init({ dir: 'stg', logging: true });
 
     if (process.env.PORT == undefined) {
       await storage.clear();
-      await storage.setItem('5', rows[5]);
-      await storage.setItem('6', rows[6]);
+      users.forEach(async (user) => {
+        await storage.setItem(user.id.toString(), rows[user.id] || {});
+      });
     }
     
     storage.forEach(async function(datum) {
@@ -167,6 +169,26 @@ async function start() {
 }
 
 start();
+
+exports.loginUser = function(uname, pwd) {
+  console.log('loginUser');
+  console.log(uname)
+
+  for (let i in users) {
+    if (uname == users[i].username && pwd == users[i].password) {
+      // First login?
+      //
+      if (rows[users[i].id] == undefined) {
+        rows[users[i].id] = {}
+        storage.setItem(users[i].id.toString(), rows[users[i].id]);
+      }
+
+      return users[i]
+    }
+  }
+
+  return undefined;
+}
 
 exports.getMessagePreviews = function (userId) {
   console.log('getMessagePreviews');

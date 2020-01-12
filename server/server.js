@@ -75,21 +75,15 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName", (req, res, next) => {
 //   }), 500);
 // });
 
-const users = [
-  { id: 5, username: 'demo', password: '1234' },
-  { id: 6, username: 'berfu', password: '1234' },
-  { id: 7, username: 'dyt.kubra_aydin', password: '12341234' },
-];
 
 app.post("/api/v1/users/auth", (req, res, next) => {
   setTimeout((function() {
-    for (let i in users) {
-      if (req.body.username.toLowerCase() == users[i].username &&
-          req.body.password == users[i].password) {
-            res.setHeader('Content-Type', 'application/json');
-            res.json({token: 'Civil Management', username: users[i].username, id: users[i].id});
-            return;
-          }
+    var user = dal.loginUser(req.body.username.toLowerCase(), req.body.password)
+
+    if (user != undefined) {
+      res.setHeader('Content-Type', 'application/json');
+      res.json({token: 'Civil Management', url: user.url, name: user.name, username: user.username, id: user.id});
+      return;
     }
 
     res.setHeader('Content-Type', 'application/json');
