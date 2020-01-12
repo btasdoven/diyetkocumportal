@@ -117,7 +117,7 @@ const Signin = props => {
           login(v.username, v.password);
         }} />
 
-        <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
+        {/* <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
           Hesabın yok mu?
         </Typography>
         <Button
@@ -127,7 +127,7 @@ const Signin = props => {
           href="/"
         >
           ŞİMDİ KAYIT YAPTIR!
-        </Button>
+        </Button> */}
       </Paper>
     </div>
     </div>

@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { I18n, Translate } from 'react-redux-i18n'
 import classnames from 'classnames'
-import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
 import { MuiPickersUtilsProvider, KeyboardDatePicker, DatePicker  } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
@@ -21,7 +20,7 @@ class DatePickerInput extends PureComponent {
             fullWidth
             clearable
             disableFuture={true}
-            placeholder="29.10.1923"
+            placeholder="19.05.1919"
             format="dd.MM.yyyy"
             label={label}
             invalidDateMessage={"Geçersiz tarih"}

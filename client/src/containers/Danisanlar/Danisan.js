@@ -58,7 +58,7 @@ import KisiselBilgiler from './KisiselBilgiler';
 import Tahliller from './Tahliller';
 import Notlar from './Notlar';
 import Finans from './Finans';
-import { trackModelView } from '../../components/Signin/PageTracker'
+import { trackPage } from '../../components/Signin/PageTracker'
 
 const styles = theme => ({
   profile: {
@@ -203,7 +203,7 @@ class Envanter extends React.Component {
         6: '/messages'
       };
 
-      trackModelView(this.props.location.pathname + valToUriMap[newVal]);
+      trackPage(this.props.location.pathname + valToUriMap[newVal]);
     }
   }
 

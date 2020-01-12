@@ -69,6 +69,8 @@ const renderTextField = ({
       margin="normal"
       fullWidth
       color="primary"
+      error={touched && error}
+      helperText={touched && error ? error : undefined}
       InputLabelProps={{color: 'primary', shrink: true}}
     />
   )
@@ -123,6 +125,8 @@ const createSelect = (key, label, autoFocus, values) => (
         />
     </FormControl>)
 
+const required = value => value ? undefined : 'Zorunlu'
+
 class FieldDialog extends React.Component {
  
     constructor(props) {
@@ -166,6 +170,8 @@ class FieldDialog extends React.Component {
                         <ReduxFormTextField 
                             name="name" 
                             label="Adı ve Soyadı" 
+                            required
+                            validate={[required]}
                         />
 
                         <ReduxFormTextField 
@@ -202,10 +208,10 @@ class FieldDialog extends React.Component {
                         {/* {createTextField('url', 'Profil Fotoğrafı', false)} */}
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => this.props.handleClose(undefined)} color="secondary">
+                        <Button disabled={this.props.submitting} onClick={() => this.props.handleClose(undefined)} color="secondary">
                             İPTAL
                         </Button>
-                        <Button onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
+                        <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
                             YENİ DANIŞAN EKLE
                         </Button>
                     </DialogActions>
