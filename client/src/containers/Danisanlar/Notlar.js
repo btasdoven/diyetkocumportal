@@ -152,7 +152,7 @@ const reduxFormSelect = props => {
         fullWidth
         multiline
         placeholder={label}
-        rows={25}
+        rows={20}
         //InputLabelProps={{shrink: true}}
     />
     
@@ -219,13 +219,14 @@ class Envanter extends React.Component {
           KAYDET
         </Button>
         <Divider style={{marginTop: '8px'}} />
-        
+
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
           <span>
             <Form
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
+                style={{marginTop: '8px'}}
             >
               <Field
                 name="notes"

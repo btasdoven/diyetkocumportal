@@ -122,7 +122,7 @@ const SigninForm = props => {
           component={renderTextField}
           label="Kullanıcı Adı"
           autoComplete="username"
-          autoFocus={true}
+          autoFocus={false}
         />
       </FormControl>
       <FormControl margin="normal" required fullWidth>

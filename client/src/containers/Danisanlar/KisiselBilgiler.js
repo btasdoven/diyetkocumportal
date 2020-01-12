@@ -298,7 +298,7 @@ class Envanter extends React.Component {
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  FİZİKSEL BİLGİLER
+                  KİŞİSEL BİLGİLER
                 </Typography>
 
                 <Grid container spacing={2}>
@@ -326,10 +326,10 @@ class Envanter extends React.Component {
                       ]}
                     />
                   </Grid>
-                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                  <Grid item xs={3} sm={3} md={3} lg={3}>
                     <ReduxFormTextField name="kilo" label="Kilosu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
                   </Grid>
-                  <Grid item xs={4} sm={4} md={3} lg={3}>
+                  <Grid item xs={3} sm={3} md={3} lg={3}>
                     <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
                   </Grid>
                 </Grid>

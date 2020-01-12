@@ -83,7 +83,7 @@ const users = [
 app.post("/api/v1/users/auth", (req, res, next) => {
   setTimeout((function() {
     for (let i in users) {
-      if (req.body.username == users[i].username &&
+      if (req.body.username.toLowerCase() == users[i].username &&
           req.body.password == users[i].password) {
             res.setHeader('Content-Type', 'application/json');
             res.json({token: 'Civil Management', username: users[i].username, id: users[i].id});

@@ -18,6 +18,7 @@ class DatePickerInput extends PureComponent {
             {...rest}
             {...input}
             autoOk
+            fullWidth
             clearable
             disableFuture={true}
             placeholder="29.10.1923"

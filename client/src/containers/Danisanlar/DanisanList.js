@@ -340,6 +340,22 @@ class Envanter extends React.Component {
                       {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
                     </ListItem>
                     <Divider component="li" />
+                    <ListItem button component={Link} to={"/d/" + danisan.name}>
+                      <ListItemAvatar>
+                      <Avatar src={danisan.url} />
+                      </ListItemAvatar>
+                      <ListItemText primary={danisan.name} />
+                      {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
+                    </ListItem>
+                    <Divider component="li" />
+                    <ListItem button component={Link} to={"/d/" + danisan.name}>
+                      <ListItemAvatar>
+                      <Avatar src={danisan.url} />
+                      </ListItemAvatar>
+                      <ListItemText primary={danisan.name} />
+                      {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
+                    </ListItem>
+                    <Divider component="li" />
                   </span>
                 )
               })}  
