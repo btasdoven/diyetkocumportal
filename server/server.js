@@ -78,6 +78,7 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName", (req, res, next) => {
 const users = [
   { id: 5, username: 'demo', password: '1234' },
   { id: 6, username: 'berfu', password: '1234' },
+  { id: 7, username: 'dyt.kubra_aydin', password: '12341234' },
 ];
 
 app.post("/api/v1/users/auth", (req, res, next) => {
