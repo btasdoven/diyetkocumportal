@@ -226,6 +226,9 @@ class Envanter extends React.Component {
         <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
           KAYDET
         </Button>
+        {/* <Button style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<ShareIcon />}>
+          DANIŞAN İLE PAYLAŞ
+        </Button> */}
         <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
 
         { showLoader && renderLoadingButton(classes) }

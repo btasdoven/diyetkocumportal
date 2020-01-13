@@ -142,10 +142,13 @@ class Sidebar extends React.Component {
                 <ChatIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Mesajlarım</Typography>
-              <ListItemSecondaryAction>
-                <Badge badgeContent={2} color="secondary">
-                </Badge>
-              </ListItemSecondaryAction>
+              { 
+                this.state.user.id == 5 && 
+                <ListItemSecondaryAction>
+                  <Badge badgeContent={2} color="secondary">
+                  </Badge>
+                </ListItemSecondaryAction>
+              }
             </ListItem>
 
             <ListItem button component={Link} to='/r' selected={location.pathname === '/r'}>
