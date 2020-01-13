@@ -3,9 +3,7 @@ const stringHash = require("string-hash");
 
 const rows = {
   0: {
-    'links': {
-
-    }
+    'links': { }
   },
   5: {
     messagePreviews: {
@@ -164,19 +162,24 @@ async function start() {
     await storage.init({ dir: 'stg', logging: true });
 
     if (process.env.PORT == undefined) {
+      // localhost testing. reinit the db
+      //
       await storage.clear();
       users.forEach(async (user) => {
         await storage.setItem(user.id.toString(), rows[user.id] || {});
       });
     }
     
+    // Retrieve the data from db to memory
+    //
     await storage.forEach(async function(datum) {
       rows[datum.key] = datum.value;
     });
     
-    console.log(rows)
+    // For backward compatibility. 
+    // Iterate over all the clients and initialize their unique links.
+    //
     Object.keys(rows).forEach((id) => {
-      console.log(id, rows[id])
       if (id == 0 || rows[id].danisans == undefined)
         return;
 
@@ -188,11 +191,10 @@ async function start() {
             danisanUserName: danisanUserName
           }
         }
-      })
-    })
+      });
+    });
 
     await storage.setItem('0', rows[0]);
-    console.log(rows[0])
 }
 
 start();
@@ -200,21 +202,14 @@ start();
 exports.loginUser = function(uname, pwd) {
   console.log('loginUser');
   console.log(uname)
-  console.log(pwd)
 
   for (let i in users) {
-    console.log(users[i])
-    console.log(uname == users[i].username)
-    console.log(pwd == users[i].password)
-
     if (uname == users[i].username && pwd == users[i].password) {
-      console.log(users[i].username)
       // First login?
       //
       if (rows[users[i].id] == undefined) {
         rows[users[i].id] = {}
         storage.setItem(users[i].id.toString(), rows[users[i].id]);
-        console.log(rows[users[i].id])
       }
 
       return users[i]
@@ -321,8 +316,8 @@ exports.putDanisanDietList = function (userId, danisanUserName, danisanDietList)
   storage.setItem(userId, rows[userId]);
 }
 
-exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
-  console.log('addDanisan')
+exports.postAddDanisan = function (userId, danisanUserName, danisanPreview) {
+  console.log('postAddDanisan')
   console.log(danisanUserName)
   console.log(danisanPreview);
 
@@ -347,9 +342,6 @@ exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
     ...danisanPreview, 
   };
 
-  console.log(rows[userId].danisanPreviews[danisanUserName]);
-  console.log(rows[userId].danisans[danisanUserName]);
-
   rows[0].links[stringHash(userId + danisanUserName)] = {
     userId: userId,
     danisanUserName: danisanUserName
@@ -358,179 +350,3 @@ exports.addDanisan = function (userId, danisanUserName, danisanPreview) {
   storage.setItem(userId, rows[userId]);
   storage.setItem('0', rows[0]);
 }
-
-// exports.putLikes = function (userId, kim, kimi, commentIdx, val) {
-//   console.log('putLikes');
-//   console.log(kim);
-//   console.log(kimi);
-//   console.log(commentIdx);
-//   console.log(val);
-
-//   oldVal = { liked: false, disliked: false };
-
-//   if (!rows[userId].likes) {
-//     rows[userId].likes = {
-//       [kim]: { [kimi] : {[commentIdx]: val}}
-//     }
-//   } else if (!rows[userId].likes[kim]) {
-//     rows[userId].likes[kim] = { 
-//       [kimi]: { 
-//         [commentIdx]: val 
-//       }
-//     };
-//   } else if (!rows[userId].likes[kim][kimi]) {
-//     rows[userId].likes[kim][kimi] = { 
-//       [commentIdx]: val
-//     };
-//   } else {
-//     oldVal = rows[userId].likes[kim][kimi][commentIdx];
-//     rows[userId].likes[kim][kimi][commentIdx] = val
-//   }
-
-//   if (!oldVal) {
-//     oldVal = { liked: false, disliked: false };
-//   }
-
-//   likedChange = oldVal.liked 
-//   ? (val.liked ? 0 : -1)
-//   : (val.liked ? 1 : 0);
-//   dislikedChange = oldVal.disliked 
-//   ? (val.disliked ? 0 : -1)
-//   : (val.disliked ? 1 : 0);
-  
-//   console.log(rows[userId].envanter[kimi].comments[commentIdx]);
-
-//   rows[userId].envanter[kimi].comments[commentIdx] = {
-//     ...rows[userId].envanter[kimi].comments[commentIdx],
-//     like: (rows[userId].envanter[kimi].comments[commentIdx].like || 0) + likedChange,
-//     dislike: (rows[userId].envanter[kimi].comments[commentIdx].dislike || 0) + dislikedChange,
-//   }
-
-//   console.log(rows[userId].envanter[kimi].comments[commentIdx]);
-
-//   storage.setItem(userId, rows[userId]);
-// }
-
-// exports.putClaim = function (userId, user) {
-//   console.log('putClaim');
-
-//   if (!rows[userId].envanter[user]) {
-//     rows[userId].envanter[user] = {};
-//   }
-  
-//   rows[userId].envanter[user].isClaimed = true;
-
-//   storage.setItem(userId, rows[userId]);
-// }
-
-// exports.putEnvanter = function (userId, user, val) {
-//   console.log('putEnvanter');
-//   console.log(val);
-//   if (!rows[userId].envanter[user]) {
-//     rows[userId].envanter[user] = {};
-//   }
-  
-//   if (!rows[userId].envanter[user].comments) {
-//     rows[userId].envanter[user].comments = [];
-//   }
-
-//   rows[userId].envanter[user].comments.push(val);
-
-//   storage.setItem(userId, rows[userId]);
-// }
-
-// exports.getEnvanter = function (userId, user) {
-//   console.log('getEnvanter');
-//   console.log(user)
-
-//   var ret = rows[userId].envanter[user];
-
-//   return ret == undefined ? { comments: [] } : ret;
-// }
-
-// exports.putDiary = function (userId, date, val) {
-//   console.log('putDiary');
-//   console.log(date);
-
-//   rows[userId].diaries[date] = val;
-//   storage.setItem(userId, rows[userId]);
-// }
-
-// exports.getDiary = function (userId, date) {
-//   console.log('getDiary');
-//   console.log(date);
-
-//   var ret = rows[userId].diaries[date];
-
-//   return ret == undefined ? { entries: [] } : ret;
-// }
-
-// exports.getMaterials =  function (userId, materialId) {
-//   console.log('getMaterials');
-//   console.log(materialId);
-  
-//   if (materialId == undefined) {
-//     return rows[userId].materialHeaders;
-//   }
-
-//   return { [materialId] : rows[userId].materials[materialId] };
-// }
-
-// exports.setMaterialPart = function (userId, materialId, partId, values) {
-//     console.log('setMaterial');
-//     rows[userId].materials[materialId].data[partId].value = values.value;
-
-//     storage.setItem(userId, rows[userId]);
-//     //console.log(rows[userId].materials[materialId]);
-// }
-
-// exports.getAllFieldList = function(id) {
-//   console.log('getAllFieldList');
-//   return rows[id].allFieldList;
-// }
-
-// exports.getGroups =  function (id, groupId) {
-//   console.log('getGroups');
-//   console.log(groupId); 
-  
-//   if (groupId == undefined) {
-//     console.log("group id undefined")
-//     return rows[id].groups;
-//   }
-
-//   return { [groupId] : rows[id].groups[groupId] };
-// }
-
-// exports.getFields =  function (id, fieldId) {
-//     console.log('getFields');
-//     console.log(rows[id].fields);
-//     return rows[id].fields[fieldId];
-// }
-
-// exports.getLink =  function (id, linkId) {
-//     console.log('getLink');
-//     if (!row[id].fields[linkId].shareLink) {
-//       console.log("incorrect link request " + id + " " + linkId)
-//     }
-    
-//     return rows[id].fields[linkId];
-// }
-
-// exports.setFields = function (id, fieldId, value) {
-//     console.log('setFields');
-//     rows[id].fields[fieldId] = value;
-//     rows[id].allFieldList[fieldId] = true;
-//     // var fieldData = rows[id].fields[fieldId].data;
-
-//     // Object.keys(fieldData).forEach((fieldId) => {
-//     //   if (fieldData[fieldId].type == 'link') {
-//     //     var refFieldId = fieldData[fieldId].link;
-//     //     var refGroup = refFieldId.split('/')[0];
-//     //     fieldData[fieldId].value = rows[id].fields[refGroup].data[refFieldId].value;
-//     //   }
-//     // });
-
-//     storage.setItem(id, rows[id]);
-//     console.log(rows[id].fields[fieldId]);
-// }
-  
