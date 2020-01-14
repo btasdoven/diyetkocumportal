@@ -59,6 +59,7 @@ app.put("/api/v1/users/:userId/appointments/:date/times/:time", (req, res, next)
 app.get("/api/v1/users/:userId/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
+    console.log(req.params)
     res.json(dal.getDietitianProfile(getUserId(req.params.userId)));
   }), delayInResponseInMs);
 });
