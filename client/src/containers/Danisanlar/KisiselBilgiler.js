@@ -54,7 +54,7 @@ import Menu from '@material-ui/core/Menu';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-import DateTimePicker from '../../components/DateTimePicker'
+import { DatePickerInput } from '../../components/DateTimePicker'
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -306,7 +306,7 @@ class Envanter extends React.Component {
 
                 <Grid container spacing={2}>
                   <Grid item xs={6} sm={6} md={3} lg={3}>
-                    <Field name='birthday' label="Doğum tarihi" component={DateTimePicker} />
+                    <Field name='birthday' label="Doğum tarihi" component={DatePickerInput} />
                     {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
                   </Grid>
                   <Grid item xs={6} sm={6} md={3} lg={3}>

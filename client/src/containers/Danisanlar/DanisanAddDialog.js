@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DateTimePicker from '../../components/DateTimePicker'
+import { DatePickerInput } from '../../components/DateTimePicker'
 import Typography from "@material-ui/core/Typography";
 
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -188,7 +188,7 @@ class FieldDialog extends React.Component {
                             InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} 
                         />
 
-                        <Field fullWidth margin="normal" name='birthday' label="Doğum tarihi" component={DateTimePicker} />
+                        <Field fullWidth margin="normal" name='birthday' label="Doğum tarihi" component={DatePickerInput} />
 
                         {createSelect('cinsiyet', 'Cinsiyeti', false, 
                             [

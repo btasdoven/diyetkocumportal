@@ -3,12 +3,16 @@ import PropTypes from 'prop-types'
 import { I18n, Translate } from 'react-redux-i18n'
 import classnames from 'classnames'
 import 'react-datepicker/dist/react-datepicker.css'
-import { MuiPickersUtilsProvider, KeyboardDatePicker, DatePicker  } from '@material-ui/pickers'
+import { MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardDateTimePicker  } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import MomentUtils from "@date-io/moment";
+import enLocale from "date-fns/locale/en-US";
+import moment from "moment";
 
-class DatePickerInput extends PureComponent {
+moment.locale('tr')
+class _DatePickerInput extends PureComponent {
   render () {
     const { input, label, className, meta: { error, touched }, required, ...rest } = this.props
 
@@ -19,7 +23,7 @@ class DatePickerInput extends PureComponent {
             autoOk
             fullWidth
             clearable
-            disableFuture={true}
+            disableFuture={rest.disableFuture || true}
             placeholder="19.05.1919"
             format="dd.MM.yyyy"
             label={label}
@@ -33,16 +37,35 @@ class DatePickerInput extends PureComponent {
   }
 }
 
-DatePickerInput.propTypes = {
-  className: PropTypes.string.isRequired,
-  input: PropTypes.object.isRequired,
-  meta: PropTypes.object.isRequired,
-  required: PropTypes.bool
-}
+class _StaticDatePickerInput extends PureComponent {
+    render () {
+      const { input, label, defaultValue, className, required, ...rest } = this.props
+  
+      console.log(this.props)
 
-DatePickerInput.defaultProps = {
-  className: 'form-control',
-  required: false
-}
+      return (
+          <KeyboardDatePicker
+              {...rest}
+              maxDate={moment().add(2, 'month').toDate()}
+              autoOk
+              fullWidth
+              clearable
+              variant="static"
+              disableFuture={false}
+              disablePast={true}
+              placeholder="19.05.1919"
+              format="dd.MM.yyyy"
+              label={label}
+              invalidDateMessage={"Geçersiz tarih"}
+              InputLabelProps={{shrink: true}}
+              disableToolbar={true}
+              views={["year", "month", "date"]}
+              //className={classnames(className, { 'form-control-danger': error })}
+              onChange={(date) => this.props.onChange(date)}
+              value={this.props.value || null} />
+      )
+    }
+  }
 
-export default DatePickerInput
+ export const DatePickerInput = _DatePickerInput;
+ export const StaticDatePickerInput = _StaticDatePickerInput;

@@ -22,7 +22,7 @@ import MesajList from "./containers/Mesajlar/MesajList";
 import DanisanView from "./containers/Danisanlar/DanisanView";
 import DanisanList from "./containers/Danisanlar/DanisanList";
 import AnaSayfaView from "./containers/AnaSayfa/AnaSayfa";
-import LandingPage from "./containers/LandingPage";
+import NewRandevu from "./containers/Randevu/NewRandevu";
 import NotImplementedYet from './containers/NotImplementedYet'
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -33,8 +33,11 @@ import MaterialList from "./containers/MyStorage/MaterialList"
 import withWidth from '@material-ui/core/withWidth';
 import withTracker from './components/Signin/PageTracker'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns';
 import { SnackbarProvider } from 'material-ui-snackbar-provider'
+
+import DateFnsUtils from '@date-io/date-fns';
+import trLocale from "date-fns/locale/tr";
+
 
 const NotFound = () => {
   return <div>NotFound</div>;
@@ -78,7 +81,7 @@ class App extends Component {
 
     return (
       <MuiThemeProvider theme={settings.theme}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={trLocale}>
           <SnackbarProvider SnackbarProps={{ autoHideDuration: 3000 }}>
             <CssBaseline />
             <div style={{ height: "100vh" }}>
@@ -91,8 +94,8 @@ class App extends Component {
                     <DashboardRoute exact path="/m" component={MesajList} />
                     <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
+                    <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
                     <DashboardRoute path="/me" component={MyProfile} />
-                    <DashboardRoute path="/d/:diyetisyenUserName" component={MyProfile} />
                     <DashboardRoute path="/r" component={NotImplementedYet} />
                     <DashboardRoute path="/f" component={NotImplementedYet} />
                     <DashboardRoute path="/kd" component={NotImplementedYet} />
@@ -101,6 +104,7 @@ class App extends Component {
                   </Switch>
                 ) : (
                   <Switch>
+                    <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
                     <EmptyRoute path="/signup" component={Register} />
                     <EmptyRoute path="/signin" component={Signin} />
                     <Route exact path="/" render={() => <Redirect to="/signin" />} />

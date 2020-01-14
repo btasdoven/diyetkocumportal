@@ -109,11 +109,12 @@ class Header extends React.Component  {
               //onClick={() => this.props.history.goBack()}
               component={Link}
               to={this.props.backButton}
+              onClick={this.props.onBackButtonClick}
             >
               <ExpandMoreIcon />
             </IconButton>
           )}
-          {!this.props.backButton && (
+          {!this.props.backButton && this.props.noButton != true && (
             <IconButton
               className={classes.menuButton}
               onClick={() => this.props.handleOpenDrawer()}
@@ -135,11 +136,13 @@ class Header extends React.Component  {
             {this.props.title || getPageTitle(this.props) || ''}
           </Typography>
 
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          {this.props.noButton != true && (
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          )}
           {/* <IconButton onClick={this.handleClick} color="inherit">
             <Badge badgeContent={1} color="secondary">
               <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

@@ -129,7 +129,6 @@ const ReduxFormCheckBox = ({name, label, ...props}) => (
 const renderCheckBox = props => {
   const { input, label, ...rest } = props;
 
-  console.log(label, input)
   return (
       <FormControlLabel
         control={<Checkbox 
@@ -256,15 +255,11 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
-
     var loaded = this.props.apiDietitianProfile != undefined &&
       this.props.apiDietitianProfile[this.state.userId] != undefined &&
       this.props.apiDietitianProfile[this.state.userId].isGetLoading != true &&
       this.props.apiDietitianProfile[this.state.userId].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
 
@@ -275,7 +270,6 @@ class Envanter extends React.Component {
   }
 
   onSubmitInternal(formValues) {
-      console.log(formValues);
       this.props.putDietitianProfile(this.state.userId, formValues);
   }
 
@@ -288,8 +282,6 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
 
@@ -391,7 +383,7 @@ class Envanter extends React.Component {
                 </Typography>
 
                 <div className={classes.rootLoading}>
-                  <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için aşağıdaki linki onlarla paylaşabilirsiniz:</Typography>
+                  <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için aşağıdaki linki onlarla paylaşabilirsiniz ya da instagram profilinize ekleyebilirsiniz:</Typography>
                 </div>
 
                 <Chip
