@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -386,16 +387,18 @@ class Envanter extends React.Component {
                   <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için aşağıdaki linki onlarla paylaşabilirsiniz ya da instagram profilinize ekleyebilirsiniz:</Typography>
                 </div>
 
-                <Chip
-                  //avatar={<Avatar>M</Avatar>}
-                  label={"https://v2.diyetkocum.net/d/" + this.state.user.username}
-                  clickable
-                  color="primary"
-                  onClick={this.handleLinkCopied}
-                  onDelete={this.handleLinkCopied}
-                  deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
-                  variant="outlined"
-                />
+                <CopyToClipboard text={"https://v2.diyetkocum.net/d/" + this.state.user.username} >
+                  <Chip
+                    //avatar={<Avatar>M</Avatar>}
+                    label={"https://v2.diyetkocum.net/d/" + this.state.user.username}
+                    clickable
+                    color="primary"
+                    onClick={this.handleLinkCopied}
+                    onDelete={this.handleLinkCopied}
+                    deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
+                    variant="outlined"
+                  />
+                </CopyToClipboard>
               </div>
 
               <div style={{margin: '8px'}}>
