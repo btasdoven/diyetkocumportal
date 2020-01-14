@@ -34,6 +34,33 @@ const rows = {
     }
   },
   'demo': {
+    
+    profile: {
+      '08:00 - 08:30': true,
+      '08:30 - 09:00': true,
+      '09:00 - 09:30': true,
+      '09:30 - 10:00': true,
+      '10:00 - 10:30': true,
+      '10:30 - 11:00': true,
+      '11:00 - 11:30': true,
+      '11:30 - 12:00': true,
+      '13:00 - 13:30': true,
+      '13:30 - 14:00': true,
+      '14:00 - 14:30': true,
+      '14:30 - 15:00': true,
+      '15:00 - 15:30': true,
+      '15:30 - 16:00': true,
+      '16:00 - 16:30': true,
+      '16:30 - 17:00': true,
+      'Pazartesi': true,
+      'Salı': true,
+      'Çarşamba': true,
+      'Perşembe': true,
+      'Cuma': true,
+      name: 'Diyet Koçum Test', 
+      email: 'demo@diyetkocum.net', 
+      url: '/static/favicon.png'
+    },
     messagePreviews: {
       'Bilgin Aktaş': {
         name: 'Bilgin Aktaş', 
@@ -216,7 +243,7 @@ var taskResetStg = () => {
 var taskInitNewDietitians = () => {
   return asyncForEach(Object.keys(users), async (id) => {
     var r = await storage.getItem(id.toString());
-    if (JSON.stringify(r) == '{}') {
+    if (JSON.stringify(r) == '{}' || r == undefined) {
       r = { 
         profile: {
           ...rows[1].profile 

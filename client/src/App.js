@@ -37,6 +37,7 @@ import { SnackbarProvider } from 'material-ui-snackbar-provider'
 
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";
+import RandevuList from "./containers/Randevu/RandevuList";
 
 
 const NotFound = () => {
@@ -96,7 +97,7 @@ class App extends Component {
 
                     <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
                     <DashboardRoute path="/me" component={MyProfile} />
-                    <DashboardRoute path="/r" component={NotImplementedYet} />
+                    <DashboardRoute path="/r" component={RandevuList} />
                     <DashboardRoute path="/f" component={NotImplementedYet} />
                     <DashboardRoute path="/kd" component={NotImplementedYet} />
                     <Route path="/signin" render={() => <Redirect to="/" />} />
