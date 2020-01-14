@@ -17,6 +17,7 @@ export const userService = {
     get_dietitian_profile,
     put_dietitian_profile,
     get_dietitian_appointments,
+    put_dietitian_appointment,
 };
 
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
@@ -98,6 +99,20 @@ function get_dietitian_appointments(userId, date) {
     };
     
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/appointments/` + date, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function put_dietitian_appointment(userId, date, time, values) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/appointments/` + date + `/times/` + time, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 var cors = require('cors');
 const dal = require('./dal')
+const email = require('./email')
 
 const delayInResponseInMs = 50;
 
@@ -45,6 +46,13 @@ app.get("/api/v1/users/:userId/appointments/:date", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.getDietitianAppointmentInfo(getUserId(req.params.userId), req.params.date));
+  }), delayInResponseInMs);
+});
+
+app.put("/api/v1/users/:userId/appointments/:date/times/:time", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.putDietitianAppointmentInfo(getUserId(req.params.userId), req.params.date, req.params.time, req.body));
   }), delayInResponseInMs);
 });
 

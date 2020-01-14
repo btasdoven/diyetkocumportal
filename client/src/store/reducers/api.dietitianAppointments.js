@@ -52,7 +52,12 @@ export default function reducer(state = initState, action) {
         return {
           ...state,
           [action.userId]: {
+            ...state[action.userId],
+            [action.date]: {
+              isGetLoading: false,
               isPutLoading: true,
+              data: action.items,
+            },
           }
         };
 
@@ -83,21 +88,21 @@ export function getDietitianAppointments(userId, date) {
   function failure(error, userId, date) { return { type: DIETITIAN_APPOINTMENT_GET_ERRORED, userId, date, error } }
 }
 
-// export function putDietitianProfile(userId, dietitianProfile) {
-//     return (dispatch) => {
-//         dispatch(request(userId));
+export function putDietitianAppointment(userId, date, time, values) {
+    return (dispatch) => {
+        dispatch(request(userId, date, time));
 
-//         userService.put_dietitian_profile(userId, dietitianProfile)
-//         .then(
-//             (data) => { 
-//               getDietitianProfile(userId)(dispatch);
-//             },
-//             error => {
-//                 dispatch(failure(userId, error.toString()));
-//             }
-//         );
-//     };
+        userService.put_dietitian_appointment(userId, date, time, values)
+        .then(
+            (data) => { 
+              getDietitianAppointments(userId, date)(dispatch);
+            },
+            error => {
+                dispatch(failure(userId, date, time, error.toString()));
+            }
+        );
+    };
   
-//   function request(userId) { return { type: DIETITIAN_APPOINTMENT_PUT_LOADING, userId, isPutLoading: true } }
-//   function failure(userId, error) { return { type: DIETITIAN_APPOINTMENT_PUT_ERRORED, userId, error } }
-// }
+  function request(userId, date, time) { return { type: DIETITIAN_APPOINTMENT_PUT_LOADING, userId, date, time, isPutLoading: true } }
+  function failure(userId, date, time, error) { return { type: DIETITIAN_APPOINTMENT_PUT_ERRORED, userId, date, time, error } }
+}

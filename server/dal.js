@@ -1,5 +1,6 @@
 const storage = require('node-persist');
 const stringHash = require("string-hash");
+const email = require('./email')
 
 const rows = {
   0: {
@@ -225,11 +226,16 @@ async function start() {
       }
 
       //console.log(id, rows[id])
-      if (rows[id].profile == undefined) {
+      if (rows[id].profile == undefined || 
+          rows[id].profile.name == undefined) {
         // No profile is initialized yet. Init it based on model dieitian
         //
-        rows[id].profile = { ...rows[1].profile };
+        if (rows[id].profile == undefined) {
+          rows[id].profile = { ...rows[1].profile };
+        }
         rows[id].profile.email = users[id].email
+        rows[id].profile.name = users[id].name
+        rows[id].profile.url = users[id].url
         await storage.setItem(id.toString(), rows[id]);
       }
     });
@@ -274,6 +280,28 @@ exports.getDietitianAppointmentInfo = function (userId, date) {
     return {};
 
   return rows[userId].appointments[date];
+}
+
+exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
+  console.log('putDietitianAppointmentInfo');
+  console.log(userId, date, time);
+
+  if (rows[userId].appointments == undefined) {
+      rows[userId].appointments = {}
+  }
+
+  if (rows[userId].appointments[date] == undefined) {
+    rows[userId].appointments[date] = {}
+  }
+
+  rows[userId].appointments[date][time] = {
+    info: values,
+    status: 'pending'
+  }
+
+  email.sendEmail('btasdoven@gmail.com', 'new appointment set', JSON.stringify(rows[userId].appointments[date][time]))
+
+  storage.setItem(userId, rows[userId]);
 }
 
 exports.getMessagePreviews = function (userId) {

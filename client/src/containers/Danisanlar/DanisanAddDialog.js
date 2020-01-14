@@ -69,7 +69,7 @@ const renderTextField = ({
       margin="normal"
       fullWidth
       color="primary"
-      error={touched && error}
+      error={touched && error != undefined}
       helperText={touched && error ? error : undefined}
       InputLabelProps={{color: 'primary', shrink: true}}
     />

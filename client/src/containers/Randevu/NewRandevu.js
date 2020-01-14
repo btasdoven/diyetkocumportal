@@ -6,6 +6,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import moment from "moment";
 import Button from "@material-ui/core/Button";
@@ -29,7 +34,7 @@ import { withSnackbar } from 'material-ui-snackbar-provider'
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
-import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppointments';
+import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -253,11 +258,9 @@ class NewRandevuWrapper extends React.Component {
         this.onSubmitInternal = this.onSubmitInternal.bind(this)
 
         this.state = {
-          userId: JSON.parse(localStorage.getItem('user')).id,
-          user: JSON.parse(localStorage.getItem('user')),
+          userId: this.props.location.pathname.split('/')[2],
           date: new Date(),
           step: 1,
-          profile: { kilo: '73'}
         }
     }
 
@@ -271,7 +274,8 @@ class NewRandevuWrapper extends React.Component {
 
     onSubmitInternal(formValues) {
         console.log(formValues);
-        //this.props.putDanisanProfile(this.state.userId, this.props.danisanUserName, formValues);
+        this.setState({ step: 3, formValues: formValues})
+        this.props.putDietitianAppointment(this.state.userId, moment(this.state.date).format('YYYYMMDD'), this.state.time, formValues);
     }
 
     isLoaded() {
@@ -287,6 +291,8 @@ class NewRandevuWrapper extends React.Component {
         const { classes } = this.props;
         const showLoader = !this.isLoaded();
         console.log(this.state);
+        var user = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
+        console.log(user)
 
         return (
             <div className={classes.root}>
@@ -297,7 +303,7 @@ class NewRandevuWrapper extends React.Component {
                     onBackButtonClick={() => this.setState({step: 1})}
                     title={this.state.step == 1 
                         ? "RANDEVU TARİHİNİ SEÇ" 
-                        : this.state.step == 2 ? "BİLGİLERİNİ GİR" : "RANDEVUYU ONAYLA"}
+                        : this.state.step == 2 ? "BİLGİLERİNİ GİR" : ""}
                 />
                 <main>
                     <Form
@@ -309,14 +315,39 @@ class NewRandevuWrapper extends React.Component {
                             <Card className={classes.card}>
                                 <CardHeader
                                 avatar={
-                                    <Avatar className={classes.avatar} alt={this.state.user.name} src={this.state.user.url} />
+                                    <Avatar className={classes.avatar} alt={user.name} src={user.url} />
                                 }
-                                title={<Typography variant="h5" component="h2">{this.state.user.name}</Typography>}
+                                title={<Typography variant="h5" component="h2">{user.name}</Typography>}
                                 />
                             </Card>
                         )}
-                        { !showLoader && this.state.step == 1 && <NewRandevuStep1 date={this.state.date} onComplete={(date, time) => this.setState({date, time, step: 2})} {...this.props} /> }
-                        { !showLoader && this.state.step == 2 && <NewRandevuStep2 profile={this.state.profile} handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} {...this.props} /> }
+                        { !showLoader && this.state.step == 1 && 
+                            <NewRandevuStep1 
+                                {...this.props}
+                                userId={this.state.userId}
+                                date={this.state.date} 
+                                onComplete={(date, time) => this.setState({date, time, step: 2})}  
+                            /> 
+                        }
+                        { !showLoader && this.state.step == 2 && 
+                            <NewRandevuStep2 
+                                {...this.props}
+                                userId={this.state.userId}
+                                date={this.state.date} 
+                                time={this.state.time}
+                                handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
+                            /> 
+                        }
+                        { !showLoader && this.state.step == 3 && 
+                            <NewRandevuStep3 
+                                {...this.props}
+                                userId={this.state.userId}
+                                date={this.state.date} 
+                                time={this.state.time}
+                                formValues={this.state.formValues} 
+                                handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
+                            /> 
+                        }
                     </Form>
                 </main>
             </div>
@@ -334,7 +365,7 @@ class NewRandevuStep1 extends React.Component {
     this.handleTimeSelected = this.handleTimeSelected.bind(this);
     console.log(props)
     this.state = {
-      userId: JSON.parse(localStorage.getItem('user')).id,
+      userId: props.userId,
       date: props.date,
       dateFmt: moment(props.date).format('YYYYMMDD')
     }
@@ -397,7 +428,7 @@ class NewRandevuStep1 extends React.Component {
                     
                             var appts = this.props.apiDietitianAppointments[this.state.userId][this.state.dateFmt].data;
 
-                            if (appts[h] == true) {
+                            if (appts[h] != undefined) {
                                 return;
                             }
 
@@ -415,27 +446,51 @@ class NewRandevuStep1 extends React.Component {
     )}
 };
 
+
+const required = value => value ? undefined : 'Zorunlu'
+
 class NewRandevuStep2 extends React.Component {
 
     constructor(props) {
       super(props);
-  
-  
+        
       this.state = {
-        userId: JSON.parse(localStorage.getItem('user')).id,
-        user: JSON.parse(localStorage.getItem('user')),
+        userId: this.props.userId,
+        openDialog: false,
       }
     }
   
     componentDidMount() {
-        this.props.initialize(this.props.profile)
+        //this.props.initialize(this.props.profile)
     }
 
     render() {
       const { classes } = this.props;
-  
+        var user = this.props.apiDietitianProfile[this.state.userId].data;
+        console.log(this.props)
       return (
           <span>
+              <Dialog 
+                    open={this.state.openDialog} 
+                    onClose={() => this.setState({openDialog: false})}
+                >
+                    <DialogTitle id="form-dialog-title">Randevu isteğini onaylıyor musun?</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Seçtiğin randevu isteği <b>{user.name}</b> ile <b>{moment(this.props.date).format('D MMMM YYYY dddd')}</b> günü saat <b>{this.props.time}</b> arasındadır.
+                            Randevunun durumu diyetisyenin randevuyu onaylamasından sonra kesinleşecektir. Randevu isteğini göndermek istiyor musun?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({openDialog: false})} color="secondary">
+                            VAZGEÇ
+                        </Button>
+                        <Button onClick={this.props.handleFormSubmit} color="secondary" autoFocus>
+                            GÖNDER
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
                 <div style={{margin: '8px'}}>
                         <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                          KİŞİSEL BİLGİLER
@@ -443,10 +498,10 @@ class NewRandevuStep2 extends React.Component {
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6} md={6} lg={6}>
-                                <ReduxFormTextField name="name" label="Adın ve soyadın" />
+                                <ReduxFormTextField required validate={[required]} name="name" label="Adın ve soyadın" />
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6}>
-                                <ReduxFormTextField name="email" label="E-posta adresin" />
+                                <ReduxFormTextField required validate={[required]} name="email" label="E-posta adresin" />
                             </Grid>
                             <Grid item xs={6} sm={6} md={6} lg={6}>
                                 <ReduxFormTextField name="tel" label="Telefon numaran" />
@@ -476,10 +531,20 @@ class NewRandevuStep2 extends React.Component {
                                 />
                             </Grid>
                             <Grid item xs={3} sm={3} md={3} lg={3}>
-                                <ReduxFormTextField name="kilo" label="Kilon" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
+                                <ReduxFormTextField required validate={[required]} name="kilo" label="Kilon" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
                             </Grid>
                             <Grid item xs={3} sm={3} md={3} lg={3}>
-                                <ReduxFormTextField name="boy" label="Boyun" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
+                                <ReduxFormTextField required validate={[required]} name="boy" label="Boyun" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} lg={12}>
+                                <ReduxFormTextField name="notes" rows={3} label="Diyetisyene notların" multiline />
+                            </Grid>
+                        </Grid>
+                    </div>
+                    <div style={{margin: '16px'}}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12} md={12} lg={12}>
+                                <Button disabled={this.props.pristine || this.props.invalid} onClick={() => this.setState({openDialog: true})} variant="contained" color="primary">RANDEVU İSTEĞİNİ GÖNDER</Button>
                             </Grid>
                         </Grid>
                     </div>
@@ -494,8 +559,7 @@ class NewRandevuStep3 extends React.Component {
   
   
       this.state = {
-        userId: JSON.parse(localStorage.getItem('user')).id,
-        user: JSON.parse(localStorage.getItem('user')),
+        userId: this.props.userId,
       }
     }
   
@@ -507,11 +571,7 @@ class NewRandevuStep3 extends React.Component {
                 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '48px', marginBottom: '8px'}} color="primary" variant="body2" display="block" gutterBottom>
-                    Seçtiğin randevu isteği diyetisyen <b>{this.state.user.name}</b> ile <b>{moment(this.props.date).format('D MMMM YYYY dddd')}</b> günü saat <b>{this.props.time}</b> arasındadır.
-                </Typography>
-                
-                <Typography style={{marginTop: '8px', marginBottom: '8px'}} color="primary" variant="body2" display="block" gutterBottom>
-                    Randevunun durumu diyetisyenin randevuyu onaylamasından sonra kesinleşecektir. Randevu isteğini göndermek istiyor musun?
+                    Randevu isteğin başarıyla gönderildi. İsteğin diyetisyen tarafından onaylandığında {this.props.formValues.email} adresine e-posta gelecektir.
                 </Typography>
 
               </div>
@@ -530,7 +590,8 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getDietitianProfile: (userId) => getDietitianProfile(userId),
-      getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date)
+      getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date),
+      putDietitianAppointment: (userId, date, time, values) => putDietitianAppointment(userId, date, time, values),
     },
     dispatch
   );
@@ -539,4 +600,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'DiyetisyenProfileForm', enableReinitialize: true })(withStyles(styles)(withSnackbar()(NewRandevuWrapper))));
+)(reduxForm({ form: 'DiyetisyenNewRandevuForm', enableReinitialize: true })(withStyles(styles)(withSnackbar()(NewRandevuWrapper))));
