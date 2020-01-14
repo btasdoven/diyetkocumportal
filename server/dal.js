@@ -189,6 +189,12 @@ const users = {
   'dyt.merveakyuzlu': { id: 'dyt.merveakyuzlu', username: 'dyt.merveakyuzlu', name: 'Merve Akar Akyüzlü', password: '1234', email: 'dyt.merveakyuzlu@gmail.com', url: 'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/69278902_2663850470402012_3198876360567160832_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=5aRHGmwWMWAAX_dCoMO&oh=debc845dfbe2ef3676b3d3b63b043e98&oe=5EBB038C' },
 };
 
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
 async function start() {
     await storage.init({ dir: 'stg', logging: true });
 
@@ -196,22 +202,37 @@ async function start() {
       // localhost testing. reinit the db
       //
       await storage.clear();
-      Object.keys(users).forEach(async (id) => {
+      await asyncForEach(Object.keys(users), async (id) => {
         await storage.setItem(id.toString(), rows[id] || {});
       });
     }
     
+    await asyncForEach(Object.keys(users), async (id) => {
+      var r = await storage.getItem(id.toString());
+      if (JSON.stringify(r) == '{}') {
+        r = { 
+          profile: {
+            ...rows[1].profile 
+          }
+        };
+        
+        r.profile.email = users[id].email
+        r.profile.name = users[id].name
+        r.profile.url = users[id].url
+        await storage.setItem(id.toString(), r);
+      }
+    });
+    
     // Retrieve the data from db to memory
     //
     await storage.forEach(async function(datum) {
-      console.log(datum)
       rows[datum.key] = datum.value;
     });
-    
+
     // For backward compatibility. 
     // Iterate over all the clients and initialize their unique links.
     //
-    await Object.keys(rows).forEach(async (id) => {
+    await asyncForEach(Object.keys(rows), async (id) => {
       if (id == 0 || id == 1)
         return;
 
@@ -243,6 +264,8 @@ async function start() {
     });
 
     await storage.setItem('0', rows[0]);
+    
+    console.log(rows)
 }
 
 start();
