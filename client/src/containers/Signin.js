@@ -109,7 +109,7 @@ const Signin = props => {
         <Avatar className={classes.avatar} >
           <LockIcon />
         </Avatar>
-        <Typography component="h2" variant="h5">
+        <Typography style={{textAlign:'center'}} component="h2" variant="h5">
           Diyet Koçum Portalına Giriş
         </Typography>
 

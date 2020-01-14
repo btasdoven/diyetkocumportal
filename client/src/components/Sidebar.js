@@ -109,7 +109,7 @@ class Sidebar extends React.Component {
           </List>
           <Collapse in={this.state.openProfileMenu} timeout="auto" unmountOnExit>
             <List dense={true}>
-              <ListItem button >
+              <ListItem button component={Link} to='/me' selected={location.pathname === '/me'}>
                 <Typography variant="overline">PROFİLİM</Typography>
               </ListItem>
               <ListItem button >
@@ -130,7 +130,7 @@ class Sidebar extends React.Component {
               <Typography variant="overline">Ana Sayfa</Typography>
             </ListItem> */}
               
-            <ListItem button component={Link} to='/d' selected={location.pathname === '/d'}>
+            <ListItem button component={Link} to='/c' selected={location.pathname === '/c'}>
               <ListItemIcon>
                 <PeopleIcon color="primary"/>
               </ListItemIcon>

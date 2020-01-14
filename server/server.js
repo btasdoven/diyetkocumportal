@@ -26,6 +26,20 @@ app.get("/api/v1/users/:userId/danisanPreviews", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
+app.get("/api/v1/users/:userId/profile", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getDietitianProfile(req.params.userId));
+  }), delayInResponseInMs);
+});
+
+app.put("/api/v1/users/:userId/profile", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.putDietitianProfile(req.params.userId, req.body));
+  }), delayInResponseInMs);
+});
+
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

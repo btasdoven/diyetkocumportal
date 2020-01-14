@@ -5,6 +5,33 @@ const rows = {
   0: {
     'links': { }
   },
+  // model diyetisyen
+  //
+  1: {
+    profile: {
+      '08:00 - 08:30': true,
+      '08:30 - 09:00': true,
+      '09:00 - 09:30': true,
+      '09:30 - 10:00': true,
+      '10:00 - 10:30': true,
+      '10:30 - 11:00': true,
+      '11:00 - 11:30': true,
+      '11:30 - 12:00': true,
+      '13:00 - 13:30': true,
+      '13:30 - 14:00': true,
+      '14:00 - 14:30': true,
+      '14:30 - 15:00': true,
+      '15:00 - 15:30': true,
+      '15:30 - 16:00': true,
+      '16:00 - 16:30': true,
+      '16:30 - 17:00': true,
+      'Pazartesi': true,
+      'Salı': true,
+      'Çarşamba': true,
+      'Perşembe': true,
+      'Cuma': true
+    }
+  },
   5: {
     messagePreviews: {
       'Bilgin Aktaş': {
@@ -152,11 +179,11 @@ const rows = {
   }
 };
 
-const users = [
-  { id: 5, username: 'demo', name: 'Diyet Koçum Test', password: '1234', url: '/static/favicon.png' },
-  { id: 6, username: 'dyt.kubra_aydin', name: 'Kübra Aydın', password: '1234', url: 'https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.2885-19/s150x150/79369500_2619425271482161_1159096052670791680_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_ohc=_ZSwjUzpLQcAX-ZZBKU&oh=29310039c3379c1e71f5e6d008fc525d&oe=5E98B832' },
-  { id: 7, username: 'dyt_ezelkavadar', name: 'Ezel Kavadar', password: '1234', url: 'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/65535962_411795416090543_708510732999720960_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=-CRizYY6VPwAX82G5qH&oh=75c5e5b1629d904afafbe3da693681bc&oe=5E9FC51C' },
-];
+const users = {
+  5: { id: 5, username: 'demo', name: 'Diyet Koçum Test', password: '1234', email: 'demo@diyetkocum.net', url: '/static/favicon.png' },
+  6: { id: 6, username: 'dyt.kubra_aydin', name: 'Kübra Aydın', password: '1234', email: '', url: 'https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.2885-19/s150x150/79369500_2619425271482161_1159096052670791680_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_ohc=_ZSwjUzpLQcAX-ZZBKU&oh=29310039c3379c1e71f5e6d008fc525d&oe=5E98B832' },
+  7: { id: 7, username: 'dyt_ezelkavadar', name: 'Ezel Kavadar', password: '1234', email: 'diyetisyenezelkavadar@gmail.com', url: 'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/65535962_411795416090543_708510732999720960_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=-CRizYY6VPwAX82G5qH&oh=75c5e5b1629d904afafbe3da693681bc&oe=5E9FC51C' },
+};
 
 async function start() {
     await storage.init({ dir: 'stg', logging: true });
@@ -165,33 +192,45 @@ async function start() {
       // localhost testing. reinit the db
       //
       await storage.clear();
-      users.forEach(async (user) => {
-        await storage.setItem(user.id.toString(), rows[user.id] || {});
+      Object.keys(users).forEach(async (id) => {
+        await storage.setItem(id.toString(), rows[id] || {});
       });
     }
     
     // Retrieve the data from db to memory
     //
     await storage.forEach(async function(datum) {
+      console.log(datum)
       rows[datum.key] = datum.value;
     });
     
     // For backward compatibility. 
     // Iterate over all the clients and initialize their unique links.
     //
-    Object.keys(rows).forEach((id) => {
-      if (id == 0 || rows[id].danisans == undefined)
+    await Object.keys(rows).forEach(async (id) => {
+      if (id <= 1)
         return;
 
-      Object.keys(rows[id].danisans).forEach(function(danisanUserName) {
-        var hash = stringHash(id + danisanUserName)
-        if (rows[0].links[hash] == undefined) {
-          rows[0].links[hash] = {
-            userId: id,
-            danisanUserName: danisanUserName
+      if (rows[id].danisans != undefined) {
+        Object.keys(rows[id].danisans).forEach(function(danisanUserName) {
+          var hash = stringHash(id + danisanUserName)
+          if (rows[0].links[hash] == undefined) {
+            rows[0].links[hash] = {
+              userId: id,
+              danisanUserName: danisanUserName
+            }
           }
-        }
-      });
+        });
+      }
+
+      //console.log(id, rows[id])
+      if (rows[id].profile == undefined) {
+        // No profile is initialized yet. Init it based on model dieitian
+        //
+        rows[id].profile = { ...rows[1].profile };
+        rows[id].profile.email = users[id].email
+        await storage.setItem(id.toString(), rows[id]);
+      }
     });
 
     await storage.setItem('0', rows[0]);
@@ -203,16 +242,22 @@ exports.loginUser = function(uname, pwd) {
   console.log('loginUser');
   console.log(uname)
 
-  for (let i in users) {
-    if (uname == users[i].username && pwd == users[i].password) {
+  for (let id in users) {
+    var user = users[id];
+    if (uname == user.username && pwd == user.password) {
       // First login?
       //
-      if (rows[users[i].id] == undefined) {
-        rows[users[i].id] = {}
-        storage.setItem(users[i].id.toString(), rows[users[i].id]);
+      if (rows[id] == undefined) {
+        rows[id] = { ...rows[1] };
+        storage.setItem(id.toString(), rows[id]);
       }
 
-      return users[i]
+      if (rows[id].profile.email == undefined) {
+        rows[id].profile.email = user.email;
+        storage.setItem(id.toString(), rows[id]);
+      }
+
+      return user
     }
   }
 
@@ -229,6 +274,21 @@ exports.getDanisanPreviews = function (userId) {
   console.log('getDanisanPreviews');
 
   return rows[userId].danisanPreviews;
+}
+
+exports.getDietitianProfile = function (userId) {
+  console.log('getDietitianProfile');
+
+  return rows[userId].profile || {};
+}
+
+exports.putDietitianProfile = function (userId, dietitianProfile) {
+  console.log('putDietitianProfile');
+  console.log(dietitianProfile);
+
+  rows[userId].profile = dietitianProfile;
+
+  storage.setItem(userId, rows[userId]);
 }
 
 exports.getDanisanProfile = function (userId, danisanUserName) {

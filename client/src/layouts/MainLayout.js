@@ -37,7 +37,8 @@ const styles = theme => ({
 class MainLayout extends Component {
   state = {
     open: false,
-    titleFromComp: undefined
+    titleFromComp: undefined,
+    userId: JSON.parse(localStorage.getItem('user')).id
   };
 
   handleOpenDrawer = () => {
@@ -89,7 +90,7 @@ class MainLayout extends Component {
               [classes.contentShift]: this.props.permanentDrawer
             })}
           >
-            <Component {...rest} setTitle={(title) => this.setState({ titleFromComp: title })} />
+            <Component {...rest} userId={this.state.userId} setTitle={(title) => this.setState({ titleFromComp: title })} />
           </main>
         </div>
         

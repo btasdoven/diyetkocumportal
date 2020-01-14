@@ -13,7 +13,9 @@ export const userService = {
     get_danisan_notes,
     put_danisan_notes,
     get_danisan_diet_list,
-    put_danisan_diet_list
+    put_danisan_diet_list,
+    get_dietitian_profile,
+    put_dietitian_profile,
 };
 
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
@@ -82,6 +84,33 @@ function new_danisan(userId, newDanisanPreview) {
     };
     
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + newDanisanPreview.username, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function get_dietitian_profile(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/profile`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function put_dietitian_profile(userId, dietitianProfile) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dietitianProfile)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/profile`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

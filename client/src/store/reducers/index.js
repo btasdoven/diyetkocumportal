@@ -4,6 +4,7 @@ import auth from "./authenticate";
 import apiMessagePreviews from "./api.messagePreviews";
 import apiDanisanPreviews from "./api.danisanPreviews";
 import apiDanisanProfile from "./api.danisanProfile";
+import apiDietitianProfile from "./api.dietitianProfile";
 import apiDanisanNotes from "./api.danisanNotes";
 import apiDanisanDietList from './api.danisanDietList';
 import { combineReducers } from "redux";
@@ -18,6 +19,7 @@ const reducers = combineReducers({
   apiDanisanProfile,
   apiDanisanNotes,
   apiDanisanDietList,
+  apiDietitianProfile,
 });
 
 export default reducers;

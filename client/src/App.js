@@ -23,6 +23,7 @@ import DanisanView from "./containers/Danisanlar/DanisanView";
 import DanisanList from "./containers/Danisanlar/DanisanList";
 import AnaSayfaView from "./containers/AnaSayfa/AnaSayfa";
 import LandingPage from "./containers/LandingPage";
+import NotImplementedYet from './containers/NotImplementedYet'
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MainLayout from "./layouts/MainLayout";
@@ -33,6 +34,7 @@ import withWidth from '@material-ui/core/withWidth';
 import withTracker from './components/Signin/PageTracker'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
+import { SnackbarProvider } from 'material-ui-snackbar-provider'
 
 const NotFound = () => {
   return <div>NotFound</div>;
@@ -77,33 +79,37 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={settings.theme}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <CssBaseline />
-          <div style={{ height: "100vh" }}>
-            <Router>
-              {localStorage.getItem('user') ? (
-                <Switch>
-                  <Route exact path="/" render={() => <Redirect to="/d" />} />
-                  <DashboardRoute exact path="/d" component={DanisanList} />
-                  <DashboardRoute exact backButton="/d" path="/d/:danisan" component={DanisanView} />
-                  <DashboardRoute exact path="/m" component={MesajList} />
-                  <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
+          <SnackbarProvider SnackbarProps={{ autoHideDuration: 3000 }}>
+            <CssBaseline />
+            <div style={{ height: "100vh" }}>
+              <Router>
+                {localStorage.getItem('user') ? (
+                  <Switch>
+                    <Route exact path="/" render={() => <Redirect to="/c" />} />
+                    <DashboardRoute exact path="/c" component={DanisanList} />
+                    <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
+                    <DashboardRoute exact path="/m" component={MesajList} />
+                    <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
-                  <DashboardRoute path="/r" component={MyProfile} />
-                  <DashboardRoute path="/f" component={MyProfile} />
-                  <DashboardRoute path="/kd" component={MyProfile} />
-                  <Route path="/signin" render={() => <Redirect to="/" />} />
-                  <EmptyRoute component={NotFound} />
-                </Switch>
-              ) : (
-                <Switch>
-                  <EmptyRoute path="/signup" component={Register} />
-                  <EmptyRoute path="/signin" component={Signin} />
-                  <Route exact path="/" render={() => <Redirect to="/signin" />} />
-                  <Redirect to="/" />
-                </Switch>
-              )}
-            </Router>
-          </div>
+                    <DashboardRoute path="/me" component={MyProfile} />
+                    <DashboardRoute path="/d/:diyetisyenUserName" component={MyProfile} />
+                    <DashboardRoute path="/r" component={NotImplementedYet} />
+                    <DashboardRoute path="/f" component={NotImplementedYet} />
+                    <DashboardRoute path="/kd" component={NotImplementedYet} />
+                    <Route path="/signin" render={() => <Redirect to="/" />} />
+                    <EmptyRoute component={NotFound} />
+                  </Switch>
+                ) : (
+                  <Switch>
+                    <EmptyRoute path="/signup" component={Register} />
+                    <EmptyRoute path="/signin" component={Signin} />
+                    <Route exact path="/" render={() => <Redirect to="/signin" />} />
+                    <Redirect to="/" />
+                  </Switch>
+                )}
+              </Router>
+            </div>
+          </SnackbarProvider>
         </MuiPickersUtilsProvider>
       </MuiThemeProvider>
     );

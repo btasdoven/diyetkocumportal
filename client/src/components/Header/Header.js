@@ -66,7 +66,9 @@ const getPageTitle = (props) => {
 
   if (pathname === '/') {
     return "ANA SAYFA"
-  } else if (pathname === '/d') {
+  } else if (pathname === '/me') {
+    return "PROFİLİM"
+  } else if (pathname === '/c') {
     return "DANIŞANLARIM"
   } else if (pathname === '/m') {
     return "MESAJLARIM"
@@ -77,10 +79,6 @@ const getPageTitle = (props) => {
   } else if (pathname === '/kd') {
     return "KAYITLI DİYETLERİM"
   }
-
-  // } else if (pathname.startsWith('/projects/')) {
-  //   return props.apiMaterialHeaders.items[props.match.params.projectId].id;
-  // }
 
   return undefined;
 }
