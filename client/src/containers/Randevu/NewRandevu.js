@@ -381,6 +381,10 @@ class NewRandevuStep1 extends React.Component {
       return loaded;
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
+
   handleOnDateChange(d) {
       console.log(d)
       var date = moment(d).format('YYYYMMDD')
@@ -461,7 +465,7 @@ class NewRandevuStep2 extends React.Component {
     }
   
     componentDidMount() {
-        //this.props.initialize(this.props.profile)
+        window.scrollTo(0, 0)
     }
 
     render() {
@@ -562,7 +566,11 @@ class NewRandevuStep3 extends React.Component {
         userId: this.props.userId,
       }
     }
-  
+
+    componentDidMount() {
+        window.scrollTo(0, 0)
+    }
+    
     render() {
       const { classes } = this.props;
   

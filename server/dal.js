@@ -195,80 +195,88 @@ async function asyncForEach(array, callback) {
   }
 }
 
-async function start() {
-    await storage.init({ dir: 'stg', logging: true });
 
-    if (process.env.PORT == undefined) {
-      // localhost testing. reinit the db
-      //
-      await storage.clear();
-      await asyncForEach(Object.keys(users), async (id) => {
+var taskInitStg = () => {
+  return storage.init({ dir: 'stg', logging: true })
+};
+
+var taskResetStg = () => {
+  if (process.env.PORT == undefined) {
+    // localhost testing. reinit the db
+    //
+    return storage.clear().then(() =>
+      asyncForEach(Object.keys(users), async (id) => {
         await storage.setItem(id.toString(), rows[id] || {});
-      });
-    }
-    
-    await asyncForEach(Object.keys(users), async (id) => {
-      var r = await storage.getItem(id.toString());
-      if (JSON.stringify(r) == '{}') {
-        r = { 
-          profile: {
-            ...rows[1].profile 
-          }
-        };
-        
-        r.profile.email = users[id].email
-        r.profile.name = users[id].name
-        r.profile.url = users[id].url
-        await storage.setItem(id.toString(), r);
-      }
-    });
-    
-    // Retrieve the data from db to memory
-    //
-    await storage.forEach(async function(datum) {
-      rows[datum.key] = datum.value;
-    });
+    }));
+  }
 
-    // For backward compatibility. 
-    // Iterate over all the clients and initialize their unique links.
-    //
-    await asyncForEach(Object.keys(rows), async (id) => {
-      if (id == 0 || id == 1)
-        return;
+  return Promise.resolve()
+};
 
-      if (rows[id].danisans != undefined) {
-        Object.keys(rows[id].danisans).forEach(function(danisanUserName) {
-          var hash = stringHash(id + danisanUserName)
-          if (rows[0].links[hash] == undefined) {
-            rows[0].links[hash] = {
-              userId: id,
-              danisanUserName: danisanUserName
-            }
-          }
-        });
-      }
-
-      //console.log(id, rows[id])
-      if (rows[id].profile == undefined || 
-          rows[id].profile.name == undefined) {
-        // No profile is initialized yet. Init it based on model dieitian
-        //
-        if (rows[id].profile == undefined) {
-          rows[id].profile = { ...rows[1].profile };
+var taskInitNewDietitians = () => {
+  return asyncForEach(Object.keys(users), async (id) => {
+    var r = await storage.getItem(id.toString());
+    if (JSON.stringify(r) == '{}') {
+      r = { 
+        profile: {
+          ...rows[1].profile 
         }
-        rows[id].profile.email = users[id].email
-        rows[id].profile.name = users[id].name
-        rows[id].profile.url = users[id].url
-        await storage.setItem(id.toString(), rows[id]);
-      }
-    });
+      };
+      
+      r.profile.email = users[id].email
+      r.profile.name = users[id].name
+      r.profile.url = users[id].url
+      return storage.setItem(id.toString(), r);
+    }
 
-    await storage.setItem('0', rows[0]);
-    
-    console.log(rows)
+    return Promise.resolve()
+  });
 }
 
+var taskInitRows = () => {
+  return storage.forEach(async function(datum) {
+    rows[datum.key] = datum.value;
+  });
+}
+
+
+async function start() {
+  var res = await startAsync()
+  console.log(res)
+}
+
+async function startAsync() {
+  console.log('begin start')
+
+  var tasks = [
+    taskInitStg,
+    taskResetStg,
+    taskInitNewDietitians,
+    taskInitRows
+  ];
+
+  return new Promise((resolve, reject) => {
+    var i = 0;
+    return tasks
+      .reduce(
+        (promiseChain, currentTask) => {
+          return promiseChain.then(chainResults => {
+            console.log("executing task", ++i)
+            return currentTask().then(currentResult =>
+              [ ...chainResults, currentResult ]
+            )
+          });
+        }, 
+        Promise.resolve([])
+      ).then(arrayOfResults => {
+        console.log('end start')
+        resolve(arrayOfResults)
+      })})
+}
+
+console.log('begin')
 start();
+console.log('end')
 
 exports.loginUser = function(uname, pwd) {
   console.log('loginUser');
