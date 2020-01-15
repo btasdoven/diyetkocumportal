@@ -108,6 +108,12 @@ const styles = theme => ({
       marginBottom: theme.spacing(2),
       //textAlign: 'center',
   },
+  text: {
+      height: "inherit",
+      width: '100%',
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+  },
 });
 
 function renderLoadingButton(classes) {
@@ -368,12 +374,23 @@ class Envanter extends React.Component {
                 </Typography>
 
                 <Grid container spacing={2}>
+                  
                   <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="email" label="E-posta adresiniz" />
+                    <div className={classes.text}>
+                      <Typography variant="body2">İletişim bilgilerinizi eksiksik girmeniz sizden randevu alan danışanların size daha kolay bir şekilde ulaşmasını sağlar.</Typography>
+                    </div>
                   </Grid>
 
                   <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="tel" label="Telefon numaranız" />
+                    <ReduxFormTextField name="email" label="E-posta adresim" />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="tel" label="Telefon numaram" />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="address" label="Ofis adresim" />
                   </Grid>
                 </Grid>
               </div>
@@ -383,22 +400,29 @@ class Envanter extends React.Component {
                   ÖZEL RANDEVU LİNKİM
                 </Typography>
 
-                <div className={classes.rootLoading}>
-                  <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için aşağıdaki linki onlarla paylaşabilirsiniz ya da instagram profilinize ekleyebilirsiniz:</Typography>
-                </div>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <div className={classes.text}>
+                      <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için bu linki onlarla paylaşabilir ya da direkt instagram profilinize ekleyebilirsiniz.</Typography>
+                    </div>
+                  </Grid>
 
-                <CopyToClipboard text={"https://v2.diyetkocum.net/d/" + this.state.user.username} >
-                  <Chip
-                    //avatar={<Avatar>M</Avatar>}
-                    label={"https://v2.diyetkocum.net/d/" + this.state.user.username}
-                    clickable
-                    color="primary"
-                    onClick={this.handleLinkCopied}
-                    onDelete={this.handleLinkCopied}
-                    deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
-                    variant="outlined"
-                  />
-                </CopyToClipboard>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <CopyToClipboard text={"https://v2.diyetkocum.net/d/" + this.state.user.username} >
+                      <Chip
+                        //avatar={<Avatar>M</Avatar>}
+                        label={"https://v2.diyetkocum.net/d/" + this.state.user.username}
+                        clickable
+                        color="primary"
+                        onClick={this.handleLinkCopied}
+                        onDelete={this.handleLinkCopied}
+                        deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
+                        variant="outlined"
+                      />
+                    </CopyToClipboard>
+                  </Grid>
+                </Grid>
+
               </div>
 
               <div style={{margin: '8px'}}>
@@ -406,17 +430,24 @@ class Envanter extends React.Component {
                   RANDEVU SAATLERİM
                 </Typography>
 
-                <div className={classes.rootLoading}>
-                  <Typography variant="body2">Yukarıdaki linki paylaştığınız danışanlarınız aşağıda seçtiğiniz saat aralıklarına göre randevu isteklerini otomatik olarak sizin e-posta adresinize onayınız için gönderebilirler:</Typography>
-                </div>
-
                 <Grid container spacing={2}>
-                  { ApptHours().map( (h, i) =>
-                    <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={6} sm={4} md={3} lg={2}>
-                      <ReduxFormCheckBox name={h} label={h}/>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <div className={classes.text}>
+                      <Typography variant="body2">Yukarıdaki linki paylaştığınız danışanlarınız aşağıda seçtiğiniz saat aralıklarına göre randevu isteklerini otomatik olarak sizin e-posta adresinize onayınız için gönderebilirler.</Typography>
+                    </div>
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Grid container spacing={2}>
+                      { ApptHours().map( (h, i) =>
+                        <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={6} sm={4} md={3} lg={2}>
+                          <ReduxFormCheckBox name={h} label={h}/>
+                        </Grid>
+                      )}
                     </Grid>
-                  )}
+                  </Grid>
                 </Grid>
+
               </div>
 
               <div style={{margin: '8px'}}>

@@ -89,7 +89,7 @@ class App extends Component {
               <Router>
                 {localStorage.getItem('user') ? (
                   <Switch>
-                    <Route exact path="/" render={() => <Redirect to="/c" />} />
+                    <Route exact path="/" render={() => <Redirect to="/me" />} />
                     <DashboardRoute exact path="/c" component={DanisanList} />
                     <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
                     <DashboardRoute exact path="/m" component={MesajList} />
