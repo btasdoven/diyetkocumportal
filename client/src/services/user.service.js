@@ -98,6 +98,8 @@ function get_dietitian_appointments(userId, date) {
         headers: { 'Content-Type': 'application/json' }
     };
     
+    date = date == undefined ? '' : date;
+    
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/appointments/` + date, requestOptions)
         .then(handleResponse)
         .then(data => {

@@ -232,10 +232,10 @@ var taskResetStg = () => {
   if (process.env.PORT == undefined) {
     // localhost testing. reinit the db
     //
-    return storage.clear().then(() =>
-      asyncForEach(Object.keys(users), async (id) => {
-        await storage.setItem(id.toString(), rows[id] || {});
-    }));
+    // return storage.clear().then(() =>
+    //   asyncForEach(Object.keys(users), async (id) => {
+    //     await storage.setItem(id.toString(), rows[id] || {});
+    // }));
   }
 
   return Promise.resolve()
@@ -335,10 +335,17 @@ exports.loginUser = function(uname, pwd) {
 exports.getDietitianAppointmentInfo = function (userId, date) {
   console.log('getDietitianAppointmentInfo');
   console.log(userId, date)
-
+  console.log(rows[userId].appointments)
+  
   if (rows[userId].appointments == undefined ||
-    rows[userId].appointments[date] == undefined)
+    (date != undefined && rows[userId].appointments[date] == undefined))
     return {};
+
+  console.log(rows[userId].appointments)
+
+  if (date == undefined) {
+    return rows[userId].appointments;
+  }
 
   return rows[userId].appointments[date];
 }

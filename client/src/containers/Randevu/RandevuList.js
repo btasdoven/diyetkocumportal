@@ -61,6 +61,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -205,9 +206,8 @@ class Envanter extends React.Component {
 
     var loaded = this.props.apiDietitianAppointments != undefined &&
       this.props.apiDietitianAppointments[this.state.userId] != undefined &&
-      this.props.apiDietitianAppointments[this.state.userId][this.state.date] != undefined &&
-      this.props.apiDietitianAppointments[this.state.userId][this.state.date].isGetLoading != true &&
-      this.props.apiDietitianAppointments[this.state.userId][this.state.date].data != undefined;
+      this.props.apiDietitianAppointments[this.state.userId].isGetLoading != true &&
+      this.props.apiDietitianAppointments[this.state.userId].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -215,7 +215,7 @@ class Envanter extends React.Component {
   
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDietitianAppointments(this.state.userId, this.state.date);
+      this.props.getDietitianAppointments(this.state.userId);
     }
   }
 
@@ -238,8 +238,8 @@ class Envanter extends React.Component {
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
 
-    var danisans = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId][this.state.date].data;
-    console.log(danisans)
+    var apptList = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
+    console.log(apptList)
 
     return (
         <div className={classes.root}>
@@ -270,85 +270,104 @@ class Envanter extends React.Component {
 
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && 
-            <List disablePadding>
-              {Object.keys(danisans).map( (danisanKey, idx) => {
+            Object.keys(apptList).map((apptDate, idx) => {
+              
+              console.log(apptList[apptDate])
+              var danisans = apptList[apptDate].data;
 
-                var danisan = danisans[danisanKey];
+              return (
+                <List
+                  key={idx} 
+                  disablePadding
+                  subheader={
+                    <ListSubheader component="span" id="nested-list-subheader">
+                      {moment(apptDate).format('DD MMMM YYYY')}
+                    </ListSubheader>
+                }>
+                  {Object.keys(danisans).map( (danisanKey, idx) => {
 
-                if (this.state.searchKey != '' &&
-                    danisan.name.toLowerCase().indexOf(this.state.searchKey) == -1)
-                {
-                  return;
-                }
-                // <Card key={idx} className={classes.card}>
-                  //   <CardActionArea>
-                  //     <CardHeader
-                  //       avatar={
-                  //           <Avatar className={classes.avatar} src={danisan.url} />
-                  //       }
-                  //       action={
-                  //         <div>
-                  //           <IconButton aria-label="settings" onClick={this.handleClick}>
-                  //             <MoreVertIcon />
-                  //           </IconButton>
-                  //           <Menu
-                  //             id="simple-menu"
-                  //             anchorEl={this.state.anchorEl}
-                  //             keepMounted
-                  //             open={this.state.anchorEl != undefined}
-                  //             onClose={this.handleClose}
-                  //           >
-                  //             <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
-                  //           </Menu>
-                  //         </div>
-                  //       }
-                  //       title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
-                  //       subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
-                  //     />
-                  //   </CardActionArea>
-                  // </Card>  
+                    var danisan = danisans[danisanKey];
 
-                return (
-                  <span key={idx}>
-                    <ListItem button 
-                        //component={Link} to={"/c/" + danisan.name}
-                    >
-                      {/* <ListItemAvatar>
-                      <Avatar src={danisan.url} />
-                      </ListItemAvatar> */}
-                      <ListItemText 
-                        primary={
-                            // <Typography
-                            //     variant="subtitle1"
-                            //     color="textPrimary"
-                            // >
-                                moment(this.state.date).format('DD MMM YYYY') + ", " + danisanKey
-                            // </Typography>
-                        } 
-                        secondary={
-                            // <Typography
-                            //     variant="caption"
-                            //     color="inherit"
-                            // >
-                                danisan.info.name + ", " + danisan.info.kilo + "kg, " + danisan.info.boy + "cm"
-                            // </Typography>
-                        }
-                      />
-                      {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
-                      <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete">
-                            <CloseIcon color="error" />
-                        </IconButton>
-                        <IconButton edge="end" aria-label="delete">
-                            <CheckSharpIcon style={{ color: green[500] }} />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                    <Divider component="li" />
-                  </span>
-                )
-              })}  
-            </List>
+                    if (this.state.searchKey != '' &&
+                        danisan.name.toLowerCase().indexOf(this.state.searchKey) == -1)
+                    {
+                      return;
+                    }
+                    // <Card key={idx} className={classes.card}>
+                      //   <CardActionArea>
+                      //     <CardHeader
+                      //       avatar={
+                      //           <Avatar className={classes.avatar} src={danisan.url} />
+                      //       }
+                      //       action={
+                      //         <div>
+                      //           <IconButton aria-label="settings" onClick={this.handleClick}>
+                      //             <MoreVertIcon />
+                      //           </IconButton>
+                      //           <Menu
+                      //             id="simple-menu"
+                      //             anchorEl={this.state.anchorEl}
+                      //             keepMounted
+                      //             open={this.state.anchorEl != undefined}
+                      //             onClose={this.handleClose}
+                      //           >
+                      //             <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
+                      //           </Menu>
+                      //         </div>
+                      //       }
+                      //       title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
+                      //       subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
+                      //     />
+                      //   </CardActionArea>
+                      // </Card>  
+
+                    var hours = danisanKey.split(' - ')
+                    return (
+                      <span key={idx}>
+                        <Divider component="li" />
+                        <ListItem button 
+                            //component={Link} to={"/c/" + danisan.name}
+                        >
+                          <ListItemAvatar >
+                            <Typography color="primary" variant="subtitle2">{hours[0]}</Typography>
+                            <Typography color="primary" variant="subtitle2">{hours[1]}</Typography>
+                          </ListItemAvatar>
+                          <ListItemText 
+                            style={{paddingRight: '36px'}}
+                            primary={
+                                // <Typography
+                                //     variant="subtitle1"
+                                //     color="textPrimary"
+                                // >
+                                danisan.info.name
+                                // </Typography>
+                            } 
+                            secondary={
+                                // <Typography
+                                //     variant="caption"
+                                //     color="inherit"
+                                // >
+                                    danisan.info.kilo + "kg, " + danisan.info.boy + "cm"
+                                // </Typography>
+                            }
+                          />
+                          {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
+                          <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="delete">
+                                <CloseIcon color="error" />
+                            </IconButton>
+                            <IconButton edge="end" aria-label="delete">
+                                <CheckSharpIcon style={{ color: green[500] }} />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      </span>
+                    )
+                  })}  
+                  <Divider component="li" />
+                </List>
+              )
+            })
           }
         </div>
         </div>

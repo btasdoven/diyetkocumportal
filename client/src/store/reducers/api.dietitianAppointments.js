@@ -10,44 +10,89 @@ const DIETITIAN_APPOINTMENT_PUT_LOADING = "api/DIETITIAN_APPOINTMENT_PUT_LOADING
 const initState = {
 };
 
+const ModifyKeys = (items) => {
+  console.log(items)
+  var ret = {}
+  Object.keys(items).map((k) => {
+    ret[k] = {
+      data: items[k],
+      isGetLoading: false,
+      isPutLoading: false,
+    }
+  })
+
+  console.log(ret)
+  return ret
+}
+
 export default function reducer(state = initState, action) {
     switch (action.type) {
       case DIETITIAN_APPOINTMENT_GET_ERRORED:
       case DIETITIAN_APPOINTMENT_PUT_ERRORED:
-        return {
-          ...state,
-          [action.userId]: {
-            ...state[action.userId],
-            [action.date]: {
+        if (action.date) {
+          return {
+            ...state,
+            [action.userId]: {
+              ...state[action.userId],
+              [action.date]: {
+                error: action.error
+              },
+            }
+          }
+        } else {
+          return {
+            ...state,
+            [action.userId]: {
               error: action.error
-            },
+            }
           }
         }
-
       case DIETITIAN_APPOINTMENT_GET_LOADING:
-        return {
-          ...state,
-          [action.userId]: {
-            ...state[action.userId],
-            [action.date]: {
+        if (action.date) {
+          return {
+            ...state,
+            [action.userId]: {
+              ...state[action.userId],
+              [action.date]: {
+                isGetLoading: true,
+              },
+            }
+          }
+        } else {
+          return {
+            ...state,
+            [action.userId]: {
+              ...state[action.userId],
               isGetLoading: true,
-            },
+            }
           }
         }
-  
       case DIETITIAN_APPOINTMENT_GET_SUCCESS:
-        return {
-          ...state,
-          [action.userId]: {
-            ...state[action.userId],
-            [action.date]: {
-              isGetLoading: false,
-              isPutLoading: false,
-              data: action.items,
-            },
+        if (action.date) {
+          return {
+            ...state,
+            [action.userId]: {
+              ...state[action.userId],
+              data: {
+                ...state[action.userId].data,
+                [action.date]: {
+                  isGetLoading: false,
+                  isPutLoading: false,
+                  data: action.items,
+                } 
+              },
+            }
+          }
+        } else {
+          return {
+            ...state,
+            [action.userId]: {
+                isGetLoading: false,
+                isPutLoading: false,
+                data: ModifyKeys(action.items),
+            }
           }
         }
-
       case DIETITIAN_APPOINTMENT_PUT_LOADING:
         return {
           ...state,

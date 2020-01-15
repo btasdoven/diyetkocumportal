@@ -374,9 +374,10 @@ class NewRandevuStep1 extends React.Component {
   isDateLoaded() {
     var loaded = this.props.apiDietitianAppointments != undefined &&
       this.props.apiDietitianAppointments[this.state.userId] != undefined &&
-      this.props.apiDietitianAppointments[this.state.userId][this.state.dateFmt] != undefined &&
-      this.props.apiDietitianAppointments[this.state.userId][this.state.dateFmt].isGetLoading != true &&
-      this.props.apiDietitianAppointments[this.state.userId][this.state.dateFmt].data != undefined;
+      this.props.apiDietitianAppointments[this.state.userId].data != undefined &&
+      this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt] != undefined &&
+      this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].isGetLoading != true &&
+      this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data != undefined;
 
       return loaded;
   }
@@ -430,7 +431,7 @@ class NewRandevuStep1 extends React.Component {
                                 return;
                             }
                     
-                            var appts = this.props.apiDietitianAppointments[this.state.userId][this.state.dateFmt].data;
+                            var appts = this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data;
 
                             if (appts[h] != undefined) {
                                 return;
