@@ -329,8 +329,10 @@ class Envanter extends React.Component {
                             //component={Link} to={"/c/" + danisan.name}
                         >
                           <ListItemAvatar >
-                            <Typography color="primary" variant="subtitle2">{hours[0]}</Typography>
-                            <Typography color="primary" variant="subtitle2">{hours[1]}</Typography>
+                            <span>
+                              <Typography color="primary" variant="subtitle2">{hours[0]}</Typography>
+                              <Typography color="primary" variant="subtitle2">{hours[1]}</Typography>
+                            </span>
                           </ListItemAvatar>
                           <ListItemText 
                             style={{paddingRight: '36px'}}

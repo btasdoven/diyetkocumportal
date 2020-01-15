@@ -336,7 +336,7 @@ exports.getDietitianAppointmentInfo = function (userId, date) {
   console.log('getDietitianAppointmentInfo');
   console.log(userId, date)
   console.log(rows[userId].appointments)
-  
+
   if (rows[userId].appointments == undefined ||
     (date != undefined && rows[userId].appointments[date] == undefined))
     return {};
@@ -369,6 +369,12 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
 
   email.sendEmail('btasdoven@gmail.com', 'new appointment set', JSON.stringify(rows[userId].appointments[date][time]))
 
+  const ordered = {};
+  Object.keys(rows[userId].appointments[date]).sort().forEach(function(key) {
+    ordered[key] = rows[userId].appointments[date][key];
+  });
+
+  rows[userId].appointments[date] = ordered;
   storage.setItem(userId, rows[userId]);
 }
 
