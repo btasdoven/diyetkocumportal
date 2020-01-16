@@ -285,7 +285,6 @@ class LandingPage extends React.Component {
               <video 
                 muted
                 playsInline
-                loop
                 autoPlay
                 controls={true}
                 type='video/mp4'
@@ -306,6 +305,31 @@ class LandingPage extends React.Component {
                     <source key={idx} src={s} type="video/mp4"/>
                   })}                  
               </video>
+{/* 
+              <video 
+                muted
+                playsInline
+                loop
+                autoPlay
+                controls={true}
+                type='video/mp4'
+                ref={this.videoRef}
+                //poster="/static/favicon.png"
+                onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
+                onEnded={() => {
+                  if (this.state.activeStory + 1 == sources.length) {
+                    this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
+                  } else {
+                    this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
+                  }
+                }}
+                src={sources[this.state.activeStory]}
+                preload="auto" 
+                style={{borderRadius: '12px', position: 'absolute', top: 0, width: '100%', height: '100%'}}>
+                  {sources.map((s, idx) => {
+                    <source key={idx} src={s} type="video/mp4"/>
+                  })}                  
+              </video> */}
             </DialogContent>
           </Dialog>
           {/* Hero unit */}
