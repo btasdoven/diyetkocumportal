@@ -129,7 +129,7 @@ const styles = theme => ({
   },
   avatar: {
     width: 'calc(100% - 10px)',
-    height: '100%',
+    height: 'calc(100% - 10px)',
     top: '5px',
     left: '5px',
   },
@@ -262,7 +262,7 @@ class LandingPage extends React.Component {
                 </Grid>
                 <Grid 
                   item xs={8}
-                  style={{display: 'flex', justifyContent: 'flex-end', zIndex: 9998}} 
+                  style={{display: 'flex', height: '100%', backgroundColor: 'red', justifyContent: 'flex-end', zIndex: 9998}} 
                   onClick={() => {
                     if (this.state.activeStory + 1 == sources.length) {
                       this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
@@ -286,7 +286,7 @@ class LandingPage extends React.Component {
                 muted
                 playsInline
                 autoPlay
-                controls={true}
+                //controls={true}
                 type='video/mp4'
                 ref={this.videoRef}
                 //poster="/static/favicon.png"
@@ -437,7 +437,7 @@ class LandingPage extends React.Component {
               </Grid>
             </Grid>
           </div>
-          <Divider />
+          {/* <Divider /> */}
 
           {/* <div className={classNames(classes.layout, classes.cardGrid)}>
             <Grid key={"gridlar_"} container spacing={24}>
