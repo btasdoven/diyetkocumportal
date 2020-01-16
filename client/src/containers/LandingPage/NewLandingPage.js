@@ -285,6 +285,8 @@ class LandingPage extends React.Component {
               <video 
                 muted
                 playsInline
+                loop
+                autoPlay
                 controls={true}
                 type='video/mp4'
                 ref={this.videoRef}
@@ -299,7 +301,6 @@ class LandingPage extends React.Component {
                 }}
                 src={sources[this.state.activeStory]}
                 preload="auto" 
-                autoPlay={true}
                 style={{borderRadius: '12px', position: 'absolute', top: 0, width: '100%', height: '100%'}}>
                   {sources.map((s, idx) => {
                     <source key={idx} src={s} type="video/mp4"/>
