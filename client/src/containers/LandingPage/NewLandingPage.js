@@ -160,11 +160,11 @@ const styles = theme => ({
 
 const footers = [
   {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
+    title: 'Diyet Koçum',
+    description: ['Takım', 'Geçmiş', 'İletişim', 'Adres'],
   },
   {
-    title: 'Features',
+    title: 'Özellikler',
     description: ['Login with Monagard', 'Encryption at rest', 'One-Time ID', 'Multi-factor Auth'],
   },
   // {
@@ -213,7 +213,7 @@ class LandingPage extends React.Component {
     console.log(this.videoRef)
 
     return (
-      <React.Fragment>
+      <React.Fragment >
         <CssBaseline />
         <AppBar elevation={0} position="static" className={classes.appBar}>
           <Toolbar className={classes.layoutToolbar}>
@@ -221,12 +221,12 @@ class LandingPage extends React.Component {
             {/* <Typography variant="h6" color="inherit" noWrap>
               Digital Lab Book
             </Typography> */}
-            <Button size="small" className={classes.loginButton2} color="primary" component={Link} to="/signin">
+            <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
               GİRİŞ YAP
             </Button>
-            <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
+            {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
               KAYDOL
-            </Button>
+            </Button> */}
           </Toolbar>
         </AppBar>
         <Divider />
@@ -399,7 +399,7 @@ class LandingPage extends React.Component {
                 </Grid>
               </Grid>
               <Grid className={classes.info} style={{paddingLeft: '16px'}} item xs={12} sm={12} md={12} lg={12}>
-                <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body1">
+                <Typography style={{color: '#262626'}} gutterBottom variant="body2">
                     <b>Diyetisyenlerin Dijital Asistanı</b>
                 </Typography>
                 <Typography style={{color: '#262626'}} gutterBottom variant="body2">
@@ -410,6 +410,11 @@ class LandingPage extends React.Component {
                     🍍 Diyet listeleri oluşturma ve kaydetme <br />
                     💌 Uygulama üzerinden mesajlaşma <br />
                     🍏 Ödeme alma kolaylığı <br />
+                </Typography>
+              </Grid>
+              <Grid className={classes.info} style={{marginTop: 0, paddingLeft: '16px'}} item xs={12} sm={12} md={12} lg={12}>
+                <Typography style={{letterSpacing: 0, color: '#999'}} gutterBottom variant="caption">
+                    <b style={{color: '#262626'}}>dyt_ezelkavadar</b>, <b style={{color: '#262626'}}>aysuutasdovenn</b> ve digerleri tarafından kullanılıyor
                 </Typography>
               </Grid>
             </Grid>
@@ -426,7 +431,67 @@ class LandingPage extends React.Component {
               )}
             </Grid>
           </div>
-          {/* <Divider /> */}
+          <div style={{marginTop: '24px', backgroundColor: 'white'}} >
+            <Divider />
+            <Grid container style={{paddingLeft: '16px', paddingRight: '16px'}} spacing={1}>
+              <Grid style={{paddingTop: '16px', display: 'flex', justifyContent: 'center'}} item xs={12} lg={12}>
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PRO</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PREMIUM</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={1} xs={12}>
+                  <Grid item xs={6}>
+                    <Typography component="div" style={{textAlign: 'center'}} variant="caption">5 danışana kadar kayıt tutma</Typography>
+                    <Typography component="div" style={{textAlign: 'center'}} variant="caption">Kısıtlı randevu takibi</Typography>
+                    <Typography component="div" style={{textAlign: 'center'}} variant="caption">Kısıtlı mesajlaşma</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız danışan kaydı</Typography>
+                    <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız randevu takibi</Typography>
+                    <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız mesajlaşma</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={1} xs={12}>
+                  <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
+                    <Typography component="span" variant="h5" color="textPrimary">
+                      0₺
+                    </Typography>
+                    <Typography component="span" variant="h6" color="textSecondary">
+                      /ay
+                    </Typography>
+                    {/* <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">99₺</Typography> */}
+                  </Grid>
+                  <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
+                    <Typography component="span" variant="h5" color="textPrimary">
+                      199₺
+                    </Typography>
+                    <Typography component="span" variant="h6" color="textSecondary">
+                      /ay
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item style={{paddingBottom: '16px'}} xs={12}>
+                <Grid container spacing={1} xs={12}>
+                  <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                    <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined">KAYDOL</Button>
+                  </Grid>
+                  <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                    <Button style={{color: 'white', backgroundColor: '#3897f0'}} size="small" variant="contained">ŞİMDİ DENE</Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Divider />
+          </div>
 
           {/* <div className={classNames(classes.layout, classes.cardGrid)}>
             <Grid key={"gridlar_"} container spacing={24}>
@@ -454,22 +519,22 @@ class LandingPage extends React.Component {
           </div> */}
         </main>
         {/* Footer */}
-        <footer className={classes.footer}>
+        {/* <footer className={classes.footer}>
         <Grid className={classes.layout} container spacing={1} align="center" justify="space-evenly">
             {footers.map(footer => (
-              <Grid item xs key={footer.title}>
-                <Typography variant="subtitle1" color="textPrimary" gutterBottom>
+              <Grid item xs={4} key={footer.title}>
+                <Typography style={{color: '#262626'}} variant="subtitle2" gutterBottom>
                   {footer.title}
                 </Typography>
                 {footer.description.map(item => (
-                  <Typography key={item} variant="body1" color="textSecondary">
+                  <Typography key={item} style={{fontWeight: 300, color: '#262626'}} variant="body2">
                     {item}
                   </Typography>
                 ))}
               </Grid>
             ))}
           </Grid>
-        </footer>
+        </footer> */}
         {/* End footer */}
       </React.Fragment>
     );

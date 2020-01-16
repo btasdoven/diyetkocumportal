@@ -228,6 +228,7 @@ const users = {
   'diyetisyenozgebasin': { id: 'diyetisyenozgebasin', username: 'diyetisyenozgebasin', name: 'Özge Basın Bayram', password: '1234', email: 'ozgebasin@gmail.com', url: 'https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.2885-19/s150x150/69782525_377991819815997_651954444732203008_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_ohc=GA5bcxJRiIYAX85qLBu&oh=a2ec5f1723f1c9062753b638110f318d&oe=5E9773EA' },
   'ilaydiet': { id: 'ilaydiet', username: 'ilaydiet', name: 'İlayda Yaluç', password: '1234', email: '', url: 'https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/28752934_1810220632620925_4794170494410555392_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=Y0E5jG7qe7AAX93uO9E&oh=61b42603c0290bdd4a88b5bb0e05ee69&oe=5EA87149' },
   'diyetisyendoyranli': { id: 'diyetisyendoyranli', username: 'diyetisyendoyranli', name: 'Merve Doyranlı', password: '1234', email: 'doyranlimerve@gmail.com', url: 'https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/62023617_2268347290160591_911668419881861120_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=XrhwjgFngBgAX9MRmJ8&oh=d785b38c984efe16e3a7eb8eef59da7a&oe=5E9A02E5' },
+  'dytsedasagbas': { id: 'dytsedasagbas', username: 'dytsedasagbas', name: 'Seda Sağbaş', password: '1234', email: '', url: 'https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/76896897_1497848440379702_4408276092410920960_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=l6FtTJo5OCUAX8XmWwx&oh=f24f86277a87f31d3fbcc90df7621fdc&oe=5ED5DBB9' },
 };
 
 async function asyncForEach(array, callback) {
@@ -254,12 +255,13 @@ var taskResetStg = () => {
   return storage.getItem('0').then((data) => {
     console.log(data)
 
-    if (data.users == undefined) {
-      data.users = rows[0].users
-    }
+    // if (data.users == undefined) {
+    //   data.users = rows[0].users
+    // }
 
     rows[0] = data
-    return storage.setItem('0', rows[0]).then(() => Promise.resolve())
+    // return storage.setItem('0', rows[0]).then(() => Promise.resolve())
+    return Promise.resolve()
   });
 };
 
