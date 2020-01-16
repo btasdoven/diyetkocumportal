@@ -262,7 +262,7 @@ class LandingPage extends React.Component {
                 </Grid>
                 <Grid 
                   item xs={8}
-                  style={{display: 'flex', height: '100%', backgroundColor: 'red', justifyContent: 'flex-end', zIndex: 9998}} 
+                  style={{display: 'flex', height: '100%', justifyContent: 'flex-end', zIndex: 9998}} 
                   onClick={() => {
                     if (this.state.activeStory + 1 == sources.length) {
                       this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
