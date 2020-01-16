@@ -24,6 +24,7 @@ import DanisanList from "./containers/Danisanlar/DanisanList";
 import AnaSayfaView from "./containers/AnaSayfa/AnaSayfa";
 import NewRandevu from "./containers/Randevu/NewRandevu";
 import NotImplementedYet from './containers/NotImplementedYet'
+import NewLandingPage from './containers/LandingPage/NewLandingPage'
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MainLayout from "./layouts/MainLayout";
@@ -100,6 +101,7 @@ class App extends Component {
                     <DashboardRoute path="/r" component={RandevuList} />
                     <DashboardRoute path="/f" component={NotImplementedYet} />
                     <DashboardRoute path="/kd" component={NotImplementedYet} />
+                    <EmptyRoute path="/np" component={NewLandingPage} />
                     <Route path="/signin" render={() => <Redirect to="/" />} />
                     <EmptyRoute component={NotFound} />
                   </Switch>

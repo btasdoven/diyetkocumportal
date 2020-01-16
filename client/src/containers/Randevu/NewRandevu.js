@@ -106,7 +106,7 @@ const styles = theme => ({
   root: {
       margin: theme.spacing(1),
       marginTop: theme.spacing(7),
-      backgroundColor: 'rgb(255,255,255)'
+      //backgroundColor: 'rgb(255,255,255)'
   },
   rootLoading: {
       height: "inherit",
@@ -321,6 +321,13 @@ class NewRandevuWrapper extends React.Component {
                                 />
                             </Card>
                         )}
+                        {/* { !showLoader && this.state.time != undefined && (
+                            <Card className={classes.card}>
+                                <CardHeader
+                                title={<Typography variant="h5" component="h3">{moment(this.state.date).format("DD MMMM YYYY") + " " + this.state.time}</Typography>}
+                                />
+                            </Card>
+                        )} */}
                         { !showLoader && this.state.step == 1 && 
                             <NewRandevuStep1 
                                 {...this.props}

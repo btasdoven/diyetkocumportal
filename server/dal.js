@@ -267,7 +267,6 @@ var taskInitRows = () => {
   });
 }
 
-
 async function start() {
   var res = await startAsync()
   console.log(res)
@@ -285,7 +284,7 @@ async function startAsync() {
 
   return new Promise((resolve, reject) => {
     var i = 0;
-    return tasks
+    tasks
       .reduce(
         (promiseChain, currentTask) => {
           return promiseChain.then(chainResults => {
@@ -335,7 +334,6 @@ exports.loginUser = function(uname, pwd) {
 exports.getDietitianAppointmentInfo = function (userId, date) {
   console.log('getDietitianAppointmentInfo');
   console.log(userId, date)
-  console.log(rows[userId].appointments)
 
   if (rows[userId].appointments == undefined ||
     (date != undefined && rows[userId].appointments[date] == undefined))
