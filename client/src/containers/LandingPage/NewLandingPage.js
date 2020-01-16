@@ -133,6 +133,12 @@ const styles = theme => ({
     top: '5px',
     left: '5px',
   },
+  avatar2: {
+    width: 'calc(100% - 8px)',
+    height: 'calc(100% - 8px)',
+    top: '4px',
+    left: '4px',
+  },
   avatarWrapper2: {
     position: 'absolute',
     width: 'calc(100% - 8px)',
@@ -175,6 +181,12 @@ const sources = [
   '/static/story5.mp4',
 ];
 
+const highlights = [
+  { name: 'Diyet Koçum nedir?', src: "https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.12442-15/e35/c35.856.942.942a/s150x150/49858499_1237374653094099_951020053474906933_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=Ei2xKWvNp6cAX9wdykB&oh=98e132bdc126c617a1396018e2679ce6&oe=5E22986E" },
+  { name: 'İlk izlenimler', src: "https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c0.420.1080.1080a/s150x150/25037568_153532338753821_7653987469318160384_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=BpianB2_4YcAX_A5Osf&oh=1b43f40b9b592c32eb6ccbd2ba1127be&oe=5E21A591" },
+  { name: 'İlk danışan kaydı', src: "https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e15/c0.280.720.720a/s150x150/26068425_133505374114645_5456226221186613248_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=Q60fIx3_3KMAX8_C7XH&oh=a7eab52d7a67de6b94a1ae8dfeecc9ec&oe=5E222FAB" },
+  { name: 'Soru & Cevap', src: "https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c58.245.1005.1005a/s150x150/31571523_2035958099977680_6231814499284811776_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=Yl9n3T04C7gAX9VsQKW&oh=c1983f8c1786329727ac9a253caf2978&oe=5E223F4E" },
+]
 class LandingPage extends React.Component {
 
   constructor(props) {
@@ -367,17 +379,17 @@ class LandingPage extends React.Component {
                   </Grid>
                   <Grid item xs={4} sm={4} md={4} lg={4}>
                     <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>144</b> diyetisyen
+                        <b>144</b><br/> diyetisyen
                     </Typography>
                   </Grid>
                   <Grid item xs={4} sm={4} md={4} lg={4}>
                     <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>3489</b> danışan
+                        <b>3489</b><br/> danışan
                     </Typography>
                   </Grid>
                   <Grid item xs={4} sm={4} md={4} lg={4}>
                     <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>11472</b> görüşme
+                        <b>11472</b><br/> görüşme
                     </Typography>
                   </Grid>
                 </Grid>
@@ -398,43 +410,17 @@ class LandingPage extends React.Component {
               </Grid>
             </Grid>
             <Grid style={{paddingTop: '8px', paddingLeft: '18px', paddingRight: '18px'}} container spacing={1}>
-              <Grid item xs>
-                <div style={{position: 'relative', width: '100%', padding: '4px'}}>
-                  <div className={classes.avatarWrapper2}>
+              {highlights.map((highlight, idx) => 
+                <Grid key={idx} item xs>
+                  <div style={{position: 'relative', width: '100%', padding: '4px'}}>
+                    <div className={classes.avatarWrapper2}>
+                    </div>
+                    <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={highlight.src}
+                      className={classes.avatar2} />
                   </div>
-                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={"https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.12442-15/e35/c35.856.942.942a/s150x150/49858499_1237374653094099_951020053474906933_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=Ei2xKWvNp6cAX9wdykB&oh=98e132bdc126c617a1396018e2679ce6&oe=5E22986E"}
-                    className={classes.avatar} />
-                </div>
-                <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">Diyet Koçum nedir?</Typography>
-              </Grid>
-              <Grid item xs>
-                <div style={{position: 'relative', width: '100%', padding: '4px'}}>
-                  <div className={classes.avatarWrapper2}>
-                  </div>
-                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={"https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c0.420.1080.1080a/s150x150/25037568_153532338753821_7653987469318160384_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=BpianB2_4YcAX_A5Osf&oh=1b43f40b9b592c32eb6ccbd2ba1127be&oe=5E21A591"}
-                  className={classes.avatar} />
-                </div>
-                <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">Diyet Koçum 101</Typography>
-              </Grid>
-              <Grid item xs>
-                <div style={{position: 'relative', width: '100%', padding: '4px'}}>
-                  <div className={classes.avatarWrapper2}>
-                  </div>
-                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={"https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e15/c0.280.720.720a/s150x150/26068425_133505374114645_5456226221186613248_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=Q60fIx3_3KMAX8_C7XH&oh=a7eab52d7a67de6b94a1ae8dfeecc9ec&oe=5E222FAB"} 
-                    className={classes.avatar} />
-                </div>
-                <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">Diyet Koçum 201</Typography>
-              </Grid>
-              <Grid item xs>
-                <div style={{position: 'relative', width: '100%', padding: '4px'}}>
-                  <div className={classes.avatarWrapper2}>
-                  </div>
-                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" 
-                    src={"https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c58.245.1005.1005a/s150x150/31571523_2035958099977680_6231814499284811776_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=Yl9n3T04C7gAX9VsQKW&oh=c1983f8c1786329727ac9a253caf2978&oe=5E223F4E"} 
-                    className={classes.avatar} />
-                </div>
-                <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">Diyet Koçum 301</Typography>
-              </Grid>
+                  <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">{highlight.name}</Typography>
+                </Grid>
+              )}
             </Grid>
           </div>
           {/* <Divider /> */}
