@@ -120,34 +120,38 @@ const styles = theme => ({
   avatarWrapper: {
     position: 'absolute',
     width: '100%',
-    paddingTop: 'calc(100% - 6px)',
-    border: 'solid red',
-    borderWidth: '3px',
+    paddingTop: '100%',
+    background: 'linear-gradient(to left,#7b4397,#dc2430)',
+    //borderWidth: '3px',
     //margin: '2px',
     borderRadius: '50%',
     cursor: 'pointer'
   },
   avatar: {
-    width: 'calc(100% - 10px)',
-    height: 'calc(100% - 10px)',
-    top: '5px',
-    left: '5px',
-  },
-  avatar2: {
-    width: 'calc(100% - 8px)',
-    height: 'calc(100% - 8px)',
-    top: '4px',
-    left: '4px',
+    width: 'calc(100% - 6px)',
+    height: 'calc(100% - 6px)',
+    padding: '2px',
+    top: '3px',
+    left: '3px',
+    background: '#fafafa',
   },
   avatarWrapper2: {
     position: 'absolute',
-    width: 'calc(100% - 8px)',
-    paddingTop: 'calc(100% - 12px)',
-    border: 'solid rgba(0,0,0,0.1)',
-    borderWidth: '2px',
+    width: '100%',
+    paddingTop: '100%',
+    background: 'rgba(0,0,0,0.1)',
+    //borderWidth: '3px',
     //margin: '2px',
     borderRadius: '50%',
     cursor: 'pointer'
+  },
+  avatar2: {
+    width: 'calc(100% - 4px)',
+    height: 'calc(100% - 4px)',
+    padding: '2px',
+    top: '2px',
+    left: '2px',
+    background: '#fafafa',
   },
   info: {
     marginTop: theme.spacing(2)
@@ -412,11 +416,10 @@ class LandingPage extends React.Component {
             <Grid style={{paddingTop: '8px', paddingLeft: '18px', paddingRight: '18px'}} container spacing={1}>
               {highlights.map((highlight, idx) => 
                 <Grid key={idx} item xs>
-                  <div style={{position: 'relative', width: '100%', padding: '4px'}}>
+                  <div style={{position: 'relative', width: '84%', margin: '8%'}}>
                     <div className={classes.avatarWrapper2}>
                     </div>
-                    <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={highlight.src}
-                      className={classes.avatar2} />
+                    <Avatar imgProps={{style: { borderRadius: '50%' }}} onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={highlight.src} className={classes.avatar2} />
                   </div>
                   <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">{highlight.name}</Typography>
                 </Grid>
