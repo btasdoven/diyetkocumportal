@@ -283,7 +283,7 @@ class LandingPage extends React.Component {
                   <CloseIcon />
               </IconButton>
               <video 
-                playsinline
+                playsInline
                 ref={this.videoRef}
                 onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
                 onEnded={() => {
