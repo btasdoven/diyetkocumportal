@@ -25,6 +25,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -242,21 +244,47 @@ class LandingPage extends React.Component {
                 )
               })}
             </div>
-            <DialogContent onClick={() => {
-              if (this.state.activeStory + 1 == sources.length) {
-                this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
-              } else {
-                this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
-              }
-            }} style={{borderRadius: 0, color: 'white', padding:0, margin: 0}}>
+            <DialogContent style={{borderRadius: 0, color: 'white', padding:0, margin: 0}}>
+              <Grid style={{height: '100%'}} container spacing={2}>
+                <Grid 
+                  style={{display: 'flex', zIndex: 9998}} item xs={4}
+                  onClick={() => {
+                    this.state.activeStory > 0 && this.setState({width: 0, duration: 0, activeStory: this.state.activeStory - 1})
+                  }}
+                >
+                  {this.state.activeStory > 0 &&
+                    <IconButton 
+                      style={{color: 'rgba(255, 255, 255, 1)'}}
+                      >
+                        <ChevronLeftIcon />
+                    </IconButton>
+                  }
+                </Grid>
+                <Grid 
+                  item xs={8}
+                  style={{display: 'flex', justifyContent: 'flex-end', zIndex: 9998}} 
+                  onClick={() => {
+                    if (this.state.activeStory + 1 == sources.length) {
+                      this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
+                    } else {
+                      this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
+                    }
+                  }}
+                >
+                  <IconButton style={{color: 'rgba(255, 255, 255, 1)'}}>
+                      <ChevronRightIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+              
               <IconButton 
-                style={{zIndex: 9998, marginTop: '26px', float: 'right', color: 'rgba(255, 255, 255, 1)'}} 
+                style={{position: 'absolute', zIndex: 9999, top: '14px', right: 0, color: 'rgba(255, 255, 255, 1)'}} 
                 onClick={() => this.setState({width: 0, duration: 0, openDialog: false})}>
                   <CloseIcon />
               </IconButton>
               <video 
                 ref={this.videoRef}
-                onPlay={() => this.setState({width: '100%', duration: this.videoRef.current.duration})}
+                onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
                 onEnded={() => {
                   if (this.state.activeStory + 1 == sources.length) {
                     this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
@@ -333,7 +361,6 @@ class LandingPage extends React.Component {
                     🍍 Diyet listeleri oluşturma ve kaydetme <br />
                     💌 Uygulama üzerinden mesajlaşma <br />
                     🍏 Ödeme alma kolaylığı <br />
-                    ve daha niceleri...
                 </Typography>
               </Grid>
             </Grid>
