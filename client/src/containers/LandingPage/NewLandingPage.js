@@ -283,11 +283,12 @@ class LandingPage extends React.Component {
                   <CloseIcon />
               </IconButton>
               <video 
+                muted
                 playsInline
                 controls={true}
                 type='video/mp4'
                 ref={this.videoRef}
-                poster="/static/favicon.png"
+                //poster="/static/favicon.png"
                 onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
                 onEnded={() => {
                   if (this.state.activeStory + 1 == sources.length) {
@@ -300,6 +301,9 @@ class LandingPage extends React.Component {
                 preload="auto" 
                 autoPlay={true}
                 style={{borderRadius: '12px', position: 'absolute', top: 0, width: '100%', height: '100%'}}>
+                  {sources.map((s, idx) => {
+                    <source key={idx} src={s} type="video/mp4"/>
+                  })}                  
               </video>
             </DialogContent>
           </Dialog>
