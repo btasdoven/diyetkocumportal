@@ -134,6 +134,7 @@ const styles = theme => ({
     top: '3px',
     left: '3px',
     background: '#fafafa',
+    cursor: 'pointer'
   },
   avatarWrapper2: {
     position: 'absolute',
@@ -152,6 +153,7 @@ const styles = theme => ({
     top: '2px',
     left: '2px',
     background: '#fafafa',
+    cursor: 'pointer'
   },
   info: {
     marginTop: theme.spacing(2)
@@ -270,6 +272,7 @@ class LandingPage extends React.Component {
                 >
                   {this.state.activeStory > 0 &&
                     <IconButton 
+                      disableRipple
                       style={{color: 'rgba(255, 255, 255, 1)'}}
                       >
                         <ChevronLeftIcon />
@@ -287,7 +290,9 @@ class LandingPage extends React.Component {
                     }
                   }}
                 >
-                  <IconButton style={{color: 'rgba(255, 255, 255, 1)'}}>
+                  <IconButton 
+                    disableRipple
+                    style={{color: 'rgba(255, 255, 255, 1)'}}>
                       <ChevronRightIcon />
                   </IconButton>
                 </Grid>
@@ -445,7 +450,7 @@ class LandingPage extends React.Component {
                   </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                  <Grid container spacing={1} xs={12}>
+                  <Grid container spacing={1}>
                     <Grid item xs={6}>
                       <Typography component="div" style={{textAlign: 'center'}} variant="caption">5 danışana kadar kayıt</Typography>
                       <Typography component="div" style={{textAlign: 'center'}} variant="caption">Haftalık randevu takibi</Typography>
@@ -460,8 +465,8 @@ class LandingPage extends React.Component {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={1} xs={12}>
+                <Grid item xs={12}> 
+                  <Grid container spacing={1}>
                     <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
                       <Typography component="span" style={{textDecoration: 'line-through', color: 'rgba(0, 0, 0, 0.27)', fontSize: '1rem'}} variant="h6" color="textPrimary">
                         99₺
@@ -484,7 +489,7 @@ class LandingPage extends React.Component {
                   </Grid>
                 </Grid>
                 <Grid item style={{paddingBottom: '16px'}} xs={12}>
-                  <Grid container spacing={1} xs={12}>
+                  <Grid container spacing={1}>
                     <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
                       <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined">ÜCRETSİZ KAYDOL</Button>
                     </Grid>

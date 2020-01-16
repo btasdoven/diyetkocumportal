@@ -10,27 +10,21 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 
-import Diary from "./containers/Diary/DiaryView";
-import Apps from "./containers/Apps";
-import UserSearch from "./containers/UserSearch/UserSearch";
 import MyProfile from "./containers/MyProfile/MyProfile";
-import ProjectList from "./containers/Project/ProjectList";
-import Project from "./containers/Project/Project";
 import Signin from "./containers/Signin";
 import Register from "./containers/Register/Register";
 import MesajList from "./containers/Mesajlar/MesajList";
 import DanisanView from "./containers/Danisanlar/DanisanView";
 import DanisanList from "./containers/Danisanlar/DanisanList";
-import AnaSayfaView from "./containers/AnaSayfa/AnaSayfa";
 import NewRandevu from "./containers/Randevu/NewRandevu";
 import NotImplementedYet from './containers/NotImplementedYet'
+import RandevuList from "./containers/Randevu/RandevuList";
 import NewLandingPage from './containers/LandingPage/NewLandingPage'
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayoutBottomNav from "./layouts/MainLayoutBottomNav";
-import MaterialList from "./containers/MyStorage/MaterialList"
 import withWidth from '@material-ui/core/withWidth';
 import withTracker from './components/Signin/PageTracker'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
@@ -38,7 +32,6 @@ import { SnackbarProvider } from 'material-ui-snackbar-provider'
 
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";
-import RandevuList from "./containers/Randevu/RandevuList";
 
 
 const NotFound = () => {
@@ -98,7 +91,7 @@ class App extends Component {
 
                     <EmptyRoute path="/np" component={NewLandingPage} />
                     <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
-                    
+
                     <DashboardRoute path="/me" component={MyProfile} />
                     <DashboardRoute path="/r" component={RandevuList} />
                     <DashboardRoute path="/f" component={NotImplementedYet} />

@@ -16,8 +16,6 @@ import { connect } from "react-redux";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { getMaterialHeaders } from '../../store/reducers/api.materialHeaders';
-
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -29,7 +27,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 const styles = theme => ({
   toolbarRoot: {
     paddingRight: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
+    paddingLeft: theme.spacing(1), 
   },
   icon: {
     width: theme.spacing(3.5),

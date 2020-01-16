@@ -20,8 +20,6 @@ import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { getEnvanter, putEnvanter, putClaim } from '../../store/reducers/api.envanter';
-
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -274,7 +272,7 @@ class Envanter extends React.Component {
                     </CardActionArea>
                   </Card>   */}
 
-                                 
+                                  
                   {/* {!user &&
                     <UberSocialButton
                       autoCleanUri
@@ -337,8 +335,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      putEnvanter: (userId, user, values) => putEnvanter(userId, user, values),
-      putClaim: (userId, user) => putClaim(userId, user),
     },
     dispatch
   );
