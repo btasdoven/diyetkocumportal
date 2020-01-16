@@ -72,7 +72,7 @@ const styles = theme => ({
     width: 'auto',
     color: '#262626',
     marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(2),
     padding: 0,
     display: 'flex',
     justifyContent: 'flex-end',
@@ -120,18 +120,18 @@ const styles = theme => ({
   avatarWrapper: {
     position: 'absolute',
     width: '100%',
-    paddingTop: 'calc(100% - 4px)',
+    paddingTop: 'calc(100% - 6px)',
     border: 'solid red',
-    borderWidth: '2px',
+    borderWidth: '3px',
     //margin: '2px',
     borderRadius: '50%',
     cursor: 'pointer'
   },
   avatar: {
-    width: 'calc(100% - 6px)',
+    width: 'calc(100% - 10px)',
     height: '100%',
-    top: '3px',
-    left: '3px',
+    top: '5px',
+    left: '5px',
   },
   avatarWrapper2: {
     position: 'absolute',
@@ -244,7 +244,7 @@ class LandingPage extends React.Component {
                 )
               })}
             </div>
-            <DialogContent style={{borderRadius: 0, color: 'white', padding:0, margin: 0}}>
+            <DialogContent style={{height: '100%', borderRadius: 0, color: 'white', padding:0, margin: 0}}>
               <Grid style={{height: '100%'}} container spacing={2}>
                 <Grid 
                   style={{display: 'flex', zIndex: 9998}} item xs={4}
@@ -437,6 +437,7 @@ class LandingPage extends React.Component {
               </Grid>
             </Grid>
           </div>
+          <Divider />
 
           {/* <div className={classNames(classes.layout, classes.cardGrid)}>
             <Grid key={"gridlar_"} container spacing={24}>
