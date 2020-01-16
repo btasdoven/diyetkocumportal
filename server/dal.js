@@ -292,9 +292,8 @@ var taskInitRows = () => {
   });
 }
 
-async function start() {
-  var res = await startAsync()
-  console.log(res)
+function start() {
+  return startAsync()
 }
 
 async function startAsync() {
@@ -326,9 +325,15 @@ async function startAsync() {
       })})
 }
 
+var loaded = false;
 console.log('begin')
-start();
+start().then(() => {
+  console.log('loaded')
+  loaded = true
+});
 console.log('end')
+
+exports.isLoaded = () => loaded;
 
 exports.loginUser = function(uname, pwd) {
   console.log('loginUser');

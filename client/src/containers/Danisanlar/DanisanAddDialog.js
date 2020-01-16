@@ -141,6 +141,7 @@ class FieldDialog extends React.Component {
     onSubmitInternal(formValues) {
         //RetrieveFormValuesForType(formValues)
         console.log(formValues);
+        formValues.name = formValues.name.trim();
         formValues.username=formValues.name;
         this.props.handleClose(formValues);
     }

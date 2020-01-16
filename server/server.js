@@ -12,6 +12,14 @@ app.use(cors());
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(function (req, res, next) {
+  if (dal.isLoaded() != true) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(400).json({message: "unauthorized access"});
+  } else {
+    next()
+  }
+})
 
 // We changed user id to user name. This mapping is needed for backward compatibility.
 //
