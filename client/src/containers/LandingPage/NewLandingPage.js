@@ -284,7 +284,10 @@ class LandingPage extends React.Component {
               </IconButton>
               <video 
                 playsInline
+                controls={true}
+                type='video/mp4'
                 ref={this.videoRef}
+                poster="/static/favicon.png"
                 onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
                 onEnded={() => {
                   if (this.state.activeStory + 1 == sources.length) {
@@ -355,7 +358,7 @@ class LandingPage extends React.Component {
                     <b>Diyetisyenlerin Dijital Asistanı</b>
                 </Typography>
                 <Typography style={{color: '#262626'}} gutterBottom variant="body2">
-                    🌏 Online diyete ve 📍 yüz yüze diyete yardımcı <br />
+                    🌏 Online ve 📍 yüz yüze diyete yardımcı <br />
                     🍀 Kolay randevu sistemi <br />
                     🥑 Danışanlara otomatik anemnez formu doldurma <br />
                     🍋 Diyet geçmişi ve notlara online erişim <br />
@@ -370,7 +373,7 @@ class LandingPage extends React.Component {
                 <div style={{position: 'relative', width: '100%', padding: '4px'}}>
                   <div className={classes.avatarWrapper2}>
                   </div>
-                  <Avatar alt="Remy Sharp" src={"https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.12442-15/e35/c35.856.942.942a/s150x150/49858499_1237374653094099_951020053474906933_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=Ei2xKWvNp6cAX9wdykB&oh=98e132bdc126c617a1396018e2679ce6&oe=5E22986E"}
+                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={"https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.12442-15/e35/c35.856.942.942a/s150x150/49858499_1237374653094099_951020053474906933_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=Ei2xKWvNp6cAX9wdykB&oh=98e132bdc126c617a1396018e2679ce6&oe=5E22986E"}
                     className={classes.avatar} />
                 </div>
                 <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">Diyet Koçum nedir?</Typography>
@@ -379,7 +382,7 @@ class LandingPage extends React.Component {
                 <div style={{position: 'relative', width: '100%', padding: '4px'}}>
                   <div className={classes.avatarWrapper2}>
                   </div>
-                  <Avatar alt="Remy Sharp" src={"https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c0.420.1080.1080a/s150x150/25037568_153532338753821_7653987469318160384_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=BpianB2_4YcAX_A5Osf&oh=1b43f40b9b592c32eb6ccbd2ba1127be&oe=5E21A591"}
+                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={"https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c0.420.1080.1080a/s150x150/25037568_153532338753821_7653987469318160384_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=BpianB2_4YcAX_A5Osf&oh=1b43f40b9b592c32eb6ccbd2ba1127be&oe=5E21A591"}
                   className={classes.avatar} />
                 </div>
                 <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">Diyet Koçum 101</Typography>
@@ -388,7 +391,7 @@ class LandingPage extends React.Component {
                 <div style={{position: 'relative', width: '100%', padding: '4px'}}>
                   <div className={classes.avatarWrapper2}>
                   </div>
-                  <Avatar alt="Remy Sharp" src={"https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e15/c0.280.720.720a/s150x150/26068425_133505374114645_5456226221186613248_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=Q60fIx3_3KMAX8_C7XH&oh=a7eab52d7a67de6b94a1ae8dfeecc9ec&oe=5E222FAB"} 
+                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={"https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e15/c0.280.720.720a/s150x150/26068425_133505374114645_5456226221186613248_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=Q60fIx3_3KMAX8_C7XH&oh=a7eab52d7a67de6b94a1ae8dfeecc9ec&oe=5E222FAB"} 
                     className={classes.avatar} />
                 </div>
                 <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">Diyet Koçum 201</Typography>
@@ -397,7 +400,7 @@ class LandingPage extends React.Component {
                 <div style={{position: 'relative', width: '100%', padding: '4px'}}>
                   <div className={classes.avatarWrapper2}>
                   </div>
-                  <Avatar alt="Remy Sharp" 
+                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" 
                     src={"https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c58.245.1005.1005a/s150x150/31571523_2035958099977680_6231814499284811776_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=Yl9n3T04C7gAX9VsQKW&oh=c1983f8c1786329727ac9a253caf2978&oe=5E223F4E"} 
                     className={classes.avatar} />
                 </div>
