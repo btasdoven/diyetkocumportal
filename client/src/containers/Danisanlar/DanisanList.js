@@ -227,7 +227,7 @@ class Envanter extends React.Component {
 
     if (values != undefined) {
       this.props.addDanisan(this.state.userId, values);
-      this.props.history.push('/d/' + values.username)
+      this.props.history.push('/c/' + values.username)
     }
 
     this.setState({newDanisan: false});
