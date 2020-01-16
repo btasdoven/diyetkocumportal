@@ -409,16 +409,18 @@ class Envanter extends React.Component {
 
                   <Grid item xs={12} sm={12} md={12} lg={6}>
                     <CopyToClipboard text={"https://v2.diyetkocum.net/d/" + this.state.user.username} >
-                      <Chip
-                        //avatar={<Avatar>M</Avatar>}
-                        label={"https://v2.diyetkocum.net/d/" + this.state.user.username}
-                        clickable
-                        color="primary"
-                        onClick={this.handleLinkCopied}
-                        onDelete={this.handleLinkCopied}
-                        deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
-                        variant="outlined"
-                      />
+                      <span>
+                        <Chip
+                          //avatar={<Avatar>M</Avatar>}
+                          label={"https://v2.diyetkocum.net/d/" + this.state.user.username}
+                          clickable
+                          color="primary"
+                          onClick={this.handleLinkCopied}
+                          onDelete={this.handleLinkCopied}
+                          deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
+                          variant="outlined"
+                        />
+                      </span>
                     </CopyToClipboard>
                   </Grid>
                 </Grid>
