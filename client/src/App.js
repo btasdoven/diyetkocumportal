@@ -96,17 +96,19 @@ class App extends Component {
                     <DashboardRoute exact path="/m" component={MesajList} />
                     <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
+                    <EmptyRoute path="/np" component={NewLandingPage} />
                     <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
+                    
                     <DashboardRoute path="/me" component={MyProfile} />
                     <DashboardRoute path="/r" component={RandevuList} />
                     <DashboardRoute path="/f" component={NotImplementedYet} />
                     <DashboardRoute path="/kd" component={NotImplementedYet} />
-                    <EmptyRoute path="/np" component={NewLandingPage} />
                     <Route path="/signin" render={() => <Redirect to="/" />} />
                     <EmptyRoute component={NotFound} />
                   </Switch>
                 ) : (
                   <Switch>
+                    <EmptyRoute path="/np" component={NewLandingPage} />
                     <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
                     <EmptyRoute path="/signup" component={Register} />
                     <EmptyRoute path="/signin" component={Signin} />

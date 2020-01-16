@@ -47,7 +47,8 @@
     "redux-logger": "^3.0.6",
     "redux-payment-form": "0.0.5",
     "redux-thunk": "2.3.0",
-    "tslib": "^1.10.0"
+    "tslib": "^1.10.0",
+    "video-react": "^0.14.1"
   },
   "scripts": {
     "start": "react-scripts start",
