@@ -207,6 +207,25 @@ class LandingPage extends React.Component {
         </AppBar>
         <Divider />
         <main>
+        <video 
+          muted
+          playsInline
+          //controls={true}
+          type='video/mp4'
+          //poster="/static/favicon.png"
+          onLoadedData={() => console.log('loaded data for next of ', this.state.activeStory)}
+          onPlay={() => console.log('playing')}
+          onEnded={() => console.log('ended')}
+          src={
+            sources[this.state.openDialog == false 
+              ? this.state.activeStory 
+              : this.state.activeStory + 1 == sources.length 
+                ? 0 
+                : this.state.activeStory + 1]}
+          preload="auto" 
+          style={{zIndex: -1, position: 'absolute', top: 0, width: 0, height: 0}}>                 
+        </video>
+
           <Dialog
             PaperProps={{style: {
               width: '100%',
@@ -282,6 +301,7 @@ class LandingPage extends React.Component {
                 autoPlay
                 //controls={true}
                 type='video/mp4'
+                onLoadedData={() => console.log('loaded data for ', this.state.activeStory)}
                 ref={this.videoRef}
                 //poster="/static/favicon.png"
                 onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
@@ -294,230 +314,151 @@ class LandingPage extends React.Component {
                 }}
                 src={sources[this.state.activeStory]}
                 preload="auto" 
-                style={{position: 'absolute', top: 0, width: '100%', height: '100%'}}>
-                  {sources.map((s, idx) => {
-                    <source key={idx} src={s} type="video/mp4"/>
-                  })}                  
+                style={{position: 'absolute', top: 0, width: '100%', height: '100%'}}>                
               </video>
-{/* 
-              <video 
-                muted
-                playsInline
-                loop
-                autoPlay
-                controls={true}
-                type='video/mp4'
-                ref={this.videoRef}
-                //poster="/static/favicon.png"
-                onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
-                onEnded={() => {
-                  if (this.state.activeStory + 1 == sources.length) {
-                    this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
-                  } else {
-                    this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
-                  }
-                }}
-                src={sources[this.state.activeStory]}
-                preload="auto" 
-                style={{borderRadius: '12px', position: 'absolute', top: 0, width: '100%', height: '100%'}}>
-                  {sources.map((s, idx) => {
-                    <source key={idx} src={s} type="video/mp4"/>
-                  })}                  
-              </video> */}
             </DialogContent>
           </Dialog>
-          {/* Hero unit */}
-          {/* <div className={classes.heroUnit}>
-            <div className={classes.heroContent}>
-              <Typography variant="h4" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} align="left" gutterBottom>
-                  A secure way to track your research
-              </Typography>
-              <Typography align="left" style={{fontFamily: 'Open Sans Light,sans-serif', color:'#eff9ff'}} gutterBottom>
-                Your data is your own. Why allow tens of applications store your data in their untrusted environment without your explicit permission? <br/>
-                With Monagard, you can store your data and securely share with the applications you choose as long as you like.  
-              </Typography>
-              <div className={classes.heroButtons}>
-                    <Button variant="contained" align="left" color="primary" href="/signup" className={classes.loginButton}>
-                      Register for free
-                    </Button>
+          {this.state.openDialog != true && (
+            <div className={classNames(classes.layout, classes.cardGrid)}>
+              <Grid container spacing={0} >
+                <Grid style={{paddingLeft: '5%'}} item xs={3} sm={3} md={3} lg={3}>
+                  <div style={{position: 'relative', width: '100%'}}>
+                    <style>
+                      {`@keyframes rotate {
+                          from{ transform: rotate(0deg); }
+                          to{ transform: rotate(360deg); }
+                      }`}
+                    </style>
+                    <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
+                    </div>
+                    <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} />
+                  </div>
+                </Grid>
+                <Grid style={{paddingLeft: '5%'}} item xs={9} sm={9} md={9} lg={9}>
+                  <Grid style={{alignContent: 'center', height: '100%'}} container spacing={0}>
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="h5">
+                          Diyet Koçum
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={4} md={4} lg={4}>
+                      <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
+                          <b>144</b><br/> diyetisyen
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={4} md={4} lg={4}>
+                      <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
+                          <b>3489</b><br/> danışan
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={4} md={4} lg={4}>
+                      <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
+                          <b>11472</b><br/> görüşme
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
+                  <Typography style={{color: '#262626'}} gutterBottom variant="body2">
+                      <b>Diyetisyenlerin Dijital Asistanı</b>
+                  </Typography>
+                  <Typography style={{color: '#262626'}} gutterBottom variant="body2">
+                      🌏 Online ve 📍 yüz yüze diyete yardımcı <br />
+                      🍀 Kolay randevu sistemi <br />
+                      🥑 Danışanlara otomatik anemnez formu doldurma <br />
+                      🍋 Diyet geçmişi ve notlara online erişim <br />
+                      🍍 Diyet listeleri oluşturma ve kaydetme <br />
+                      💌 Uygulama üzerinden mesajlaşma <br />
+                      🍏 Ödeme alma kolaylığı <br />
+                  </Typography>
+                </Grid>
+                <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
+                  <Typography style={{letterSpacing: 0, color: '#999'}} gutterBottom variant="caption">
+                      <b style={{color: '#262626'}}>diyetisyendoyranli</b>, <b style={{color: '#262626'}}>dyt_ezelkavadar</b>, <b style={{color: '#262626'}}>aysuutasdovenn</b> ve digerleri tarafından kullanılıyor
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} container spacing={0}>
+                {highlights.map((highlight, idx) => 
+                  <Grid key={idx} item xs>
+                    <div style={{position: 'relative', width: '80%', margin: '10%'}}>
+                      <div className={classes.avatarWrapper2}>
+                      </div>
+                      <Avatar imgProps={{style: { borderRadius: '50%' }}} onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={highlight.src} className={classes.avatar2} />
+                    </div>
+                    <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">{highlight.name}</Typography>
+                  </Grid>
+                )}
+              </Grid>
+
+              <div style={{marginTop: '24px', backgroundColor: 'white'}} >
+                <Divider />
+                <Grid container style={{paddingLeft: '16px', paddingRight: '16px'}} spacing={0}>
+                  <Grid style={{paddingTop: '16px', display: 'flex', justifyContent: 'center'}} item xs={12} lg={12}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={6}>
+                        <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PRO</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PREMIUM</Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={6}>
+                        <Typography component="div" style={{textAlign: 'center'}} variant="caption">5 danışana kadar kayıt</Typography>
+                        <Typography component="div" style={{textAlign: 'center'}} variant="caption">Haftalık randevu takibi</Typography>
+                        <Typography component="div" style={{textAlign: 'center'}} variant="caption">Kısıtlı mesajlaşma</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız danışan kaydı</Typography>
+                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız randevu takibi</Typography>
+                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız mesajlaşma</Typography>
+                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Online ödeme alma</Typography>
+                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">İlk ay ücretsiz</Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid style={{paddingTop:'8px'}} item xs={12}> 
+                    <Grid container spacing={1}>
+                      <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
+                        <Typography component="span" style={{textDecoration: 'line-through', color: 'rgba(0, 0, 0, 0.27)', fontSize: '1rem'}} variant="h6" color="textPrimary">
+                          99₺
+                        </Typography><Typography component="span" variant="h5" color="textPrimary">
+                          0₺
+                        </Typography>
+                        <Typography component="span" variant="h6" color="textSecondary">
+                          /ay
+                        </Typography>
+                        {/* <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">99₺</Typography> */}
+                      </Grid>
+                      <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
+                        <Typography component="span" variant="h5" color="textPrimary">
+                          199₺
+                        </Typography>
+                        <Typography component="span" variant="h6" color="textSecondary">
+                          /ay
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item style={{paddingTop: '8px', paddingBottom: '16px'}} xs={12}>
+                    <Grid container spacing={1}>
+                      <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                        <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined" component={Link} to="/signup">ÜCRETSİZ KAYDOL</Button>
+                      </Grid>
+                      <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                        <Button style={{color: 'white', backgroundColor: '#3897f0'}} size="small" variant="contained" component={Link} to="/signup">ŞİMDİ DENE</Button>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Divider />
               </div>
             </div>
-          </div> */}
-          <div className={classNames(classes.layout, classes.cardGrid)}>
-            <Grid container spacing={0} >
-              <Grid style={{paddingLeft: '5%'}} item xs={3} sm={3} md={3} lg={3}>
-                <div style={{position: 'relative', width: '100%'}}>
-                  <div className={classes.avatarWrapper}>
-                  </div>
-                  <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} />
-                </div>
-              </Grid>
-              <Grid style={{paddingLeft: '5%'}} item xs={9} sm={9} md={9} lg={9}>
-                <Grid style={{alignContent: 'center', height: '100%'}} container spacing={0}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="h5">
-                        Diyet Koçum
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4} sm={4} md={4} lg={4}>
-                    <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>144</b><br/> diyetisyen
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4} sm={4} md={4} lg={4}>
-                    <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>3489</b><br/> danışan
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4} sm={4} md={4} lg={4}>
-                    <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>11472</b><br/> görüşme
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
-                <Typography style={{color: '#262626'}} gutterBottom variant="body2">
-                    <b>Diyetisyenlerin Dijital Asistanı</b>
-                </Typography>
-                <Typography style={{color: '#262626'}} gutterBottom variant="body2">
-                    🌏 Online ve 📍 yüz yüze diyete yardımcı <br />
-                    🍀 Kolay randevu sistemi <br />
-                    🥑 Danışanlara otomatik anemnez formu doldurma <br />
-                    🍋 Diyet geçmişi ve notlara online erişim <br />
-                    🍍 Diyet listeleri oluşturma ve kaydetme <br />
-                    💌 Uygulama üzerinden mesajlaşma <br />
-                    🍏 Ödeme alma kolaylığı <br />
-                </Typography>
-              </Grid>
-              <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
-                <Typography style={{letterSpacing: 0, color: '#999'}} gutterBottom variant="caption">
-                    <b style={{color: '#262626'}}>diyetisyendoyranli</b>, <b style={{color: '#262626'}}>dyt_ezelkavadar</b>, <b style={{color: '#262626'}}>aysuutasdovenn</b> ve digerleri tarafından kullanılıyor
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} container spacing={0}>
-              {highlights.map((highlight, idx) => 
-                <Grid key={idx} item xs>
-                  <div style={{position: 'relative', width: '80%', margin: '10%'}}>
-                    <div className={classes.avatarWrapper2}>
-                    </div>
-                    <Avatar imgProps={{style: { borderRadius: '50%' }}} onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={highlight.src} className={classes.avatar2} />
-                  </div>
-                  <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">{highlight.name}</Typography>
-                </Grid>
-              )}
-            </Grid>
-
-            <div style={{marginTop: '24px', backgroundColor: 'white'}} >
-              <Divider />
-              <Grid container style={{paddingLeft: '16px', paddingRight: '16px'}} spacing={0}>
-                <Grid style={{paddingTop: '16px', display: 'flex', justifyContent: 'center'}} item xs={12} lg={12}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={6}>
-                      <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PRO</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PREMIUM</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={6}>
-                      <Typography component="div" style={{textAlign: 'center'}} variant="caption">5 danışana kadar kayıt</Typography>
-                      <Typography component="div" style={{textAlign: 'center'}} variant="caption">Haftalık randevu takibi</Typography>
-                      <Typography component="div" style={{textAlign: 'center'}} variant="caption">Kısıtlı mesajlaşma</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız danışan kaydı</Typography>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız randevu takibi</Typography>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız mesajlaşma</Typography>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Online ödeme alma</Typography>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">İlk ay ücretsiz</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid style={{paddingTop:'8px'}} item xs={12}> 
-                  <Grid container spacing={1}>
-                    <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
-                      <Typography component="span" style={{textDecoration: 'line-through', color: 'rgba(0, 0, 0, 0.27)', fontSize: '1rem'}} variant="h6" color="textPrimary">
-                        99₺
-                      </Typography><Typography component="span" variant="h5" color="textPrimary">
-                        0₺
-                      </Typography>
-                      <Typography component="span" variant="h6" color="textSecondary">
-                        /ay
-                      </Typography>
-                      {/* <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">99₺</Typography> */}
-                    </Grid>
-                    <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
-                      <Typography component="span" variant="h5" color="textPrimary">
-                        199₺
-                      </Typography>
-                      <Typography component="span" variant="h6" color="textSecondary">
-                        /ay
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item style={{paddingTop: '8px', paddingBottom: '16px'}} xs={12}>
-                  <Grid container spacing={1}>
-                    <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
-                      <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined" component={Link} to="/signup">ÜCRETSİZ KAYDOL</Button>
-                    </Grid>
-                    <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
-                      <Button style={{color: 'white', backgroundColor: '#3897f0'}} size="small" variant="contained" component={Link} to="/signup">ŞİMDİ DENE</Button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Divider />
-            </div>
-          </div>
-          {/* <div className={classNames(classes.layout, classes.cardGrid)}>
-            <Grid key={"gridlar_"} container spacing={24}>
-                <Grid key={"grid_childlar"} item md={12} lg={12}>
-                  <Paper elevation={1}>
-                      <Card className={classes.card}>
-                          <CardContent className={classes.cardContent}>
-                              <Typography gutterBottom variant="h5">
-                                Mikimmil bir baslik
-                              </Typography>
-                              <div style={{marginTop: '16px', marginLeft: '16px', display:'flex', alignItems: 'center'}}>
-                              <ul>
-                <li><Typography>Integrate with a tax-filing application to manage your tax return</Typography></li>
-                <li><Typography>Track your home or car insurance automatically</Typography></li>
-                <li><Typography>Worried about sharing your phone or e-mail number? Monagard can help.</Typography></li>
-                <li><Typography>The most secure way for online shopping</Typography></li>
-              </ul>
-                                  <img src='static/icbc.png'/>
-                              </div>
-                          </CardContent>
-                      </Card>
-                  </Paper>
-                </Grid>
-            </Grid>
-          </div> */}
+          )}
         </main>
-        {/* Footer */}
-        {/* <footer className={classes.footer}>
-        <Grid className={classes.layout} container spacing={1} align="center" justify="space-evenly">
-            {footers.map(footer => (
-              <Grid item xs={4} key={footer.title}>
-                <Typography style={{color: '#262626'}} variant="subtitle2" gutterBottom>
-                  {footer.title}
-                </Typography>
-                {footer.description.map(item => (
-                  <Typography key={item} style={{fontWeight: 300, color: '#262626'}} variant="body2">
-                    {item}
-                  </Typography>
-                ))}
-              </Grid>
-            ))}
-          </Grid>
-        </footer> */}
-        {/* End footer */}
       </React.Fragment>
     );
   }
