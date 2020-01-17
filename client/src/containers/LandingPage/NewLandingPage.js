@@ -162,10 +162,10 @@ const sources = [
 ];
 
 const highlights = [
-  { name: 'Diyet Koçum nedir?', src: "https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.12442-15/e35/c35.856.942.942a/s150x150/49858499_1237374653094099_951020053474906933_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=Ei2xKWvNp6cAX9wdykB&oh=98e132bdc126c617a1396018e2679ce6&oe=5E22986E" },
-  { name: 'İlk danışan kaydı', src: "https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e15/c0.280.720.720a/s150x150/26068425_133505374114645_5456226221186613248_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=Q60fIx3_3KMAX8_C7XH&oh=a7eab52d7a67de6b94a1ae8dfeecc9ec&oe=5E222FAB" },
-  { name: 'İlk randevu', src: "https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-15/s150x150/80845780_603499753556425_1161772046735433997_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=vvL_-kUjZAUAX8WTwxo&oh=cf4b63131565dff0a674f04d2a80ce6d&oe=5EA1029B" },
-  { name: 'Soru & Cevap', src: "https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c58.245.1005.1005a/s150x150/31571523_2035958099977680_6231814499284811776_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=Yl9n3T04C7gAX9VsQKW&oh=c1983f8c1786329727ac9a253caf2978&oe=5E223F4E" },
+  { name: 'Diyet Koçum nedir?', src: "/static/highlights/highlight1.jpg" },
+  { name: 'İlk danışan kaydı', src: "/static/highlights/highlight2.jpg" },
+  { name: 'İlk randevu', src: "/static/highlights/highlight3.jpg" },
+  { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg" },
 ]
 class LandingPage extends React.Component {
 
@@ -291,7 +291,7 @@ class LandingPage extends React.Component {
               </Grid>
               
               <IconButton 
-                style={{position: 'absolute', zIndex: 9999, top: '14px', right: 0, color: 'rgba(255, 255, 255, 1)'}} 
+                style={{position: 'absolute', zIndex: 9999, top: '14px', right: '8px', color: 'rgba(255, 255, 255, 1)'}} 
                 onClick={() => this.setState({width: 0, duration: 0, openDialog: false})}>
                   <CloseIcon />
               </IconButton>
