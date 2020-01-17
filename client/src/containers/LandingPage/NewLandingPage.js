@@ -78,8 +78,8 @@ const styles = theme => ({
   layout: {
     width: 'auto',
     color: '#262626',
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
     padding: 0,
     [theme.breakpoints.up(750 + theme.spacing(6))]: {
       width: 750,
@@ -153,25 +153,6 @@ const styles = theme => ({
   }
 });
 
-const footers = [
-  {
-    title: 'Diyet Koçum',
-    description: ['Takım', 'Geçmiş', 'İletişim', 'Adres'],
-  },
-  {
-    title: 'Özellikler',
-    description: ['Login with Monagard', 'Encryption at rest', 'One-Time ID', 'Multi-factor Auth'],
-  },
-  // {
-  //   title: 'Resources',
-  //   description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
-  // },
-  {
-    title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
-  },
-];
-
 const sources = [
   '/static/story1.mp4',
   '/static/story2.mp4',
@@ -183,7 +164,7 @@ const sources = [
 const highlights = [
   { name: 'Diyet Koçum nedir?', src: "https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.12442-15/e35/c35.856.942.942a/s150x150/49858499_1237374653094099_951020053474906933_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=Ei2xKWvNp6cAX9wdykB&oh=98e132bdc126c617a1396018e2679ce6&oe=5E22986E" },
   { name: 'İlk danışan kaydı', src: "https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e15/c0.280.720.720a/s150x150/26068425_133505374114645_5456226221186613248_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=Q60fIx3_3KMAX8_C7XH&oh=a7eab52d7a67de6b94a1ae8dfeecc9ec&oe=5E222FAB" },
-  { name: 'İlk randevu', src: "https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c0.420.1080.1080a/s150x150/25037568_153532338753821_7653987469318160384_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=BpianB2_4YcAX_A5Osf&oh=1b43f40b9b592c32eb6ccbd2ba1127be&oe=5E21A591" },
+  { name: 'İlk randevu', src: "https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-15/s150x150/80845780_603499753556425_1161772046735433997_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=vvL_-kUjZAUAX8WTwxo&oh=cf4b63131565dff0a674f04d2a80ce6d&oe=5EA1029B" },
   { name: 'Soru & Cevap', src: "https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.12442-15/e35/c58.245.1005.1005a/s150x150/31571523_2035958099977680_6231814499284811776_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=Yl9n3T04C7gAX9VsQKW&oh=c1983f8c1786329727ac9a253caf2978&oe=5E223F4E" },
 ]
 class LandingPage extends React.Component {
@@ -314,7 +295,7 @@ class LandingPage extends React.Component {
                 }}
                 src={sources[this.state.activeStory]}
                 preload="auto" 
-                style={{borderRadius: '12px', position: 'absolute', top: 0, width: '100%', height: '100%'}}>
+                style={{position: 'absolute', top: 0, width: '100%', height: '100%'}}>
                   {sources.map((s, idx) => {
                     <source key={idx} src={s} type="video/mp4"/>
                   })}                  
@@ -364,16 +345,16 @@ class LandingPage extends React.Component {
             </div>
           </div> */}
           <div className={classNames(classes.layout, classes.cardGrid)}>
-            <Grid container spacing={2}>
-              <Grid item xs={3} sm={3} md={3} lg={3}>
+            <Grid container spacing={0} >
+              <Grid style={{paddingLeft: '5%'}} item xs={3} sm={3} md={3} lg={3}>
                 <div style={{position: 'relative', width: '100%'}}>
                   <div className={classes.avatarWrapper}>
                   </div>
                   <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} />
                 </div>
               </Grid>
-              <Grid item xs={9} sm={9} md={9} lg={9}>
-                <Grid style={{alignContent: 'center', height: '100%'}} container spacing={1}>
+              <Grid style={{paddingLeft: '5%'}} item xs={9} sm={9} md={9} lg={9}>
+                <Grid style={{alignContent: 'center', height: '100%'}} container spacing={0}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="h5">
                         Diyet Koçum
@@ -416,10 +397,10 @@ class LandingPage extends React.Component {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid style={{paddingTop: '8px', paddingLeft: '18px', paddingRight: '18px'}} container spacing={1}>
+            <Grid style={{paddingTop: '8px', paddingLeft: '18px', paddingRight: '18px'}} container spacing={0}>
               {highlights.map((highlight, idx) => 
                 <Grid key={idx} item xs>
-                  <div style={{position: 'relative', width: '84%', margin: '8%'}}>
+                  <div style={{position: 'relative', width: '80%', margin: '10%'}}>
                     <div className={classes.avatarWrapper2}>
                     </div>
                     <Avatar imgProps={{style: { borderRadius: '50%' }}} onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={highlight.src} className={classes.avatar2} />
@@ -429,9 +410,9 @@ class LandingPage extends React.Component {
               )}
             </Grid>
 
-            <div style={{marginLeft: '-8px', marginRight: '-8px', marginTop: '24px', backgroundColor: 'white'}} >
+            <div style={{marginTop: '24px', backgroundColor: 'white'}} >
               <Divider />
-              <Grid container style={{paddingLeft: '16px', paddingRight: '16px'}} spacing={1}>
+              <Grid container style={{paddingLeft: '16px', paddingRight: '16px'}} spacing={0}>
                 <Grid style={{paddingTop: '16px', display: 'flex', justifyContent: 'center'}} item xs={12} lg={12}>
                   <Grid container spacing={1}>
                     <Grid item xs={6}>
