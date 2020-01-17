@@ -423,9 +423,10 @@ class LandingPage extends React.Component {
                   <Grid style={{paddingTop:'8px'}} item xs={12}> 
                     <Grid container spacing={1}>
                       <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
-                        <Typography component="span" style={{textDecoration: 'line-through', color: 'rgba(0, 0, 0, 0.27)', fontSize: '1rem'}} variant="h6" color="textPrimary">
+                        <Typography component="span" style={{marginRight: '4px', textDecoration: 'line-through', color: 'rgba(0, 0, 0, 0.27)', fontSize: '1rem'}} variant="h6" color="textPrimary">
                           99₺
-                        </Typography><Typography component="span" variant="h5" color="textPrimary">
+                        </Typography>
+                        <Typography component="span" variant="h5" color="textPrimary">
                           0₺
                         </Typography>
                         <Typography component="span" variant="h6" color="textSecondary">
