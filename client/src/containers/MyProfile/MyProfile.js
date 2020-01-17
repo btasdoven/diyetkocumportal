@@ -96,7 +96,7 @@ const styles = theme => ({
     padding: theme.spacing(1)
   },
   root: {
-      height: 'calc(100vh - 48px)',
+      //height: 'calc(100vh - 48px)',
       padding: theme.spacing(1),
   },
   rootLoading: {

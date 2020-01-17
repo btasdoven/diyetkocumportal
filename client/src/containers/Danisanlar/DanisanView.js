@@ -68,7 +68,7 @@ const styles = theme => ({
   },
   main: {
     width: '100%',
-    height: 'calc(100vh - 48px)',
+    //height: 'calc(100vh - 48px)',
     display: 'block', // Fix IE 11 issue.
     // marginLeft: theme.spacing(1),
     // marginRight: theme.spacing(1),
