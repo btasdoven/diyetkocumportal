@@ -396,6 +396,8 @@ exports.signUpUser = function(uname, userInfo) {
 
   storage.setItem('0', rows[0]);
 
+  email.sendEmail('btasdoven@gmail.com', 'new user created', JSON.stringify(rows[0].users[uname]))
+
   return { user: userInfo }
 }
 

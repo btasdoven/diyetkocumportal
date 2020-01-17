@@ -111,8 +111,7 @@ class Register extends React.Component {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  component={Link}
-                  to="/"
+                  href="/"
                 >
                   ANA SAYFAYA DÖN
                 </Button> 
