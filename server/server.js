@@ -138,31 +138,33 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName", (req, res, next) => {
 
 app.post("/api/v1/users/auth", (req, res, next) => {
   setTimeout((function() {
-    var user = dal.loginUser(req.body.username.toLowerCase(), req.body.password)
+    var ret = dal.loginUser(req.body.username.toLowerCase(), req.body.password)
 
-    if (user != undefined) {
+    if (ret.error == undefined) {
+      var user = ret.user;
       res.setHeader('Content-Type', 'application/json');
       res.json({token: 'Civil Management', url: user.url, name: user.name, username: user.username, id: user.id});
       return;
     }
 
     res.setHeader('Content-Type', 'application/json');
-    res.status(400).json({message: "unauthorized access"});
+    res.status(400).json({message: ret.error});
   }), delayInResponseInMs);
 });
 
 app.post("/api/v1/users/signup", (req, res, next) => {
   setTimeout((function() {
-    var user = dal.signUpUser(req.body.username.toLowerCase(), req.body)
+    var ret = dal.signUpUser(req.body.username.toLowerCase(), req.body)
 
-    if (user != undefined) {
+    if (ret.error == undefined) {
+      var user = ret.user;
       res.setHeader('Content-Type', 'application/json');
       res.json({url: user.url, name: user.name, username: user.username, id: user.id});
       return;
     }
 
     res.setHeader('Content-Type', 'application/json');
-    res.status(400).json({message: "unauthorized access"});
+    res.status(400).json({message: ret.error});
   }), delayInResponseInMs);
 });
 

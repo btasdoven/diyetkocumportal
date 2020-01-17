@@ -102,9 +102,21 @@ class Register extends React.Component {
               </span>
             )}
             {auth && auth.signedUp == true && (
-              <Typography style={{marginTop: '16px', textAlign: 'center'}}>
-                Üyeliğiniz başarıyla oluşturuldu. 1 gün içerisinde tarafımızdan onaylandıktan sonra sisteme giriş yapabileceksiniz.
-              </Typography>
+              <span>
+                <Typography style={{marginTop: '16px', textAlign: 'center'}}>
+                  Üyeliğiniz başarıyla oluşturuldu. 1 gün içerisinde tarafımızdan onaylandıktan sonra sisteme giriş yapabileceksiniz.
+                </Typography>
+                <Button
+                  style={{marginTop: '32px'}}
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to="/"
+                >
+                  ANA SAYFAYA DÖN
+                </Button> 
+              </span>
             )}
           </Paper>
         </div>

@@ -335,6 +335,12 @@ exports.loginUser = function(uname, pwd) {
   for (let id in rows[0].users) {
     var user = rows[0].users[id];
     if (uname == user.username && pwd == user.password) {
+      console.log(user)
+      if (user.status == 'pending') {
+        console.log('pending user')
+        return { error: 'Bu kullanıcının üyeliği daha aktif edilmedi.'};
+      }
+
       // First login?
       //
       if (rows[id] == undefined) {
@@ -347,11 +353,11 @@ exports.loginUser = function(uname, pwd) {
         storage.setItem(id.toString(), rows[id]);
       }
 
-      return user
+      return {user: user}
     }
   }
 
-  return undefined;
+  return { error: 'Yanlış kullanıcı adı veya şifre.'};
 }
 
 exports.signUpUser = function(uname, userInfo) {
@@ -360,7 +366,7 @@ exports.signUpUser = function(uname, userInfo) {
 
   if (rows[uname] != undefined ||
       rows[0].users[uname] != undefined) {
-    return undefined;
+    return { error: 'Bu kullanıcı adına ait bir üyelik bulunmaktadır.'};
   }
 
   var r = { 
@@ -384,12 +390,13 @@ exports.signUpUser = function(uname, userInfo) {
     password: userInfo.password, 
     email: userInfo.email, 
     tel: userInfo.tel,
-    url: userInfo.url
+    url: userInfo.url,
+    status: 'pending'
   }
 
   storage.setItem('0', rows[0]);
 
-  return userInfo
+  return { user: userInfo }
 }
 
 exports.getDietitianAppointmentInfo = function (userId, date) {

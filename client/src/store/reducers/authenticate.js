@@ -44,6 +44,7 @@ export default function reducer(state = initState, action) {
     case LOGIN_FAILURE:
     case SIGNUP_FAILURE:
       return {
+        error: action.error
       };
 
     case LOGOUT:

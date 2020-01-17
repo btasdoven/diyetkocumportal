@@ -12,37 +12,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
-
-// const styles = (theme) => ({
-//   grid: {
-//     padding: "20px",
-//     display: "grid",
-//     gridTemplateRows: "85px 1fr 1fr 1fr",
-//     height: "inherit"
-//   },
-//   wrapper: {
-//     margin: theme.spacing,
-//     position: 'relative',
-//   },
-//   buttonSuccess: {
-//     backgroundColor: green[500],
-//     '&:hover': {
-//       backgroundColor: green[700],
-//     },
-//   },
-//   buttonProgress: {
-//     color: green[500],
-//     position: 'absolute',
-//     top: '50%',
-//     left: '50%',
-//     marginTop: -12,
-//     marginLeft: -12,
-//   },
-//   root: {
-//     display: 'flex',
-//     alignItems: 'center',
-//   },
-// });
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
@@ -172,6 +142,13 @@ const SigninForm = props => {
         control={<Checkbox value="remember" color="primary" />}
         label="Beni hatırla"
       /> */}
+
+      {auth && auth.error && (
+        <Typography color="error" variant="body1" className={classes.registerTypo}>
+            {auth.error}
+        </Typography>
+      )}
+
       <div className={classes.buttonRoot}>
       <div className={classes.buttonWrapper}>
         <Button
@@ -185,13 +162,6 @@ const SigninForm = props => {
           KAYDOL
         </Button>
         {auth && auth.signingUp && <CircularProgress size={24} className={classes.buttonProgress} />}
-        {/* <Grid container justify="flex-end">
-          <Grid item>
-            <Link href="#" variant="body2">
-              Already have an account? Sign in
-            </Link>
-          </Grid>
-        </Grid> */}
       </div>
       </div>
     </form>
@@ -203,5 +173,5 @@ export default reduxForm({
     // username: 'demo',
     // password: '1234'
   },
-  form: "login"
+  form: "signup"
 })(withStyles(styles)(SigninForm));
