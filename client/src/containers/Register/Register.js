@@ -63,63 +63,9 @@ const styles = theme => ({
   },
 });
 
-const steps = ['','','','','', '','','','',''];
-
 class Register extends React.Component {
-  state = {
-    activeStep: 0,
-    responses: [],
-  };
-
-  getStepContent(step) {
-    switch (step) {
-      case 0:
-        return <AddressForm 
-          question="Sence andimiz ilkokul ve ortaokulda ders oncesi okutulmali midir?"
-          choices={["Okutulmalidir", "Okutulmamalidir"]}
-          response={this.state.responses[step]}
-          handleResponse={this.handleResponse}
-          handleNext={this.handleNext}/>;
-      case 1:
-        return <AddressForm 
-          question="Sence FETO'nun siyasi ayagi ortaya cikartilmali midir?"
-          choices={["Cikartirmalidir", "Cikartilmamalidir"]}
-          response={this.state.responses[step]}
-          handleResponse={this.handleResponse}
-          handleNext={this.handleNext}/>;
-      case 2:
-        return <Review />;
-      default:
-        throw new Error('Unknown step');
-    }
-  }
-
-  handleResponse = (response) => {
-    this.state.responses[this.state.activeStep] = response;
-    this.setState(this.state);
-  }
-
-  handleNext = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep + 1,
-    }));
-  };
-
-  handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1,
-    }));
-  };
-
-  handleReset = () => {
-    this.setState({
-      activeStep: 0,
-    });
-  };
-
   render() {
     const { signup, classes, auth } = this.props;
-    const { activeStep } = this.state;
 
     return (
       <React.Fragment>
@@ -160,80 +106,6 @@ class Register extends React.Component {
                 Üyeliğiniz başarıyla oluşturuldu. 1 gün içerisinde tarafımızdan onaylandıktan sonra sisteme giriş yapabileceksiniz.
               </Typography>
             )}
-            {/* {auth && auth.signedUp == true && (
-              <form className={classes.form} noValidate>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="fname"
-                      name="firstName"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="firstName"
-                      label="First Name"
-                      autoFocus
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="lname"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={<Checkbox value="allowExtraEmails" color="primary" />}
-                      label="I want to receive inspiration, marketing promotions and updates via email."
-                    />
-                  </Grid>
-                </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
-                  Sign Up
-                </Button>
-                <Grid container justify="flex-end">
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      Already have an account? Sign in
-                    </Link>
-                  </Grid>
-                </Grid>
-              </form>
-            )} */}
           </Paper>
         </div>
         </div>
