@@ -68,9 +68,10 @@ const styles = theme => ({
   },
   main: {
     width: '100%',
+    height: 'calc(100vh - 48px)',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
     //top: 0,
     [theme.breakpoints.up(600 + theme.spacing(6))]: {
       width: '100%',
@@ -239,7 +240,7 @@ class Envanter extends React.Component {
     var danisanUserName = pathParams[pathParams.length - 1];
 
     return (
-        <div className={classes.root}>
+        // <div className={classes.root}>
         <div className={classes.main}>
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
@@ -321,7 +322,7 @@ class Envanter extends React.Component {
                 </span>
             }
         </div>
-        </div>
+        // </div>
       );
     }
 };

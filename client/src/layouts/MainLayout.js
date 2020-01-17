@@ -22,7 +22,8 @@ const styles = theme => ({
     //marginLeft: theme.spacing(7),
     //padding: theme.spacing(1),
     marginTop: theme.spacing(6),
-    overflowX: "hidden"
+    overflowX: "hidden",
+    //height: '100vh',
   },
   contentShift: {
     marginLeft: drawerWidth,

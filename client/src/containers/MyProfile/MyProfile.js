@@ -96,7 +96,8 @@ const styles = theme => ({
     padding: theme.spacing(1)
   },
   root: {
-      margin: theme.spacing(1),
+      height: 'calc(100vh - 48px)',
+      padding: theme.spacing(1),
   },
   rootLoading: {
       height: "inherit",
@@ -375,7 +376,7 @@ class Envanter extends React.Component {
 
                 <Grid container spacing={2}>
                   
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
                     <div className={classes.text}>
                       <Typography variant="body2">İletişim bilgilerinizi eksiksik girmeniz sizden randevu alan danışanların size daha kolay bir şekilde ulaşmasını sağlar.</Typography>
                     </div>

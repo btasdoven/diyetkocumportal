@@ -79,7 +79,7 @@ class App extends Component {
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={trLocale}>
           <SnackbarProvider SnackbarProps={{ autoHideDuration: 3000 }}>
             <CssBaseline />
-            <div style={{ height: "100vh" }}>
+            {/* <div style={{ height: "100vh" }}> */}
               <Router>
                 {localStorage.getItem('user') ? (
                   <Switch>
@@ -111,7 +111,7 @@ class App extends Component {
                   </Switch>
                 )}
               </Router>
-            </div>
+            {/* </div> */}
           </SnackbarProvider>
         </MuiPickersUtilsProvider>
       </MuiThemeProvider>
