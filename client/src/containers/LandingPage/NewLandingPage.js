@@ -192,7 +192,7 @@ class LandingPage extends React.Component {
       <React.Fragment >
         <CssBaseline />
         <AppBar elevation={0} position="static" className={classes.appBar}>
-          <Toolbar className={classes.layoutToolbar}>
+          <Toolbar variant="dense" className={classes.layoutToolbar}>
             {/* <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/> */}
             {/* <Typography variant="h6" color="inherit" noWrap>
               Digital Lab Book
@@ -207,7 +207,6 @@ class LandingPage extends React.Component {
         </AppBar>
         <Divider />
         <main>
-
           <Dialog
             PaperProps={{style: {
               width: '100%',
@@ -377,7 +376,7 @@ class LandingPage extends React.Component {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid className={classes.info} style={{paddingLeft: '16px'}} item xs={12} sm={12} md={12} lg={12}>
+              <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
                 <Typography style={{color: '#262626'}} gutterBottom variant="body2">
                     <b>Diyetisyenlerin Dijital Asistanı</b>
                 </Typography>
@@ -391,13 +390,13 @@ class LandingPage extends React.Component {
                     🍏 Ödeme alma kolaylığı <br />
                 </Typography>
               </Grid>
-              <Grid className={classes.info} style={{marginTop: 0, paddingLeft: '16px'}} item xs={12} sm={12} md={12} lg={12}>
+              <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
                 <Typography style={{letterSpacing: 0, color: '#999'}} gutterBottom variant="caption">
                     <b style={{color: '#262626'}}>diyetisyendoyranli</b>, <b style={{color: '#262626'}}>dyt_ezelkavadar</b>, <b style={{color: '#262626'}}>aysuutasdovenn</b> ve digerleri tarafından kullanılıyor
                 </Typography>
               </Grid>
             </Grid>
-            <Grid style={{paddingTop: '8px', paddingLeft: '18px', paddingRight: '18px'}} container spacing={0}>
+            <Grid style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} container spacing={0}>
               {highlights.map((highlight, idx) => 
                 <Grid key={idx} item xs>
                   <div style={{position: 'relative', width: '80%', margin: '10%'}}>
