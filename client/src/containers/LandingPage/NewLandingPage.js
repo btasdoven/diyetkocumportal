@@ -236,7 +236,7 @@ class LandingPage extends React.Component {
               })}
             </div>
             <DialogContent style={{height: '100%', borderRadius: 0, color: 'white', padding:0, margin: 0}}>
-              <Grid style={{height: '100%'}} container spacing={2}>
+              <Grid style={{height: '100%'}} container spacing={0}>
                 <Grid 
                   style={{display: 'flex', zIndex: 9998}} item xs={4}
                   onClick={() => {
@@ -438,7 +438,7 @@ class LandingPage extends React.Component {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={12}> 
+                <Grid style={{paddingTop:'8px'}} item xs={12}> 
                   <Grid container spacing={1}>
                     <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
                       <Typography component="span" style={{textDecoration: 'line-through', color: 'rgba(0, 0, 0, 0.27)', fontSize: '1rem'}} variant="h6" color="textPrimary">
@@ -461,7 +461,7 @@ class LandingPage extends React.Component {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item style={{paddingBottom: '16px'}} xs={12}>
+                <Grid item style={{paddingTop: '8px', paddingBottom: '16px'}} xs={12}>
                   <Grid container spacing={1}>
                     <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
                       <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined" component={Link} to="/signup">ÜCRETSİZ KAYDOL</Button>
