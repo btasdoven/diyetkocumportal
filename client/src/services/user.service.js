@@ -5,6 +5,7 @@ import dateFnsFormat from 'date-fns/format';
 export const userService = {
     login,
     logout,
+    signup,
     get_message_previews,
     get_danisan_previews,
     new_danisan,
@@ -41,6 +42,20 @@ function login(username, password) {
             console.log(user)
             console.log(localStorage.getItem('user'));
 
+            return user;
+        });
+}
+
+function signup(username, userInfo) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userInfo)
+    };
+
+    return fetch(HOST_NAME + `/api/v1/users/signup`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
             return user;
         });
 }
@@ -99,7 +114,7 @@ function get_dietitian_appointments(userId, date) {
     };
     
     date = date == undefined ? '' : date;
-    
+
     return fetch(HOST_NAME + `/api/v1/users/` + userId + `/appointments/` + date, requestOptions)
         .then(handleResponse)
         .then(data => {

@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import SigninForm from "../components/Signin";
 import { login } from "../store/reducers/authenticate";
 import { Field, reduxForm } from "redux-form";
+import { Link } from "react-router-dom";
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -117,17 +118,18 @@ const Signin = props => {
           login(v.username, v.password);
         }} />
 
-        {/* <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
+        <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
           Hesabın yok mu?
         </Typography>
         <Button
           fullWidth
           variant="contained"
           color="secondary"
-          href="/"
+          component={Link}
+          to="/signup"
         >
           ŞİMDİ KAYIT YAPTIR!
-        </Button> */}
+        </Button>
       </Paper>
     </div>
     </div>

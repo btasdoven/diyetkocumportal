@@ -27,14 +27,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 
 const styles = theme => ({
   appBar: {
@@ -491,10 +484,10 @@ class LandingPage extends React.Component {
                 <Grid item style={{paddingBottom: '16px'}} xs={12}>
                   <Grid container spacing={1}>
                     <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
-                      <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined">ÜCRETSİZ KAYDOL</Button>
+                      <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined" component={Link} to="/signup">ÜCRETSİZ KAYDOL</Button>
                     </Grid>
                     <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
-                      <Button style={{color: 'white', backgroundColor: '#3897f0'}} size="small" variant="contained">ŞİMDİ DENE</Button>
+                      <Button style={{color: 'white', backgroundColor: '#3897f0'}} size="small" variant="contained" component={Link} to="/signup">ŞİMDİ DENE</Button>
                     </Grid>
                   </Grid>
                 </Grid>

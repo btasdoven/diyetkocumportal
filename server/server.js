@@ -151,6 +151,21 @@ app.post("/api/v1/users/auth", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
+app.post("/api/v1/users/signup", (req, res, next) => {
+  setTimeout((function() {
+    var user = dal.signUpUser(req.body.username.toLowerCase(), req.body)
+
+    if (user != undefined) {
+      res.setHeader('Content-Type', 'application/json');
+      res.json({url: user.url, name: user.name, username: user.username, id: user.id});
+      return;
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(400).json({message: "unauthorized access"});
+  }), delayInResponseInMs);
+});
+
 console.log(process.env.PORT);
 
 app.listen(process.env.PORT || 4000, () => {

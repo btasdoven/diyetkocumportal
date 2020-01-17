@@ -96,6 +96,7 @@ class App extends Component {
                     <DashboardRoute path="/r" component={RandevuList} />
                     <DashboardRoute path="/f" component={NotImplementedYet} />
                     <DashboardRoute path="/kd" component={NotImplementedYet} />
+                    <EmptyRoute path="/signup" component={Register} />
                     <Route path="/signin" render={() => <Redirect to="/" />} />
                     <EmptyRoute component={NotFound} />
                   </Switch>

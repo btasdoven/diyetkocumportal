@@ -13,62 +13,59 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { signup } from "../../store/reducers/authenticate";
+
+import RegisterForm from '../../components/Register'
+
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import { Link } from "react-router-dom";
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
-  appBar: {
-    position: 'relative',
+  root: {
+    height: "inherit",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   },
-  layout: {
+  main: {
     width: 'auto',
-    marginLeft: theme.spacing * 2,
-    marginRight: theme.spacing * 2,
-    [theme.breakpoints.up(600 + theme.spacing * 2 * 2)]: {
-      width: 600,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  loginButton: {
-    marginLeft: 'auto',
-    backgroundColor: 'rgb(255, 109, 33)'
-  },
-  toolbarLayout: {
-    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
-    padding: 0,
-    [theme.breakpoints.up(1100 + theme.spacing(6))]: {
-      width: 1100,
+    [theme.breakpoints.up(400 + theme.spacing(6))]: {
+      width: 400,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
   },
   paper: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing * 2,
-    [theme.breakpoints.up(600 + theme.spacing(6))]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
-      padding: theme.spacing(3),
-    },
-  },
-  stepper: {
-    padding: `${theme.spacing(3)}px 0 ${theme.spacing(5)}px`,
-  },
-  buttons: {
+    marginTop: theme.spacing(7),
     display: 'flex',
-    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
   },
-  button: {
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
+  },
+  registerTypo: {
     marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1),
+    textAlign: 'center',
   },
 });
 
 const steps = ['','','','','', '','','','',''];
 
-class Checkout extends React.Component {
+class Register extends React.Component {
   state = {
     activeStep: 0,
     responses: [],
@@ -121,57 +118,146 @@ class Checkout extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { signup, classes, auth } = this.props;
     const { activeStep } = this.state;
 
     return (
       <React.Fragment>
       <CssBaseline />
-      <AppBar position="static" className={classes.appBar}>
-        <Toolbar className={classes.toolbarLayout}>
-          <a href="/">
-            <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
-          </a>
-          <Typography variant="h6" color="inherit" noWrap>
-            Ben Olsam
-          </Typography>
-        </Toolbar>
-      </AppBar>
-        <main className={classes.layout}>
+        <div className={classes.root}>
+        <div className={classes.main}>
           <Paper className={classes.paper}>
-            <React.Fragment>
-              {activeStep === steps.length ? (
-                <React.Fragment>
-                  <Typography variant="h5" gutterBottom>
-                    Thank you for your order.
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    Your order number is #2001539. We have emailed your order confirmation, and will
-                    send you an update when your order has shipped.
-                  </Typography>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  {this.getStepContent(activeStep)}
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
 
-                    {/* {activeStep !== 0 && (
-                      <Button onClick={this.handleBack} className={classes.button}>
-                        Back
-                      </Button>
-                    )} */}
-                    
-                </React.Fragment>
-              )}
-            </React.Fragment>
+            {/* <Typography style={{textAlign:'center'}} component="h2" variant="h5">
+              Diyet Koçum Portalına Kaydol
+            </Typography> */}
+
+            {(!auth || auth.signedUp != true) && (
+              <span>
+                <RegisterForm auth={auth} onSubmit={(v) => {
+                  console.log(v)
+                  signup(v.username, v);
+                }} />
+                <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
+                  Zaten hesabın var mı?
+                </Typography>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  component={Link}
+                  to="/"
+                >
+                  GİRİŞ YAP
+                </Button> 
+              </span>
+            )}
+            {auth && auth.signedUp == true && (
+              <Typography style={{marginTop: '16px', textAlign: 'center'}}>
+                Üyeliğiniz başarıyla oluşturuldu. 1 gün içerisinde tarafımızdan onaylandıktan sonra sisteme giriş yapabileceksiniz.
+              </Typography>
+            )}
+            {/* {auth && auth.signedUp == true && (
+              <form className={classes.form} noValidate>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      autoComplete="fname"
+                      name="firstName"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="firstName"
+                      label="First Name"
+                      autoFocus
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="lastName"
+                      label="Last Name"
+                      name="lastName"
+                      autoComplete="lname"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={<Checkbox value="allowExtraEmails" color="primary" />}
+                      label="I want to receive inspiration, marketing promotions and updates via email."
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Sign Up
+                </Button>
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <Link href="#" variant="body2">
+                      Already have an account? Sign in
+                    </Link>
+                  </Grid>
+                </Grid>
+              </form>
+            )} */}
           </Paper>
-        </main>
+        </div>
+        </div>
       </React.Fragment>
     );
   }
 }
 
-Checkout.propTypes = {
-  classes: PropTypes.object.isRequired,
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+  };
 };
 
-export default withStyles(styles)(Checkout);
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      signup: signup
+    },
+    dispatch
+  );
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Register));
