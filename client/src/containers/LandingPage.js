@@ -14,7 +14,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import { Buffer, Basket, ThumbUpOutline } from 'mdi-material-ui'
 import SvgIcon from '@material-ui/core/SvgIcon';
 
 import List from '@material-ui/core/List';

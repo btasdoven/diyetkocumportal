@@ -43,9 +43,7 @@ import { Form, Field, reduxForm } from "redux-form";
 
 import InstagramLogin from 'react-instagram-login';
 import FontAwesome from 'react-fontawesome'
-import SocialLogin from 'react-social-login'
 import 'font-awesome/css/font-awesome.min.css'; 
-import { InstagramLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 
 const styles = theme => ({
   root: {
@@ -109,94 +107,20 @@ function renderLoadingButton(classes) {
   )
 } 
 
-class __SocialButton extends React.Component {  
-  render () {
-    const { component: Component, children, ...props } = this.props
-
-    return (
-      <Component
-        onClick={this.props.triggerLogin} 
-        {...props}
-      >
-        {children}
-      </Component>
-    )
-  }
-}
-
-const UberSocialButton = SocialLogin(__SocialButton)
-
 class Envanter extends React.Component {
   
   constructor(props) {
     super(props);
-
-    this.handleSocialLogin = this.handleSocialLogin.bind(this);
-    this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
-    this.handleSocialLogout = this.handleSocialLogout.bind(this);
 
     this.state = {
       user: undefined,
       userIgInfo: undefined
     }
   }
-  
-  componentWillMount() {
-    var user = localStorage.getItem('userig')
-
-    if (user != undefined) {
-      this.setState({userIgInfo: JSON.parse(user)});
-    }
-  }
-
-  handleSocialLogout() {
-    console.log('handle social logout')
-    localStorage.removeItem('userig');
-    this.setState({
-      userIgInfo: undefined,
-      showLoader: false,
-    })
-  }
-
-  handleSocialLogin(user) {
-    console.log('handle social')
-    console.log(user)
-
-    if (user._provider == 'instagram') {
-      fetch('https://api.instagram.com/v1/users/self/?access_token=' + user._token.accessToken)
-        .then(response => response.json())
-        .then(data => {
-          user._profile['username'] = data.data.username
-          localStorage.setItem('userig', JSON.stringify(user));
-          this.props.putClaim(5, user._profile['username'])
-          this.setState({userIgInfo: user, showLoader:false})
-        })
-        .catch(err => console.log(err));
-    } else if (user._provider == 'google') {
-      user._profile['username'] = user._profile.email;
-      localStorage.setItem('userig', JSON.stringify(user));
-      this.props.putClaim(5, user._profile['username'])
-      this.setState({userIgInfo: user, showLoader:false})
-    } else {    
-      localStorage.setItem('userig', JSON.stringify(user));
-      this.setState({userIgInfo: user, showLoader:false})
-    }
-  }
-  
-  handleSocialLoginFailure(err) {
-    this.handleSocialLogout();
-
-    console.error(err)
-  }
 
   render() {
     const { classes } = this.props;
     const showLoader = this.state.showLoader;
-
-    const user = this.state.userIgInfo;
-    console.log(user);
-    console.log(this.state);
-    console.log(this.props);
 
     return (
         <div className={classes.root}>
@@ -206,59 +130,6 @@ class Envanter extends React.Component {
               <div className={classes.rootLoading}>
                 <Typography>Bu kısım daha kodlanmadi</Typography>
               </div>
-                // <span>                    
-                //   {!user &&
-                //     // <SocialButton
-                //     //   autoCleanUri
-                //     //   provider='instagram'
-                //     //   appId='5bff3a93e155401fb02b2bbc789e01b4'
-                //     //   redirect={this.props.location.pathname}
-                //     //   onLoginSuccess={this.handleSocialLogin}
-                //     //   onLoginFailure={this.handleSocialLoginFailure}
-                //     // >
-                //     //   Login with Instagram
-                //     // </SocialButton>
-                //     <UberSocialButton
-                //       autoCleanUri
-                //       provider='instagram'
-                //       appId='5bff3a93e155401fb02b2bbc789e01b4'
-                //       redirect={this.props.location.pathname}
-                //       onLoginSuccess={this.handleSocialLogin}
-                //       onLoginFailure={this.handleSocialLoginFailure}
-                //       component={InstagramLoginButton}
-                //     >
-                //       Login with Instagram
-                //     </UberSocialButton>
-                //   }
-                 
-                //  {/* {!user &&
-                //     <UberSocialButton
-                //       autoCleanUri
-                //       provider='google'
-                //       appId='755813466643-tqjd3qieai0angldsndr7du6pj75v0sd.apps.googleusercontent.com'
-                //       redirect={this.props.location.pathname}
-                //       onLoginSuccess={this.handleSocialLogin}
-                //       onLoginFailure={this.handleSocialLoginFailure}
-                //       component={GoogleLoginButton}
-                //     >
-                //       Login with Google
-                //     </UberSocialButton>
-                //   } */}
-
-                //   {user && 
-                //     <UberSocialButton 
-                //       autoCleanUri
-                //       provider='instagram'
-                //       redirect={this.props.location.pathname} 
-                //       onLogoutSuccess={this.handleSocialLogout}
-                //       onLoginFailure={this.handleSocialLoginFailure}
-                //       onLogoutFailure={this.handleSocialLoginFailure}
-                //       user={user}
-                //       component={UserDetails}
-                //     >
-                //     </UberSocialButton>
-                //     }
-                // </span>
             }
         </div>
         </div>

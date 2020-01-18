@@ -56,9 +56,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import UserDetails from './Danisan'
 import InstagramLogin from 'react-instagram-login';
 import FontAwesome from 'react-fontawesome'
-import SocialLogin from 'react-social-login'
 import 'font-awesome/css/font-awesome.min.css'; 
-import { InstagramLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import List from '@material-ui/core/List';

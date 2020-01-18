@@ -16,7 +16,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
-import { Buffer, Basket, ThumbUpOutline } from 'mdi-material-ui'
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { Link } from "react-router-dom";
 import Dialog from '@material-ui/core/Dialog';

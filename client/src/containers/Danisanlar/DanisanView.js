@@ -48,11 +48,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import UserDetails from './Danisan'
-import InstagramLogin from 'react-instagram-login';
 import FontAwesome from 'react-fontawesome'
-import SocialLogin from 'react-social-login'
 import 'font-awesome/css/font-awesome.min.css'; 
-import { InstagramLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -162,79 +159,16 @@ class __SocialButton extends React.Component {
   }
 }
 
-const UberSocialButton = SocialLogin(__SocialButton)
-
 class Envanter extends React.Component {
   
   constructor(props) {
     super(props);
-
-    this.handleSocialLogin = this.handleSocialLogin.bind(this);
-    this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
-    this.handleSocialLogout = this.handleSocialLogout.bind(this);
-
-    this.state = {
-      user: undefined,
-      userIgInfo: undefined
-    }
   }
   
-  componentWillMount() {
-    var user = localStorage.getItem('userig')
-
-    if (user != undefined) {
-      this.setState({userIgInfo: JSON.parse(user)});
-    }
-  }
-
-  handleSocialLogout() {
-    console.log('handle social logout')
-    localStorage.removeItem('userig');
-    this.setState({
-      userIgInfo: undefined,
-      showLoader: false,
-    })
-  }
-
-  handleSocialLogin(user) {
-    console.log('handle social')
-    console.log(user)
-
-    if (user._provider == 'instagram') {
-      fetch('https://api.instagram.com/v1/users/self/?access_token=' + user._token.accessToken)
-        .then(response => response.json())
-        .then(data => {
-          user._profile['username'] = data.data.username
-          localStorage.setItem('userig', JSON.stringify(user));
-          this.props.putClaim(5, user._profile['username'])
-          this.setState({userIgInfo: user, showLoader:false})
-        })
-        .catch(err => console.log(err));
-    } else if (user._provider == 'google') {
-      user._profile['username'] = user._profile.email;
-      localStorage.setItem('userig', JSON.stringify(user));
-      this.props.putClaim(5, user._profile['username'])
-      this.setState({userIgInfo: user, showLoader:false})
-    } else {    
-      localStorage.setItem('userig', JSON.stringify(user));
-      this.setState({userIgInfo: user, showLoader:false})
-    }
-  }
-  
-  handleSocialLoginFailure(err) {
-    this.handleSocialLogout();
-
-    console.error(err)
-  }
 
   render() {
     const { classes } = this.props;
     const showLoader = this.state.showLoader;
-
-    const user = this.state.userIgInfo;
-    console.log(user);
-    console.log(this.state);
-    console.log(this.props);
 
     var pathParams = this.props.location.pathname.split('/');
     var danisanUserName = pathParams[pathParams.length - 1];
@@ -304,20 +238,12 @@ class Envanter extends React.Component {
 
                   {
                     //user && 
-                    <UberSocialButton 
-                      autoCleanUri
-                      provider='instagram'
+                    <UserDetails 
                       redirect={this.props.location.pathname} 
-                      onLogoutSuccess={this.handleSocialLogout}
-                      onLoginFailure={this.handleSocialLoginFailure}
-                      onLogoutFailure={this.handleSocialLoginFailure}
-                      user={user}
-                      component={UserDetails}
                       viewParam={this.props.viewParam}
                       setTitle={this.props.setTitle}
                       danisanUserName={danisanUserName}
-                    >
-                    </UberSocialButton>
+                    />
                   }
                 </span>
             }
@@ -329,7 +255,6 @@ class Envanter extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    apiEnvanter: state.apiEnvanter,
   };
 };
 

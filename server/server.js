@@ -8,10 +8,12 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 const dal = require('./dal')
 const email = require('./email')
+var compression = require('compression')
 
 const delayInResponseInMs = 50;
 
 app.use(cors());
+app.use(compression())
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '50mb'}));
