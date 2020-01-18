@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import {
   BrowserRouter as Router,
   Route,
@@ -21,7 +20,6 @@ import NotImplementedYet from './containers/NotImplementedYet'
 import RandevuList from "./containers/Randevu/RandevuList";
 import NewLandingPage from './containers/LandingPage/NewLandingPage'
 
-import CircularProgress from '@material-ui/core/CircularProgress';
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayoutBottomNav from "./layouts/MainLayoutBottomNav";
@@ -32,7 +30,6 @@ import { SnackbarProvider } from 'material-ui-snackbar-provider'
 
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";
-
 
 const NotFound = () => {
   return <div>NotFound</div>;
@@ -118,8 +115,6 @@ class App extends Component {
     );
   }
 }
-
-App.propTypes = {};
 
 const mapStateToProps = state => {
   return {

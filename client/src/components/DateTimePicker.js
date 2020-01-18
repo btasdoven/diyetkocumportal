@@ -1,17 +1,13 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { I18n, Translate } from 'react-redux-i18n'
 import classnames from 'classnames'
 import 'react-datepicker/dist/react-datepicker.css'
 import { MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardDateTimePicker  } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import MomentUtils from "@date-io/moment";
-import enLocale from "date-fns/locale/en-US";
 import moment from "moment";
 
-moment.locale('tr')
 class _DatePickerInput extends PureComponent {
   render () {
     const { input, label, className, meta: { error, touched }, required, ...rest } = this.props
