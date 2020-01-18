@@ -41,6 +41,8 @@ const styles = theme => ({
     backgroundColor: '#3897f0'
   },
   loginButton2: {
+    borderColor: '#3897f0',
+    color: '#3897f0',
     marginRight: theme.spacing(1),
   },
   heroUnit: {
@@ -197,6 +199,9 @@ class LandingPage extends React.Component {
             {/* <Typography variant="h6" color="inherit" noWrap>
               Digital Lab Book
             </Typography> */}
+            <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
+              DEMO
+            </Button>
             <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
               GİRİŞ YAP
             </Button>

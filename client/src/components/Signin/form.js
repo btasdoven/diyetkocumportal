@@ -76,70 +76,125 @@ const renderTextField = ({
     label={label}
     {...input}
     {...custom}
+    error={touched && error != undefined}
+    helperText={touched && error ? error : undefined}
   />
 )
 
-const SigninForm = props => {
-  const { auth, handleSubmit, onSubmit, classes } = props;
+const required = value => value ? undefined : 'Zorunlu'
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <FormControl margin="normal" required fullWidth>
-        <Field
-          required
-          id="username"
-          name="username"
-          component={renderTextField}
-          label="Kullanıcı Adı"
-          autoComplete="username"
-          autoFocus={false}
-        />
-      </FormControl>
-      <FormControl margin="normal" required fullWidth>
-        <Field
-          required
-          id="password"
-          name="password"
-          type="password"
-          component={renderTextField}
-          label="Şifre"
-          autoComplete="current-password"
-        />
-      </FormControl>
-      <FormControlLabel
-        control={<Checkbox value="remember" color="primary" />}
-        label="Beni hatırla"
-      />
-      
-      {auth && auth.error && (
-        <Typography color="error" variant="body1" className={classes.registerTypo}>
-            {auth.error}
-        </Typography>
-      )}
+class SigninForm extends React.Component {
+  constructor(props) {
+    super(props)
 
-      <div className={classes.buttonRoot}>
-      <div className={classes.buttonWrapper}>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          disabled={auth && auth.loggingIn}
-        >
-          GİRİŞ YAP
-        </Button>
-        {auth && auth.loggingIn && <CircularProgress size={24} className={classes.buttonProgress} />}
-      </div>
-      </div>
-    </form>
-  );
-};
+    this.handleDemoLogin = this.handleDemoLogin.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
+
+    this.state = {
+      isDemoLogin: false
+    }
+  }
+
+  handleLogin() {
+    this.setState({isDemoLogin: false})
+
+    setTimeout(() => {
+      const submitter = this.props.handleSubmit(this.props.onSubmit);
+      submitter();
+    }, 0);
+  }
+
+  handleDemoLogin() {
+    this.props.change("username", "demo");
+    this.props.change("password", "1234");
+    this.setState({isDemoLogin: true})
+
+    setTimeout(() => {
+      const submitter = this.props.handleSubmit(this.props.onSubmit);
+      submitter();
+    }, 0);
+  }
+
+  render() {
+    const { auth, handleSubmit, onSubmit, classes } = this.props;
+
+    return (
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+        <FormControl margin="normal" fullWidth>
+          <Field
+            required
+            id="username"
+            name="username"
+            component={renderTextField}
+            label="Kullanıcı Adı"
+            autoComplete="username"
+            autoFocus={false}
+            validate={[required]}
+          />
+        </FormControl>
+        <FormControl margin="normal" fullWidth>
+          <Field
+            required
+            id="password"
+            name="password"
+            type="password"
+            component={renderTextField}
+            label="Şifre"
+            autoComplete="current-password"
+            validate={[required]}
+          />
+        </FormControl>
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="Beni hatırla"
+        />
+        
+        {auth && auth.error && (
+          <Typography color="error" variant="body1" className={classes.registerTypo}>
+              {auth.error}
+          </Typography>
+        )}
+
+        <div className={classes.buttonRoot}>
+        <div className={classes.buttonWrapper}>
+          <Button
+            onClick={this.handleLogin}
+            fullWidth
+            variant="outlined"
+            color="primary"
+            className={classes.submit}
+            disabled={auth && auth.loggingIn}
+          >
+            GİRİŞ YAP
+          </Button>
+          {auth && auth.loggingIn && !this.state.isDemoLogin && <CircularProgress size={24} className={classes.buttonProgress} />}
+        </div>
+        </div>
+
+        <div className={classes.buttonRoot}>
+        <div className={classes.buttonWrapper}>
+          <Button
+            onClick={this.handleDemoLogin}
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            disabled={auth && auth.loggingIn}
+          >
+            DEMO GİRİŞİ
+          </Button>
+          {auth && auth.loggingIn && this.state.isDemoLogin && <CircularProgress size={24} className={classes.buttonProgress} />}
+        </div>
+        </div>
+      </form>
+    );
+  }
+}
 
 export default reduxForm({
   initialValues: {
-    username: 'demo',
-    password: '1234'
+    // username: 'demo',
+    // password: '1234'
   },
   form: "login"
 })(withStyles(styles)(SigninForm));
