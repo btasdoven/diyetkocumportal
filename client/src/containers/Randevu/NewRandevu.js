@@ -432,7 +432,13 @@ class NewRandevuStep1 extends React.Component {
             <div style={{margin: '8px'}}>
                 <Grid container spacing={2}>
                 <Grid style={{display: 'flex', justifyContent: 'center'}} item xs={12} sm={12} md={12} lg={12}>
-                    <StaticDatePickerInput value={this.state.date} onChange={(newValue) => this.handleOnDateChange(newValue)} />
+                    <StaticDatePickerInput 
+                      shouldDisableDate={(d) => {
+                        var day = moment(d).format("dddd")
+                        return this.props.apiDietitianProfile[this.state.userId].data[day] != true
+                      }} 
+                      value={this.state.date} 
+                      onChange={(newValue) => this.handleOnDateChange(newValue)} />
                 </Grid>
                 </Grid>
             </div>

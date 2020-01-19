@@ -462,7 +462,7 @@ Randevu saati: ${time}
 Danışan e-posta adresi:  ${values.info.email}
 Danışan telefon numarası: ${values.info.tel}
 Danışan doğum tarihi: ${moment(values.info.birthday).format("DD MMMM YYYY")}
-Danışan ek bilgiler: ${values.info.notes}
+Danışan ek bilgiler: ${values.info.notes || ''}
 
 Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsiniz:
 
