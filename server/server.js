@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(function (req, res, next) {
   if (dal.isLoaded() != true) {
     res.setHeader('Content-Type', 'application/json');
-    res.status(400).json({message: "unauthorized access"});
+    res.status(400).json({message: "Servis güncelleniyor. Birazdan tekrar deneyiniz."});
   } else {
     next()
   }

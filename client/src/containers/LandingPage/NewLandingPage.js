@@ -154,7 +154,7 @@ const styles = theme => ({
   }
 });
 
-const sources = [
+const storySources = [
   '/static/story1.mp4',
   '/static/story2.mp4',
   '/static/story3.mp4',
@@ -162,11 +162,17 @@ const sources = [
   '/static/story5.mp4',
 ];
 
+const ilkDanisanSources = [
+  '/static/highlights/ilk_danisan_1.mp4',
+  '/static/highlights/ilk_danisan_2.mp4',
+  '/static/highlights/ilk_danisan_3.mp4',
+];
+
 const highlights = [
-  { name: 'Diyet Koçum nedir?', src: "/static/highlights/highlight1.jpg" },
-  { name: 'İlk danışan kaydı', src: "/static/highlights/highlight2.jpg" },
-  { name: 'İlk randevu', src: "/static/highlights/highlight3.jpg" },
-  { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg" },
+  { name: 'Diyet Koçum nedir?', src: "/static/highlights/highlight1.jpg", sources: ilkDanisanSources },
+  { name: 'İlk danışan kaydı', src: "/static/highlights/highlight2.jpg", sources: ilkDanisanSources },
+  { name: 'İlk randevu', src: "/static/highlights/highlight3.jpg", sources: ilkDanisanSources },
+  { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg", sources: ilkDanisanSources },
 ]
 class LandingPage extends React.Component {
 
@@ -179,6 +185,7 @@ class LandingPage extends React.Component {
       activeStory: 0,
       duration: 12,
       openDialog: false,
+      source: storySources,
       width: 0,
     }
   }
@@ -221,9 +228,9 @@ class LandingPage extends React.Component {
           onPlay={() => console.log('playing')}
           onEnded={() => console.log('ended')}
           src={
-            sources[this.state.openDialog == false 
+            this.state.source[this.state.openDialog == false 
               ? this.state.activeStory 
-              : this.state.activeStory + 1 == sources.length 
+              : this.state.activeStory + 1 == this.state.source.length 
                 ? 0 
                 : this.state.activeStory + 1]}
           preload="auto" 
@@ -245,7 +252,7 @@ class LandingPage extends React.Component {
             open={this.state.openDialog}
           >
             <div style={{zIndex: 9999, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
-              {sources.map((src, idx) => {
+              {this.state.source.map((src, idx) => {
                 return (
                   <div key={idx} style={{flexGrow: 1, height: '2px', marginRight: '2px', background: 'rgba(255, 255, 255, 0.35)'}}>
                     {idx == this.state.activeStory &&
@@ -279,7 +286,7 @@ class LandingPage extends React.Component {
                   item xs={8}
                   style={{display: 'flex', height: '100%', justifyContent: 'flex-end', zIndex: 9998}} 
                   onClick={() => {
-                    if (this.state.activeStory + 1 == sources.length) {
+                    if (this.state.activeStory + 1 == this.state.source.length) {
                       this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
                     } else {
                       this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
@@ -310,13 +317,13 @@ class LandingPage extends React.Component {
                 //poster="/static/favicon.png"
                 onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
                 onEnded={() => {
-                  if (this.state.activeStory + 1 == sources.length) {
+                  if (this.state.activeStory + 1 == this.state.source.length) {
                     this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
                   } else {
                     this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
                   }
                 }}
-                src={sources[this.state.activeStory]}
+                src={this.state.source[this.state.activeStory]}
                 preload="auto" 
                 style={{position: 'absolute', top: 0, width: '100%', height: '100%'}}>                
               </video>
@@ -335,7 +342,7 @@ class LandingPage extends React.Component {
                     </style>
                     <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
                     </div>
-                    <Avatar onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} />
+                    <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} />
                   </div>
                 </Grid>
                 <Grid style={{paddingLeft: '5%'}} item xs={9} sm={9} md={9} lg={9}>
@@ -388,7 +395,7 @@ class LandingPage extends React.Component {
                     <div style={{position: 'relative', width: '80%', margin: '10%'}}>
                       <div className={classes.avatarWrapper2}>
                       </div>
-                      <Avatar imgProps={{style: { borderRadius: '50%' }}} onClick={() => this.setState({openDialog: true})} alt="Remy Sharp" src={highlight.src} className={classes.avatar2} />
+                      <Avatar imgProps={{style: { borderRadius: '50%' }}} onClick={() => this.setState({openDialog: true, activeStory: 0, source: highlight.sources})} alt="Remy Sharp" src={highlight.src} className={classes.avatar2} />
                     </div>
                     <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">{highlight.name}</Typography>
                   </Grid>
