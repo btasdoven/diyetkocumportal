@@ -11,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import EventIcon from '@material-ui/icons/Event';
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -76,6 +76,8 @@ import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
 
 import Header from "../../components/Header";
+import 'moment/locale/tr'
+moment.locale('tr')
 
 const styles = theme => ({
   profile: {
@@ -320,6 +322,18 @@ class NewRandevuWrapper extends React.Component {
                                 title={<Typography variant="h5" component="h2">{user.name}</Typography>}
                                 />
                             </Card>
+                        )}
+                        { !showLoader && this.state.step > 1 && (
+                          <Card className={classes.card}>
+                            <CardHeader
+                              avatar={
+                                  <Avatar className={classes.avatar}>
+                                    <EventIcon />
+                                  </Avatar>
+                              }
+                              title={<Typography variant="h6">{moment(this.state.date).format("DD MMMM YYYY") + " " + this.state.time}</Typography>}
+                              />
+                          </Card>
                         )}
                         {/* { !showLoader && this.state.time != undefined && (
                             <Card className={classes.card}>
@@ -584,10 +598,9 @@ class NewRandevuStep3 extends React.Component {
   
       return (
           <span>
-                
               <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '48px', marginBottom: '8px'}} color="primary" variant="body2" display="block" gutterBottom>
-                    Randevu isteğin başarıyla gönderildi. İsteğin diyetisyen tarafından onaylandığında {this.props.formValues.email} adresine e-posta gelecektir.
+                <Typography style={{textAlign: 'center' ,marginTop: '48px', marginBottom: '8px'}} color="primary" variant="body2" display="block" gutterBottom>
+                    Randevu isteğin başarıyla gönderildi. İsteğin diyetisyen tarafından onaylandığında <b>{this.props.formValues.email}</b> adresine e-posta gelecektir.
                 </Typography>
 
               </div>
