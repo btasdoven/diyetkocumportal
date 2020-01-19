@@ -13,7 +13,11 @@ var compression = require('compression')
 const delayInResponseInMs = 50;
 
 app.use(cors());
-app.use(compression())
+app.use(compression({
+  threshold:0, 
+  filter: (req, res) => { var x = compression.filter(req, res); console.log('to-be-compressed', x, ' ', req.originalUrl); return x; }  
+}));
+
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '50mb'}));

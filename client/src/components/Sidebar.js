@@ -112,9 +112,9 @@ class Sidebar extends React.Component {
               <ListItem button component={Link} to='/me' selected={location.pathname === '/me'}>
                 <Typography variant="overline">PROFİLİM</Typography>
               </ListItem>
-              <ListItem button >
+              {/* <ListItem button >
                 <Typography variant="overline">AYARLAR</Typography>
-              </ListItem>
+              </ListItem> */}
               <ListItem button onClick={this.props.logout}>
                 <Typography variant="overline">ÇIKIŞ YAP</Typography>
               </ListItem>
