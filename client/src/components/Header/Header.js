@@ -130,17 +130,18 @@ class Header extends React.Component  {
             color="inherit"
             noWrap
             className={classes.title}
+            style={{marginRight: this.props.noButton != true ? '48px' : '0'}}
           >
             {this.props.title || getPageTitle(this.props) || ''}
           </Typography>
 
-          {this.props.noButton != true && (
+          {/* {this.props.noButton != true && (
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-          )}
+          )} */}
           {/* <IconButton onClick={this.handleClick} color="inherit">
             <Badge badgeContent={1} color="secondary">
               <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

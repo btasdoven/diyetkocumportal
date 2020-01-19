@@ -378,7 +378,7 @@ class Envanter extends React.Component {
                   
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <div className={classes.text}>
-                      <Typography variant="body2">İletişim bilgilerinizi eksiksik girmeniz sizden randevu alan danışanların size daha kolay bir şekilde ulaşmasını sağlar.</Typography>
+                      <Typography variant="body2">İletişim bilgilerinizi eksiksiz girmeniz sizden randevu alan danışanların size daha kolay bir şekilde ulaşmasını sağlar.</Typography>
                     </div>
                   </Grid>
 

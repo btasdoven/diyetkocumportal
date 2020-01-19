@@ -469,7 +469,7 @@ Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsiniz:
 https://v2.diyetkocum.net/r
 
 Teşekkürler,
-Diyet Koçum ailesi`
+Diyet Koçum Ailesi`
 
     console.log(rows[userId].profile.email)
     email.sendEmail(rows[userId].profile.email, 'Yeni randevu isteği', content)
@@ -486,7 +486,7 @@ Randevu saati: ${time}
 ${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
    
 Teşekkürler,
-Diyet Koçum ailesi`      
+Diyet Koçum Ailesi`      
  
     console.log(values.info.email)
     email.sendEmail(values.info.email, 'Randevunuz ' + statusTxt, content)
