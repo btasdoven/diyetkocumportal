@@ -20,6 +20,8 @@ import { connect } from "react-redux";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
+import SpeedDial from '../SpeedDial/SpeedDial'
+import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDanisanNotes, putDanisanNotes } from '../../store/reducers/api.danisanNotes';
@@ -38,6 +40,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import SaveIcon from '@material-ui/icons/Save';
+import AddIcon from '@material-ui/icons/Add';
 import ShareIcon from '@material-ui/icons/Share';
 import SendIcon from '@material-ui/icons/Send';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -215,14 +218,24 @@ class Envanter extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={this.props.pristine} color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
+        {/* <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={this.props.pristine} color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
           KAYDET
         </Button>
-        <Divider style={{marginTop: '8px'}} />
+        <Divider style={{marginTop: '8px'}} /> */}
 
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
           <span>
+            <SpeedDial
+                icon={<SpeedDialIcon icon={<AddIcon />} />}
+                hidden={this.props.pristine}
+                onClickFab={this.props.handleSubmit(this.onSubmitInternal)}
+                // actions={[
+                //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')},
+                //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')}
+                // ]}
+              />
+
             <Form
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
@@ -248,9 +261,11 @@ const mapStateToProps = (state, ownProps) => {
     apiDanisanNotes: state.apiDanisanNotes,
     initialValues: 
         state.apiDanisanNotes[ownProps.userId] != undefined && 
-        state.apiDanisanNotes[ownProps.userId][ownProps.danisanUserName] != undefined
+        state.apiDanisanNotes[ownProps.userId][ownProps.danisanUserName] != undefined &&
+        state.apiDanisanNotes[ownProps.userId][ownProps.danisanUserName].data != undefined &&
+        state.apiDanisanNotes[ownProps.userId][ownProps.danisanUserName].data.notes != undefined
         ? state.apiDanisanNotes[ownProps.userId][ownProps.danisanUserName].data
-        : {},
+        : { notes: '' }
   };
 };
 

@@ -20,6 +20,8 @@ import { connect } from "react-redux";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
+import SpeedDial from '../SpeedDial/SpeedDial'
+import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
@@ -223,13 +225,13 @@ class Envanter extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
+        {/* <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
           KAYDET
         </Button>
-        {/* <Button style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<ShareIcon />}>
+        <Button style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<ShareIcon />}>
           DANIŞAN İLE PAYLAŞ
-        </Button> */}
-        <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
+        </Button>
+        <Divider style={{marginTop: '8px', marginBottom: '8px'}} /> */}
 
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
@@ -238,7 +240,15 @@ class Envanter extends React.Component {
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
             >
-
+              <SpeedDial
+                icon={<SpeedDialIcon icon={<SaveIcon />} />}
+                hidden={this.props.pristine}
+                onClickFab={this.props.handleSubmit(this.onSubmitInternal)}
+                // actions={[
+                //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')},
+                //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')}
+                // ]}
+              />
 
               <Card className={classes.card}>
                 <CardHeader

@@ -26,6 +26,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { withSnackbar } from 'material-ui-snackbar-provider'
+import SpeedDial from '../SpeedDial/SpeedDial'
+import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
@@ -295,17 +297,24 @@ class Envanter extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
+        {/* <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
           KAYDET
         </Button>
-        {/* <Button style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<ShareIcon />}>
-          DANIŞAN İLE PAYLAŞ
-        </Button> */}
-        <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
+        <Divider style={{marginTop: '8px', marginBottom: '8px'}} /> */}
 
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
           <span>
+            <SpeedDial
+                icon={<SpeedDialIcon icon={<SaveIcon />} />}
+                hidden={this.props.pristine}
+                onClickFab={this.props.handleSubmit(this.onSubmitInternal)}
+                // actions={[
+                //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')},
+                //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')}
+                // ]}
+              />
+
             <Form
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}

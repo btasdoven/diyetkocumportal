@@ -23,9 +23,9 @@ const useStyles = makeStyles(theme => ({
   exampleWrapper: {
   },
   speedDial: {
-    position: 'absolute',
-    right: theme.spacing(2),
-    bottom: theme.spacing(9),
+    position: 'fixed',
+    right: theme.spacing(3),
+    bottom: theme.spacing(3),
   },
 }));
 
@@ -36,8 +36,10 @@ export default function SpeedDials(props) {
 
   const handleClick = () => {
     props.onClickFab && props.onClickFab();
-    setOpen(prevOpen => !prevOpen);
-    setAction(undefined);
+    if (props.actions) {
+      setOpen(prevOpen => !prevOpen);
+      setAction(undefined);
+    }
   };
 
   const handleBlur = () => {
@@ -62,7 +64,7 @@ export default function SpeedDials(props) {
 
   const handleMouseLeave = () => {
     console.log("handleMouseLeave")
-console.log(action);
+    console.log(action);
     action != undefined && action[0](action[1]);
     //action != undefined && action();
     setAction(undefined);
@@ -75,27 +77,28 @@ console.log(action);
         <SpeedDial
           ariaLabel="SpeedDial example"
           className={classes.speedDial}
-          icon={<SpeedDialIcon />}
+          icon={props.icon || <SpeedDialIcon />}
           onBlur={handleMouseLeave}
           onClick={handleClick}
           onClose={handleClose}
+          hidden={props.hidden || false}
           // onFocus={handleOpen}
           // onMouseEnter={handleMouseEnter}
           // onMouseLeave={handleMouseLeave}
           open={open}
           direction="up"
         >
-          {props.actions.map((action, idx) => (
+          {props.actions && props.actions.map((act, idx) => (
             <SpeedDialAction
                 // tooltipOpen
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
+                key={act.name}
+                icon={act.icon}
+                tooltipTitle={act.name}
                 onClick={() => 
                 {
                   console.log("actionCLick")
-                  if (action.onClick != undefined) {
-                      setAction([action.onClick, action.name]); 
+                  if (act.onClick != undefined) {
+                      setAction([act.onClick, act.name]); 
                   }
                   //e.preventDefault();
                   setOpen(prevOpen => !prevOpen);
