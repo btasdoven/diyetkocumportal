@@ -399,7 +399,11 @@ exports.signUpUser = function(uname, userInfo) {
 
   storage.setItem('0', rows[0]);
 
-  email.sendEmail('btasdoven@gmail.com', 'new user created', JSON.stringify(rows[0].users[uname]))
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+    ? "TEST - " + uname + " - "
+    : "PROD - " + uname + " - "
+
+  email.sendEmail('diyetkocumapp@gmail.com', titleSuffix + 'new user created', JSON.stringify(rows[0].users[uname]))
 
   return { user: userInfo }
 }
@@ -444,8 +448,8 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   storage.setItem(userId, rows[userId]);
 
   var titleSuffix = process.env.NODE_ENV !== 'production' 
-    ? "[TEST] " 
-    : "[PROD] "
+    ? "TEST - " + userId + " - " + values.info.name + " - "
+    : "PROD - " + userId + " - " + values.info.name + " - "
 
   if (values.status == 'pending') {
     var content = `
@@ -469,7 +473,7 @@ Diyet Koçum ailesi`
 
     console.log(rows[userId].profile.email)
     email.sendEmail(rows[userId].profile.email, 'Yeni randevu isteği', content)
-    email.sendEmail('btasdoven@gmail.com', titleSuffix + 'Yeni randevu isteği', content)
+    email.sendEmail('diyetkocumapp@gmail.com', titleSuffix + 'Yeni randevu isteği', content)
   } else if (values.status == 'confirmed' || values.status == 'rejected') {
     var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
     var content = `
@@ -486,7 +490,7 @@ Diyet Koçum ailesi`
  
     console.log(values.info.email)
     email.sendEmail(values.info.email, 'Randevunuz ' + statusTxt, content)
-    email.sendEmail('btasdoven@gmail.com', titleSuffix + 'Randevunuz ' + statusTxt, content)
+    email.sendEmail('diyetkocumapp@gmail.com', titleSuffix + 'Randevunuz ' + statusTxt, content)
   }
 }
 
