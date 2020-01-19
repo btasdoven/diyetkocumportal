@@ -71,21 +71,28 @@ const renderTextField = ({
   label,
   meta: { touched, error },
   ...custom
-}) => (
-  <TextField
-    label={label}
-    {...input}
-    {...custom}
-    InputLabelProps={{color: 'primary', shrink: true}}
-  />
-)
+}) => {
+  return (
+    <TextField
+      label={label}
+      {...input}
+      {...custom}
+      InputLabelProps={{color: 'primary', shrink: true}}
+      error={touched && error != undefined}
+      helperText={touched && error ? error : undefined}
+    />
+  )
+};
+
+const required = value => value ? undefined : 'Zorunlu'
+const matchPasswords = (pass1, allValues) => pass1 !== allValues.password ? 'Girdiğin şifreler eşleşmiyor' : undefined;
 
 const SigninForm = props => {
   const { auth, handleSubmit, onSubmit, classes } = props;
-
+  console.log(props);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <FormControl margin="normal" required fullWidth>
+      <FormControl margin="normal" fullWidth>
         <Field
           required
           id="name"
@@ -94,9 +101,10 @@ const SigninForm = props => {
           label="Adın ve soyadın"
           autoComplete="name"
           autoFocus={false}
+          validate={[required]}
         />
       </FormControl>
-      <FormControl margin="normal" required fullWidth>
+      <FormControl margin="normal" fullWidth>
         <Field
           required
           id="username"
@@ -105,9 +113,10 @@ const SigninForm = props => {
           label="Instagram kullanıcı adın"
           autoComplete="username"
           autoFocus={false}
+          validate={[required]}
         />
       </FormControl>
-      <FormControl margin="normal" required fullWidth>
+      <FormControl margin="normal" fullWidth>
         <Field
           required
           id="password"
@@ -116,6 +125,18 @@ const SigninForm = props => {
           component={renderTextField}
           label="Şifre"
           autoComplete="current-password"
+          validate={[required]}
+        />
+      </FormControl>
+      <FormControl margin="normal" fullWidth>
+        <Field
+          required
+          id="password_confirmation"
+          name="password_confirmation"
+          type="password"
+          component={renderTextField}
+          label="Şifre Yeniden"
+          validate={[required, matchPasswords]}
         />
       </FormControl>
       <FormControl margin="normal" fullWidth>
