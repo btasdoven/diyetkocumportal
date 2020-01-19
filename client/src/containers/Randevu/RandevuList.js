@@ -28,7 +28,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppointments';
+import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -175,9 +175,9 @@ const styles = theme => ({
 });
 
 
-function renderLoadingButton(classes) {
+function renderLoadingButton(classes, idx) {
   return (
-    <div className={classes.rootLoading}>
+    <div key={idx} className={classes.rootLoading}>
       <CircularProgress size={24} className={classes.buttonProgress} />
     </div>
   )
@@ -188,13 +188,10 @@ class Envanter extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnSearchChange = this.handleOnSearchChange.bind(this);
-    this.handleCloseAddDanisan = this.handleCloseAddDanisan.bind(this);
     this.isLoaded = this.isLoaded.bind(this);
-
+    this.confirmAppointment = this.confirmAppointment.bind(this);
+    
     this.state = {
-      newDanisan: false,
-      searchKey: '',
       userId: JSON.parse(localStorage.getItem('user')).id,
       date: moment().format('YYYYMMDD')
     }
@@ -219,19 +216,14 @@ class Envanter extends React.Component {
     }
   }
 
-  handleOnSearchChange(e) {
-    this.setState({ searchKey: e.currentTarget.value.toLowerCase()})
-  }
+  confirmAppointment(date, time, danisan, status) {
+    var d = { ...danisan };
 
-  handleCloseAddDanisan(values) {
-    console.log(values);
-
-    if (values != undefined) {
-      this.props.addDanisan(this.state.userId, values);
-      this.props.history.push('/d/' + values.username)
+    return () => {
+      d.status = status;
+      console.log(date, time, d)
+      this.props.putDietitianAppointment(this.state.userId, date, time, d);
     }
-
-    this.setState({newDanisan: false});
   }
 
   render() {
@@ -271,8 +263,12 @@ class Envanter extends React.Component {
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && 
             Object.keys(apptList).map((apptDate, idx) => {
-              
-              console.log(apptList[apptDate])
+              if (apptList[apptDate].isGetLoading == true || 
+                  apptList[apptDate].isPutLoading == true)
+              {
+                return renderLoadingButton(classes, idx);
+              }
+
               var danisans = apptList[apptDate].data;
 
               return (
@@ -286,40 +282,7 @@ class Envanter extends React.Component {
                 }>
                   {Object.keys(danisans).map( (danisanKey, idx) => {
 
-                    var danisan = danisans[danisanKey];
-
-                    if (this.state.searchKey != '' &&
-                        danisan.name.toLowerCase().indexOf(this.state.searchKey) == -1)
-                    {
-                      return;
-                    }
-                    // <Card key={idx} className={classes.card}>
-                      //   <CardActionArea>
-                      //     <CardHeader
-                      //       avatar={
-                      //           <Avatar className={classes.avatar} src={danisan.url} />
-                      //       }
-                      //       action={
-                      //         <div>
-                      //           <IconButton aria-label="settings" onClick={this.handleClick}>
-                      //             <MoreVertIcon />
-                      //           </IconButton>
-                      //           <Menu
-                      //             id="simple-menu"
-                      //             anchorEl={this.state.anchorEl}
-                      //             keepMounted
-                      //             open={this.state.anchorEl != undefined}
-                      //             onClose={this.handleClose}
-                      //           >
-                      //             <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
-                      //           </Menu>
-                      //         </div>
-                      //       }
-                      //       title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
-                      //       subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
-                      //     />
-                      //   </CardActionArea>
-                      // </Card>  
+                    var danisan = danisans[danisanKey]; 
 
                     var hours = danisanKey.split(' - ')
                     return (
@@ -354,14 +317,26 @@ class Envanter extends React.Component {
                             }
                           />
                           {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
-                          <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="delete">
-                                <CloseIcon color="error" />
-                            </IconButton>
-                            <IconButton edge="end" aria-label="delete">
-                                <CheckSharpIcon style={{ color: green[500] }} />
-                            </IconButton>
-                          </ListItemSecondaryAction>
+                          {danisan.status == 'pending' && (
+                            <ListItemSecondaryAction>
+                              <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'rejected')} edge="end" aria-label="delete">
+                                  <CloseIcon color="error" />
+                              </IconButton>
+                              <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
+                                  <CheckSharpIcon style={{ color: green[500] }} />
+                              </IconButton>
+                            </ListItemSecondaryAction>
+                          )}
+                          {danisan.status == 'confirmed' && (
+                            <ListItemSecondaryAction>
+                              <Typography style={{color: 'green'}}>Onaylandı</Typography>
+                            </ListItemSecondaryAction>
+                          )}
+                          {danisan.status == 'rejected' && (
+                            <ListItemSecondaryAction>
+                              <Typography style={{color: 'red'}}>Reddedildi</Typography>
+                            </ListItemSecondaryAction>
+                          )}
                         </ListItem>
                       </span>
                     )
@@ -387,6 +362,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date),
+      putDietitianAppointment: (userId, date, time, values) => putDietitianAppointment(userId, date, time, values),
     },
     dispatch
   );

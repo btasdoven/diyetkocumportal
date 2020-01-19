@@ -17,7 +17,7 @@ app.use(compression({
   threshold:0, 
   filter: (req, res) => { var x = compression.filter(req, res); console.log('to-be-compressed', x, ' ', req.originalUrl); return x; }  
 }));
-
+ 
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '50mb'}));
@@ -65,10 +65,10 @@ app.get("/api/v1/users/:userId/appointments/:date?", (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.getDietitianAppointmentInfo(getUserId(req.params.userId), req.params.date));
   }), delayInResponseInMs);
-});
+}); 
 
 app.put("/api/v1/users/:userId/appointments/:date/times/:time", (req, res, next) => {
-  setTimeout((function() {
+  setTimeout((function() { 
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.putDietitianAppointmentInfo(getUserId(req.params.userId), req.params.date, req.params.time, req.body));
   }), delayInResponseInMs);

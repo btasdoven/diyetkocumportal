@@ -98,10 +98,13 @@ export default function reducer(state = initState, action) {
           ...state,
           [action.userId]: {
             ...state[action.userId],
-            [action.date]: {
-              isGetLoading: false,
-              isPutLoading: true,
-              data: action.items,
+            data: {
+              ...state[action.userId].data,
+              [action.date]: {
+                isGetLoading: false,
+                isPutLoading: true,
+                data: action.items,
+              }
             },
           }
         };

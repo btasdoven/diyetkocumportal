@@ -18,6 +18,8 @@ exports.sendEmail = function (to, subject, text) {
         subject: subject,
         text: text
     };
+    
+    console.log(mailOptions)
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {

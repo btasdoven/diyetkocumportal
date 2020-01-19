@@ -1,6 +1,9 @@
 const storage = require('node-persist');
 const stringHash = require("string-hash");
 const email = require('./email')
+const moment = require("moment")
+require('moment/locale/tr');
+moment.locale("tr")
 
 const rows = {
   0: {
@@ -430,12 +433,7 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
     rows[userId].appointments[date] = {}
   }
 
-  rows[userId].appointments[date][time] = {
-    info: values,
-    status: 'pending'
-  }
-
-  email.sendEmail('btasdoven@gmail.com', 'new appointment set', JSON.stringify(rows[userId].appointments[date][time]))
+  rows[userId].appointments[date][time] = values;
 
   const ordered = {};
   Object.keys(rows[userId].appointments[date]).sort().forEach(function(key) {
@@ -444,6 +442,52 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
 
   rows[userId].appointments[date] = ordered;
   storage.setItem(userId, rows[userId]);
+
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+    ? "[TEST] " 
+    : "[PROD] "
+
+  if (values.status == 'pending') {
+    var content = `
+Merhaba ${rows[userId].profile.name},
+
+Aşağıda belirtilen gün ve tarih için ${values.info.name} isminde bir danışan tarafından randevu isteği gönderildi.
+ 
+Randevu günü: ${moment(date).format("DD MMMM YYYY")}
+Randevu saati: ${time}
+Danışan e-posta adresi:  ${values.info.email}
+Danışan telefon numarası: ${values.info.tel}
+Danışan doğum tarihi: ${moment(values.info.birthday).format("DD MMMM YYYY")}
+Danışan ek bilgiler: ${values.info.notes}
+
+Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsiniz:
+
+https://v2.diyetkocum.net/r
+
+Teşekkürler,
+Diyet Koçum ailesi`
+
+    console.log(rows[userId].profile.email)
+    email.sendEmail(rows[userId].profile.email, 'Yeni randevu isteği', content)
+    email.sendEmail('btasdoven@gmail.com', titleSuffix + 'Yeni randevu isteği', content)
+  } else if (values.status == 'confirmed' || values.status == 'rejected') {
+    var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
+    var content = `
+Merhaba ${values.info.name},
+
+Aşağıda belirtilen gün ve tarih için diyetisyen ${rows[userId].profile.name} ile randevunuz diyetisyeniniz tarafından ${statusTxt}.
+    
+Randevu günü: ${moment(date).format("DD MMMM YYYY")}
+Randevu saati: ${time}
+${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
+   
+Teşekkürler,
+Diyet Koçum ailesi`      
+ 
+    console.log(values.info.email)
+    email.sendEmail(values.info.email, 'Randevunuz ' + statusTxt, content)
+    email.sendEmail('btasdoven@gmail.com', titleSuffix + 'Randevunuz ' + statusTxt, content)
+  }
 }
 
 exports.getMessagePreviews = function (userId) {

@@ -277,7 +277,8 @@ class NewRandevuWrapper extends React.Component {
     onSubmitInternal(formValues) {
         console.log(formValues);
         this.setState({ step: 3, formValues: formValues})
-        this.props.putDietitianAppointment(this.state.userId, moment(this.state.date).format('YYYYMMDD'), this.state.time, formValues);
+        var sub = { info: formValues, status: 'pending'}
+        this.props.putDietitianAppointment(this.state.userId, moment(this.state.date).format('YYYYMMDD'), this.state.time, sub);
     }
 
     isLoaded() {
