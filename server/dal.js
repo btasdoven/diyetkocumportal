@@ -403,7 +403,7 @@ exports.signUpUser = function(uname, userInfo) {
     ? "TEST - " + uname + " - "
     : "PROD - " + uname + " - "
 
-  email.sendEmail('diyetkocumapp@gmail.com', titleSuffix + 'new user created', JSON.stringify(rows[0].users[uname]))
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'new user created', JSON.stringify(rows[0].users[uname]))
 
   return { user: userInfo }
 }
@@ -473,7 +473,7 @@ Diyet Koçum ailesi`
 
     console.log(rows[userId].profile.email)
     email.sendEmail(rows[userId].profile.email, 'Yeni randevu isteği', content)
-    email.sendEmail('diyetkocumapp@gmail.com', titleSuffix + 'Yeni randevu isteği', content)
+    email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Yeni randevu isteği', content)
   } else if (values.status == 'confirmed' || values.status == 'rejected') {
     var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
     var content = `
@@ -490,7 +490,7 @@ Diyet Koçum ailesi`
  
     console.log(values.info.email)
     email.sendEmail(values.info.email, 'Randevunuz ' + statusTxt, content)
-    email.sendEmail('diyetkocumapp@gmail.com', titleSuffix + 'Randevunuz ' + statusTxt, content)
+    email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Randevunuz ' + statusTxt, content)
   }
 }
 
