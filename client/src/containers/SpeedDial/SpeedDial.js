@@ -5,6 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import Typography from '@material-ui/core/Typography';
 import Switch from '@material-ui/core/Switch';
 import { capitalize } from '@material-ui/core/utils';
 import SpeedDial from '@material-ui/lab/SpeedDial';
@@ -19,8 +20,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-  },
-  exampleWrapper: {
   },
   speedDial: {
     position: 'fixed',
@@ -90,13 +89,13 @@ export default function SpeedDials(props) {
         >
           {props.actions && props.actions.map((act, idx) => (
             <SpeedDialAction
-                // tooltipOpen
+                tooltipOpen
                 key={act.name}
                 icon={act.icon}
-                tooltipTitle={act.name}
+                tooltipTitle={<Typography variant="caption">{act.name}</Typography>}
                 onClick={() => 
                 {
-                  console.log("actionCLick")
+                  console.log("actionCLick", act.onClick)
                   if (act.onClick != undefined) {
                       setAction([act.onClick, act.name]); 
                   }

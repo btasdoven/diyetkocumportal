@@ -227,7 +227,7 @@ class Envanter extends React.Component {
         { !showLoader && 
           <span>
             <SpeedDial
-                icon={<SpeedDialIcon icon={<AddIcon />} />}
+                icon={<SpeedDialIcon icon={<SaveIcon />} />}
                 hidden={this.props.pristine}
                 onClickFab={this.props.handleSubmit(this.onSubmitInternal)}
                 // actions={[

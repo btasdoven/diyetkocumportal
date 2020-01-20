@@ -19,6 +19,7 @@ import NewRandevu from "./containers/Randevu/NewRandevu";
 import NotImplementedYet from './containers/NotImplementedYet'
 import RandevuList from "./containers/Randevu/RandevuList";
 import NewLandingPage from './containers/LandingPage/NewLandingPage'
+import AnemnezFormView from './containers/AnemnezForm/AnemnezFormView'
 
 import MainLayout from "./layouts/MainLayout";
 import EmptyLayout from "./layouts/EmptyLayout";
@@ -88,6 +89,7 @@ class App extends Component {
 
                     <EmptyRoute path="/np" component={NewLandingPage} />
                     <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
+                    <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 
                     <DashboardRoute path="/me" component={MyProfile} />
                     <DashboardRoute path="/r" component={RandevuList} />
@@ -100,6 +102,7 @@ class App extends Component {
                 ) : (
                   <Switch>
                     <EmptyRoute path="/np" component={NewLandingPage} />
+                    <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
                     <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
                     <EmptyRoute path="/signup" component={Register} />
                     <EmptyRoute path="/signin" component={Signin} />

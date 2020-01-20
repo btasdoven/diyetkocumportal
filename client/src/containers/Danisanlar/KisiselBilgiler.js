@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { Link } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -22,6 +23,12 @@ import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 import SpeedDial from '../SpeedDial/SpeedDial'
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
+import { withSnackbar } from 'material-ui-snackbar-provider'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
+import DoneIcon from '@material-ui/icons/Done';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
@@ -99,6 +106,12 @@ const styles = theme => ({
       width: '100%',
       alignItems: "center",
       marginTop: theme.spacing(5)
+  },
+  text: {
+      height: "inherit",
+      width: '100%',
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(2),
   },
 });
 
@@ -182,6 +195,7 @@ class Envanter extends React.Component {
 
     this.isLoaded = this.isLoaded.bind(this);
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
+    this.handleLinkCopied = this.handleLinkCopied.bind(this);
 
     this.state = {
       userId: JSON.parse(localStorage.getItem('user')).id
@@ -211,6 +225,14 @@ class Envanter extends React.Component {
   onSubmitInternal(formValues) {
       console.log(formValues);
       this.props.putDanisanProfile(this.state.userId, this.props.danisanUserName, formValues);
+  }
+
+  handleLinkCopied() {
+    this.setState({ linkCopied: true })
+    this.props.snackbar.showMessage(
+      'Anemnez formu linki panoya kopyalandı.',
+      //'Undo', () => handleUndo()
+    )
   }
 
   render() {
@@ -287,8 +309,8 @@ class Envanter extends React.Component {
                 */}
                 {/* <Divider />
                 <CardActions disableSpacing>
-                  <Button disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
-                    KAYDET
+                  <Button size="small" color="primary" component={Link} to={"/l/" + danisanProfile.hash} startIcon={<SaveIcon />}>
+                   {danisanProfile.hash} 
                   </Button>
                   <IconButton aria-label="add to favorites">
                       <FavoriteIcon />
@@ -308,6 +330,40 @@ class Envanter extends React.Component {
                   </IconButton>
                 </CardActions>  */}
               </Card>
+
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  ANEMNEZ FORM LİNKİ
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <div className={classes.text}>
+                      <Typography variant="body2">
+                        Eğer danışanınızın aşağıdaki tüm bilgileri online olarak doldurmasını isterseniz bu linki onlarla paylaşabilirsiniz. 
+                        Danışanınız link üzerinden bilgileri doldurduğunda bilgileri bu sayfadan görebileceksiniz.
+                      </Typography>
+                    </div>
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <CopyToClipboard text={"https://v2.diyetkocum.net/l/" + danisanProfile.hash} >
+                      <span>
+                        <Chip
+                          //avatar={<Avatar>M</Avatar>}
+                          label={"https://v2.diyetkocum.net/l/" + danisanProfile.hash}
+                          clickable
+                          color="primary"
+                          onClick={this.handleLinkCopied}
+                          onDelete={this.handleLinkCopied}
+                          deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
+                          variant="outlined"
+                        />
+                      </span>
+                    </CopyToClipboard>
+                  </Grid>
+                </Grid>
+              </div>
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
@@ -531,4 +587,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'DanisanProfileForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'DanisanProfileForm', enableReinitialize: true })(withStyles(styles)(withSnackbar()(Envanter))));

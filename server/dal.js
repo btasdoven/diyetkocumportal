@@ -408,6 +408,13 @@ exports.signUpUser = function(uname, userInfo) {
   return { user: userInfo }
 }
 
+exports.getLinkInfo = function (linkId) {
+  console.log('getLinkInfo');
+  console.log(linkId)
+  console.log(rows[0].links[linkId])
+  return rows[0].links[linkId];
+}
+
 exports.getDietitianAppointmentInfo = function (userId, date) {
   console.log('getDietitianAppointmentInfo');
   console.log(userId, date)
@@ -526,10 +533,12 @@ exports.getDanisanProfile = function (userId, danisanUserName) {
   console.log(danisanUserName);
 
   if (rows[userId].danisans == undefined ||
-      rows[userId].danisans[danisanUserName] == undefined) {
+      rows[userId].danisans[danisanUserName] == undefined ||
+      rows[userId].danisans[danisanUserName].profile == undefined) {
     return {};
   }
 
+  rows[userId].danisans[danisanUserName].profile.hash = stringHash(userId + danisanUserName)
   return rows[userId].danisans[danisanUserName].profile;
 }
 
@@ -544,6 +553,7 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
   }
 
   rows[userId].danisans[danisanUserName].profile = danisanProfile;
+  rows[userId].danisans[danisanUserName].profile.hash = stringHash(userId + danisanUserName)
 
   storage.setItem(userId, rows[userId]);
 }
