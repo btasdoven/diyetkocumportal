@@ -223,32 +223,7 @@ const renderTextField = ({
     InputLabelProps={{color: 'primary', shrink: true}}
   />
 )
-  
-const ApptDays = () => {
-  return [
-    "Pazartesi",
-    "Salı",
-    "Çarşamba",
-    "Perşembe",
-    "Cuma",
-    "Cumartesi",
-    "Pazar",
-  ]
-}
 
-const ApptHours = () => {
-  var s = 7;
-  var e = 18;
-  var ret = []
-  for (var i = s; i <= e; ++i) {
-    var hour = i < 10 ? "0" + i.toString() : i.toString();
-    var hour1 = i+1 < 10 ? "0" + (i+1).toString() : (i+1).toString();
-    ret.push(hour + ":00 - " + hour + ":30");
-    ret.push(hour + ":30 - " + hour1 + ":00");
-  }
-
-  return ret;
-}
 class Envanter extends React.Component {
 
   constructor(props) {
@@ -275,7 +250,6 @@ class Envanter extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mounted')
     if (!this.isLoaded()) {
       this.props.getLinkInfo(this.state.linkId);
     }
@@ -290,13 +264,18 @@ class Envanter extends React.Component {
 
     if (showLoader)
       return renderLoadingButton(classes)
+    else if (linkInfo.userId == undefined || linkInfo.danisanUserName == undefined)
+      return (
+        <div className={classes.rootLoading}>
+          <Typography variant="body2" style={{marginTop: '24px'}}>Geçersiz adres</Typography>
+        </div>
+      )
     else
       return <AnemnezForm userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
   }
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state, ownProps)
   return {
     apiLinks: state.apiLinks,
   };

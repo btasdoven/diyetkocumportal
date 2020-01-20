@@ -552,10 +552,20 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
     rows[userId].danisans[danisanUserName] = { };
   }
 
+  var hash = stringHash(userId + danisanUserName)
   rows[userId].danisans[danisanUserName].profile = danisanProfile;
-  rows[userId].danisans[danisanUserName].profile.hash = stringHash(userId + danisanUserName)
+  rows[userId].danisans[danisanUserName].profile.hash = hash
 
   storage.setItem(userId, rows[userId]);
+
+  if (rows[0].links[hash] == undefined) {
+    rows[0].links[hash] = {
+      userId: userId,
+      danisanUserName: danisanUserName
+    }
+
+    storage.setItem('0', rows[0])
+  }
 }
 
 exports.getDanisanNotes = function (userId, danisanUserName) {
