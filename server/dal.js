@@ -596,6 +596,48 @@ exports.putDanisanNotes = function (userId, danisanUserName, danisanNotes) {
   storage.setItem(userId, rows[userId]);
 }
 
+exports.getDanisanFiles = function (userId, danisanUserName) {
+  console.log('getDanisanFiles');
+  console.log(danisanUserName);
+
+  if (rows[userId].files == undefined ||
+      rows[userId].files[danisanUserName] == undefined) {
+    return { };
+  }
+
+  return rows[userId].files[danisanUserName];
+}
+
+exports.addDanisanFiles = function (userId, danisanUserName, file) {
+  console.log('addDanisanFiles');
+  console.log(danisanUserName);
+  console.log(file)
+
+  if (rows[userId].files == undefined) {
+    rows[userId].files = { };
+  }
+
+  if (rows[userId].files[danisanUserName] == undefined) {
+    rows[userId].files[danisanUserName] = {}
+  }
+
+  var now = Date.now()
+  var day = moment(now).format('YYYYMMDD');
+
+  if (rows[userId].files[danisanUserName][day] == undefined) {
+    rows[userId].files[danisanUserName][day] = {}
+  }
+
+  rows[userId].files[danisanUserName][day][now] = {
+    encoding: file.encoding,
+    mimetype: file.mimetype,
+    path: 'api/v1/public/' + file.filename,
+    name: file.originalname,
+  };
+
+  storage.setItem(userId, rows[userId]);
+}
+
 exports.getDanisanDietList = function (userId, danisanUserName) {
   console.log('getDanisanDietList');
   console.log(danisanUserName);

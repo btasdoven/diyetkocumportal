@@ -5,6 +5,7 @@
 
 # persisted storage
 /stg
+/public
 
 # misc
 .DS_Store

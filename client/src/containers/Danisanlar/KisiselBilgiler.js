@@ -342,7 +342,7 @@ class Envanter extends React.Component {
                       <Typography variant="body2">
                         Eğer danışanınızın aşağıdaki tüm bilgileri online olarak doldurmasını isterseniz bu linki onlarla paylaşabilirsiniz. 
                         Danışanınız link üzerinden bilgileri doldurduğunda bilgileri bu sayfadan görebileceksiniz. Aynı zamanda bu linki
-                        danışanınızın kan tahlili bilgilerini girmesi ve yazdığınız diye programını görmesi için de kullanabilirsiniz.
+                        danışanınızın kan tahlili bilgilerini girmesi ve yazdığınız diyet programını görmesi için de kullanabilirsiniz.
                       </Typography>
                     </div>
                   </Grid>

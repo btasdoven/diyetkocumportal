@@ -6,9 +6,10 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
 var cors = require('cors');
-const dal = require('./dal')
-const email = require('./email')
-var compression = require('compression')
+const dal = require('./dal');
+const email = require('./email');
+var compression = require('compression');
+var multer = require('multer');
 
 const delayInResponseInMs = 50;
 
@@ -18,6 +19,7 @@ app.use(compression({
   filter: (req, res) => { var x = compression.filter(req, res); console.log('to-be-compressed', x, ' ', req.originalUrl); return x; }  
 }));
  
+app.use('/api/v1/public', express.static('public'))
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '50mb'}));
@@ -31,46 +33,43 @@ app.use(function (req, res, next) {
   }
 })
 
-// We changed user id to user name. This mapping is needed for backward compatibility.
-//
-const getUserId = (userId) => {
-  console.log(userId)
-  if (userId == 5) {
-    return 'demo'
-  } else if (userId == 6) {
-    return 'dyt.kubra_aydin'
-  } else if (userId == 7) {
-    return 'dyt_ezelkavadar'
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + req.params.userId + '-' + req.params.danisanUserName + '-' + file.originalname)
   }
+})
 
-  return userId;
-}
+var upload = multer({ storage: storage }).single('file')
+
 
 app.get("/api/v1/users/:userId/messagePreviews", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getMessagePreviews(getUserId(req.params.userId)));
+    res.json(dal.getMessagePreviews(req.params.userId));
   }), delayInResponseInMs);
 });
 
 app.get("/api/v1/users/:userId/danisanPreviews", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getDanisanPreviews(getUserId(req.params.userId)));
-  }), delayInResponseInMs);
+    res.json(dal.getDanisanPreviews(req.params.userId));
+  }), delayInResponseInMs); 
 });
 
 app.get("/api/v1/users/:userId/appointments/:date?", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getDietitianAppointmentInfo(getUserId(req.params.userId), req.params.date));
+    res.json(dal.getDietitianAppointmentInfo(req.params.userId, req.params.date));
   }), delayInResponseInMs);
 }); 
 
 app.put("/api/v1/users/:userId/appointments/:date/times/:time", (req, res, next) => {
   setTimeout((function() { 
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.putDietitianAppointmentInfo(getUserId(req.params.userId), req.params.date, req.params.time, req.body));
+    res.json(dal.putDietitianAppointmentInfo(req.params.userId, req.params.date, req.params.time, req.body));
   }), delayInResponseInMs);
 });
 
@@ -86,70 +85,95 @@ app.get("/api/v1/users/:userId/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     console.log(req.params)
-    res.json(dal.getDietitianProfile(getUserId(req.params.userId)));
+    res.json(dal.getDietitianProfile(req.params.userId));
   }), delayInResponseInMs);
 });
 
 app.put("/api/v1/users/:userId/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.putDietitianProfile(getUserId(req.params.userId), req.body));
+    res.json(dal.putDietitianProfile(req.params.userId, req.body));
   }), delayInResponseInMs);
 });
 
 app.put("/api/v1/users/:userId/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.putDietitianProfile(getUserId(req.params.userId), req.body));
+    res.json(dal.putDietitianProfile(req.params.userId, req.body));
   }), delayInResponseInMs);
 });
 
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getDanisanProfile(getUserId(req.params.userId), req.params.danisanUserName));
+    res.json(dal.getDanisanProfile(req.params.userId, req.params.danisanUserName));
   }), delayInResponseInMs);
 });
 
 app.put("/api/v1/users/:userId/danisans/:danisanUserName/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.putDanisanProfile(getUserId(req.params.userId), req.params.danisanUserName, req.body));
+    res.json(dal.putDanisanProfile(req.params.userId, req.params.danisanUserName, req.body));
   }), delayInResponseInMs);
 });
 
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/notes", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getDanisanNotes(getUserId(req.params.userId), req.params.danisanUserName));
+    res.json(dal.getDanisanNotes(req.params.userId, req.params.danisanUserName));
   }), delayInResponseInMs);
 });
 
 app.put("/api/v1/users/:userId/danisans/:danisanUserName/notes", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.putDanisanNotes(getUserId(req.params.userId), req.params.danisanUserName, req.body));
+    res.json(dal.putDanisanNotes(req.params.userId, req.params.danisanUserName, req.body));
   }), delayInResponseInMs);
 });
+
+app.get("/api/v1/users/:userId/danisans/:danisanUserName/files", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getDanisanFiles(req.params.userId, req.params.danisanUserName));
+  }), delayInResponseInMs);
+});
+
+app.post("/api/v1/users/:userId/danisans/:danisanUserName/addFiles", (req, res, next) => {
+  setTimeout((function() {
+    upload(req, res, function (err) {
+      console.log(err)
+
+      if (err instanceof multer.MulterError) {
+          return res.status(500).json(err)
+      } else if (err) {
+          return res.status(500).json(err)
+      }
+      console.log(req.file)      
+
+      res.setHeader('Content-Type', 'application/json');
+      res.json(dal.addDanisanFiles(req.params.userId, req.params.danisanUserName, req.file));
+    })  
+  }), delayInResponseInMs);
+}); 
 
 app.put("/api/v1/users/:userId/danisans/:danisanUserName/dietlist", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.putDanisanDietList(getUserId(req.params.userId), req.params.danisanUserName, req.body));
+    res.json(dal.putDanisanDietList(req.params.userId, req.params.danisanUserName, req.body));
   }), delayInResponseInMs);
 });
 
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/dietlist", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getDanisanDietList(getUserId(req.params.userId), req.params.danisanUserName));
+    res.json(dal.getDanisanDietList(req.params.userId, req.params.danisanUserName));
   }), delayInResponseInMs);
 });
 
 app.put("/api/v1/users/:userId/danisans/:danisanUserName", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    dal.postAddDanisan(getUserId(req.params.userId), req.params.danisanUserName, req.body);
+    dal.postAddDanisan(req.params.userId, req.params.danisanUserName, req.body);
     res.status(200).json('success');
   }), delayInResponseInMs);
 }); 

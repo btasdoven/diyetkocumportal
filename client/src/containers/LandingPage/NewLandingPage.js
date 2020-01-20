@@ -376,7 +376,7 @@ class LandingPage extends React.Component {
                   <Typography style={{color: '#262626'}} gutterBottom variant="body2">
                       🌏 Online ve 📍 yüz yüze diyete yardımcı <br />
                       🍀 Kolay randevu sistemi <br />
-                      🥑 Danışanlara otomatik anemnez formu doldurma <br />
+                      🥑 Danışanlara otomatik anemnez formu doldurtma <br />
                       🍋 Diyet geçmişi ve notlara online erişim <br />
                       🍍 Diyet listeleri oluşturma ve kaydetme <br />
                       💌 Uygulama üzerinden mesajlaşma <br />

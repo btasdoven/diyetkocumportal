@@ -324,20 +324,20 @@ class Envanter extends React.Component {
             aria-label="scrollable auto tabs example"
           >
             <Tab label="PROFİL" {...a11yProps(0)} />
-            {/* <Tab label="KAN TAHLİLİ" {...a11yProps(1)} /> */}
-            <Tab label="DİYET PROGRAMI" {...a11yProps(1)} />
-            <Tab label="MESAJLAR" {...a11yProps(2)} />
+            <Tab label="KAN TAHLİLİ" {...a11yProps(1)} />
+            <Tab label="DİYET PROGRAMI" {...a11yProps(2)} />
+            <Tab label="MESAJLAR" {...a11yProps(3)} />
           </Tabs>
           <TabPanel value={this.state.value} index={0}>
             <AnemnezForm userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
           </TabPanel>
-          {/* <TabPanel value={this.state.value} index={1}>
-            <Tahliller userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
-          </TabPanel> */}
           <TabPanel value={this.state.value} index={1}>
-            <DiyetListesi userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+            <Tahliller userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
           </TabPanel>
           <TabPanel value={this.state.value} index={2}>
+            <DiyetListesi userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+          </TabPanel>
+          <TabPanel value={this.state.value} index={3}>
             <div className={classes.rootLoading}>
               <Typography style={{textAlign: 'center', marginTop: '24px'}} variant="body2">Şu anda diyetisyeninizden herhangi bir mesaj bulunmamaktadır.</Typography>
             </div>

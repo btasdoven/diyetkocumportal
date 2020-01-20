@@ -8,6 +8,7 @@ import apiDietitianProfile from "./api.dietitianProfile";
 import apiDanisanNotes from "./api.danisanNotes";
 import apiDanisanDietList from './api.danisanDietList';
 import apiLinks from './api.links';
+import apiDanisanFiles from "./api.danisanFiles";
 import apiDietitianAppointments from './api.dietitianAppointments'
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   apiDietitianProfile,
   apiDietitianAppointments,
   apiLinks,
+  apiDanisanFiles,
 });
 
 export default reducers;

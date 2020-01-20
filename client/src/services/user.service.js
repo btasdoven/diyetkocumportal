@@ -1,6 +1,7 @@
 
 import envService from './env.service'
 import dateFnsFormat from 'date-fns/format';
+import axios from 'axios';
 
 export const userService = {
     login,
@@ -20,9 +21,16 @@ export const userService = {
     get_dietitian_appointments,
     put_dietitian_appointment,
     get_link_info,
+    get_danisan_files,
+    add_danisan_files,
+    getStaticFileUri,
 };
 
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
+
+function getStaticFileUri(file) {
+    return HOST_NAME + '/' + file;
+}
 
 function login(username, password) {
     const requestOptions = {
@@ -204,6 +212,42 @@ function put_danisan_profile(userId, danisanUserName, danisanProfile) {
         });
 }
 
+function get_danisan_files(userId, danisanUserName) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/files`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function add_danisan_files(userId, danisanUserName, data) {
+    return axios.post(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/addFiles`, data, {})
+        .then(res => {
+            console.log(res)
+            return res;
+            // return handleResponse(res);
+        })
+        // .then(data => {
+        //     return data;
+        // });
+
+    // const requestOptions = {
+    //     method: 'POST',
+    //     body: files
+    // };
+    
+    // return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/addFiles`, requestOptions)
+    //     .then(handleResponse)
+    //     .then(data => {
+    //         return data;
+    //     });
+}
+
 function get_danisan_notes(userId, danisanUserName) {
     const requestOptions = {
         method: 'GET',
@@ -259,7 +303,7 @@ function put_danisan_diet_list(userId, danisanUserName, danisanDietList) {
 }
 
 function handleResponse(response) {
-    
+    console.log(response)
     return response.text().then(text => {
         console.log(text);
         const data = text && JSON.parse(text);
