@@ -333,7 +333,7 @@ class Envanter extends React.Component {
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  ANEMNEZ FORM LİNKİ
+                  DANIŞANA ÖZEL LİNK
                 </Typography>
 
                 <Grid container spacing={2}>
@@ -341,7 +341,8 @@ class Envanter extends React.Component {
                     <div className={classes.text}>
                       <Typography variant="body2">
                         Eğer danışanınızın aşağıdaki tüm bilgileri online olarak doldurmasını isterseniz bu linki onlarla paylaşabilirsiniz. 
-                        Danışanınız link üzerinden bilgileri doldurduğunda bilgileri bu sayfadan görebileceksiniz.
+                        Danışanınız link üzerinden bilgileri doldurduğunda bilgileri bu sayfadan görebileceksiniz. Aynı zamanda bu linki
+                        danışanınızın kan tahlili bilgilerini girmesi ve yazdığınız diye programını görmesi için de kullanabilirsiniz.
                       </Typography>
                     </div>
                   </Grid>

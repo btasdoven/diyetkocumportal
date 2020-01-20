@@ -558,6 +558,7 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
 
   storage.setItem(userId, rows[userId]);
 
+  console.log(rows[0].links[hash])
   if (rows[0].links[hash] == undefined) {
     rows[0].links[hash] = {
       userId: userId,

@@ -152,7 +152,7 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName", (req, res, next) => {
     dal.postAddDanisan(getUserId(req.params.userId), req.params.danisanUserName, req.body);
     res.status(200).json('success');
   }), delayInResponseInMs);
-});
+}); 
 
 app.post("/api/v1/users/auth", (req, res, next) => {
   setTimeout((function() {

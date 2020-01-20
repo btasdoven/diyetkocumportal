@@ -33,6 +33,10 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import { getLinkInfo } from '../../store/reducers/api.links';
 import AnemnezForm from './AnemnezForm'
+import Tahliller from './Tahliller'
+import DiyetListesi from './DiyetListesi'
+
+import { trackPage } from '../../components/Signin/PageTracker'
 
 import { withStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
@@ -224,22 +228,60 @@ const renderTextField = ({
   />
 )
 
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
+  
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && <div>{children}</div>}
+    </Typography>
+  );
+}
+
 class Envanter extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.isLoaded = this.isLoaded.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
 
     this.state = {
       linkId: this.props.location.pathname.split('/')[2],
+      value: 0,
+    }
+  }
+
+  handleValueChange = (ev, newVal) => {
+    if (this.state.value != newVal) {
+      this.setState({value: newVal})
+
+      const valToUriMap = {
+        0: '/',
+        1: '/records',
+        2: '/diet',
+        3: '/messages'
+      };
+
+      trackPage(this.props.location.pathname + valToUriMap[newVal]);
     }
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.linkId);
-
     var loaded = this.props.apiLinks != undefined &&
       this.props.apiLinks[this.state.linkId] != undefined &&
       this.props.apiLinks[this.state.linkId].isGetLoading != true &&
@@ -260,7 +302,6 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     const linkInfo = showLoader ? undefined : this.props.apiLinks[this.state.linkId].data;
-    console.log(linkInfo)
 
     if (showLoader)
       return renderLoadingButton(classes)
@@ -271,7 +312,38 @@ class Envanter extends React.Component {
         </div>
       )
     else
-      return <AnemnezForm userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+      return (
+        <span>
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleValueChange}
+            indicatorColor="secondary"
+            textColor="inherit"
+            variant="scrollable"
+            scrollButtons="on"
+            aria-label="scrollable auto tabs example"
+          >
+            <Tab label="PROFİL" {...a11yProps(0)} />
+            {/* <Tab label="KAN TAHLİLİ" {...a11yProps(1)} /> */}
+            <Tab label="DİYET PROGRAMI" {...a11yProps(1)} />
+            <Tab label="MESAJLAR" {...a11yProps(2)} />
+          </Tabs>
+          <TabPanel value={this.state.value} index={0}>
+            <AnemnezForm userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+          </TabPanel>
+          {/* <TabPanel value={this.state.value} index={1}>
+            <Tahliller userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+          </TabPanel> */}
+          <TabPanel value={this.state.value} index={1}>
+            <DiyetListesi userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+          </TabPanel>
+          <TabPanel value={this.state.value} index={2}>
+            <div className={classes.rootLoading}>
+              <Typography style={{textAlign: 'center', marginTop: '24px'}} variant="body2">Şu anda diyetisyeninizden herhangi bir mesaj bulunmamaktadır.</Typography>
+            </div>
+          </TabPanel>
+        </span>
+      )
   }
 };
 
