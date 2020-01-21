@@ -16,7 +16,7 @@ const delayInResponseInMs = 50;
 app.use(cors());
 app.use(compression({
   threshold:0, 
-  filter: (req, res) => { var x = compression.filter(req, res); console.log('to-be-compressed', x, ' ', req.originalUrl); return x; }  
+  filter: (req, res) => { var x = compression.filter(req, res); console.log('to-be-compressed', x, ' ', req.originalUrl); return true; }  
 }));
  
 app.use('/api/v1/public', express.static('public'))
@@ -25,12 +25,23 @@ app.use('/api/v1/public', express.static('public'))
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(function (req, res, next) {
-  if (dal.isLoaded() != true) {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(400).json({message: "Servis güncelleniyor. Birazdan tekrar deneyiniz."});
-  } else {
-    next()
-  }
+  var retry = 0
+
+  var func = () => {
+    if (dal.isLoaded() != true) {
+      console.log("retry " + retry + " for " + req.originalUrl);
+      if (++retry == 5) {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(400).json({message: "Servis güncelleniyor. Birazdan tekrar deneyiniz."});
+      } else {
+        setTimeout(func, 500);
+      }
+    } else {
+      next()
+    }
+  };
+
+  func();
 })
 
 var storage = multer.diskStorage({
@@ -155,7 +166,7 @@ app.post("/api/v1/users/:userId/danisans/:danisanUserName/addFiles", (req, res, 
     })  
   }), delayInResponseInMs);
 }); 
-
+ 
 app.put("/api/v1/users/:userId/danisans/:danisanUserName/dietlist", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
