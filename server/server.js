@@ -16,7 +16,7 @@ const delayInResponseInMs = 50;
 app.use(cors());
 app.use(compression({
   threshold:0, 
-  filter: (req, res) => { var x = compression.filter(req, res); console.log('to-be-compressed', x, ' ', req.originalUrl); return true; }  
+  filter: (req, res) => { var x = compression.filter(req, res); console.log('to-be-compressed', x, ' ', req.originalUrl, res.getHeader('Content-Type')); return x; }  
 }));
  
 app.use('/api/v1/public', express.static('public'))
