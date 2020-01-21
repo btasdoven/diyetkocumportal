@@ -256,6 +256,11 @@ var taskResetStg = () => {
 
   return storage.getItem('0').then((data) => {
     console.log(data)
+
+    if (data == undefined) {
+      return storage.setItem('0', rows[0])
+    }
+    
     rows[0] = data
     return Promise.resolve()
   });
@@ -272,9 +277,9 @@ var taskInitNewDietitians = () => {
         }
       };
       
-      r.profile.email = users[id].email
-      r.profile.name = users[id].name
-      r.profile.url = users[id].url
+      r.profile.email = rows[0].users[id].email
+      r.profile.name = rows[0].users[id].name
+      r.profile.url = rows[0].users[id].url
       return storage.setItem(id.toString(), r);
     }
 

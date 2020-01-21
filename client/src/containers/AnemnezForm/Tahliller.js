@@ -230,19 +230,18 @@ class Envanter extends React.Component {
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
 
     this.state = {
-      userId: JSON.parse(localStorage.getItem('user')).id
+      openDialog: undefined,
     }
   }
 
   isLoaded() {
     console.log(this.props);
-    console.log(this.state.userId);
 
     var loaded = this.props.apiDanisanFiles != undefined &&
-      this.props.apiDanisanFiles[this.state.userId] != undefined &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
+      this.props.apiDanisanFiles[this.props.userId] != undefined &&
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -250,7 +249,7 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDanisanFiles(this.state.userId, this.props.danisanUserName);
+      this.props.getDanisanFiles(this.props.userId, this.props.danisanUserName);
     }
   }
 
@@ -261,7 +260,7 @@ class Envanter extends React.Component {
     formData.append('file',formValues.file)
     console.log(formData);
 
-    this.props.addDanisanFiles(this.state.userId, this.props.danisanUserName, formData);
+    this.props.addDanisanFiles(this.props.userId, this.props.danisanUserName, formData);
     this.onDialogClose();
   }
 
@@ -274,7 +273,7 @@ class Envanter extends React.Component {
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
-    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data;
+    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data;
     console.log(allFiles)
 
     return (
