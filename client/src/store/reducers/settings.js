@@ -12,10 +12,11 @@ const secondaryColor = green;
 const themeConfig = {
   palette: {
     primary: {
-      main: 'rgb(38,55,70)'
+      main: '#263746',
     },
     secondary: {
-      main: '#FF6F61'
+      main: '#FF5722',
+      contrastText: '#FFF'
     },
     error: red,
     action: green,
