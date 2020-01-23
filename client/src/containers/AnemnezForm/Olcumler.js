@@ -286,7 +286,7 @@ class Envanter extends React.Component {
           <Button disabled style={{marginRight: '8px'}} variant="outlined" size="small" onClick={() => this.setState({openDialog: 'tahlil'})} color="primary" startIcon={<NoteAddIcon />}>
             TARTI ÖLÇÜMÜ EKLE
           </Button>
-          <Divider style={{marginTop: '8px'}} />
+          <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
 
           <Dialog 
             fullWidth

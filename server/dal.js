@@ -466,7 +466,7 @@ Danışan telefon numarası: ${values.info.tel}
 Danışan doğum tarihi: ${moment(values.info.birthday).format("DD MMMM YYYY")}
 Danışan ek bilgiler: ${values.info.notes || ''}
 
-Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsiniz:
+Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsin:
 
 https://v2.diyetkocum.net/r
 
