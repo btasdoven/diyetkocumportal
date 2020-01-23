@@ -436,8 +436,8 @@ class NewRandevuStep0 extends React.Component {
 
     return (
       <div className={classes.rootTypeSelect}>
-        <Button style={{margin: '24px'}} fullWidth variant="outlined" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>
-        <Button fullWidth variant="outlined" onClick={() => this.props.onComplete('randevu')}>RANDEVU AL</Button>
+        <Button style={{margin: '24px'}} fullWidth variant="contained" color="primary" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>
+        <Button fullWidth variant="contained" color="secondary" onClick={() => this.props.onComplete('randevu')}>RANDEVU AL</Button>
       </div>
     )}
 };

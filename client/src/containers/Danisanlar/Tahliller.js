@@ -287,7 +287,7 @@ class Envanter extends React.Component {
           <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={true} color="primary" startIcon={<PostAddIcon />}>
             TARTI ÖLÇÜMÜ EKLE
           </Button>
-        <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
+          <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
 
           <Dialog 
             fullWidth

@@ -283,8 +283,8 @@ class Envanter extends React.Component {
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          <Button style={{marginRight: '8px'}} variant="outlined" size="small" onClick={() => this.setState({openDialog: 'tahlil'})} color="primary" startIcon={<NoteAddIcon />}>
-            KAN TAHLİLİ EKLE
+          <Button disabled style={{marginRight: '8px'}} variant="outlined" size="small" onClick={() => this.setState({openDialog: 'tahlil'})} color="primary" startIcon={<NoteAddIcon />}>
+            TARTI ÖLÇÜMÜ EKLE
           </Button>
           <Divider style={{marginTop: '8px'}} />
 
@@ -331,9 +331,9 @@ class Envanter extends React.Component {
                 ]}
               /> */}
 
-              {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Size ait ölçüm bilgisi bulunmamaktadır.</Typography>}
+                <Typography variant="body2" style={{textAlign: 'center'}}>Size ait ölçüm bilgisi bulunmamaktadır.</Typography>
 
-              {Object.keys(allFiles).map((day, idx) => {
+              {/* {Object.keys(allFiles).map((day, idx) => {
                 const allFilesPerDay = allFiles[day];
                 console.log(allFilesPerDay);
 
@@ -383,27 +383,10 @@ class Envanter extends React.Component {
                           </ListItem>
                         </span>
                       )
-                      return (
-                        <span key={fidx}>
-                          <img style={{textAlign: 'center'}} src={userService.getStaticFileUri(file.path)} />
-                          <Typography>{file.name}</Typography>
-                        </span>
-                      )
                     })}
                   </List>
                 )
-
-                return Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
-                  const file = allFilesPerDay[fileTs];
-                  console.log(file)
-                  return (
-                    <span key={fidx}>
-                      <img style={{textAlign: 'center'}} src={userService.getStaticFileUri(file.path)} />
-                      <Typography>{file.name}</Typography>
-                    </span>
-                  )
-                })
-              })}
+              })} */}
             </span>
           }
         </Form>  
