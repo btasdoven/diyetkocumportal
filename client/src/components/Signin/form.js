@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -63,6 +64,10 @@ const styles = theme => ({
   buttonWrapper: {
     position: 'relative',
     width: '100%',
+  },
+  registerTypo: {
+    marginTop: theme.spacing(3),
+    textAlign: 'center',
   },
 });
 
@@ -150,7 +155,7 @@ class SigninForm extends React.Component {
         />
         
         {auth && auth.error && (
-          <Typography color="error" variant="body1" className={classes.registerTypo}>
+          <Typography color="error" variant="body1">
               {auth.error}
           </Typography>
         )}
@@ -160,9 +165,9 @@ class SigninForm extends React.Component {
           <Button
             onClick={this.handleLogin}
             fullWidth
-            variant="outlined"
+            variant="contained"
             color="primary"
-            className={classes.submit}
+            style={{marginTop: '16px'}}
             disabled={auth && auth.loggingIn}
           >
             GİRİŞ YAP
@@ -171,19 +176,37 @@ class SigninForm extends React.Component {
         </div>
         </div>
 
+        <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
+          Hesabın yok mu?
+        </Typography>
         <div className={classes.buttonRoot}>
         <div className={classes.buttonWrapper}>
           <Button
             onClick={this.handleDemoLogin}
             fullWidth
-            variant="contained"
+            variant="outlined"
             color="primary"
-            className={classes.submit}
+            style={{marginTop: '8px'}}
             disabled={auth && auth.loggingIn}
           >
             DEMO GİRİŞİ
           </Button>
           {auth && auth.loggingIn && this.state.isDemoLogin && <CircularProgress size={24} className={classes.buttonProgress} />}
+        </div>
+        </div>
+
+        <div className={classes.buttonRoot}>
+        <div className={classes.buttonWrapper}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            style={{marginTop: '8px'}}
+            component={Link}
+            to="/signup"
+          >
+            ŞİMDİ KAYIT YAPTIR!
+          </Button>
         </div>
         </div>
       </form>

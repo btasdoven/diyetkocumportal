@@ -118,19 +118,6 @@ const Signin = props => {
           //console.log(v)
           login(v.username, v.password);
         }} />
-
-        <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
-          Hesabın yok mu?
-        </Typography>
-        <Button
-          fullWidth
-          variant="contained"
-          color="secondary"
-          component={Link}
-          to="/signup"
-        >
-          ŞİMDİ KAYIT YAPTIR!
-        </Button>
       </Paper>
     </div>
     </div>
