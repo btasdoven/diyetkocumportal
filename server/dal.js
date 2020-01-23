@@ -446,7 +446,6 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   });
 
   rows[userId].appointments[date] = ordered;
-  storage.setItem(userId, rows[userId]);
 
   var titleSuffix = process.env.NODE_ENV !== 'production' 
     ? "TEST - " + userId + " - " + values.info.name + " - "
@@ -479,7 +478,7 @@ Diyet Koçum Ailesi`
     email.sendEmail(rows[userId].profile.email, 'Yeni randevu isteği', content)
     email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Yeni randevu isteği', content)
   } else if (values.status == 'confirmed' || values.status == 'rejected') {
-    if (values.type == 'randevu') {
+    if (values.type != 'onlinediyet') {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
       var content = `
 Merhaba ${values.info.name},
@@ -497,7 +496,7 @@ Diyet Koçum Ailesi`
       email.sendEmail(values.info.email, 'Randevunuz ' + statusTxt, content)
       email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Randevunuz ' + statusTxt, content)   
     }
-    else if (values.type == 'onlinediyet') {
+    else {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
       var content = `
 Merhaba ${values.info.name},
@@ -527,6 +526,10 @@ Diyet Koçum Ailesi`
       boy: values.info.boy,
       cinsiyet: values.info.cinsiyet,
     })
+  } else {
+    // postAddDanisan will set this item. Don't set it twice to avoid concurrence issues on the storage.
+    //
+    storage.setItem(userId, rows[userId]);
   }
 }
 
