@@ -255,7 +255,7 @@ class Envanter extends React.Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={4}>
               <div className={classes.rootLoading}>
-                <Typography>Bu danışana ait diyet geçmişi bulunamadı.</Typography>
+                <Typography variant="body2" >Bu danışana ait diyet geçmişi bulunamadı.</Typography>
               </div>
             </TabPanel>
             <TabPanel value={this.state.value} index={5}>
@@ -263,7 +263,7 @@ class Envanter extends React.Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={6}>
               <div className={classes.rootLoading}>
-                <Typography>Mesajlar kismi daha kodlanmadi</Typography>
+                <Typography variant="body2" >Mesajlar kismi daha kodlanmadi</Typography>
               </div>
             </TabPanel>
           </span>

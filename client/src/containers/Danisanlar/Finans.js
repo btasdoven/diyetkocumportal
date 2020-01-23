@@ -228,7 +228,7 @@ class Envanter extends React.Component {
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
           <span>
-            <Typography style={{textAlign: 'center'}}>Bu danışana ait ödeme bilgisi bulunmamaktadır.</Typography>
+            <Typography variant="body2" style={{textAlign: 'center'}}>Bu danışana ait ödeme bilgisi bulunmamaktadır.</Typography>
           </span>
         }
       </div>

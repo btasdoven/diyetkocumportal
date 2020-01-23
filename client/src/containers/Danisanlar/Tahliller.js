@@ -104,12 +104,12 @@ const styles = theme => ({
       margin: theme.spacing(1),
   },
   rootLoading: {
-      height: "inherit",
-      display: "flex",
-      justifyContent: "center",
-      width: '100%',
-      alignItems: "center",
-      marginTop: theme.spacing(5)
+    height: "inherit",
+    display: "flex",
+    justifyContent: "center",
+    width: '100%',
+    alignItems: "center",
+    marginTop: theme.spacing(5)
   },
 });
 
@@ -284,13 +284,10 @@ class Envanter extends React.Component {
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          <Button style={{marginRight: '8px'}} variant="outlined" size="small" onClick={() => this.setState({openDialog: 'tahlil'})} color="primary" startIcon={<NoteAddIcon />}>
-            KAN TAHLİLİ EKLE
-          </Button>
           <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={true} color="primary" startIcon={<PostAddIcon />}>
             TARTI ÖLÇÜMÜ EKLE
           </Button>
-          <Divider style={{marginTop: '8px'}} />
+        <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
 
           <Dialog 
             fullWidth
@@ -335,9 +332,9 @@ class Envanter extends React.Component {
                 ]}
               /> */}
 
-              {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Bu danışana ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>}
+                <Typography variant="body2" style={{textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>
 
-              {Object.keys(allFiles).map((day, idx) => {
+              {/* {Object.keys(allFiles).map((day, idx) => {
                 const allFilesPerDay = allFiles[day];
                 console.log(allFilesPerDay);
 
@@ -390,7 +387,7 @@ class Envanter extends React.Component {
                     })}
                   </List>
                 )
-              })}
+              })} */}
             </span>
           }
         </Form>  
