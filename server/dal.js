@@ -559,7 +559,14 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
   console.log('putDietitianProfile');
   console.log(dietitianProfile);
 
-  rows[userId].profile = dietitianProfile;
+  if (rows[userId].profile == undefined) {
+    rows[userId].profile = dietitianProfile;
+  } else {
+    rows[userId].profile = {
+      ...rows[userId].profile,
+      ...dietitianProfile
+    };
+  }
 
   storage.setItem(userId, rows[userId]);
 }
