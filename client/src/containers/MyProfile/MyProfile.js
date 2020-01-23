@@ -380,6 +380,26 @@ class Envanter extends React.Component {
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  KİŞİSEL BİLGİLERİM
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="unvan" placeholder="Beslenme ve Diyetetik Uzmanı" label="Ünvanım" />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="instagram" label="Instagram kullanıcı adım" />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField rows={3} rowsMax={6} multiline name="ozgecmis" label="Öz geçmişim" />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   İLETİŞİM BİLGİLERİM
                 </Typography>
 

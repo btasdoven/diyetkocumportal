@@ -347,6 +347,7 @@ class NewRandevuWrapper extends React.Component {
                                     <Avatar className={classes.avatar} alt={user.name} src={user.url} />
                                 }
                                 title={<Typography variant="h5" component="h2">{user.name}</Typography>}
+                                subheader={user.unvan}
                                 />
                             </Card>
                         )}
