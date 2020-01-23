@@ -278,7 +278,7 @@ class NewRandevuWrapper extends React.Component {
         this.state = {
           userId: this.props.location.pathname.split('/')[2],
           date: new Date(),
-          time: '00:00 - 00:00',
+          time: Date.now(),
           step: 0,
           type: undefined,
         }

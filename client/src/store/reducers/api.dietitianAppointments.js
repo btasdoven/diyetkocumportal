@@ -1,4 +1,5 @@
 import { userService } from '../../services';
+import { getDanisanPreviews } from './api.danisanPreviews'
 
 const DIETITIAN_APPOINTMENT_GET_ERRORED = "api/DIETITIAN_APPOINTMENT_GET_ERRORED";
 const DIETITIAN_APPOINTMENT_GET_LOADING = "api/DIETITIAN_APPOINTMENT_GET_LOADING";
@@ -144,6 +145,7 @@ export function putDietitianAppointment(userId, date, time, values) {
         .then(
             (data) => { 
               getDietitianAppointments(userId, date)(dispatch);
+              getDanisanPreviews(userId)(dispatch);
             },
             error => {
                 dispatch(failure(userId, date, time, error.toString()));
