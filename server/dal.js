@@ -428,6 +428,8 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   console.log('putDietitianAppointmentInfo');
   console.log(userId, date, time);
 
+  values.info.name = values.info.name.trim();
+
   if (rows[userId].appointments == undefined) {
       rows[userId].appointments = {}
   }
@@ -502,6 +504,10 @@ Merhaba ${values.info.name},
 
 Diyetisyen ${rows[userId].profile.name} ile olan online diyet başvurunuz diyetisyeniniz tarafından ${statusTxt}. Diyetisyeniniz yakında sizinle iletişime geçecektir.
      
+Bu arada profinizi tamamlayıp kan tahlili ve vücut ölçümü bilgilerinizi girerek diyetisyeninize yardımcı olmak isterseniz aşağıdaki linke tıklayabilirsiniz.
+
+https://v2.diyetkocum.net/l/${stringHash(userId + values.info.name)}
+
 Teşekkürler,
 Diyet Koçum Ailesi`  
 
@@ -509,6 +515,18 @@ Diyet Koçum Ailesi`
       email.sendEmail(values.info.email, 'Online diyet isteğiniz ' + statusTxt, content)
       email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Online diyet isteğiniz ' + statusTxt, content)   
     }
+  }
+
+  if (values.status == 'confirmed') {
+    exports.postAddDanisan(userId, values.info.name, {
+      name: values.info.name,
+      email: values.info.email,
+      tel: values.info.tel,
+      birthday: values.info.birthday,
+      kilo: values.info.kilo,
+      boy: values.info.boy,
+      cinsiyet: values.info.cinsiyet,
+    })
   }
 }
 

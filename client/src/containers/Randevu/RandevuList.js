@@ -294,6 +294,20 @@ class Envanter extends React.Component {
                     var danisan = danisans[danisanKey]; 
 
                     var hours = danisanKey.split(' - ')
+
+                    var avatar = danisan.type != 'onlinediyet'
+                      ? (
+                          <span>
+                            <Typography color="primary" variant="subtitle2">{hours[0]}</Typography>
+                            <Typography color="primary" variant="subtitle2">{hours[1]}</Typography>
+                          </span>
+                        )
+                      : (
+                          <Avatar>
+                          <EventIcon />
+                          </Avatar>
+                        );
+
                     return (
                       <span key={idx}>
                         <Divider component="li" />
@@ -301,17 +315,7 @@ class Envanter extends React.Component {
                             //component={Link} to={"/c/" + danisan.name}
                         >
                           <ListItemAvatar >
-                            {danisan.type != 'onlinediyet' && (
-                              <span>
-                                <Typography color="primary" variant="subtitle2">{hours[0]}</Typography>
-                                <Typography color="primary" variant="subtitle2">{hours[1]}</Typography>
-                              </span>
-                            )}
-                            {danisan.type == 'onlinediyet' && (
-                              <Avatar>
-                                <EventIcon />
-                              </Avatar>
-                            )}
+                            {avatar}
                           </ListItemAvatar>
                           <ListItemText 
                             style={{paddingRight: '36px'}}
