@@ -605,7 +605,8 @@ exports.getDanisanFiles = function (userId, danisanUserName) {
   console.log('getDanisanFiles');
   console.log(danisanUserName);
 
-  if (rows[userId].files == undefined ||
+  if (rows[userId] == undefined || 
+      rows[userId].files == undefined ||
       rows[userId].files[danisanUserName] == undefined) {
     return { };
   }

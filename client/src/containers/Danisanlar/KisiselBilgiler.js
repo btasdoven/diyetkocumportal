@@ -32,6 +32,15 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
+import { getDanisanFiles, addDanisanFiles } from '../../store/reducers/api.danisanFiles'
+import moment from "moment";
+import { userService } from '../../services/user.service'
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import KanTahlili from './KisiselBilgilerKanTahlili'
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -47,6 +56,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import SaveIcon from '@material-ui/icons/Save';
+import AddIcon from '@material-ui/icons/Add';
 import ShareIcon from '@material-ui/icons/Share';
 import SendIcon from '@material-ui/icons/Send';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -57,7 +67,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import InputBase from '@material-ui/core/InputBase';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
 import Menu from '@material-ui/core/Menu';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -113,6 +122,9 @@ const styles = theme => ({
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(2),
   },
+  divCategory: {
+    marginTop: theme.spacing(3),
+  }
 });
 
 function renderLoadingButton(classes) {
@@ -212,13 +224,22 @@ class Envanter extends React.Component {
       this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data != undefined;
 
+      
+    var loaded2 = this.props.apiDanisanFiles != undefined &&
+      this.props.apiDanisanFiles[this.state.userId] != undefined &&
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
+
       console.log(loaded);
+      console.log(loaded2);
       return loaded;
   }
 
   componentDidMount() {
     if (!this.isLoaded()) {
       this.props.getDanisanProfile(this.state.userId, this.props.danisanUserName);
+      //this.props.getDanisanFiles(this.state.userId, this.props.danisanUserName);
     }
   }
 
@@ -237,9 +258,6 @@ class Envanter extends React.Component {
 
   render() {
     console.log(this.props);
-    console.log('dirty');
-    console.log(this.props.dirty);
-
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
 
@@ -331,9 +349,9 @@ class Envanter extends React.Component {
                 </CardActions>  */}
               </Card>
 
-              <div style={{margin: '8px'}}>
+              <div className={classes.divCategory}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  DANIŞANA ÖZEL LİNK
+                  ÖZLE DANIŞAN LİNKİ
                 </Typography>
 
                 <Grid container spacing={2}>
@@ -366,7 +384,23 @@ class Envanter extends React.Component {
                 </Grid>
               </div>
 
-              <div style={{margin: '8px'}}>
+              <div className={classes.divCategory}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  DİYET PAKETİ
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={6} sm={6} md={3} lg={3}>
+                    <Field name='start_date' label="Diyet başlangıç tarihi" component={DatePickerInput} />
+                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
+                  </Grid>
+                  <Grid item xs={6} sm={6} md={3} lg={3}>
+                    <ReduxFormTextField name="ucret_paketi" label="Diyet ücret paketi" />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div className={classes.divCategory}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   KİŞİSEL BİLGİLER
                 </Typography>
@@ -402,15 +436,6 @@ class Envanter extends React.Component {
                   <Grid item xs={3} sm={3} md={3} lg={3}>
                     <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
                   </Grid>
-                </Grid>
-              </div>
-              
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  İLETİŞİM BİLGİLERİ
-                </Typography>
-
-                <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={4} lg={4}>
                     <ReduxFormTextField name="email" label="E-posta adresi" />
                   </Grid>
@@ -423,7 +448,19 @@ class Envanter extends React.Component {
                 </Grid>
               </div>
 
-              <div style={{margin: '8px'}}>
+              <div className={classes.divCategory}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  KAN TAHLİLLERİ
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <KanTahlili danisanUserName={this.props.danisanUserName} />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div className={classes.divCategory}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   SAĞLIK BİLGİLERİ
                 </Typography>
@@ -473,7 +510,7 @@ class Envanter extends React.Component {
                 </Grid>
               </div>
 
-              <div style={{margin: '8px'}}>
+              <div className={classes.divCategory}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   BESLENME ALIŞKANLIKLARI
                 </Typography>
@@ -567,6 +604,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     apiDanisanProfile: state.apiDanisanProfile,
+    apiDanisanFiles: state.apiDanisanFiles,
     initialValues: 
       state.apiDanisanProfile[ownProps.userId] != undefined && 
       state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName] != undefined
@@ -579,7 +617,9 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getDanisanProfile: (userId, danisanUserName) => getDanisanProfile(userId, danisanUserName),
-      putDanisanProfile: (userId, danisanUserName, danisanProfile) => putDanisanProfile(userId, danisanUserName, danisanProfile)
+      putDanisanProfile: (userId, danisanUserName, danisanProfile) => putDanisanProfile(userId, danisanUserName, danisanProfile),
+      // addDanisanFiles: (userId, danisanUserName, files) => addDanisanFiles(userId, danisanUserName, files),
+      // getDanisanFiles: (userId, danisanUserName) => getDanisanFiles(userId, danisanUserName),
     },
     dispatch
   );

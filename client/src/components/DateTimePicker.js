@@ -49,7 +49,7 @@ class _StaticDatePickerInput extends PureComponent {
               variant="static"
               disableFuture={false}
               disablePast={true}
-              placeholder="19.05.1919"
+              placeholder={this.props.placeholder || "19.05.1919"}
               format="dd.MM.yyyy"
               label={label}
               invalidDateMessage={"Geçersiz tarih"}

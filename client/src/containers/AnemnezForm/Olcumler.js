@@ -230,19 +230,18 @@ class Envanter extends React.Component {
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
 
     this.state = {
-      userId: JSON.parse(localStorage.getItem('user')).id
+      openDialog: undefined,
     }
   }
 
   isLoaded() {
     console.log(this.props);
-    console.log(this.state.userId);
 
     var loaded = this.props.apiDanisanFiles != undefined &&
-      this.props.apiDanisanFiles[this.state.userId] != undefined &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
+      this.props.apiDanisanFiles[this.props.userId] != undefined &&
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -250,7 +249,7 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDanisanFiles(this.state.userId, this.props.danisanUserName);
+      this.props.getDanisanFiles(this.props.userId, this.props.danisanUserName);
     }
   }
 
@@ -261,7 +260,7 @@ class Envanter extends React.Component {
     formData.append('file',formValues.file)
     console.log(formData);
 
-    this.props.addDanisanFiles(this.state.userId, this.props.danisanUserName, formData);
+    this.props.addDanisanFiles(this.props.userId, this.props.danisanUserName, formData);
     this.onDialogClose();
   }
 
@@ -274,7 +273,7 @@ class Envanter extends React.Component {
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
-    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data;
+    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data;
     console.log(allFiles)
 
     return (
@@ -285,9 +284,6 @@ class Envanter extends React.Component {
         >  
           <Button style={{marginRight: '8px'}} variant="outlined" size="small" onClick={() => this.setState({openDialog: 'tahlil'})} color="primary" startIcon={<NoteAddIcon />}>
             KAN TAHLİLİ EKLE
-          </Button>
-          <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={true} color="primary" startIcon={<PostAddIcon />}>
-            TARTI ÖLÇÜMÜ EKLE
           </Button>
           <Divider style={{marginTop: '8px'}} />
 
@@ -334,7 +330,7 @@ class Envanter extends React.Component {
                 ]}
               /> */}
 
-              {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Bu danışana ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>}
+              {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Size ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>}
 
               {Object.keys(allFiles).map((day, idx) => {
                 const allFilesPerDay = allFiles[day];
@@ -386,9 +382,26 @@ class Envanter extends React.Component {
                           </ListItem>
                         </span>
                       )
+                      return (
+                        <span key={fidx}>
+                          <img style={{textAlign: 'center'}} src={userService.getStaticFileUri(file.path)} />
+                          <Typography>{file.name}</Typography>
+                        </span>
+                      )
                     })}
                   </List>
                 )
+
+                return Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
+                  const file = allFilesPerDay[fileTs];
+                  console.log(file)
+                  return (
+                    <span key={fidx}>
+                      <img style={{textAlign: 'center'}} src={userService.getStaticFileUri(file.path)} />
+                      <Typography>{file.name}</Typography>
+                    </span>
+                  )
+                })
               })}
             </span>
           }
@@ -404,13 +417,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     apiForm: state.form,
-    apiDanisanFiles: state.apiDanisanFiles,
-    // apiDanisanProfile: state.apiDanisanProfile,
-    // initialValues: 
-    //   state.apiDanisanProfile[ownProps.userId] != undefined && 
-    //   state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName] != undefined
-    //     ? state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName].data
-    //     : {},
+    apiDanisanFiles: state.apiDanisanFiles
   };
 };
 
@@ -427,4 +434,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'DanisanTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'AnemnezTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

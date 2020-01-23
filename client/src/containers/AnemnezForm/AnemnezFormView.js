@@ -75,6 +75,7 @@ import Slide from '@material-ui/core/Slide';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
+import Olcumler from './Olcumler';
 
 const styles = theme => ({
   profile: {
@@ -324,7 +325,7 @@ class Envanter extends React.Component {
             aria-label="scrollable auto tabs example"
           >
             <Tab label="PROFİL" {...a11yProps(0)} />
-            <Tab label="KAN TAHLİLİ" {...a11yProps(1)} />
+            <Tab label="ÖLÇÜMLER" {...a11yProps(1)} />
             <Tab label="DİYET PROGRAMI" {...a11yProps(2)} />
             <Tab label="MESAJLAR" {...a11yProps(3)} />
           </Tabs>
@@ -332,7 +333,7 @@ class Envanter extends React.Component {
             <AnemnezForm userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
           </TabPanel>
           <TabPanel value={this.state.value} index={1}>
-            <Tahliller userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+            <Olcumler userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
           </TabPanel>
           <TabPanel value={this.state.value} index={2}>
             <DiyetListesi userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />

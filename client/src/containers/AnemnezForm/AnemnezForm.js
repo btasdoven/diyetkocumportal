@@ -41,6 +41,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import KanTahlili from './Tahliller'
 
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
@@ -117,6 +118,9 @@ const styles = theme => ({
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(2),
   },
+  divCategory: {
+    marginTop: theme.spacing(3),
+  }
 });
 
 function renderLoadingButton(classes) {
@@ -377,7 +381,23 @@ class Envanter extends React.Component {
                 </CardActions>  */}
               </Card>
 
-              <div style={{margin: '8px'}}>
+              <div className={classes.divCategory}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  DİYET PAKETİ
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={6} sm={6} md={3} lg={3}>
+                    <Field InputProps={{ readOnly: true }} disabled name='start_date' label="Diyet başlangıç tarihi" component={DatePickerInput} />
+                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
+                  </Grid>
+                  <Grid item xs={6} sm={6} md={3} lg={3}>
+                    <ReduxFormTextField InputProps={{ readOnly: true }} disabled name="ucret_paketi" label="Diyet ücret paketi" />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div className={classes.divCategory}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   KİŞİSEL BİLGİLER
                 </Typography>
@@ -413,15 +433,6 @@ class Envanter extends React.Component {
                   <Grid item xs={3} sm={3} md={3} lg={3}>
                     <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
                   </Grid>
-                </Grid>
-              </div>
-              
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  İLETİŞİM BİLGİLERİ
-                </Typography>
-
-                <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={4} lg={4}>
                     <ReduxFormTextField name="email" label="E-posta adresi" />
                   </Grid>
@@ -434,7 +445,19 @@ class Envanter extends React.Component {
                 </Grid>
               </div>
 
-              <div style={{margin: '8px'}}>
+              <div className={classes.divCategory}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  KAN TAHLİLLERİ
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <KanTahlili userId={this.props.userId} danisanUserName={this.props.danisanUserName} />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div className={classes.divCategory}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   SAĞLIK BİLGİLERİ
                 </Typography>
@@ -484,7 +507,7 @@ class Envanter extends React.Component {
                 </Grid>
               </div>
 
-              <div style={{margin: '8px'}}>
+              <div className={classes.divCategory}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   BESLENME ALIŞKANLIKLARI
                 </Typography>

@@ -231,7 +231,7 @@ class Envanter extends React.Component {
             >
               <Tab label="PROFİL" {...a11yProps(0)} />
               <Tab label="NOTLARIM" {...a11yProps(1)} />
-              <Tab label="TAHLİLLER/ÖLÇÜMLER" {...a11yProps(2)} />
+              <Tab label="ÖLÇÜMLER" {...a11yProps(2)} />
               <Tab label="DİYET LİSTESİ" {...a11yProps(3)} />
               <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} />
               <Tab label="ÖDEME BİLGİLERİ" {...a11yProps(5)} />
