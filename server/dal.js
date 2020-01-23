@@ -489,6 +489,10 @@ Randevu günü: ${moment(date).format("DD MMMM YYYY")}
 Randevu saati: ${time}
 ${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
   
+Randevunuza kadar profinizi tamamlayıp kan tahlili ve vücut ölçümü bilgilerinizi girerek diyetisyeninize yardımcı olmak isterseniz aşağıdaki linke tıklayabilirsiniz.
+
+https://v2.diyetkocum.net/l/${stringHash(userId + values.info.name)}
+
 Teşekkürler,
 Diyet Koçum Ailesi`   
 
