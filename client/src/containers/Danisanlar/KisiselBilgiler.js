@@ -351,7 +351,7 @@ class Envanter extends React.Component {
 
               <div className={classes.divCategory}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  ÖZLE DANIŞAN LİNKİ
+                  ÖZEL DANIŞAN LİNKİ
                 </Typography>
 
                 <Grid container spacing={2}>

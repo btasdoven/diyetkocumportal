@@ -72,9 +72,6 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing(3),
   },
-  registerTypo: {
-    marginTop: theme.spacing(3),
-  },
   buttonProgress: {
     color: green[500],
     position: 'absolute',
