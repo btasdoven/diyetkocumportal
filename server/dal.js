@@ -469,7 +469,7 @@ Danışan ek bilgiler: ${values.info.notes || ''}
 
 Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsin:
 
-https://v2.diyetkocum.net/r
+https://diyetkocum.net/r
 
 Teşekkürler,
 Diyet Koçum Ailesi`
@@ -491,7 +491,7 @@ ${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
   
 Randevunuza kadar profinizi tamamlayıp kan tahlili ve vücut ölçümü bilgilerinizi girerek diyetisyeninize yardımcı olmak isterseniz aşağıdaki linke tıklayabilirsiniz.
 
-https://v2.diyetkocum.net/l/${stringHash(userId + values.info.name)}
+https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
 
 Teşekkürler,
 Diyet Koçum Ailesi`   
@@ -509,7 +509,7 @@ Diyetisyen ${rows[userId].profile.name} ile olan online diyet başvurunuz diyeti
      
 Bu arada profinizi tamamlayıp kan tahlili ve vücut ölçümü bilgilerinizi girerek diyetisyeninize yardımcı olmak isterseniz aşağıdaki linke tıklayabilirsiniz.
 
-https://v2.diyetkocum.net/l/${stringHash(userId + values.info.name)}
+https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
 
 Teşekkürler,
 Diyet Koçum Ailesi`  
