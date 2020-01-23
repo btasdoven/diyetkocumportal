@@ -96,7 +96,9 @@ const styles = theme => ({
       justifyContent: "center",
       width: '100%',
       alignItems: "center",
-      marginTop: theme.spacing(5)
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+      //textAlign: 'center',
   },
 });
 
@@ -183,21 +185,16 @@ class Envanter extends React.Component {
 
     this.isLoaded = this.isLoaded.bind(this);
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
-
-    this.state = {
-      userId: props.userId
-    }
   }
 
   isLoaded() {
     console.log(this.props);
-    console.log(this.state.userId);
 
     var loaded = this.props.apiDanisanDietList != undefined &&
-      this.props.apiDanisanDietList[this.state.userId] != undefined &&
-      this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName].data != undefined;
+      this.props.apiDanisanDietList[this.props.userId] != undefined &&
+      this.props.apiDanisanDietList[this.props.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanDietList[this.props.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanDietList[this.props.userId][this.props.danisanUserName].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -205,13 +202,13 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDanisanDietList(this.state.userId, this.props.danisanUserName);
+      this.props.getDanisanDietList(this.props.userId, this.props.danisanUserName);
     }
   }
 
   onSubmitInternal(formValues) {
       console.log(formValues);
-      this.props.putDanisanDietList(this.state.userId, this.props.danisanUserName, formValues);
+      this.props.putDanisanDietList(this.props.userId, this.props.danisanUserName, formValues);
   }
 
   render() {
@@ -222,6 +219,9 @@ class Envanter extends React.Component {
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
 
+    var doesDietListExist = showLoader ? undefined : Object.keys(this.props.apiDanisanDietList[this.props.userId][this.props.danisanUserName].data).length > 1
+    console.log(doesDietListExist)
+    
     return (
       <div className={classes.root}>
         {/* <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
@@ -230,7 +230,12 @@ class Envanter extends React.Component {
         <Divider style={{marginTop: '8px', marginBottom: '8px'}} /> */}
 
         { showLoader && renderLoadingButton(classes) }
-        { !showLoader && 
+        { !showLoader && !doesDietListExist && (
+          <div className={classes.rootLoading}>
+            <Typography style={{textAlign: 'center', marginTop: '24px'}} variant="body2">Diyetisyeniniz diyet programınızı daha paylaşmadı.</Typography>
+          </div>
+        )}
+        { !showLoader && doesDietListExist && 
           <span>
             <Form
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}

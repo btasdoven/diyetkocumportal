@@ -259,6 +259,7 @@ class Envanter extends React.Component {
 
     const formData = new FormData();
     formData.append('file',formValues.file)
+    formData.append('type', 'tahlil')
     console.log(formData);
 
     this.props.addDanisanFiles(this.props.userId, this.props.danisanUserName, formData);

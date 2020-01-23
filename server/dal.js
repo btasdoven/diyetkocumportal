@@ -614,10 +614,11 @@ exports.getDanisanFiles = function (userId, danisanUserName) {
   return rows[userId].files[danisanUserName];
 }
 
-exports.addDanisanFiles = function (userId, danisanUserName, file) {
+exports.addDanisanFiles = function (userId, danisanUserName, file, type) {
   console.log('addDanisanFiles');
   console.log(danisanUserName);
   console.log(file)
+  console.log(type)
 
   if (rows[userId].files == undefined) {
     rows[userId].files = { };
@@ -639,6 +640,7 @@ exports.addDanisanFiles = function (userId, danisanUserName, file) {
     mimetype: file.mimetype,
     path: 'api/v1/public/' + file.filename,
     name: file.originalname,
+    type: type,
   };
 
   storage.setItem(userId, rows[userId]);

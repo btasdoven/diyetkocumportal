@@ -258,6 +258,7 @@ class Envanter extends React.Component {
 
     const formData = new FormData();
     formData.append('file',formValues.file)
+    formData.append('type', 'olcum')
     console.log(formData);
 
     this.props.addDanisanFiles(this.props.userId, this.props.danisanUserName, formData);
@@ -330,7 +331,7 @@ class Envanter extends React.Component {
                 ]}
               /> */}
 
-              {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Size ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>}
+              {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Size ait ölçüm bilgisi bulunmamaktadır.</Typography>}
 
               {Object.keys(allFiles).map((day, idx) => {
                 const allFilesPerDay = allFiles[day];
