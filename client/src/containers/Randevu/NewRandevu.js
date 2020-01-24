@@ -31,6 +31,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { withSnackbar } from 'material-ui-snackbar-provider'
+import MaskedInput from 'react-text-mask';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
@@ -207,6 +208,49 @@ const renderSelect = props => {
     </Select>
   )
 }
+
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <MaskedInput
+      {...other}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={['+', '9', '0', ' ', /[1-9]/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/]}
+      placeholderChar={'_'}
+      showMask
+    />
+  );
+}
+
+const renderMaskedTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => {
+  return (
+    <TextField
+      label={label}
+      {...input}
+      {...custom}
+      InputLabelProps={{color: 'primary', shrink: true}}
+      InputProps={{inputComponent: TextMaskCustom}}
+      error={touched && error != undefined}
+      helperText={touched && error ? error : undefined}
+    />
+  )
+};
+
+const ReduxFormMasketTextField = ({name, label, ...props}) => (
+  <Field
+      name={name}
+      component={renderMaskedTextField}
+      label={label}
+      {...props}
+  />)
 
 const ReduxFormTextField = ({name, label, ...props}) => (
   <Field
@@ -614,7 +658,7 @@ class NewRandevuStep2 extends React.Component {
                                 <ReduxFormTextField required validate={[required]} name="email" label="E-posta adresin" />
                             </Grid>
                             <Grid item xs={6} sm={6} md={6} lg={6}>
-                                <ReduxFormTextField name="tel" label="Telefon numaran" />
+                                <ReduxFormMasketTextField name="tel" label="Telefon numaran" />
                             </Grid>
                             <Grid item xs={6} sm={6} md={3} lg={3}>
                                 <Field name='birthday' label="Doğum tarihin" component={DatePickerInput} />

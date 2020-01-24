@@ -71,6 +71,7 @@ import Slide from '@material-ui/core/Slide';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
+import MaskedInput from 'react-text-mask';
 
 const styles = theme => ({
   profile: {
@@ -192,6 +193,49 @@ const renderSelect = props => {
     </Select>
   )
 }
+
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <MaskedInput
+      {...other}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={['+', '9', '0', ' ', /[1-9]/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/]}
+      placeholderChar={'_'}
+      showMask
+    />
+  );
+}
+
+const renderMaskedTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => {
+  return (
+    <TextField
+      label={label}
+      {...input}
+      {...custom}
+      InputLabelProps={{color: 'primary', shrink: true}}
+      InputProps={{inputComponent: TextMaskCustom}}
+      error={touched && error != undefined}
+      helperText={touched && error ? error : undefined}
+    />
+  )
+};
+
+const ReduxFormMaskedTextField = ({name, label, ...props}) => (
+  <Field
+      name={name}
+      component={renderMaskedTextField}
+      label={label}
+      {...props}
+  />)
 
 const ReduxFormTextField = ({name, label, ...props}) => (
   <Field
@@ -437,7 +481,7 @@ class Envanter extends React.Component {
                     <ReduxFormTextField name="email" label="E-posta adresi" />
                   </Grid>
                   <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <ReduxFormTextField name="tel" label="Telefon numarası" />
+                    <ReduxFormMaskedTextField name="tel" label="Telefon numarası" />
                   </Grid>
                   <Grid item xs={12} sm={12} md={4} lg={4}>
                     <ReduxFormTextField name="address" label="Adresi" />

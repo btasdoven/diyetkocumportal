@@ -54,12 +54,13 @@ const styles = theme => ({
   buttonProgress: {
     color: green[500],
     position: 'absolute',
-    top: '50%',
+    top: 'calc(50% - 12px)',
     left: 'calc(50% - 12px)',
   },
   buttonRoot: {
     display: 'flex',
     alignItems: 'center',
+    marginTop: '8px',
   },
   buttonWrapper: {
     position: 'relative',
@@ -167,12 +168,11 @@ class SigninForm extends React.Component {
             fullWidth
             variant="contained"
             color="primary"
-            style={{marginTop: '16px'}}
             disabled={auth && auth.loggingIn}
           >
             GİRİŞ YAP
           </Button>
-          {auth && auth.loggingIn && !this.state.isDemoLogin && <CircularProgress size={24} className={classes.buttonProgress} />}
+          {auth && auth.loggingIn && <CircularProgress size={24} className={classes.buttonProgress} />}
         </div>
         </div>
 
@@ -186,7 +186,6 @@ class SigninForm extends React.Component {
             fullWidth
             variant="outlined"
             color="primary"
-            style={{marginTop: '8px'}}
             disabled={auth && auth.loggingIn}
           >
             DEMO GİRİŞİ
@@ -201,7 +200,6 @@ class SigninForm extends React.Component {
             fullWidth
             variant="contained"
             color="secondary"
-            style={{marginTop: '8px'}}
             component={Link}
             to="/signup"
           >

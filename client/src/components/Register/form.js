@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
+import MaskedInput from 'react-text-mask';
 
 const styles = theme => ({
   root: {
@@ -84,6 +85,43 @@ const renderTextField = ({
   )
 };
 
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <MaskedInput
+      {...other}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={['+', '9', '0', ' ', /[1-9]/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/]}
+      placeholderChar={'_'}
+      showMask
+    />
+  );
+}
+
+const renderMaskedTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => {
+  return (
+    <TextField
+      label={label}
+      {...input}
+      {...custom}
+      InputLabelProps={{color: 'primary', shrink: true}}
+      InputProps={{inputComponent: TextMaskCustom}}
+      error={touched && error != undefined}
+      helperText={touched && error ? error : undefined}
+    />
+  )
+};
+
+const validPhone = value => value && !/^\+90 [1-9][0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}$/i.test(value) ? 'Geçerli bir telefon numarası değil' : undefined;
+const validEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Geçerli bir e-posta adresi değil' : undefined;
 const required = value => value ? undefined : 'Zorunlu'
 const matchPasswords = (pass1, allValues) => pass1 !== allValues.password ? 'Girdiğin şifreler eşleşmiyor' : undefined;
 
@@ -147,16 +185,18 @@ const SigninForm = props => {
           label="E-posta adresin"
           autoComplete="email"
           autoFocus={false}
+          validate={[required, validEmail]}
         />
       </FormControl>
       <FormControl margin="normal" fullWidth>
         <Field
           id="tel"
           name="tel"
-          component={renderTextField}
+          component={renderMaskedTextField}
           label="Telefon numaran"
           autoComplete="mobile"
           autoFocus={false}
+          validate={[required, validPhone]}
         />
       </FormControl>
       {/* <FormControlLabel
