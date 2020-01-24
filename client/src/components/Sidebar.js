@@ -137,7 +137,7 @@ class Sidebar extends React.Component {
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
 
-            <ListItem button component={Link} to='/m' selected={location.pathname === '/m'}>
+            {/* <ListItem button component={Link} to='/m' selected={location.pathname === '/m'}>
               <ListItemIcon>
                 <ChatIcon color="primary"/>
               </ListItemIcon>
@@ -149,7 +149,7 @@ class Sidebar extends React.Component {
                   </Badge>
                 </ListItemSecondaryAction>
               }
-            </ListItem>
+            </ListItem> */}
 
             <ListItem button component={Link} to='/r' selected={location.pathname === '/r'}>
               <ListItemIcon>
@@ -161,7 +161,7 @@ class Sidebar extends React.Component {
           {/* </List>
           <Divider />
           <List dense={true}> */}
-            <ListItem button component={Link} to='/f' selected={location.pathname === '/f'}>
+            {/* <ListItem button component={Link} to='/f' selected={location.pathname === '/f'}>
               <ListItemIcon>
                 <CreditCardIcon color="primary"/>
               </ListItemIcon>
@@ -172,7 +172,7 @@ class Sidebar extends React.Component {
                 <BookmarkBorderIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">KAYITLI DİYETLERİM</Typography>
-            </ListItem>
+            </ListItem> */}
           </List>
         </Drawer>
     );
