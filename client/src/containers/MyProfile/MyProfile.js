@@ -28,6 +28,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { withSnackbar } from 'material-ui-snackbar-provider'
 import SpeedDial from '../SpeedDial/SpeedDial'
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
+import Switch from '@material-ui/core/Switch';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
@@ -156,8 +157,31 @@ const renderCheckBox = props => {
       />
   )
 }
+  
+const ReduxFormSwitch = ({name, label, ...props}) => (
+    <Field
+      name={name}
+      label={label}
+      component={renderSwitch}
+      {...props}
+    />
+)
 
-
+const renderSwitch = props => {
+  const { input, label, ...rest } = props;
+  return (
+    <FormControlLabel
+      control={
+        <Switch  
+          onChange={value => input.onChange(value)}
+          value={input.value}
+          checked={input.value == true}
+        />
+      }
+      label={label}
+    />
+  )
+}
 
 const ReduxFormSelect = ({name, label, values, ...props}) => (
   <FormControl
@@ -422,6 +446,38 @@ class Envanter extends React.Component {
                 </CardActions>  */}
               </Card>
 
+
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  ÖZEL RANDEVU LİNKİM
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <div className={classes.text}>
+                      <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için bu linki onlarla paylaşabilir ya da direkt instagram profilinize ekleyebilirsiniz.</Typography>
+                    </div>
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <CopyToClipboard text={"diyetkocum.net/d/" + this.state.user.username} >
+                      <span>
+                        <Chip
+                          //avatar={<Avatar>M</Avatar>}
+                          label={"diyetkocum.net/d/" + this.state.user.username}
+                          clickable
+                          color="primary"
+                          onClick={this.handleLinkCopied}
+                          onDelete={this.handleLinkCopied}
+                          deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
+                          variant="outlined"
+                        />
+                      </span>
+                    </CopyToClipboard>
+                  </Grid>
+                </Grid>
+              </div>
+              
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   KİŞİSEL BİLGİLERİM
@@ -471,41 +527,21 @@ class Envanter extends React.Component {
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  ÖZEL RANDEVU LİNKİM
+                  ONLİNE DİYET
                 </Typography>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <div className={classes.text}>
-                      <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için bu linki onlarla paylaşabilir ya da direkt instagram profilinize ekleyebilirsiniz.</Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <CopyToClipboard text={"diyetkocum.net/d/" + this.state.user.username} >
-                      <span>
-                        <Chip
-                          //avatar={<Avatar>M</Avatar>}
-                          label={"diyetkocum.net/d/" + this.state.user.username}
-                          clickable
-                          color="primary"
-                          onClick={this.handleLinkCopied}
-                          onDelete={this.handleLinkCopied}
-                          deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
-                          variant="outlined"
-                        />
-                      </span>
-                    </CopyToClipboard>
+                  <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} item xs={12} sm={6} md={4} lg={4}>
+                    <ReduxFormSwitch name="online_diyet" label={<Typography variant="body2">Online Diyet istekleri gelsin</Typography>}/>
                   </Grid>
                 </Grid>
-
               </div>
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  RANDEVU SAATLERİM
+                  YÜZ YÜZE RANDEVU SAATLERİM
                 </Typography>
-
+                
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <div className={classes.text}>

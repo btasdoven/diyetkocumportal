@@ -478,10 +478,11 @@ class NewRandevuStep0 extends React.Component {
 
   render() {
     const { classes } = this.props;
+    var user = this.props.apiDietitianProfile[this.state.userId].data;
 
     return (
       <div className={classes.rootTypeSelect}>
-        <Button style={{margin: '24px'}} variant="contained" color="primary" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>
+        {user.online_diyet == true && <Button style={{margin: '24px'}} variant="contained" color="primary" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
         <Button variant="contained" color="secondary" onClick={() => this.props.onComplete('randevu')}>RANDEVU AL</Button>
       </div>
     )}

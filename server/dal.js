@@ -44,7 +44,8 @@ const rows = {
       'Salı': true,
       'Çarşamba': true,
       'Perşembe': true,
-      'Cuma': true
+      'Cuma': true,
+      'online_diyet': true
     }
   },
   'demo': {
@@ -280,6 +281,42 @@ var taskInitRows = () => {
   });
 }
 
+var taskUpgradeStg = () => {
+  return asyncForEach(Object.keys(rows), async (id) => {
+    if (id == 0 || id == 1) {
+      return Promise.resolve()
+    }
+
+    var changed = false;
+
+    console.log(id)
+
+    if (rows[id].profile != undefined && 
+        rows[id].profile.online_diyet == undefined) {
+      rows[id].profile.online_diyet = true
+      changed = true
+    }
+    
+    if (rows[id].profile != undefined && 
+        rows[id].profile.url == undefined) {
+      rows[id].profile.url = rows[0].users[id].url
+      changed = true
+    }
+    
+    console.log(changed)
+
+    if (!changed) {
+      return Promise.resolve()
+    }
+
+    console.log(id, rows[id])
+    return storage.setItem(id.toString(), rows[id]);
+  });
+}
+
+
+
+
 function start() {
   return startAsync()
 }
@@ -291,7 +328,8 @@ async function startAsync() {
     taskInitStg,
     taskResetStg,
     taskInitNewDietitians,
-    taskInitRows
+    taskInitRows,
+    taskUpgradeStg,
   ];
 
   return new Promise((resolve, reject) => {
@@ -458,6 +496,10 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
 Merhaba ${rows[userId].profile.name},
 
 Aşağıda belirtilen gün ve tarih için ${values.info.name} isminde bir danışan tarafından randevu isteği gönderildi.
+
+Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsin:
+
+https://diyetkocum.net/r
  
 Randevu tipi: ${type}
 Randevu günü: ${moment(date).format("DD MMMM YYYY")}
@@ -466,10 +508,6 @@ Danışan e-posta adresi:  ${values.info.email}
 Danışan telefon numarası: ${values.info.tel}
 Danışan doğum tarihi: ${moment(values.info.birthday).format("DD MMMM YYYY")}
 Danışan ek bilgiler: ${values.info.notes || ''}
-
-Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsin:
-
-https://diyetkocum.net/r
 
 Teşekkürler,
 Diyet Koçum Ailesi`
@@ -484,14 +522,14 @@ Diyet Koçum Ailesi`
 Merhaba ${values.info.name},
 
 Aşağıda belirtilen gün ve tarih için diyetisyen ${rows[userId].profile.name} ile randevunuz diyetisyeniniz tarafından ${statusTxt}.
+  
+Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz.
+
+https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
     
 Randevu günü: ${moment(date).format("DD MMMM YYYY")}
 Randevu saati: ${time}
 ${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
-  
-Randevunuza kadar profinizi tamamlayıp kan tahlili ve vücut ölçümü bilgilerinizi girerek diyetisyeninize yardımcı olmak isterseniz aşağıdaki linke tıklayabilirsiniz.
-
-https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
 
 Teşekkürler,
 Diyet Koçum Ailesi`   
@@ -506,8 +544,8 @@ Diyet Koçum Ailesi`
 Merhaba ${values.info.name},
 
 Diyetisyen ${rows[userId].profile.name} ile olan online diyet başvurunuz diyetisyeniniz tarafından ${statusTxt}. Diyetisyeniniz yakında sizinle iletişime geçecektir.
-     
-Bu arada profinizi tamamlayıp kan tahlili ve vücut ölçümü bilgilerinizi girerek diyetisyeninize yardımcı olmak isterseniz aşağıdaki linke tıklayabilirsiniz.
+  
+Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz.
 
 https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
 
