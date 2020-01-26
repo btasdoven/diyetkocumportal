@@ -284,7 +284,7 @@ class Envanter extends React.Component {
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          <Button style={{marginRight: '8px'}} variant="outlined" size="small" disabled={true} color="primary" startIcon={<PostAddIcon />}>
+          <Button disabled={true} onClick={() => this.setState({openDialog: true})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
             TARTI ÖLÇÜMÜ EKLE
           </Button>
           <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
@@ -294,29 +294,68 @@ class Envanter extends React.Component {
             open={this.state.openDialog != undefined} 
             onClose={() => this.onDialogClose(undefined)}
           >
-            <DialogTitle id="form-dialog-title">Yeni Tahlil Ekle</DialogTitle>
+            <DialogTitle id="form-dialog-title">Yeni Ölçüm Ekle</DialogTitle>
             <DialogContent>
-              <Field
-                name="file"
-                component={FieldFileInput}
-                onChange={(f) => console.log(f)}
-              />
+              <Grid container spacing={2}>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
+                  <Field
+                    fullWidth
+                    name="kilo"
+                    component={renderTextField}
+                    label="Kilo"
+                    type="number" 
+                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
+                  <Field
+                    fullWidth
+                    name="boy"
+                    component={renderTextField}
+                    label="Boy"
+                    type="number" 
+                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
+                  <Field
+                    fullWidth
+                    name="bacak"
+                    component={renderTextField}
+                    label="Bacak ölçüsü"
+                    type="number" 
+                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
+                  <Field
+                    fullWidth
+                    name="kol"
+                    component={renderTextField}
+                    label="Kol ölçüsü"
+                    type="number" 
+                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
+                  <Field
+                    fullWidth
+                    name="gogus"
+                    component={renderTextField}
+                    label="Göğüs ölçüsü"
+                    type="number" 
+                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
+                  />
+                </Grid>
+              </Grid> 
 
-              {this.props.apiForm[this.props.form] != undefined && 
-               this.props.apiForm[this.props.form].values != undefined && Object.keys(this.props.apiForm[this.props.form].values).map((i) => {
-                  const file = this.props.apiForm[this.props.form].values[i];
-
-                  return (
-                    <Typography variant="body2" key={i}>{file.name}</Typography>
-                  )
-               })}
             </DialogContent>
             <DialogActions>
               <Button disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
                 İPTAL
               </Button>
               <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
-                YÜKLE
+                KAYDET
               </Button>
             </DialogActions>
           </Dialog>
