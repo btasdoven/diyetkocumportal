@@ -104,12 +104,12 @@ const styles = theme => ({
       margin: theme.spacing(1),
   },
   rootLoading: {
-    height: "inherit",
-    display: "flex",
-    justifyContent: "center",
-    width: '100%',
-    alignItems: "center",
-    marginTop: theme.spacing(5)
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      width: '100%',
+      alignItems: "center",
+      marginTop: theme.spacing(5)
   },
 });
 
@@ -230,19 +230,18 @@ class Envanter extends React.Component {
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
 
     this.state = {
-      userId: JSON.parse(localStorage.getItem('user')).id
+      openDialog: undefined,
     }
   }
 
   isLoaded() {
     console.log(this.props);
-    console.log(this.state.userId);
 
     var loaded = this.props.apiDanisanFiles != undefined &&
-      this.props.apiDanisanFiles[this.state.userId] != undefined &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
+      this.props.apiDanisanFiles[this.props.userId] != undefined &&
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -250,7 +249,7 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDanisanFiles(this.state.userId, this.props.danisanUserName);
+      this.props.getDanisanFiles(this.props.userId, this.props.danisanUserName);
     }
   }
 
@@ -262,7 +261,7 @@ class Envanter extends React.Component {
     formData.append('type', 'olcum')
     console.log(formData);
 
-    this.props.addDanisanFiles(this.state.userId, this.props.danisanUserName, formData);
+    this.props.addDanisanFiles(this.props.userId, this.props.danisanUserName, formData);
     this.onDialogClose();
   }
 
@@ -275,7 +274,7 @@ class Envanter extends React.Component {
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
-    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data;
+    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data;
     console.log(allFiles)
 
     return (
@@ -284,7 +283,7 @@ class Envanter extends React.Component {
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          <Button disabled={true} onClick={() => this.setState({openDialog: true})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
+          <Button disabled style={{marginRight: '8px'}} variant="outlined" size="small" onClick={() => this.setState({openDialog: 'tahlil'})} color="primary" startIcon={<NoteAddIcon />}>
             TARTI ÖLÇÜMÜ EKLE
           </Button>
           <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
@@ -294,68 +293,29 @@ class Envanter extends React.Component {
             open={this.state.openDialog != undefined} 
             onClose={() => this.onDialogClose(undefined)}
           >
-            <DialogTitle id="form-dialog-title">Yeni Ölçüm Ekle</DialogTitle>
+            <DialogTitle id="form-dialog-title">Yeni Tahlil Ekle</DialogTitle>
             <DialogContent>
-              <Grid container spacing={2}>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="kilo"
-                    component={renderTextField}
-                    label="Kilo"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="boy"
-                    component={renderTextField}
-                    label="Boy"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="bacak"
-                    component={renderTextField}
-                    label="Bacak ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="kol"
-                    component={renderTextField}
-                    label="Kol ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="gogus"
-                    component={renderTextField}
-                    label="Göğüs ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-              </Grid> 
+              <Field
+                name="file"
+                component={FieldFileInput}
+                onChange={(f) => console.log(f)}
+              />
 
+              {this.props.apiForm[this.props.form] != undefined && 
+               this.props.apiForm[this.props.form].values != undefined && Object.keys(this.props.apiForm[this.props.form].values).map((i) => {
+                  const file = this.props.apiForm[this.props.form].values[i];
+
+                  return (
+                    <Typography variant="body2" key={i}>{file.name}</Typography>
+                  )
+               })}
             </DialogContent>
             <DialogActions>
               <Button disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
                 İPTAL
               </Button>
               <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
-                KAYDET
+                YÜKLE
               </Button>
             </DialogActions>
           </Dialog>
@@ -371,7 +331,7 @@ class Envanter extends React.Component {
                 ]}
               /> */}
 
-                <Typography variant="body2" style={{textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>
+                <Typography variant="body2" style={{textAlign: 'center'}}>Size ait ölçüm bilgisi bulunmamaktadır.</Typography>
 
               {/* {Object.keys(allFiles).map((day, idx) => {
                 const allFilesPerDay = allFiles[day];
@@ -441,13 +401,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     apiForm: state.form,
-    apiDanisanFiles: state.apiDanisanFiles,
-    // apiDanisanProfile: state.apiDanisanProfile,
-    // initialValues: 
-    //   state.apiDanisanProfile[ownProps.userId] != undefined && 
-    //   state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName] != undefined
-    //     ? state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName].data
-    //     : {},
+    apiDanisanFiles: state.apiDanisanFiles
   };
 };
 
@@ -464,4 +418,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'DanisanTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'AnemnezTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

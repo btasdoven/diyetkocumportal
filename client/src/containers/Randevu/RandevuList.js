@@ -27,6 +27,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import CloseIcon from '@material-ui/icons/Close';
+import { withSnackbar } from 'material-ui-snackbar-provider'
+import EventIcon from '@material-ui/icons/Event';
 
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
@@ -223,6 +225,13 @@ class Envanter extends React.Component {
       d.status = status;
       console.log(date, time, d)
       this.props.putDietitianAppointment(this.state.userId, date, time, d);
+
+      var statusText = status == 'confirmed' ? 'onaylayışınız' : 'reddedişiniz'
+      this.props.snackbar.showMessage(
+        'Randevuyu ' + statusText + ' danışanınızın e-posta adresine gönderildi.',
+        //'Undo', () => handleUndo()
+      )
+
     }
   }
 
@@ -285,6 +294,20 @@ class Envanter extends React.Component {
                     var danisan = danisans[danisanKey]; 
 
                     var hours = danisanKey.split(' - ')
+
+                    var avatar = danisan.type != 'onlinediyet'
+                      ? (
+                          <span>
+                            <Typography color="primary" variant="subtitle2">{hours[0]}</Typography>
+                            <Typography color="primary" variant="subtitle2">{hours[1]}</Typography>
+                          </span>
+                        )
+                      : (
+                          <Avatar>
+                          <EventIcon />
+                          </Avatar>
+                        );
+
                     return (
                       <span key={idx}>
                         <Divider component="li" />
@@ -292,10 +315,7 @@ class Envanter extends React.Component {
                             //component={Link} to={"/c/" + danisan.name}
                         >
                           <ListItemAvatar >
-                            <span>
-                              <Typography color="primary" variant="subtitle2">{hours[0]}</Typography>
-                              <Typography color="primary" variant="subtitle2">{hours[1]}</Typography>
-                            </span>
+                            {avatar}
                           </ListItemAvatar>
                           <ListItemText 
                             style={{paddingRight: '36px'}}
@@ -312,7 +332,7 @@ class Envanter extends React.Component {
                                 //     variant="caption"
                                 //     color="inherit"
                                 // >
-                                    danisan.info.kilo + "kg, " + danisan.info.boy + "cm"
+                                    danisan.type == 'onlinediyet' ? 'Online Diyet İsteği' : 'Yüz Yüze Randevu İsteği'
                                 // </Typography>
                             }
                           />
@@ -371,4 +391,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(withRouter(Envanter)));
+)(withStyles(styles)(withRouter(withSnackbar()(Envanter))));

@@ -44,7 +44,8 @@ const rows = {
       'Salı': true,
       'Çarşamba': true,
       'Perşembe': true,
-      'Cuma': true
+      'Cuma': true,
+      'online_diyet': true
     }
   },
   'demo': {
@@ -220,19 +221,6 @@ const rows = {
   }
 };
 
-// const users = {
-//   'demo': { id: 'demo', username: 'demo', name: 'Diyet Koçum Test', password: '1234', email: 'demo@diyetkocum.net', url: '/static/favicon.png' },
-//   'dyt.kubra_aydin': { id: 'dyt.kubra_aydin', username: 'dyt.kubra_aydin', name: 'Kübra Aydın', password: '1234', email: '', url: 'https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.2885-19/s150x150/79369500_2619425271482161_1159096052670791680_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_ohc=_ZSwjUzpLQcAX-ZZBKU&oh=29310039c3379c1e71f5e6d008fc525d&oe=5E98B832' },
-//   'dyt_ezelkavadar': { id: 'dyt_ezelkavadar', username: 'dyt_ezelkavadar', name: 'Ezel Kavadar', password: '1234', email: 'diyetisyenezelkavadar@gmail.com', url: 'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/65535962_411795416090543_708510732999720960_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=-CRizYY6VPwAX82G5qH&oh=75c5e5b1629d904afafbe3da693681bc&oe=5E9FC51C' },
-//   'aysuutasdovenn': { id: 'aysuutasdovenn', username: 'aysuutasdovenn', name: 'Aysu Taşdöven', password: '1234', email: 'atasdoven@gmail.com', url: 'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/80809330_475914226417245_2272595860648886272_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=bgrJOAR0sngAX__AfXL&oh=2bf9d7a3818beae4a9aa07cd92d8af1d&oe=5E9A210C' },
-//   'diyetisyen_annee': { id: 'diyetisyen_annee', username: 'diyetisyen_annee', name: 'Öykü Ada', password: '1234', email: '', url: 'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/77114870_1381587828677371_3432593624523603968_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=uWKRbzKgZagAX9NiM6E&oh=09819f7ec10a671ccb96b40d38c8add8&oe=5EDAE4E0' },
-//   'dyt.merveakyuzlu': { id: 'dyt.merveakyuzlu', username: 'dyt.merveakyuzlu', name: 'Merve Akar Akyüzlü', password: '1234', email: 'dyt.merveakyuzlu@gmail.com', url: 'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/69278902_2663850470402012_3198876360567160832_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=5aRHGmwWMWAAX_dCoMO&oh=debc845dfbe2ef3676b3d3b63b043e98&oe=5EBB038C' },
-//   'diyetisyenozgebasin': { id: 'diyetisyenozgebasin', username: 'diyetisyenozgebasin', name: 'Özge Basın Bayram', password: '1234', email: 'ozgebasin@gmail.com', url: 'https://instagram.fcxh3-1.fna.fbcdn.net/v/t51.2885-19/s150x150/69782525_377991819815997_651954444732203008_n.jpg?_nc_ht=instagram.fcxh3-1.fna.fbcdn.net&_nc_ohc=GA5bcxJRiIYAX85qLBu&oh=a2ec5f1723f1c9062753b638110f318d&oe=5E9773EA' },
-//   'ilaydiet': { id: 'ilaydiet', username: 'ilaydiet', name: 'İlayda Yaluç', password: '1234', email: '', url: 'https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/28752934_1810220632620925_4794170494410555392_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=Y0E5jG7qe7AAX93uO9E&oh=61b42603c0290bdd4a88b5bb0e05ee69&oe=5EA87149' },
-//   'diyetisyendoyranli': { id: 'diyetisyendoyranli', username: 'diyetisyendoyranli', name: 'Merve Doyranlı', password: '1234', email: 'doyranlimerve@gmail.com', url: 'https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/62023617_2268347290160591_911668419881861120_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=XrhwjgFngBgAX9MRmJ8&oh=d785b38c984efe16e3a7eb8eef59da7a&oe=5E9A02E5' },
-//   'dytsedasagbas': { id: 'dytsedasagbas', username: 'dytsedasagbas', name: 'Seda Sağbaş', password: '1234', email: '', url: 'https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/76896897_1497848440379702_4408276092410920960_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=l6FtTJo5OCUAX8XmWwx&oh=f24f86277a87f31d3fbcc90df7621fdc&oe=5ED5DBB9' },
-// };
-
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
@@ -256,6 +244,11 @@ var taskResetStg = () => {
 
   return storage.getItem('0').then((data) => {
     console.log(data)
+
+    if (data == undefined) {
+      return storage.setItem('0', rows[0])
+    }
+    
     rows[0] = data
     return Promise.resolve()
   });
@@ -272,9 +265,9 @@ var taskInitNewDietitians = () => {
         }
       };
       
-      r.profile.email = users[id].email
-      r.profile.name = users[id].name
-      r.profile.url = users[id].url
+      r.profile.email = rows[0].users[id].email
+      r.profile.name = rows[0].users[id].name
+      r.profile.url = rows[0].users[id].url
       return storage.setItem(id.toString(), r);
     }
 
@@ -288,6 +281,42 @@ var taskInitRows = () => {
   });
 }
 
+var taskUpgradeStg = () => {
+  return asyncForEach(Object.keys(rows), async (id) => {
+    if (id == 0 || id == 1) {
+      return Promise.resolve()
+    }
+
+    var changed = false;
+
+    console.log(id)
+
+    if (rows[id].profile != undefined && 
+        rows[id].profile.online_diyet == undefined) {
+      rows[id].profile.online_diyet = true
+      changed = true
+    }
+    
+    if (rows[id].profile != undefined && 
+        rows[id].profile.url == undefined) {
+      rows[id].profile.url = rows[0].users[id].url
+      changed = true
+    }
+    
+    console.log(changed)
+
+    if (!changed) {
+      return Promise.resolve()
+    }
+
+    console.log(id, rows[id])
+    return storage.setItem(id.toString(), rows[id]);
+  });
+}
+
+
+
+
 function start() {
   return startAsync()
 }
@@ -299,7 +328,8 @@ async function startAsync() {
     taskInitStg,
     taskResetStg,
     taskInitNewDietitians,
-    taskInitRows
+    taskInitRows,
+    taskUpgradeStg,
   ];
 
   return new Promise((resolve, reject) => {
@@ -438,6 +468,8 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   console.log('putDietitianAppointmentInfo');
   console.log(userId, date, time);
 
+  values.info.name = values.info.name.trim();
+
   if (rows[userId].appointments == undefined) {
       rows[userId].appointments = {}
   }
@@ -454,28 +486,30 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   });
 
   rows[userId].appointments[date] = ordered;
-  storage.setItem(userId, rows[userId]);
 
   var titleSuffix = process.env.NODE_ENV !== 'production' 
     ? "TEST - " + userId + " - " + values.info.name + " - "
     : "PROD - " + userId + " - " + values.info.name + " - "
 
   if (values.status == 'pending') {
+
+    var type = values.type == 'onlinediyet' ? 'Online diyet' : 'Yüz yüze randevu'
     var content = `
 Merhaba ${rows[userId].profile.name},
 
 Aşağıda belirtilen gün ve tarih için ${values.info.name} isminde bir danışan tarafından randevu isteği gönderildi.
+
+Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsin:
+
+https://diyetkocum.net/r
  
+Randevu tipi: ${type}
 Randevu günü: ${moment(date).format("DD MMMM YYYY")}
 Randevu saati: ${time}
 Danışan e-posta adresi:  ${values.info.email}
 Danışan telefon numarası: ${values.info.tel}
 Danışan doğum tarihi: ${moment(values.info.birthday).format("DD MMMM YYYY")}
 Danışan ek bilgiler: ${values.info.notes || ''}
-
-Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsiniz:
-
-https://v2.diyetkocum.net/r
 
 Teşekkürler,
 Diyet Koçum Ailesi`
@@ -484,22 +518,62 @@ Diyet Koçum Ailesi`
     email.sendEmail(rows[userId].profile.email, 'Yeni randevu isteği', content)
     email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Yeni randevu isteği', content)
   } else if (values.status == 'confirmed' || values.status == 'rejected') {
-    var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
-    var content = `
+    if (values.type != 'onlinediyet') {
+      var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
+      var content = `
 Merhaba ${values.info.name},
 
 Aşağıda belirtilen gün ve tarih için diyetisyen ${rows[userId].profile.name} ile randevunuz diyetisyeniniz tarafından ${statusTxt}.
+  
+Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz.
+
+https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
     
 Randevu günü: ${moment(date).format("DD MMMM YYYY")}
 Randevu saati: ${time}
 ${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
-   
+
 Teşekkürler,
-Diyet Koçum Ailesi`      
- 
-    console.log(values.info.email)
-    email.sendEmail(values.info.email, 'Randevunuz ' + statusTxt, content)
-    email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Randevunuz ' + statusTxt, content)
+Diyet Koçum Ailesi`   
+
+      console.log(values.info.email)
+      email.sendEmail(values.info.email, 'Randevunuz ' + statusTxt, content)
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Randevunuz ' + statusTxt, content)   
+    }
+    else {
+      var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
+      var content = `
+Merhaba ${values.info.name},
+
+Diyetisyen ${rows[userId].profile.name} ile olan online diyet başvurunuz diyetisyeniniz tarafından ${statusTxt}. Diyetisyeniniz yakında sizinle iletişime geçecektir.
+  
+Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz.
+
+https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
+
+Teşekkürler,
+Diyet Koçum Ailesi`  
+
+      console.log(values.info.email)
+      email.sendEmail(values.info.email, 'Online diyet isteğiniz ' + statusTxt, content)
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Online diyet isteğiniz ' + statusTxt, content)   
+    }
+  }
+
+  if (values.status == 'confirmed') {
+    exports.postAddDanisan(userId, values.info.name, {
+      name: values.info.name,
+      email: values.info.email,
+      tel: values.info.tel,
+      birthday: values.info.birthday,
+      kilo: values.info.kilo,
+      boy: values.info.boy,
+      cinsiyet: values.info.cinsiyet,
+    })
+  } else {
+    // postAddDanisan will set this item. Don't set it twice to avoid concurrence issues on the storage.
+    //
+    storage.setItem(userId, rows[userId]);
   }
 }
 
@@ -525,7 +599,14 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
   console.log('putDietitianProfile');
   console.log(dietitianProfile);
 
-  rows[userId].profile = dietitianProfile;
+  if (rows[userId].profile == undefined) {
+    rows[userId].profile = dietitianProfile;
+  } else {
+    rows[userId].profile = {
+      ...rows[userId].profile,
+      ...dietitianProfile
+    };
+  }
 
   storage.setItem(userId, rows[userId]);
 }
@@ -602,7 +683,8 @@ exports.getDanisanFiles = function (userId, danisanUserName) {
   console.log('getDanisanFiles');
   console.log(danisanUserName);
 
-  if (rows[userId].files == undefined ||
+  if (rows[userId] == undefined || 
+      rows[userId].files == undefined ||
       rows[userId].files[danisanUserName] == undefined) {
     return { };
   }
@@ -610,10 +692,11 @@ exports.getDanisanFiles = function (userId, danisanUserName) {
   return rows[userId].files[danisanUserName];
 }
 
-exports.addDanisanFiles = function (userId, danisanUserName, file) {
+exports.addDanisanFiles = function (userId, danisanUserName, file, type) {
   console.log('addDanisanFiles');
   console.log(danisanUserName);
   console.log(file)
+  console.log(type)
 
   if (rows[userId].files == undefined) {
     rows[userId].files = { };
@@ -635,6 +718,7 @@ exports.addDanisanFiles = function (userId, danisanUserName, file) {
     mimetype: file.mimetype,
     path: 'api/v1/public/' + file.filename,
     name: file.originalname,
+    type: type,
   };
 
   storage.setItem(userId, rows[userId]);

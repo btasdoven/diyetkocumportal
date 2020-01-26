@@ -15,11 +15,14 @@ import FormControl from '@material-ui/core/FormControl';
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import moment from 'moment'
 
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 
 import { Form, Field, reduxForm } from "redux-form";
+import MaskedInput from 'react-text-mask';
+
 const styles = theme => ({
     root: {
       width: '100%',
@@ -93,6 +96,49 @@ const createTextField = (key, label, autoFocus) => (
     autoFocus={autoFocus}
     label={label}
 />)
+
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <MaskedInput
+      {...other}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={['+', '9', '0', ' ', /[1-9]/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/]}
+      placeholderChar={'_'}
+      showMask
+    />
+  );
+}
+
+const renderMaskedTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => {
+  return (
+    <TextField
+      label={label}
+      {...input}
+      {...custom}
+      InputLabelProps={{color: 'primary', shrink: true}}
+      InputProps={{inputComponent: TextMaskCustom}}
+      error={touched && error != undefined}
+      helperText={touched && error ? error : undefined}
+    />
+  )
+};
+
+const ReduxFormMaskedTextField = ({name, label, ...props}) => (
+  <Field
+      name={name}
+      component={renderMaskedTextField}
+      label={label}
+      {...props}
+  />)
 
 export const reduxFormSelect = props => {
     const { input, options } = props;
@@ -174,7 +220,7 @@ class FieldDialog extends React.Component {
                             required
                             validate={[required]}
                         />
-
+{/* 
                         <ReduxFormTextField 
                             name="kilo" 
                             label="Kilosu"
@@ -187,9 +233,13 @@ class FieldDialog extends React.Component {
                             label="Boyu"
                             type="number" 
                             InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} 
-                        />
+                        /> */}
 
                         <Field fullWidth margin="normal" name='birthday' label="Doğum tarihi" component={DatePickerInput} />
+
+                        <ReduxFormTextField fullWidth name="email" label="E-posta adresi" />
+
+                        <ReduxFormMaskedTextField fullWidth name="tel" label="Telefon numarası" />
 
                         {createSelect('cinsiyet', 'Cinsiyeti', false, 
                             [
@@ -207,6 +257,11 @@ class FieldDialog extends React.Component {
                                 },
                             ])}
                         {/* {createTextField('url', 'Profil Fotoğrafı', false)} */}
+
+                        <Field fullWidth margin="normal" name='start_date' label="Diyet başlangıc tarihi" component={DatePickerInput} />
+
+                        <ReduxFormTextField fullWidth name="ucret_paketi" label="Diyet ücret paketi" />
+
                     </DialogContent>
                     <DialogActions>
                         <Button disabled={this.props.submitting} onClick={() => this.props.handleClose(undefined)} color="secondary">
@@ -228,7 +283,7 @@ const redForm = reduxForm({
 
 function mapStateToProps(state, props) {
     var val = { 
-        // departman: 'İnsan Kaynakları',
+        start_date: moment(moment().format('DD.MM.YYYY'), 'DD.MM.YYYY').toDate(),
         // saklama_suresi: "İşten ayrılmasından itibaren 10 yıl"
     };
 

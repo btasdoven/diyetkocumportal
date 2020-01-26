@@ -101,15 +101,15 @@ const styles = theme => ({
     padding: theme.spacing(1)
   },
   root: {
-      margin: theme.spacing(1),
+      // margin: theme.spacing(1),
   },
   rootLoading: {
-    height: "inherit",
-    display: "flex",
-    justifyContent: "center",
-    width: '100%',
-    alignItems: "center",
-    marginTop: theme.spacing(5)
+      height: "inherit",
+      display: "flex",
+      justifyContent: "center",
+      width: '100%',
+      alignItems: "center",
+      marginTop: theme.spacing(5)
   },
 });
 
@@ -259,7 +259,7 @@ class Envanter extends React.Component {
 
     const formData = new FormData();
     formData.append('file',formValues.file)
-    formData.append('type', 'olcum')
+    formData.append('type', 'tahlil')
     console.log(formData);
 
     this.props.addDanisanFiles(this.state.userId, this.props.danisanUserName, formData);
@@ -279,158 +279,136 @@ class Envanter extends React.Component {
     console.log(allFiles)
 
     return (
-      <div className={classes.root}> 
-        <Form
-          onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
-          name={this.props.form}
-        >  
-          <Button disabled={true} onClick={() => this.setState({openDialog: true})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
-            TARTI ÖLÇÜMÜ EKLE
-          </Button>
-          <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
+      <div
+        onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
+        name={this.props.form}
+      >  
+        <Dialog 
+          fullWidth
+          open={this.state.openDialog != undefined} 
+          onClose={() => this.onDialogClose(undefined)}
+        >
+          <DialogTitle id="form-dialog-title">Yeni Tahlil Ekle</DialogTitle>
+          <DialogContent>
+            <Field
+              name="file"
+              component={FieldFileInput}
+              onChange={(f) => console.log(f)}
+            />
 
-          <Dialog 
-            fullWidth
-            open={this.state.openDialog != undefined} 
-            onClose={() => this.onDialogClose(undefined)}
-          >
-            <DialogTitle id="form-dialog-title">Yeni Ölçüm Ekle</DialogTitle>
-            <DialogContent>
-              <Grid container spacing={2}>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="kilo"
-                    component={renderTextField}
-                    label="Kilo"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="boy"
-                    component={renderTextField}
-                    label="Boy"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="bacak"
-                    component={renderTextField}
-                    label="Bacak ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="kol"
-                    component={renderTextField}
-                    label="Kol ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3}>
-                  <Field
-                    fullWidth
-                    name="gogus"
-                    component={renderTextField}
-                    label="Göğüs ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-              </Grid> 
-
-            </DialogContent>
-            <DialogActions>
-              <Button disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
-                İPTAL
-              </Button>
-              <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
-                KAYDET
-              </Button>
-            </DialogActions>
-          </Dialog>
-
-          { showLoader && renderLoadingButton(classes) }
-          { !showLoader && 
-            <span>
-              {/* <SpeedDial
-                icon={<SpeedDialIcon icon={<AddIcon />} />}
-                actions={[
-                  {name: 'Kan Tahlili Ekle', icon: <NoteAddIcon />, onClick: () => console.log('kan tahlılı')},
-                  {name: 'Tartı Ölçümü Ekle', icon: <PostAddIcon />, onClick: () => console.log('tartı')}
-                ]}
-              /> */}
-
-                <Typography variant="body2" style={{textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>
-
-              {/* {Object.keys(allFiles).map((day, idx) => {
-                const allFilesPerDay = allFiles[day];
-                console.log(allFilesPerDay);
+            {this.props.apiForm[this.props.form] != undefined && 
+              this.props.apiForm[this.props.form].values != undefined && Object.keys(this.props.apiForm[this.props.form].values).map((i) => {
+                const file = this.props.apiForm[this.props.form].values[i];
 
                 return (
-                  <List
-                    key={idx} 
-                    disablePadding
-                    subheader={
-                      <ListSubheader component="span" id="nested-list-subheader">
-                        {moment(day).format('DD MMMM YYYY')}
-                      </ListSubheader>
-                  }>
-                    {Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
-                      const file = allFilesPerDay[fileTs];
-                      console.log(file)
-
-                      return (
-                        <span key={fidx}>
-                          <Divider component="li" />
-                          <ListItem button 
-                            component="a" 
-                            href={userService.getStaticFileUri(file.path)}
-                            target="_blank"
-                              //component={Link} to={"/c/" + danisan.name}
-                          >
-                            <ListItemAvatar >
-                              <Avatar src={userService.getStaticFileUri(file.path)}></Avatar>
-                            </ListItemAvatar>
-                            <ListItemText 
-                              primary={
-                                  // <Typography
-                                  //     variant="subtitle1"
-                                  //     color="textPrimary"
-                                  // >
-                                  file.name
-                                  // </Typography>
-                              } 
-                              // secondary={
-                              //     // <Typography
-                              //     //     variant="caption"
-                              //     //     color="inherit"
-                              //     // >
-                              //         danisan.info.kilo + "kg, " + danisan.info.boy + "cm"
-                              //     // </Typography>
-                              // }
-                            />
-                          </ListItem>
-                        </span>
-                      )
-                    })}
-                  </List>
+                  <Typography variant="body2" key={i}>{file.name}</Typography>
                 )
-              })} */}
-            </span>
-          }
-        </Form>  
-      </div>
+              })}
+          </DialogContent>
+          <DialogActions>
+            <Button disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
+              İPTAL
+            </Button>
+            <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
+              YÜKLE
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        { showLoader && renderLoadingButton(classes) }
+        { !showLoader && 
+          <span>
+            {/* <SpeedDial
+              icon={<SpeedDialIcon icon={<AddIcon />} />}
+              actions={[
+                {name: 'Kan Tahlili Ekle', icon: <NoteAddIcon />, onClick: () => console.log('kan tahlılı')},
+                {name: 'Tartı Ölçümü Ekle', icon: <PostAddIcon />, onClick: () => console.log('tartı')}
+              ]}
+            /> */}
+
+            {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Bu danışana ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>}
+
+            {Object.keys(allFiles).map((day, idx) => {
+              const allFilesPerDay = allFiles[day];
+              console.log(allFilesPerDay);
+
+              return (
+                <List
+                  key={idx} 
+                  disablePadding
+                  // subheader={
+                  //   <ListSubheader component="span" id="nested-list-subheader">
+                  //     {moment(day).format('DD MMMM YYYY')}
+                  //   </ListSubheader>
+                  // }
+                >
+                  {Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
+                    const file = allFilesPerDay[fileTs];
+                    console.log(file)
+
+                    return (
+                      <span key={fidx}>
+                        <ListItem button 
+                          component="a" 
+                          href={userService.getStaticFileUri(file.path)}
+                          target="_blank"
+                            //component={Link} to={"/c/" + danisan.name}
+                        >
+                          <ListItemAvatar >
+                            <Avatar src={userService.getStaticFileUri(file.path)}></Avatar>
+                          </ListItemAvatar>
+                          <ListItemText 
+                            primary={
+                                // <Typography
+                                //     variant="subtitle1"
+                                //     color="textPrimary"
+                                // >
+                                file.name
+                                // </Typography>
+                            } 
+                            // secondary={
+                            //     // <Typography
+                            //     //     variant="caption"
+                            //     //     color="inherit"
+                            //     // >
+                            //         danisan.info.kilo + "kg, " + danisan.info.boy + "cm"
+                            //     // </Typography>
+                            // }
+                          />
+                        </ListItem>
+                        <Divider component="li" />
+                      </span>
+                    )
+                  })}
+                </List>
+              )
+            })}
+            <List
+              disablePadding
+            >
+              <ListItem button 
+                onClick={() => this.setState({openDialog: 'tahlil'})}
+                target="_blank"
+                  //component={Link} to={"/c/" + danisan.name}
+              >
+                <ListItemAvatar >
+                  <Avatar><AddIcon /></Avatar>
+                </ListItemAvatar>
+                <ListItemText 
+                  primary={
+                      // <Typography
+                      //     variant="subtitle1"
+                      //     color="textPrimary"
+                      // >
+                      "Yeni tahlil ekle"
+                      // </Typography>
+                  } 
+                />
+              </ListItem>
+            </List>
+          </span>
+        }
+      </div>  
     )}
 };
 

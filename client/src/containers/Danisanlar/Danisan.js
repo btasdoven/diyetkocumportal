@@ -231,11 +231,11 @@ class Envanter extends React.Component {
             >
               <Tab label="PROFİL" {...a11yProps(0)} />
               <Tab label="NOTLARIM" {...a11yProps(1)} />
-              <Tab label="TAHLİLLER/ÖLÇÜMLER" {...a11yProps(2)} />
+              <Tab label="ÖLÇÜMLER" {...a11yProps(2)} />
               <Tab label="DİYET LİSTESİ" {...a11yProps(3)} />
-              <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} />
-              <Tab label="ÖDEME BİLGİLERİ" {...a11yProps(5)} />
-              <Tab label="MESAJLAR" {...a11yProps(6)} />
+              {/* <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} /> */}
+              {/* <Tab label="ÖDEME BİLGİLERİ" {...a11yProps(5)} /> */}
+              {/* <Tab label="MESAJLAR" {...a11yProps(6)} /> */}
             </Tabs>
             {/* </AppBar> */}
             <TabPanel value={this.state.value} index={0}>
@@ -249,13 +249,10 @@ class Envanter extends React.Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={3}>
               <DiyetListesi userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
-              {/* <div className={classes.rootLoading}>
-                <Typography>Diyet listesi kismi daha kodlanmadi</Typography>
-              </div> */}
             </TabPanel>
-            <TabPanel value={this.state.value} index={4}>
+            {/* <TabPanel value={this.state.value} index={4}>
               <div className={classes.rootLoading}>
-                <Typography>Bu danışana ait diyet geçmişi bulunamadı.</Typography>
+                <Typography variant="body2" >Bu danışana ait diyet geçmişi bulunamadı.</Typography>
               </div>
             </TabPanel>
             <TabPanel value={this.state.value} index={5}>
@@ -263,9 +260,9 @@ class Envanter extends React.Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={6}>
               <div className={classes.rootLoading}>
-                <Typography>Mesajlar kismi daha kodlanmadi</Typography>
+                <Typography variant="body2" >Mesajlar kismi daha kodlanmadi</Typography>
               </div>
-            </TabPanel>
+            </TabPanel> */}
           </span>
         }
       </span>

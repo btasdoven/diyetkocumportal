@@ -28,6 +28,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { withSnackbar } from 'material-ui-snackbar-provider'
 import SpeedDial from '../SpeedDial/SpeedDial'
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
+import Switch from '@material-ui/core/Switch';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
@@ -70,6 +71,7 @@ import Slide from '@material-ui/core/Slide';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
+import MaskedInput from 'react-text-mask';
 
 const styles = theme => ({
   profile: {
@@ -155,8 +157,31 @@ const renderCheckBox = props => {
       />
   )
 }
+  
+const ReduxFormSwitch = ({name, label, ...props}) => (
+    <Field
+      name={name}
+      label={label}
+      component={renderSwitch}
+      {...props}
+    />
+)
 
-
+const renderSwitch = props => {
+  const { input, label, ...rest } = props;
+  return (
+    <FormControlLabel
+      control={
+        <Switch  
+          onChange={value => input.onChange(value)}
+          value={input.value}
+          checked={input.value == true}
+        />
+      }
+      label={label}
+    />
+  )
+}
 
 const ReduxFormSelect = ({name, label, values, ...props}) => (
   <FormControl
@@ -188,6 +213,49 @@ const renderSelect = props => {
     </Select>
   )
 }
+
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <MaskedInput
+      {...other}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={['+', '9', '0', ' ', /[1-9]/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/]}
+      placeholderChar={'_'}
+      showMask
+    />
+  );
+}
+
+const renderMaskedTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => {
+  return (
+    <TextField
+      label={label}
+      {...input}
+      {...custom}
+      InputLabelProps={{color: 'primary', shrink: true}}
+      InputProps={{inputComponent: TextMaskCustom}}
+      error={touched && error != undefined}
+      helperText={touched && error ? error : undefined}
+    />
+  )
+};
+
+const ReduxFormMaskedTextField = ({name, label, ...props}) => (
+  <Field
+      name={name}
+      component={renderMaskedTextField}
+      label={label}
+      {...props}
+  />)
 
 const ReduxFormTextField = ({name, label, ...props}) => (
   <Field
@@ -378,6 +446,58 @@ class Envanter extends React.Component {
                 </CardActions>  */}
               </Card>
 
+
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  ÖZEL RANDEVU LİNKİM
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <div className={classes.text}>
+                      <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için bu linki onlarla paylaşabilir ya da direkt instagram profilinize ekleyebilirsiniz.</Typography>
+                    </div>
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <CopyToClipboard text={"diyetkocum.net/d/" + this.state.user.username} >
+                      <span>
+                        <Chip
+                          //avatar={<Avatar>M</Avatar>}
+                          label={"diyetkocum.net/d/" + this.state.user.username}
+                          clickable
+                          color="primary"
+                          onClick={this.handleLinkCopied}
+                          onDelete={this.handleLinkCopied}
+                          deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
+                          variant="outlined"
+                        />
+                      </span>
+                    </CopyToClipboard>
+                  </Grid>
+                </Grid>
+              </div>
+              
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  KİŞİSEL BİLGİLERİM
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="unvan" placeholder="Beslenme ve Diyetetik Uzmanı" label="Ünvanım" />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <ReduxFormTextField name="instagram" label="Instagram kullanıcı adım" />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <ReduxFormTextField rows={3} rowsMax={6} multiline name="ozgecmis" label="Öz geçmişim" />
+                  </Grid>
+                </Grid>
+              </div>
+
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   İLETİŞİM BİLGİLERİM
@@ -396,7 +516,7 @@ class Envanter extends React.Component {
                   </Grid>
 
                   <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="tel" label="Telefon numaram" />
+                    <ReduxFormMaskedTextField name="tel" label="Telefon numaram" />
                   </Grid>
 
                   <Grid item xs={12} sm={12} md={12} lg={6}>
@@ -407,41 +527,21 @@ class Envanter extends React.Component {
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  ÖZEL RANDEVU LİNKİM
+                  ONLİNE DİYET
                 </Typography>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <div className={classes.text}>
-                      <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için bu linki onlarla paylaşabilir ya da direkt instagram profilinize ekleyebilirsiniz.</Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <CopyToClipboard text={"https://v2.diyetkocum.net/d/" + this.state.user.username} >
-                      <span>
-                        <Chip
-                          //avatar={<Avatar>M</Avatar>}
-                          label={"https://v2.diyetkocum.net/d/" + this.state.user.username}
-                          clickable
-                          color="primary"
-                          onClick={this.handleLinkCopied}
-                          onDelete={this.handleLinkCopied}
-                          deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
-                          variant="outlined"
-                        />
-                      </span>
-                    </CopyToClipboard>
+                  <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} item xs={12} sm={6} md={4} lg={4}>
+                    <ReduxFormSwitch name="online_diyet" label={<Typography variant="body2">Online Diyet istekleri gelsin</Typography>}/>
                   </Grid>
                 </Grid>
-
               </div>
 
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  RANDEVU SAATLERİM
+                  YÜZ YÜZE RANDEVU SAATLERİM
                 </Typography>
-
+                
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <div className={classes.text}>

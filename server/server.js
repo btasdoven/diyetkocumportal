@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+var qs = require('querystring');
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
@@ -160,9 +161,10 @@ app.post("/api/v1/users/:userId/danisans/:danisanUserName/addFiles", (req, res, 
           return res.status(500).json(err)
       }
       console.log(req.file)      
-
+      console.log(req.body)
+      console.log(req.body['type'])
       res.setHeader('Content-Type', 'application/json');
-      res.json(dal.addDanisanFiles(req.params.userId, req.params.danisanUserName, req.file));
+      res.json(dal.addDanisanFiles(req.params.userId, req.params.danisanUserName, req.file, req.body['type']));
     })  
   }), delayInResponseInMs);
 }); 

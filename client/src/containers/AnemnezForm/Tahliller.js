@@ -101,7 +101,7 @@ const styles = theme => ({
     padding: theme.spacing(1)
   },
   root: {
-      margin: theme.spacing(1),
+      // margin: theme.spacing(1),
   },
   rootLoading: {
       height: "inherit",
@@ -228,21 +228,21 @@ class Envanter extends React.Component {
     this.isLoaded = this.isLoaded.bind(this);
     this.onDialogClose = this.onDialogClose.bind(this);
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
-
+    
     this.state = {
-      userId: JSON.parse(localStorage.getItem('user')).id
+      openDialog: undefined
     }
   }
 
   isLoaded() {
     console.log(this.props);
-    console.log(this.state.userId);
+    console.log(this.props.userId);
 
     var loaded = this.props.apiDanisanFiles != undefined &&
-      this.props.apiDanisanFiles[this.state.userId] != undefined &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
+      this.props.apiDanisanFiles[this.props.userId] != undefined &&
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -250,7 +250,7 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDanisanFiles(this.state.userId, this.props.danisanUserName);
+      this.props.getDanisanFiles(this.props.userId, this.props.danisanUserName);
     }
   }
 
@@ -259,9 +259,10 @@ class Envanter extends React.Component {
 
     const formData = new FormData();
     formData.append('file',formValues.file)
+    formData.append('type', 'tahlil')
     console.log(formData);
 
-    this.props.addDanisanFiles(this.state.userId, this.props.danisanUserName, formData);
+    this.props.addDanisanFiles(this.props.userId, this.props.danisanUserName, formData);
     this.onDialogClose();
   }
 
@@ -274,140 +275,140 @@ class Envanter extends React.Component {
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
-    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data;
+    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data;
     console.log(allFiles)
 
     return (
-      <div className={classes.root}> 
-        <Form
-          onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
-          name={this.props.form}
-        >  
-          <Button style={{marginRight: '8px'}} variant="outlined" size="small" onClick={() => this.setState({openDialog: 'tahlil'})} color="primary" startIcon={<NoteAddIcon />}>
-            KAN TAHLİLİ EKLE
-          </Button>
-          <Divider style={{marginTop: '8px'}} />
+      <div
+        onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
+        name={this.props.form}
+      >  
+        <Dialog 
+          fullWidth
+          open={this.state.openDialog != undefined} 
+          onClose={() => this.onDialogClose(undefined)}
+        >
+          <DialogTitle id="form-dialog-title">Yeni Tahlil Ekle</DialogTitle>
+          <DialogContent>
+            <Field
+              name="file"
+              component={FieldFileInput}
+              onChange={(f) => console.log(f)}
+            />
 
-          <Dialog 
-            fullWidth
-            open={this.state.openDialog != undefined} 
-            onClose={() => this.onDialogClose(undefined)}
-          >
-            <DialogTitle id="form-dialog-title">Yeni Tahlil Ekle</DialogTitle>
-            <DialogContent>
-              <Field
-                name="file"
-                component={FieldFileInput}
-                onChange={(f) => console.log(f)}
-              />
-
-              {this.props.apiForm[this.props.form] != undefined && 
-               this.props.apiForm[this.props.form].values != undefined && Object.keys(this.props.apiForm[this.props.form].values).map((i) => {
-                  const file = this.props.apiForm[this.props.form].values[i];
-
-                  return (
-                    <Typography variant="body2" key={i}>{file.name}</Typography>
-                  )
-               })}
-            </DialogContent>
-            <DialogActions>
-              <Button disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
-                İPTAL
-              </Button>
-              <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
-                YÜKLE
-              </Button>
-            </DialogActions>
-          </Dialog>
-
-          { showLoader && renderLoadingButton(classes) }
-          { !showLoader && 
-            <span>
-              {/* <SpeedDial
-                icon={<SpeedDialIcon icon={<AddIcon />} />}
-                actions={[
-                  {name: 'Kan Tahlili Ekle', icon: <NoteAddIcon />, onClick: () => console.log('kan tahlılı')},
-                  {name: 'Tartı Ölçümü Ekle', icon: <PostAddIcon />, onClick: () => console.log('tartı')}
-                ]}
-              /> */}
-
-              {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Size ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>}
-
-              {Object.keys(allFiles).map((day, idx) => {
-                const allFilesPerDay = allFiles[day];
-                console.log(allFilesPerDay);
+            {this.props.apiForm[this.props.form] != undefined && 
+              this.props.apiForm[this.props.form].values != undefined && Object.keys(this.props.apiForm[this.props.form].values).map((i) => {
+                const file = this.props.apiForm[this.props.form].values[i];
 
                 return (
-                  <List
-                    key={idx} 
-                    disablePadding
-                    subheader={
-                      <ListSubheader component="span" id="nested-list-subheader">
-                        {moment(day).format('DD MMMM YYYY')}
-                      </ListSubheader>
-                  }>
-                    {Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
-                      const file = allFilesPerDay[fileTs];
-                      console.log(file)
-
-                      return (
-                        <span key={fidx}>
-                          <Divider component="li" />
-                          <ListItem button 
-                            component="a" 
-                            href={userService.getStaticFileUri(file.path)}
-                            target="_blank"
-                              //component={Link} to={"/c/" + danisan.name}
-                          >
-                            <ListItemAvatar >
-                              <Avatar src={userService.getStaticFileUri(file.path)}></Avatar>
-                            </ListItemAvatar>
-                            <ListItemText 
-                              primary={
-                                  // <Typography
-                                  //     variant="subtitle1"
-                                  //     color="textPrimary"
-                                  // >
-                                  file.name
-                                  // </Typography>
-                              } 
-                              // secondary={
-                              //     // <Typography
-                              //     //     variant="caption"
-                              //     //     color="inherit"
-                              //     // >
-                              //         danisan.info.kilo + "kg, " + danisan.info.boy + "cm"
-                              //     // </Typography>
-                              // }
-                            />
-                          </ListItem>
-                        </span>
-                      )
-                      return (
-                        <span key={fidx}>
-                          <img style={{textAlign: 'center'}} src={userService.getStaticFileUri(file.path)} />
-                          <Typography>{file.name}</Typography>
-                        </span>
-                      )
-                    })}
-                  </List>
+                  <Typography variant="body2" key={i}>{file.name}</Typography>
                 )
-
-                return Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
-                  const file = allFilesPerDay[fileTs];
-                  console.log(file)
-                  return (
-                    <span key={fidx}>
-                      <img style={{textAlign: 'center'}} src={userService.getStaticFileUri(file.path)} />
-                      <Typography>{file.name}</Typography>
-                    </span>
-                  )
-                })
               })}
-            </span>
-          }
-        </Form>  
-      </div>
+          </DialogContent>
+          <DialogActions>
+            <Button disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
+              İPTAL
+            </Button>
+            <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
+              YÜKLE
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        { showLoader && renderLoadingButton(classes) }
+        { !showLoader && 
+          <span>
+            {/* <SpeedDial
+              icon={<SpeedDialIcon icon={<AddIcon />} />}
+              actions={[
+                {name: 'Kan Tahlili Ekle', icon: <NoteAddIcon />, onClick: () => console.log('kan tahlılı')},
+                {name: 'Tartı Ölçümü Ekle', icon: <PostAddIcon />, onClick: () => console.log('tartı')}
+              ]}
+            /> */}
+
+            {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Bu danışana ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>}
+
+            {Object.keys(allFiles).map((day, idx) => {
+              const allFilesPerDay = allFiles[day];
+              console.log(allFilesPerDay);
+
+              return (
+                <List
+                  key={idx} 
+                  disablePadding
+                  // subheader={
+                  //   <ListSubheader component="span" id="nested-list-subheader">
+                  //     {moment(day).format('DD MMMM YYYY')}
+                  //   </ListSubheader>
+                  // }
+                >
+                  {Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
+                    const file = allFilesPerDay[fileTs];
+                    console.log(file)
+
+                    return (
+                      <span key={fidx}>
+                        <ListItem button 
+                          component="a" 
+                          href={userService.getStaticFileUri(file.path)}
+                          target="_blank"
+                            //component={Link} to={"/c/" + danisan.name}
+                        >
+                          <ListItemAvatar >
+                            <Avatar src={userService.getStaticFileUri(file.path)}></Avatar>
+                          </ListItemAvatar>
+                          <ListItemText 
+                            primary={
+                                // <Typography
+                                //     variant="subtitle1"
+                                //     color="textPrimary"
+                                // >
+                                file.name
+                                // </Typography>
+                            } 
+                            // secondary={
+                            //     // <Typography
+                            //     //     variant="caption"
+                            //     //     color="inherit"
+                            //     // >
+                            //         danisan.info.kilo + "kg, " + danisan.info.boy + "cm"
+                            //     // </Typography>
+                            // }
+                          />
+                        </ListItem>
+                        <Divider component="li" />
+                      </span>
+                    )
+                  })}
+                </List>
+              )
+            })}
+            <List
+              disablePadding
+            >
+              <ListItem button 
+                onClick={() => this.setState({openDialog: 'tahlil'})}
+                target="_blank"
+                  //component={Link} to={"/c/" + danisan.name}
+              >
+                <ListItemAvatar >
+                  <Avatar><AddIcon /></Avatar>
+                </ListItemAvatar>
+                <ListItemText 
+                  primary={
+                      // <Typography
+                      //     variant="subtitle1"
+                      //     color="textPrimary"
+                      // >
+                      "Yeni tahlil ekle"
+                      // </Typography>
+                  } 
+                />
+              </ListItem>
+            </List>
+          </span>
+        }
+      </div>  
     )}
 };
 
@@ -418,7 +419,13 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     apiForm: state.form,
-    apiDanisanFiles: state.apiDanisanFiles
+    apiDanisanFiles: state.apiDanisanFiles,
+    // apiDanisanProfile: state.apiDanisanProfile,
+    // initialValues: 
+    //   state.apiDanisanProfile[ownProps.userId] != undefined && 
+    //   state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName] != undefined
+    //     ? state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName].data
+    //     : {},
   };
 };
 
@@ -435,4 +442,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'AnemnezTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'DanisanTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -53,16 +54,21 @@ const styles = theme => ({
   buttonProgress: {
     color: green[500],
     position: 'absolute',
-    top: '50%',
+    top: 'calc(50% - 12px)',
     left: 'calc(50% - 12px)',
   },
   buttonRoot: {
     display: 'flex',
     alignItems: 'center',
+    marginTop: '8px',
   },
   buttonWrapper: {
     position: 'relative',
     width: '100%',
+  },
+  registerTypo: {
+    marginTop: theme.spacing(3),
+    textAlign: 'center',
   },
 });
 
@@ -150,7 +156,7 @@ class SigninForm extends React.Component {
         />
         
         {auth && auth.error && (
-          <Typography color="error" variant="body1" className={classes.registerTypo}>
+          <Typography color="error" variant="body1">
               {auth.error}
           </Typography>
         )}
@@ -160,30 +166,45 @@ class SigninForm extends React.Component {
           <Button
             onClick={this.handleLogin}
             fullWidth
-            variant="outlined"
+            variant="contained"
             color="primary"
-            className={classes.submit}
             disabled={auth && auth.loggingIn}
           >
             GİRİŞ YAP
           </Button>
-          {auth && auth.loggingIn && !this.state.isDemoLogin && <CircularProgress size={24} className={classes.buttonProgress} />}
+          {auth && auth.loggingIn && <CircularProgress size={24} className={classes.buttonProgress} />}
+        </div>
+        </div>
+
+        <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
+          Hesabın yok mu?
+        </Typography>
+        <div className={classes.buttonRoot}>
+        <div className={classes.buttonWrapper}>
+          <Button
+            onClick={this.handleDemoLogin}
+            fullWidth
+            variant="outlined"
+            color="primary"
+            disabled={auth && auth.loggingIn}
+          >
+            DEMO GİRİŞİ
+          </Button>
+          {auth && auth.loggingIn && this.state.isDemoLogin && <CircularProgress size={24} className={classes.buttonProgress} />}
         </div>
         </div>
 
         <div className={classes.buttonRoot}>
         <div className={classes.buttonWrapper}>
           <Button
-            onClick={this.handleDemoLogin}
             fullWidth
             variant="contained"
-            color="primary"
-            className={classes.submit}
-            disabled={auth && auth.loggingIn}
+            color="secondary"
+            component={Link}
+            to="/signup"
           >
-            DEMO GİRİŞİ
+            ŞİMDİ KAYIT YAPTIR!
           </Button>
-          {auth && auth.loggingIn && this.state.isDemoLogin && <CircularProgress size={24} className={classes.buttonProgress} />}
         </div>
         </div>
       </form>
