@@ -367,6 +367,8 @@ exports.signUpUser = function(uname, userInfo) {
   console.log('signupUser');
   console.log(uname, userInfo)
 
+  uname = uname.trim();
+  
   if (rows[uname] != undefined ||
       rows[0].users[uname] != undefined) {
     return { error: 'Bu kullanıcı adına ait bir üyelik bulunmaktadır.'};
