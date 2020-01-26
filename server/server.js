@@ -129,6 +129,20 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName/profile", (req, res, ne
   }), delayInResponseInMs);
 });
 
+app.get("/api/v1/users/:userId/danisans/:danisanUserName/measurements", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getDanisanMeasurements(req.params.userId, req.params.danisanUserName));
+  }), delayInResponseInMs);
+});
+
+app.post("/api/v1/users/:userId/danisans/:danisanUserName/addMeasurement", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.addDanisanMeasurement(req.params.userId, req.params.danisanUserName, req.body));
+  }), delayInResponseInMs);
+});
+
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/notes", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

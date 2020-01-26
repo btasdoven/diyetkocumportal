@@ -652,6 +652,37 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
   }
 }
 
+exports.getDanisanMeasurements = function (userId, danisanUserName) {
+  console.log('getDanisanMeasurements');
+  console.log(danisanUserName);
+
+  if (rows[userId].danisans == undefined ||
+      rows[userId].danisans[danisanUserName] == undefined) {
+    return { };
+  }
+
+  return rows[userId].danisans[danisanUserName].measurements;
+}
+
+exports.addDanisanMeasurement = function (userId, danisanUserName, danisanMeasurement) {
+  console.log('addDanisanMeasurement');
+  console.log(danisanUserName);
+  console.log(danisanMeasurement);
+
+  if (rows[userId].danisans == undefined ||
+      rows[userId].danisans[danisanUserName] == undefined) {
+    rows[userId].danisans[danisanUserName] = { };
+  }
+
+  if (rows[userId].danisans[danisanUserName].measurements == undefined) {
+    rows[userId].danisans[danisanUserName].measurements = {}
+  }
+
+  rows[userId].danisans[danisanUserName].measurements[Date.now()] = danisanMeasurement;
+
+  storage.setItem(userId, rows[userId]);
+}
+
 exports.getDanisanNotes = function (userId, danisanUserName) {
   console.log('getDanisanNotes');
   console.log(danisanUserName);

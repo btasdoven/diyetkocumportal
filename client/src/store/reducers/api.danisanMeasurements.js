@@ -1,19 +1,19 @@
 import { userService } from '../../services';
 
-const DANISAN_FILES_GET_ERRORED = "api/DANISAN_FILES_GET_ERRORED";
-const DANISAN_FILES_GET_LOADING = "api/DANISAN_FILES_GET_LOADING";
-const DANISAN_FILES_GET_SUCCESS = "api/DANISAN_FILES_GET_SUCCESS";
+const DANISAN_MEASUREMENTS_GET_ERRORED = "api/DANISAN_MEASUREMENTS_GET_ERRORED";
+const DANISAN_MEASUREMENTS_GET_LOADING = "api/DANISAN_MEASUREMENTS_GET_LOADING";
+const DANISAN_MEASUREMENTS_GET_SUCCESS = "api/DANISAN_MEASUREMENTS_GET_SUCCESS";
 
-const DANISAN_FILES_PUT_ERRORED = "api/DANISAN_FILES_PUT_ERRORED";
-const DANISAN_FILES_PUT_LOADING = "api/DANISAN_FILES_PUT_LOADING";
+const DANISAN_MEASUREMENTS_PUT_ERRORED = "api/DANISAN_MEASUREMENTS_PUT_ERRORED";
+const DANISAN_MEASUREMENTS_PUT_LOADING = "api/DANISAN_MEASUREMENTS_PUT_LOADING";
 
 const initState = {
 };
 
 export default function reducer(state = initState, action) {
     switch (action.type) {
-      case DANISAN_FILES_GET_ERRORED:
-      case DANISAN_FILES_PUT_ERRORED:
+      case DANISAN_MEASUREMENTS_GET_ERRORED:
+      case DANISAN_MEASUREMENTS_PUT_ERRORED:
         return {
           ...state,
           [action.userId]: {
@@ -24,7 +24,7 @@ export default function reducer(state = initState, action) {
           }
         }
 
-      case DANISAN_FILES_GET_LOADING:
+      case DANISAN_MEASUREMENTS_GET_LOADING:
         return {
           ...state,
           [action.userId]: {
@@ -35,7 +35,7 @@ export default function reducer(state = initState, action) {
           }
         }
   
-      case DANISAN_FILES_GET_SUCCESS:
+      case DANISAN_MEASUREMENTS_GET_SUCCESS:
         return {
           ...state,
           [action.userId]: {
@@ -49,7 +49,7 @@ export default function reducer(state = initState, action) {
           }
         }
 
-      case DANISAN_FILES_PUT_LOADING:
+      case DANISAN_MEASUREMENTS_PUT_LOADING:
         return {
           ...state,
           [action.userId]: {
@@ -67,18 +67,14 @@ export default function reducer(state = initState, action) {
     return state;
 }
 
-export function getDanisanFiles(userId, danisanUserName, cb) {
+export function getDanisanMeasurements(userId, danisanUserName) {
     return (dispatch) => {
         dispatch(request(userId, danisanUserName));
 
-        userService.get_danisan_files(userId, danisanUserName)
+        userService.get_danisan_measurements(userId, danisanUserName)
         .then(
             items => { 
                 dispatch(success(items, userId, danisanUserName));
-
-                if (cb) {
-                  cb(items)
-                }
                 //window.history.push('/');
             },
             error => {
@@ -88,19 +84,19 @@ export function getDanisanFiles(userId, danisanUserName, cb) {
         );
     };
     
-  function request(userId, danisanUserName) { return { type: DANISAN_FILES_GET_LOADING, userId, danisanUserName } }
-  function success(items, userId, danisanUserName) { return { type: DANISAN_FILES_GET_SUCCESS, userId, danisanUserName, items } }
-  function failure(error, userId, danisanUserName) { return { type: DANISAN_FILES_GET_ERRORED, userId, danisanUserName, error } }
+  function request(userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_GET_LOADING, userId, danisanUserName } }
+  function success(items, userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_GET_SUCCESS, userId, danisanUserName, items } }
+  function failure(error, userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_GET_ERRORED, userId, danisanUserName, error } }
 }
 
-export function addDanisanFiles(userId, danisanUserName, files, cb) {
+export function addDanisanMeasurement(userId, danisanUserName, danisanMeasurement) {
     return (dispatch) => {
         dispatch(request(userId, danisanUserName));
 
-        userService.add_danisan_files(userId, danisanUserName, files)
+        userService.add_danisan_measurement(userId, danisanUserName, danisanMeasurement)
         .then(
             (data) => { 
-              getDanisanFiles(userId, danisanUserName, cb)(dispatch);
+              getDanisanMeasurements(userId, danisanUserName)(dispatch);
             },
             error => {
                 dispatch(failure(userId, danisanUserName, error.toString()));
@@ -108,6 +104,6 @@ export function addDanisanFiles(userId, danisanUserName, files, cb) {
         );
     };
   
-  function request(userId, danisanUserName) { return { type: DANISAN_FILES_PUT_LOADING, userId, danisanUserName, isPutLoading: true } }
-  function failure(userId, danisanUserName, error) { return { type: DANISAN_FILES_PUT_ERRORED, userId, danisanUserName, error } }
+  function request(userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_PUT_LOADING, userId, danisanUserName, isPutLoading: true } }
+  function failure(userId, danisanUserName, error) { return { type: DANISAN_MEASUREMENTS_PUT_ERRORED, userId, danisanUserName, error } }
 }

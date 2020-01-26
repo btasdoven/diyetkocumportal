@@ -55,7 +55,7 @@ import {reset} from 'redux-form';
 import Slide from '@material-ui/core/Slide';
 
 import KisiselBilgiler from './KisiselBilgiler';
-import Tahliller from './Tahliller';
+import Olcumler from './Olcumler';
 import DiyetListesi from './DiyetListesi';
 import Notlar from './Notlar';
 import Finans from './Finans';
@@ -245,7 +245,7 @@ class Envanter extends React.Component {
               <Notlar userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
             </TabPanel>
             <TabPanel value={this.state.value} index={2}>
-              <Tahliller userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+              <Olcumler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
             </TabPanel>
             <TabPanel value={this.state.value} index={3}>
               <DiyetListesi userId={this.state.userId} danisanUserName={this.props.danisanUserName} />

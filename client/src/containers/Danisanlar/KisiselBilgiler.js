@@ -436,7 +436,6 @@ class Envanter extends React.Component {
                 <Grid container spacing={2}>
                   <Grid item xs={6} sm={6} md={3} lg={3}>
                     <Field name='start_date' label="Diyet başlangıç tarihi" component={DatePickerInput} />
-                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
                   </Grid>
                   <Grid item xs={6} sm={6} md={3} lg={3}>
                     <ReduxFormTextField name="ucret_paketi" label="Diyet ücret paketi" />
@@ -452,7 +451,6 @@ class Envanter extends React.Component {
                 <Grid container spacing={2}>
                   <Grid item xs={6} sm={6} md={3} lg={3}>
                     <Field name='birthday' label="Doğum tarihi" component={DatePickerInput} />
-                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
                   </Grid>
                   <Grid item xs={6} sm={6} md={3} lg={3}>
                     <ReduxFormSelect
@@ -474,12 +472,12 @@ class Envanter extends React.Component {
                       ]}
                     />
                   </Grid>
-                  <Grid item xs={3} sm={3} md={3} lg={3}>
+                  {/* <Grid item xs={3} sm={3} md={3} lg={3}>
                     <ReduxFormTextField name="kilo" label="Kilosu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
                   </Grid>
                   <Grid item xs={3} sm={3} md={3} lg={3}>
                     <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12} sm={12} md={4} lg={4}>
                     <ReduxFormTextField name="email" label="E-posta adresi" />
                   </Grid>

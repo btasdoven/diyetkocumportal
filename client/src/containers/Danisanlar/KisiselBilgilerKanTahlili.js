@@ -318,16 +318,6 @@ class Envanter extends React.Component {
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
           <span>
-            {/* <SpeedDial
-              icon={<SpeedDialIcon icon={<AddIcon />} />}
-              actions={[
-                {name: 'Kan Tahlili Ekle', icon: <NoteAddIcon />, onClick: () => console.log('kan tahlılı')},
-                {name: 'Tartı Ölçümü Ekle', icon: <PostAddIcon />, onClick: () => console.log('tartı')}
-              ]}
-            /> */}
-
-            {allFiles.length == 0 && <Typography style={{textAlign: 'center'}}>Bu danışana ait tahlil ya da ölçüm bilgisi bulunmamaktadır.</Typography>}
-
             {Object.keys(allFiles).map((day, idx) => {
               const allFilesPerDay = allFiles[day];
               console.log(allFilesPerDay);

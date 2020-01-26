@@ -23,6 +23,8 @@ export const userService = {
     get_link_info,
     get_danisan_files,
     add_danisan_files,
+    get_danisan_measurements,
+    add_danisan_measurement,
     getStaticFileUri,
 };
 
@@ -230,22 +232,34 @@ function add_danisan_files(userId, danisanUserName, data) {
         .then(res => {
             console.log(res)
             return res;
-            // return handleResponse(res);
         })
-        // .then(data => {
-        //     return data;
-        // });
+}
 
-    // const requestOptions = {
-    //     method: 'POST',
-    //     body: files
-    // };
+function get_danisan_measurements(userId, danisanUserName) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
     
-    // return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/addFiles`, requestOptions)
-    //     .then(handleResponse)
-    //     .then(data => {
-    //         return data;
-    //     });
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/measurements`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function add_danisan_measurement(userId, danisanUserName, danisanMeasurement) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(danisanMeasurement)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/addMeasurement`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
 }
 
 function get_danisan_notes(userId, danisanUserName) {
