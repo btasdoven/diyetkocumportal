@@ -678,7 +678,25 @@ exports.addDanisanMeasurement = function (userId, danisanUserName, danisanMeasur
     rows[userId].danisans[danisanUserName].measurements = {}
   }
 
-  rows[userId].danisans[danisanUserName].measurements[Date.now()] = danisanMeasurement;
+  if (rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi] == undefined) {
+    rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi] = {}
+  }
+
+  rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi][Date.now()] = danisanMeasurement;
+
+  const ordered = {};
+  Object.keys(rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi]).sort().forEach(function(key) {
+    ordered[key] = rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi][key];
+  });
+
+  rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi] = ordered;
+
+  const ordered2 = {};
+  Object.keys(rows[userId].danisans[danisanUserName].measurements).sort().reverse().forEach(function(key) {
+    ordered2[key] = rows[userId].danisans[danisanUserName].measurements[key];
+  });
+
+  rows[userId].danisans[danisanUserName].measurements = ordered2;
 
   storage.setItem(userId, rows[userId]);
 }
@@ -737,20 +755,31 @@ exports.addDanisanFiles = function (userId, danisanUserName, file, type) {
     rows[userId].files[danisanUserName] = {}
   }
 
+  if (rows[userId].files[danisanUserName][type] == undefined) {
+    rows[userId].files[danisanUserName][type] = {}
+  }
+
   var now = Date.now()
   var day = moment(now).format('YYYYMMDD');
 
-  if (rows[userId].files[danisanUserName][day] == undefined) {
-    rows[userId].files[danisanUserName][day] = {}
+  if (rows[userId].files[danisanUserName][type][day] == undefined) {
+    rows[userId].files[danisanUserName][type][day] = {}
   }
 
-  rows[userId].files[danisanUserName][day][now] = {
+  rows[userId].files[danisanUserName][type][day][now] = {
     encoding: file.encoding,
     mimetype: file.mimetype,
     path: 'api/v1/public/' + file.filename,
     name: file.originalname,
     type: type,
   };
+
+  const ordered = {};
+  Object.keys(rows[userId].files[danisanUserName][type][day]).sort().forEach(function(key) {
+    ordered[key] = rows[userId].files[danisanUserName][type][day][key];
+  });
+
+  rows[userId].files[danisanUserName][type][day] = ordered;
 
   storage.setItem(userId, rows[userId]);
 }

@@ -67,7 +67,7 @@ export default function reducer(state = initState, action) {
     return state;
 }
 
-export function getDanisanFiles(userId, danisanUserName, cb) {
+export function getDanisanFiles(userId, danisanUserName) {
     return (dispatch) => {
         dispatch(request(userId, danisanUserName));
 
@@ -75,15 +75,9 @@ export function getDanisanFiles(userId, danisanUserName, cb) {
         .then(
             items => { 
                 dispatch(success(items, userId, danisanUserName));
-
-                if (cb) {
-                  cb(items)
-                }
-                //window.history.push('/');
             },
             error => {
                 dispatch(failure(error.toString(), userId, danisanUserName));
-                // dispatch(alertActions.error(error.toString()));
             }
         );
     };
@@ -93,14 +87,14 @@ export function getDanisanFiles(userId, danisanUserName, cb) {
   function failure(error, userId, danisanUserName) { return { type: DANISAN_FILES_GET_ERRORED, userId, danisanUserName, error } }
 }
 
-export function addDanisanFiles(userId, danisanUserName, files, cb) {
+export function addDanisanFiles(userId, danisanUserName, files) {
     return (dispatch) => {
         dispatch(request(userId, danisanUserName));
 
         userService.add_danisan_files(userId, danisanUserName, files)
         .then(
             (data) => { 
-              getDanisanFiles(userId, danisanUserName, cb)(dispatch);
+              getDanisanFiles(userId, danisanUserName)(dispatch);
             },
             error => {
                 dispatch(failure(userId, danisanUserName, error.toString()));

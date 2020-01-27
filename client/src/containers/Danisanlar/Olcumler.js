@@ -98,6 +98,7 @@ const styles = theme => ({
   },
   card: {
     marginBottom: theme.spacing(1),
+    width: '100%'
   },
   paper: {
     padding: theme.spacing(1)
@@ -258,7 +259,8 @@ class Envanter extends React.Component {
 
   onSubmitInternal(formValues) {
     console.log(formValues);
-
+    formValues['uniqueFileKey'] = this.state.uniqueFileKey;
+    console.log(formValues);
     // const formData = new FormData();
     // formData.append('file',formValues.file)
     // formData.append('type', 'olcum')
@@ -286,8 +288,8 @@ class Envanter extends React.Component {
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          <Button disabled={true} onClick={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
-            TARTI ÖLÇÜMÜ EKLE
+          <Button onClick={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
+            YENİ ÖLÇÜM EKLE
           </Button>
           <Divider style={{marginTop: '8px'}} />
 
@@ -394,7 +396,7 @@ class Envanter extends React.Component {
               <Button disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
                 İPTAL
               </Button>
-              <Button disabled={this.props.pristine || this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
+              <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
                 KAYDET
               </Button>
             </DialogActions>
@@ -414,8 +416,8 @@ class Envanter extends React.Component {
               {allMeasurements.length == 0 && <Typography variant="body2" style={{textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
 
               {Object.keys(allMeasurements).map((day, idx) => {
-                const measurement = allMeasurements[day];
-                console.log(measurement);
+                const measurementsPerDay = allMeasurements[day];
+                console.log(measurementsPerDay);
 
                 return (
                   <List
@@ -423,40 +425,58 @@ class Envanter extends React.Component {
                     disablePadding
                     subheader={
                       <ListSubheader component="span" id="nested-list-subheader">
-                        {moment(measurement.olcum_tarihi).format('DD MMMM YYYY')}
+                        {moment(day).format('DD MMMM YYYY')}
                       </ListSubheader>
                   }>
-                        <Divider component="li" />
-                        <ListItem button 
+                    {Object.keys(measurementsPerDay).map((mTs, midx) => {
+                      const measurement = measurementsPerDay[mTs];
+
+                      return (
+                        <ListItem 
+                          key={midx}
+                          button 
+                          style={{padding: 0}}
                           // component="a" 
                           // href={userService.getStaticFileUri(file.path)}
                           // target="_blank"
                             //component={Link} to={"/c/" + danisan.name}
                         >
-                          <ListItemAvatar >
-                            <Avatar>
-                              <EventIcon />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <ListItemText 
-                            primary={
-                                // <Typography
-                                //     variant="subtitle1"
-                                //     color="textPrimary"
-                                // >
-                                measurement.kalca
-                                // </Typography>
-                            } 
-                            secondary={
-                                // <Typography
-                                //     variant="caption"
-                                //     color="inherit"
-                                // >
-                                measurement.kilo + "kg, " + measurement.boy + "cm"
-                                // </Typography>
-                            }
-                          />
+                          <Card className={classes.card}>
+                            <CardContent>
+                              <Grid container spacing={1}>
+                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                  <Typography className={classes.pos} color="textSecondary">Kilo</Typography>
+                                  <Typography className={classes.pos} color="textPrimary">{measurement.kilo || ''} {measurement.kilo ? 'kg' : ''}</Typography>
+                                </Grid>
+                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                  <Typography className={classes.pos} color="textSecondary">Boy</Typography>
+                                  <Typography className={classes.pos} color="textPrimary">{measurement.boy || ''} {measurement.boy ? 'cm' : ''}</Typography>
+                                </Grid>
+                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                  <Typography className={classes.pos} color="textSecondary">Bacak</Typography>
+                                  <Typography className={classes.pos} color="textPrimary">{measurement.bacak || ''} {measurement.bacak ? 'cm' : ''}</Typography>
+                                </Grid>
+                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                  <Typography className={classes.pos} color="textSecondary">Kol</Typography>
+                                  <Typography className={classes.pos} color="textPrimary">{measurement.kol || ''} {measurement.kol ? 'cm' : ''}</Typography>
+                                </Grid>
+                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                  <Typography className={classes.pos} color="textSecondary">Göğüs</Typography>
+                                  <Typography className={classes.pos} color="textPrimary">{measurement.gogus || ''} {measurement.gogus ? 'cm' : ''}</Typography>
+                                </Grid>
+                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                  <Typography className={classes.pos} color="textSecondary">Göbek</Typography>
+                                  <Typography className={classes.pos} color="textPrimary">{measurement.gobek || ''} {measurement.gobek ? 'cm' : ''}</Typography>
+                                </Grid>
+                              </Grid>
+                            </CardContent>
+                            {/* <CardActions>
+                              <Button size="small">Learn More</Button>
+                            </CardActions> */}
+                          </Card>
                         </ListItem>
+                      )
+                    })}
                   </List>
                 )
               })}

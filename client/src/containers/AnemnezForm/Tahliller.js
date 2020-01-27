@@ -275,7 +275,7 @@ class Envanter extends React.Component {
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
-    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data;
+    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data['tahlil'];
     console.log(allFiles)
 
     return (

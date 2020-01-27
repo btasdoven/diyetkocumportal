@@ -268,15 +268,7 @@ class Envanter extends React.Component {
       this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data != undefined;
 
-      
-    var loaded2 = this.props.apiDanisanFiles != undefined &&
-      this.props.apiDanisanFiles[this.state.userId] != undefined &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
-
       console.log(loaded);
-      console.log(loaded2);
       return loaded;
   }
 
@@ -646,7 +638,6 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     apiDanisanProfile: state.apiDanisanProfile,
-    apiDanisanFiles: state.apiDanisanFiles,
     initialValues: 
       state.apiDanisanProfile[ownProps.userId] != undefined && 
       state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName] != undefined
@@ -660,8 +651,6 @@ const mapDispatchToProps = dispatch => {
     {
       getDanisanProfile: (userId, danisanUserName) => getDanisanProfile(userId, danisanUserName),
       putDanisanProfile: (userId, danisanUserName, danisanProfile) => putDanisanProfile(userId, danisanUserName, danisanProfile),
-      // addDanisanFiles: (userId, danisanUserName, files) => addDanisanFiles(userId, danisanUserName, files),
-      // getDanisanFiles: (userId, danisanUserName) => getDanisanFiles(userId, danisanUserName),
     },
     dispatch
   );

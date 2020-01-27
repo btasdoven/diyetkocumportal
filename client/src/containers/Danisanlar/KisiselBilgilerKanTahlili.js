@@ -275,7 +275,7 @@ class Envanter extends React.Component {
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
-    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data;
+    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data['tahlil'];
     console.log(allFiles)
 
     return (
@@ -318,7 +318,7 @@ class Envanter extends React.Component {
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && 
           <span>
-            {Object.keys(allFiles).map((day, idx) => {
+            {allFiles && Object.keys(allFiles).map((day, idx) => {
               const allFilesPerDay = allFiles[day];
               console.log(allFilesPerDay);
 
@@ -345,7 +345,7 @@ class Envanter extends React.Component {
                             //component={Link} to={"/c/" + danisan.name}
                         >
                           <ListItemAvatar >
-                            <Avatar src={userService.getStaticFileUri(file.path)}></Avatar>
+                            <Avatar variant="rounded" src={userService.getStaticFileUri(file.path)}></Avatar>
                           </ListItemAvatar>
                           <ListItemText 
                             primary={
