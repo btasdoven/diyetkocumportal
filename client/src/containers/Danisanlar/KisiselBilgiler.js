@@ -191,6 +191,7 @@ const renderMaskedTextField = ({
 }) => {
   return (
     <TextField
+      fullWidth
       label={label}
       {...input}
       {...custom}

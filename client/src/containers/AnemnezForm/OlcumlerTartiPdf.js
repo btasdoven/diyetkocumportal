@@ -228,21 +228,21 @@ class Envanter extends React.Component {
     this.isLoaded = this.isLoaded.bind(this);
     this.onDialogClose = this.onDialogClose.bind(this);
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
-    
+
     this.state = {
-      openDialog: undefined
+      userId: props.userId
     }
   }
 
   isLoaded() {
     console.log(this.props);
-    console.log(this.props.userId);
+    console.log(this.state.userId);
 
     var loaded = this.props.apiDanisanFiles != undefined &&
-      this.props.apiDanisanFiles[this.props.userId] != undefined &&
-      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data != undefined;
+      this.props.apiDanisanFiles[this.state.userId] != undefined &&
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -250,7 +250,7 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDanisanFiles(this.props.userId, this.props.danisanUserName);
+      this.props.getDanisanFiles(this.state.userId, this.props.danisanUserName);
     }
   }
 
@@ -259,10 +259,10 @@ class Envanter extends React.Component {
 
     const formData = new FormData();
     formData.append('file',formValues.file)
-    formData.append('type', 'tahlil')
+    formData.append('type', this.props.uniqueFileKey)
     console.log(formData);
 
-    this.props.addDanisanFiles(this.props.userId, this.props.danisanUserName, formData);
+    this.props.addDanisanFiles(this.state.userId, this.props.danisanUserName, formData);
     this.onDialogClose();
   }
 
@@ -275,7 +275,7 @@ class Envanter extends React.Component {
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
-    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.props.userId][this.props.danisanUserName].data['tahlil'];
+    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data[this.props.uniqueFileKey];
     console.log(allFiles)
 
     return (
@@ -288,7 +288,7 @@ class Envanter extends React.Component {
           open={this.state.openDialog != undefined} 
           onClose={() => this.onDialogClose(undefined)}
         >
-          <DialogTitle id="form-dialog-title">Yeni Tahlil Ekle</DialogTitle>
+          <DialogTitle id="form-dialog-title">Fotoğraf/PDF Ekle</DialogTitle>
           <DialogContent>
             <Field
               name="file"
@@ -377,7 +377,7 @@ class Envanter extends React.Component {
               disablePadding
             >
               <ListItem button 
-                onClick={() => this.setState({openDialog: 'tahlil'})}
+                onClick={() => this.setState({openDialog: 'tarti_pdf'})}
                 target="_blank"
                   //component={Link} to={"/c/" + danisan.name}
               >
@@ -390,7 +390,7 @@ class Envanter extends React.Component {
                       //     variant="subtitle1"
                       //     color="textPrimary"
                       // >
-                      "Yeni tahlil ekle"
+                      "Fotoğraf/PDF ekle"
                       // </Typography>
                   } 
                 />
@@ -432,4 +432,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'DanisanTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'AnemnezOlcumTartiPdfForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

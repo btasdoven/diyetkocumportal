@@ -218,6 +218,7 @@ const renderMaskedTextField = ({
 }) => {
   return (
     <TextField
+      fullWidth
       label={label}
       {...input}
       {...custom}
@@ -471,19 +472,13 @@ class Envanter extends React.Component {
                       ]}
                     />
                   </Grid>
-                  <Grid item xs={3} sm={3} md={3} lg={3}>
-                    <ReduxFormTextField name="kilo" label="Kilosu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
-                  </Grid>
-                  <Grid item xs={3} sm={3} md={3} lg={3}>
-                    <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                  <Grid item xs={12} sm={6} md={3} lg={3}>
                     <ReduxFormTextField name="email" label="E-posta adresi" />
                   </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                  <Grid item xs={12} sm={6} md={3} lg={3}>
                     <ReduxFormMaskedTextField name="tel" label="Telefon numarası" />
                   </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                  <Grid item xs={12} sm={6} md={3} lg={3}>
                     <ReduxFormTextField name="address" label="Adresi" />
                   </Grid>
                 </Grid>
