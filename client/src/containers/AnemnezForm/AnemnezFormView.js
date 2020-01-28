@@ -76,6 +76,7 @@ import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
 import Olcumler from './Olcumler';
+import MesajView from '../Mesajlar/MesajView'
 
 const styles = theme => ({
   profile: {
@@ -122,6 +123,15 @@ const styles = theme => ({
       width: '100%',
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(2),
+  },
+  content: {
+    //flexGrow: 1,
+    //marginLeft: theme.spacing(7),
+    //padding: theme.spacing(1),
+    marginTop: theme.spacing(6),
+    //overflowX: "hidden",
+    //paddingBottom: '48px',
+    //height: '100vh',
   },
 });
 
@@ -315,34 +325,39 @@ class Envanter extends React.Component {
     else
       return (
         <span>
-          <Tabs
-            value={this.state.value}
-            onChange={this.handleValueChange}
-            indicatorColor="secondary"
-            textColor="inherit"
-            variant="scrollable"
-            scrollButtons="on"
-            aria-label="scrollable auto tabs example"
-          >
-            <Tab label="PROFİL" {...a11yProps(0)} />
-            <Tab label="ÖLÇÜMLER" {...a11yProps(1)} />
-            <Tab label="DİYET PROGRAMI" {...a11yProps(2)} />
-            <Tab label="MESAJLAR" {...a11yProps(3)} />
-          </Tabs>
-          <TabPanel value={this.state.value} index={0}>
-            <AnemnezForm userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
-          </TabPanel>
-          <TabPanel value={this.state.value} index={1}>
-            <Olcumler userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
-          </TabPanel>
-          <TabPanel value={this.state.value} index={2}>
-            <DiyetListesi userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
-          </TabPanel>
-          <TabPanel value={this.state.value} index={3}>
-            <div className={classes.rootLoading}>
-              <Typography style={{textAlign: 'center', marginTop: '24px'}} variant="body2">Şu anda diyetisyeninizden herhangi bir mesaj bulunmamaktadır.</Typography>
-            </div>
-          </TabPanel>
+          <AppBar>
+            <Tabs
+              value={this.state.value}
+              onChange={this.handleValueChange}
+              indicatorColor="secondary"
+              textColor="inherit"
+              variant="scrollable"
+              scrollButtons="on"
+              aria-label="scrollable auto tabs example"
+            >
+              <Tab label="PROFİL" {...a11yProps(0)} />
+              <Tab label="ÖLÇÜMLER" {...a11yProps(1)} />
+              <Tab label="DİYET PROGRAMI" {...a11yProps(2)} />
+              <Tab label="MESAJLAR" {...a11yProps(3)} />
+            </Tabs>
+          </AppBar>
+          <main className={classes.content}>
+            <TabPanel value={this.state.value} index={0}>
+              <AnemnezForm userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={1}>
+              <Olcumler userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={2}>
+              <DiyetListesi userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={3}>
+              <MesajView isDanisanView={true} userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
+              {/* <div className={classes.rootLoading}>
+                <Typography style={{textAlign: 'center', marginTop: '24px'}} variant="body2">Şu anda diyetisyeninizden herhangi bir mesaj bulunmamaktadır.</Typography>
+              </div> */}
+            </TabPanel>
+          </main>
         </span>
       )
   }

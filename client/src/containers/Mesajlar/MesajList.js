@@ -24,6 +24,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Badge from "@material-ui/core/Badge";
 
 import { getMessagePreviews } from '../../store/reducers/api.messagePreviews';
+import { readMessages } from '../../store/reducers/api.danisanMessages';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -172,6 +173,7 @@ class Envanter extends React.Component {
     super(props);
 
     this.isLoaded = this.isLoaded.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
 
     this.state = {
       userId: JSON.parse(localStorage.getItem('user')).id
@@ -190,6 +192,13 @@ class Envanter extends React.Component {
 
     console.log(loaded);
     return loaded;
+  }
+
+  handleOnClick(danisanUserName) {
+    return () => {
+      console.log(danisanUserName)
+      this.props.readMessages(this.state.userId, danisanUserName);
+    }
   }
 
   componentDidMount() {
@@ -216,11 +225,11 @@ class Envanter extends React.Component {
                       var fontWeight = danisan.unread == 0 ? 400 : 600;
                       return (
                         <span key={idx}>
-                          <ListItem button component={Link} to={"/m/" + danisan.username}>
+                          <ListItem button component={Link} onClick={this.handleOnClick(danisanKey)} to={"/m/" + danisanKey}>
                             <ListItemAvatar>
-                            <Avatar src={danisan.url} />
+                            <Avatar src={danisan.danisanUrl} />
                             </ListItemAvatar>
-                            <ListItemText primaryTypographyProps={{style: {fontWeight: fontWeight}}} secondaryTypographyProps={{style: {fontWeight: fontWeight}}} primary={danisan.name} secondary={danisan.mesaj}/>
+                            <ListItemText primaryTypographyProps={{style: {fontWeight: fontWeight}}} secondaryTypographyProps={{style: {fontWeight: fontWeight}}} primary={danisanKey} secondary={danisan.lastMessage.message}/>
                             <div style={{flex: 'none', display: 'flex', flexDirection: 'column'}}>
                               <Typography style={{textAlign: 'right', fontWeight: fontWeight}} color="initial" variant="caption">{danisan.aktivite}</Typography>
                               { danisan.unread > 0 && (
@@ -253,6 +262,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getMessagePreviews: (userId) => getMessagePreviews(userId),
+      readMessages: (userId, danisanUserName) => readMessages(userId, danisanUserName)
     },
     dispatch
   );

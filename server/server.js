@@ -108,6 +108,29 @@ app.put("/api/v1/users/:userId/profile", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
+app.get("/api/v1/users/:userId/danisans/:danisanUserName/messages", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    console.log(req.params)
+    res.json(dal.getDanisanMessages(req.params.userId, req.params.danisanUserName));
+  }), delayInResponseInMs);
+});
+
+app.post("/api/v1/users/:userId/danisans/:danisanUserName/messages/read", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    console.log(req.params)
+    res.json(dal.readDanisanMessages(req.params.userId, req.params.danisanUserName));
+  }), delayInResponseInMs);
+});
+
+app.put("/api/v1/users/:userId/danisans/:danisanUserName/messages/:messageId", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.addDanisanMessage(req.params.userId, req.params.danisanUserName, req.params.messageId, req.body));
+  }), delayInResponseInMs);
+});
+
 app.put("/api/v1/users/:userId/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

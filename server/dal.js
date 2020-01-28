@@ -315,8 +315,6 @@ var taskUpgradeStg = () => {
 }
 
 
-
-
 function start() {
   return startAsync()
 }
@@ -650,6 +648,56 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
 
     storage.setItem('0', rows[0])
   }
+}
+
+exports.getDanisanMessages = function (userId, danisanUserName) {
+  console.log('getDanisanMessages');
+
+  if (rows[userId].danisans == undefined ||
+      rows[userId].danisans[danisanUserName] == undefined) {
+    return { };
+  }
+
+  return rows[userId].danisans[danisanUserName].messages;
+}
+
+exports.readDanisanMessages = function (userId, danisanUserName) {
+  console.log('readDanisanMessages');
+
+  rows[userId].messagePreviews[danisanUserName].unread = 0;
+
+  storage.setItem(userId, rows[userId]);
+}
+
+exports.addDanisanMessage = function (userId, danisanUserName, messageId, message) {
+  console.log('addDanisanMessage');
+  console.log(message);
+
+  if (rows[userId].danisans == undefined)
+    rows[userId].danisans = {}
+
+  if (rows[userId].danisans[danisanUserName] == undefined)
+    rows[userId].danisans[danisanUserName] = {}
+
+  if (rows[userId].danisans[danisanUserName].messages == undefined)
+    rows[userId].danisans[danisanUserName].messages = {}
+
+  rows[userId].danisans[danisanUserName].messages[messageId] = message
+
+  if (rows[userId].messagePreviews == undefined)
+    rows[userId].messagePreviews = {}
+
+  if (rows[userId].messagePreviews[danisanUserName] == undefined)
+    rows[userId].messagePreviews[danisanUserName] = { 
+      unread: 0,
+      danisanUrl: rows[userId].danisanPreviews[danisanUserName].url,
+      dietitianUrl: rows[userId].profile.url,
+    }
+
+  rows[userId].messagePreviews[danisanUserName].unread += message.sentByDietitian == true ? 0 : 1;
+  rows[userId].messagePreviews[danisanUserName].lastMessage = message;
+
+  storage.setItem(userId, rows[userId]);
 }
 
 exports.getDanisanMeasurements = function (userId, danisanUserName) {

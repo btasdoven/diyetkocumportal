@@ -25,6 +25,9 @@ export const userService = {
     add_danisan_files,
     get_danisan_measurements,
     add_danisan_measurement,
+    get_danisan_messages,
+    add_danisan_message,
+    read_danisan_message,
     getStaticFileUri,
 };
 
@@ -181,6 +184,46 @@ function get_link_info(linkId) {
     };
     
     return fetch(HOST_NAME + `/api/v1/links/` + linkId, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function get_danisan_messages(userId, danisanUserName) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function add_danisan_message(userId, danisanUserName, message) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(message)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages/` + message.id, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function read_danisan_message(userId, danisanUserName) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages/read`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

@@ -104,7 +104,7 @@ const styles = theme => ({
     padding: theme.spacing(1)
   },
   root: {
-      margin: theme.spacing(1),
+    padding : theme.spacing(1),
   },
   rootLoading: {
     height: "inherit",

@@ -137,7 +137,7 @@ class Sidebar extends React.Component {
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
 
-            {/* <ListItem button component={Link} to='/m' selected={location.pathname === '/m'}>
+            <ListItem button component={Link} to='/m' selected={location.pathname === '/m'}>
               <ListItemIcon>
                 <ChatIcon color="primary"/>
               </ListItemIcon>
@@ -149,7 +149,7 @@ class Sidebar extends React.Component {
                   </Badge>
                 </ListItemSecondaryAction>
               }
-            </ListItem> */}
+            </ListItem>
 
             <ListItem button component={Link} to='/r' selected={location.pathname === '/r'}>
               <ListItemIcon>
