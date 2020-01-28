@@ -476,7 +476,32 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
     rows[userId].appointments[date] = {}
   }
 
+  var oldValue = rows[userId].appointments[date][time];
+
   rows[userId].appointments[date][time] = values;
+
+  if (values.step == 3) {
+    // Link gonder
+    //
+    var msg = {
+      id: Date.now(), 
+      sentByDietitian: true,
+      danisanUserName: values.info.name,
+      message: `Merhaba ${values.info.name} 👋 diyet programı yazabilmek için senden sağlık geçmişini, kan tahlilini ve vücüt ölcümlerini rica ediyorum`,
+      type: 'text',
+    }
+    exports.addDanisanMessage(userId, values.info.name, msg.id, msg)
+
+    var msg2 = {...msg}
+    msg2.id = Date.now()
+    msg2.message = 'Bu siteyi kullanarak bilgilerin hepsini girebilirsin. Bilgileri girdikten sonra bana buradan haber verirsen ben de programı yazabilirim'
+    exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2)
+
+    var msg3 = {...msg}
+    msg3.id = Date.now()
+    msg3.message = 'Şimdiden teşekkür ederim 🙏'
+    exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3)
+  }
 
   const ordered = {};
   Object.keys(rows[userId].appointments[date]).sort().forEach(function(key) {
@@ -515,7 +540,8 @@ Diyet Koçum Ailesi`
     console.log(rows[userId].profile.email)
     email.sendEmail(rows[userId].profile.email, 'Yeni randevu isteği', content)
     email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Yeni randevu isteği', content)
-  } else if (values.status == 'confirmed' || values.status == 'rejected') {
+  } 
+  else if (oldValue.status == 'pending' && (values.status == 'confirmed' || values.status == 'rejected')) {
     if (values.type != 'onlinediyet') {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
       var content = `
@@ -558,7 +584,7 @@ Diyet Koçum Ailesi`
     }
   }
 
-  if (values.status == 'confirmed') {
+  if (oldValue.status == 'pending' && values.status == 'confirmed') {
     exports.postAddDanisan(userId, values.info.name, {
       name: values.info.name,
       email: values.info.email,

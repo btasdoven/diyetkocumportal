@@ -16,6 +16,7 @@ import MesajList from "./containers/Mesajlar/MesajList";
 import DanisanView from "./containers/Danisanlar/DanisanView";
 import DanisanList from "./containers/Danisanlar/DanisanList";
 import NewRandevu from "./containers/Randevu/NewRandevu";
+import RandevuView from "./containers/Randevu/RandevuView";
 import NotImplementedYet from './containers/NotImplementedYet'
 import RandevuList from "./containers/Randevu/RandevuList";
 import NewLandingPage from './containers/LandingPage/NewLandingPage'
@@ -91,8 +92,10 @@ class App extends Component {
                     <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
                     <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 
+                    <DashboardRoute exact path="/r" component={RandevuList} />
+                    <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />
+
                     <DashboardRoute path="/me" component={MyProfile} />
-                    <DashboardRoute path="/r" component={RandevuList} />
                     <DashboardRoute path="/f" component={NotImplementedYet} />
                     <DashboardRoute path="/kd" component={NotImplementedYet} />
                     <EmptyRoute path="/signup" component={Register} />

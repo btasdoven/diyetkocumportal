@@ -26,6 +26,18 @@ const ModifyKeys = (items) => {
   return ret
 }
 
+const getValue = (obj, arr) => {
+  if (!obj)
+    return {};
+
+  if (arr.length == 0) {
+    return obj;
+  }
+
+  var key = arr.shift()
+  return getValue(obj[key], arr)
+}
+
 export default function reducer(state = initState, action) {
     switch (action.type) {
       case DIETITIAN_APPOINTMENT_GET_ERRORED:
@@ -102,9 +114,8 @@ export default function reducer(state = initState, action) {
             data: {
               ...state[action.userId].data,
               [action.date]: {
-                isGetLoading: false,
+                ...(getValue(state, [action.userId, 'data', action.date])),
                 isPutLoading: true,
-                data: action.items,
               }
             },
           }

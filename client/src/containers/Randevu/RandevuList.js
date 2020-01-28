@@ -29,6 +29,7 @@ import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'material-ui-snackbar-provider'
 import EventIcon from '@material-ui/icons/Event';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
@@ -311,8 +312,10 @@ class Envanter extends React.Component {
                     return (
                       <span key={idx}>
                         <Divider component="li" />
-                        <ListItem button 
-                            //component={Link} to={"/c/" + danisan.name}
+                        <ListItem 
+                            button 
+                            component={Link} 
+                            to={"/r/" + apptDate + '/' + danisanKey}
                         >
                           <ListItemAvatar >
                             {avatar}
@@ -339,12 +342,12 @@ class Envanter extends React.Component {
                           {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
                           {danisan.status == 'pending' && (
                             <ListItemSecondaryAction>
-                              <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'rejected')} edge="end" aria-label="delete">
-                                  <CloseIcon color="error" />
+                              <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" aria-label="delete">
+                                  <ChevronRightIcon color="primary" />
                               </IconButton>
-                              <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
+                              {/* <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
                                   <CheckSharpIcon style={{ color: green[500] }} />
-                              </IconButton>
+                              </IconButton> */}
                             </ListItemSecondaryAction>
                           )}
                           {danisan.status == 'confirmed' && (
