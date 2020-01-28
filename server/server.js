@@ -260,6 +260,16 @@ app.post("/api/v1/users/signup", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
+//
+// ADMIN data
+//
+app.get("/api/v1/getAppointmentData", (req, res, next) => {
+  // setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(dal.getAppointmentData(), null, 4));
+  // }), delayInResponseInMs);
+});
+
 console.log(process.env.PORT);
 
 app.listen(process.env.PORT || 4000, () => {

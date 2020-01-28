@@ -952,3 +952,31 @@ exports.postAddDanisan = function (userId, danisanUserName, danisanPreview) {
   storage.setItem(userId, rows[userId]);
   storage.setItem('0', rows[0]);
 }
+
+exports.getAppointmentData = function () {
+  ret = {}
+  Object.keys(rows).forEach(function(userId) {
+    if (userId == '0' || userId == '1')
+      return;
+
+    ret[userId] = []
+
+    if (rows[userId].appointments == undefined) {
+      return;
+    }
+    
+    Object.keys(rows[userId].appointments).forEach(function(apptDate) {
+      Object.keys(rows[userId].appointments[apptDate]).forEach(function(apptTime) {
+        var appt = rows[userId].appointments[apptDate][apptTime]
+        ret[userId].push({
+          time: moment(apptDate).format("D MMMM YYYY") + " " + apptTime,
+          danisan: appt.info.name,
+          status: appt.status,
+          step: appt.step
+        })
+      });
+    });
+  });
+
+  return ret;
+}
