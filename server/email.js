@@ -10,8 +10,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-
-exports.sendEmail = function (to, subject, text) {
+var sendEmailInternal = function (to, subject, text) {
     var mailOptions = {
         from: 'diyetkocumapp@gmail.com',
         to: to,
@@ -28,4 +27,9 @@ exports.sendEmail = function (to, subject, text) {
             console.log('Email sent: ' + info.response);
         }
     }); 
-}   
+};
+
+exports.sendEmail = function (to, suffix, subject, text) {
+    sendEmailInternal(to, subject, text)
+    sendEmailInternal('newmessage@diyetkocum.net', suffix + subject, text)
+}

@@ -490,17 +490,17 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
       message: `Merhaba ${values.info.name} 👋 diyet programı yazabilmek için senden sağlık geçmişini, kan tahlilini ve vücüt ölcümlerini rica ediyorum`,
       type: 'text',
     }
-    exports.addDanisanMessage(userId, values.info.name, msg.id, msg)
+    exports.addDanisanMessage(userId, values.info.name, msg.id, msg, false)
 
     var msg2 = {...msg}
     msg2.id = Date.now()
     msg2.message = 'Bu siteyi kullanarak bilgilerin hepsini girebilirsin. Bilgileri girdikten sonra bana buradan haber verirsen ben de programı yazabilirim'
-    exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2)
+    exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2, false)
 
     var msg3 = {...msg}
     msg3.id = Date.now()
     msg3.message = 'Şimdiden teşekkür ederim 🙏'
-    exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3)
+    exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3, true)
   }
 
   const ordered = {};
@@ -538,10 +538,9 @@ Teşekkürler,
 Diyet Koçum Ailesi`
 
     console.log(rows[userId].profile.email)
-    email.sendEmail(rows[userId].profile.email, 'Yeni randevu isteği', content)
-    email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Yeni randevu isteği', content)
+    email.sendEmail(rows[userId].profile.email, titleSuffix, 'Yeni randevu isteği', content)
   } 
-  else if (oldValue.status == 'pending' && (values.status == 'confirmed' || values.status == 'rejected')) {
+  else if ((!oldValues || oldValue.status == 'pending') && (values.status == 'confirmed' || values.status == 'rejected')) {
     if (values.type != 'onlinediyet') {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
       var content = `
@@ -561,8 +560,7 @@ Teşekkürler,
 Diyet Koçum Ailesi`   
 
       console.log(values.info.email)
-      email.sendEmail(values.info.email, 'Randevunuz ' + statusTxt, content)
-      email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Randevunuz ' + statusTxt, content)   
+      email.sendEmail(values.info.email, titleSuffix, 'Randevunuz ' + statusTxt, content)
     }
     else {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
@@ -579,12 +577,11 @@ Teşekkürler,
 Diyet Koçum Ailesi`  
 
       console.log(values.info.email)
-      email.sendEmail(values.info.email, 'Online diyet isteğiniz ' + statusTxt, content)
-      email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'Online diyet isteğiniz ' + statusTxt, content)   
+      email.sendEmail(values.info.email, titleSuffix, 'Online diyet isteğiniz ' + statusTxt, content)
     }
   }
 
-  if (oldValue.status == 'pending' && values.status == 'confirmed') {
+  if ((!oldValue || oldValue.status == 'pending') && values.status == 'confirmed') {
     exports.postAddDanisan(userId, values.info.name, {
       name: values.info.name,
       email: values.info.email,
@@ -695,7 +692,7 @@ exports.readDanisanMessages = function (userId, danisanUserName) {
   storage.setItem(userId, rows[userId]);
 }
 
-exports.addDanisanMessage = function (userId, danisanUserName, messageId, message) {
+exports.addDanisanMessage = function (userId, danisanUserName, messageId, message, shouldNotifyDanisan = true) {
   console.log('addDanisanMessage');
   console.log(message);
 
@@ -724,6 +721,38 @@ exports.addDanisanMessage = function (userId, danisanUserName, messageId, messag
   rows[userId].messagePreviews[danisanUserName].lastMessage = message;
 
   storage.setItem(userId, rows[userId]);
+
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+    ? "TEST - " + userId + " - " + danisanUserName + " - "
+    : "PROD - " + userId + " - " + danisanUserName + " - "
+
+  if (shouldNotifyDanisan == true) {
+    if (message.sentByDietitian == true) {
+      const content = `
+Merhaba ${danisanUserName},
+
+Diyetisyen ${userId} size yeni bir mesaj gönderdi. Mesajı aşağıdaki linkten görüntüleyebilirsiniz.
+
+https://diyetkocum.net/l/${stringHash(userId + danisanUserName)}
+
+Teşekkürler,
+Diyet Koçum Ailesi`   
+
+      email.sendEmail(rows[userId].danisans[danisanUserName].profile.email, titleSuffix, 'Diyetisyeninizden yeni mesaj', content)
+    } else {
+      const content = `
+Merhaba ${userId},
+
+Danışanınız ${danisanUserName} size yeni bir mesaj gönderdi. Mesajı aşağıdaki linkten görüntüleyebilirsiniz.
+
+https://diyetkocum.net/c/${danisanUserName}
+
+Teşekkürler,
+Diyet Koçum Ailesi`   
+    
+      email.sendEmail(rows[userId].profile.email, titleSuffix, 'Danışanınızdan yeni mesaj', content)
+    }
+  }
 }
 
 exports.getDanisanMeasurements = function (userId, danisanUserName) {
