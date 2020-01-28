@@ -362,6 +362,7 @@ class Envanter extends React.Component {
   render() {
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
+    const dietitianProfile = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
 
     return (
       <div className={classes.root}>
@@ -460,11 +461,11 @@ class Envanter extends React.Component {
                   </Grid>
 
                   <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <CopyToClipboard text={"diyetkocum.net/d/" + this.state.user.username} >
+                    <CopyToClipboard text={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/d/" + this.state.user.username} >
                       <span>
                         <Chip
                           //avatar={<Avatar>M</Avatar>}
-                          label={"diyetkocum.net/d/" + this.state.user.username}
+                          label={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/d/" + this.state.user.username}
                           clickable
                           color="primary"
                           onClick={this.handleLinkCopied}
@@ -477,7 +478,7 @@ class Envanter extends React.Component {
                   </Grid>
                 </Grid>
               </div>
-              
+
               <div style={{margin: '8px'}}>
                 <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
                   KİŞİSEL BİLGİLERİM
