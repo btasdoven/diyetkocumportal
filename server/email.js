@@ -31,5 +31,7 @@ var sendEmailInternal = function (to, subject, text) {
 
 exports.sendEmail = function (to, suffix, subject, text) {
     sendEmailInternal(to, subject, text)
-    sendEmailInternal('newmessage@diyetkocum.net', suffix + subject, text)
+    if (to != 'newmessage@diyetkocum.net') {
+        sendEmailInternal('newmessage@diyetkocum.net', suffix + subject, text)
+    }
 }

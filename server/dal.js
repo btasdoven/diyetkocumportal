@@ -433,7 +433,7 @@ exports.signUpUser = function(uname, userInfo) {
     ? "TEST - " + uname + " - "
     : "PROD - " + uname + " - "
 
-  email.sendEmail('newmessage@diyetkocum.net', titleSuffix + 'new user created', JSON.stringify(rows[0].users[uname]))
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify(rows[0].users[uname]))
 
   return { user: userInfo }
 }
@@ -516,31 +516,23 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
 
   if (values.status == 'pending') {
 
-    var type = values.type == 'onlinediyet' ? 'Online diyet' : 'Yüz yüze randevu'
+    var type = values.type == 'onlinediyet' ? 'online diyet' : 'yüz yüze randevu'
     var content = `
 Merhaba ${rows[userId].profile.name},
 
-Aşağıda belirtilen gün ve tarih için ${values.info.name} isminde bir danışan tarafından randevu isteği gönderildi.
+${values.info.name} isminde bir danışan tarafından ${type} isteği gönderildi.
 
-Kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsin:
+Detayları görmek, kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsin:
 
-https://diyetkocum.net/r
- 
-Randevu tipi: ${type}
-Randevu günü: ${moment(date).format("DD MMMM YYYY")}
-Randevu saati: ${time}
-Danışan e-posta adresi:  ${values.info.email}
-Danışan telefon numarası: ${values.info.tel}
-Danışan doğum tarihi: ${moment(values.info.birthday).format("DD MMMM YYYY")}
-Danışan ek bilgiler: ${values.info.notes || ''}
+https://diyetkocum.net/r/${date}/${time.replace(/ /g, '%20')}
 
 Teşekkürler,
 Diyet Koçum Ailesi`
 
     console.log(rows[userId].profile.email)
-    email.sendEmail(rows[userId].profile.email, titleSuffix, 'Yeni randevu isteği', content)
+    email.sendEmail(rows[userId].profile.email, titleSuffix, `Yeni ${type} isteği`, content)
   } 
-  else if ((!oldValues || oldValue.status == 'pending') && (values.status == 'confirmed' || values.status == 'rejected')) {
+  else if ((!oldValue || oldValue.status == 'pending') && (values.status == 'confirmed' || values.status == 'rejected')) {
     if (values.type != 'onlinediyet') {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
       var content = `
@@ -745,7 +737,7 @@ Merhaba ${userId},
 
 Danışanınız ${danisanUserName} size yeni bir mesaj gönderdi. Mesajı aşağıdaki linkten görüntüleyebilirsiniz.
 
-https://diyetkocum.net/c/${danisanUserName}
+https://diyetkocum.net/c/${danisanUserName.replace(/ /g, '%20')}
 
 Teşekkürler,
 Diyet Koçum Ailesi`   
@@ -964,13 +956,14 @@ exports.getAppointmentData = function () {
     if (rows[userId].appointments == undefined) {
       return;
     }
-    
+
     Object.keys(rows[userId].appointments).forEach(function(apptDate) {
       Object.keys(rows[userId].appointments[apptDate]).forEach(function(apptTime) {
         var appt = rows[userId].appointments[apptDate][apptTime]
         ret[userId].push({
           time: moment(apptDate).format("D MMMM YYYY") + " " + apptTime,
           danisan: appt.info.name,
+          type: appt.type,
           status: appt.status,
           step: appt.step
         })
