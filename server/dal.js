@@ -494,7 +494,7 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
 
     var msg2 = {...msg}
     msg2.id = Date.now()
-    msg2.message = 'Bu siteyi kullanarak bilgilerin hepsini girebilirsin. Bilgileri girdikten sonra bana buradan haber verirsen ben de programı yazabilirim'
+    msg2.message = 'Bu siteyi kullanarak bilgilerin hepsini girebilirsin. Bilgileri girdikten sonra bana buradan haber verirsen ben de programı hazırlamaya başlayabilirim'
     exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2, false)
 
     var msg3 = {...msg}
@@ -540,7 +540,7 @@ Merhaba ${values.info.name},
 
 Aşağıda belirtilen gün ve tarih için diyetisyen ${rows[userId].profile.name} ile randevunuz diyetisyeniniz tarafından ${statusTxt}.
   
-Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz.
+Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz. Bu linki diyetisyeninizin size yazacağı diyet programını görmek için de kullanabilirsiniz.
 
 https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
     
@@ -561,7 +561,7 @@ Merhaba ${values.info.name},
 
 Diyetisyen ${rows[userId].profile.name} ile olan online diyet başvurunuz diyetisyeniniz tarafından ${statusTxt}. Diyetisyeniniz yakında sizinle iletişime geçecektir.
   
-Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz.
+Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz. Bu linki diyetisyeninizin size yazacağı diyet programını görmek için de kullanabilirsiniz.
 
 https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
 
@@ -723,7 +723,7 @@ exports.addDanisanMessage = function (userId, danisanUserName, messageId, messag
       const content = `
 Merhaba ${danisanUserName},
 
-Diyetisyen ${userId} size yeni bir mesaj gönderdi. Mesajı aşağıdaki linkten görüntüleyebilirsiniz.
+Diyetisyen ${rows[userId].profile.name} size yeni bir mesaj gönderdi. Mesajı aşağıdaki linkten görüntüleyebilirsiniz.
 
 https://diyetkocum.net/l/${stringHash(userId + danisanUserName)}
 
