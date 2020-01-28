@@ -23,7 +23,7 @@ const styles = theme => ({
     //padding: theme.spacing(1),
     marginTop: theme.spacing(6),
     overflowX: "hidden",
-    //paddingBottom: '48px',
+    paddingBottom: '16px',
     //height: '100vh',
   },
   contentShift: {
