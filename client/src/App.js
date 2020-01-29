@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
 import { connect } from "react-redux";
 
 import MyProfile from "./containers/MyProfile/MyProfile";
@@ -75,48 +76,50 @@ class App extends Component {
 
     return (
       <MuiThemeProvider theme={settings.theme}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={trLocale}>
-          <SnackbarProvider SnackbarProps={{ autoHideDuration: 3000 }}>
-            <CssBaseline />
-            {/* <div style={{ height: "100vh" }}> */}
-              <Router>
-                {localStorage.getItem('user') ? (
-                  <Switch>
-                    <Route exact path="/" render={() => <Redirect to="/me" />} />
-                    <DashboardRoute exact path="/c" component={DanisanList} />
-                    <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
-                    <DashboardRoute exact path="/m" component={MesajList} />
-                    <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
+        <ThemeProvider theme={settings.theme}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils} locale={trLocale}>
+            <SnackbarProvider SnackbarProps={{ autoHideDuration: 3000 }}>
+              <CssBaseline />
+              {/* <div style={{ height: "100vh" }}> */}
+                <Router>
+                  {localStorage.getItem('user') ? (
+                    <Switch>
+                      <Route exact path="/" render={() => <Redirect to="/me" />} />
+                      <DashboardRoute exact path="/c" component={DanisanList} />
+                      <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
+                      <DashboardRoute exact path="/m" component={MesajList} />
+                      <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
-                    <EmptyRoute path="/np" component={NewLandingPage} />
-                    <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
-                    <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
+                      <EmptyRoute path="/np" component={NewLandingPage} />
+                      <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
+                      <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 
-                    <DashboardRoute exact path="/r" component={RandevuList} />
-                    <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />
+                      <DashboardRoute exact path="/r" component={RandevuList} />
+                      <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />
 
-                    <DashboardRoute path="/me" component={MyProfile} />
-                    <DashboardRoute path="/f" component={NotImplementedYet} />
-                    <DashboardRoute path="/kd" component={NotImplementedYet} />
-                    <EmptyRoute path="/signup" component={Register} />
-                    <Route path="/signin" render={() => <Redirect to="/" />} />
-                    <EmptyRoute component={NotFound} />
-                  </Switch>
-                ) : (
-                  <Switch>
-                    <EmptyRoute path="/np" component={NewLandingPage} />
-                    <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
-                    <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
-                    <EmptyRoute path="/signup" component={Register} />
-                    <EmptyRoute path="/signin" component={Signin} />
-                    <Route exact path="/" render={() => <Redirect to="/signin" />} />
-                    <Redirect to="/" />
-                  </Switch>
-                )}
-              </Router>
-            {/* </div> */}
-          </SnackbarProvider>
-        </MuiPickersUtilsProvider>
+                      <DashboardRoute path="/me" component={MyProfile} />
+                      <DashboardRoute path="/f" component={NotImplementedYet} />
+                      <DashboardRoute path="/kd" component={NotImplementedYet} />
+                      <EmptyRoute path="/signup" component={Register} />
+                      <Route path="/signin" render={() => <Redirect to="/" />} />
+                      <EmptyRoute component={NotFound} />
+                    </Switch>
+                  ) : (
+                    <Switch>
+                      <EmptyRoute path="/np" component={NewLandingPage} />
+                      <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
+                      <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
+                      <EmptyRoute path="/signup" component={Register} />
+                      <EmptyRoute path="/signin" component={Signin} />
+                      <Route exact path="/" render={() => <Redirect to="/signin" />} />
+                      <Redirect to="/" />
+                    </Switch>
+                  )}
+                </Router>
+              {/* </div> */}
+            </SnackbarProvider>
+          </MuiPickersUtilsProvider>
+        </ThemeProvider>
       </MuiThemeProvider>
     );
   }

@@ -341,7 +341,7 @@ class Envanter extends React.Component {
                     </Step>
                     {appt.status != 'rejected' && (
                         <Step>
-                            <StepLabel>{step <= 1 ? "Danışan profilini yarat" : "Danışan profili yaratıldı."}</StepLabel>
+                            <StepLabel>{step <= 1 ? "Danışan profili yarat" : "Danışan profili yaratıldı."}</StepLabel>
                             <StepContent>
                                 <Typography variant="body2">Danışan profili sayesinde danışanınızın bütün bilgilerine dijital ortamdan erişebilir ve gereken değişiklikleri yapabilirsiniz.</Typography>
                                 <div className={classes.actionsContainer}>
@@ -384,6 +384,8 @@ class Envanter extends React.Component {
                 </Stepper>
                 {step == 3 && (
                     <div>
+                        <Typography variant="body2">Randevu işlemleri tamamlandı 👍</Typography>
+                        {/* <Typography variant="body2">Danışanına iletmek istediğin ek bilgiler varsa mesajlara gidebilirsin.</Typography> */}
                         <Button
                             variant="contained"
                             color="primary"

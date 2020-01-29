@@ -92,6 +92,7 @@ class Register extends React.Component {
                 </Typography>
                 <Button
                   fullWidth
+                  disableElevation
                   variant="contained"
                   color="secondary"
                   component={Link}
@@ -108,6 +109,7 @@ class Register extends React.Component {
                 </Typography>
                 <Button
                   style={{marginTop: '32px'}}
+                  disableElevation
                   fullWidth
                   variant="contained"
                   color="primary"

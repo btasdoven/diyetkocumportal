@@ -214,6 +214,7 @@ const SigninForm = props => {
       <div className={classes.buttonWrapper}>
         <Button
           type="submit"
+          disableElevation
           fullWidth
           variant="contained"
           color="primary"

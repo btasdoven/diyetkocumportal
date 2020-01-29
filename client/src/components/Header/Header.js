@@ -99,7 +99,7 @@ class Header extends React.Component  {
     const { classes } = this.props;
     
     return (
-      <AppBar className={this.props.permanentDrawer ? classes.appBarShifted : classes.appBar} position="fixed">
+      <AppBar elevation={0} className={this.props.permanentDrawer ? classes.appBarShifted : classes.appBar} position="fixed">
         <Toolbar variant="dense" disableGutters={true} classes={{ root: classes.toolbarRoot }}>
           {this.props.backButton && (
             <IconButton

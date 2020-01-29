@@ -190,7 +190,7 @@ class DefaultChatMsg extends React.Component {
                         prevMsgs = [];
 
                         var isMe = (msg.sentByDietitian && this.props.isDanisanView != true) || (!msg.sentByDietitian && this.props.isDanisanView == true);
-                        
+
                         return (
                             <ChatMsg
                                 key={idx}
@@ -206,7 +206,8 @@ class DefaultChatMsg extends React.Component {
                     onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                     name={this.props.name}
                 >
-                    <AppBar position="fixed" color="inherit" className={classes.appBar}>
+                    <AppBar elevation={0} position="fixed" color="inherit" className={classes.appBar}>
+                        <Divider />
                         <Toolbar variant="dense" disableGutters={true} >
                             <Field
                                 name="message"

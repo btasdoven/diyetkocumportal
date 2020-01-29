@@ -327,7 +327,7 @@ class Envanter extends React.Component {
                 // ]}
               />
 
-              <Card className={classes.card}>
+              <Card variant="outlined" className={classes.card}>
                 <CardHeader
                   avatar={
                       <Avatar className={classes.avatar} alt={danisanProfile.name} src={danisanProfile.url} />

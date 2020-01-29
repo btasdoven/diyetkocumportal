@@ -526,7 +526,7 @@ Detayları görmek, kabul etmek ya da reddetmek için aşağıdaki linke tıklay
 
 https://diyetkocum.net/r/${date}/${time.replace(/ /g, '%20')}
 
-Teşekkürler,
+Teşekkürler 🙏
 Diyet Koçum Ailesi`
 
     console.log(rows[userId].profile.email)
@@ -548,7 +548,7 @@ Randevu günü: ${moment(date).format("DD MMMM YYYY")}
 Randevu saati: ${time}
 ${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
 
-Teşekkürler,
+Teşekkürler 🙏
 Diyet Koçum Ailesi`   
 
       console.log(values.info.email)
@@ -565,7 +565,7 @@ Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alış
 
 https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
 
-Teşekkürler,
+Teşekkürler 🙏
 Diyet Koçum Ailesi`  
 
       console.log(values.info.email)
@@ -727,7 +727,7 @@ Diyetisyen ${rows[userId].profile.name} size yeni bir mesaj gönderdi. Mesajı a
 
 https://diyetkocum.net/l/${stringHash(userId + danisanUserName)}
 
-Teşekkürler,
+Teşekkürler 🙏
 Diyet Koçum Ailesi`   
 
       email.sendEmail(rows[userId].danisans[danisanUserName].profile.email, titleSuffix, 'Diyetisyeninizden yeni mesaj', content)
@@ -739,7 +739,7 @@ Danışanınız ${danisanUserName} size yeni bir mesaj gönderdi. Mesajı aşağ
 
 https://diyetkocum.net/c/${danisanUserName.replace(/ /g, '%20')}
 
-Teşekkürler,
+Teşekkürler 🙏
 Diyet Koçum Ailesi`   
     
       email.sendEmail(rows[userId].profile.email, titleSuffix, 'Danışanınızdan yeni mesaj', content)

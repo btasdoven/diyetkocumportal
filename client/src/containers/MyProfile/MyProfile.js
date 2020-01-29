@@ -388,7 +388,7 @@ class Envanter extends React.Component {
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
             >
-              <Card className={classes.card}>
+              <Card variant="outlined" className={classes.card}>
                 <CardHeader
                   avatar={
                       <Avatar className={classes.avatar} alt={this.state.user.name} src={this.state.user.url} />
@@ -470,8 +470,8 @@ class Envanter extends React.Component {
                           color="primary"
                           onClick={this.handleLinkCopied}
                           onDelete={this.handleLinkCopied}
-                          deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
-                          variant="outlined"
+                          deleteIcon={this.state.linkCopied ? <DoneIcon color="primary" /> : <FileCopyIcon  color="primary"/>}
+                          //variant="outlined"
                         />
                       </span>
                     </CopyToClipboard>

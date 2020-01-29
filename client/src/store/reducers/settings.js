@@ -12,14 +12,17 @@ const secondaryColor = green;
 const themeConfig = {
   palette: {
     primary: {
-      main: '#263746',
+      main: '#2486c0',
+      contrastText: '#FFF'
     },
     secondary: {
-      main: '#FF5722',
+      main: '#e26b30',
       contrastText: '#FFF'
     },
     error: red,
-    action: green,
+    action: {
+      main: '#30e2c4'
+    },
     // Used by `getContrastText()` to maximize the contrast between the background and
     // the text.
     contrastThreshold: 3,

@@ -165,6 +165,7 @@ class SigninForm extends React.Component {
         <div className={classes.buttonWrapper}>
           <Button
             onClick={this.handleLogin}
+            disableElevation
             fullWidth
             variant="contained"
             color="primary"
@@ -198,6 +199,7 @@ class SigninForm extends React.Component {
         <div className={classes.buttonWrapper}>
           <Button
             fullWidth
+            disableElevation
             variant="contained"
             color="secondary"
             component={Link}

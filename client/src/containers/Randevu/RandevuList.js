@@ -287,7 +287,7 @@ class Envanter extends React.Component {
                   disablePadding
                   subheader={
                     <ListSubheader component="span" id="nested-list-subheader">
-                      {moment(apptDate).format('DD MMMM YYYY')}
+                      <Typography component="span" variant="subtitle2" color="secondary">{moment(apptDate).format('DD MMMM YYYY')}</Typography>
                     </ListSubheader>
                 }>
                   {Object.keys(danisans).map( (danisanKey, idx) => {
@@ -299,8 +299,8 @@ class Envanter extends React.Component {
                     var avatar = danisan.type != 'onlinediyet'
                       ? (
                           <span>
-                            <Typography color="primary" variant="subtitle2">{hours[0]}</Typography>
-                            <Typography color="primary" variant="subtitle2">{hours[1]}</Typography>
+                            <Typography color="textSecondary" variant="subtitle2">{hours[0]}</Typography>
+                            <Typography color="textSecondary" variant="subtitle2">{hours[1]}</Typography>
                           </span>
                         )
                       : (
@@ -352,12 +352,12 @@ class Envanter extends React.Component {
                           )}
                           {danisan.status == 'confirmed' && (
                             <ListItemSecondaryAction>
-                              <Typography style={{color: 'green'}}>Onaylandı</Typography>
+                              <Typography style={{color: '#00855a'}}>Onaylandı</Typography>
                             </ListItemSecondaryAction>
                           )}
                           {danisan.status == 'rejected' && (
                             <ListItemSecondaryAction>
-                              <Typography style={{color: 'red'}}>Reddedildi</Typography>
+                              <Typography style={{color: '#d5552d'}}>Reddedildi</Typography>
                             </ListItemSecondaryAction>
                           )}
                         </ListItem>
