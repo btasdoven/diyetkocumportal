@@ -307,7 +307,6 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
 
     var loaded = this.props.apiDanisanProfile != undefined &&
       this.props.apiDanisanProfile[this.props.userId] != undefined &&
@@ -315,7 +314,6 @@ class Envanter extends React.Component {
       this.props.apiDanisanProfile[this.props.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanProfile[this.props.userId][this.props.danisanUserName].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
 

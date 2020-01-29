@@ -325,7 +325,7 @@ class Envanter extends React.Component {
     else
       return (
         <span>
-          <AppBar elevation={0} disableElevation>
+          <AppBar elevation={0}>
             <Tabs
               value={this.state.value}
               onChange={this.handleValueChange}
