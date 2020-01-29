@@ -273,7 +273,7 @@ class Envanter extends React.Component {
 
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && 
-            Object.keys(apptList).map((apptDate, idx) => {
+            Object.keys(apptList).sort().reverse().map((apptDate, idx) => {
               if (apptList[apptDate].isGetLoading == true || 
                   apptList[apptDate].isPutLoading == true)
               {

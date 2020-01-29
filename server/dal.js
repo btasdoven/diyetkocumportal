@@ -514,7 +514,6 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   Object.keys(rows[userId].appointments[date]).sort().forEach(function(key) {
     ordered[key] = rows[userId].appointments[date][key];
   });
-
   rows[userId].appointments[date] = ordered;
 
   var titleSuffix = process.env.NODE_ENV !== 'production' 
