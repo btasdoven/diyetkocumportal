@@ -179,6 +179,7 @@ const SigninForm = props => {
       </FormControl>
       <FormControl margin="normal" fullWidth>
         <Field
+          required
           id="email"
           name="email"
           component={renderTextField}
@@ -190,6 +191,7 @@ const SigninForm = props => {
       </FormControl>
       <FormControl margin="normal" fullWidth>
         <Field
+          required
           id="tel"
           name="tel"
           component={renderMaskedTextField}

@@ -108,7 +108,7 @@ const styles = theme => ({
   },
   root: {
       margin: theme.spacing(1),
-      marginTop: theme.spacing(7),
+      marginTop: theme.spacing(8),
       //backgroundColor: 'rgb(255,255,255)'
   },
   rootLoading: {
@@ -182,6 +182,7 @@ const ReduxFormSelect = ({name, label, values, ...props}) => (
   <FormControl
     //margin="normal"
     style={{width: '100%'}}
+    required
   >
     <InputLabel shrink={true} id={label}>{label}</InputLabel>
 
@@ -233,6 +234,7 @@ const renderMaskedTextField = ({
 }) => {
   return (
     <TextField
+      fullWidth
       label={label}
       {...input}
       {...custom}
@@ -378,14 +380,17 @@ class NewRandevuWrapper extends React.Component {
                             ? "BİLGİLERİNİ GİR" 
                             : ""}
                 />
-                <main>
+                <main style={{
+      maxWidth: '800px',
+      width: '100%',
+      margin: 'auto'}}>
                     <Form
                         onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                         name={this.props.form}
                     >
                         { showLoader && renderLoadingButton(classes) }
                         { !showLoader && (
-                            <Card className={classes.card}>
+                            <Card variant="outlined" className={classes.card}>
                                 <CardHeader
                                 avatar={
                                     <Avatar className={classes.avatar} alt={user.name} src={user.url} />
@@ -396,7 +401,7 @@ class NewRandevuWrapper extends React.Component {
                             </Card>
                         )}
                         { !showLoader && this.state.step > 1 && (
-                          <Card className={classes.card}>
+                          <Card variant="outlined" className={classes.card}>
                             <CardHeader
                               avatar={
                                   <Avatar className={classes.avatar}>
@@ -539,7 +544,7 @@ class NewRandevuStep1 extends React.Component {
     const showDateLoader = !this.isDateLoaded();
 
     return (
-        <span>
+        <div>
             <div style={{margin: '8px'}}>
                 <Grid container spacing={2}>
                 <Grid style={{display: 'flex', justifyContent: 'center'}} item xs={12} sm={12} md={12} lg={12}>
@@ -556,37 +561,36 @@ class NewRandevuStep1 extends React.Component {
 
             { showDateLoader && renderLoadingButton(classes)}
             { !showDateLoader &&
-                <span>
-                    <div style={{margin: '8px'}}>
-                        <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                        MÜSAİT ZAMANLAR
-                        </Typography>
+              <div style={{margin: '8px'}}>
+                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+                  MÜSAİT ZAMANLAR
+                </Typography>
 
-                        <Grid container spacing={2}>
-                        { ApptHours().map( (h, i) => {
-                            var profile = this.props.apiDietitianProfile[this.state.userId].data;
+                <Grid container spacing={2}>
+                  { ApptHours().map( (h, i) => {
+                      var profile = this.props.apiDietitianProfile[this.state.userId].data;
 
-                            if (profile[h] != true) {
-                                return;
-                            }
-                    
-                            var appts = this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data;
+                      if (profile[h] != true) {
+                          return;
+                      }
+              
+                      var appts = this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data;
 
-                            if (appts[h] != undefined) {
-                                return;
-                            }
+                      if (appts[h] != undefined) {
+                          return;
+                      }
 
-                            return (<Grid style={{display: 'flex', justifyContent: 'center'}} key={i} item xs={6} sm={4} md={3} lg={2}>
-                                <Button onClick={this.handleTimeSelected(h)} variant="outlined" size="medium" color="primary" >
-                                    {h}
-                                </Button>
-                            </Grid>)
-                        })}
-                        </Grid>
-                    </div>
-                </span>
+                      return (
+                        <Grid style={{display: 'flex', justifyContent: 'center'}} key={i} item xs={6}>
+                          <Button onClick={this.handleTimeSelected(h)} variant="outlined" size="medium" color="primary" >
+                            {h}
+                          </Button>
+                        </Grid>)
+                  })}
+                </Grid>
+              </div>
             }
-        </span>
+        </div>
     )}
 };
 
@@ -615,96 +619,94 @@ class NewRandevuStep2 extends React.Component {
       return (
           <span>
               <Dialog 
-                    open={this.state.openDialog} 
-                    onClose={() => this.setState({openDialog: false})}
-                >
-                    <DialogTitle id="form-dialog-title">
-                      {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğini onaylıyor musun?
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                          {this.props.type == 'randevu' && (
-                            <span>
-                              Seçtiğin randevu isteği <b>{user.name}</b> ile <b>{moment(this.props.date).format('D MMMM YYYY dddd')}</b> günü saat <b>{this.props.time}</b> arasındadır.
-                              Randevunun durumu diyetisyenin randevuyu onaylamasından sonra kesinleşecektir. Randevu isteğini göndermek istiyor musun?
-                            </span>
-                          )}
-                          {this.props.type != 'randevu' && (
-                            <span>
-                              Diyetisyen <b>{user.name}</b> ile seçtiğin online diyet isteğinin durumu diyetisyenin onaylamasından sonra kesinleşecektir. Online diyet isteğini göndermek istiyor musun?
-                            </span>
-                          )}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => this.setState({openDialog: false})} color="secondary">
-                            VAZGEÇ
-                        </Button>
-                        <Button onClick={this.props.handleFormSubmit} color="secondary" autoFocus>
-                            GÖNDER
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                open={this.state.openDialog} 
+                onClose={() => this.setState({openDialog: false})}
+              >
+                <DialogTitle id="form-dialog-title">
+                  {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğini onaylıyor musun?
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      {this.props.type == 'randevu' && (
+                        <span>
+                          Seçtiğin randevu isteği <b>{user.name}</b> ile <b>{moment(this.props.date).format('D MMMM YYYY dddd')}</b> günü saat <b>{this.props.time}</b> arasındadır.
+                          Randevunun durumu diyetisyenin randevuyu onaylamasından sonra kesinleşecektir. Randevu isteğini göndermek istiyor musun?
+                        </span>
+                      )}
+                      {this.props.type != 'randevu' && (
+                        <span>
+                          Diyetisyen <b>{user.name}</b> ile seçtiğin online diyet isteğinin durumu diyetisyenin onaylamasından sonra kesinleşecektir. Online diyet isteğini göndermek istiyor musun?
+                        </span>
+                      )}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.setState({openDialog: false})} color="secondary">
+                        VAZGEÇ
+                    </Button>
+                    <Button onClick={this.props.handleFormSubmit} color="secondary" autoFocus>
+                        GÖNDER
+                    </Button>
+                </DialogActions>
+              </Dialog>
 
-                <div style={{margin: '8px'}}>
-                        <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                         KİŞİSEL BİLGİLER
-                        </Typography>
-
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} md={6} lg={6}>
-                                <ReduxFormTextField required validate={[required]} name="name" label="Adın ve soyadın" />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6}>
-                                <ReduxFormTextField required validate={[required]} name="email" label="E-posta adresin" />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={6} lg={6}>
-                                <ReduxFormMasketTextField name="tel" label="Telefon numaran" />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3}>
-                                <Field name='birthday' label="Doğum tarihin" component={DatePickerInput} />
-                                {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3}>
-                                <ReduxFormSelect
-                                name="cinsiyet"
-                                label="Cinsiyetin"
-                                values={[
-                                    {
-                                    label: 'Kadın',
-                                    value: 'Kadın',
-                                    },
-                                    {
-                                    label: 'Erkek',
-                                    value: 'Erkek',
-                                    },
-                                    {
-                                    label: 'Diğer',
-                                    value: 'Diğer',
-                                    },
-                                ]}
-                                />
-                            </Grid>
-                            <Grid item xs={3} sm={3} md={3} lg={3}>
-                                <ReduxFormTextField required validate={[required]} name="kilo" label="Kilon" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
-                            </Grid>
-                            <Grid item xs={3} sm={3} md={3} lg={3}>
-                                <ReduxFormTextField required validate={[required]} name="boy" label="Boyun" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12}>
-                                <ReduxFormTextField name="notes" rows={3} label="Diyetisyene notların" multiline />
-                            </Grid>
-                        </Grid>
-                    </div>
-                    <div style={{margin: '16px'}}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={12} lg={12}>
-                                <Button disabled={this.props.pristine || this.props.invalid} onClick={() => this.setState({openDialog: true})} variant="contained" color="primary">
-                                  {this.props.type == 'randevu' ? "RANDEVU" : "ONLİNE DİYET"} İSTEĞİNİ GÖNDER
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </div>
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                    KİŞİSEL BİLGİLER
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <ReduxFormTextField required validate={[required]} name="name" label="Adın ve soyadın" />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ReduxFormTextField required validate={[required]} name="email" label="E-posta adresin" />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required]} />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Field required name='birthday' label="Doğum tarihin" component={DatePickerInput} validate={[required]}/>
+                        {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
+                    </Grid>
+                    <Grid item xs={6}>
+                        <ReduxFormSelect
+                        required
+                        name="cinsiyet"
+                        label="Cinsiyetin"
+                        validate={[required]}
+                        values={[
+                            {
+                            label: 'Kadın',
+                            value: 'Kadın',
+                            },
+                            {
+                            label: 'Erkek',
+                            value: 'Erkek',
+                            },
+                            {
+                            label: 'Diğer',
+                            value: 'Diğer',
+                            },
+                        ]}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ReduxFormTextField name="notes" rows={3} label="Diyetisyene notların" multiline />
+                    </Grid>
+                  </Grid>
+                  <div style={{marginTop: '16px'}}>
+                    <Button disabled={this.props.pristine || this.props.invalid} onClick={() => this.setState({openDialog: true})} variant="contained" color="primary">
+                      {this.props.type == 'randevu' ? "RANDEVU" : "ONLİNE DİYET"} İSTEĞİNİ GÖNDER
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
           </span>
       )}
   };
@@ -730,7 +732,7 @@ class NewRandevuStep3 extends React.Component {
       return (
           <span>
               <div style={{margin: '8px'}}>
-                <Typography style={{textAlign: 'center' ,marginTop: '48px', marginBottom: '8px'}} color="primary" variant="body2" display="block" gutterBottom>
+                <Typography style={{textAlign: 'center' ,marginTop: '48px', marginBottom: '8px'}} color="textPrimary" variant="body2" display="block" gutterBottom>
                     {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğin başarıyla gönderildi. İsteğin diyetisyen tarafından onaylandığında <b>{this.props.formValues.email}</b> adresine e-posta gelecektir.
                 </Typography>
 

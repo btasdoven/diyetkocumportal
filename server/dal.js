@@ -268,6 +268,8 @@ var taskInitNewDietitians = () => {
       r.profile.email = rows[0].users[id].email
       r.profile.name = rows[0].users[id].name
       r.profile.url = rows[0].users[id].url
+      r.profile.tel = rows[0].users[id].tel
+
       return storage.setItem(id.toString(), r);
     }
 
@@ -487,20 +489,25 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
       id: Date.now(), 
       sentByDietitian: true,
       danisanUserName: values.info.name,
-      message: `Merhaba ${values.info.name} 👋 diyet programı yazabilmek için senden sağlık geçmişini, kan tahlilini ve vücüt ölcümlerini rica ediyorum`,
+      message: `Merhaba ${values.info.name} 👋 sana özel diyet programı hazırlayabilmem senden bir takım taleplerim var 🙂`,
       type: 'text',
     }
     exports.addDanisanMessage(userId, values.info.name, msg.id, msg, false)
 
     var msg2 = {...msg}
     msg2.id = Date.now()
-    msg2.message = 'Bu siteyi kullanarak bilgilerin hepsini girebilirsin. Bilgileri girdikten sonra bana buradan haber verirsen ben de programı hazırlamaya başlayabilirim'
+    msg2.message = 'Öncelikle sağlık geçmişi, kan tahlili, vücut ölçümü ve diğer benzeri bilgileri diyetkocum.net sitesi üzerinden tamamlamanı rica ediyorum'
     exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2, false)
 
     var msg3 = {...msg}
     msg3.id = Date.now()
-    msg3.message = 'Şimdiden teşekkür ederim 🙏'
-    exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3, true)
+    msg3.message = 'İlgili bilgileri tamamladıktan sonra bu mesaj üzerinden dönüş gerçekleştirirsen sana özel programı hemen hazırlamaya başlayacağım 🙂'
+    exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3, false)
+
+    var msg4 = {...msg}
+    msg4.id = Date.now()
+    msg4.message = 'Şimdiden teşekkürler 🙏'
+    exports.addDanisanMessage(userId, values.info.name, msg4.id, msg4, true)
   }
 
   const ordered = {};
@@ -733,7 +740,7 @@ Diyet Koçum Ailesi`
       email.sendEmail(rows[userId].danisans[danisanUserName].profile.email, titleSuffix, 'Diyetisyeninizden yeni mesaj', content)
     } else {
       const content = `
-Merhaba ${userId},
+Merhaba ${rows[userId].profile.name},
 
 Danışanınız ${danisanUserName} size yeni bir mesaj gönderdi. Mesajı aşağıdaki linkten görüntüleyebilirsiniz.
 

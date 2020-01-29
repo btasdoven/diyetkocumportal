@@ -14,21 +14,22 @@ class _DatePickerInput extends PureComponent {
 
     return (
         <KeyboardDatePicker 
-            {...rest}
-            {...input}
-            autoOk
-            fullWidth
-            clearable
-            disableFuture={rest.disableFuture || true}
-            placeholder="19.05.1919"
-            format="dd.MM.yyyy"
-            label={label}
-            invalidDateMessage={"Geçersiz tarih"}
-            InputLabelProps={{shrink: true}}
-            //className={classnames(className, { 'form-control-danger': error })}
-            onChange={(date) => { input.onChange(date) }}
-            onBlur={() => input.onBlur(input.value)}
-            value={input.value || null} />
+          required={required}
+          {...rest}
+          {...input}
+          autoOk
+          fullWidth
+          clearable
+          disableFuture={rest.disableFuture || true}
+          placeholder="19.05.1919"
+          format="dd.MM.yyyy"
+          label={label}
+          invalidDateMessage={"Geçersiz tarih"}
+          InputLabelProps={{shrink: true}}
+          //className={classnames(className, { 'form-control-danger': error })}
+          onChange={(date) => { input.onChange(date) }}
+          onBlur={() => input.onBlur(input.value)}
+          value={input.value || null} />
     )
   }
 }
