@@ -88,7 +88,7 @@ const styles = theme => ({
     padding: theme.spacing(1)
   },
   root: {
-      margin: theme.spacing(1),
+      padding: theme.spacing(1),
   },
   rootLoading: {
       height: "inherit",
@@ -241,117 +241,179 @@ class Envanter extends React.Component {
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
             >
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  PROGRAM
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <ReduxFormTextField 
-                        multiline
-                        name="program"
-                        // placeholder="Programın detaylarını, beklediğiniz fiziksel aktiviteleri, tüketilecek su miktarını vs. buraya yazabilirsiniz..."
-                    />
-                  </Grid>
-                </Grid>
-              </div>
+              {this.props.apiForm && this.props.apiForm[this.props.form] && this.props.apiForm[this.props.form].values && this.props.apiForm[this.props.form].values.free_format_diet == true && (
+                <Card variant="outlined" className={classes.card}>
+                  <CardHeader
+                    title={
+                      <Typography color="secondary" variant="button" gutterBottom>
+                        DİYET PROGRAMI
+                      </Typography>
+                    }
+                  />
+                  <CardContent style={{paddingTop:0}}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <ReduxFormTextField 
+                            multiline
+                            name="free_format_program"
+                            placeholder="Programın detaylarını, beklediğiniz fiziksel aktiviteleri, tüketilecek su miktarını vs. buraya yazabilirsiniz..."
+                        />
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              )}
               
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  KAHVALTI
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <ReduxFormTextField 
-                        multiline
-                        name="kahvalti"
-                        // placeholder="Kahvaltıda danışanınızın tüketmesini beklediğiniz besinleri buraya yazabilirsiniz.."
+              {this.props.apiForm && this.props.apiForm[this.props.form] && this.props.apiForm[this.props.form].values && this.props.apiForm[this.props.form].values.free_format_diet != true && (
+                <span>
+                  <Card variant="outlined" className={classes.card}>
+                    <CardHeader
+                      title={
+                        <Typography color="secondary" variant="button" gutterBottom>
+                          PROGRAM
+                        </Typography>
+                      }
                     />
-                  </Grid>
-                </Grid>
-              </div>
-              
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  1. ARA ÖĞÜN
-                </Typography>
+                    <CardContent style={{paddingTop:0}}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <ReduxFormTextField 
+                              multiline
+                              name="program"
+                              placeholder="Programın detaylarını, beklediğiniz fiziksel aktiviteleri, tüketilecek su miktarını vs. buraya yazabilirsiniz..."
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <ReduxFormTextField 
-                        multiline
-                        name="ara_ogun_1"
-                        // placeholder="Kahvaltı ile öğle yemeği arası..."
+                  <Card variant="outlined" className={classes.card}>
+                    <CardHeader
+                      title={
+                        <Typography color="secondary" variant="button" gutterBottom>
+                          KAHVALTI
+                        </Typography>
+                      }
                     />
-                  </Grid>
-                </Grid>
-              </div>
-              
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  ÖĞLE YEMEĞİ
-                </Typography>
+                    <CardContent style={{paddingTop:0}}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <ReduxFormTextField 
+                              multiline
+                              name="kahvalti"
+                              placeholder="Kahvaltıda danışanınızın tüketmesini beklediğiniz besinleri buraya yazabilirsiniz.."
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <ReduxFormTextField 
-                        multiline
-                        name="ogle_yemegi"
-                        // placeholder="Öğle yemeği..."
+                  <Card variant="outlined" className={classes.card}>
+                    <CardHeader
+                      title={
+                        <Typography color="secondary" variant="button" gutterBottom>
+                          1. ARA ÖĞÜN
+                        </Typography>
+                      }
                     />
-                  </Grid>
-                </Grid>
-              </div>
-              
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  2. ARA ÖĞÜN
-                </Typography>
+                    <CardContent style={{paddingTop:0}}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <ReduxFormTextField 
+                              multiline
+                              name="ara_ogun_1"
+                              placeholder="Kahvaltı ile öğle yemeği arası..."
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <ReduxFormTextField 
-                        multiline
-                        name="ara_ogun_2"
-                        // placeholder="Öğle yemeği ile akşam yemeği arası..."
+                  <Card variant="outlined" className={classes.card}>
+                    <CardHeader
+                      title={
+                        <Typography color="secondary" variant="button" gutterBottom>
+                          ÖĞLE YEMEĞİ
+                        </Typography>
+                      }
                     />
-                  </Grid>
-                </Grid>
-              </div>
-              
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  AKŞAM YEMEĞİ
-                </Typography>
+                    <CardContent style={{paddingTop:0}}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <ReduxFormTextField 
+                              multiline
+                              name="ogle_yemegi"
+                              placeholder="Öğle yemeği..."
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <ReduxFormTextField 
-                        multiline
-                        name="aksam_yemegi"
-                        // placeholder="Akşam yemeği..."
+                  <Card variant="outlined" className={classes.card}>
+                    <CardHeader
+                      title={
+                        <Typography color="secondary" variant="button" gutterBottom>
+                          2. ARA ÖĞÜN
+                        </Typography>
+                      }
                     />
-                  </Grid>
-                </Grid>
-              </div>
-              
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  SON ÖĞÜN
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <ReduxFormTextField 
-                        multiline
-                        name="son_ogun"
-                        // placeholder="Akşam yemeğinden sonra ve yatmadan önce..."
+                    <CardContent style={{paddingTop:0}}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <ReduxFormTextField 
+                              multiline
+                              name="ara_ogun_2"
+                              placeholder="Öğle yemeği ile akşam yemeği arası..."
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card variant="outlined" className={classes.card}>
+                    <CardHeader
+                      title={
+                        <Typography color="secondary" variant="button" gutterBottom>
+                          AKŞAM YEMEĞİ
+                        </Typography>
+                      }
                     />
-                  </Grid>
-                </Grid>
-              </div>
+                    <CardContent style={{paddingTop:0}}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <ReduxFormTextField 
+                              multiline
+                              name="aksam_yemegi"
+                              placeholder="Akşam yemeği..."
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card variant="outlined" className={classes.card}>
+                    <CardHeader
+                      title={
+                        <Typography color="secondary" variant="button" gutterBottom>
+                          SON ÖĞÜN
+                        </Typography>
+                      }
+                    />
+                    <CardContent style={{paddingTop:0}}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <ReduxFormTextField 
+                              multiline
+                              name="son_ogun"
+                              placeholder="Akşam yemeğinden sonra ve yatmadan önce..."
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                </span>
+              )}
             </Form>
           </span>
         }
@@ -365,6 +427,7 @@ const mapStateToProps = (state, ownProps) => {
   console.log(state);
 
   return {
+    apiForm: state.form,
     apiDanisanDietList: state.apiDanisanDietList,
     initialValues: 
       state.apiDanisanDietList[ownProps.userId] != undefined && 

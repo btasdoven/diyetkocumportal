@@ -272,7 +272,7 @@ class Envanter extends React.Component {
               <ReduxFormSwitch name="free_format_diet" label={<Typography variant="body1">Öğünleri birleştir</Typography>}/>
             </div>
 
-            {this.props.apiForm && this.props.apiForm[this.props.form].values && this.props.apiForm[this.props.form].values.free_format_diet == true && (
+            {this.props.apiForm && this.props.apiForm[this.props.form] && this.props.apiForm[this.props.form].values && this.props.apiForm[this.props.form].values.free_format_diet == true && (
               <Card variant="outlined" className={classes.card}>
                 <CardHeader
                   title={
@@ -295,7 +295,7 @@ class Envanter extends React.Component {
               </Card>
             )}
             
-            {this.props.apiForm && this.props.apiForm[this.props.form].values && this.props.apiForm[this.props.form].values.free_format_diet != true && (
+            {this.props.apiForm && this.props.apiForm[this.props.form] && this.props.apiForm[this.props.form].values && this.props.apiForm[this.props.form].values.free_format_diet != true && (
               <span>
                 <Card variant="outlined" className={classes.card}>
                   <CardHeader
