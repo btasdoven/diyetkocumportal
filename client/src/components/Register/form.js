@@ -120,6 +120,35 @@ const renderMaskedTextField = ({
   )
 };
 
+const ReduxFormCheckBox = ({name, label, ...props}) => (
+  <Field
+    name={name}
+    label={label}
+    component={renderCheckBox}
+    {...props}
+  />
+)
+
+const renderCheckBox = props => {
+const { input, label, ...rest } = props;
+
+return (
+    <FormControlLabel
+      control={<Checkbox 
+        {...input} 
+        {...rest}
+        size="small"
+        onChange={value => input.onChange(value)}
+        onBlur={() => input.onBlur(input.value)} 
+        value={input.value}
+        checked={input.value == true}
+        color="primary"/> 
+      }
+      label={label}
+    />
+)
+}
+
 const validPhone = value => value && !/^\+90 [1-9][0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}$/i.test(value) ? 'Geçerli bir telefon numarası değil' : undefined;
 const validEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Geçerli bir e-posta adresi değil' : undefined;
 const required = value => value ? undefined : 'Zorunlu'
@@ -201,10 +230,11 @@ const SigninForm = props => {
           validate={[required, validPhone]}
         />
       </FormControl>
-      {/* <FormControlLabel
-        control={<Checkbox value="remember" color="primary" />}
-        label="Beni hatırla"
-      /> */}
+      <FormControl margin="normal" fullWidth>
+        <ReduxFormCheckBox name="sozlesme" validate={[required]} label={
+          <Typography variant="body2"><b>Kullanıcı Sözleşmesini</b> ve <b>Kişisel Verilerin Korunması Politikasını</b> kabul ediyorum.</Typography>
+        }/>
+      </FormControl>
 
       {auth && auth.error && (
         <Typography color="error" variant="body1" className={classes.registerTypo}>
@@ -221,7 +251,7 @@ const SigninForm = props => {
           variant="contained"
           color="primary"
           className={classes.submit}
-          disabled={auth && auth.signingUp}
+          disabled={props.pristine || props.invalid || (auth && auth.signingUp)}
         >
           KAYDOL
         </Button>

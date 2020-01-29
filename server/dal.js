@@ -489,7 +489,7 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
       id: Date.now(), 
       sentByDietitian: true,
       danisanUserName: values.info.name,
-      message: `Merhaba ${values.info.name} 👋 sana özel diyet programı hazırlayabilmem senden bir takım taleplerim var 🙂`,
+      message: `Merhaba ${values.info.name} 👋 sana özel diyet programı hazırlayabilmem için senden bir takım taleplerim var 🙂`,
       type: 'text',
     }
     exports.addDanisanMessage(userId, values.info.name, msg.id, msg, false)
@@ -718,13 +718,13 @@ exports.addDanisanMessage = function (userId, danisanUserName, messageId, messag
   rows[userId].messagePreviews[danisanUserName].unread += message.sentByDietitian == true ? 0 : 1;
   rows[userId].messagePreviews[danisanUserName].lastMessage = message;
 
-  storage.setItem(userId, rows[userId]);
-
   var titleSuffix = process.env.NODE_ENV !== 'production' 
     ? "TEST - " + userId + " - " + danisanUserName + " - "
     : "PROD - " + userId + " - " + danisanUserName + " - "
 
   if (shouldNotifyDanisan == true) {
+    storage.setItem(userId, rows[userId]);
+
     if (message.sentByDietitian == true) {
       const content = `
 Merhaba ${danisanUserName},

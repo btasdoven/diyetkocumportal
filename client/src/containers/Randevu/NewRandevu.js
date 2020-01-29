@@ -582,7 +582,7 @@ class NewRandevuStep1 extends React.Component {
 
                       return (
                         <Grid style={{display: 'flex', justifyContent: 'center'}} key={i} item xs={6}>
-                          <Button onClick={this.handleTimeSelected(h)} variant="outlined" size="medium" color="primary" >
+                          <Button onClick={this.handleTimeSelected(h)} variant="outlined" size="medium" color="default" >
                             {h}
                           </Button>
                         </Grid>)
@@ -595,6 +595,8 @@ class NewRandevuStep1 extends React.Component {
 };
 
 const required = value => value ? undefined : 'Zorunlu'
+const validPhone = value => value && !/^\+90 [1-9][0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}$/i.test(value) ? 'Geçerli bir telefon numarası değil' : undefined;
+const validEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Geçerli bir e-posta adresi değil' : undefined;
 
 class NewRandevuStep2 extends React.Component {
 
@@ -665,10 +667,10 @@ class NewRandevuStep2 extends React.Component {
                         <ReduxFormTextField required validate={[required]} name="name" label="Adın ve soyadın" />
                     </Grid>
                     <Grid item xs={12}>
-                        <ReduxFormTextField required validate={[required]} name="email" label="E-posta adresin" />
+                        <ReduxFormTextField required validate={[required, validEmail]} name="email" label="E-posta adresin" />
                     </Grid>
-                    <Grid item xs={6}>
-                        <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required]} />
+                    <Grid item xs={12}>
+                        <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required, validPhone]} />
                     </Grid>
                     <Grid item xs={6}>
                         <Field required name='birthday' label="Doğum tarihin" component={DatePickerInput} validate={[required]}/>
@@ -698,6 +700,14 @@ class NewRandevuStep2 extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                         <ReduxFormTextField name="notes" rows={3} label="Diyetisyene notların" multiline />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormCheckBox name="sozlesme" validate={[required]} label={
+                        <Typography variant="caption">
+                          DiyetKoçum'a sağladığım bu bilgilerin doğruluğunu teyit ediyorum ve bu bilgiler üzerinden bana ulaşılmasına izin veriyorum. 
+                          DiyetKoçum bu bilgileri yalnızca diyetisyeniniz ile paylaşacaktır.
+                        </Typography>
+                      }/>
                     </Grid>
                   </Grid>
                   <div style={{marginTop: '16px'}}>
