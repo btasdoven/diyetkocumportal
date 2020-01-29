@@ -288,10 +288,15 @@ class Envanter extends React.Component {
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          <Button onClick={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
-            YENİ ÖLÇÜM EKLE
-          </Button>
-          <Divider style={{marginTop: '8px'}} />
+          <SpeedDial
+            icon={<SpeedDialIcon icon={<PostAddIcon />} />}
+            // hidden={this.props.pristine}
+            onClickFab={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})}
+            // actions={[
+            //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')},
+            //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')}
+            // ]}
+          />
 
           <Dialog 
             fullWidth
@@ -413,7 +418,7 @@ class Envanter extends React.Component {
                 ]}
               /> */}
 
-              {allMeasurements.length == 0 && <Typography variant="body2" style={{textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
+              {allMeasurements.length == 0 && <Typography variant="body2" style={{paddingTop: '8px', textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
 
               {Object.keys(allMeasurements).map((day, idx) => {
                 const measurementsPerDay = allMeasurements[day];

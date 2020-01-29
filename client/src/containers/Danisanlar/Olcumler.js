@@ -423,7 +423,7 @@ class Envanter extends React.Component {
                 ]}
               /> */}
 
-              {allMeasurements.length == 0 && <Typography variant="body2" style={{textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
+              {allMeasurements.length == 0 && <Typography variant="body2" style={{paddingTop: '8px', textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
 
               {Object.keys(allMeasurements).map((day, idx) => {
                 const measurementsPerDay = allMeasurements[day];
