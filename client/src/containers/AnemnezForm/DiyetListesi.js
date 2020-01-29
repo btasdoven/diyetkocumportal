@@ -164,7 +164,8 @@ const renderTextField = ({
   //     {...custom}
   //     fullWidth
   // />
-  <InputBase
+  <TextField
+    InputProps={{disableUnderline: true}}
     label={label}
     error={touched && invalid}
     {...input}
@@ -188,15 +189,12 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-
     var loaded = this.props.apiDanisanDietList != undefined &&
       this.props.apiDanisanDietList[this.props.userId] != undefined &&
       this.props.apiDanisanDietList[this.props.userId][this.props.danisanUserName] != undefined && 
       this.props.apiDanisanDietList[this.props.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanDietList[this.props.userId][this.props.danisanUserName].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
 
@@ -213,14 +211,11 @@ class Envanter extends React.Component {
 
   render() {
     console.log(this.props);
-    console.log('dirty');
-    console.log(this.props.dirty);
 
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
 
     var doesDietListExist = showLoader ? undefined : Object.keys(this.props.apiDanisanDietList[this.props.userId][this.props.danisanUserName].data).length > 1
-    console.log(doesDietListExist)
     
     return (
       <div className={classes.root}>
@@ -256,7 +251,7 @@ class Envanter extends React.Component {
                         <ReduxFormTextField 
                             multiline
                             name="free_format_program"
-                            placeholder="Programın detaylarını, beklediğiniz fiziksel aktiviteleri, tüketilecek su miktarını vs. buraya yazabilirsiniz..."
+                            // placeholder="Programın detaylarını, beklediğiniz fiziksel aktiviteleri, tüketilecek su miktarını vs. buraya yazabilirsiniz..."
                         />
                       </Grid>
                     </Grid>
@@ -280,7 +275,7 @@ class Envanter extends React.Component {
                           <ReduxFormTextField 
                               multiline
                               name="program"
-                              placeholder="Programın detaylarını, beklediğiniz fiziksel aktiviteleri, tüketilecek su miktarını vs. buraya yazabilirsiniz..."
+                              // placeholder="Programın detaylarını, beklediğiniz fiziksel aktiviteleri, tüketilecek su miktarını vs. buraya yazabilirsiniz..."
                           />
                         </Grid>
                       </Grid>
@@ -301,7 +296,7 @@ class Envanter extends React.Component {
                           <ReduxFormTextField 
                               multiline
                               name="kahvalti"
-                              placeholder="Kahvaltıda danışanınızın tüketmesini beklediğiniz besinleri buraya yazabilirsiniz.."
+                              // placeholder="Kahvaltıda danışanınızın tüketmesini beklediğiniz besinleri buraya yazabilirsiniz.."
                           />
                         </Grid>
                       </Grid>
@@ -322,7 +317,7 @@ class Envanter extends React.Component {
                           <ReduxFormTextField 
                               multiline
                               name="ara_ogun_1"
-                              placeholder="Kahvaltı ile öğle yemeği arası..."
+                              // placeholder="Kahvaltı ile öğle yemeği arası..."
                           />
                         </Grid>
                       </Grid>
@@ -343,7 +338,7 @@ class Envanter extends React.Component {
                           <ReduxFormTextField 
                               multiline
                               name="ogle_yemegi"
-                              placeholder="Öğle yemeği..."
+                              // placeholder="Öğle yemeği..."
                           />
                         </Grid>
                       </Grid>
@@ -364,7 +359,7 @@ class Envanter extends React.Component {
                           <ReduxFormTextField 
                               multiline
                               name="ara_ogun_2"
-                              placeholder="Öğle yemeği ile akşam yemeği arası..."
+                              // placeholder="Öğle yemeği ile akşam yemeği arası..."
                           />
                         </Grid>
                       </Grid>
@@ -385,7 +380,7 @@ class Envanter extends React.Component {
                           <ReduxFormTextField 
                               multiline
                               name="aksam_yemegi"
-                              placeholder="Akşam yemeği..."
+                              // placeholder="Akşam yemeği..."
                           />
                         </Grid>
                       </Grid>
@@ -406,7 +401,7 @@ class Envanter extends React.Component {
                           <ReduxFormTextField 
                               multiline
                               name="son_ogun"
-                              placeholder="Akşam yemeğinden sonra ve yatmadan önce..."
+                              // placeholder="Akşam yemeğinden sonra ve yatmadan önce..."
                           />
                         </Grid>
                       </Grid>
@@ -422,10 +417,6 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('mapstatetoprops')
-  console.log(ownProps);
-  console.log(state);
-
   return {
     apiForm: state.form,
     apiDanisanDietList: state.apiDanisanDietList,

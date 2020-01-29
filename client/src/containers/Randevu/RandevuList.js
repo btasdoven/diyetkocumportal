@@ -354,13 +354,13 @@ class Envanter extends React.Component {
                           {danisan.status == 'confirmed' && (
                             <ListItemSecondaryAction>
                               {/* <Typography variant="caption" style={{color: '#00855a'}}>Onaylandı</Typography> */}
-                              <CheckCircleIcon style={{color: '#00855a'}}/>
+                              <CheckCircleIcon style={{color: '#00756b'}}/>
                             </ListItemSecondaryAction>
                           )}
                           {danisan.status == 'rejected' && (
                             <ListItemSecondaryAction>
                               {/* <Typography style={{color: '#d5552d'}}>Reddedildi</Typography> */}
-                              <CancelIcon style={{color: '#d5552d'}}/>
+                              <CancelIcon style={{color: '#d5602d'}}/>
                             </ListItemSecondaryAction>
                           )}
                         </ListItem>

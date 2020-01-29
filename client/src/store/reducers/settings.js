@@ -16,10 +16,12 @@ const themeConfig = {
       contrastText: '#FFF'
     },
     secondary: {
-      main: '#f09138',
+      main: '#d5602d',
       contrastText: '#FFF'
     },
-    error: red,
+    error: {
+      main: '#d5602d'
+    },
     action: {
       main: '#30e2c4'
     },
