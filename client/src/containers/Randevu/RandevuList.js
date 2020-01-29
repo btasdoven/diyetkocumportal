@@ -288,7 +288,7 @@ class Envanter extends React.Component {
                   disablePadding
                   subheader={
                     <ListSubheader component="span" id="nested-list-subheader">
-                      <Typography component="span" variant="subtitle2" color="secondary">{moment(apptDate).format('DD MMMM YYYY')}</Typography>
+                      <Typography component="span" variant="subtitle2" color="secondary">{moment(apptDate).format('D MMMM YYYY')}</Typography>
                     </ListSubheader>
                 }>
                   {Object.keys(danisans).map( (danisanKey, idx) => {

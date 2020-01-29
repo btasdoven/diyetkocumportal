@@ -288,10 +288,20 @@ class Envanter extends React.Component {
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          <Button onClick={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
+          {/* <Button onClick={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
             YENİ ÖLÇÜM EKLE
           </Button>
-          <Divider style={{marginTop: '8px'}} />
+          <Divider style={{marginTop: '8px'}} /> */}
+
+          <SpeedDial
+            icon={<SpeedDialIcon icon={<PostAddIcon />} />}
+            // hidden={this.props.pristine}
+            onClickFab={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})}
+            // actions={[
+            //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')},
+            //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')}
+            // ]}
+          />
 
           <Dialog 
             fullWidth
@@ -425,7 +435,7 @@ class Envanter extends React.Component {
                     disablePadding
                     subheader={
                       <ListSubheader component="span" id="nested-list-subheader">
-                        {moment(day).format('DD MMMM YYYY')}
+                        <Typography component="span" variant="subtitle2" color="secondary">{moment(day).format('D MMMM YYYY')}</Typography>
                       </ListSubheader>
                   }>
                     {Object.keys(measurementsPerDay).map((mTs, midx) => {
@@ -441,7 +451,7 @@ class Envanter extends React.Component {
                           // target="_blank"
                             //component={Link} to={"/c/" + danisan.name}
                         >
-                          <Card className={classes.card}>
+                          <Card variant="outlined" className={classes.card}>
                             <CardContent>
                               <Grid container spacing={1}>
                                 <Grid item xs={4} sm={3} md={3} lg={2}>
