@@ -102,6 +102,9 @@ const styles = theme => ({
   root: {
       //height: 'calc(100vh - 48px)',
       padding: theme.spacing(1),
+      width: '100%',
+      maxWidth: '800px',
+      margin: 'auto'
   },
   rootLoading: {
       height: "inherit",
