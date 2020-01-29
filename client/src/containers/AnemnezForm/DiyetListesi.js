@@ -227,7 +227,7 @@ class Envanter extends React.Component {
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && !doesDietListExist && (
           <div className={classes.rootLoading}>
-            <Typography style={{textAlign: 'center', marginTop: '24px'}} variant="body2">Diyetisyeniniz diyet programınızı daha paylaşmadı.</Typography>
+            <Typography style={{textAlign: 'center', marginTop: '8px'}} variant="body2">Diyetisyeniniz diyet programınızı daha paylaşmadı.</Typography>
           </div>
         )}
         { !showLoader && doesDietListExist && 

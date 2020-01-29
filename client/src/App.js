@@ -84,9 +84,10 @@ class App extends Component {
                 <Router>
                   {localStorage.getItem('user') ? (
                     <Switch>
-                      <Route exact path="/" render={() => <Redirect to="/me" />} />
+                      <Route exact path="/" render={() => <Redirect to="/r" />} />
                       <DashboardRoute exact path="/c" component={DanisanList} />
                       <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
+
                       <DashboardRoute exact path="/m" component={MesajList} />
                       <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
@@ -95,6 +96,7 @@ class App extends Component {
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 
                       <DashboardRoute exact path="/r" component={RandevuList} />
+                      <DashboardRoute exact backButton="/r" path="/r/:danisan/messages" viewParam="messages" component={DanisanView} />
                       <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />
 
                       <DashboardRoute path="/me" component={MyProfile} />

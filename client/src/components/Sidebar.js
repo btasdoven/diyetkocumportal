@@ -130,14 +130,14 @@ class Sidebar extends React.Component {
               <Typography variant="overline">Ana Sayfa</Typography>
             </ListItem> */}
               
-            <ListItem button component={Link} to='/c' selected={location.pathname === '/c'}>
+            <ListItem button component={Link} to='/c' selected={location.pathname.startsWith('/c')}>
               <ListItemIcon>
                 <PeopleIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
 
-            <ListItem button component={Link} to='/m' selected={location.pathname === '/m'}>
+            <ListItem button component={Link} to='/m' selected={location.pathname.startsWith('/m')}>
               <ListItemIcon>
                 <ChatIcon color="primary"/>
               </ListItemIcon>
@@ -151,7 +151,7 @@ class Sidebar extends React.Component {
               }
             </ListItem>
 
-            <ListItem button component={Link} to='/r' selected={location.pathname === '/r'}>
+            <ListItem button component={Link} to='/r' selected={location.pathname.startsWith('/r')}>
               <ListItemIcon>
                 <CalendarTodayIcon color="primary"/>
               </ListItemIcon>

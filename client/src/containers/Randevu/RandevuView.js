@@ -394,7 +394,7 @@ class Envanter extends React.Component {
                             variant="contained"
                             color="primary"
                             component={Link}
-                            to={"/m/" + appt.info.name}
+                            to={"/r/" + appt.info.name + "/messages"}
                             className={classes.button}
                             style={{marginBottom: 0}}
                         >
