@@ -180,7 +180,7 @@ class SigninForm extends React.Component {
         <Typography component="h4" variant="subtitle1" className={classes.registerTypo}>
           Hesabın yok mu?
         </Typography>
-        <div className={classes.buttonRoot}>
+        {/* <div className={classes.buttonRoot}>
         <div className={classes.buttonWrapper}>
           <Button
             onClick={this.handleDemoLogin}
@@ -193,7 +193,7 @@ class SigninForm extends React.Component {
           </Button>
           {auth && auth.loggingIn && this.state.isDemoLogin && <CircularProgress size={24} className={classes.buttonProgress} />}
         </div>
-        </div>
+        </div> */}
 
         <div className={classes.buttonRoot}>
         <div className={classes.buttonWrapper}>
