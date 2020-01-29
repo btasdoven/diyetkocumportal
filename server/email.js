@@ -31,7 +31,7 @@ var sendEmailInternal = function (to, subject, text) {
 
 exports.sendEmail = function (to, suffix, subject, text) {
     sendEmailInternal(to, subject, text)
-    if (to != 'newmessage@diyetkocum.net') {
+    if (to != 'newmessage@diyetkocum.net' && process.env.NODE_ENV == 'production') {
         sendEmailInternal('newmessage@diyetkocum.net', suffix + subject, text)
     }
 }

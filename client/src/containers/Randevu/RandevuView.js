@@ -177,7 +177,7 @@ const styles = theme => ({
       marginTop: theme.spacing(5)
   },
   root: {
-    borderRadius: 12,
+    //borderRadius: 12,
     textAlign: 'center',
     marginBottom: theme.spacing(1),
   },
@@ -283,7 +283,7 @@ class Envanter extends React.Component {
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && 
             <span>
-                <Card className={classes.root} >
+                <Card elevation={0} variant="outlined" className={classes.root} >
                     <CardHeader title={appt.type == 'randevu' ? moment(date).format('D MMMM YYYY') + ' ' + time : 'Online Diyet'} className={classes.header} />
                     <Divider variant="middle" />
                     <CardContent>
@@ -303,88 +303,92 @@ class Envanter extends React.Component {
                     </Button>
                     </CardActions> */}
                 </Card>
+                
+                <Card style={{marginBottom: '8px'}} variant="outlined" >
+                  <Stepper activeStep={step} orientation="vertical">
+                      <Step>
+                          <StepLabel>
+                          {
+                              appt.status == 'pending' 
+                                  ? "Randevu isteğini onayla"
+                                  : appt.status == 'confirmed'
+                                      ? "Randevu isteği onaylandı."
+                                      : "Randevu isteği reddedildi."
+                          } 
+                          </StepLabel>
+                          <StepContent>
+                              {/* <Typography>Selamin aleykum</Typography> */}
+                              <div className={classes.actionsContainer}>
+                                  <div>
+                                  <Button
+                                      variant="outlined"
+                                      disabled={this.state.activeStep === 0}
+                                      onClick={this.confirmAppointment(date, time, appt, 'rejected', 1)}
+                                      className={classes.button}
+                                  >
+                                      Reddet
+                                  </Button>
+                                  <Button
+                                      variant="contained"
+                                      color="primary"
+                                      onClick={this.confirmAppointment(date, time, appt, 'confirmed', 1)}
+                                      className={classes.button}
+                                  >
+                                      Onayla
+                                  </Button>
+                                  </div>
+                              </div>
+                          </StepContent>
+                      </Step>
+                      {appt.status != 'rejected' && (
+                          <Step>
+                              <StepLabel>{step <= 1 ? "Danışan profili yarat" : "Danışan profili yaratıldı."}</StepLabel>
+                              <StepContent>
+                                  <Typography variant="body2">Danışan profili sayesinde danışanınızın bütün bilgilerine dijital ortamdan erişebilir ve gereken değişiklikleri yapabilirsiniz.</Typography>
+                                  <div className={classes.actionsContainer}>
+                                      <div>
+                                      <Button
+                                          variant="contained"
+                                          color="primary"
+                                          onClick={this.confirmAppointment(date, time, appt, appt.status, 2)}
+                                          className={classes.button}
+                                      >
+                                          {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
+                                          PROFİLİ YARAT
+                                      </Button>
+                                      </div>
+                                  </div>
+                              </StepContent>
+                          </Step>
+                      )}
+                      {appt.status != 'rejected' && (
+                          <Step>
+                              <StepLabel>{step <= 2 ? "Danışana anemnez formu linkini gönder" : "Danışana anemnez formu linki gönderildi."}</StepLabel>
+                              <StepContent>
+                                  <Typography variant="body2">Bu link sayesinde danışanınız anemnez formunu, kan tahlili ve ölçüm bilgilerini hızlıca doldurabilir, ve siz de bu bilgilere otomatik olarak ulaşabilirsiniz.</Typography>
+                                  <div className={classes.actionsContainer}>
+                                      <div>
+                                      <Button
+                                          variant="contained"
+                                          color="primary"
+                                          onClick={this.confirmAppointment(date, time, appt, appt.status, 3)}
+                                          className={classes.button}
+                                      >
+                                          {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
+                                          LİNKİ GÖNDER
+                                      </Button>
+                                      </div>
+                                  </div>
+                              </StepContent>
+                          </Step>
+                      )}
+                  </Stepper>
+                </Card>
 
-                <Stepper activeStep={step} orientation="vertical">
-                    <Step>
-                        <StepLabel>
-                        {
-                            appt.status == 'pending' 
-                                ? "Randevu isteğini onayla"
-                                : appt.status == 'confirmed'
-                                    ? "Randevu isteği onaylandı."
-                                    : "Randevu isteği reddedildi."
-                        } 
-                        </StepLabel>
-                        <StepContent>
-                            {/* <Typography>Selamin aleykum</Typography> */}
-                            <div className={classes.actionsContainer}>
-                                <div>
-                                <Button
-                                    variant="outlined"
-                                    disabled={this.state.activeStep === 0}
-                                    onClick={this.confirmAppointment(date, time, appt, 'rejected', 1)}
-                                    className={classes.button}
-                                >
-                                    Reddet
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={this.confirmAppointment(date, time, appt, 'confirmed', 1)}
-                                    className={classes.button}
-                                >
-                                    Onayla
-                                </Button>
-                                </div>
-                            </div>
-                        </StepContent>
-                    </Step>
-                    {appt.status != 'rejected' && (
-                        <Step>
-                            <StepLabel>{step <= 1 ? "Danışan profili yarat" : "Danışan profili yaratıldı."}</StepLabel>
-                            <StepContent>
-                                <Typography variant="body2">Danışan profili sayesinde danışanınızın bütün bilgilerine dijital ortamdan erişebilir ve gereken değişiklikleri yapabilirsiniz.</Typography>
-                                <div className={classes.actionsContainer}>
-                                    <div>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={this.confirmAppointment(date, time, appt, appt.status, 2)}
-                                        className={classes.button}
-                                    >
-                                        {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
-                                        PROFİLİ YARAT
-                                    </Button>
-                                    </div>
-                                </div>
-                            </StepContent>
-                        </Step>
-                    )}
-                    {appt.status != 'rejected' && (
-                        <Step>
-                            <StepLabel>{step <= 2 ? "Danışana anemnez formu linkini gönder" : "Danışana anemnez formu linki gönderildi."}</StepLabel>
-                            <StepContent>
-                                <Typography variant="body2">Bu link sayesinde danışanınız anemnez formunu, kan tahlili ve ölçüm bilgilerini hızlıca doldurabilir, ve siz de bu bilgilere otomatik olarak ulaşabilirsiniz.</Typography>
-                                <div className={classes.actionsContainer}>
-                                    <div>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={this.confirmAppointment(date, time, appt, appt.status, 3)}
-                                        className={classes.button}
-                                    >
-                                        {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
-                                        LİNKİ GÖNDER
-                                    </Button>
-                                    </div>
-                                </div>
-                            </StepContent>
-                        </Step>
-                    )}
-                </Stepper>
                 {step == 3 && (
-                    <div>
-                        <Typography variant="body2">Randevu işlemleri tamamlandı 👍</Typography>
+                  <Card style={{marginBottom: '8px', textAlign: 'center'}}  variant="outlined" >
+                    <CardContent>
+                        <Typography variant="body1">Randevu işlemleri tamamlandı 👍</Typography>
                         {/* <Typography variant="body2">Danışanına iletmek istediğin ek bilgiler varsa mesajlara gidebilirsin.</Typography> */}
                         <Button
                             variant="contained"
@@ -392,10 +396,12 @@ class Envanter extends React.Component {
                             component={Link}
                             to={"/m/" + appt.info.name}
                             className={classes.button}
+                            style={{marginBottom: 0}}
                         >
                             MESAJLARA GİT
                         </Button>
-                    </div>
+                    </CardContent>
+                  </Card>
                 )}
             </span>
           }

@@ -170,8 +170,6 @@ class FieldFileInput  extends Component {
 const reduxFormSelect = props => {
   const { input, options } = props;
 
-  { console.log(input, options)}
-
   return (
     <Select 
       {...input} 
@@ -235,8 +233,6 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
 
     var loaded = this.props.apiDanisanFiles != undefined &&
       this.props.apiDanisanFiles[this.state.userId] != undefined &&
@@ -244,7 +240,6 @@ class Envanter extends React.Component {
       this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
 
@@ -271,12 +266,10 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
     const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data['tahlil'];
-    console.log(allFiles)
 
     return (
       <div
@@ -320,7 +313,6 @@ class Envanter extends React.Component {
           <span>
             {allFiles && Object.keys(allFiles).map((day, idx) => {
               const allFilesPerDay = allFiles[day];
-              console.log(allFilesPerDay);
 
               return (
                 <List
@@ -334,7 +326,6 @@ class Envanter extends React.Component {
                 >
                   {Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
                     const file = allFilesPerDay[fileTs];
-                    console.log(file)
 
                     return (
                       <span key={fidx}>
@@ -403,9 +394,6 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('mapstatetoprops')
-  console.log(ownProps);
-  console.log(state);
 
   return {
     apiForm: state.form,

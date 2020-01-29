@@ -22,6 +22,7 @@ import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import DirectionsIcon from '@material-ui/icons/Directions';
+import CancelIcon from '@material-ui/icons/Cancel';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ClearIcon from '@material-ui/icons/Clear';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -30,7 +31,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'material-ui-snackbar-provider'
 import EventIcon from '@material-ui/icons/Event';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -352,12 +353,14 @@ class Envanter extends React.Component {
                           )}
                           {danisan.status == 'confirmed' && (
                             <ListItemSecondaryAction>
-                              <Typography style={{color: '#00855a'}}>Onaylandı</Typography>
+                              {/* <Typography variant="caption" style={{color: '#00855a'}}>Onaylandı</Typography> */}
+                              <CheckCircleIcon style={{color: '#00855a'}}/>
                             </ListItemSecondaryAction>
                           )}
                           {danisan.status == 'rejected' && (
                             <ListItemSecondaryAction>
-                              <Typography style={{color: '#d5552d'}}>Reddedildi</Typography>
+                              {/* <Typography style={{color: '#d5552d'}}>Reddedildi</Typography> */}
+                              <CancelIcon style={{color: '#d5552d'}}/>
                             </ListItemSecondaryAction>
                           )}
                         </ListItem>

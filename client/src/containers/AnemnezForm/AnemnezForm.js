@@ -367,7 +367,7 @@ class Envanter extends React.Component {
                 // ]}
               />
 
-              <Card className={classes.card}>
+              <Card variant="outlined" className={classes.card}>
                 <CardHeader
                   avatar={
                       <Avatar className={classes.avatar} alt={danisanProfile.name} src={danisanProfile.url} />
@@ -426,206 +426,236 @@ class Envanter extends React.Component {
                 </CardActions>  */}
               </Card>
 
-              <div className={classes.divCategory}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  DİYET PAKETİ
-                </Typography>
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     DİYET PAKETİ
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Field InputProps={{ readOnly: true }} disabled name='start_date' label="Diyet başlangıçı" component={DatePickerInput} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ReduxFormTextField InputProps={{ readOnly: true }} disabled name="ucret_paketi" label="Diyet paketi" />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={6} sm={6} md={3} lg={3}>
-                    <Field InputProps={{ readOnly: true }} disabled name='start_date' label="Diyet başlangıç tarihi" component={DatePickerInput} />
-                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                      KİŞİSEL BİLGİLER
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Field name='birthday' label="Doğum tarihi" component={DatePickerInput} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ReduxFormSelect
+                        name="cinsiyet"
+                        label="Cinsiyeti"
+                        values={[
+                          {
+                          label: 'Kadın',
+                          value: 'Kadın',
+                          },
+                          {
+                          label: 'Erkek',
+                          value: 'Erkek',
+                          },
+                          {
+                          label: 'Diğer',
+                          value: 'Diğer',
+                          },
+                        ]}
+                      />
+                    </Grid>
+                    {/* <Grid item xs={3} sm={3} md={3} lg={3}>
+                      <ReduxFormTextField name="kilo" label="Kilosu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}} />
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                      <ReduxFormTextField name="boy" label="Boyu" type="number" InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}} />
+                    </Grid> */}
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="email" label="E-posta adresi" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormMaskedTextField name="tel" label="Telefon numarası" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="address" label="Adresi" />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6} sm={6} md={3} lg={3}>
-                    <ReduxFormTextField InputProps={{ readOnly: true }} disabled name="ucret_paketi" label="Diyet ücret paketi" />
-                  </Grid>
-                </Grid>
-              </div>
+                </CardContent>
+              </Card>
 
-              <div className={classes.divCategory}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  KİŞİSEL BİLGİLER
-                </Typography>
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     KAN TAHLİLLERİ
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <KanTahlili userId={this.props.userId} danisanUserName={this.props.danisanUserName} />
+                </CardContent>
+              </Card>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={6} sm={6} md={3} lg={3}>
-                    <Field name='birthday' label="Doğum tarihi" component={DatePickerInput} />
-                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     SAĞLIK BİLGİLERİ
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="hastalıklar" label="Tanısı Konmuş Hastalıkları" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="ilaclar" label="Düzenli Alınan İlaçlar" />
+                    </Grid>
+                    <Grid item xs={12} >
+                      <ReduxFormTextField name="alerji" label="Besin Alerjileri" />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ReduxFormSelect
+                        name="uyku_duzeni"
+                        label="Günlük Uyku Düzeni"
+                        values={[
+                          {
+                            label: 'Düzenli',
+                            value: 'Düzenli',
+                          },
+                          {
+                            label: 'Düzensiz',
+                            value: 'Düzensiz',
+                          },
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ReduxFormSelect
+                        name="regl_duzeni"
+                        label="Regl Düzeni"
+                        values={[
+                          {
+                            label: 'Düzenli',
+                            value: 'Düzenli',
+                          },
+                          {
+                            label: 'Düzensiz',
+                            value: 'Düzensiz',
+                          },
+                        ]}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6} sm={6} md={3} lg={3}>
-                    <ReduxFormSelect
-                      name="cinsiyet"
-                      label="Cinsiyeti"
-                      values={[
-                        {
-                        label: 'Kadın',
-                        value: 'Kadın',
-                        },
-                        {
-                        label: 'Erkek',
-                        value: 'Erkek',
-                        },
-                        {
-                        label: 'Diğer',
-                        value: 'Diğer',
-                        },
-                      ]}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <ReduxFormTextField name="email" label="E-posta adresi" />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <ReduxFormMaskedTextField name="tel" label="Telefon numarası" />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <ReduxFormTextField name="address" label="Adresi" />
-                  </Grid>
-                </Grid>
-              </div>
+                </CardContent>
+              </Card>
 
-              <div className={classes.divCategory}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  KAN TAHLİLLERİ
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <KanTahlili userId={this.props.userId} danisanUserName={this.props.danisanUserName} />
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     BESLENME ALIŞKANLIKLARI
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="ogun_duzeni" label="Öğün Düzeni" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="atlanan_ogunler" label="Atlanan Öğünler" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="tuketilmeyen_besinler" label="Tüketilmeyen Besinler" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="disarida_yemek" label="Dışarıda Yemek Yeme Sıklığı" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="gece_yemek" label="Gece Yemek Yeme Sıklığı" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="gunluk_su" label="Günlük Su Tüketimi" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="gunluk_cay" label="Günlük Çay\Kahve Tüketimi" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="gunluk_seker" label="Günlük Şeker Tüketimi" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormSelect
+                        name="gunluk_sigara"
+                        label="Sigara Tüketimi"
+                        values={[
+                          {
+                            label: 'Her gün',
+                            value: 'Her gün',
+                          },
+                          {
+                            label: 'Haftada 3-5 defa',
+                            value: 'haftada 3-5 defa',
+                          },
+                          {
+                            label: 'Haftada 1-2 defa',
+                            value: 'Haftada 1-2 defa',
+                          },
+                          {
+                            label: 'Yok',
+                            value: 'Yok',
+                          },
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormSelect
+                        name="gunluk_alkol"
+                        label="Alkol Tüketimi"
+                        values={[
+                          {
+                            label: 'Her gün',
+                            value: 'Her gün',
+                          },
+                          {
+                            label: 'Haftada 3-5 defa',
+                            value: 'haftada 3-5 defa',
+                          },
+                          {
+                            label: 'Haftada 1-2 defa',
+                            value: 'Haftada 1-2 defa',
+                          },
+                          {
+                            label: 'Yok',
+                            value: 'Yok',
+                          },
+                        ]}
+                      />
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div>
-
-              <div className={classes.divCategory}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  SAĞLIK BİLGİLERİ
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <ReduxFormTextField name="hastalıklar" label="Tanısı Konmuş Hastalıkları" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <ReduxFormTextField name="ilaclar" label="Düzenli Alınan İlaçlar" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <ReduxFormTextField name="alerji" label="Besin Alerjileri" />
-                  </Grid>
-                  <Grid item xs={6} sm={6} md={4} lg={3}>
-                    <ReduxFormSelect
-                      name="uyku_duzeni"
-                      label="Günlük Uyku Düzeni"
-                      values={[
-                        {
-                          label: 'Düzenli',
-                          value: 'Düzenli',
-                        },
-                        {
-                          label: 'Düzensiz',
-                          value: 'Düzensiz',
-                        },
-                      ]}
-                    />
-                  </Grid>
-                  <Grid item xs={6} sm={6} md={4} lg={3}>
-                    <ReduxFormSelect
-                      name="regl_duzeni"
-                      label="Regl Düzeni"
-                      values={[
-                        {
-                          label: 'Düzenli',
-                          value: 'Düzenli',
-                        },
-                        {
-                          label: 'Düzensiz',
-                          value: 'Düzensiz',
-                        },
-                      ]}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
-
-              <div className={classes.divCategory}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  BESLENME ALIŞKANLIKLARI
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="ogun_duzeni" label="Öğün Düzeni" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="atlanan_ogunler" label="Atlanan Öğünler" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="tuketilmeyen_besinler" label="Tüketilmeyen Besinler" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="disarida_yemek" label="Dışarıda Yemek Yeme Sıklığı" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gece_yemek" label="Gece Yemek Yeme Sıklığı" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gunluk_su" label="Günlük Su Tüketimi" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gunluk_cay" label="Günlük Çay\Kahve Tüketimi" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="gunluk_seker" label="Günlük Şeker Tüketimi" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormSelect
-                      name="gunluk_sigara"
-                      label="Sigara Tüketimi"
-                      values={[
-                        {
-                          label: 'Her gün',
-                          value: 'Her gün',
-                        },
-                        {
-                          label: 'Haftada 3-5 defa',
-                          value: 'haftada 3-5 defa',
-                        },
-                        {
-                          label: 'Haftada 1-2 defa',
-                          value: 'Haftada 1-2 defa',
-                        },
-                        {
-                          label: 'Yok',
-                          value: 'Yok',
-                        },
-                      ]}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormSelect
-                      name="gunluk_alkol"
-                      label="Alkol Tüketimi"
-                      values={[
-                        {
-                          label: 'Her gün',
-                          value: 'Her gün',
-                        },
-                        {
-                          label: 'Haftada 3-5 defa',
-                          value: 'haftada 3-5 defa',
-                        },
-                        {
-                          label: 'Haftada 1-2 defa',
-                          value: 'Haftada 1-2 defa',
-                        },
-                        {
-                          label: 'Yok',
-                          value: 'Yok',
-                        },
-                      ]}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
+                </CardContent>
+              </Card>
             </Form>
           </span>
         }

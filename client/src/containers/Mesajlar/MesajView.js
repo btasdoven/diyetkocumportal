@@ -22,6 +22,7 @@ import { Form, Field, reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { getDanisanMessages, addDanisanMessage } from '../../store/reducers/api.danisanMessages'
+import withWidth from '@material-ui/core/withWidth';
 
 const styles = theme => ({
     profile: {
@@ -206,7 +207,7 @@ class DefaultChatMsg extends React.Component {
                     onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                     name={this.props.name}
                 >
-                    <AppBar elevation={0} position="fixed" color="inherit" className={classes.appBar}>
+                    <AppBar style={{ width: this.props.width != 'xs' && this.props.width != 'sm' ? 'calc(100% - 240px)' : '100%', left: this.props.width != 'xs' && this.props.width != 'sm' ? '240px' : 0}} elevation={0} position="fixed" color="inherit" className={classes.appBar}>
                         <Divider />
                         <Toolbar variant="dense" disableGutters={true} >
                             <Field
@@ -257,4 +258,4 @@ const mapStateToProps = (state, ownProps) => {
   export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(reduxForm({ form: 'MesajForm', enableReinitialize: true })(withStyles(styles)(DefaultChatMsg)));
+  )(reduxForm({ form: 'MesajForm', enableReinitialize: true })(withStyles(styles)(withWidth()(DefaultChatMsg))));

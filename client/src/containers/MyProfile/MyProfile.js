@@ -447,135 +447,168 @@ class Envanter extends React.Component {
                 </CardActions>  */}
               </Card>
 
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     ÖZEL RANDEVU LİNKİM
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <div className={classes.text}>
+                        <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için bu linki onlarla paylaşabilir ya da direkt instagram profilinize ekleyebilirsiniz.</Typography>
+                      </div>
+                    </Grid>
 
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  ÖZEL RANDEVU LİNKİM
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <div className={classes.text}>
-                      <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için bu linki onlarla paylaşabilir ya da direkt instagram profilinize ekleyebilirsiniz.</Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <CopyToClipboard text={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/d/" + this.state.user.username} >
-                      <span>
-                        <Chip
-                          //avatar={<Avatar>M</Avatar>}
-                          label={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/d/" + this.state.user.username}
-                          clickable
-                          color="primary"
-                          onClick={this.handleLinkCopied}
-                          onDelete={this.handleLinkCopied}
-                          deleteIcon={this.state.linkCopied ? <DoneIcon color="primary" /> : <FileCopyIcon  color="primary"/>}
-                          //variant="outlined"
-                        />
-                      </span>
-                    </CopyToClipboard>
-                  </Grid>
-                </Grid>
-              </div>
-
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  KİŞİSEL BİLGİLERİM
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="unvan" placeholder="Beslenme ve Diyetetik Uzmanı" label="Ünvanım" />
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="instagram" label="Instagram kullanıcı adım" />
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <ReduxFormTextField rows={3} rowsMax={6} multiline name="ozgecmis" label="Öz geçmişim" />
-                  </Grid>
-                </Grid>
-              </div>
-
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  İLETİŞİM BİLGİLERİM
-                </Typography>
-
-                <Grid container spacing={2}>
-                  
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <div className={classes.text}>
-                      <Typography variant="body2">İletişim bilgilerinizi eksiksiz girmeniz sizden randevu alan danışanların size daha kolay bir şekilde ulaşmasını sağlar.</Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="email" label="E-posta adresim" />
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormMaskedTextField name="tel" label="Telefon numaram" />
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={6}>
-                    <ReduxFormTextField name="address" label="Ofis adresim" />
-                  </Grid>
-                </Grid>
-              </div>
-
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  ONLİNE DİYET
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} item xs={12} sm={6} md={4} lg={4}>
-                    <ReduxFormSwitch name="online_diyet" label={<Typography variant="body2">Online Diyet istekleri gelsin</Typography>}/>
-                  </Grid>
-                </Grid>
-              </div>
-
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  YÜZ YÜZE RANDEVU SAATLERİM
-                </Typography>
-                
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <div className={classes.text}>
-                      <Typography variant="body2">Yukarıdaki linki paylaştığınız danışanlarınız aşağıda seçtiğiniz saat aralıklarına göre randevu isteklerini otomatik olarak sizin e-posta adresinize onayınız için gönderebilirler.</Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Grid container spacing={2}>
-                      { ApptHours().map( (h, i) =>
-                        <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={6} sm={4} md={3} lg={2}>
-                          <ReduxFormCheckBox name={h} label={h}/>
-                        </Grid>
-                      )}
+                    <Grid style={{textAlign:'center'}} item xs={12}>
+                      <CopyToClipboard text={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/d/" + this.state.user.username} >
+                        <span>
+                          <Chip
+                            //avatar={<Avatar>M</Avatar>}
+                            label={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/d/" + this.state.user.username}
+                            clickable
+                            color="primary"
+                            onClick={this.handleLinkCopied}
+                            onDelete={this.handleLinkCopied}
+                            deleteIcon={this.state.linkCopied ? <DoneIcon color="primary" /> : <FileCopyIcon  color="primary"/>}
+                            variant="outlined"
+                          />
+                        </span>
+                      </CopyToClipboard>
                     </Grid>
                   </Grid>
-                </Grid>
+                </CardContent>
+              </Card>
 
-              </div>
-
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  RANDEVU GÜNLERİM
-                </Typography>
-
-                <Grid container spacing={2}>
-                  { ApptDays().map( (h, i) =>
-                    <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={6} sm={4} md={3} lg={2}>
-                      <ReduxFormCheckBox name={h} label={h}/>
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     KİŞİSEL BİLGİLERİM
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="unvan" label="Ünvanım" />
                     </Grid>
-                  )}
-                </Grid>
-              </div>
+
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="instagram" label="Instagram kullanıcı adım" />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <ReduxFormTextField rows={3} rowsMax={6} multiline name="ozgecmis" label="Öz geçmişim" />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     İLETİŞİM BİLGİLERİM
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <div className={classes.text}>
+                        <Typography variant="body2">İletişim bilgilerinizi eksiksiz girmeniz sizden randevu alan danışanların size daha kolay bir şekilde ulaşmasını sağlar.</Typography>
+                      </div>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="email" label="E-posta adresim" />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <ReduxFormMaskedTextField name="tel" label="Telefon numaram" />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="address" label="Ofis adresim" />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+              
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     ONLİNE DİYET
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
+                      <ReduxFormSwitch name="online_diyet" label={<Typography variant="body2">Online Diyet istekleri gelsin</Typography>}/>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+              
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     YÜZ YÜZE RANDEVU SAATLERİM
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <div className={classes.text}>
+                        <Typography variant="body2">Yukarıdaki linki paylaştığınız danışanlarınız aşağıda seçtiğiniz saat aralıklarına göre randevu isteklerini otomatik olarak sizin e-posta adresinize onayınız için gönderebilirler.</Typography>
+                      </div>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Grid container spacing={2}>
+                        { ApptHours().map( (h, i) =>
+                          <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={6}>
+                            <ReduxFormCheckBox name={h} label={h}/>
+                          </Grid>
+                        )}
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                     RANDEVU GÜNLERİM
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    { ApptDays().map( (h, i) =>
+                      <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={6}>
+                        <ReduxFormCheckBox name={h} label={h}/>
+                      </Grid>
+                    )}
+                  </Grid>
+                </CardContent>
+              </Card>
             </Form>
           </span>
         }

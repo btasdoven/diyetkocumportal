@@ -64,6 +64,24 @@ import MesajView from '../Mesajlar/MesajView'
 import { trackPage } from '../../components/Signin/PageTracker'
 
 const styles = theme => ({
+  root: {
+    height: "inherit",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  main: {
+    width: '100%',
+    display: 'block', // Fix IE 11 issue.
+    //top: 0,
+    [theme.breakpoints.up(800 + theme.spacing(6))]: {
+      width: '800px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    //backgroundColor: 'red',
+    // padding: theme.spacing(1)
+  },
   profile: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
@@ -226,7 +244,7 @@ class Envanter extends React.Component {
               value={this.state.value}
               onChange={this.handleValueChange}
               indicatorColor="secondary"
-              textColor="inherit"
+              textColor="secondary"
               variant="scrollable"
               scrollButtons="on"
               aria-label="scrollable auto tabs example"
@@ -240,29 +258,31 @@ class Envanter extends React.Component {
               <Tab label="MESAJLAR" {...a11yProps(4)} />
             </Tabs>
             {/* </AppBar> */}
-            <TabPanel value={this.state.value} index={0}>
-              <KisiselBilgiler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
-            </TabPanel>
-            <TabPanel value={this.state.value} index={1}>
-              <Notlar userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
-            </TabPanel>
-            <TabPanel value={this.state.value} index={2}>
-              <Olcumler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
-            </TabPanel>
-            <TabPanel value={this.state.value} index={3}>
-              <DiyetListesi userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
-            </TabPanel>
-            {/* <TabPanel value={this.state.value} index={4}>
-              <div className={classes.rootLoading}>
-                <Typography variant="body2" >Bu danışana ait diyet geçmişi bulunamadı.</Typography>
-              </div>
-            </TabPanel>
-            <TabPanel value={this.state.value} index={5}>
-              <Finans danisanUserName={this.props.danisanUserName} />
-            </TabPanel> */}
-            <TabPanel value={this.state.value} index={4}>
-              <MesajView userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
-            </TabPanel>
+            <div className={classes.main}>
+              <TabPanel value={this.state.value} index={0}>
+                <KisiselBilgiler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+              </TabPanel>
+              <TabPanel value={this.state.value} index={1}>
+                <Notlar userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+              </TabPanel>
+              <TabPanel value={this.state.value} index={2}>
+                <Olcumler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+              </TabPanel>
+              <TabPanel value={this.state.value} index={3}>
+                <DiyetListesi userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+              </TabPanel>
+              {/* <TabPanel value={this.state.value} index={4}>
+                <div className={classes.rootLoading}>
+                  <Typography variant="body2" >Bu danışana ait diyet geçmişi bulunamadı.</Typography>
+                </div>
+              </TabPanel>
+              <TabPanel value={this.state.value} index={5}>
+                <Finans danisanUserName={this.props.danisanUserName} />
+              </TabPanel> */}
+              <TabPanel value={this.state.value} index={4}>
+                <MesajView userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+              </TabPanel>
+            </div>
           </span>
         }
       </span>
