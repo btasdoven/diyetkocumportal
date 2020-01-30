@@ -563,6 +563,36 @@ class Envanter extends React.Component {
                         ]}
                       />
                     </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormSelect
+                        name="haftalik_spor"
+                        label="Haftalık egzersiz miktarı"
+                        values={[
+                          {
+                            label: 'Her gün',
+                            value: 'Her gün',
+                          },
+                          {
+                            label: 'Haftada 3-5 defa',
+                            value: 'haftada 3-5 defa',
+                          },
+                          {
+                            label: 'Haftada 1-2 defa',
+                            value: 'Haftada 1-2 defa',
+                          },
+                          {
+                            label: 'Hiç',
+                            value: 'Hiç',
+                          },
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item xs={12} >
+                      <ReduxFormTextField name="spor_suresi" label="Her egzersizin süresi" />
+                    </Grid>
+                    <Grid item xs={12} >
+                      <ReduxFormTextField name="spor_tipi" label="Egzersizin türü" />
+                    </Grid>
                   </Grid>
                 </CardContent>
               </Card>

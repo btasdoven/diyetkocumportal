@@ -493,21 +493,24 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
       type: 'text',
     }
     exports.addDanisanMessage(userId, values.info.name, msg.id, msg, false)
-
+    console.log(rows[userId].danisans[values.info.name].messages)
     var msg2 = {...msg}
     msg2.id = Date.now()
     msg2.message = 'Öncelikle sağlık geçmişi, kan tahlili, vücut ölçümü ve diğer benzeri bilgileri diyetkocum.net sitesi üzerinden tamamlamanı rica ediyorum'
     exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2, false)
 
+    console.log(rows[userId].danisans[values.info.name].messages)
     var msg3 = {...msg}
     msg3.id = Date.now()
     msg3.message = 'İlgili bilgileri tamamladıktan sonra bu mesaj üzerinden dönüş gerçekleştirirsen sana özel programı hemen hazırlamaya başlayacağım 🙂'
     exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3, false)
 
+    console.log(rows[userId].danisans[values.info.name].messages)
     var msg4 = {...msg}
     msg4.id = Date.now()
     msg4.message = 'Şimdiden teşekkürler 🙏'
     exports.addDanisanMessage(userId, values.info.name, msg4.id, msg4, true)
+    console.log(rows[userId].danisans[values.info.name].messages)
   }
 
   const ordered = {};

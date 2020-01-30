@@ -170,8 +170,7 @@ class Envanter extends React.Component {
     const { classes } = this.props;
     const showLoader = false;
 
-    var pathParams = this.props.location.pathname.split('/');
-    var danisanUserName = pathParams[pathParams.length - 1];
+    var danisanUserName = this.props.match.params.danisan
 
     return (
         // <div className={classes.root}>
