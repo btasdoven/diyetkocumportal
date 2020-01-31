@@ -375,9 +375,14 @@ class NewRandevuWrapper extends React.Component {
                     permanentDrawer={false} 
                     backButton={this.state.step != 0 ? this.props.location.pathname : undefined}
                     onBackButtonClick={() => this.setState({
-                      step: this.state.type != 'randevu' || this.state.step == 1
+                      step: this.state.step == 1
                         ? 0 
-                        : this.state.step - 1})}
+                        : this.state.step == 2
+                          ? (multipleOffices ? 1 : 0)
+                          : this.state.step == 3
+                            ? (this.state.type != 'randevu' ? 0 : 2)
+                            : 3
+                    })}
                     title={
                       this.state.step == 0
                         ? "DİYET KOÇUM RANDEVU PORTALI"
