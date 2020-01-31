@@ -186,7 +186,7 @@ const styles = theme => ({
     spacing: 10,
   },
   list: {
-    padding: '20px',
+    paddingTop: '20px',
   },
   button: {
     margin: theme.spacing(1),
@@ -287,14 +287,26 @@ class Envanter extends React.Component {
                     <CardHeader title={appt.type == 'randevu' ? moment(date).format('D MMMM YYYY') + ' ' + time : 'Online Diyet'} className={classes.header} />
                     <Divider variant="middle" />
                     <CardContent>
-                    <Typography variant="h6" align="center">
-                        {appt.info.name}
-                    </Typography>
-                    <div className={classes.list}>
-                        <Typography align="center">{appt.info.email}</Typography>
-                        <Typography align="center">{appt.info.tel}</Typography>
-                        <Typography align="center">{appt.info.notes}</Typography>
-                    </div>
+                        <Typography variant="h6" align="center">
+                            {appt.info.name}
+                        </Typography>
+                        
+                        {appt.address != undefined && (
+                            <Typography variant="subtitle1" align="center">
+                                {appt.address}
+                            </Typography>
+                        )}
+
+                        <div className={classes.list}>
+                            <Typography align="center">{appt.info.email}</Typography>
+                            <Typography align="center">{appt.info.tel}</Typography>
+                        </div>
+
+                        {appt.info.notes != undefined && (
+                            <div className={classes.list}>
+                                <Typography align="center">{appt.info.notes}</Typography>
+                            </div>
+                        )}
                     </CardContent>
                     {/* <Divider variant="middle" />
                     <CardActions className={classes.action}>

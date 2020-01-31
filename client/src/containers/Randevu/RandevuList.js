@@ -336,7 +336,10 @@ class Envanter extends React.Component {
                                 //     variant="caption"
                                 //     color="inherit"
                                 // >
-                                    danisan.type == 'onlinediyet' ? 'Online Diyet İsteği' : 'Yüz Yüze Randevu İsteği'
+                                    danisan.type == 'onlinediyet' ? 'Online Diyet İsteği' : 
+                                      danisan.address == undefined 
+                                        ? 'Yüz Yüze Randevu İsteği'
+                                        : danisan.address
                                 // </Typography>
                             }
                           />

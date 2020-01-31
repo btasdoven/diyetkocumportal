@@ -323,7 +323,7 @@ class NewRandevuWrapper extends React.Component {
 
         this.state = {
           userId: this.props.location.pathname.split('/')[2],
-          addressId: 1,
+          addressId: -1,
           date: new Date(),
           time: Date.now(),
           step: 0,
@@ -342,7 +342,11 @@ class NewRandevuWrapper extends React.Component {
     onSubmitInternal(formValues) {
         console.log(formValues);
         this.setState({ step: 4, formValues: formValues})
-        var sub = { info: formValues, type: this.state.type, status: 'pending', addressId: this.state.addressId}
+
+        var user = this.props.apiDietitianProfile[this.state.userId].data;
+        var address = this.state.addressId == -1 ? undefined : (this.state.addressId == 1 ? user.address : user.address_2);
+        var sub = { info: formValues, type: this.state.type, status: 'pending', address: address}
+
         this.props.putDietitianAppointment(this.state.userId, moment(this.state.date).format('YYYYMMDD'), this.state.time, sub);
     }
 
@@ -603,7 +607,7 @@ class NewRandevuStep2 extends React.Component {
                 <Grid style={{display: 'flex', justifyContent: 'center'}} item xs={12} sm={12} md={12} lg={12}>
                     <StaticDatePickerInput 
                       shouldDisableDate={(d) => {
-                        var day = moment(d).format("dddd") + (this.props.addressId == 1 ? '' : '_2')
+                        var day = moment(d).format("dddd") + (this.props.addressId <= 1 ? '' : '_2')
                         return this.props.apiDietitianProfile[this.state.userId].data[day] != true
                       }} 
                       value={this.state.date} 
