@@ -367,6 +367,13 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
     const dietitianProfile = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
 
+    var multipleOffices = 
+      this.props.apiForm && 
+      this.props.apiForm[this.props.form] && 
+      this.props.apiForm[this.props.form].values && 
+      this.props.apiForm[this.props.form].values.address_2 != undefined &&
+      this.props.apiForm[this.props.form].values.address_2 != "";
+
     return (
       <div className={classes.root}>
         {/* <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
@@ -541,6 +548,16 @@ class Envanter extends React.Component {
                     <Grid item xs={12}>
                       <ReduxFormTextField name="address" label="Ofis adresim" />
                     </Grid>
+
+                    {this.props.apiForm && 
+                      this.props.apiForm[this.props.form] && 
+                      this.props.apiForm[this.props.form].initial && 
+                      this.props.apiForm[this.props.form].initial.address != undefined && 
+                      this.props.apiForm[this.props.form].initial.address != "" && (
+                        <Grid item xs={12}>
+                          <ReduxFormTextField name="address_2" label="2. Ofis adresim" />
+                        </Grid>
+                      )}
                   </Grid>
                 </CardContent>
               </Card>
@@ -598,20 +615,46 @@ class Envanter extends React.Component {
                 <CardHeader
                   title={
                     <Typography color="secondary" variant="button" gutterBottom>
-                     RANDEVU GÜNLERİM
+                     RANDEVU GÜNLERİM {multipleOffices ? "(1. Ofis)" : ""}
                     </Typography>
                   }
                 />
                 <CardContent style={{paddingTop:0}}>
                   <Grid container spacing={2}>
-                    { ApptDays().map( (h, i) =>
-                      <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={6}>
-                        <ReduxFormCheckBox name={h} label={h}/>
-                      </Grid>
+                    { ApptDays().map( (h, i) => {
+                      return (
+                          <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={12}>
+                            <ReduxFormCheckBox name={h} label={h}/>
+                          </Grid>
+                      )}
                     )}
                   </Grid>
                 </CardContent>
               </Card>
+
+              { multipleOffices && (
+                <Card variant="outlined" className={classes.card}>
+                  {/* <div className={classes.divCategory}> */}
+                  <CardHeader
+                    title={
+                      <Typography color="secondary" variant="button" gutterBottom>
+                      RANDEVU GÜNLERİM (2. Ofis)
+                      </Typography>
+                    }
+                  />
+                  <CardContent style={{paddingTop:0}}>
+                    <Grid container spacing={2}>
+                      { ApptDays().map( (h, i) => {
+                        return (
+                            <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={12}>
+                              <ReduxFormCheckBox name={h + "_2"} label={h}/>
+                            </Grid>
+                        )}
+                      )}
+                    </Grid>
+                  </CardContent>
+                </Card>
+              )}
             </Form>
           </span>
         }
@@ -622,6 +665,7 @@ class Envanter extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 
   return {
+    apiForm: state.form,
     apiDietitianProfile: state.apiDietitianProfile,
     initialValues: 
       state.apiDietitianProfile[ownProps.userId] != undefined

@@ -323,6 +323,7 @@ class NewRandevuWrapper extends React.Component {
 
         this.state = {
           userId: this.props.location.pathname.split('/')[2],
+          addressId: 1,
           date: new Date(),
           time: Date.now(),
           step: 0,
@@ -340,8 +341,8 @@ class NewRandevuWrapper extends React.Component {
 
     onSubmitInternal(formValues) {
         console.log(formValues);
-        this.setState({ step: 3, formValues: formValues})
-        var sub = { info: formValues, type: this.state.type, status: 'pending'}
+        this.setState({ step: 4, formValues: formValues})
+        var sub = { info: formValues, type: this.state.type, status: 'pending', addressId: this.state.addressId}
         this.props.putDietitianAppointment(this.state.userId, moment(this.state.date).format('YYYYMMDD'), this.state.time, sub);
     }
 
@@ -361,6 +362,8 @@ class NewRandevuWrapper extends React.Component {
         var user = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
         console.log(user)
 
+        var multipleOffices = user && user.address_2 != undefined && user.address_2 != '';
+
         return (
             <div className={classes.root}>
                 <Header
@@ -370,15 +373,17 @@ class NewRandevuWrapper extends React.Component {
                     onBackButtonClick={() => this.setState({
                       step: this.state.type != 'randevu' || this.state.step == 1
                         ? 0 
-                        : 1})}
+                        : this.state.step - 1})}
                     title={
                       this.state.step == 0
                         ? "DİYET KOÇUM RANDEVU PORTALI"
-                        : this.state.step == 1 
-                          ? "RANDEVU TARİHİNİ SEÇ" 
+                        : this.state.step == 1
+                          ? "OFİS KONUMUNU SEÇ"
                           : this.state.step == 2 
-                            ? "BİLGİLERİNİ GİR" 
-                            : ""}
+                            ? "RANDEVU TARİHİNİ SEÇ" 
+                            : this.state.step == 3 
+                              ? "BİLGİLERİNİ GİR" 
+                              : ""}
                 />
                 <main style={{
       maxWidth: '800px',
@@ -400,7 +405,21 @@ class NewRandevuWrapper extends React.Component {
                                 />
                             </Card>
                         )}
-                        { !showLoader && this.state.step > 1 && (
+                        { !showLoader && this.state.step > 1 && this.state.type == 'randevu' && multipleOffices && (
+                          <Card variant="outlined" className={classes.card}>
+                            <CardHeader
+                              avatar={
+                                  <Avatar className={classes.avatar}>
+                                    <EventIcon />
+                                  </Avatar>
+                              }
+                              title={<Typography variant="h6">{
+                                this.state.addressId == 1 ? user.address : user.address_2
+                                }</Typography>}
+                              />
+                          </Card>
+                        )}
+                        { !showLoader && this.state.step > 2 && (
                           <Card variant="outlined" className={classes.card}>
                             <CardHeader
                               avatar={
@@ -427,20 +446,28 @@ class NewRandevuWrapper extends React.Component {
                             <NewRandevuStep0 
                                 {...this.props}
                                 userId={this.state.userId}
-                                onComplete={(type) => this.setState({step: type == 'randevu' ? 1 : 2, type: type})}  
+                                onComplete={(type) => this.setState({step: type == 'randevu' ? (multipleOffices ? 1 : 2) : 3, type: type})}  
                             /> 
                         }
-                        { !showLoader && this.state.step == 1 && 
-                            <NewRandevuStep1 
+                        { !showLoader && multipleOffices && this.state.type == 'randevu' && this.state.step == 1 && 
+                            <NewRandevuStep1
                                 {...this.props}
                                 userId={this.state.userId}
-                                date={this.state.date} 
-                                type={this.state.type}
-                                onComplete={(date, time) => this.setState({date, time, step: 2})}  
+                                onComplete={(addressId) => this.setState({addressId, step: 2})}  
                             /> 
                         }
                         { !showLoader && this.state.step == 2 && 
                             <NewRandevuStep2 
+                            {...this.props}
+                            userId={this.state.userId}
+                            addressId={this.state.addressId}
+                            date={this.state.date} 
+                            type={this.state.type}
+                            onComplete={(date, time) => this.setState({date, time, step: 3})}  
+                        /> 
+                        }
+                        { !showLoader && this.state.step == 3 && 
+                            <NewRandevuStep3 
                                 {...this.props}
                                 userId={this.state.userId}
                                 date={this.state.date} 
@@ -449,8 +476,8 @@ class NewRandevuWrapper extends React.Component {
                                 handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
                             /> 
                         }
-                        { !showLoader && this.state.step == 3 && 
-                            <NewRandevuStep3 
+                        { !showLoader && this.state.step == 4 && 
+                            <NewRandevuStep4 
                                 {...this.props}
                                 userId={this.state.userId}
                                 date={this.state.date} 
@@ -494,6 +521,32 @@ class NewRandevuStep0 extends React.Component {
 };
 
 class NewRandevuStep1 extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userId: props.userId,
+    }
+  }
+
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
+
+  render() {
+    const { classes } = this.props;
+    var user = this.props.apiDietitianProfile[this.state.userId].data;
+
+    return (
+      <div className={classes.rootTypeSelect}>
+        <Button style={{margin: '24px'}} variant="contained" color="primary" onClick={() => this.props.onComplete(1)}>{user.address}</Button>
+        <Button variant="contained" color="secondary" onClick={() => this.props.onComplete(2)}>{user.address_2}</Button>
+      </div>
+    )}
+};
+
+class NewRandevuStep2 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -550,7 +603,7 @@ class NewRandevuStep1 extends React.Component {
                 <Grid style={{display: 'flex', justifyContent: 'center'}} item xs={12} sm={12} md={12} lg={12}>
                     <StaticDatePickerInput 
                       shouldDisableDate={(d) => {
-                        var day = moment(d).format("dddd")
+                        var day = moment(d).format("dddd") + (this.props.addressId == 1 ? '' : '_2')
                         return this.props.apiDietitianProfile[this.state.userId].data[day] != true
                       }} 
                       value={this.state.date} 
@@ -598,7 +651,7 @@ const required = value => value ? undefined : 'Zorunlu'
 const validPhone = value => value && !/^\+90 [1-9][0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}$/i.test(value) ? 'Geçerli bir telefon numarası değil' : undefined;
 const validEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Geçerli bir e-posta adresi değil' : undefined;
 
-class NewRandevuStep2 extends React.Component {
+class NewRandevuStep3 extends React.Component {
 
     constructor(props) {
       super(props);
@@ -721,7 +774,7 @@ class NewRandevuStep2 extends React.Component {
       )}
   };
 
-class NewRandevuStep3 extends React.Component {
+class NewRandevuStep4 extends React.Component {
 
     constructor(props) {
       super(props);

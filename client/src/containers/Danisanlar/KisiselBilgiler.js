@@ -434,11 +434,14 @@ class Envanter extends React.Component {
                 />
                 <CardContent style={{paddingTop:0}}>
                   <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                       <Field name='start_date' label="Diyet başlangıçı" component={DatePickerInput} />
                     </Grid>
-                    <Grid item xs={6}>
-                      <ReduxFormTextField name="ucret_paketi" label="Diyet paketi" />
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="ucret_paketi" label="Diyet paketi adı" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField helperText={<Typography variant="caption" color="primary">Bu alanı danışanınız göremez</Typography>} name="ucret_paketi_ucreti" label="Diyet paketi ücreti" />
                     </Grid>
                   </Grid>
                 </CardContent>
