@@ -327,7 +327,7 @@ class RandevuIntro extends React.Component
                             </style>
                             <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
                             </div>
-                            <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/highlights/highlight1.jpg" className={classes.avatar} />
+                            <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/randevu_0_2.png" className={classes.avatar} />
                         </div>
                     </Grid>
                     <Grid item xs={12}>
