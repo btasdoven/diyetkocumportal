@@ -71,7 +71,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { withRouter } from "react-router-dom";
-import RandevuIntro from './RandevuIntro'
+import RandevuIntroVideo from './RandevuIntroVideo'
 
 const styles = theme => ({
   root: {
@@ -273,7 +273,7 @@ class Envanter extends React.Component {
 
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && (!apptList || Object.keys(apptList).length == 0) && (
-            <RandevuIntro />
+            <RandevuIntroVideo />
           )}
           { !showLoader && 
             Object.keys(apptList).sort().reverse().map((apptDate, idx) => {

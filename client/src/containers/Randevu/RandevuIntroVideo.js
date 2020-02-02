@@ -174,10 +174,11 @@ const storySourcesOld = [
   ];
 
   const storySources = [
-    '/static/highlights/highlight1.jpg',
-    '/static/highlights/highlight2.jpg',
-    '/static/highlights/highlight3.jpg',
-    '/static/highlights/highlight4.jpg',
+    '/static/randevu_1.mp4',
+    '/static/randevu_2.mp4',
+    '/static/randevu_3.mp4',
+    '/static/randevu_4.mp4',
+    '/static/randevu_5.mp4',
   ];
 
 class RandevuIntro extends React.Component
@@ -187,38 +188,14 @@ class RandevuIntro extends React.Component
         super(props)
 
         this.videoRef = React.createRef();
-        this.setActiveImg = this.setActiveImg.bind(this);
 
         this.state = {
           activeStory: 0,
-          duration: 10,
+          duration: 12,
           openDialog: false,
-          width: 0,
-          t: undefined,
           source: storySources,
+          width: 0,
         }
-    }
-
-    setActiveImg() {
-        console.log('basliyor', this.state)
-        if (this.state.t != undefined) {
-            console.log('clearing timeout')
-            clearTimeout(this.state.t);
-        }
-
-        var t = setTimeout((idx) => {
-            console.log(idx, this.state.activeStory, 'timeout', this.state)
-
-            if (this.state.activeStory == idx) {
-                if (this.state.activeStory + 1 == this.state.source.length) {
-                  this.setState({width: 0, duration: 0, t: undefined, openDialog: false})
-                } else {
-                  this.setState({width: 0, duration: 0, t: undefined, activeStory: this.state.activeStory + 1})
-                }
-            }
-        }, 10000, this.state.activeStory)
-
-        this.setState({t: t, width: '100%', duration: 10})
     }
 
     render()
@@ -228,26 +205,26 @@ class RandevuIntro extends React.Component
         return (
             <div className={classes.root}>
             <div className={classes.main}>
-                {/* <video 
-                    muted
-                    playsInline
-                    //controls={true}
-                    type='video/mp4'
-                    //poster="/static/favicon.png"
-                    onLoadedData={() => console.log('loaded data for next of ', this.state.activeStory)}
-                    onPlay={() => console.log('playing')}
-                    onEnded={() => console.log('ended')}
-                    src={
-                        this.state.source[this.state.openDialog == false 
-                        ? this.state.activeStory 
-                        : this.state.activeStory + 1 == this.state.source.length 
-                            ? 0 
-                            : this.state.activeStory + 1]}
-                    preload="auto" 
-                    style={{zIndex: -1, position: 'absolute', top: 0, width: 0, height: 0}}>                 
-                </video> */}
+                <video 
+                  muted
+                  playsInline
+                  //controls={true}
+                  type='video/mp4'
+                  //poster="/static/favicon.png"
+                  onLoadedData={() => console.log('loaded data for next of ', this.state.activeStory)}
+                  onPlay={() => console.log('playing')}
+                  onEnded={() => console.log('ended')}
+                  src={
+                    this.state.source[this.state.openDialog == false 
+                      ? this.state.activeStory 
+                      : this.state.activeStory + 1 == this.state.source.length 
+                        ? 0 
+                        : this.state.activeStory + 1]}
+                  preload="auto" 
+                  style={{zIndex: -1, position: 'absolute', top: 0, width: 0, height: 0}}>                 
+                </video>
                 <Dialog
-                    PaperProps={{style: {
+                  PaperProps={{style: {
                     width: '100%',
                     height: '100%',
                     maxWidth: '100%',
@@ -256,92 +233,87 @@ class RandevuIntro extends React.Component
                     padding: 0,
                     backgroundColor: '#262626',
                     borderRadius: 0,
-                    }}}
-                    fullWidth={true}
-                    open={this.state.openDialog}
+                  }}}
+                  fullWidth={true}
+                  open={this.state.openDialog}
                 >
-                    <div style={{zIndex: 9999, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
+                  <div style={{zIndex: 9999, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
                     {this.state.source.map((src, idx) => {
-                        if (idx == 0)
-                            console.log('render', this.state);
-
-                        return (
+                      return (
                         <div key={idx} style={{flexGrow: 1, height: '2px', marginRight: '2px', background: 'rgba(255, 255, 255, 0.35)'}}>
-                            {idx == this.state.activeStory &&
+                          {idx == this.state.activeStory &&
                             (<div style={{transition: `width ${this.state.duration}s linear`, width: this.state.width, height: '100%', backgroundColor: 'white'}}></div>)
-                            }
-                            {/* {idx < this.state.activeStory &&
+                          }
+                          {idx < this.state.activeStory &&
                             (<div style={{transition: `width 0s linear`, width: '100%', height: '100%', backgroundColor: 'white'}}></div>)
-                            } */}
+                          }
                         </div>
-                        )
+                      )
                     })}
-                    </div>
-                    <DialogContent style={{height: '100%', borderRadius: 0, color: 'white', padding:0, margin: 0}}>
+                  </div>
+                  <DialogContent style={{height: '100%', borderRadius: 0, color: 'white', padding:0, margin: 0}}>
                     <Grid style={{height: '100%'}} container spacing={0}>
-                        <Grid 
-                        style={{display: 'flex', zIndex: 9998}} item xs={3}
+                      <Grid 
+                        style={{display: 'flex', zIndex: 9998}} item xs={4}
                         onClick={() => {
-                            this.state.activeStory > 0 && this.setState({width: 0, duration: 0, activeStory: this.state.activeStory - 1})
+                          this.state.activeStory > 0 && this.setState({width: 0, duration: 0, activeStory: this.state.activeStory - 1})
                         }}
-                        >
+                      >
                         {this.state.activeStory > 0 &&
-                            <IconButton 
+                          <IconButton 
                             disableRipple
                             style={{color: 'rgba(255, 255, 255, 1)'}}
                             >
-                                <ChevronLeftIcon />
-                            </IconButton>
+                              <ChevronLeftIcon />
+                          </IconButton>
                         }
-                        </Grid>
-                        <Grid 
-                        item xs={9}
+                      </Grid>
+                      <Grid 
+                        item xs={8}
                         style={{display: 'flex', height: '100%', justifyContent: 'flex-end', zIndex: 9998}} 
                         onClick={() => {
-                            console.log(this.state.activeStory, 'right')
-                            if (this.state.activeStory + 1 == this.state.source.length) {
-                              this.setState({duration: 0, openDialog: false})
-                            } else {
-                              this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
-                            }
+                          if (this.state.activeStory + 1 == this.state.source.length) {
+                            this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
+                          } else {
+                            this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
+                          }
                         }}
-                        >
+                      >
                         <IconButton 
-                            disableRipple
-                            style={{color: 'rgba(255, 255, 255, 1)'}}>
+                          disableRipple
+                          style={{color: 'rgba(255, 255, 255, 1)'}}>
                             <ChevronRightIcon />
                         </IconButton>
-                        </Grid>
+                      </Grid>
                     </Grid>
                     
                     <IconButton 
-                        style={{position: 'absolute', zIndex: 9999, top: '14px', right: '8px', color: 'rgba(255, 255, 255, 1)'}} 
-                        onClick={() => this.setState({duration: 0, openDialog: false})}>
+                      style={{position: 'absolute', zIndex: 9999, top: '14px', right: '8px', color: 'rgba(255, 255, 255, 1)'}} 
+                      onClick={() => this.setState({width: 0, duration: 0, openDialog: false})}>
                         <CloseIcon />
                     </IconButton>
-                    <img 
-                        // muted
-                        // playsInline
-                        // autoPlay
-                        // //controls={true}
-                        // type='video/mp4'
-                        // onLoadedData={() => console.log('loaded data for ', this.state.activeStory)}
-                        // ref={this.videoRef}
-                        //poster="/static/favicon.png"
-                        // onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
-                        // onEnded={() => {
-                        // if (this.state.activeStory + 1 == this.state.source.length) {
-                        //     this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
-                        // } else {
-                        //     this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
-                        // }
-                        // }}
-                        src={this.state.source[this.state.activeStory]}
-                        onLoad={() => this.setActiveImg()}
-                        // preload="auto" 
-                        style={{position: 'absolute', top: 0, width: '100%', height:' 100%', objectFit: 'contain', maxWidth: '100%', maxHeight: '100%'}}              
-                    />
-                    </DialogContent>
+                    <video 
+                      muted
+                      playsInline
+                      autoPlay
+                      //controls={true}
+                      type='video/mp4'
+                      onLoadedData={() => console.log('loaded data for ', this.state.activeStory)}
+                      ref={this.videoRef}
+                      //poster="/static/favicon.png"
+                      onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
+                      onEnded={() => {
+                        if (this.state.activeStory + 1 == this.state.source.length) {
+                          this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
+                        } else {
+                          this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
+                        }
+                      }}
+                      src={this.state.source[this.state.activeStory]}
+                      preload="auto" 
+                      style={{position: 'absolute', top: 0, width: '100%', height: '100%'}}>                
+                    </video>
+                  </DialogContent>
                 </Dialog>
                 
                 <Grid container spacing={0} >
@@ -355,7 +327,7 @@ class RandevuIntro extends React.Component
                             </style>
                             <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
                             </div>
-                            <Avatar onClick={() => this.setState({width: 0, duration: 0, activeStory: 0, openDialog: true})} alt="Remy Sharp" src="/static/highlights/highlight1.jpg" className={classes.avatar} />
+                            <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/highlights/highlight1.jpg" className={classes.avatar} />
                         </div>
                     </Grid>
                     <Grid item xs={12}>
