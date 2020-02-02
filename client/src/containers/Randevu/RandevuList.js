@@ -71,7 +71,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { withRouter } from "react-router-dom";
-
+import RandevuIntro from './RandevuIntro'
 
 const styles = theme => ({
   root: {
@@ -243,6 +243,7 @@ class Envanter extends React.Component {
 
     var apptList = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
     console.log(apptList)
+    apptList = {};
 
     return (
         <div className={classes.root}>
@@ -272,6 +273,9 @@ class Envanter extends React.Component {
           <Divider /> */}
 
           { showLoader && renderLoadingButton(classes) }
+          { !showLoader && (!apptList || Object.keys(apptList).length == 0) && (
+            <RandevuIntro />
+          )}
           { !showLoader && 
             Object.keys(apptList).sort().reverse().map((apptDate, idx) => {
               if (apptList[apptDate].isGetLoading == true || 
