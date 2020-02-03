@@ -49,6 +49,7 @@ import TextField from '@material-ui/core/TextField';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { userService } from "../../services";
 import { Form, Field, reduxForm } from "redux-form";
+import IntroInstaVideo from '../../components/IntroInstaVideo'
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -289,6 +290,20 @@ class Envanter extends React.Component {
           <Divider />
 
           { showLoader && renderLoadingButton(classes) }
+          {/* { !showLoader && (danisans == undefined || Object.keys(danisans).length == 0) && (
+            <IntroInstaVideo 
+              noItemText={"Şu an için hiç kayıtlı danışanınız yok 😞"}
+              infoHighlightSrc={"/static/danisan/thumbnail.png"}
+              sources={[
+                '/static/randevu_1.mp4',
+                '/static/randevu_2.mp4',
+                '/static/randevu_3.mp4',
+                '/static/randevu_4.mp4',
+                '/static/randevu_5.mp4',
+              ]}
+              topMargin={'140px'}
+            />
+          )} */}
           { !showLoader && 
             <List disablePadding>
               {Object.keys(danisans).map( (danisanKey, idx) => {

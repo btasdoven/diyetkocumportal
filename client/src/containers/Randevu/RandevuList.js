@@ -72,6 +72,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { withRouter } from "react-router-dom";
 import RandevuIntroVideo from './RandevuIntroVideo'
+import IntroInstaVideo from '../../components/IntroInstaVideo'
 
 const styles = theme => ({
   root: {
@@ -242,9 +243,7 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     var apptList = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
-    console.log(apptList)
-    apptList = {};
-    
+
     return (
         <div className={classes.root}>
         <div className={classes.main}>
@@ -274,7 +273,18 @@ class Envanter extends React.Component {
 
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && (!apptList || Object.keys(apptList).length == 0) && (
-            <RandevuIntroVideo />
+            <IntroInstaVideo 
+              noItemText={"Çok üzgünüz, şu an için hiç randevun yok 😞"}
+              infoHighlightSrc={"/static/randevu/thumbnail.png"}
+              sources={[
+                '/static/randevu_1.mp4',
+                '/static/randevu_2.mp4',
+                '/static/randevu_3.mp4',
+                '/static/randevu_4.mp4',
+                '/static/randevu_5.mp4',
+              ]}
+              topMargin={'80px'}
+            />
           )}
           { !showLoader && 
             Object.keys(apptList).sort().reverse().map((apptDate, idx) => {
