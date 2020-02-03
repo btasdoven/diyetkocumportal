@@ -107,8 +107,9 @@ function TextMaskCustom(props) {
         inputRef(ref ? ref.inputElement : null);
       }}
       mask={['+', '9', '0', ' ', /[1-9]/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/]}
-      placeholderChar={'_'}
-      showMask
+      guide={false}
+      showMask={true}
+      placeholder={"+90 "}
     />
   );
 }

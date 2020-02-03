@@ -128,7 +128,7 @@ const styles = theme => ({
     top: '3px',
     left: '3px',
     background: '#fafafa',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   avatarWrapper2: {
     position: 'absolute',
@@ -318,7 +318,7 @@ class RandevuIntro extends React.Component
                 
                 <Grid container spacing={0} >
                     <Grid item xs={12}>
-                        <div style={{position: 'relative', margin: 'auto', maxWidth: '150px', width: '25%'}}>
+                        <div style={{position: 'relative', margin: 'auto', minWidth: '84px', maxWidth: '112px', width: '20%'}}>
                             <style>
                             {`@keyframes rotate {
                                 from{ transform: rotate(0deg); }
@@ -327,7 +327,7 @@ class RandevuIntro extends React.Component
                             </style>
                             <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
                             </div>
-                            <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/randevu_0_2.png" className={classes.avatar} />
+                            <Avatar imgProps={{style: { borderRadius: '50%'}}} onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/randevu_0_3.png" className={classes.avatar} />
                         </div>
                     </Grid>
                     <Grid item xs={12}>
