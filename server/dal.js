@@ -995,6 +995,7 @@ exports.getDietitianProfiles = function () {
     }
 
     ret[userId] = rows[userId].profile || {}
+    ret[userId].user_status = rows[0].users[userId].status || "confirmed"
   });
 
   return ret;

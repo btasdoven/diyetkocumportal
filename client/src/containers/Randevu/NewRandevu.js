@@ -386,7 +386,7 @@ class NewRandevuWrapper extends React.Component {
                     })}
                     title={
                       this.state.step == 0
-                        ? "DİYET KOÇUM RANDEVU PORTALI"
+                        ? "RANDEVU PORTALI"
                         : this.state.step == 1
                           ? "OFİS KONUMUNU SEÇ"
                           : this.state.step == 2 

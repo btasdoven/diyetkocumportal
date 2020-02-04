@@ -135,8 +135,8 @@ class Header extends React.Component  {
           >
             {this.props.title || getPageTitle(this.props) || ''}
           </Typography>
-
-          {/* {this.props.noButton != true && (
+{/* 
+          {(
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
@@ -148,7 +148,7 @@ class Header extends React.Component  {
               <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </Badge>
           </IconButton> */}
-          <Menu
+          {/* <Menu
             id="long-menu"
             anchorEl={this.state.anchorEl}
             open={this.state.anchorEl ? true : false}
@@ -159,9 +159,9 @@ class Header extends React.Component  {
                   <ExitToAppIcon fontSize="small"/>
               </ListItemIcon>
               <Typography variant="inherit">Çıkış yap</Typography>
-              {/* <ListItemText inset primary="Çıkış yap" /> */}
+              <ListItemText inset primary="Çıkış yap" />
             </MenuItem>
-          </Menu>
+          </Menu> */}
         </Toolbar>
       </AppBar>
     );
