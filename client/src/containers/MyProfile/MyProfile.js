@@ -386,7 +386,8 @@ class Envanter extends React.Component {
         { !showLoader && 
           <span>
             <SpeedDial
-                icon={<SpeedDialIcon icon={<SaveIcon />} />}
+                icon={<SaveIcon />}
+                iconText={"KAYDET"}
                 hidden={this.props.pristine}
                 onClickFab={this.props.handleSubmit(this.onSubmitInternal)}
                 // actions={[
@@ -490,6 +491,13 @@ class Envanter extends React.Component {
                           />
                         </span>
                       </CopyToClipboard>
+                    </Grid>
+
+                    <Grid item xs={12} style={{marginTop: '8px'}}>
+                      <Typography variant="body2">Randevu linkinin danışanlara nasıl gözüktüğünü görmek ister misin?</Typography>
+                      <div style={{marginTop: '8px', textAlign: 'center'}}>
+                        <Button target='_blank' href={"https://diyetkocum.net/d/" + this.state.user.username} component="a" size="small" color="primary" variant="outlined">PROFİLİMİ GÖR</Button>
+                      </div>
                     </Grid>
                   </Grid>
                 </CardContent>

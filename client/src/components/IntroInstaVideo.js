@@ -318,7 +318,7 @@ class RandevuIntro extends React.Component
                 
                 <Grid container spacing={0} >
                     <Grid item xs={12}>
-                        <div style={{position: 'relative', margin: 'auto', minWidth: '84px', maxWidth: '112px', width: '20%'}}>
+                        <div style={{position: 'relative', margin: 'auto', minWidth: '100px', maxWidth: '120px', width: '25%'}}>
                             <style>
                             {`@keyframes rotate {
                                 from{ transform: rotate(0deg); }

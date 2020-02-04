@@ -492,25 +492,29 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
       message: `Merhaba ${values.info.name} 👋 sana özel diyet programı hazırlayabilmem için senden bir takım taleplerim var 🙂`,
       type: 'text',
     }
-    exports.addDanisanMessage(userId, values.info.name, msg.id, msg, false)
-    console.log(rows[userId].danisans[values.info.name].messages)
-    var msg2 = {...msg}
-    msg2.id = Date.now()
-    msg2.message = 'Öncelikle sağlık geçmişi, kan tahlili, vücut ölçümü ve diğer benzeri bilgileri diyetkocum.net sitesi üzerinden tamamlamanı rica ediyorum'
-    exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2, false)
+    exports.addDanisanMessage(userId, values.info.name, msg.id, msg, false).then(() => {
 
-    console.log(rows[userId].danisans[values.info.name].messages)
-    var msg3 = {...msg}
-    msg3.id = Date.now()
-    msg3.message = 'İlgili bilgileri tamamladıktan sonra bu mesaj üzerinden dönüş gerçekleştirirsen sana özel programı hemen hazırlamaya başlayacağım 🙂'
-    exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3, false)
+      console.log(rows[userId].danisans[values.info.name].messages)
+      var msg2 = {...msg}
+      msg2.id = Date.now()
+      msg2.message = 'Öncelikle sağlık geçmişi, kan tahlili, vücut ölçümü ve diğer benzeri bilgileri diyetkocum.net sitesi üzerinden tamamlamanı rica ediyorum'
+      return exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2, false).then(() => {
 
-    console.log(rows[userId].danisans[values.info.name].messages)
-    var msg4 = {...msg}
-    msg4.id = Date.now()
-    msg4.message = 'Şimdiden teşekkürler 🙏'
-    exports.addDanisanMessage(userId, values.info.name, msg4.id, msg4, true)
-    console.log(rows[userId].danisans[values.info.name].messages)
+        console.log(rows[userId].danisans[values.info.name].messages)
+        var msg3 = {...msg}
+        msg3.id = Date.now()
+        msg3.message = 'İlgili bilgileri tamamladıktan sonra bu mesaj üzerinden dönüş gerçekleştirirsen sana özel programı hemen hazırlamaya başlayacağım 🙂'
+        return exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3, false).then(() => {
+
+          console.log(rows[userId].danisans[values.info.name].messages)
+          var msg4 = {...msg}
+          msg4.id = Date.now()
+          msg4.message = 'Şimdiden teşekkürler 🙏'
+          exports.addDanisanMessage(userId, values.info.name, msg4.id, msg4, true)
+          return console.log(rows[userId].danisans[values.info.name].messages);
+        })
+      })
+    })
   }
 
   const ordered = {};
@@ -529,11 +533,12 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
     var content = `
 Merhaba ${rows[userId].profile.name},
 
-${values.info.name} isminde bir danışan tarafından ${type} isteği gönderildi.
-
 Detayları görmek, kabul etmek ya da reddetmek için aşağıdaki linke tıklayabilirsin:
 
 https://diyetkocum.net/r/${date}/${time.replace(/ /g, '%20')}
+
+Randevuyu gönderen: ${values.info.name} 
+Randevu tipi: ${type}
 
 Teşekkürler 🙏
 Diyet Koçum Ailesi`
@@ -544,28 +549,45 @@ Diyet Koçum Ailesi`
   else if ((!oldValue || oldValue.status == 'pending') && (values.status == 'confirmed' || values.status == 'rejected')) {
     if (values.type != 'onlinediyet') {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
-      var content = `
+
+      if(values.status == 'confirmed') {
+        var content = `
 Merhaba ${values.info.name},
 
-Aşağıda belirtilen gün ve tarih için diyetisyen ${rows[userId].profile.name} ile randevunuz diyetisyeniniz tarafından ${statusTxt}.
-  
-Aşağıdaki linke tıklayarak diyetisyeninizin sizden istediği beslenme alışkanlıkları, kan tahlili ve vücut ölçümü bilgilerinizi girebilirsiniz. Bu linki diyetisyeninizin size yazacağı diyet programını görmek için de kullanabilirsiniz.
+Aşağıda belirtilen gün ve tarih için diyetisyen ${rows[userId].profile.name} ile olan randevunuz diyetisyeniniz tarafından ${statusTxt}.
 
 https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
-    
+  
+Yukarıdaki linke tıklayarak diyetisyeninizin sizden istediği tüm bilgileri girebilirsiniz. Bu linki diyetisyeninizin size yazacağı diyet programını görmek için de kullanabilirsiniz.
+
 Randevu günü: ${moment(date).format("DD MMMM YYYY")}
 Randevu saati: ${time}
 ${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
 
 Teşekkürler 🙏
 Diyet Koçum Ailesi`   
+      } else {      
+        var content = `
+Merhaba ${values.info.name},
+
+Aşağıda belirtilen gün ve tarih için diyetisyen ${rows[userId].profile.name} ile olan randevunuz diyetisyeniniz tarafından ${statusTxt}.
+
+Randevu günü: ${moment(date).format("DD MMMM YYYY")}
+Randevu saati: ${time}
+${rows[userId].profile.address ? "Adres: " + rows[userId].profile.address : ''}
+
+Teşekkürler 🙏
+Diyet Koçum Ailesi` 
+      }
 
       console.log(values.info.email)
-      email.sendEmail(values.info.email, titleSuffix, 'Randevunuz ' + statusTxt, content)
+      email.sendEmail(values.info.email, titleSuffix, 'Yüz yüze randevu isteğiniz hk.', content)
     }
     else {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
-      var content = `
+
+      if (values.status == 'confirmed') {
+        var content = `
 Merhaba ${values.info.name},
 
 Diyetisyen ${rows[userId].profile.name} ile olan online diyet başvurunuz diyetisyeniniz tarafından ${statusTxt}. Diyetisyeniniz yakında sizinle iletişime geçecektir.
@@ -576,9 +598,17 @@ https://diyetkocum.net/l/${stringHash(userId + values.info.name)}
 
 Teşekkürler 🙏
 Diyet Koçum Ailesi`  
+      } else {
+        var content = `
+Merhaba ${values.info.name},
 
+Diyetisyen ${rows[userId].profile.name} ile olan online diyet başvurunuz diyetisyeniniz tarafından ${statusTxt}.
+
+Teşekkürler 🙏
+Diyet Koçum Ailesi` 
+      }
       console.log(values.info.email)
-      email.sendEmail(values.info.email, titleSuffix, 'Online diyet isteğiniz ' + statusTxt, content)
+      email.sendEmail(values.info.email, titleSuffix, 'Online diyet isteğiniz hk.', content)
     }
   }
 
@@ -726,8 +756,6 @@ exports.addDanisanMessage = function (userId, danisanUserName, messageId, messag
     : "PROD - " + userId + " - " + danisanUserName + " - "
 
   if (shouldNotifyDanisan == true) {
-    storage.setItem(userId, rows[userId]);
-
     if (message.sentByDietitian == true) {
       const content = `
 Merhaba ${danisanUserName},
@@ -754,6 +782,8 @@ Diyet Koçum Ailesi`
       email.sendEmail(rows[userId].profile.email, titleSuffix, 'Danışanınızdan yeni mesaj', content)
     }
   }
+
+  return storage.setItem(userId, rows[userId]);
 }
 
 exports.getDanisanMeasurements = function (userId, danisanUserName) {

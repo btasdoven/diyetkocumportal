@@ -32,7 +32,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { withSnackbar } from 'material-ui-snackbar-provider'
 import MaskedInput from 'react-text-mask';
-
+import Rating from '@material-ui/lab/Rating';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
@@ -127,12 +127,12 @@ const styles = theme => ({
       flexDirection: 'column',
       justifyContent: "center",
       width: '100%',
-      height: '100vh',
+      //height: 'calc(100vh - ',
       alignItems: "center",
       padding: theme.spacing(3),
       textAlign: 'center',
-      position: 'absolute',
-      top: 0,
+      //position: 'absolute',
+      //top: 0,
       bottom: 0,
       left: 0,
       right: 0,
@@ -523,10 +523,38 @@ class NewRandevuStep0 extends React.Component {
     var user = this.props.apiDietitianProfile[this.state.userId].data;
 
     return (
-      <div className={classes.rootTypeSelect}>
-        {user.online_diyet == true && <Button style={{margin: '24px'}} variant="contained" color="primary" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
-        <Button variant="contained" color="secondary" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>
-      </div>
+      <span>
+        <Card variant="outlined" className={classes.card}>
+          <CardHeader
+            style={{textAlign: 'center'}}
+            title={
+              <Rating readOnly={true} value={5} size="large" />
+            }
+          />
+          <CardContent style={{paddingTop:0}}>
+            <Grid container>
+              <Grid item xs={12}>
+                <div className={classes.text}>
+                  <Typography variant="body2" style={{textAlign: 'center'}}>
+                    Merhaba, Ben {user.unvan} {user.name}! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme, hamilelik ve emzirme döneminde beslenme, 
+                    hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen diyet gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.
+                    <br />
+                    <br />
+                    {user.online_diyet == true 
+                      ? "Online diyet yapmaktayım. Aşağıdan yüz yüze randevu ya da online diyeti seçerek daha sağlıklı ve daha kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏" 
+                      : "Yalnızca yüz yüze randevu vermekteyim. Daha sağlıklı ve daha kaliteli bir yaşama ilk adımını aşağıdan atabilirsin 🍏💪🙏"}
+                  </Typography>
+                </div>
+              </Grid>
+            </Grid>
+          </CardContent>
+          {/* </div> */}
+        </Card>
+        <div className={classes.rootTypeSelect}>
+          {user.online_diyet == true && <Button style={{margin: '24px'}} variant="contained" color="primary" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
+          <Button variant="contained" color="secondary" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>
+        </div>
+      </span>
     )}
 };
 
@@ -766,7 +794,7 @@ class NewRandevuStep3 extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormCheckBox name="sozlesme" validate={[required]} label={
-                        <Typography variant="caption">
+                        <Typography variant="caption" style={{letterSpacing: 0, lineHeight: 0}}>
                           DiyetKoçum'a sağladığım bu bilgilerin doğruluğunu teyit ediyorum ve bu bilgiler üzerinden bana ulaşılmasına izin veriyorum. 
                           DiyetKoçum bu bilgileri yalnızca diyetisyeniniz ile paylaşacaktır.
                         </Typography>
@@ -806,7 +834,7 @@ class NewRandevuStep4 extends React.Component {
           <span>
               <div style={{margin: '8px'}}>
                 <Typography style={{textAlign: 'center' ,marginTop: '48px', marginBottom: '8px'}} color="textPrimary" variant="body2" display="block" gutterBottom>
-                    {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğin başarıyla gönderildi. İsteğin diyetisyen tarafından onaylandığında <b>{this.props.formValues.email}</b> adresine e-posta gelecektir.
+                    {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğin başarıyla gönderildi. İsteğin diyetisyenin tarafından onaylandığında <b>{this.props.formValues.email}</b> adresine e-posta gelecektir.
                 </Typography>
 
               </div>

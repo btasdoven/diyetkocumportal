@@ -15,9 +15,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import moment from "moment";
-import { DatePickerInput } from '../../components/DateTimePicker'
-import EventIcon from '@material-ui/icons/Event';
-import OlcumlerTartiPdf from './OlcumlerTartiPdf'
 
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -35,7 +32,8 @@ import AppBar from '@material-ui/core/AppBar';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDanisanMeasurements, addDanisanMeasurement } from '../../store/reducers/api.danisanMeasurements'
+import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
+import { getDanisanFiles, addDanisanFiles } from '../../store/reducers/api.danisanFiles'
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -98,13 +96,12 @@ const styles = theme => ({
   },
   card: {
     marginBottom: theme.spacing(1),
-    width: '100%'
   },
   paper: {
     padding: theme.spacing(1)
   },
   root: {
-    padding : theme.spacing(1),
+      margin: theme.spacing(1),
   },
   rootLoading: {
     height: "inherit",
@@ -233,7 +230,7 @@ class Envanter extends React.Component {
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
 
     this.state = {
-      userId: props.userId
+      userId: JSON.parse(localStorage.getItem('user')).id
     }
   }
 
@@ -241,11 +238,11 @@ class Envanter extends React.Component {
     console.log(this.props);
     console.log(this.state.userId);
 
-    var loaded = this.props.apiDanisanMeasurements != undefined &&
-      this.props.apiDanisanMeasurements[this.state.userId] != undefined &&
-      this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName] != undefined && 
-      this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
-      this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].data != undefined;
+    var loaded = this.props.apiDanisanFiles != undefined &&
+      this.props.apiDanisanFiles[this.state.userId] != undefined &&
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data != undefined;
 
       console.log(loaded);
       return loaded;
@@ -253,25 +250,24 @@ class Envanter extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getDanisanMeasurements(this.state.userId, this.props.danisanUserName);
+      this.props.getDanisanFiles(this.state.userId, this.props.danisanUserName);
     }
   }
 
   onSubmitInternal(formValues) {
     console.log(formValues);
-    formValues['uniqueFileKey'] = this.state.uniqueFileKey;
-    console.log(formValues);
-    // const formData = new FormData();
-    // formData.append('file',formValues.file)
-    // formData.append('type', 'olcum')
-    // console.log(formData);
 
-    this.props.addDanisanMeasurement(this.state.userId, this.props.danisanUserName, formValues);
+    const formData = new FormData();
+    formData.append('file',formValues.file)
+    formData.append('type', 'olcum')
+    console.log(formData);
+
+    this.props.addDanisanFiles(this.state.userId, this.props.danisanUserName, formData);
     this.onDialogClose();
   }
 
   onDialogClose(values) {
-    this.setState({openDialog: undefined, uniqueFileKey: undefined})
+    this.setState({openDialog: undefined})
   }
 
   render() {
@@ -279,8 +275,8 @@ class Envanter extends React.Component {
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
-    const allMeasurements = showLoader ? undefined : this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].data;
-    console.log(allMeasurements)
+    const allFiles = showLoader ? undefined : this.props.apiDanisanFiles[this.state.userId][this.props.danisanUserName].data;
+    console.log(allFiles)
 
     return (
       <div className={classes.root}> 
@@ -288,16 +284,10 @@ class Envanter extends React.Component {
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          <SpeedDial
-            icon={<PostAddIcon />}
-            iconText={"YENİ ÖLÇÜM EKLE"}
-            // hidden={this.props.pristine}
-            onClickFab={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})}
-            // actions={[
-            //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')},
-            //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')}
-            // ]}
-          />
+          <Button disabled={true} onClick={() => this.setState({openDialog: true})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
+            TARTI ÖLÇÜMÜ EKLE
+          </Button>
+          <Divider style={{marginTop: '8px', marginBottom: '8px'}} />
 
           <Dialog 
             fullWidth
@@ -307,12 +297,7 @@ class Envanter extends React.Component {
             <DialogTitle id="form-dialog-title">Yeni Ölçüm Ekle</DialogTitle>
             <DialogContent>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <Field name='olcum_tarihi' label="Ölçüm tarihi" component={DatePickerInput} />
-                  {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
-                </Grid>
-
-                <Grid item xs={6} sm={6} md={6} lg={6}>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
                   <Field
                     fullWidth
                     name="kilo"
@@ -322,7 +307,7 @@ class Envanter extends React.Component {
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}}
                   />
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
                   <Field
                     fullWidth
                     name="boy"
@@ -332,7 +317,7 @@ class Envanter extends React.Component {
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
                   <Field
                     fullWidth
                     name="bacak"
@@ -342,7 +327,7 @@ class Envanter extends React.Component {
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
                   <Field
                     fullWidth
                     name="kol"
@@ -352,7 +337,7 @@ class Envanter extends React.Component {
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
+                <Grid item xs={6} sm={6} md={3} lg={3}>
                   <Field
                     fullWidth
                     name="gogus"
@@ -361,39 +346,6 @@ class Envanter extends React.Component {
                     type="number" 
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
-                </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
-                  <Field
-                    fullWidth
-                    name="bel"
-                    component={renderTextField}
-                    label="Bel ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
-                  <Field
-                    fullWidth
-                    name="gobek"
-                    component={renderTextField}
-                    label="Göbek ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
-                  <Field
-                    fullWidth
-                    name="kalca"
-                    component={renderTextField}
-                    label="Kalça ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <OlcumlerTartiPdf userId={this.state.userId} uniqueFileKey={this.state.uniqueFileKey} danisanUserName={this.props.danisanUserName} />
                 </Grid>
               </Grid> 
 
@@ -412,18 +364,18 @@ class Envanter extends React.Component {
           { !showLoader && 
             <span>
               {/* <SpeedDial
-                icon={<SpeedDialIcon icon={<AddIcon />} />}
+                icon={<AddIcon />}
                 actions={[
                   {name: 'Kan Tahlili Ekle', icon: <NoteAddIcon />, onClick: () => console.log('kan tahlılı')},
                   {name: 'Tartı Ölçümü Ekle', icon: <PostAddIcon />, onClick: () => console.log('tartı')}
                 ]}
               /> */}
 
-              {allMeasurements.length == 0 && <Typography variant="body2" style={{paddingTop: '8px', textAlign: 'center'}}>Size ait ölçüm bilgisi bulunmamaktadır.</Typography>}
+                <Typography variant="body2" style={{textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>
 
-              {Object.keys(allMeasurements).map((day, idx) => {
-                const measurementsPerDay = allMeasurements[day];
-                console.log(measurementsPerDay);
+              {/* {Object.keys(allFiles).map((day, idx) => {
+                const allFilesPerDay = allFiles[day];
+                console.log(allFilesPerDay);
 
                 return (
                   <List
@@ -434,58 +386,47 @@ class Envanter extends React.Component {
                         {moment(day).format('DD MMMM YYYY')}
                       </ListSubheader>
                   }>
-                    {Object.keys(measurementsPerDay).map((mTs, midx) => {
-                      const measurement = measurementsPerDay[mTs];
+                    {Object.keys(allFilesPerDay).map( (fileTs, fidx) => {
+                      const file = allFilesPerDay[fileTs];
+                      console.log(file)
 
                       return (
-                        <ListItem 
-                          key={midx}
-                          button 
-                          style={{padding: 0}}
-                          // component="a" 
-                          // href={userService.getStaticFileUri(file.path)}
-                          // target="_blank"
-                            //component={Link} to={"/c/" + danisan.name}
-                        >
-                          <Card className={classes.card}>
-                            <CardContent>
-                              <Grid container spacing={1}>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
-                                  <Typography className={classes.pos} color="textSecondary">Kilo</Typography>
-                                  <Typography className={classes.pos} color="textPrimary">{measurement.kilo || ''} {measurement.kilo ? 'kg' : ''}</Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
-                                  <Typography className={classes.pos} color="textSecondary">Boy</Typography>
-                                  <Typography className={classes.pos} color="textPrimary">{measurement.boy || ''} {measurement.boy ? 'cm' : ''}</Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
-                                  <Typography className={classes.pos} color="textSecondary">Bacak</Typography>
-                                  <Typography className={classes.pos} color="textPrimary">{measurement.bacak || ''} {measurement.bacak ? 'cm' : ''}</Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
-                                  <Typography className={classes.pos} color="textSecondary">Kol</Typography>
-                                  <Typography className={classes.pos} color="textPrimary">{measurement.kol || ''} {measurement.kol ? 'cm' : ''}</Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
-                                  <Typography className={classes.pos} color="textSecondary">Göğüs</Typography>
-                                  <Typography className={classes.pos} color="textPrimary">{measurement.gogus || ''} {measurement.gogus ? 'cm' : ''}</Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
-                                  <Typography className={classes.pos} color="textSecondary">Göbek</Typography>
-                                  <Typography className={classes.pos} color="textPrimary">{measurement.gobek || ''} {measurement.gobek ? 'cm' : ''}</Typography>
-                                </Grid>
-                              </Grid>
-                            </CardContent>
-                            {/* <CardActions>
-                              <Button size="small">Learn More</Button>
-                            </CardActions> */}
-                          </Card>
-                        </ListItem>
+                        <span key={fidx}>
+                          <Divider component="li" />
+                          <ListItem button 
+                            component="a" 
+                            href={userService.getStaticFileUri(file.path)}
+                            target="_blank"
+                              //component={Link} to={"/c/" + danisan.name}
+                          >
+                            <ListItemAvatar >
+                              <Avatar src={userService.getStaticFileUri(file.path)}></Avatar>
+                            </ListItemAvatar>
+                            <ListItemText 
+                              primary={
+                                  // <Typography
+                                  //     variant="subtitle1"
+                                  //     color="textPrimary"
+                                  // >
+                                  file.name
+                                  // </Typography>
+                              } 
+                              // secondary={
+                              //     // <Typography
+                              //     //     variant="caption"
+                              //     //     color="inherit"
+                              //     // >
+                              //         danisan.info.kilo + "kg, " + danisan.info.boy + "cm"
+                              //     // </Typography>
+                              // }
+                            />
+                          </ListItem>
+                        </span>
                       )
                     })}
                   </List>
                 )
-              })}
+              })} */}
             </span>
           }
         </Form>  
@@ -500,19 +441,21 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     apiForm: state.form,
-    apiDanisanMeasurements: state.apiDanisanMeasurements,
+    apiDanisanFiles: state.apiDanisanFiles,
     // apiDanisanProfile: state.apiDanisanProfile,
-    initialValues: { 
-      olcum_tarihi: moment(moment().format('DD.MM.YYYY'), 'DD.MM.YYYY').toDate(),
-    },
+    // initialValues: 
+    //   state.apiDanisanProfile[ownProps.userId] != undefined && 
+    //   state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName] != undefined
+    //     ? state.apiDanisanProfile[ownProps.userId][ownProps.danisanUserName].data
+    //     : {},
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addDanisanMeasurement: (userId, danisanUserName, measurement) => addDanisanMeasurement(userId, danisanUserName, measurement),
-      getDanisanMeasurements: (userId, danisanUserName) => getDanisanMeasurements(userId, danisanUserName),
+      addDanisanFiles: (userId, danisanUserName, files) => addDanisanFiles(userId, danisanUserName, files),
+      getDanisanFiles: (userId, danisanUserName) => getDanisanFiles(userId, danisanUserName),
     },
     dispatch
   );
@@ -521,4 +464,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'AnemnezOlcumForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'DanisanTahlilForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

@@ -16,6 +16,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import PrintIcon from '@material-ui/icons/Print';
 import ShareIcon from '@material-ui/icons/Share';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Fab from '@material-ui/core/Fab';
+import NavigationIcon from '@material-ui/icons/Navigation';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -73,10 +75,17 @@ export default function SpeedDials(props) {
   return (
     <div className={classes.root}>
       <div className={classes.exampleWrapper}>
+        {/* <Fab color="primary" style={{display: props.hidden == true ? 'none' : 'inline-flex'}} className={classes.speedDial} variant="extended">
+          Navigate
+          {props.icon}
+        </Fab> */}
         <SpeedDial
           ariaLabel="SpeedDial example"
           className={classes.speedDial}
-          icon={props.icon || <SpeedDialIcon />}
+          icon={props.iconText != undefined
+            ? <div style={{display: 'inline-flex'}}>{props.iconText} <SpeedDialIcon style={{marginLeft: '8px'}} icon={props.icon}/></div>
+            : <SpeedDialIcon icon={props.icon}/>
+          }
           onBlur={handleMouseLeave}
           onClick={handleClick}
           onClose={handleClose}
@@ -86,6 +95,7 @@ export default function SpeedDials(props) {
           // onMouseLeave={handleMouseLeave}
           open={open}
           direction="up"
+          FabProps={props.iconText != undefined ? {variant: 'extended'} : {}}
         >
           {props.actions && props.actions.map((act, idx) => (
             <SpeedDialAction

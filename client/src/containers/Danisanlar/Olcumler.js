@@ -294,7 +294,8 @@ class Envanter extends React.Component {
           <Divider style={{marginTop: '8px'}} /> */}
 
           <SpeedDial
-            icon={<SpeedDialIcon icon={<PostAddIcon />} />}
+            icon={<PostAddIcon />}
+            iconText={"YENİ ÖLÇÜM EKLE"}
             // hidden={this.props.pristine}
             onClickFab={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})}
             // actions={[
@@ -415,15 +416,7 @@ class Envanter extends React.Component {
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && 
             <span>
-              {/* <SpeedDial
-                icon={<SpeedDialIcon icon={<AddIcon />} />}
-                actions={[
-                  {name: 'Kan Tahlili Ekle', icon: <NoteAddIcon />, onClick: () => console.log('kan tahlılı')},
-                  {name: 'Tartı Ölçümü Ekle', icon: <PostAddIcon />, onClick: () => console.log('tartı')}
-                ]}
-              /> */}
-
-              {allMeasurements.length == 0 && <Typography variant="body2" style={{paddingTop: '8px', textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
+              {allMeasurements.length == 0 && <Typography variant="body2" style={{paddingTop: 'calc(50vh - 100px)', textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
 
               {Object.keys(allMeasurements).map((day, idx) => {
                 const measurementsPerDay = allMeasurements[day];
