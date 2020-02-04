@@ -12,7 +12,7 @@ var transporter = nodemailer.createTransport({
 
 var sendEmailInternal = function (to, subject, text) {
     var mailOptions = {
-        from: 'info@diyetkocum.net',
+        from: 'Diyet Koçum <info@diyetkocum.net>',
         to: to,
         subject: subject,
         text: text
