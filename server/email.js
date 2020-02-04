@@ -6,13 +6,13 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'diyetkocumapp@gmail.com',
-    pass: process.env.EMAIL_PASS
+    pass: process.env.EMAIL_APP_PASS
   }
 });
 
 var sendEmailInternal = function (to, subject, text) {
     var mailOptions = {
-        from: 'diyetkocumapp@gmail.com',
+        from: 'info@diyetkocum.net',
         to: to,
         subject: subject,
         text: text

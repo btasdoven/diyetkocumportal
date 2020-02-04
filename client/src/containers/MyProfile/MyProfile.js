@@ -495,8 +495,8 @@ class Envanter extends React.Component {
 
                     <Grid item xs={12} style={{marginTop: '8px'}}>
                       <Typography variant="body2">Randevu linkinin danışanlara nasıl gözüktüğünü görmek ister misin?</Typography>
-                      <div style={{marginTop: '8px', textAlign: 'center'}}>
-                        <Button target='_blank' href={"https://diyetkocum.net/d/" + this.state.user.username} component="a" size="small" color="primary" variant="outlined">PROFİLİMİ GÖR</Button>
+                      <div style={{marginTop: '16px', textAlign: 'center'}}>
+                        <Button style={{borderRadius: '16px'}} target='_blank' href={"https://diyetkocum.net/d/" + this.state.user.username} component="a" size="small" color="primary" variant="outlined">RANDEVU SAYFAMI GÖR</Button>
                       </div>
                     </Grid>
                   </Grid>
