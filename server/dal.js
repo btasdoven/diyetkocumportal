@@ -45,7 +45,8 @@ const rows = {
       'Çarşamba': true,
       'Perşembe': true,
       'Cuma': true,
-      'online_diyet': true
+      'online_diyet': true,
+      'ozgecmis': 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.'
     }
   },
   'demo': {

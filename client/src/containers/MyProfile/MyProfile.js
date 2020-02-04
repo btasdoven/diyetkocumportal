@@ -551,7 +551,7 @@ class Envanter extends React.Component {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <ReduxFormMaskedTextField name="tel" label="Telefon numaram" />
+                      <ReduxFormMaskedTextField fullWidth name="tel" label="Telefon numaram" />
                     </Grid>
 
                     <Grid item xs={12}>
@@ -679,7 +679,7 @@ const mapStateToProps = (state, ownProps) => {
     initialValues: 
       state.apiDietitianProfile[ownProps.userId] != undefined
         ? state.apiDietitianProfile[ownProps.userId].data
-        : {},
+        : { },
   };
 };
 

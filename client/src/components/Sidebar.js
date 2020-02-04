@@ -31,9 +31,13 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 import Typography from "@material-ui/core/Typography";
 
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { withRouter } from 'react-router'
 
 import Tooltip from '@material-ui/core/Tooltip';
+import { getDietitianAppointments } from '../store/reducers/api.dietitianAppointments';
+import { getMessagePreviews } from '../store/reducers/api.messagePreviews';
 
 const drawerWidth = 240;
 
@@ -67,18 +71,58 @@ const styles = theme => ({
 
 class Sidebar extends React.Component {
 
-  state = {
-    openProfileMenu: true,
-    user: JSON.parse(localStorage.getItem('user'))
+  constructor(props) {
+    super(props)
+
+    this.isLoaded = this.isLoaded.bind(this);
+
+    this.state = {
+      openProfileMenu: true,
+      user: JSON.parse(localStorage.getItem('user'))
+    }
+  }
+    
+  isLoaded() {
+    var loaded = 
+      this.props.apiMessagePreviews[this.state.user.id] != undefined &&
+      this.props.apiMessagePreviews[this.state.user.id].isGetLoading != true &&
+      this.props.apiMessagePreviews[this.state.user.id].data != undefined;
+
+    var loaded2 = 
+      this.props.apiDietitianAppointments != undefined &&
+      this.props.apiDietitianAppointments[this.state.user.id] != undefined &&
+      this.props.apiDietitianAppointments[this.state.user.id].isGetLoading != true &&
+      this.props.apiDietitianAppointments[this.state.user.id].data != undefined;
+
+    console.log(loaded);
+    console.log(loaded2);
+    return loaded && loaded2;
+  }
+
+  componentDidMount() {
+    if (!this.isLoaded()) {
+      this.props.getMessagePreviews(this.state.user.id);
+      this.props.getDietitianAppointments(this.state.user.id);
+    }
   }
 
   render() {
-
     const { open, classes, location } = this.props;
+    
+    var showLoader = !this.isLoaded();
 
-    console.log('Sidebar')
-    console.log(location);
-    console.log(open);
+    var pendingAppts = 0;
+    var unreadMsgs = showLoader 
+      ? 0 
+      : Object.keys(this.props.apiMessagePreviews[this.state.user.id].data).map((u) => this.props.apiMessagePreviews[this.state.user.id].data[u].unread).reduce((a,b) => a+b, 0);
+
+    if (!showLoader) {
+      var appts = this.props.apiDietitianAppointments[this.state.user.id].data;
+      pendingAppts = Object.keys(appts).map((u) => Object.keys(appts[u].data).map((t) => appts[u].data[t].status == "pending" ? 1 : 0).reduce((a,b) => a+b, 0)).reduce((a,b) => a+b, 0);
+    }
+
+    console.log(unreadMsgs)
+    console.log(pendingAppts)
 
     return (
         <Drawer
@@ -143,9 +187,9 @@ class Sidebar extends React.Component {
               </ListItemIcon>
               <Typography variant="overline">Mesajlarım</Typography>
               { 
-                this.state.user.id == 5 && 
+                unreadMsgs > 0 && 
                 <ListItemSecondaryAction>
-                  <Badge badgeContent={2} color="secondary">
+                  <Badge badgeContent={unreadMsgs} color="secondary">
                   </Badge>
                 </ListItemSecondaryAction>
               }
@@ -156,6 +200,13 @@ class Sidebar extends React.Component {
                 <CalendarTodayIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">RANDEVULARIM</Typography>
+              { 
+                pendingAppts > 0 && 
+                <ListItemSecondaryAction>
+                  <Badge badgeContent={pendingAppts} color="secondary">
+                  </Badge>
+                </ListItemSecondaryAction>
+              }
             </ListItem>
 
           {/* </List>
@@ -179,4 +230,24 @@ class Sidebar extends React.Component {
   }
 };
 
-export default withStyles(styles)(withRouter(Sidebar));
+const mapStateToProps = state => {
+  return {
+    apiMessagePreviews: state.apiMessagePreviews,
+    apiDietitianAppointments: state.apiDietitianAppointments,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date),
+      getMessagePreviews: (userId) => getMessagePreviews(userId),
+    },
+    dispatch
+  );
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(withRouter(Sidebar)));

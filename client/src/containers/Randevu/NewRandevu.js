@@ -536,8 +536,9 @@ class NewRandevuStep0 extends React.Component {
               <Grid item xs={12}>
                 <div className={classes.text}>
                   <Typography variant="body2" style={{textAlign: 'center'}}>
-                    Merhaba, Ben {user.unvan} {user.name}! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme, hamilelik ve emzirme döneminde beslenme, 
-                    hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen diyet gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.
+                    {user.ozgecmis || 
+                      `Merhaba, Ben ${user.unvan} ${user.name}! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme, hamilelik ve emzirme döneminde beslenme, hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen diyet gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.`
+                    }
                     <br />
                     <br />
                     {user.online_diyet == true 

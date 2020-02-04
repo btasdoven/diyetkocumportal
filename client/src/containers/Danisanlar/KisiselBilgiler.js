@@ -536,6 +536,9 @@ class Envanter extends React.Component {
                     <Grid item xs={12} >
                       <ReduxFormTextField name="alerji" label="Besin Alerjileri" />
                     </Grid>
+                    <Grid item xs={12} >
+                      <ReduxFormTextField name="ishal_kabizlik" label="Ishal ya da kabızlığınız var mı?" />
+                    </Grid>
                     <Grid item xs={6}>
                       <ReduxFormSelect
                         name="uyku_duzeni"
@@ -623,6 +626,9 @@ class Envanter extends React.Component {
                       <ReduxFormTextField name="tuketilmeyen_besinler" label="Tüketilmeyen Besinler" />
                     </Grid>
                     <Grid item xs={12}>
+                      <ReduxFormTextField name="sevilen_besinler" label="En Sevdiğiniz Besinler" />
+                    </Grid>
+                    <Grid item xs={12}>
                       <ReduxFormTextField name="disarida_yemek" label="Dışarıda Yemek Yeme Sıklığı" />
                     </Grid>
                     <Grid item xs={12}>
@@ -636,6 +642,9 @@ class Envanter extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="gunluk_seker" label="Günlük Şeker Tüketimi" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="gunluk_tereyag" label="Günlük Tereyağı/Margarin Tüketimi" />
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormSelect
@@ -684,6 +693,42 @@ class Envanter extends React.Component {
                           },
                         ]}
                       />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                    DİĞER BİLGİLER
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="kilo_almaya_baslangic" label="Ne zaman kilo almaya başladınız?" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="yemekleri_pisiren" label="Yemekleri kim pişirir?" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="alisveris_yapan" label="Alışverişi kim yapar?" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="anne_yas_kilo" label="Annenizin yaşı ve kilosu" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="baba_yas_kilo" label="Babanızın yaşı ve kilosu" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="es_yas_kilo" label="Eşinizin yaşı ve kilosu" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="kardes_yas_kilo" label="Kardeşinizin yaşı ve kilosu" />
                     </Grid>
                   </Grid>
                 </CardContent>
