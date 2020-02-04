@@ -987,18 +987,23 @@ exports.postAddDanisan = function (userId, danisanUserName, danisanPreview) {
 
 exports.getDietitianProfiles = function () {
   console.log('getDietitianProfiles');
-  ret = {}
+  ret = []
 
   Object.keys(rows).forEach((userId) => {
     if (userId == '0' || userId == '1' || userId == 'demo') {
       return;
     }
 
-    ret[userId] = rows[userId].profile || {}
-    ret[userId].user_status = rows[0].users[userId].status || "confirmed"
+    if (rows[0].users[userId].status == 'pending') {
+      return;
+    }
+
+    var d = rows[userId].profile || {}
+    d.username = userId;
+    ret.push(d);
   });
 
-  return ret;
+  return { dietitians: ret };
 }
 
 exports.getAppointmentData = function () {
