@@ -131,13 +131,6 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName/messages/:messageId", (
   }), delayInResponseInMs);
 });
 
-app.put("/api/v1/users/:userId/profile", (req, res, next) => {
-  setTimeout((function() {
-    res.setHeader('Content-Type', 'application/json');
-    res.json(dal.putDietitianProfile(req.params.userId, req.body));
-  }), delayInResponseInMs);
-});
-
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
@@ -267,6 +260,14 @@ app.get("/api/v1/getAppointmentData", (req, res, next) => {
   // setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(dal.getAppointmentData(), null, 4));
+  // }), delayInResponseInMs);
+});
+
+app.get("/api/v1/getAllDietitianProfiles", (req, res, next) => {
+  // setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    console.log(req.params)
+    res.send(JSON.stringify(dal.getDietitianProfiles(), null, 4));
   // }), delayInResponseInMs);
 });
 

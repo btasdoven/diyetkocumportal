@@ -985,10 +985,26 @@ exports.postAddDanisan = function (userId, danisanUserName, danisanPreview) {
   storage.setItem('0', rows[0]);
 }
 
+exports.getDietitianProfiles = function () {
+  console.log('getDietitianProfiles');
+  ret = {}
+
+  Object.keys(rows).forEach((userId) => {
+    if (userId == '0' || userId == '1' || userId == 'demo') {
+      return;
+    }
+
+    ret[userId] = rows[userId].profile || {}
+  });
+
+  return ret;
+}
+
 exports.getAppointmentData = function () {
+  console.log('getAppointmentData');
   ret = {}
   Object.keys(rows).forEach(function(userId) {
-    if (userId == '0' || userId == '1')
+    if (userId == '0' || userId == '1' || userId == 'demo')
       return;
 
     ret[userId] = []
