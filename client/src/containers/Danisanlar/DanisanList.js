@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 import DirectionsIcon from '@material-ui/icons/Directions';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ClearIcon from '@material-ui/icons/Clear';
+import SpeedDial from '../SpeedDial/SpeedDial'
 
 import { getDanisanPreviews, addDanisan } from '../../store/reducers/api.danisanPreviews';
 
@@ -249,11 +250,17 @@ class Envanter extends React.Component {
               />
           )}
 
+          <SpeedDial
+            icon={<PersonAddIcon />}
+            iconText={"DANIŞAN EKLE"}
+            onClickFab={() => this.setState({newDanisan: true})}
+          />
+
           <div className={classes.searchWrapper}>
-            <IconButton onClick={() => this.setState({newDanisan: true})} color="inherit" className={classes.iconButton} aria-label="directions">
+            {/* <IconButton onClick={() => this.setState({newDanisan: true})} color="inherit" className={classes.iconButton} aria-label="directions">
               <PersonAddIcon/>
             </IconButton>
-            <Divider className={classes.divider} orientation="vertical" />
+            <Divider className={classes.divider} orientation="vertical" /> */}
             <InputBase
               onChange={this.handleOnSearchChange}
               className={classes.search}

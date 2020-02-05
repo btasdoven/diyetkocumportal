@@ -121,9 +121,6 @@ class Sidebar extends React.Component {
       pendingAppts = Object.keys(appts).map((u) => Object.keys(appts[u].data).map((t) => appts[u].data[t].status == "pending" ? 1 : 0).reduce((a,b) => a+b, 0)).reduce((a,b) => a+b, 0);
     }
 
-    console.log(unreadMsgs)
-    console.log(pendingAppts)
-
     return (
         <Drawer
           variant={this.props.permanentDrawer ? "permanent" : "temporary"}
@@ -181,7 +178,7 @@ class Sidebar extends React.Component {
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
 
-            <ListItem button component={Link} to='/m' selected={location.pathname.startsWith('/m')}>
+            <ListItem button component={Link} to='/m' selected={location.pathname != '/me' && location.pathname.startsWith('/m')}>
               <ListItemIcon>
                 <ChatIcon color="primary"/>
               </ListItemIcon>

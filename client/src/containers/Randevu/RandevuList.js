@@ -33,6 +33,8 @@ import EventIcon from '@material-ui/icons/Event';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
+import Chip from '@material-ui/core/Chip';
+import Badge from '@material-ui/core/Badge';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -52,6 +54,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import FacebookIcon from '@material-ui/icons/Facebook';
+import CheckIcon from '@material-ui/icons/Check';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
@@ -360,8 +363,11 @@ class Envanter extends React.Component {
                           {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
                           {danisan.status == 'pending' && (
                             <ListItemSecondaryAction>
-                              <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" aria-label="delete">
-                                  <ChevronRightIcon color="primary" />
+                              <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} aria-label="delete">
+                              
+                              <Badge badgeContent={'1'} color="secondary">
+                              </Badge>
+
                               </IconButton>
                               {/* <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
                                   <CheckSharpIcon style={{ color: green[500] }} />
@@ -370,14 +376,17 @@ class Envanter extends React.Component {
                           )}
                           {danisan.status == 'confirmed' && (
                             <ListItemSecondaryAction>
-                              {/* <Typography variant="caption" style={{color: '#00855a'}}>Onaylandı</Typography> */}
-                              <CheckCircleIcon style={{color: '#00756b'}}/>
+                              <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
+                              {/* <Chip size="small" label="ONAYLANDI" /> */}
+                                <CheckIcon style={{color: '#00756b80'}}/>
+                              </IconButton>
                             </ListItemSecondaryAction>
                           )}
                           {danisan.status == 'rejected' && (
                             <ListItemSecondaryAction>
-                              {/* <Typography style={{color: '#d5552d'}}>Reddedildi</Typography> */}
-                              <CancelIcon style={{color: '#d5602d'}}/>
+                              <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
+                                <ClearIcon style={{color: '#d5602d80'}}/>
+                              </IconButton>
                             </ListItemSecondaryAction>
                           )}
                         </ListItem>

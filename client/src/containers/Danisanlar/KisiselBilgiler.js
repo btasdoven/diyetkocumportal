@@ -29,6 +29,7 @@ import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import { logout } from "../../store/reducers/authenticate";
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
@@ -296,6 +297,17 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     const danisanProfile = showLoader ? undefined : this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data;
+
+    console.log('danisan', danisanProfile)
+    if (!showLoader && Object.keys(danisanProfile).length == 0) {
+      return (
+        <div className={classes.root} style={{textAlign: 'center'}}>
+          <div style={{padding: '8px'}}>Ulaşmaya çalışığınız danışan giriş yapmış olduğunuz hesaba ait değildir.</div>
+          <div style={{padding: '8px'}}>Giriş yapmış olduğunuz hesap: {this.state.userId}</div>
+          <Button style={{padding: '8px'}} color="primary" variant="contained" onClick={this.props.logout}>ÇIK ve YENİDEN GİRİŞ YAP</Button>
+        </div>
+      )
+    }
 
     return (
       <div className={classes.root}>
@@ -757,6 +769,7 @@ const mapDispatchToProps = dispatch => {
     {
       getDanisanProfile: (userId, danisanUserName) => getDanisanProfile(userId, danisanUserName),
       putDanisanProfile: (userId, danisanUserName, danisanProfile) => putDanisanProfile(userId, danisanUserName, danisanProfile),
+      logout: () => logout()
     },
     dispatch
   );
