@@ -155,7 +155,9 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 9999
+    zIndex: 9999,
+    paddingTop: '8px',
+    paddingBottom: '8px',
   },
   main: {
     width: '100%',
@@ -430,11 +432,11 @@ class NewRandevuWrapper extends React.Component {
                 />
 
                 {this.state.showBanner && (
-                  <Paper square  className={classes.banner}>
+                  <Paper elevation={2} square  className={classes.banner}>
                     <List disablePadding className={classes.main}>
                       <ListItem>
                         <ListItemText
-                          style={{marginRight: '64px'}}
+                          style={{marginRight: '96px'}}
                           primary={<Typography variant="body2">Sen de diyetisyenlerimizin arasına katılmak ister misin?</Typography>} 
                           // secondary="yo"
                         />
