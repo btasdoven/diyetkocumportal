@@ -37,7 +37,7 @@ export const registerEvent = (eventName) => {
   });
 
   GoogleAnalytics.event({
-    category: 'hostname_' + window.location.hostname + '_user_' + username,
+    category: window.location.hostname + '_' + username,
     action: eventName,
   });
 };

@@ -77,9 +77,9 @@ class Register extends React.Component {
               <LockOutlinedIcon />
             </Avatar>
 
-            {/* <Typography style={{textAlign:'center'}} component="h2" variant="h5">
-              Diyet Koçum Portalına Kaydol
-            </Typography> */}
+            <Typography style={{textAlign:'center'}} component="h1" variant="h6">
+              Diyetisyen Kaydı
+            </Typography>
 
             {(!auth || auth.signedUp != true) && (
               <span>

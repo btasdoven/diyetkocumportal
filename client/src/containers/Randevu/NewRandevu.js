@@ -13,8 +13,16 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import EventIcon from '@material-ui/icons/Event';
 import moment from "moment";
+import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
+import CloseIcon from '@material-ui/icons/Close';
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -36,6 +44,8 @@ import Rating from '@material-ui/lab/Rating';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
+
+import { registerEvent } from '../../components/Signin/PageTracker'
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -136,6 +146,28 @@ const styles = theme => ({
       bottom: 0,
       left: 0,
       right: 0,
+  },
+  banner: {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 9999
+  },
+  main: {
+    width: '100%',
+    display: 'block', // Fix IE 11 issue.
+    //top: 0,
+    [theme.breakpoints.up(600 + theme.spacing(6))]: {
+      width: '600px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    }
+    //backgroundColor: 'red',
+    // padding: theme.spacing(1)
   },
 });
 
@@ -329,6 +361,7 @@ class NewRandevuWrapper extends React.Component {
           time: Date.now(),
           step: 0,
           type: undefined,
+          showBanner: true,
         }
     }
 
@@ -395,8 +428,32 @@ class NewRandevuWrapper extends React.Component {
                               ? "BİLGİLERİNİ GİR" 
                               : ""}
                 />
+
+                {this.state.showBanner && (
+                  <Paper square  className={classes.banner}>
+                    <List disablePadding className={classes.main}>
+                      <ListItem>
+                        <ListItemText
+                          style={{marginRight: '64px'}}
+                          primary={<Typography variant="body2">Sen de diyetisyenlerimizin arasına katılmak ister misin?</Typography>} 
+                          // secondary="yo"
+                        />
+                        <ListItemSecondaryAction>
+                          <Button component={Link} onClick={() => registerEvent('SignUpFromNewAppointment')} to={"/signup"} size="small" variant="contained" color="primary" edge="end">
+                            KAYDOL
+                          </Button>
+                          <IconButton onClick={()=>this.setState({showBanner:false})} edge="end">
+                            <CloseIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    </List>
+                  </Paper>
+                )}
+
                 <main style={{
       maxWidth: '800px',
+      paddingBottom: '56px',
       width: '100%',
       margin: 'auto'}}>
                     <Form
@@ -537,13 +594,13 @@ class NewRandevuStep0 extends React.Component {
                 <div className={classes.text}>
                   <Typography variant="body2" style={{textAlign: 'center'}}>
                     {user.ozgecmis || 
-                      `Merhaba, Ben ${user.unvan} ${user.name}! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme, hamilelik ve emzirme döneminde beslenme, hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen diyet gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.`
+                      `Merhaba, Ben ${user.unvan || ''} ${user.name}! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme, hamilelik ve emzirme döneminde beslenme, hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen diyet gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.`
                     }
                     <br />
                     <br />
                     {user.online_diyet == true 
-                      ? "Online diyet yapmaktayım. Aşağıdan yüz yüze randevu ya da online diyeti seçerek daha sağlıklı ve daha kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏" 
-                      : "Yalnızca yüz yüze randevu vermekteyim. Daha sağlıklı ve daha kaliteli bir yaşama ilk adımını aşağıdan atabilirsin 🍏💪🙏"}
+                      ? "Online diyet yapmaktayım. Aşağıdan yüz yüze randevu ya da online diyeti seçerek daha sağlıklı ve kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏" 
+                      : "Yalnızca yüz yüze randevu vermekteyim. Daha sağlıklı ve kaliteli bir yaşama ilk adımını aşağıdan atabilirsin 🍏💪🙏"}
                   </Typography>
                 </div>
               </Grid>

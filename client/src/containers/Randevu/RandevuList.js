@@ -280,7 +280,7 @@ class Envanter extends React.Component {
               noItemText={"Çok üzgünüz, şu an için hiç randevun yok 😞"}
               infoHighlightSrc={"/static/randevu/thumbnail.png"}
               sources={[
-                '/static/randevu_1.mp4',
+                '/static/randevu/randevu_1.mp4',
                 '/static/randevu_2.mp4',
                 '/static/randevu_3.mp4',
                 '/static/randevu_4.mp4',
