@@ -149,7 +149,7 @@ const styles = theme => ({
   },
   banner: {
     position: 'fixed',
-    bottom: 0,
+    bottom: '-100%',
     left: 0,
     right: 0,
     display: "flex",
@@ -158,6 +158,7 @@ const styles = theme => ({
     zIndex: 9999,
     paddingTop: '8px',
     paddingBottom: '8px',
+    transition: 'bottom 1s linear'
   },
   main: {
     width: '100%',
@@ -363,8 +364,10 @@ class NewRandevuWrapper extends React.Component {
           time: Date.now(),
           step: 0,
           type: undefined,
-          showBanner: true,
+          showBanner: false,
         }
+
+        setTimeout(() => this.setState({showBanner: true}), 750)
     }
 
     componentDidMount() {
@@ -431,27 +434,25 @@ class NewRandevuWrapper extends React.Component {
                               : ""}
                 />
 
-                {this.state.showBanner && (
-                  <Paper elevation={2} square  className={classes.banner}>
-                    <List disablePadding className={classes.main}>
-                      <ListItem>
-                        <ListItemText
-                          style={{marginRight: '96px'}}
-                          primary={<Typography variant="body2">Sen de diyetisyenlerimizin arasına katılmak ister misin?</Typography>} 
-                          // secondary="yo"
-                        />
-                        <ListItemSecondaryAction>
-                          <Button component={Link} onClick={() => registerEvent('SignUpFromNewAppointment')} to={"/signup"} size="small" variant="contained" color="primary" edge="end">
-                            KAYDOL
-                          </Button>
-                          <IconButton onClick={()=>this.setState({showBanner:false})} edge="end">
-                            <CloseIcon />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    </List>
-                  </Paper>
-                )}
+                <Paper elevation={2} square className={classes.banner} style={{bottom: this.state.showBanner ? '0' : '-100%'}}>
+                  <List disablePadding className={classes.main}>
+                    <ListItem>
+                      <ListItemText
+                        style={{marginRight: '96px'}}
+                        primary={<Typography variant="body2">Sen de diyetisyenlerimizin arasına katılmak ister misin?</Typography>} 
+                        // secondary="yo"
+                      />
+                      <ListItemSecondaryAction>
+                        <Button component={Link} onClick={() => registerEvent('SignUpFromNewAppointment')} to={"/signup"} size="small" variant="contained" color="primary" edge="end">
+                          KAYDOL
+                        </Button>
+                        <IconButton onClick={()=>this.setState({showBanner:false})} edge="end">
+                          <CloseIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </List>
+                </Paper>
 
                 <main style={{
       maxWidth: '800px',
