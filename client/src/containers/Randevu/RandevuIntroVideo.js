@@ -27,6 +27,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from '@material-ui/core/Divider';
+import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
 
 const styles = theme => ({
   appBar: {
@@ -327,7 +328,10 @@ class RandevuIntro extends React.Component
                             </style>
                             <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
                             </div>
-                            <Avatar imgProps={{style: { borderRadius: '50%'}}} onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/randevu_0_3.png" className={classes.avatar} />
+                            <Avatar imgProps={{style: { borderRadius: '50%'}}} onClick={() => {
+                              registerEvent("WatchIntroVideo_" + this.props.introName)                                
+                              this.setState({activeStory: 0, openDialog: true, source: storySources})
+                            }} alt="Remy Sharp" src={this.props.infoHighlightSrc} className={classes.avatar} />
                         </div>
                     </Grid>
                     <Grid item xs={12}>

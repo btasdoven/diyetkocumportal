@@ -45,7 +45,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
-import { registerEvent } from '../../components/Signin/PageTracker'
+import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -376,6 +376,12 @@ class NewRandevuWrapper extends React.Component {
       }
   
       this.props.getDietitianAppointments(this.state.userId, moment(this.state.date).format('YYYYMMDD'))
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+      if (prevState.step != this.state.step) {
+        trackPage(this.props.location.pathname + "/" + this.state.step)
+      }
     }
 
     onSubmitInternal(formValues) {
