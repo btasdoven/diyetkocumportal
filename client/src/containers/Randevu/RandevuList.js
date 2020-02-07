@@ -246,7 +246,7 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     var apptList = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
-    apptList = {}
+    
     return (
         <div className={classes.root}>
         <div className={classes.main}>
