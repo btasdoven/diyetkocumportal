@@ -168,10 +168,18 @@ const ilkDanisanSources = [
   '/static/highlights/ilk_danisan_3.mp4',
 ];
 
+const ilkRandevuSources = [
+  '/static/randevu/randevu_1.mp4',
+  '/static/randevu/randevu_2.mp4',
+  '/static/randevu/randevu_3.mp4',
+  '/static/randevu/randevu_4.mp4',
+  '/static/randevu/randevu_5.mp4',
+];
+
 const highlights = [
   { name: 'Diyet Koçum nedir?', src: "/static/highlights/highlight1.jpg", sources: ilkDanisanSources },
-  { name: 'İlk danışan kaydı', src: "/static/highlights/highlight2.jpg", sources: ilkDanisanSources },
-  { name: 'İlk randevu', src: "/static/highlights/highlight3.jpg", sources: ilkDanisanSources },
+  { name: 'İlk danışan kaydı', src: "/static/danisan/thumbnail.png", sources: ilkDanisanSources },
+  { name: 'İlk randevu', src: "/static/randevu/thumbnail.png", sources: ilkRandevuSources },
   { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg", sources: ilkDanisanSources },
 ]
 class LandingPage extends React.Component {
@@ -205,9 +213,9 @@ class LandingPage extends React.Component {
             {/* <Typography variant="h6" color="inherit" noWrap>
               Digital Lab Book
             </Typography> */}
-            <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
+            {/* <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
               DEMO
-            </Button>
+            </Button> */}
             <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
               GİRİŞ YAP
             </Button>
@@ -334,14 +342,14 @@ class LandingPage extends React.Component {
               <Grid container spacing={0} >
                 <Grid style={{paddingLeft: '5%'}} item xs={3} sm={3} md={3} lg={3}>
                   <div style={{position: 'relative', width: '100%'}}>
-                    <style>
+                    {/* <style>
                       {`@keyframes rotate {
                           from{ transform: rotate(0deg); }
                           to{ transform: rotate(360deg); }
                       }`}
                     </style>
                     <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
-                    </div>
+                    </div> */}
                     <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} />
                   </div>
                 </Grid>
@@ -385,7 +393,7 @@ class LandingPage extends React.Component {
                 </Grid>
                 <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
                   <Typography style={{letterSpacing: 0, color: '#999'}} gutterBottom variant="caption">
-                      <b style={{color: '#262626'}}>diyetisyendoyranli</b>, <b style={{color: '#262626'}}>dyt_ezelkavadar</b>, <b style={{color: '#262626'}}>aysuutasdovenn</b> ve digerleri tarafından kullanılıyor
+                  <b style={{color: '#262626'}}>diyetiswomen</b>, <b style={{color: '#262626'}}>dyt_ezelkavadar</b>, <b style={{color: '#262626'}}>diyetisyendoyranli</b>, <b style={{color: '#262626'}}>diyetisyenasknn</b> ve digerleri tarafından kullanılıyor
                   </Typography>
                 </Grid>
               </Grid>
