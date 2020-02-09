@@ -212,11 +212,11 @@ class LandingPage extends React.Component {
             {/* <Typography variant="h6" color="inherit" noWrap>
               Digital Lab Book
             </Typography> */}
-            {/* <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
-              DEMO
-            </Button> */}
-            <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
+            <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
               GİRİŞ YAP
+            </Button>
+            <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
+              KAYDOL
             </Button>
             {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
               KAYDOL
@@ -361,17 +361,17 @@ class LandingPage extends React.Component {
                     </Grid>
                     <Grid item xs={4} sm={4} md={4} lg={4}>
                       <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                          <b>144</b><br/> diyetisyen
+                          <b>100+</b><br/> diyetisyen
                       </Typography>
                     </Grid>
                     <Grid item xs={4} sm={4} md={4} lg={4}>
                       <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                          <b>3489</b><br/> danışan
+                          <b>3000+</b><br/> danışan
                       </Typography>
                     </Grid>
                     <Grid item xs={4} sm={4} md={4} lg={4}>
                       <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                          <b>11472</b><br/> görüşme
+                          <b>10000+</b><br/> randevu
                       </Typography>
                     </Grid>
                   </Grid>
@@ -392,7 +392,11 @@ class LandingPage extends React.Component {
                 </Grid>
                 <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
                   <Typography style={{letterSpacing: 0, color: '#999'}} gutterBottom variant="caption">
-                  <b style={{color: '#262626'}}>diyetiswomen</b>, <b style={{color: '#262626'}}>dyt_ezelkavadar</b>, <b style={{color: '#262626'}}>diyetisyendoyranli</b>, <b style={{color: '#262626'}}>diyetisyenasknn</b> ve digerleri tarafından kullanılıyor
+                  <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">diyetiswomen</a>, 
+                  <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">dyt_ezelkavadar</a>, 
+                  <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">diyetisyendoyranli</a>, 
+                  <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">diyetisyenasknn</a> 
+                  &nbsp;ve digerleri tarafından kullanılıyor
                   </Typography>
                 </Grid>
               </Grid>
@@ -409,7 +413,7 @@ class LandingPage extends React.Component {
                 )}
               </Grid>
 
-              <div style={{marginTop: '24px', backgroundColor: 'white'}} >
+              {/* <div style={{marginTop: '24px', backgroundColor: 'white'}} >
                 <Divider />
                 <Grid container style={{paddingLeft: '16px', paddingRight: '16px'}} spacing={0}>
                   <Grid style={{paddingTop: '16px', display: 'flex', justifyContent: 'center'}} item xs={12} lg={12}>
@@ -450,7 +454,6 @@ class LandingPage extends React.Component {
                         <Typography component="span" variant="h6" color="textSecondary">
                           /ay
                         </Typography>
-                        {/* <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">99₺</Typography> */}
                       </Grid>
                       <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
                         <Typography component="span" variant="h5" color="textPrimary">
@@ -474,7 +477,7 @@ class LandingPage extends React.Component {
                   </Grid>
                 </Grid>
                 <Divider />
-              </div>
+              </div> */}
             </div>
           )}
         </main>
