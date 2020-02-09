@@ -173,14 +173,14 @@ class Sidebar extends React.Component {
               
             <ListItem button component={Link} to='/c' selected={location.pathname.startsWith('/c')}>
               <ListItemIcon>
-                <PeopleIcon color="primary"/>
+                <PeopleIcon color="inherit"/>
               </ListItemIcon>
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
 
             <ListItem button component={Link} to='/m' selected={location.pathname != '/me' && location.pathname.startsWith('/m')}>
               <ListItemIcon>
-                <ChatIcon color="primary"/>
+                <ChatIcon color="inherit"/>
               </ListItemIcon>
               <Typography variant="overline">Mesajlarım</Typography>
               { 
@@ -194,7 +194,7 @@ class Sidebar extends React.Component {
 
             <ListItem button component={Link} to='/r' selected={location.pathname.startsWith('/r')}>
               <ListItemIcon>
-                <CalendarTodayIcon color="primary"/>
+                <CalendarTodayIcon color="inherit"/>
               </ListItemIcon>
               <Typography variant="overline">RANDEVULARIM</Typography>
               { 

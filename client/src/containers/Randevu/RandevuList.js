@@ -246,7 +246,7 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     var apptList = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
-    
+
     return (
         <div className={classes.root}>
         <div className={classes.main}>
@@ -278,14 +278,14 @@ class Envanter extends React.Component {
           { !showLoader && (!apptList || Object.keys(apptList).length == 0) && (
             <IntroInstaVideo 
               introName="RandevuList"
-              noItemText={"Çok üzgünüz, şu an için hiç randevun yok 😞"}
+              noItemText={"Çok üzgünüz, henüz hiç randevun yok 😞"}
               infoHighlightSrc={"/static/randevu/thumbnail.png"}
               sources={[
                 '/static/randevu/randevu_1.mp4',
-                '/static/randevu_2.mp4',
-                '/static/randevu_3.mp4',
-                '/static/randevu_4.mp4',
-                '/static/randevu_5.mp4',
+                '/static/randevu/randevu_2.mp4',
+                '/static/randevu/randevu_3.mp4',
+                '/static/randevu/randevu_4.mp4',
+                '/static/randevu/randevu_5.mp4', 
               ]}
               topMargin={'80px'}
             />
