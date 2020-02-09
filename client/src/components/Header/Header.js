@@ -26,7 +26,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
   toolbarRoot: {
-    minHeight: theme.spacing(6),
+    minHeight: theme.spacing(7),
     paddingRight: theme.spacing(1),
     paddingLeft: theme.spacing(1), 
   },
@@ -101,7 +101,7 @@ class Header extends React.Component  {
     
     return (
       <AppBar color="inherit" elevation={0} className={this.props.permanentDrawer ? classes.appBarShifted : classes.appBar} position="fixed">
-        <Toolbar variant="dense" classes={{ root: classes.toolbarRoot }}>
+        <Toolbar classes={{ root: classes.toolbarRoot }}>
           {this.props.backButton && (
             <IconButton
               className={classes.backButton}
@@ -132,7 +132,7 @@ class Header extends React.Component  {
             color="primary"
             noWrap
             className={classes.title}
-            style={{marginRight: this.props.noButton != true ? '48px' : '0'}}
+            style={{fontSize: '1.125em', marginRight: this.props.noButton != true ? '48px' : '0'}}
           >
             {this.props.title || getPageTitle(this.props) || ''}
           </Typography>

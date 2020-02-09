@@ -74,7 +74,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { withRouter } from "react-router-dom";
-import RandevuIntroVideo from './RandevuIntroVideo'
 import IntroInstaVideo from '../../components/IntroInstaVideo'
 
 const styles = theme => ({
@@ -246,7 +245,6 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     var apptList = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
-    apptList = {}
 
     return (
         <div className={classes.root}>

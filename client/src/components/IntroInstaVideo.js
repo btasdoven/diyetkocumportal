@@ -204,7 +204,7 @@ class RandevuIntro extends React.Component
         const { classes } = this.props;
 
         return (
-            <div className={classes.root} style={{height: `calc(100vh - ${this.props.topMargin})`}}>
+            <div className={classes.root} style={{position: 'absolute', top: 0, bottom: 0, height: `95vh`}}>
             <div className={classes.main}>
                 <video 
                   muted
@@ -319,7 +319,7 @@ class RandevuIntro extends React.Component
                 
                 <Grid container spacing={0} >
                     <Grid item xs={12}>
-                        <div style={{position: 'relative', margin: 'auto', minWidth: '100px', maxWidth: '120px', width: '25%'}}>
+                        <div style={{position: 'relative', margin: 'auto', minWidth: '128px', maxWidth: '144px', width: '33%'}}>
                             <style>
                             {`@keyframes rotate {
                                 from{ transform: rotate(0deg); }

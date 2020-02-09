@@ -118,7 +118,7 @@ const styles = theme => ({
   },
   root: {
       margin: theme.spacing(1),
-      marginTop: theme.spacing(6),
+      marginTop: theme.spacing(7),
       //backgroundColor: 'rgb(255,255,255)'
   },
   rootLoading: {

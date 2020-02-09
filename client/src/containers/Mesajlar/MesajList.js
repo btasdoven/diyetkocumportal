@@ -84,6 +84,7 @@ const styles = theme => ({
     display: 'block', // Fix IE 11 issue.
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
     //top: 0,
     [theme.breakpoints.up(600 + theme.spacing(6))]: {
       width: '100%',
@@ -243,6 +244,7 @@ class Envanter extends React.Component {
                         </span>
                       )
                     })}  
+                    <Divider component="li" />
                   </List>
                 </span>
             }
