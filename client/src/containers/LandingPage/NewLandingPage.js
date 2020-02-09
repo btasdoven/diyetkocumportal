@@ -169,11 +169,10 @@ const ilkDanisanSources = [
 ];
 
 const ilkRandevuSources = [
-  '/static/randevu/randevu_1.mp4',
-  '/static/randevu/randevu_2.mp4',
-  '/static/randevu/randevu_3.mp4',
-  '/static/randevu/randevu_4.mp4',
-  '/static/randevu/randevu_5.mp4',
+  '/static/randevu/randevu_1.mov',
+  '/static/randevu/randevu_2.mov',
+  '/static/randevu/randevu_3.mov',
+  '/static/randevu/randevu_4.mov',
 ];
 
 const highlights = [
