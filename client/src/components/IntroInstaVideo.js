@@ -204,7 +204,7 @@ class RandevuIntro extends React.Component
         const { classes } = this.props;
 
         return (
-            <div className={classes.root} style={{position: 'absolute', top: 0, bottom: 0, height: `95vh`}}>
+          <div className={classes.root} style={{position: 'absolute', top: 0, left: 0, right: 0, height: `100%`}}>
             <div className={classes.main}>
                 <video 
                   muted

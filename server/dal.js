@@ -761,26 +761,26 @@ exports.addDanisanMessage = function (userId, danisanUserName, messageId, messag
       const content = `
 Merhaba ${danisanUserName},
 
-Diyetisyen ${rows[userId].profile.name} size yeni bir mesaj gönderdi. Mesajı aşağıdaki linkten görüntüleyebilirsiniz.
+Diyetisyen ${rows[userId].profile.name} sana yeni bir mesaj gönderdi. Mesajı görmek için:
 
 https://diyetkocum.net/l/${stringHash(userId + danisanUserName)}
 
 Teşekkürler 🙏
 Diyet Koçum Ailesi`   
 
-      email.sendEmail(rows[userId].danisans[danisanUserName].profile.email, titleSuffix, 'Diyetisyeninizden yeni mesaj', content)
+      email.sendEmail(rows[userId].danisans[danisanUserName].profile.email, titleSuffix, 'Diyetisyeninden yeni mesaj', content)
     } else {
       const content = `
 Merhaba ${rows[userId].profile.name},
 
-Danışanınız ${danisanUserName} size yeni bir mesaj gönderdi. Mesajı aşağıdaki linkten görüntüleyebilirsiniz.
+Danışanın ${danisanUserName} sana yeni bir mesaj gönderdi. Mesajı görmek için:
 
 https://diyetkocum.net/c/${danisanUserName.replace(/ /g, '%20')}
 
 Teşekkürler 🙏
 Diyet Koçum Ailesi`   
     
-      email.sendEmail(rows[userId].profile.email, titleSuffix, 'Danışanınızdan yeni mesaj', content)
+      email.sendEmail(rows[userId].profile.email, titleSuffix, 'Danışanından yeni mesaj', content)
     }
   }
 
