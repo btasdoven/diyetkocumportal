@@ -21,7 +21,7 @@ const styles = theme => ({
     flexGrow: 1,
     //marginLeft: theme.spacing(7),
     //padding: theme.spacing(1),
-    marginTop: theme.spacing(7),
+    marginTop: theme.spacing(6),
     overflowX: "hidden",
     paddingBottom: '16px',
     //height: '100vh',

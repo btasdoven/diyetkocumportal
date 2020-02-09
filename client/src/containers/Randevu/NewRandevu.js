@@ -118,7 +118,7 @@ const styles = theme => ({
   },
   root: {
       margin: theme.spacing(1),
-      marginTop: theme.spacing(8),
+      marginTop: theme.spacing(6),
       //backgroundColor: 'rgb(255,255,255)'
   },
   rootLoading: {
@@ -430,7 +430,7 @@ class NewRandevuWrapper extends React.Component {
                     })}
                     title={
                       this.state.step == 0
-                        ? "RANDEVU PORTALI"
+                        ? "DİYET KOÇUM RANDEVU PORTALI"
                         : this.state.step == 1
                           ? "OFİS KONUMUNU SEÇ"
                           : this.state.step == 2 

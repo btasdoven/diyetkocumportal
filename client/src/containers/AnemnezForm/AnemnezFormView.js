@@ -325,12 +325,12 @@ class Envanter extends React.Component {
     else
       return (
         <span>
-          <AppBar elevation={0}>
+          <AppBar color="inherit" elevation={0}>
             <Tabs
               value={this.state.value}
               onChange={this.handleValueChange}
               indicatorColor="secondary"
-              textColor="inherit"
+              textColor="secondary"
               variant="scrollable"
               scrollButtons="on"
               aria-label="scrollable auto tabs example"

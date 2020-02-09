@@ -225,6 +225,7 @@ class Envanter extends React.Component {
                       var fontWeight = danisan.unread == 0 ? 400 : 600;
                       return (
                         <span key={idx}>
+                          <Divider component="li" />
                           <ListItem button component={Link} onClick={this.handleOnClick(danisanKey)} to={"/m/" + danisanKey}>
                             <ListItemAvatar>
                             <Avatar src={danisan.danisanUrl} />
@@ -239,7 +240,6 @@ class Envanter extends React.Component {
                               )}
                             </div>
                           </ListItem>
-                          <Divider component="li" />
                         </span>
                       )
                     })}  

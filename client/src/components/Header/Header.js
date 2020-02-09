@@ -26,7 +26,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
   toolbarRoot: {
-    minHeight: theme.spacing(7),
+    minHeight: theme.spacing(6),
     paddingRight: theme.spacing(1),
     paddingLeft: theme.spacing(1), 
   },
@@ -100,7 +100,7 @@ class Header extends React.Component  {
     const { classes } = this.props;
     
     return (
-      <AppBar elevation={0} className={this.props.permanentDrawer ? classes.appBarShifted : classes.appBar} position="fixed">
+      <AppBar color="inherit" elevation={0} className={this.props.permanentDrawer ? classes.appBarShifted : classes.appBar} position="fixed">
         <Toolbar variant="dense" classes={{ root: classes.toolbarRoot }}>
           {this.props.backButton && (
             <IconButton
@@ -110,15 +110,16 @@ class Header extends React.Component  {
               to={this.props.backButton}
               onClick={this.props.onBackButtonClick}
             >
-              <ExpandMoreIcon />
+              <ExpandMoreIcon color="primary"/>
             </IconButton>
           )}
           {!this.props.backButton && this.props.noButton != true && (
             <IconButton
+              
               className={classes.menuButton}
               onClick={() => this.props.handleOpenDrawer()}
             >
-              <MenuIcon />
+              <MenuIcon color="primary"/>
             </IconButton>
           )}
 
@@ -128,7 +129,7 @@ class Header extends React.Component  {
 
           <Typography
             variant="button"
-            color="inherit"
+            color="primary"
             noWrap
             className={classes.title}
             style={{marginRight: this.props.noButton != true ? '48px' : '0'}}
