@@ -204,7 +204,7 @@ class RandevuIntro extends React.Component
                         ? 0 
                         : this.state.activeStory + 1]}
                   preload="auto" 
-                  style={{zIndex: -1, position: 'absolute', top: 0, width: 0, height: 0}}>                 
+                  style={{zIndex: -9999, position: 'absolute', top: '50%', left: '50%', width: '4px', height: '4px'}}>                 
                 </video>
                 <Dialog
                   PaperProps={{style: {
@@ -338,19 +338,29 @@ class RandevuIntro extends React.Component
                     <Grid item xs={12}>
                         <div style={{position: 'relative', margin: 'auto', minWidth: '128px', maxWidth: '144px', width: '33%'}}> */}
                             <style>
-                            {`@keyframes rotate {
-                                from{ transform: rotate(0deg); }
-                                to{ transform: rotate(360deg); }
-                            }`}
+                            {
+                              `@keyframes rotate {
+                                  from{ transform: rotate(0deg); }
+                                  to{ transform: rotate(360deg); }
+                              }
+                              .MuiAvatar-fallback {
+                                width: 100%;
+                                height: 100%;
+                              }`
+                            }
                             </style>
                             {this.props.border != false && 
                               <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
                               </div>
                             }
-                            <Avatar imgProps={{style: { borderRadius: '50%'}}} onClick={() => {
-                              registerEvent("WatchIntroVideo_" + this.props.introName)          
-                              this.setState({activeStory: 0, openDialog: true})
-                            }} alt="Remy Sharp" src={this.props.infoHighlightSrc} className={classes.avatar} />
+                            <Avatar 
+                              imgProps={{style: {borderRadius: '50%'}}} 
+                              onClick={() => {
+                                registerEvent("WatchIntroVideo_" + this.props.introName)
+                                this.setState({activeStory: 0, openDialog: true})
+                              }} 
+                              src={this.props.infoHighlightSrc} 
+                              className={classes.avatar} />
                         {/* </div>
                     </Grid>
                     <Grid item xs={12}>

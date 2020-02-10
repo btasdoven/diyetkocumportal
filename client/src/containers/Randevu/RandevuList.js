@@ -287,6 +287,7 @@ class Envanter extends React.Component {
                         '/static/randevu/randevu_2.mov',
                         '/static/randevu/randevu_3.mov',
                         '/static/randevu/randevu_4.mov',
+                        '/static/randevu/randevu_5.mov',
                       ]}
                     />
                   </div>
