@@ -171,7 +171,7 @@ class Sidebar extends React.Component {
               <Typography variant="overline">Ana Sayfa</Typography>
             </ListItem> */}
               
-            <ListItem button component={Link} to='/c' selected={location.pathname.startsWith('/c')}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/c' selected={location.pathname.startsWith('/c')}>
               <ListItemIcon>
                 <PeopleIcon fontSize="small" color="primary"/>
               </ListItemIcon>
@@ -192,7 +192,7 @@ class Sidebar extends React.Component {
               }
             </ListItem>
 
-            <ListItem button component={Link} to='/r' selected={location.pathname.startsWith('/r')}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/r' selected={location.pathname.startsWith('/r')}>
               <ListItemIcon>
                 <CalendarTodayIcon fontSize="small" color="primary"/>
               </ListItemIcon>
