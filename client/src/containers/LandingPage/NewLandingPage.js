@@ -69,8 +69,8 @@ const styles = theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(2),
     padding: 0,
-    display: 'flex',
-    justifyContent: 'flex-end',
+    // display: 'flex',
+    justifyContent: 'space-between',
     [theme.breakpoints.up(750 + theme.spacing(6))]: {
       width: 750,
       marginLeft: 'auto',
@@ -223,22 +223,24 @@ class LandingPage extends React.Component {
         <CssBaseline />
         <AppBar elevation={0} position="static" className={classes.appBar}>
           <Toolbar variant="dense" className={classes.layoutToolbar}>
-            {/* <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/> */}
+            <span edge="start">
+              {this.state.user && <Avatar edge="start" src={this.state.user.url} style={{marginRight: '10px', height:'40px'}}/>}
+            </span>
             {/* <Typography variant="h6" color="inherit" noWrap>
               Digital Lab Book
             </Typography> */}
             {this.state.user == undefined && (
-              <span>
+              <div edge="end">
                 <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
                   GİRİŞ YAP
                 </Button>
                 <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signup">
                   KAYDOL
                 </Button>
-              </span>
+              </div>
             )}
             {this.state.user != undefined && (
-              <Button endIcon={<SendIcon />} size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/r">
+              <Button edge="end" endIcon={<SendIcon />} size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/r">
                 PORTALIM
               </Button>
             )}
