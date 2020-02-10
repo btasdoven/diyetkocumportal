@@ -169,6 +169,12 @@ const ilkDanisanSources = [
   '/static/highlights/ilk_danisan_3.mp4',
 ];
 
+const soruCevapSources = [
+  '/static/highlights/sorucevap_1.mov',  
+  '/static/highlights/sorucevap_2.mov',
+  '/static/highlights/sorucevap_3.mov',
+];
+
 const ilkRandevuSources = [
   '/static/randevu/randevu_1.mov',
   '/static/randevu/randevu_2.mov',
@@ -181,7 +187,7 @@ const highlights = [
   { name: 'Diyet Koçum nedir?', src: "/static/highlights/highlight1.jpg", sources: ilkDanisanSources },
   { name: 'İlk danışan kaydı', src: "/static/danisan/thumbnail.png", sources: ilkDanisanSources },
   { name: 'İlk randevu', src: "/static/randevu/thumbnail.png", sources: ilkRandevuSources },
-  { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg", sources: ilkDanisanSources },
+  { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg", sources: soruCevapSources },
 ]
 class LandingPage extends React.Component {
 
