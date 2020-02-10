@@ -194,7 +194,10 @@ class RandevuIntro extends React.Component
                   //controls={true}
                   type='video/mp4'
                   //poster="/static/favicon.png"
-                  onLoadedData={() => console.log('loaded data for next of ', this.state.activeStory)}
+                  onLoadedData={() => {
+                    console.log('loaded data for next of ', this.state.activeStory)
+                    alert('loaded data for ' + this.state.source[this.state.activeStory] + ' ' + this.state.activeStory)
+                  }}
                   onPlay={() => console.log('playing')}
                   onEnded={() => console.log('ended')}
                   src={

@@ -10,16 +10,16 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsIcon from "@material-ui/icons/Settings";
-import ChatIcon from "@material-ui/icons/Chat";
+import ChatIcon from "@material-ui/icons/ChatOutlined";
 import HistoryIcon from "@material-ui/icons/History";
-import PeopleIcon from "@material-ui/icons/People";
+import PeopleIcon from "@material-ui/icons/PeopleOutlined";
 import AppsIcon from "@material-ui/icons/Apps";
 import StoreIcon from "@material-ui/icons/Store";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from '@material-ui/core/MenuItem';
 import FolderSpecialIcon from "@material-ui/icons/FolderSpecial";
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import CalendarTodayIcon from '@material-ui/icons/CalendarTodayOutlined';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
@@ -163,7 +163,7 @@ class Sidebar extends React.Component {
           </Collapse>
               
           <Divider />
-          <List dense={true}>
+          <List dense={true} style={{paddingRight: '8px'}}>
             {/* <ListItem button component={Link} to='/' selected={location.pathname === '/'}>
               <ListItemIcon>
                 <DashboardIcon color="primary"/>
@@ -173,14 +173,14 @@ class Sidebar extends React.Component {
               
             <ListItem button component={Link} to='/c' selected={location.pathname.startsWith('/c')}>
               <ListItemIcon>
-                <PeopleIcon color="inherit"/>
+                <PeopleIcon fontSize="small" color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
 
-            <ListItem button component={Link} to='/m' selected={location.pathname != '/me' && location.pathname.startsWith('/m')}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/m' selected={location.pathname != '/me' && location.pathname.startsWith('/m')}>
               <ListItemIcon>
-                <ChatIcon color="inherit"/>
+                <ChatIcon fontSize="small" color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Mesajlarım</Typography>
               { 
@@ -194,7 +194,7 @@ class Sidebar extends React.Component {
 
             <ListItem button component={Link} to='/r' selected={location.pathname.startsWith('/r')}>
               <ListItemIcon>
-                <CalendarTodayIcon color="inherit"/>
+                <CalendarTodayIcon fontSize="small" color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">RANDEVULARIM</Typography>
               { 
