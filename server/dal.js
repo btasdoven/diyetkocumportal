@@ -46,6 +46,7 @@ const rows = {
       'Perşembe': true,
       'Cuma': true,
       'online_diyet': true,
+      'unvan': 'Diyetisyen',
       'ozgecmis': 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.'
     }
   },
@@ -270,6 +271,7 @@ var taskInitNewDietitians = () => {
       r.profile.name = rows[0].users[id].name
       r.profile.url = rows[0].users[id].url
       r.profile.tel = rows[0].users[id].tel
+      r.profile.link = 'diyetkocum.net/d/' + id
 
       return storage.setItem(id.toString(), r);
     }
@@ -304,6 +306,24 @@ var taskUpgradeStg = () => {
         rows[id].profile.url == undefined) {
       rows[id].profile.url = rows[0].users[id].url
       changed = true
+    }
+
+    if (rows[id].profile != undefined &&
+        rows[id].profile.unvan == undefined) {
+      changed = true;
+      rows[id].profile.unvan = 'Diyetisyen'
+    }
+
+    if (rows[id].profile != undefined &&
+        rows[id].profile.ozgecmis == undefined) {
+      changed = true;
+      rows[id].profile.ozgecmis = 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.'
+    }
+
+    if (rows[id].profile != undefined &&
+        rows[id].profile.link == undefined) {
+      changed = true;
+      rows[id].profile.link = 'diyetkocum.net/d/' + id;
     }
     
     console.log(changed)

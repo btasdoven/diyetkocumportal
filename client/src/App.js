@@ -108,12 +108,12 @@ class App extends Component {
                     </Switch>
                   ) : (
                     <Switch>
-                      <EmptyRoute path="/np" component={NewLandingPage} />
+                      <EmptyRoute path="/np" render={() => <Redirect to="/" />} />
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
                       <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
                       <EmptyRoute path="/signup" component={Register} />
                       <EmptyRoute path="/signin" component={Signin} />
-                      <Route exact path="/" render={() => <Redirect to="/signin" />} />
+                      <Route exact path="/" component={NewLandingPage} />
                       <Redirect to="/" />
                     </Switch>
                   )}

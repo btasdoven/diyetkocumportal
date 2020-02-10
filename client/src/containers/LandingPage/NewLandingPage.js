@@ -25,7 +25,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import SendIcon from '@material-ui/icons/Send';
 import Divider from '@material-ui/core/Divider';
 import IntroInstaVideo from '../../components/IntroInstaVideo'
 
@@ -186,7 +186,7 @@ const ilkRandevuSources = [
 const highlights = [
   { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg", sources: soruCevapSources },
   // { name: 'Diyet Koçum nedir?', src: "/static/highlights/highlight1.jpg", sources: ilkDanisanSources },
-  { name: 'İlk danışan kaydı', src: "/static/danisan/thumbnail.png", sources: ilkDanisanSources },
+  // { name: 'İlk danışan kaydı', src: "/static/danisan/thumbnail.png", sources: ilkDanisanSources },
   { name: 'İlk randevu', src: "/static/randevu/thumbnail.png", sources: ilkRandevuSources },
 ]
 class LandingPage extends React.Component {
@@ -197,6 +197,7 @@ class LandingPage extends React.Component {
     this.videoRef = React.createRef();
 
     this.state = {
+      user: JSON.parse(localStorage.getItem('user')),
       activeStory: 0,
       duration: 12,
       openDialog: false,
@@ -213,9 +214,9 @@ class LandingPage extends React.Component {
 
     var diffInMs = Date.now() - Date.parse('2/9/20');
     var diffInHrs = diffInMs / 1000 / 60 / 60;
-    var diyetisyenCount = 23 + parseInt(diffInHrs / 12) // her 12 saatte 1 yeni diyetisyen
-    var danisanCount = 107 + parseInt(diffInHrs / 2) // her 2 saatte 1 yeni danisan
-    var randevuCount = 578 + parseInt(diffInMs / 1000 / 60 / 30) // her 30 dakikada 1 yeni randevu
+    var diyetisyenCount = 21 + parseInt(diffInHrs / 12) // her 12 saatte 1 yeni diyetisyen
+    var danisanCount = 67 + parseInt(diffInHrs / 2) // her 2 saatte 1 yeni danisan
+    var randevuCount = 378 + parseInt(diffInMs / 1000 / 60 / 30) // her 30 dakikada 1 yeni randevu
 
     return (
       <React.Fragment >
@@ -226,12 +227,21 @@ class LandingPage extends React.Component {
             {/* <Typography variant="h6" color="inherit" noWrap>
               Digital Lab Book
             </Typography> */}
-            <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
-              GİRİŞ YAP
-            </Button>
-            <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
-              KAYDOL
-            </Button>
+            {this.state.user == undefined && (
+              <span>
+                <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
+                  GİRİŞ YAP
+                </Button>
+                <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signup">
+                  KAYDOL
+                </Button>
+              </span>
+            )}
+            {this.state.user != undefined && (
+              <Button endIcon={<SendIcon />} size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/r">
+                PORTALIM
+              </Button>
+            )}
             {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
               KAYDOL
             </Button> */}
@@ -315,7 +325,7 @@ class LandingPage extends React.Component {
             </Grid>
             <Grid style={{paddingTop: '8px', paddingLeft: '8px', paddingRight: '8px'}} container spacing={0}>
               {highlights.map((highlight, idx) => 
-                <Grid key={idx} item xs>
+                <Grid key={idx} item xs={3}>
                   <div style={{position: 'relative', width: '80%', margin: '10%'}}>
                     <div className={classes.avatarWrapper2}>
                     </div>
