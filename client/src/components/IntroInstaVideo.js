@@ -186,14 +186,17 @@ class RandevuIntro extends React.Component
     {
         const { classes } = this.props;
 
+        var w = this.props.introName == "RandevuList" ? 0 : '40px'
+
         return (
             <div className={classes.main}>
                 <video 
                   muted
                   playsInline
+                  autoPlay
+                  preload="auto" 
                   //controls={true}
                   type='video/mp4'
-                  //poster="/static/favicon.png"
                   onLoadedData={() => {
                     console.log('loaded data for next of ', this.state.activeStory)
                     alert('loaded data for ' + this.state.source[this.state.activeStory] + ' ' + this.state.activeStory)
@@ -206,8 +209,7 @@ class RandevuIntro extends React.Component
                       : this.state.activeStory + 1 == this.state.source.length 
                         ? 0 
                         : this.state.activeStory + 1]}
-                  preload="auto" 
-                  style={{zIndex: -9999, position: 'absolute', top: '50%', left: '50%', width: '4px', height: '4px'}}>                 
+                  style={{zIndex: 10000, position: 'absolute', top: '50%', left: '50%', width: w, height: w}}>                 
                 </video>
                 <Dialog
                   PaperProps={{style: {
@@ -312,6 +314,7 @@ class RandevuIntro extends React.Component
                       muted
                       playsInline
                       autoPlay
+                      preload="auto" 
                       //controls={true}
                       type='video/mp4'
                       onLoadedData={() => console.log('loaded data for ', this.state.activeStory)}
@@ -331,7 +334,6 @@ class RandevuIntro extends React.Component
                         }
                       }}
                       src={this.state.source[this.state.activeStory]}
-                      preload="auto" 
                       style={{position: 'absolute', top: '26px', width: '100%', height: 'calc(100% - 26px)'}}>                
                     </video>
                   </DialogContent>
