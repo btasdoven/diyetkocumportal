@@ -186,31 +186,34 @@ class RandevuIntro extends React.Component
     {
         const { classes } = this.props;
 
-        var w = this.props.introName == "RandevuList" ? 0 : '40px'
+        var w = 0; //this.props.introName == "RandevuList" ? 0 : '40px'
 
         return (
             <div className={classes.main}>
-                <video 
-                  muted
-                  playsInline
-                  autoPlay
-                  preload="auto" 
-                  //controls={true}
-                  type='video/mp4'
-                  onLoadedData={() => {
-                    console.log('loaded data for next of ', this.state.activeStory)
-                    alert('loaded data for ' + this.state.source[this.state.activeStory] + ' ' + this.state.activeStory)
-                  }}
-                  onPlay={() => console.log('playing')}
-                  onEnded={() => console.log('ended')}
-                  src={
-                    this.state.source[this.state.openDialog == false 
-                      ? this.state.activeStory 
-                      : this.state.activeStory + 1 == this.state.source.length 
-                        ? 0 
-                        : this.state.activeStory + 1]}
-                  style={{zIndex: 10000, position: 'absolute', top: '50%', left: '50%', width: w, height: w}}>                 
-                </video>
+                {this.state.activeStory + 1 < this.state.source.length && (
+                  <video 
+                    muted
+                    playsInline
+                    autoPlay
+                    preload="auto" 
+                    //controls={true}
+                    type='video/mp4'
+                    onLoadedData={() => {
+                      console.log('loaded data for next of ', this.state.activeStory)
+                      //alert('loaded data for ' + this.state.source[this.state.activeStory] + ' ' + this.state.activeStory)
+                    }}
+                    onPlay={() => console.log('playing')}
+                    onEnded={() => console.log('ended')}
+                    src={
+                      this.state.source[this.state.openDialog == false 
+                        ? this.state.activeStory 
+                        : this.state.activeStory + 1 == this.state.source.length 
+                          ? 0 
+                          : this.state.activeStory + 1]}
+                    style={{zIndex: 10000, position: 'absolute', top: '50%', left: '50%', width: w, height: w}}>                 
+                  </video>
+                )}
+
                 <Dialog
                   PaperProps={{style: {
                     width: '100%',
