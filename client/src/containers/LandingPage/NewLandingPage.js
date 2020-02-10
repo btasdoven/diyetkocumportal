@@ -27,6 +27,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from '@material-ui/core/Divider';
+import IntroInstaVideo from '../../components/IntroInstaVideo'
 
 const styles = theme => ({
   appBar: {
@@ -225,261 +226,163 @@ class LandingPage extends React.Component {
         </AppBar>
         <Divider />
         <main>
-        <video 
-          muted
-          playsInline
-          //controls={true}
-          type='video/mp4'
-          //poster="/static/favicon.png"
-          onLoadedData={() => console.log('loaded data for next of ', this.state.activeStory)}
-          onPlay={() => console.log('playing')}
-          onEnded={() => console.log('ended')}
-          src={
-            this.state.source[this.state.openDialog == false 
-              ? this.state.activeStory 
-              : this.state.activeStory + 1 == this.state.source.length 
-                ? 0 
-                : this.state.activeStory + 1]}
-          preload="auto" 
-          style={{zIndex: -1, position: 'absolute', top: 0, width: 0, height: 0}}>                 
-        </video>
-
-          <Dialog
-            PaperProps={{style: {
-              width: '100%',
-              height: '100%',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              margin: 0,
-              padding: 0,
-              backgroundColor: '#262626',
-              borderRadius: 0,
-            }}}
-            fullWidth={true}
-            open={this.state.openDialog}
-          >
-            <div style={{zIndex: 9999, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
-              {this.state.source.map((src, idx) => {
-                return (
-                  <div key={idx} style={{flexGrow: 1, height: '2px', marginRight: '2px', background: 'rgba(255, 255, 255, 0.35)'}}>
-                    {idx == this.state.activeStory &&
-                      (<div style={{transition: `width ${this.state.duration}s linear`, width: this.state.width, height: '100%', backgroundColor: 'white'}}></div>)
-                    }
-                    {idx < this.state.activeStory &&
-                      (<div style={{transition: `width 0s linear`, width: '100%', height: '100%', backgroundColor: 'white'}}></div>)
-                    }
+          <div className={classNames(classes.layout, classes.cardGrid)}>
+            <Grid container spacing={0} >
+              <Grid style={{paddingLeft: '5%'}} item xs={3} sm={3} md={3} lg={3}>
+                <div style={{position: 'relative', width: '100%'}}>
+                  <IntroInstaVideo 
+                    introName="DiyetKocumProfile"
+                    infoHighlightSrc={"/static/favicon.png"}
+                    sources={[
+                      '/static/randevu/randevu_1.mov',
+                      '/static/randevu/randevu_2.mov',
+                      '/static/randevu/randevu_3.mov',
+                      '/static/randevu/randevu_4.mov',
+                    ]}
+                  />
+                  {/* <style>
+                    {`@keyframes rotate {
+                        from{ transform: rotate(0deg); }
+                        to{ transform: rotate(360deg); }
+                    }`}
+                  </style>
+                  <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
                   </div>
-                )
-              })}
-            </div>
-            <DialogContent style={{height: '100%', borderRadius: 0, color: 'white', padding:0, margin: 0}}>
-              <Grid style={{height: '100%'}} container spacing={0}>
-                <Grid 
-                  style={{display: 'flex', zIndex: 9998}} item xs={4}
-                  onClick={() => {
-                    this.state.activeStory > 0 && this.setState({width: 0, duration: 0, activeStory: this.state.activeStory - 1})
-                  }}
-                >
-                  {this.state.activeStory > 0 &&
-                    <IconButton 
-                      disableRipple
-                      style={{color: 'rgba(255, 255, 255, 1)'}}
-                      >
-                        <ChevronLeftIcon />
-                    </IconButton>
-                  }
-                </Grid>
-                <Grid 
-                  item xs={8}
-                  style={{display: 'flex', height: '100%', justifyContent: 'flex-end', zIndex: 9998}} 
-                  onClick={() => {
-                    if (this.state.activeStory + 1 == this.state.source.length) {
-                      this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
-                    } else {
-                      this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
-                    }
-                  }}
-                >
-                  <IconButton 
-                    disableRipple
-                    style={{color: 'rgba(255, 255, 255, 1)'}}>
-                      <ChevronRightIcon />
-                  </IconButton>
-                </Grid>
+                  <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} /> */}
+                </div>
               </Grid>
-              
-              <IconButton 
-                style={{position: 'absolute', zIndex: 9999, top: '14px', right: '8px', color: 'rgba(255, 255, 255, 1)'}} 
-                onClick={() => this.setState({width: 0, duration: 0, openDialog: false})}>
-                  <CloseIcon />
-              </IconButton>
-              <video 
-                muted
-                playsInline
-                autoPlay
-                //controls={true}
-                type='video/mp4'
-                onLoadedData={() => console.log('loaded data for ', this.state.activeStory)}
-                ref={this.videoRef}
-                //poster="/static/favicon.png"
-                onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration})}
-                onEnded={() => {
-                  if (this.state.activeStory + 1 == this.state.source.length) {
-                    this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
-                  } else {
-                    this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
-                  }
-                }}
-                src={this.state.source[this.state.activeStory]}
-                preload="auto" 
-                style={{position: 'absolute', top: 0, width: '100%', height: '100%'}}>                
-              </video>
-            </DialogContent>
-          </Dialog>
-          {this.state.openDialog != true && (
-            <div className={classNames(classes.layout, classes.cardGrid)}>
-              <Grid container spacing={0} >
-                <Grid style={{paddingLeft: '5%'}} item xs={3} sm={3} md={3} lg={3}>
-                  <div style={{position: 'relative', width: '100%'}}>
-                    {/* <style>
-                      {`@keyframes rotate {
-                          from{ transform: rotate(0deg); }
-                          to{ transform: rotate(360deg); }
-                      }`}
-                    </style>
-                    <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
-                    </div> */}
-                    <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} />
-                  </div>
-                </Grid>
-                <Grid style={{paddingLeft: '5%'}} item xs={9} sm={9} md={9} lg={9}>
-                  <Grid style={{alignContent: 'center', height: '100%'}} container spacing={0}>
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
-                      <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="h5">
-                          Diyet Koçum
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4} sm={4} md={4} lg={4}>
-                      <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                          <b>100+</b><br/> diyetisyen
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4} sm={4} md={4} lg={4}>
-                      <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                          <b>3000+</b><br/> danışan
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4} sm={4} md={4} lg={4}>
-                      <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                          <b>10000+</b><br/> randevu
-                      </Typography>
-                    </Grid>
+              <Grid style={{paddingLeft: '5%'}} item xs={9} sm={9} md={9} lg={9}>
+                <Grid style={{alignContent: 'center', height: '100%'}} container spacing={0}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="h5">
+                        Diyet Koçum
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4} sm={4} md={4} lg={4}>
+                    <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
+                        <b>100+</b><br/> diyetisyen
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4} sm={4} md={4} lg={4}>
+                    <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
+                        <b>3000+</b><br/> danışan
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4} sm={4} md={4} lg={4}>
+                    <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
+                        <b>10000+</b><br/> randevu
+                    </Typography>
                   </Grid>
                 </Grid>
-                <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
-                  <Typography style={{color: '#262626'}} gutterBottom variant="body2">
-                      <b>Diyetisyenlerin Dijital Asistanı</b>
-                  </Typography>
-                  <Typography style={{color: '#262626'}} gutterBottom variant="body2">
-                      🌏 Online ve 📍 yüz yüze diyete yardımcı <br />
-                      🍀 Kolay randevu sistemi <br />
-                      🥑 Danışanlara otomatik anemnez formu doldurtma <br />
-                      🍋 Diyet geçmişi ve notlara online erişim <br />
-                      🍍 Diyet listeleri oluşturma ve kaydetme <br />
-                      💌 Uygulama üzerinden mesajlaşma <br />
-                      🍏 Ödeme alma kolaylığı <br />
-                  </Typography>
-                </Grid>
-                <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
-                  <Typography style={{letterSpacing: 0, color: '#999'}} gutterBottom variant="caption">
-                  <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">diyetiswomen</a>, 
-                  <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">dyt_ezelkavadar</a>, 
-                  <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">diyetisyendoyranli</a>, 
-                  <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">diyetisyenasknn</a> 
-                  &nbsp;ve digerleri tarafından kullanılıyor
-                  </Typography>
-                </Grid>
               </Grid>
-              <Grid style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} container spacing={0}>
-                {highlights.map((highlight, idx) => 
-                  <Grid key={idx} item xs>
-                    <div style={{position: 'relative', width: '80%', margin: '10%'}}>
-                      <div className={classes.avatarWrapper2}>
-                      </div>
-                      <Avatar imgProps={{style: { borderRadius: '50%' }}} onClick={() => this.setState({openDialog: true, activeStory: 0, source: highlight.sources})} alt="Remy Sharp" src={highlight.src} className={classes.avatar2} />
+              <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
+                <Typography style={{color: '#262626'}} gutterBottom variant="body2">
+                    <b>Diyetisyenlerin Dijital Asistanı</b>
+                </Typography>
+                <Typography style={{color: '#262626'}} gutterBottom variant="body2">
+                    🌏 Online ve 📍 yüz yüze diyete yardımcı <br />
+                    🍀 Kolay randevu sistemi <br />
+                    🥑 Danışanlara otomatik anemnez formu doldurtma <br />
+                    🍋 Diyet geçmişi ve notlara online erişim <br />
+                    🍍 Diyet listeleri oluşturma ve kaydetme <br />
+                    💌 Uygulama üzerinden mesajlaşma <br />
+                    🍏 Ödeme alma kolaylığı <br />
+                </Typography>
+              </Grid>
+              <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
+                <Typography style={{letterSpacing: 0, color: '#999'}} gutterBottom variant="caption">
+                <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">diyetiswomen, </a>  
+                <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/dyt_ezelkavadar">dyt_ezelkavadar, </a> 
+                <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetisyendoyranli">diyetisyendoyranli, </a> 
+                <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetisyenasknn">diyetisyenasknn </a>  
+                ve digerleri tarafından kullanılıyor
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid style={{paddingTop: '8px', paddingLeft: '8px', paddingRight: '8px'}} container spacing={0}>
+              {highlights.map((highlight, idx) => 
+                <Grid key={idx} item xs>
+                  <div style={{position: 'relative', width: '80%', margin: '10%'}}>
+                    <div className={classes.avatarWrapper2}>
                     </div>
-                    <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">{highlight.name}</Typography>
-                  </Grid>
-                )}
-              </Grid>
+                    <IntroInstaVideo 
+                      border={false}  
+                      introName={highlight.name}
+                      infoHighlightSrc={highlight.src}
+                      sources={highlight.sources}
+                    />
+                  </div>
+                  <Typography component="div" style={{marginTop: '8px', textAlign: 'center'}} variant="caption">{highlight.name}</Typography>
+                </Grid>
+              )}
+            </Grid>
 
-              {/* <div style={{marginTop: '24px', backgroundColor: 'white'}} >
-                <Divider />
-                <Grid container style={{paddingLeft: '16px', paddingRight: '16px'}} spacing={0}>
-                  <Grid style={{paddingTop: '16px', display: 'flex', justifyContent: 'center'}} item xs={12} lg={12}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={6}>
-                        <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PRO</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PREMIUM</Typography>
-                      </Grid>
+            {/* <div style={{marginTop: '24px', backgroundColor: 'white'}} >
+              <Divider />
+              <Grid container style={{paddingLeft: '16px', paddingRight: '16px'}} spacing={0}>
+                <Grid style={{paddingTop: '16px', display: 'flex', justifyContent: 'center'}} item xs={12} lg={12}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                      <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PRO</Typography>
                     </Grid>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={6}>
-                        <Typography component="div" style={{textAlign: 'center'}} variant="caption">5 danışana kadar kayıt</Typography>
-                        <Typography component="div" style={{textAlign: 'center'}} variant="caption">Haftalık randevu takibi</Typography>
-                        <Typography component="div" style={{textAlign: 'center'}} variant="caption">Kısıtlı mesajlaşma</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız danışan kaydı</Typography>
-                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız randevu takibi</Typography>
-                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız mesajlaşma</Typography>
-                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Online ödeme alma</Typography>
-                        <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">İlk ay ücretsiz</Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid style={{paddingTop:'8px'}} item xs={12}> 
-                    <Grid container spacing={1}>
-                      <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
-                        <Typography component="span" style={{marginRight: '4px', textDecoration: 'line-through', color: 'rgba(0, 0, 0, 0.27)', fontSize: '1rem'}} variant="h6" color="textPrimary">
-                          99₺
-                        </Typography>
-                        <Typography component="span" variant="h5" color="textPrimary">
-                          0₺
-                        </Typography>
-                        <Typography component="span" variant="h6" color="textSecondary">
-                          /ay
-                        </Typography>
-                      </Grid>
-                      <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
-                        <Typography component="span" variant="h5" color="textPrimary">
-                          199₺
-                        </Typography>
-                        <Typography component="span" variant="h6" color="textSecondary">
-                          /ay
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item style={{paddingTop: '8px', paddingBottom: '16px'}} xs={12}>
-                    <Grid container spacing={1}>
-                      <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
-                        <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined" component={Link} to="/signup">ÜCRETSİZ KAYDOL</Button>
-                      </Grid>
-                      <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
-                        <Button style={{color: 'white', backgroundColor: '#3897f0'}} size="small" variant="contained" component={Link} to="/signup">ŞİMDİ DENE</Button>
-                      </Grid>
+                    <Grid item xs={6}>
+                      <Typography component="div" style={{fontWeight: 300, textAlign: 'center'}} variant="h6">PREMIUM</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
-                <Divider />
-              </div> */}
-            </div>
-          )}
+                <Grid item xs={12}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                      <Typography component="div" style={{textAlign: 'center'}} variant="caption">5 danışana kadar kayıt</Typography>
+                      <Typography component="div" style={{textAlign: 'center'}} variant="caption">Haftalık randevu takibi</Typography>
+                      <Typography component="div" style={{textAlign: 'center'}} variant="caption">Kısıtlı mesajlaşma</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız danışan kaydı</Typography>
+                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız randevu takibi</Typography>
+                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız mesajlaşma</Typography>
+                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Online ödeme alma</Typography>
+                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">İlk ay ücretsiz</Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid style={{paddingTop:'8px'}} item xs={12}> 
+                  <Grid container spacing={1}>
+                    <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
+                      <Typography component="span" style={{marginRight: '4px', textDecoration: 'line-through', color: 'rgba(0, 0, 0, 0.27)', fontSize: '1rem'}} variant="h6" color="textPrimary">
+                        99₺
+                      </Typography>
+                      <Typography component="span" variant="h5" color="textPrimary">
+                        0₺
+                      </Typography>
+                      <Typography component="span" variant="h6" color="textSecondary">
+                        /ay
+                      </Typography>
+                    </Grid>
+                    <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
+                      <Typography component="span" variant="h5" color="textPrimary">
+                        199₺
+                      </Typography>
+                      <Typography component="span" variant="h6" color="textSecondary">
+                        /ay
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item style={{paddingTop: '8px', paddingBottom: '16px'}} xs={12}>
+                  <Grid container spacing={1}>
+                    <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                      <Button style={{borderColor: '#3897f0', color: '#3897f0'}} size="small" variant="outlined" component={Link} to="/signup">ÜCRETSİZ KAYDOL</Button>
+                    </Grid>
+                    <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                      <Button style={{color: 'white', backgroundColor: '#3897f0'}} size="small" variant="contained" component={Link} to="/signup">ŞİMDİ DENE</Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Divider />
+            </div> */}
+          </div>
         </main>
       </React.Fragment>
     );

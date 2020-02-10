@@ -275,18 +275,27 @@ class Envanter extends React.Component {
 
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && (!apptList || Object.keys(apptList).length == 0) && (
-            <IntroInstaVideo 
-              introName="RandevuList"
-              noItemText={"Çok üzgünüz, henüz hiç randevun yok 😞"}
-              infoHighlightSrc={"/static/randevu/thumbnail.png"}
-              sources={[
-                '/static/randevu/randevu_1.mov',
-                '/static/randevu/randevu_2.mov',
-                '/static/randevu/randevu_3.mov',
-                '/static/randevu/randevu_4.mov',
-              ]}
-              topMargin={'80px'}
-            />
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 0, left: 0, right: 0, height: `100%`}}>
+              <Grid container spacing={0} >
+                <Grid item xs={12}>
+                  <div style={{position: 'relative', margin: 'auto', minWidth: '128px', maxWidth: '144px', width: '33%'}}>
+                    <IntroInstaVideo 
+                      introName="RandevuList"
+                      infoHighlightSrc={"/static/randevu/thumbnail.png"}
+                      sources={[
+                        '/static/randevu/randevu_1.mov',
+                        '/static/randevu/randevu_2.mov',
+                        '/static/randevu/randevu_3.mov',
+                        '/static/randevu/randevu_4.mov',
+                      ]}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography component="div" style={{padding: '16px', textAlign: 'center'}} color="textSecondary" variant="body1">Çok üzgünüz, henüz hiç randevun yok 😞</Typography>
+                </Grid>
+              </Grid>
+            </div>
           )}
           { !showLoader && 
             Object.keys(apptList).sort().reverse().map((apptDate, idx) => {

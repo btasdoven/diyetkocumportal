@@ -154,7 +154,6 @@ const styles = theme => ({
     marginTop: theme.spacing(2)
   },
   root: {
-    height: "calc(100vh - 72px)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
@@ -165,22 +164,6 @@ const styles = theme => ({
     //backgroundColor: 'red',
   },
 });
-
-const storySourcesOld = [
-    '/static/story1.mp4',
-    '/static/story2.mp4',
-    '/static/story3.mp4',
-    '/static/story4.mp4',
-    '/static/story5.mp4',
-  ];
-
-  const storySources = [
-    '/static/randevu_1.mp4',
-    '/static/randevu_2.mp4',
-    '/static/randevu_3.mp4',
-    '/static/randevu_4.mp4',
-    '/static/randevu_5.mp4',
-  ];
 
 class RandevuIntro extends React.Component
 {
@@ -204,7 +187,6 @@ class RandevuIntro extends React.Component
         const { classes } = this.props;
 
         return (
-          <div className={classes.root} style={{position: 'absolute', top: 0, left: 0, right: 0, height: `100%`}}>
             <div className={classes.main}>
                 <video 
                   muted
@@ -347,33 +329,34 @@ class RandevuIntro extends React.Component
                       }}
                       src={this.state.source[this.state.activeStory]}
                       preload="auto" 
-                      style={{position: 'absolute', top: 0, width: '100%', height: '100%'}}>                
+                      style={{position: 'absolute', top: '26px', width: '100%', height: 'calc(100% - 26px)'}}>                
                     </video>
                   </DialogContent>
                 </Dialog>
                 
-                <Grid container spacing={0} >
+                {/* <Grid container spacing={0} >
                     <Grid item xs={12}>
-                        <div style={{position: 'relative', margin: 'auto', minWidth: '128px', maxWidth: '144px', width: '33%'}}>
+                        <div style={{position: 'relative', margin: 'auto', minWidth: '128px', maxWidth: '144px', width: '33%'}}> */}
                             <style>
                             {`@keyframes rotate {
                                 from{ transform: rotate(0deg); }
                                 to{ transform: rotate(360deg); }
                             }`}
                             </style>
-                            <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
-                            </div>
+                            {this.props.border != false && 
+                              <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
+                              </div>
+                            }
                             <Avatar imgProps={{style: { borderRadius: '50%'}}} onClick={() => {
                               registerEvent("WatchIntroVideo_" + this.props.introName)          
                               this.setState({activeStory: 0, openDialog: true})
                             }} alt="Remy Sharp" src={this.props.infoHighlightSrc} className={classes.avatar} />
-                        </div>
+                        {/* </div>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography component="div" style={{padding: '16px', textAlign: 'center'}} color="textSecondary" variant="body1">{this.props.noItemText}</Typography>
                     </Grid>
-                </Grid>
-            </div>
+                </Grid> */}
             </div>
         )
     }
