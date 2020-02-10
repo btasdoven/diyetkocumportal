@@ -212,7 +212,7 @@ class LandingPage extends React.Component {
       <React.Fragment >
         <CssBaseline />
         <AppBar elevation={0} position="static" className={classes.appBar}>
-          <Toolbar variant="dense" className={classes.layoutToolbar}>
+          <Toolbar className={classes.layoutToolbar}>
             <span edge="start">
               {this.state.user && <Avatar edge="start" src={this.state.user.url} style={{marginRight: '10px', height:'40px'}}/>}
             </span>
@@ -221,16 +221,16 @@ class LandingPage extends React.Component {
             </Typography> */}
             {this.state.user == undefined && (
               <div edge="end">
-                <Button size="small" className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
+                <Button className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
                   GİRİŞ YAP
                 </Button>
-                <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signup">
+                <Button className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signup">
                   KAYDOL
                 </Button>
               </div>
             )}
             {this.state.user != undefined && (
-              <Button edge="end" endIcon={<SendIcon />} size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/r">
+              <Button edge="end" endIcon={<SendIcon />} className={classes.loginButton} variant="contained" color="primary" component={Link} to="/r">
                 PORTALIM
               </Button>
             )}
