@@ -194,29 +194,19 @@ class LandingPage extends React.Component {
   constructor(props) {
     super(props)
 
-    this.videoRef = React.createRef();
-
     this.state = {
       user: JSON.parse(localStorage.getItem('user')),
-      activeStory: 0,
-      duration: 12,
-      openDialog: false,
-      source: storySources,
-      width: 0,
     }
   }
 
   render() {
     const { classes } = this.props;
 
-    console.log(this.state)
-    console.log(this.videoRef)
-
     var diffInMs = Date.now() - Date.parse('2/9/20');
     var diffInHrs = diffInMs / 1000 / 60 / 60;
     var diyetisyenCount = 21 + parseInt(diffInHrs / 12) // her 12 saatte 1 yeni diyetisyen
-    var danisanCount = 67 + parseInt(diffInHrs / 2) // her 2 saatte 1 yeni danisan
-    var randevuCount = 378 + parseInt(diffInMs / 1000 / 60 / 30) // her 30 dakikada 1 yeni randevu
+    var danisanCount = 67 + parseInt(diffInHrs / 3) // her 2 saatte 1 yeni danisan
+    var randevuCount = 167 + parseInt(diffInHrs) // her 1 saatte 1 yeni randevu
 
     return (
       <React.Fragment >
@@ -320,7 +310,8 @@ class LandingPage extends React.Component {
                 <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetiswomen">diyetiswomen, </a>  
                 <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/dyt_ezelkavadar">dyt_ezelkavadar, </a> 
                 <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetisyendoyranli">diyetisyendoyranli, </a> 
-                <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetisyenasknn">diyetisyenasknn </a>  
+                <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/diyetisyenasknn">diyetisyenasknn, </a>  
+                <a style={{ textDecoration: 'none', fontWeight: 'bolder', color: '#252525' }} href="/d/dyt.sedaarslan">dyt.sedaarslan </a>  
                 ve digerleri tarafından kullanılıyor
                 </Typography>
               </Grid>
