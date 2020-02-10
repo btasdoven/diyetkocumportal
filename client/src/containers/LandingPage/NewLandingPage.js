@@ -184,10 +184,10 @@ const ilkRandevuSources = [
 ];
 
 const highlights = [
-  { name: 'Diyet Koçum nedir?', src: "/static/highlights/highlight1.jpg", sources: ilkDanisanSources },
+  { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg", sources: soruCevapSources },
+  // { name: 'Diyet Koçum nedir?', src: "/static/highlights/highlight1.jpg", sources: ilkDanisanSources },
   { name: 'İlk danışan kaydı', src: "/static/danisan/thumbnail.png", sources: ilkDanisanSources },
   { name: 'İlk randevu', src: "/static/randevu/thumbnail.png", sources: ilkRandevuSources },
-  { name: 'Soru & Cevap', src: "/static/highlights/highlight4.jpg", sources: soruCevapSources },
 ]
 class LandingPage extends React.Component {
 
@@ -210,6 +210,12 @@ class LandingPage extends React.Component {
 
     console.log(this.state)
     console.log(this.videoRef)
+
+    var diffInMs = Date.now() - Date.parse('2/9/20');
+    var diffInHrs = diffInMs / 1000 / 60 / 60;
+    var diyetisyenCount = 23 + parseInt(diffInHrs / 12) // her 12 saatte 1 yeni diyetisyen
+    var danisanCount = 107 + parseInt(diffInHrs / 2) // her 2 saatte 1 yeni danisan
+    var randevuCount = 578 + parseInt(diffInMs / 1000 / 60 / 30) // her 30 dakikada 1 yeni randevu
 
     return (
       <React.Fragment >
@@ -237,7 +243,8 @@ class LandingPage extends React.Component {
             <Grid container spacing={0} >
               <Grid style={{paddingLeft: '5%'}} item xs={3} sm={3} md={3} lg={3}>
                 <div style={{position: 'relative', width: '100%'}}>
-                  <IntroInstaVideo 
+                  {/* <IntroInstaVideo 
+                    border={false}
                     introName="DiyetKocumProfile"
                     infoHighlightSrc={"/static/favicon.png"}
                     sources={[
@@ -246,7 +253,7 @@ class LandingPage extends React.Component {
                       '/static/randevu/randevu_3.mov',
                       '/static/randevu/randevu_4.mov',
                     ]}
-                  />
+                  /> */}
                   {/* <style>
                     {`@keyframes rotate {
                         from{ transform: rotate(0deg); }
@@ -254,8 +261,8 @@ class LandingPage extends React.Component {
                     }`}
                   </style>
                   <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
-                  </div>
-                  <Avatar onClick={() => this.setState({activeStory: 0, openDialog: true, source: storySources})} alt="Remy Sharp" src="/static/favicon.png" className={classes.avatar} /> */}
+                  </div> */}
+                  <Avatar src="/static/favicon.png" className={classes.avatar} />
                 </div>
               </Grid>
               <Grid style={{paddingLeft: '5%'}} item xs={9} sm={9} md={9} lg={9}>
@@ -267,17 +274,17 @@ class LandingPage extends React.Component {
                   </Grid>
                   <Grid item xs={4} sm={4} md={4} lg={4}>
                     <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>100+</b><br/> diyetisyen
+                        <b>{diyetisyenCount}</b><br/> diyetisyen
                     </Typography>
                   </Grid>
                   <Grid item xs={4} sm={4} md={4} lg={4}>
                     <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>3000+</b><br/> danışan
+                        <b>{danisanCount}</b><br/> danışan
                     </Typography>
                   </Grid>
                   <Grid item xs={4} sm={4} md={4} lg={4}>
                     <Typography style={{fontWeight: 300, color: '#262626'}} gutterBottom variant="body2">
-                        <b>10000+</b><br/> randevu
+                        <b>{randevuCount}</b><br/> randevu
                     </Typography>
                   </Grid>
                 </Grid>
