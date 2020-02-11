@@ -215,7 +215,7 @@ class LandingPage extends React.Component {
         <AppBar elevation={0} position="static" className={classes.appBar}>
           <Toolbar className={classes.layoutToolbar}>
             <span edge="start">
-              {this.state.user && <Avatar edge="start" src={this.state.user.url} style={{marginRight: '10px', height:'40px'}}/>}
+              {this.state.user && <Avatar edge="start" src={this.state.user.url} style={{marginRight: '10px', width: '48px', height:'48px'}}/>}
             </span>
             {/* <Typography variant="h6" color="inherit" noWrap>
               Digital Lab Book

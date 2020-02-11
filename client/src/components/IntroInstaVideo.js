@@ -367,7 +367,7 @@ class RandevuIntro extends React.Component
                           this.setState({width: `${progress}%`, duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
                         }
                       }}
-                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkuAsAAOMA35Uh0ewAAAAASUVORK5CYII="
+                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       onPlay={() => {
                         if (activeBuffer == 0) {
                           this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] play ustteki'})
@@ -390,7 +390,7 @@ class RandevuIntro extends React.Component
                       playsInline
                       preload="auto" 
                       autoPlay
-                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkuAsAAOMA35Uh0ewAAAAASUVORK5CYII="
+                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       //controls={true}
                       type='video/mp4'
                       onLoadedData={() => {
