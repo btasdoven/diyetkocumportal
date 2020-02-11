@@ -19,6 +19,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
 
+import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -36,7 +38,10 @@ export default function SpeedDials(props) {
   const [action, setAction] = React.useState(undefined);
 
   const handleClick = () => {
+    
+    registerEvent("ClickSpeedDial_" + props.iconText)
     props.onClickFab && props.onClickFab();
+
     if (props.actions) {
       setOpen(prevOpen => !prevOpen);
       setAction(undefined);
@@ -106,6 +111,7 @@ export default function SpeedDials(props) {
                 onClick={() => 
                 {
                   console.log("actionCLick", act.onClick)
+
                   if (act.onClick != undefined) {
                       setAction([act.onClick, act.name]); 
                   }

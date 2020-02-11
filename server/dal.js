@@ -657,12 +657,20 @@ Diyet Koçum Ailesi`
 exports.getMessagePreviews = function (userId) {
   console.log('getMessagePreviews');
 
+  if (rows[userId] == undefined) {
+    return {}
+  }
+
   return rows[userId].messagePreviews;
 }
 
 exports.getDanisanPreviews = function (userId) {
   console.log('getDanisanPreviews');
 
+  if (rows[userId] == undefined) {
+    return {}
+  }
+  
   return rows[userId].danisanPreviews;
 }
 

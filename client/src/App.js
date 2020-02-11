@@ -30,6 +30,7 @@ import withWidth from '@material-ui/core/withWidth';
 import withTracker from './components/Signin/PageTracker'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { SnackbarProvider } from 'material-ui-snackbar-provider'
+import DiyetisyenListView from './containers/Randevu/DiyetisyenListView'
 
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";
@@ -92,8 +93,10 @@ class App extends Component {
                       <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
                       <EmptyRoute path="/np" render={() => <Redirect to="/" />} />
-                      <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
+                      
+                      <EmptyRoute exact path="/d" component={DiyetisyenListView} />
+                      <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
 
                       <DashboardRoute exact path="/r" component={RandevuList} />
                       <DashboardRoute exact backButton="/r" path="/r/:danisan/messages" viewParam="messages" component={DanisanView} />
@@ -110,7 +113,10 @@ class App extends Component {
                     <Switch>
                       <EmptyRoute path="/np" render={() => <Redirect to="/" />} />
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
+
+                      <EmptyRoute exact path="/d" component={DiyetisyenListView} />
                       <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
+
                       <EmptyRoute path="/signup" component={Register} />
                       <EmptyRoute path="/signin" component={Signin} />
                       <Route exact path="/" component={NewLandingPage} />

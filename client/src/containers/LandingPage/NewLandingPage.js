@@ -29,6 +29,8 @@ import SendIcon from '@material-ui/icons/Send';
 import Divider from '@material-ui/core/Divider';
 import IntroInstaVideo from '../../components/IntroInstaVideo'
 
+import DiyetisyenList from './DiyetisyenList'
+
 const styles = theme => ({
   appBar: {
     backgroundColor: 'rgb(255,255,255)',
@@ -317,7 +319,7 @@ class LandingPage extends React.Component {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid style={{paddingTop: '8px', paddingLeft: '8px', paddingRight: '8px'}} container spacing={0}>
+            <Grid style={{paddingTop: '8px', paddingBottom: '16px', paddingLeft: '8px', paddingRight: '8px'}} container spacing={0}>
               {highlights.map((highlight, idx) => 
                 <Grid key={idx} item xs={3}>
                   <div style={{position: 'relative', width: '80%', margin: '10%'}}>
@@ -334,6 +336,13 @@ class LandingPage extends React.Component {
                 </Grid>
               )}
             </Grid>
+            
+            <Divider />
+            <Grid style={{backgroundColor: '#fafafa', padding: '8px'}} container spacing={0}>
+              {/* <Typography component="div" style={{width: '100%', fontWeight: 300, textAlign: 'center'}} variant="title1">DİYETİSYENLERİMİZ</Typography> */}
+              <DiyetisyenList />
+            </Grid>
+            <Divider />
 
             {/* <div style={{marginTop: '24px', backgroundColor: 'white'}} >
               <Divider />
