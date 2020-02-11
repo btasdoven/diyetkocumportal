@@ -342,6 +342,7 @@ class RandevuIntro extends React.Component
                       muted
                       playsInline
                       preload="auto" 
+                      autoPlay
                       //controls={true}
                       type='video/mp4'
                       onLoadedData={() => {
@@ -356,7 +357,7 @@ class RandevuIntro extends React.Component
                         console.log(this.videoRef.current.currentTime, progress)
                         this.setState({width: `${progress}%`, duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
                       }}
-                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
+                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkuAsAAOMA35Uh0ewAAAAASUVORK5CYII="
                       onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration - this.videoRef.current.currentTime})}
                       onEnded={() => {
                         if (this.state.activeStory + 1 == this.state.source.length) {
@@ -373,7 +374,8 @@ class RandevuIntro extends React.Component
                       muted
                       playsInline
                       preload="auto" 
-                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
+                      autoPlay
+                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkuAsAAOMA35Uh0ewAAAAASUVORK5CYII="
                       //controls={true}
                       type='video/mp4'
                       onLoadedData={() => {
