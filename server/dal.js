@@ -472,6 +472,10 @@ exports.getDietitianAppointmentInfo = function (userId, date) {
   console.log('getDietitianAppointmentInfo');
   console.log(userId, date)
 
+  if (rows[userId] == undefined) {
+    return {};
+  }
+
   if (rows[userId].appointments == undefined ||
     (date != undefined && rows[userId].appointments[date] == undefined))
     return {};
@@ -664,6 +668,10 @@ exports.getDanisanPreviews = function (userId) {
 
 exports.getDietitianProfile = function (userId) {
   console.log('getDietitianProfile');
+
+  if (rows[userId] == undefined) {
+    return {}
+  }
 
   return rows[userId].profile || {};
 }

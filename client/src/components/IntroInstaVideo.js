@@ -172,6 +172,7 @@ class RandevuIntro extends React.Component
         super(props)
 
         this.videoRef = React.createRef();
+        this.videoRefBfr = React.createRef();
 
         this.state = {
           activeStory: 0,
@@ -179,6 +180,7 @@ class RandevuIntro extends React.Component
           openDialog: false,
           source: this.props.sources,
           width: 0,
+          down: false,
         }
     }
 
@@ -187,20 +189,28 @@ class RandevuIntro extends React.Component
         const { classes } = this.props;
 
         var w = 0; //this.props.introName == "RandevuList" ? 0 : '40px'
+        var activeBuffer = this.state.activeStory % 2;
+        var nextVideoIndex = this.state.activeStory + 1 == this.state.source.length ? 0 : this.state.activeStory + 1;
+        var videoRefCalc = activeBuffer == 0 ? this.videoRef : this.videoRefBfr;
+        var videoRefNextCalc = activeBuffer == 1 ? this.videoRef : this.videoRefBfr;
+
+        if (videoRefCalc != undefined && videoRefCalc.current != undefined && this.state.down == false) {
+          videoRefCalc.current.play();
+          videoRefNextCalc.current.pause();
+        }
 
         return (
             <div className={classes.main}>
-                {this.state.activeStory + 1 < this.state.source.length && (
+                {/* {this.state.activeStory + 1 < this.state.source.length && (
                   <video 
                     muted
                     playsInline
-                    autoPlay
                     preload="auto" 
                     //controls={true}
                     type='video/mp4'
                     onLoadedData={() => {
                       console.log('loaded data for next of ', this.state.activeStory)
-                      //alert('loaded data for ' + this.state.source[this.state.activeStory] + ' ' + this.state.activeStory)
+                      alert('loaded data for ' + this.state.source[this.state.activeStory] + ' ' + this.state.activeStory)
                     }}
                     onPlay={() => console.log('playing')}
                     onEnded={() => console.log('ended')}
@@ -212,7 +222,7 @@ class RandevuIntro extends React.Component
                           : this.state.activeStory + 1]}
                     style={{zIndex: 10000, position: 'absolute', top: '50%', left: '50%', width: w, height: w}}>                 
                   </video>
-                )}
+                )} */}
 
                 <Dialog
                   PaperProps={{style: {
@@ -247,20 +257,26 @@ class RandevuIntro extends React.Component
                       <Grid 
                         style={{display: 'flex', zIndex: 9998}} item xs={4}
                         onTouchStart={() => {
-                          this.setState({mouseDownStart: Date.now()})
-                          this.videoRef.current.pause()
+                          this.setState({mouseDownStart: Date.now(), down: true})
+                          videoRefCalc.current.pause()
                         }}
-                        onTouchEnd={() => this.videoRef.current.play()}
+                        onTouchEnd={() => {
+                          videoRefCalc.current.play()
+                          this.setState({down: false})
+                        }}
                         onMouseDown={() => {
-                          this.setState({mouseDownStart: Date.now()})
-                          this.videoRef.current.pause()
+                          this.setState({mouseDownStart: Date.now(), down: true})
+                          videoRefCalc.current.pause()
                         }}
-                        onMouseUp={() => this.videoRef.current.play()}
+                        onMouseUp={() => {
+                          videoRefCalc.current.play()
+                          this.setState({down: false})
+                        }}
                         onClick={() => {
                           var pressLength = Date.now() - this.state.mouseDownStart;
                           console.log('left', pressLength);
 
-                          if (pressLength < 750 && this.state.activeStory > 0) {
+                          if (pressLength < 250 && this.state.activeStory > 0) {
                             this.setState({width: 0, duration: 0, activeStory: this.state.activeStory - 1})
                           }
                         }}
@@ -278,26 +294,33 @@ class RandevuIntro extends React.Component
                         item xs={8}
                         style={{display: 'flex', height: '100%', justifyContent: 'flex-end', zIndex: 9998}} 
                         onTouchStart={() => {
-                          this.setState({mouseDownStart: Date.now()})
-                          this.videoRef.current.pause()
+                          this.setState({mouseDownStart: Date.now(), down: true})
+                          videoRefCalc.current.pause()
                         }}
-                        onTouchEnd={() => this.videoRef.current.play()}
+                        onTouchEnd={() => {
+                          videoRefCalc.current.play()
+                          this.setState({down: false})
+                        }}
                         onMouseDown={() => {
-                          this.setState({mouseDownStart: Date.now()})
-                          this.videoRef.current.pause()
+                          this.setState({mouseDownStart: Date.now(), down: true})
+                          videoRefCalc.current.pause()
                         }}
-                        onMouseUp={() => this.videoRef.current.play()}
+                        onMouseUp={() => {
+                          videoRefCalc.current.play()
+                          this.setState({down: false})
+                        }}
                         onClick={() => {
                           var pressLength = Date.now() - this.state.mouseDownStart;
                           console.log('right', pressLength);
 
-                          if (pressLength < 750) {
+                          if (pressLength < 250) {
                             if (this.state.activeStory + 1 == this.state.source.length) {
                               this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
                             } else {
                               this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
                             }
                           }
+
                         }}
                       >
                         <IconButton 
@@ -313,14 +336,20 @@ class RandevuIntro extends React.Component
                       onClick={() => this.setState({width: 0, duration: 0, openDialog: false})}>
                         <CloseIcon />
                     </IconButton>
+
                     <video 
+                      key={activeBuffer == 0 ? `key-video-${this.state.activeStory}` : `key-video-${nextVideoIndex}`}
                       muted
                       playsInline
-                      autoPlay
                       preload="auto" 
                       //controls={true}
                       type='video/mp4'
-                      onLoadedData={() => console.log('loaded data for ', this.state.activeStory)}
+                      onLoadedData={() => {
+                        console.log('loaded data for ', this.state.activeStory)
+                        if (this.state.activeStory == 0 && activeBuffer == 0) {
+                          this.videoRef.current.play()
+                        }
+                      }}
                       ref={this.videoRef}
                       onPause={() => {
                         var progress = this.videoRef.current.currentTime * 100.0 / this.videoRef.current.duration;                      
@@ -336,8 +365,36 @@ class RandevuIntro extends React.Component
                           this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
                         }
                       }}
-                      src={this.state.source[this.state.activeStory]}
-                      style={{position: 'absolute', top: '26px', width: '100%', height: 'calc(100% - 26px)'}}>                
+                      src={this.state.source[activeBuffer == 0 ? this.state.activeStory : nextVideoIndex]}
+                      style={{zIndex: activeBuffer == 0 ? 9997 : 9996, position: 'absolute', top: '26px', width: '100%', height: 'calc(100% - 26px)'}}>                
+                    </video>
+                    <video 
+                      key={activeBuffer == 1 ? `key-video-${this.state.activeStory}` : `key-video-${nextVideoIndex}`}
+                      muted
+                      playsInline
+                      preload="auto" 
+                      //controls={true}
+                      type='video/mp4'
+                      onLoadedData={() => {
+                        console.log('loaded data for 2.', this.state.activeStory)
+                      }}
+                      ref={this.videoRefBfr}
+                      onPause={() => {
+                        var progress = this.videoRefBfr.current.currentTime * 100.0 / this.videoRefBfr.current.duration;                      
+                        console.log(this.videoRefBfr.current.currentTime, progress)
+                        this.setState({width: `${progress}%`, duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})
+                      }}
+                      //poster="/static/favicon.png"
+                      onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})}
+                      onEnded={() => {
+                        if (this.state.activeStory + 1 == this.state.source.length) {
+                          this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
+                        } else {
+                          this.setState({width: 0, duration: 0, activeStory: this.state.activeStory + 1})
+                        }
+                      }}
+                      src={this.state.source[activeBuffer == 1 ? this.state.activeStory : nextVideoIndex]}
+                      style={{zIndex: activeBuffer == 1 ? 9997 : 9996, position: 'absolute', top: '26px', width: '100%', height: 'calc(100% - 26px)'}}>                
                     </video>
                   </DialogContent>
                 </Dialog>
