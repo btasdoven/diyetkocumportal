@@ -129,7 +129,8 @@ const styles = theme => ({
     top: '3px',
     left: '3px',
     background: '#fafafa',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    WebkitTapHighlightColor: 'transparent',
   },
   avatarWrapper2: {
     position: 'absolute',

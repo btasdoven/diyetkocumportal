@@ -130,6 +130,7 @@ const styles = theme => ({
     left: '3px',
     background: '#fafafa',
     cursor: 'pointer',
+    WebkitTapHighlightColor: 'transparent',
   },
   avatarWrapper2: {
     position: 'absolute',
@@ -239,9 +240,9 @@ class RandevuIntro extends React.Component
                   fullWidth={true}
                   open={this.state.openDialog}
                 >
-                  <div style={{zIndex: 10001, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
+                  {/* <div style={{zIndex: 10001, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
                     <pre style={{color: 'orange', textShadow: '1px 1px 2px black, 0px 0px 1px black'}}>{this.state.text}</pre>
-                  </div>
+                  </div> */}
                   <div style={{zIndex: 9999, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
                     {this.state.source.map((src, idx) => {
                       return (
@@ -359,15 +360,19 @@ class RandevuIntro extends React.Component
                       }}
                       ref={this.videoRef}
                       onPause={() => {
-                        this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] paused ustteki'})
-                        var progress = this.videoRef.current.currentTime * 100.0 / this.videoRef.current.duration;                      
-                        console.log(this.videoRef.current.currentTime, progress)
-                        this.setState({width: `${progress}%`, duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
+                        if (activeBuffer == 0) {
+                          this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] paused ustteki'})
+                          var progress = this.videoRef.current.currentTime * 100.0 / this.videoRef.current.duration;                      
+                          console.log(this.videoRef.current.currentTime, progress)
+                          this.setState({width: `${progress}%`, duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
+                        }
                       }}
                       poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkuAsAAOMA35Uh0ewAAAAASUVORK5CYII="
                       onPlay={() => {
-                        this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] play ustteki'})
-                        this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
+                        if (activeBuffer == 0) {
+                          this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] play ustteki'})
+                          this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
+                        }
                       }}
                       onEnded={() => {
                         if (this.state.activeStory + 1 == this.state.source.length) {
@@ -394,15 +399,19 @@ class RandevuIntro extends React.Component
                       }}
                       ref={this.videoRefBfr}
                       onPause={() => {
-                        this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] paused alttaki'})
-                        var progress = this.videoRefBfr.current.currentTime * 100.0 / this.videoRefBfr.current.duration;                      
-                        console.log(this.videoRefBfr.current.currentTime, progress)
-                        this.setState({width: `${progress}%`, duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})
+                        if (activeBuffer == 1) {
+                          this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] paused alttaki'})
+                          var progress = this.videoRefBfr.current.currentTime * 100.0 / this.videoRefBfr.current.duration;                      
+                          console.log(this.videoRefBfr.current.currentTime, progress)
+                          this.setState({width: `${progress}%`, duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})
+                        }
                       }}
                       //poster="/static/favicon.png"
                       onPlay={() => {
-                        this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] play alttaki'})
-                        this.state.openDialog && this.setState({width: '100%', duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})
+                        if (activeBuffer == 1) {
+                          this.setState({text: this.state.text + '\n[' + new Date().getSeconds() + '] play alttaki'})
+                          this.state.openDialog && this.setState({width: '100%', duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})
+                        }
                       }}
                       onEnded={() => {
                         if (this.state.activeStory + 1 == this.state.source.length) {
