@@ -181,6 +181,7 @@ class RandevuIntro extends React.Component
           source: this.props.sources,
           width: 0,
           down: false,
+          text: 'Test 1'
         }
     }
 
@@ -238,6 +239,9 @@ class RandevuIntro extends React.Component
                   fullWidth={true}
                   open={this.state.openDialog}
                 >
+                  <div style={{zIndex: 10001, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
+                    <pre style={{color: 'orange', textShadow: '1px 1px 2px black, 0px 0px 1px black'}}>{this.state.text}</pre>
+                  </div>
                   <div style={{zIndex: 9999, position: 'absolute', width: '100%', display: 'flex', padding: '12px 6px'}}>
                     {this.state.source.map((src, idx) => {
                       return (
@@ -347,18 +351,24 @@ class RandevuIntro extends React.Component
                       type='video/mp4'
                       onLoadedData={() => {
                         console.log('loaded data for ', this.state.activeStory)
+                        this.setState({text: this.state.text + '\n[' + new Date().toLocaleString() + '] loaded ustteki'})
+                        // alert('loaded ustteki')
                         if (this.state.activeStory == 0 && activeBuffer == 0) {
                           this.videoRef.current.play()
                         }
                       }}
                       ref={this.videoRef}
                       onPause={() => {
+                        this.setState({text: this.state.text + '\n[' + new Date().toLocaleString() + '] paused ustteki'})
                         var progress = this.videoRef.current.currentTime * 100.0 / this.videoRef.current.duration;                      
                         console.log(this.videoRef.current.currentTime, progress)
                         this.setState({width: `${progress}%`, duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
                       }}
                       poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkuAsAAOMA35Uh0ewAAAAASUVORK5CYII="
-                      onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration - this.videoRef.current.currentTime})}
+                      onPlay={() => {
+                        this.setState({text: this.state.text + '\n[' + new Date().toLocaleString() + '] play ustteki'})
+                        this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
+                      }}
                       onEnded={() => {
                         if (this.state.activeStory + 1 == this.state.source.length) {
                           this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
@@ -380,15 +390,20 @@ class RandevuIntro extends React.Component
                       type='video/mp4'
                       onLoadedData={() => {
                         console.log('loaded data for 2.', this.state.activeStory)
+                        this.setState({text: this.state.text + '\n[' + new Date().toLocaleString() + '] loaded alttaki'})
                       }}
                       ref={this.videoRefBfr}
                       onPause={() => {
+                        this.setState({text: this.state.text + '\n[' + new Date().toLocaleString() + '] paused alttaki'})
                         var progress = this.videoRefBfr.current.currentTime * 100.0 / this.videoRefBfr.current.duration;                      
                         console.log(this.videoRefBfr.current.currentTime, progress)
                         this.setState({width: `${progress}%`, duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})
                       }}
                       //poster="/static/favicon.png"
-                      onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})}
+                      onPlay={() => {
+                        this.setState({text: this.state.text + '\n[' + new Date().toLocaleString() + '] play alttaki'})
+                        this.state.openDialog && this.setState({width: '100%', duration: this.videoRefBfr.current.duration - this.videoRefBfr.current.currentTime})
+                      }}
                       onEnded={() => {
                         if (this.state.activeStory + 1 == this.state.source.length) {
                           this.setState({width: 0, duration: 0, activeStory: 0, openDialog: false})
