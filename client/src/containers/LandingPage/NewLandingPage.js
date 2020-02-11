@@ -225,10 +225,10 @@ class LandingPage extends React.Component {
             {this.state.user == undefined && (
               <div edge="end">
                 <Button className={classes.loginButton2} variant="outlined" color="primary" component={Link} to="/signin">
-                  GİRİŞ YAP
+                  DİYETİSYEN GİRİŞİ
                 </Button>
                 <Button className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signup">
-                  KAYDOL
+                  DİYETİSYEN KAYDI
                 </Button>
               </div>
             )}
