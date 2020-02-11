@@ -356,7 +356,7 @@ class RandevuIntro extends React.Component
                         console.log(this.videoRef.current.currentTime, progress)
                         this.setState({width: `${progress}%`, duration: this.videoRef.current.duration - this.videoRef.current.currentTime})
                       }}
-                      //poster="/static/favicon.png"
+                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
                       onPlay={() => this.state.openDialog && this.setState({width: '100%', duration: this.videoRef.current.duration - this.videoRef.current.currentTime})}
                       onEnded={() => {
                         if (this.state.activeStory + 1 == this.state.source.length) {
@@ -366,13 +366,14 @@ class RandevuIntro extends React.Component
                         }
                       }}
                       src={this.state.source[activeBuffer == 0 ? this.state.activeStory : nextVideoIndex]}
-                      style={{zIndex: activeBuffer == 0 ? 9997 : 9996, position: 'absolute', top: '26px', width: '100%', height: 'calc(100% - 26px)'}}>                
+                      style={{zIndex: activeBuffer == 0 ? 9997 : 9996, position: 'absolute', top: '26px', width: '100%', height: 'calc(50% - 26px)'}}>                
                     </video>
                     <video 
                       key={activeBuffer == 1 ? `key-video-${this.state.activeStory}` : `key-video-${nextVideoIndex}`}
                       muted
                       playsInline
                       preload="auto" 
+                      poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
                       //controls={true}
                       type='video/mp4'
                       onLoadedData={() => {
@@ -394,7 +395,7 @@ class RandevuIntro extends React.Component
                         }
                       }}
                       src={this.state.source[activeBuffer == 1 ? this.state.activeStory : nextVideoIndex]}
-                      style={{zIndex: activeBuffer == 1 ? 9997 : 9996, position: 'absolute', top: '26px', width: '100%', height: 'calc(100% - 26px)'}}>                
+                      style={{zIndex: activeBuffer == 1 ? 9997 : 9996, position: 'absolute', top: '50%', width: '100%', height: 'calc(50% - 26px)'}}>                
                     </video>
                   </DialogContent>
                 </Dialog>
