@@ -411,7 +411,7 @@ class LandingPage extends React.Component {
             </div>
             
             <Typography component="div" style={{ textAlign: 'center'}} variant="subtitle1">Diyetisyen değil misin?</Typography>
-            <Typography component="div" style={{paddingBottom: '8px', fontWeight: 400, textAlign: 'center'}} color="textSecondary" variant="body2">Bizi kullanan diyetisyenlerimizden hemen şimdi randevu alabirsin.</Typography>
+            <Typography component="div" style={{paddingBottom: '8px', fontWeight: 400, textAlign: 'center'}} color="textSecondary" variant="body2">Bizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography>
 
             {/* <Divider /> */}
             <Grid style={{padding: '8px'}} container spacing={0}>
