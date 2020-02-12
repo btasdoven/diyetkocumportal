@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     // maxWidth: 400,
     overflow: 'hidden',
     flexGrow: 1,
-    backgroundColor: 'rgb(250, 250, 250)'
+    backgroundColor: 'white'
   },
   header: {
     display: 'flex',
@@ -145,6 +145,7 @@ export default function TextMobileStepper() {
         alt={tutorialSteps[activeStep].label}
       /> */}
       <MobileStepper
+        style={{backgroundColor: 'white'}}
         steps={maxSteps}
         position="static"
         variant="dots"
@@ -158,8 +159,8 @@ export default function TextMobileStepper() {
             //<Button onClick={handleBack} disabled={activeStep === 0} size="small"><KeyboardArrowLeft /></Button>
         }
       />
-      <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
-        <Button onClick={() => registerEvent('LandingPageClickRandevuAl')} style={{color: 'white', backgroundColor: '#3897f0'}} size="small" variant="contained" component={Link} to={tutorialSteps[activeStep].link}>RANDEVU AL</Button>
+      <div style={{width: '100%', justifyContent: 'center', display: 'flex', padding: '8px'}}>
+        <Button onClick={() => registerEvent('LandingPageClickRandevuAl')} style={{color: 'white', backgroundColor: '#3897f0'}} variant="contained" component={Link} to={tutorialSteps[activeStep].link}>RANDEVU AL</Button>
       </div>
     </Paper>
   );

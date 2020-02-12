@@ -429,6 +429,8 @@ class RandevuIntro extends React.Component
                 {/* <Grid container spacing={0} >
                     <Grid item xs={12}>
                         <div style={{position: 'relative', margin: 'auto', minWidth: '128px', maxWidth: '144px', width: '33%'}}> */}
+                        <div style={{width: '100%', paddingTop: '100%'}}></div>
+                        <div style={{position: 'absolute', top:0, bottom: 0}}>
                             <style>
                             {
                               `@keyframes rotate {
@@ -446,13 +448,14 @@ class RandevuIntro extends React.Component
                               </div>
                             }
                             <Avatar 
-                              imgProps={{style: {borderRadius: '50%'}}} 
+                              imgProps={{style: {borderRadius: '50%', backgroundImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='}}} 
                               onClick={() => {
                                 registerEvent("WatchIntroVideo_" + this.props.introName)
                                 this.setState({activeStory: 0, openDialog: true})
                               }} 
                               src={this.props.infoHighlightSrc} 
                               className={classes.avatar} />
+                        </div>
                         {/* </div>
                     </Grid>
                     <Grid item xs={12}>
