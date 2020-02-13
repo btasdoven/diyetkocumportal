@@ -96,7 +96,7 @@ class Register extends React.Component {
                   variant="contained"
                   color="secondary"
                   component={Link}
-                  to="/"
+                  to="/signup"
                 >
                   GİRİŞ YAP
                 </Button> 

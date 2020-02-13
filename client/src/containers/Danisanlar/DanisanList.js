@@ -294,7 +294,6 @@ class Envanter extends React.Component {
               />
             </div> */}
           </div>
-          <Divider />
 
           { showLoader && renderLoadingButton(classes) }
           {/* { !showLoader && (danisans == undefined || Object.keys(danisans).length == 0) && (
