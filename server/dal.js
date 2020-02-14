@@ -1026,7 +1026,7 @@ exports.getDietitianProfiles = function () {
   ret = []
 
   Object.keys(rows).forEach((userId) => {
-    if (userId == '0' || userId == '1' || userId == 'demo') {
+    if (userId == '0' || userId == '1' || userId == 'demo' || rows[0].users[userId].isAdmin) {
       return;
     }
 
