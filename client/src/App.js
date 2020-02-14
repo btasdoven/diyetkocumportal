@@ -40,6 +40,8 @@ const NotFound = () => {
 };
 
 
+const NewLandingPageTracked = withTracker(NewLandingPage);
+
 const DashboardRoute = withTracker(withWidth()(({ width, component: Component, backButton, viewParam, ...rest }) => {
 
   return (
@@ -85,7 +87,7 @@ class App extends Component {
                 <Router>
                   {localStorage.getItem('user') ? (
                     <Switch>
-                      <Route exact path="/" component={NewLandingPage} />
+                      <Route exact path="/" component={NewLandingPageTracked} />
                       <DashboardRoute exact path="/c" component={DanisanList} />
                       <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
 
@@ -119,7 +121,7 @@ class App extends Component {
 
                       <EmptyRoute path="/signup" component={Register} />
                       <EmptyRoute path="/signin" component={Signin} />
-                      <Route exact path="/" component={NewLandingPage} />
+                      <Route exact path="/" component={NewLandingPageTracked} />
                       <Redirect to="/" />
                     </Switch>
                   )}
