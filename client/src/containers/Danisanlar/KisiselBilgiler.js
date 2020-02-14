@@ -287,7 +287,7 @@ class Envanter extends React.Component {
   handleLinkCopied() {
     this.setState({ linkCopied: true })
     this.props.snackbar.showMessage(
-      'Anemnez formu linki panoya kopyalandı.',
+      'Anamnez formu linki panoya kopyalandı.',
       //'Undo', () => handleUndo()
     )
   }

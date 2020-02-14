@@ -275,7 +275,10 @@ class Envanter extends React.Component {
     var appt = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data[date].data[time];
     console.log(appt)
 
-    const step = appt && appt.status == 'pending' ? 0 : (appt ? (appt.step || 1) : 1);
+    var step = appt && appt.status == 'pending' ? 0 : (appt ? (appt.step || 1) : 1);
+
+    if (step == 1)
+      step = 2;
 
     return (
         <div className={classes.root1}>
@@ -329,7 +332,6 @@ class Envanter extends React.Component {
                           } 
                           </StepLabel>
                           <StepContent>
-                              {/* <Typography>Selamin aleykum</Typography> */}
                               <div className={classes.actionsContainer}>
                                   <div>
                                   <Button
@@ -354,9 +356,9 @@ class Envanter extends React.Component {
                       </Step>
                       {appt.status != 'rejected' && (
                           <Step>
-                              <StepLabel>{step <= 1 ? "Danışan profili yarat" : "Danışan profili yaratıldı."}</StepLabel>
+                              <StepLabel>{step <= 1 ? "Danışanı listeme ekle" : "Danışan listeye eklendi."}</StepLabel>
                               <StepContent>
-                                  <Typography variant="body2">Danışan profili sayesinde danışanınızın bütün bilgilerine dijital ortamdan erişebilir ve gereken değişiklikleri yapabilirsiniz.</Typography>
+                                  <Typography variant="body2">Danışanınızı listenize ekleyerek danışanınızın bütün bilgilerine dijital ortamdan erişebilir ve gereken değişiklikleri anında yapabilirsiniz.</Typography>
                                   <div className={classes.actionsContainer}>
                                       <div>
                                       <Button
@@ -365,8 +367,7 @@ class Envanter extends React.Component {
                                           onClick={this.confirmAppointment(date, time, appt, appt.status, 2)}
                                           className={classes.button}
                                       >
-                                          {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
-                                          PROFİLİ YARAT
+                                          DANIŞANI LİSTEME EKLE
                                       </Button>
                                       </div>
                                   </div>
@@ -375,9 +376,9 @@ class Envanter extends React.Component {
                       )}
                       {appt.status != 'rejected' && (
                           <Step>
-                              <StepLabel>{step <= 2 ? "Danışana anemnez formu linkini gönder" : "Danışana anemnez formu linki gönderildi."}</StepLabel>
+                              <StepLabel>{step <= 2 ? "Danışana anamnez formu gönder" : "Danışana anamnez formu gönderildi."}</StepLabel>
                               <StepContent>
-                                  <Typography variant="body2">Bu link sayesinde danışanınız anemnez formunu, kan tahlili ve ölçüm bilgilerini hızlıca doldurabilir, ve siz de bu bilgilere otomatik olarak ulaşabilirsiniz.</Typography>
+                                  <Typography variant="body2">Anamnez formu sayesinde danışanınız eksiksiz bir diyet programı hazırlamanız için ihtiyacınız olan tüm kişisel, beslenme, sağlık, tahlil ve ölçüm bilgilerini hızlıca doldurabilir, ve siz de bu bilgilere otomatik olarak ulaşabilirsiniz.</Typography>
                                   <div className={classes.actionsContainer}>
                                       <div>
                                       <Button
@@ -387,7 +388,7 @@ class Envanter extends React.Component {
                                           className={classes.button}
                                       >
                                           {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
-                                          LİNKİ GÖNDER
+                                          FORMU GÖNDER
                                       </Button>
                                       </div>
                                   </div>
