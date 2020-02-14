@@ -239,17 +239,25 @@ app.post("/api/v1/users/auth", (req, res, next) => {
 
 app.post("/api/v1/users/signup", (req, res, next) => {
   setTimeout((function() {
-    var ret = dal.signUpUser(req.body.username.toLowerCase(), req.body)
+    dal.signUpUser(req.body.username.toLowerCase(), req.body)
+      .then(user => {
+        res.setHeader('Content-Type', 'application/json');
+        res.json({url: user.url, name: user.name, username: user.username, id: user.id});
+      })
+      .catch(err => {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(400).json({message: err});
+      })
 
-    if (ret.error == undefined) {
-      var user = ret.user;
-      res.setHeader('Content-Type', 'application/json');
-      res.json({url: user.url, name: user.name, username: user.username, id: user.id});
-      return;
-    }
+    // if (ret.error == undefined) {
+    //   var user = ret.user;
+    //   res.setHeader('Content-Type', 'application/json');
+    //   res.json({url: user.url, name: user.name, username: user.username, id: user.id});
+    //   return;
+    // }
 
-    res.setHeader('Content-Type', 'application/json');
-    res.status(400).json({message: ret.error});
+    // res.setHeader('Content-Type', 'application/json');
+    // res.status(400).json({message: ret.error});
   }), delayInResponseInMs);
 });
 

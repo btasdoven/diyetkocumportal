@@ -2,6 +2,8 @@ const storage = require('node-persist');
 const stringHash = require("string-hash");
 const email = require('./email')
 const moment = require("moment")
+const ipp = require('instagram-profile-picture');
+
 require('moment/locale/tr');
 moment.locale("tr")
 
@@ -422,43 +424,56 @@ exports.signUpUser = function(uname, userInfo) {
   
   if (rows[uname] != undefined ||
       rows[0].users[uname] != undefined) {
-    return { error: 'Bu kullanıcı adına ait bir üyelik bulunmaktadır.'};
+    return Promise.reject('Bu kullanıcı adına ait bir üyelik bulunmaktadır.');
   }
 
-  var r = { 
-    profile: {
-      ...rows[1].profile 
-    }
-  };
-  
-  r.profile.email = userInfo.email
-  r.profile.name = userInfo.name
-  r.profile.url = userInfo.url
-  r.profile.tel = userInfo.tel
-  rows[uname] = r;
+  return ipp.medium(uname)
+    .then(instaProfileUrl => {
+      console.log(instaProfileUrl);
 
-  storage.setItem(uname, rows[uname]);
+      instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
 
-  rows[0].users[uname] = { 
-    id: uname, 
-    username: uname, 
-    name: userInfo.name, 
-    password: userInfo.password, 
-    email: userInfo.email, 
-    tel: userInfo.tel,
-    url: userInfo.url,
-    status: 'pending'
-  }
+      // => https://scontent-sit4-1.cdninstagram.com/7...jpg
 
-  storage.setItem('0', rows[0]);
-
-  var titleSuffix = process.env.NODE_ENV !== 'production' 
-    ? "TEST - " + uname + " - "
-    : "PROD - " + uname + " - "
-
-  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify(rows[0].users[uname]))
-
-  return { user: userInfo }
+      var r = { 
+        profile: {
+          ...rows[1].profile 
+        }
+      };
+      
+      r.profile.email = userInfo.email
+      r.profile.name = userInfo.name
+      r.profile.url = instaProfileUrl
+      r.profile.tel = userInfo.tel
+      rows[uname] = r;
+    
+      storage.setItem(uname, rows[uname]);
+    
+      rows[0].users[uname] = { 
+        id: uname, 
+        username: uname, 
+        name: userInfo.name, 
+        password: userInfo.password, 
+        email: userInfo.email, 
+        tel: userInfo.tel,
+        url: instaProfileUrl,
+        //status: 'pending'
+      }
+    
+      storage.setItem('0', rows[0]);
+    
+      var titleSuffix = process.env.NODE_ENV !== 'production' 
+        ? "TEST - " + uname + " - "
+        : "PROD - " + uname + " - "
+    
+      //email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify(rows[0].users[uname]))
+    
+      return Promise.resolve(userInfo);
+    })
+    .catch(err => {
+      console.log(err)
+      return Promise.reject('Instagram kullanıcı adı yanlış')
+    });
 }
 
 exports.getLinkInfo = function (linkId) {
