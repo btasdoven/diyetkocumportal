@@ -87,6 +87,8 @@ export function signup(username, userInfo) {
           .then(
               user => { 
                   dispatch(success(user));
+                  console.log(user, userInfo, username)
+                  login(username, userInfo.password)(dispatch)
                   //window.history.push('/');
               },
               error => {

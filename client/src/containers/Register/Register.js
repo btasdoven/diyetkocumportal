@@ -96,7 +96,7 @@ class Register extends React.Component {
                   variant="contained"
                   color="secondary"
                   component={Link}
-                  to="/signup"
+                  to="/signin"
                 >
                   GİRİŞ YAP
                 </Button> 
@@ -105,7 +105,7 @@ class Register extends React.Component {
             {auth && auth.signedUp == true && (
               <span>
                 <Typography style={{marginTop: '16px', textAlign: 'center'}}>
-                  Üyeliğiniz başarıyla oluşturuldu. 1 gün içerisinde tarafımızdan onaylandıktan sonra sisteme giriş yapabileceksiniz.
+                  Üyeliğin başarıyla oluşturuldu. Diyet Koçum'u dijital asistanın olarak tercih ettiğin için teşekkürler.
                 </Typography>
                 <Button
                   style={{marginTop: '32px'}}
@@ -113,9 +113,10 @@ class Register extends React.Component {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  href="/"
+                  component={Link}
+                  to="/"
                 >
-                  ANA SAYFAYA DÖN
+                  ŞİMDİ PORTALA GİRİŞ YAP
                 </Button> 
               </span>
             )}
