@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
 import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
@@ -23,12 +23,16 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppointments';
+import { getMessagePreviews } from '../../store/reducers/api.messagePreviews';
+import HeaderNotifDialog from './HeaderNotifDialog'
 
 const styles = theme => ({
   toolbarRoot: {
     minHeight: theme.spacing(7),
     paddingRight: theme.spacing(1),
     paddingLeft: theme.spacing(1), 
+    justifyContent: 'space-between'
   },
   icon: {
     width: theme.spacing(3.5),
@@ -87,9 +91,40 @@ class Header extends React.Component  {
   constructor(props) {
       super(props);
 
+      this.isLoaded = this.isLoaded.bind(this);
+
       this.state = {
-          anchorEl: null
+          anchorEl: null,
+          user: JSON.parse(localStorage.getItem('user'))
       }
+  }
+    
+  isLoaded() {
+    if (this.state.user == undefined) {
+      return false;
+    }
+
+    var loaded = 
+      this.props.apiMessagePreviews[this.state.user.id] != undefined &&
+      this.props.apiMessagePreviews[this.state.user.id].isGetLoading != true &&
+      this.props.apiMessagePreviews[this.state.user.id].data != undefined;
+
+    var loaded2 = 
+      this.props.apiDietitianAppointments != undefined &&
+      this.props.apiDietitianAppointments[this.state.user.id] != undefined &&
+      this.props.apiDietitianAppointments[this.state.user.id].isGetLoading != true &&
+      this.props.apiDietitianAppointments[this.state.user.id].data != undefined;
+
+    console.log(loaded);
+    console.log(loaded2);
+    return loaded && loaded2;
+  }
+
+  componentDidMount() {
+    if (!this.isLoaded() && this.state.user) {
+      this.props.getMessagePreviews(this.state.user.id);
+      this.props.getDietitianAppointments(this.state.user.id);
+    }
   }
 
   handleClick = event => {
@@ -98,7 +133,23 @@ class Header extends React.Component  {
 
   render() {
     const { classes } = this.props;
-    
+  
+    var showLoader = !this.isLoaded();
+    var showBadge = false;
+    var pendingAppts = 0;
+    var unreadMsgs = showLoader 
+      ? 0 
+      : Object.keys(this.props.apiMessagePreviews[this.state.user.id].data).map((u) => this.props.apiMessagePreviews[this.state.user.id].data[u].unread).reduce((a,b) => a+b, 0);
+
+    if (!showLoader) {
+      var appts = this.props.apiDietitianAppointments[this.state.user.id].data;
+      pendingAppts = Object.keys(appts).map((u) => Object.keys(appts[u].data).map((t) => appts[u].data[t].status == "pending" ? 1 : 0).reduce((a,b) => a+b, 0)).reduce((a,b) => a+b, 0);
+    }
+
+    if (pendingAppts > 0 || unreadMsgs > 0) {
+      showBadge = true;
+    }
+
     return (
       <AppBar color="inherit" elevation={0} className={this.props.permanentDrawer ? classes.appBarShifted : classes.appBar} position="fixed">
         <Toolbar classes={{ root: classes.toolbarRoot }}>
@@ -119,7 +170,9 @@ class Header extends React.Component  {
               className={classes.menuButton}
               onClick={() => this.props.handleOpenDrawer()}
             >
-              <MenuIcon color="primary"/>
+              <Badge variant="dot" badgeContent={showBadge ? 1 : 0} color="secondary">
+                <MenuIcon color="primary"/>
+              </Badge>
             </IconButton>
           )}
 
@@ -132,18 +185,19 @@ class Header extends React.Component  {
             color="primary"
             noWrap
             className={classes.title}
-            style={{fontSize: '1.125em', marginRight: this.props.noButton != true ? '48px' : '0'}}
+            style={{fontSize: '1.125em', position: 'absolute', marginLeft: '48px', marginRight: '48px', width: 'calc(100% - 112px)'}}
           >
             {this.props.title || getPageTitle(this.props) || ''}
           </Typography>
 {/* 
-          {(
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
+          {this.props.noButton != true && this.state.user && (
+            <IconButton onClick={() => this.setState({notifDialogOpen: true})} color="inherit">
+              <Badge variant="dot" badgeContent={4} color="secondary">
+                <NotificationsIcon color="primary"/>
               </Badge>
             </IconButton>
           )} */}
+
           {/* <IconButton onClick={this.handleClick} color="inherit">
             <Badge badgeContent={1} color="secondary">
               <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -164,9 +218,31 @@ class Header extends React.Component  {
             </MenuItem>
           </Menu> */}
         </Toolbar>
+
+        <HeaderNotifDialog open={this.state.notifDialogOpen} handleClose={() => this.setState({notifDialogOpen: false})}/>
       </AppBar>
     );
   }
 }
 
-export default withStyles(styles)(withRouter(Header));
+const mapStateToProps = state => {
+  return {
+    apiMessagePreviews: state.apiMessagePreviews,
+    apiDietitianAppointments: state.apiDietitianAppointments,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date),
+      getMessagePreviews: (userId) => getMessagePreviews(userId),
+    },
+    dispatch
+  );
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(withRouter(Header)));
