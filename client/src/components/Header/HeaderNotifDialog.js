@@ -84,9 +84,10 @@ class FieldDialog extends React.Component {
             fullWidth
             open={this.props.open} 
             onClose={() => this.props.handleClose()}
-            TransitionComponent={props => {
-              return <Slide direction="up" {...props} />
-          }}>
+            // TransitionComponent={props => {
+            //   return <Slide direction="up" {...props} />
+            // }}
+          >
               <DialogTitle id="form-dialog-title">Bildirimlerim</DialogTitle>
               <DialogContent>
                 {/* <DialogContentText>
