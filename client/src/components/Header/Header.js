@@ -95,7 +95,8 @@ class Header extends React.Component  {
 
       this.state = {
           anchorEl: null,
-          user: JSON.parse(localStorage.getItem('user'))
+          user: JSON.parse(localStorage.getItem('user')),
+          notifDialogOpen: false
       }
   }
     
