@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 const dal = require('./dal');
 const email = require('./email');
+const ig = require('./ig');
 var compression = require('compression');
 var multer = require('multer');
 
@@ -278,6 +279,16 @@ app.get("/api/v1/getAllDietitianProfiles", (req, res, next) => {
     res.send(JSON.stringify(dal.getDietitianProfiles(), null, 4));
   // }), delayInResponseInMs);
 });
+
+app.get("/api/v1/runig", (req, res, next) => {
+  // setTimeout((function() {
+    ig.sendIgMsgForNewAppointment('btasdoven', 'https://diyetkocum.net');
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({}, null, 4));
+  // }), delayInResponseInMs);
+});
+
 
 console.log(process.env.PORT);
 
