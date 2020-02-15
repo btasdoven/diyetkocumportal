@@ -466,7 +466,7 @@ exports.signUpUser = function(uname, userInfo) {
         ? "TEST - " + uname + " - "
         : "PROD - " + uname + " - "
     
-      //email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify(rows[0].users[uname]))
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify(rows[0].users[uname]))
     
       return Promise.resolve(userInfo);
     })
