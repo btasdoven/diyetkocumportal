@@ -592,7 +592,7 @@ Diyet Koçum Ailesi`
     console.log(rows[userId].profile.email)
     email.sendEmail(rows[userId].profile.email, titleSuffix, `Yeni ${type} isteği`, content)
 
-    ig.sendIgMsgForNewAppointment(userId, `https://diyetkocum.net/r/${date}/${time.replace(/ /g, '%20')}`);
+    ig.sendIgMsgForNewAppointment(userId, values.info.name, `https://diyetkocum.net/r/${date}/${time.replace(/ /g, '%20')}`);
   } 
   else if ((!oldValue || oldValue.status == 'pending') && (values.status == 'confirmed' || values.status == 'rejected')) {
     if (values.type != 'onlinediyet') {

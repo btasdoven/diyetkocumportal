@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 
 const ig = new IgApiClient();
 
-exports.sendIgMsgForNewAppointment = async (username, url) => {
+exports.sendIgMsgForNewAppointment = async (username, danisanName, url) => {
     const ig = new IgApiClient();
     ig.state.generateDevice('dytdunkoc');
     // ig.state.proxyUrl = process.env.IG_PROXY;
@@ -42,7 +42,7 @@ exports.sendIgMsgForNewAppointment = async (username, url) => {
             const options = {
                 item: 'link',
                 form: {
-                    link_text: `Yeni randevu istegi -- kabul etmek için diyetkocum.net`,
+                    link_text: `Yeni randevu istegi -- kabul etmek için diyetkocum.net\n\nDanışan: ${danisanName}`,
                     link_urls: JSON.stringify([url]),
                 },
                 userIds: id,

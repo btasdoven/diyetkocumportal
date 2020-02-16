@@ -282,7 +282,7 @@ app.get("/api/v1/getAllDietitianProfiles", (req, res, next) => {
 
 app.get("/api/v1/runig", (req, res, next) => {
   // setTimeout((function() {
-    ig.sendIgMsgForNewAppointment('btasdoven', 'https://diyetkocum.net');
+    ig.sendIgMsgForNewAppointment('btasdoven', 'Batuhan Tasdoven', 'https://diyetkocum.net');
 
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({}, null, 4));
