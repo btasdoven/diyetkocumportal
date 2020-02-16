@@ -161,7 +161,10 @@ class DefaultChatMsg extends React.Component {
             type: 'text',
         }
 
-        this.props.addDanisanMessage(this.props.userId, this.props.danisanUserName, message);
+        if (formValues.message != undefined) {
+          this.props.addDanisanMessage(this.props.userId, this.props.danisanUserName, message);
+        }
+        
         this.props.reset();
     }
 

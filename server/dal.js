@@ -511,6 +511,11 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
 
   values.info.name = values.info.name.trim();
 
+  if (values.info.name == "Ayşe çam") {
+    console.log("throttling ayşe çam")
+    return;
+  }
+
   if (rows[userId].appointments == undefined) {
       rows[userId].appointments = {}
   }
