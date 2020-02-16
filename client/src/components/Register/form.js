@@ -196,7 +196,7 @@ const SigninForm = props => {
           validate={[required]}
         />
       </FormControl>
-      <FormControl margin="normal" fullWidth>
+      {/* <FormControl margin="normal" fullWidth>
         <Field
           required
           id="password_confirmation"
@@ -206,7 +206,7 @@ const SigninForm = props => {
           label="Şifre Yeniden"
           validate={[required, matchPasswords]}
         />
-      </FormControl>
+      </FormControl> */}
       <FormControl margin="normal" fullWidth>
         <Field
           required
