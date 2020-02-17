@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
+import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -94,7 +95,11 @@ const styles = theme => ({
     height: theme.spacing(7),
   },
   card: {
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1),    
+    borderRadius: '4px',
+    '&::before': {
+      backgroundColor: 'transparent'
+    }
   },
   paper: {
     padding: theme.spacing(1)
@@ -510,18 +515,20 @@ class Envanter extends React.Component {
                     <Grid item xs={12} style={{marginTop: '8px'}}>
                       <Typography variant="body2">Kişisel sayfanın nasıl gözüktüğünü görmek ister misin?</Typography>
                       <div style={{marginTop: '16px', textAlign: 'center'}}>
-                        <Button style={{borderRadius: '16px'}} href={"https://diyetkocum.net/d/" + this.state.user.username} component="a" size="small" color="primary" variant="outlined">KİŞİSEL SAYFAMI GÖR</Button>
+                        <Button style={{borderRadius: '16px'}} to={"/d/" + this.state.user.username} component={Link} size="small" color="primary" variant="outlined">
+                          KİŞİSEL SAYFAMI GÖR
+                        </Button>
                       </div>
                     </Grid>
                   </Grid>
                 </CardContent>
               </Card>
 
-              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('kisisel_bilg')} expanded={this.state.expandList['kisisel_bilg'] || false}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('kisisel_bilg')} expanded={this.state.expandList['kisisel_bilg'] || false}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
                 >
-                  <Typography color="secondary" variant="button" gutterBottom>
+                  <Typography color="secondary" variant="button">
                     KİŞİSEL BİLGİLERİM
                   </Typography>
                 </ExpansionPanelSummary>
@@ -542,11 +549,11 @@ class Envanter extends React.Component {
                 </ExpansionPanelDetails>
               </ExpansionPanel>
 
-              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('iletisim_bilg')} expanded={this.state.expandList['iletisim_bilg'] || false}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('iletisim_bilg')} expanded={this.state.expandList['iletisim_bilg'] || false}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
                 >
-                  <Typography color="secondary" variant="button" gutterBottom>
+                  <Typography color="secondary" variant="button">
                     İLETİŞİM BİLGİLERİM
                   </Typography>
                 </ExpansionPanelSummary>
@@ -583,11 +590,11 @@ class Envanter extends React.Component {
                 </ExpansionPanelDetails>
               </ExpansionPanel>
 
-              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('online_diy')} expanded={this.state.expandList['online_diy'] || false}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('online_diy')} expanded={this.state.expandList['online_diy'] || false}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
                 >
-                  <Typography color="secondary" variant="button" gutterBottom>
+                  <Typography color="secondary" variant="button">
                     ONLİNE DİYET
                   </Typography>
                 </ExpansionPanelSummary>
@@ -600,11 +607,11 @@ class Envanter extends React.Component {
                 </ExpansionPanelDetails>
               </ExpansionPanel>
 
-              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_saat')} expanded={this.state.expandList['randevu_saat'] || false}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_saat')} expanded={this.state.expandList['randevu_saat'] || false}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
                 >
-                  <Typography color="secondary" variant="button" gutterBottom>
+                  <Typography color="secondary" variant="button">
                   YÜZ YÜZE RANDEVU SAATLERİM
                   </Typography>
                 </ExpansionPanelSummary>
@@ -629,11 +636,11 @@ class Envanter extends React.Component {
                 </ExpansionPanelDetails>
               </ExpansionPanel>
 
-              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_gun')} expanded={this.state.expandList['randevu_gun'] || false}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_gun')} expanded={this.state.expandList['randevu_gun'] || false}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
                 >
-                  <Typography color="secondary" variant="button" gutterBottom>
+                  <Typography color="secondary" variant="button">
                     RANDEVU GÜNLERİM {multipleOffices ? "(1. Ofis)" : ""}
                   </Typography>
                 </ExpansionPanelSummary>
@@ -651,11 +658,11 @@ class Envanter extends React.Component {
               </ExpansionPanel>
 
               { multipleOffices && (
-                <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_gun_2')} expanded={this.state.expandList['randevu_gun_2'] || false}>
+                <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_gun_2')} expanded={this.state.expandList['randevu_gun_2'] || false}>
                   <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
                   >
-                    <Typography color="secondary" variant="button" gutterBottom>
+                    <Typography color="secondary" variant="button">
                       RANDEVU GÜNLERİM (2. Ofis)
                     </Typography>
                   </ExpansionPanelSummary>
