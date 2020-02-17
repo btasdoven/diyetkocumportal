@@ -84,7 +84,12 @@ class Step1 extends React.Component {
         const { classes } = this.props;
 
         return (
-            <Typography color="textPrimary" variant='body1'>Yeni danışanlara ulaşabilmek ve kolayca danışan takibi yapabilmek için doğru yerdesin. Diyet Koçum'un  </Typography>
+            <div>
+                <Typography color="textPrimary" variant='body1'>
+                    Profilini tamamla 
+                </Typography>
+                <img width="100%" src="/static/info/1.png" />
+            </div>
         )
     }
 }
@@ -174,7 +179,7 @@ class FieldDialog extends React.Component {
 
     render() {
         const step = this.state.activeStep;
-        const maxSteps = 5;
+        const maxSteps = 2;
         const { classes } = this.props;
 
         return (
@@ -196,8 +201,8 @@ class FieldDialog extends React.Component {
                     index={step}
                     onChangeIndex={(s) => this.setState({activeStep: s})}
                 >
-                    {step == 0 && <Step1 {...this.props} />}
-                    {step == 1 && <Step2 {...this.props} />}
+                    <Step1 {...this.props} />
+                    <Step2 {...this.props} />
                 </SwipeableViews>
               </DialogContent>
               <DialogActions>

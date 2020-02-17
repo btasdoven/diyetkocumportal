@@ -92,6 +92,7 @@ class Header extends React.Component  {
       super(props);
 
       this.isLoaded = this.isLoaded.bind(this);
+      this.handleNotifDialog = this.handleNotifDialog.bind(this)
 
       this.state = {
           anchorEl: null,
@@ -121,11 +122,37 @@ class Header extends React.Component  {
     return loaded && loaded2;
   }
 
+  handleNotifDialog(open) {
+    if (this.state.t) {
+      clearInterval(this.state.t)
+    }
+
+    this.setState({
+      t: undefined,
+      notifDialogOpen: open,
+    })
+  }
+
   componentDidMount() {
     if (!this.isLoaded() && this.state.user) {
       this.props.getMessagePreviews(this.state.user.id);
       this.props.getDietitianAppointments(this.state.user.id);
     }
+
+    if (this.state.t != undefined) {
+      clearInterval(this.state.t)
+    }
+
+    // var t = setTimeout(() => {
+    //   this.setState({
+    //     t: undefined,
+    //     notifDialogOpen: true,
+    //   })
+    // }, 3000);
+
+    // this.setState({
+    //   timeoutInt: t,
+    // })
   }
 
   handleClick = event => {
@@ -192,7 +219,7 @@ class Header extends React.Component  {
           </Typography>
 
           {/* {this.props.noButton != true && this.state.user && (
-            <IconButton onClick={() => this.setState({notifDialogOpen: true})} color="inherit">
+            <IconButton onClick={() => this.handleNotifDialog(true)} color="inherit">
               <Badge variant="dot" badgeContent={4} color="secondary">
                 <NotificationsIcon color="primary"/>
               </Badge>
@@ -220,7 +247,7 @@ class Header extends React.Component  {
           </Menu> */}
         </Toolbar>
 
-        <HeaderNotifDialog open={this.state.notifDialogOpen} handleClose={() => this.setState({notifDialogOpen: false})}/>
+        <HeaderNotifDialog open={this.state.notifDialogOpen} handleClose={() => this.handleNotifDialog(false)}/>
       </AppBar>
     );
   }
