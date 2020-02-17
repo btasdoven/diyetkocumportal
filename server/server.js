@@ -43,6 +43,13 @@ app.use(function (req, res, next) {
     }
   };
 
+  if (req && req.params && req.params.userId) {
+    if (req.params.userId == 'yaseminozman') {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(401).json({code: 'LOGIN_EXPIRED', message: "Giriş yaptığınız bilgiler geçerliliğini yitirmiştir. Tekrar giriş yapınız."});
+    }
+  }
+  
   func();
 })
 
