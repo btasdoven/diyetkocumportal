@@ -395,7 +395,7 @@ exports.loginUser = function(uname, pwd) {
       console.log(user)
       if (user.status == 'pending') {
         console.log('pending user')
-        return { error: 'Bu kullanıcının üyeliği daha aktif edilmedi.'};
+        return { error: 'Üyeliğiniz daha aktif edilmedi.'};
       }
 
       // First login?

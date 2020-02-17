@@ -190,8 +190,8 @@ class Header extends React.Component  {
           >
             {this.props.title || getPageTitle(this.props) || ''}
           </Typography>
-{/* 
-          {this.props.noButton != true && this.state.user && (
+
+          {/* {this.props.noButton != true && this.state.user && (
             <IconButton onClick={() => this.setState({notifDialogOpen: true})} color="inherit">
               <Badge variant="dot" badgeContent={4} color="secondary">
                 <NotificationsIcon color="primary"/>

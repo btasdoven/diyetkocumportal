@@ -328,11 +328,13 @@ class Envanter extends React.Component {
     this.isLoaded = this.isLoaded.bind(this);
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
     this.handleLinkCopied = this.handleLinkCopied.bind(this);
+    this.handleExpand = this.handleExpand.bind(this);
 
     this.state = {
       userId: JSON.parse(localStorage.getItem('user')).id,
       user: JSON.parse(localStorage.getItem('user')),
       linkCopied: false,
+      expandList: {},
     }
   }
 
@@ -361,6 +363,18 @@ class Envanter extends React.Component {
       'Randevu linkiniz panoya kopyalandı.',
       //'Undo', () => handleUndo()
     )
+  }
+
+  handleExpand(panel) {
+    return (event, isExpanded) => {
+      console.log(isExpanded, panel)
+      this.setState({ 
+        expandList: {
+          ...this.state.expandList,
+          [panel]: isExpanded
+        }
+      });
+    };
   }
 
   render() {
@@ -464,7 +478,7 @@ class Envanter extends React.Component {
                 <CardHeader
                   title={
                     <Typography color="secondary" variant="button" gutterBottom>
-                     ÖZEL RANDEVU LİNKİM
+                     KİŞİSEL SAYFAM
                     </Typography>
                   }
                 />
@@ -472,7 +486,7 @@ class Envanter extends React.Component {
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <div className={classes.text}>
-                        <Typography variant="body2">Yeni danışanlarınızın sizden kolayca randevu alabilmesi için bu linki onlarla paylaşabilir ya da direkt instagram profilinize ekleyebilirsiniz.</Typography>
+                        <Typography variant="body2">Kendini tanıtabileceğin, danışanların senden randevu alabileceği ve blog yazıları paylaşabileceğin kişisel sayfanın linkini buradan kopyalayabilir ve instagram sayfana koyabilirsin.</Typography>
                       </div>
                     </Grid>
 
@@ -494,25 +508,24 @@ class Envanter extends React.Component {
                     </Grid>
 
                     <Grid item xs={12} style={{marginTop: '8px'}}>
-                      <Typography variant="body2">Randevu linkinin danışanlara nasıl gözüktüğünü görmek ister misin?</Typography>
+                      <Typography variant="body2">Kişisel sayfanın nasıl gözüktüğünü görmek ister misin?</Typography>
                       <div style={{marginTop: '16px', textAlign: 'center'}}>
-                        <Button style={{borderRadius: '16px'}} target='_blank' href={"https://diyetkocum.net/d/" + this.state.user.username} component="a" size="small" color="primary" variant="outlined">RANDEVU SAYFAMI GÖR</Button>
+                        <Button style={{borderRadius: '16px'}} href={"https://diyetkocum.net/d/" + this.state.user.username} component="a" size="small" color="primary" variant="outlined">KİŞİSEL SAYFAMI GÖR</Button>
                       </div>
                     </Grid>
                   </Grid>
                 </CardContent>
               </Card>
 
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     KİŞİSEL BİLGİLERİM
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('kisisel_bilg')} expanded={this.state.expandList['kisisel_bilg'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button" gutterBottom>
+                    KİŞİSEL BİLGİLERİM
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="unvan" label="Ünvanım" />
@@ -526,19 +539,18 @@ class Envanter extends React.Component {
                       <ReduxFormTextField rows={3} rowsMax={6} multiline name="ozgecmis" label="Öz geçmişim" />
                     </Grid>
                   </Grid>
-                </CardContent>
-              </Card>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
 
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     İLETİŞİM BİLGİLERİM
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('iletisim_bilg')} expanded={this.state.expandList['iletisim_bilg'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button" gutterBottom>
+                    İLETİŞİM BİLGİLERİM
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <div className={classes.text}>
@@ -568,37 +580,35 @@ class Envanter extends React.Component {
                         </Grid>
                       )}
                   </Grid>
-                </CardContent>
-              </Card>
-              
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     ONLİNE DİYET
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+
+              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('online_diy')} expanded={this.state.expandList['online_diy'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button" gutterBottom>
+                    ONLİNE DİYET
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
                       <ReduxFormSwitch name="online_diyet" label={<Typography variant="body2">Online Diyet istekleri gelsin</Typography>}/>
                     </Grid>
                   </Grid>
-                </CardContent>
-              </Card>
-              
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     YÜZ YÜZE RANDEVU SAATLERİM
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+
+              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_saat')} expanded={this.state.expandList['randevu_saat'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button" gutterBottom>
+                  YÜZ YÜZE RANDEVU SAATLERİM
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <div className={classes.text}>
@@ -616,19 +626,18 @@ class Envanter extends React.Component {
                       </Grid>
                     </Grid>
                   </Grid>
-                </CardContent>
-              </Card>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
 
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     RANDEVU GÜNLERİM {multipleOffices ? "(1. Ofis)" : ""}
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+              <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_gun')} expanded={this.state.expandList['randevu_gun'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button" gutterBottom>
+                    RANDEVU GÜNLERİM {multipleOffices ? "(1. Ofis)" : ""}
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     { ApptDays().map( (h, i) => {
                       return (
@@ -638,20 +647,19 @@ class Envanter extends React.Component {
                       )}
                     )}
                   </Grid>
-                </CardContent>
-              </Card>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
 
               { multipleOffices && (
-                <Card variant="outlined" className={classes.card}>
-                  {/* <div className={classes.divCategory}> */}
-                  <CardHeader
-                    title={
-                      <Typography color="secondary" variant="button" gutterBottom>
+                <ExpansionPanel className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_gun_2')} expanded={this.state.expandList['randevu_gun_2'] || false}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                  >
+                    <Typography color="secondary" variant="button" gutterBottom>
                       RANDEVU GÜNLERİM (2. Ofis)
-                      </Typography>
-                    }
-                  />
-                  <CardContent style={{paddingTop:0}}>
+                    </Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
                     <Grid container spacing={2}>
                       { ApptDays().map( (h, i) => {
                         return (
@@ -661,8 +669,8 @@ class Envanter extends React.Component {
                         )}
                       )}
                     </Grid>
-                  </CardContent>
-                </Card>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
               )}
             </Form>
           </span>
