@@ -15,6 +15,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -131,6 +132,10 @@ class Header extends React.Component  {
       t: undefined,
       notifDialogOpen: open,
     })
+
+    console.log('set')
+    localStorage.setItem('intro_dialog', true);
+    console.log(localStorage.getItem('intro_dialog'))
   }
 
   componentDidMount() {
@@ -143,16 +148,25 @@ class Header extends React.Component  {
       clearInterval(this.state.t)
     }
 
-    // var t = setTimeout(() => {
-    //   this.setState({
-    //     t: undefined,
-    //     notifDialogOpen: true,
-    //   })
-    // }, 3000);
+    var didDialogOpen =  localStorage.getItem('intro_dialog');
+    console.log(didDialogOpen)
 
-    // this.setState({
-    //   timeoutInt: t,
-    // })
+    if (didDialogOpen == 'true')
+      return;
+    
+    var t = setTimeout(() => {
+      this.handleNotifDialog(true);
+    }, 3000);
+
+    this.setState({
+      timeoutInt: t,
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.state.t != undefined) {
+      clearInterval(this.state.t);
+    }
   }
 
   handleClick = event => {
@@ -218,13 +232,13 @@ class Header extends React.Component  {
             {this.props.title || getPageTitle(this.props) || ''}
           </Typography>
 
-          {/* {this.props.noButton != true && this.state.user && (
+          {this.props.noButton != true && this.state.user && (
             <IconButton onClick={() => this.handleNotifDialog(true)} color="inherit">
-              <Badge variant="dot" badgeContent={4} color="secondary">
-                <NotificationsIcon color="primary"/>
-              </Badge>
+              {/* <Badge variant="dot" badgeContent={4} color="secondary"> */}
+                <HelpOutlineOutlinedIcon color="primary"/>
+              {/* </Badge> */}
             </IconButton>
-          )} */}
+          )}
 
           {/* <IconButton onClick={this.handleClick} color="inherit">
             <Badge badgeContent={1} color="secondary">
