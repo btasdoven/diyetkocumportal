@@ -535,7 +535,59 @@ class Envanter extends React.Component {
                       <ReduxFormTextField name="alerji" label="Besin Alerjileri" />
                     </Grid>
                     <Grid item xs={12} >
-                      <ReduxFormTextField name="ishal_kabizlik" label="Ishal ya da kabızlığınız var mı?" />
+                      <ReduxFormTextField name="ishal_kabizlik" label="Kabızlık, gaz, şişkinlik ya da diyare var mı?" />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ReduxFormSelect
+                        name="uyanma_saati"
+                        label="Uyanma Saati"
+                        values={[
+                          {
+                            label: "05:00'ten önce",
+                            value: "05:00'ten önce",
+                          },
+                          {
+                            label: '05:00 - 07:00',
+                            value: '05:00 - 07:00',
+                          },
+                          {
+                            label: '07:00 - 09:00',
+                            value: '07:00 - 09:00',
+                          },
+                          {
+                            label: '09:00 - 11:00',
+                            value: '09:00 - 11:00',
+                          },
+                          {
+                            label: "11:00'den sonra",
+                            value: "11:00'den sonra",
+                          },
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ReduxFormSelect
+                        name="uyuma_saati"
+                        label="Uyuma Saati"
+                        values={[
+                          {
+                            label: "21:00'den önce",
+                            value: "21:00'den önce",
+                          },
+                          {
+                            label: '21:00 - 23:00',
+                            value: '21:00 - 23:00',
+                          },
+                          {
+                            label: '23:00 - 01:00',
+                            value: '23:00 - 01:00',
+                          },
+                          {
+                            label: "01:00'den sonra",
+                            value: "01:00'den sonra",
+                          },
+                        ]}
+                      />
                     </Grid>
                     <Grid item xs={6}>
                       <ReduxFormSelect
@@ -615,7 +667,88 @@ class Envanter extends React.Component {
                 <CardContent style={{paddingTop:0}}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <ReduxFormTextField name="ogun_duzeni" label="Öğün Düzeni" />
+                      <ReduxFormSelect
+                        name="kahvalti_saati"
+                        label="Kahvaltı Saati"
+                        values={[
+                          {
+                            label: "Yapmıyorum",
+                            value: "Yapmıyorum",
+                          },
+                          {
+                            label: "07:00'den önce",
+                            value: "07:00'den önce",
+                          },
+                          {
+                            label: '07:00 - 09:00',
+                            value: '07:00 - 09:00',
+                          },
+                          {
+                            label: '09:00 - 11:00',
+                            value: '09:00 - 11:00',
+                          },
+                          {
+                            label: "11:00'den sonra",
+                            value: "11:00'den sonra",
+                          },
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormSelect
+                        name="ogle_yemegi_saati"
+                        label="Öğle Yemeği Saati"
+                        values={[
+                          {
+                            label: "Yapmıyorum",
+                            value: "Yapmıyorum",
+                          },
+                          {
+                            label: "11:00'den önce",
+                            value: "11:00'den önce",
+                          },
+                          {
+                            label: '11:00 - 13:00',
+                            value: '13:00 - 13:00',
+                          },
+                          {
+                            label: '13:00 - 15:00',
+                            value: '13:00 - 15:00',
+                          },
+                          {
+                            label: "15:00'ten sonra",
+                            value: "15:00'ten sonra",
+                          },
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormSelect
+                        name="aksam_yemegi_saati"
+                        label="Akşam Yemeği Saati"
+                        values={[
+                          {
+                            label: "Yapmıyorum",
+                            value: "Yapmıyorum",
+                          },
+                          {
+                            label: "17:00'den önce",
+                            value: "17:00'den önce",
+                          },
+                          {
+                            label: '17:00 - 19:00',
+                            value: '17:00 - 19:00',
+                          },
+                          {
+                            label: '19:00 - 21:00',
+                            value: '19:00 - 21:00',
+                          },
+                          {
+                            label: "21:00'den sonra",
+                            value: "21:00'den sonra",
+                          },
+                        ]}
+                      />
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="atlanan_ogunler" label="Atlanan Öğünler" />
@@ -709,6 +842,12 @@ class Envanter extends React.Component {
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="kilo_almaya_baslangic" label="Ne zaman kilo almaya başladınız?" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="kilo_sebebi" label="Sizce neden kilo almaya başladınız?" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField name="onceki_diyet" label="Daha önce diyet yaptınız mı?" />
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="yemekleri_pisiren" label="Yemekleri kim pişirir?" />
