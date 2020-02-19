@@ -134,7 +134,7 @@ class Header extends React.Component  {
   }
 
   componentDidMount() {
-    if (!this.isLoaded() && this.state.user) {
+    if (!this.isLoaded() && this.state.user && this.props.noButton != true && !this.props.backButton) {
       this.props.getMessagePreviews(this.state.user.id);
       this.props.getDietitianAppointments(this.state.user.id);
     }
