@@ -195,6 +195,21 @@ const highlights = [
   // { name: 'İlk danışan kaydı', src: "/static/danisan/thumbnail.png", sources: ilkDanisanSources },
   { name: 'İlk randevu', src: "/static/randevu/thumbnail.png", sources: ilkRandevuSources },
 ]
+
+function isMobileOrTablet() {
+  return /(android|iphone|ipad|mobile)/i.test(navigator.userAgent);
+}
+
+function whatsappLink() {
+  console.log(isMobileOrTablet());
+  
+  return (
+    'https://' +
+    (isMobileOrTablet() ? 'api' : 'web') +
+    '.whatsapp.com/send?phone=19712177653'
+  );
+}
+
 class LandingPage extends React.Component {
 
   constructor(props) {
@@ -255,7 +270,7 @@ class LandingPage extends React.Component {
             }}
             unmountOnExit
           >
-            <Fab componenent='a' href="https://web.whatsapp.com/send?phone=19712177653" target="_blank" color="primary" aria-label="add" style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}>
+            <Fab componenent='a' href={whatsappLink()} target="_blank" color="primary" aria-label="add" style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}>
               <WhatsappIcon size={40} round={true}/>
             </Fab>
           </Zoom>
