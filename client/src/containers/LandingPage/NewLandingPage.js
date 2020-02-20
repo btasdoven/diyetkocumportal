@@ -255,7 +255,7 @@ class LandingPage extends React.Component {
             }}
             unmountOnExit
           >
-            <Fab componenent='a' href="https://web.whatsapp.com/send?phone=19712177653" target="_blank" color="primary" aria-label="add" style={{zIndex: 5000, position: 'fixed', bottom: '16px', right: '16px'}}>
+            <Fab componenent='a' href="https://web.whatsapp.com/send?phone=19712177653" target="_blank" color="primary" aria-label="add" style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}>
               <WhatsappIcon size={40} round={true}/>
             </Fab>
           </Zoom>
