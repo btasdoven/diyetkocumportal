@@ -50,7 +50,7 @@ const rows = {
       'Cuma': true,
       'online_diyet': true,
       'unvan': 'Diyetisyen',
-      'ozgecmis': 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.'
+      'ozgecmis': 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.',
     }
   },
   'demo': {
@@ -458,7 +458,8 @@ exports.signUpUser = function(uname, userInfo) {
         email: userInfo.email, 
         tel: userInfo.tel,
         url: instaProfileUrl,
-        //status: 'pending'
+        //status: 'pending',
+        isAdmin: true,
       }
     
       storage.setItem('0', rows[0]);

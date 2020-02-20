@@ -29,6 +29,7 @@ import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'material-ui-snackbar-provider'
 import EventIcon from '@material-ui/icons/Event';
+import { logout } from "../../store/reducers/authenticate";
 
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
@@ -272,8 +273,25 @@ class Envanter extends React.Component {
     const date = this.props.match.params.date;
     const time = this.props.match.params.time;
     console.log(this.props)
-    var appt = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data[date].data[time];
-    console.log(appt)
+    var appt = undefined;
+    
+    if (!showLoader) {
+      appt = this.props.apiDietitianAppointments[this.state.userId].data[date];
+      
+      if (appt) {
+        appt = appt.data[time];
+      }
+
+      if (!appt) {
+        return (
+          <div className={classes.root} style={{textAlign: 'center'}}>
+            <div style={{padding: '8px'}}>Ulaşmaya çalışığın randevu giriş yapmış olduğun hesaba ait değildir.</div>
+            <div style={{padding: '8px'}}>Giriş yapmış olduğun hesap: {this.state.userId}</div>
+            <Button style={{padding: '8px'}} color="primary" variant="contained" onClick={this.props.logout} >ÇIK ve YENİDEN GİRİŞ YAP</Button>
+          </div>
+        )
+      }
+    }
 
     var step = appt && appt.status == 'pending' ? 0 : (appt ? (appt.step || 1) : 1);
 
@@ -435,6 +453,7 @@ const mapDispatchToProps = dispatch => {
     {
       getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date),
       putDietitianAppointment: (userId, date, time, values) => putDietitianAppointment(userId, date, time, values),
+      logout: () => logout()
     },
     dispatch
   );

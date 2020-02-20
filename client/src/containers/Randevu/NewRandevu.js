@@ -85,6 +85,7 @@ import Slide from '@material-ui/core/Slide';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
+import PersonalPage from './PersonalPage';
 
 import Header from "../../components/Header";
 import 'moment/locale/tr'
@@ -435,6 +436,20 @@ class NewRandevuWrapper extends React.Component {
 
         var multipleOffices = user && user.address_2 != undefined && user.address_2 != '';
 
+        if (showLoader) {
+          return renderLoadingButton(classes);
+        }
+
+        if (this.state.step == 0) {
+          return (
+            <PersonalPage 
+              dietitianProfile={user}  // dietitian whose personal page is being visited
+              userId={this.state.userId}  // logged in username
+              onComplete={(type) => this.setState({step: type == 'randevu' ? (multipleOffices ? 1 : 2) : 3, type: type})} // action to be called to move to the next step
+            />
+          )
+        }
+
         return (
             <div className={classes.root}>
                 <Header
@@ -506,6 +521,8 @@ class NewRandevuWrapper extends React.Component {
                 )}
                 <main style={{
       maxWidth: '800px',
+      paddingLeft: '8px',
+      paddingRight: '8px',
       paddingBottom: '56px',
       width: '100%',
       margin: 'auto'}}>
@@ -724,6 +741,9 @@ class NewRandevuStep2 extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0)
+
+    if (!this.isDateLoaded())
+      this.props.getDietitianAppointments(this.state.userId, this.state.dateFmt);
   }
 
   handleOnDateChange(d) {

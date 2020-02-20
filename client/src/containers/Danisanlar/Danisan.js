@@ -184,7 +184,7 @@ class Envanter extends React.Component {
 
     this.state = {
       anchorEl: undefined, 
-      value: this.props.viewParam == 'messages' ? 4 : 0,
+      value: this.props.viewParam == 'messages' ? 1 : 0,
       userId: JSON.parse(localStorage.getItem('user')).id
     }
   }
@@ -217,12 +217,12 @@ class Envanter extends React.Component {
 
       const valToUriMap = {
         0: '/',
-        1: '/notes',
+        1: '/messages',
         2: '/records',
         3: '/diet',
-        4: '/diethistory',
-        5: '/finance',
-        6: '/messages'
+        4: '/notes',
+        5: '/diethistory',
+        6: '/finance',
       };
 
       trackPage(this.props.location.pathname + valToUriMap[newVal]);
@@ -250,12 +250,12 @@ class Envanter extends React.Component {
               aria-label="scrollable auto tabs example"
             >
               <Tab label="PROFİL" {...a11yProps(0)} />
-              <Tab label="NOTLARIM" {...a11yProps(1)} />
+              <Tab label="MESAJLAR" {...a11yProps(1)} />
               <Tab label="ÖLÇÜMLER" {...a11yProps(2)} />
               <Tab label="DİYET LİSTESİ" {...a11yProps(3)} />
+              <Tab label="NOTLARIM" {...a11yProps(4)} />
               {/* <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} /> */}
               {/* <Tab label="ÖDEME BİLGİLERİ" {...a11yProps(5)} /> */}
-              <Tab label="MESAJLAR" {...a11yProps(4)} />
             </Tabs>
             {/* </AppBar> */}
             <div className={classes.main}>
@@ -263,13 +263,16 @@ class Envanter extends React.Component {
                 <KisiselBilgiler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
               </TabPanel>
               <TabPanel value={this.state.value} index={1}>
-                <Notlar userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+                <MesajView userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
               </TabPanel>
               <TabPanel value={this.state.value} index={2}>
                 <Olcumler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
               </TabPanel>
               <TabPanel value={this.state.value} index={3}>
                 <DiyetListesi userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
+              </TabPanel>
+              <TabPanel value={this.state.value} index={4}>
+                <Notlar userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
               </TabPanel>
               {/* <TabPanel value={this.state.value} index={4}>
                 <div className={classes.rootLoading}>
@@ -279,9 +282,6 @@ class Envanter extends React.Component {
               <TabPanel value={this.state.value} index={5}>
                 <Finans danisanUserName={this.props.danisanUserName} />
               </TabPanel> */}
-              <TabPanel value={this.state.value} index={4}>
-                <MesajView userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
-              </TabPanel>
             </div>
           </span>
         }

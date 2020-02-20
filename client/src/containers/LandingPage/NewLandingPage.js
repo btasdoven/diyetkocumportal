@@ -28,6 +28,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import SendIcon from '@material-ui/icons/Send';
 import Divider from '@material-ui/core/Divider';
 import IntroInstaVideo from '../../components/IntroInstaVideo'
+import { WhatsappIcon } from "react-share";
+import Fab from '@material-ui/core/Fab';
+import Zoom from '@material-ui/core/Zoom';
 
 import DiyetisyenList from './DiyetisyenList'
 
@@ -192,6 +195,21 @@ const highlights = [
   // { name: 'İlk danışan kaydı', src: "/static/danisan/thumbnail.png", sources: ilkDanisanSources },
   { name: 'İlk randevu', src: "/static/randevu/thumbnail.png", sources: ilkRandevuSources },
 ]
+
+function isMobileOrTablet() {
+  return /(android|iphone|ipad|mobile)/i.test(navigator.userAgent);
+}
+
+function whatsappLink() {
+  console.log(isMobileOrTablet());
+  
+  return (
+    'https://' +
+    (isMobileOrTablet() ? 'api' : 'web') +
+    '.whatsapp.com/send?phone=19712177653'
+  );
+}
+
 class LandingPage extends React.Component {
 
   constructor(props) {
@@ -244,6 +262,19 @@ class LandingPage extends React.Component {
         </AppBar>
         <Divider />
         <main>
+          <Zoom
+            in={true}
+            timeout={250}
+            style={{
+              transitionDelay: `2000ms`,
+            }}
+            unmountOnExit
+          >
+            <Fab componenent='a' href={whatsappLink()} target="_blank" color="primary" aria-label="add" style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}>
+              <WhatsappIcon size={40} round={true}/>
+            </Fab>
+          </Zoom>
+
           <div className={classNames(classes.layout, classes.cardGrid)}>
             <Grid container spacing={0} >
               <Grid style={{paddingLeft: '5%'}} item xs={3} sm={3} md={3} lg={3}>
