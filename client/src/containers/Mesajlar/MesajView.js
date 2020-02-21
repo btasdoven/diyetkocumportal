@@ -175,6 +175,8 @@ class DefaultChatMsg extends React.Component {
         const messages = showLoader ? undefined : this.props.apiDanisanMessages[this.props.userId][this.props.danisanUserName].data;
         console.log(messages);
         var prevMsgs = [];
+        var dietitianUrl = undefined;
+        var danisanUrl = undefined;
 
         return (
             <div>
@@ -182,6 +184,10 @@ class DefaultChatMsg extends React.Component {
                     {messages && Object.keys(messages).map( (mid, idx) => {
                         var msg = messages[mid];
                         
+                        dietitianUrl = msg.dietitianUrl ? msg.dietitianUrl : dietitianUrl;
+                        danisanUrl = msg.danisanUrl ? msg.danisanUrl : danisanUrl;
+                        console.log(dietitianUrl);
+
                         prevMsgs.push(msg)
                         if (Object.keys(messages).length > idx + 1) {
                             var nextMid = Object.keys(messages)[idx+1]
@@ -198,7 +204,7 @@ class DefaultChatMsg extends React.Component {
                         return (
                             <ChatMsg
                                 key={idx}
-                                avatar={''}
+                                avatar={msg.sentByDietitian ? dietitianUrl : danisanUrl}
                                 side={isMe ? 'right' : 'left'}
                                 messages={msgs}
                             />
