@@ -773,7 +773,17 @@ exports.getDanisanMessages = function (userId, danisanUserName) {
     return { };
   }
 
-  return rows[userId].danisans[danisanUserName].messages;
+  var msg = rows[userId].danisans[danisanUserName].messages;
+
+  if (Object.keys(msg).length == 0) {
+    return msg;
+  }
+
+  var firstMsgId = Object.keys(msg)[0];
+  msg[firstMsgId].dietitianUrl = rows[userId].profile.url
+  msg[firstMsgId].danisanUrl = rows[userId].danisanPreviews[danisanUserName].url;
+
+  return msg;
 }
 
 exports.readDanisanMessages = function (userId, danisanUserName) {
