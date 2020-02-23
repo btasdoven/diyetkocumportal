@@ -819,6 +819,7 @@ class NewRandevuStep2 extends React.Component {
 const required = value => value ? undefined : 'Zorunlu'
 const validPhone = value => value && !/^\+90 [1-9][0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}$/i.test(value) ? 'Geçerli bir telefon numarası değil' : undefined;
 const validEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Geçerli bir e-posta adresi değil' : undefined;
+const matchEmails = (email, allValues) => email !== allValues.email ? 'Girdiğin e-postalar eşleşmiyor' : undefined;
 
 class NewRandevuStep3 extends React.Component {
 
@@ -890,6 +891,9 @@ class NewRandevuStep3 extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                         <ReduxFormTextField required validate={[required, validEmail]} name="email" label="E-posta adresin" />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ReduxFormTextField required validate={[required, validEmail, matchEmails]} name="email_confirmation" label="E-posta yeniden" />
                     </Grid>
                     <Grid item xs={12}>
                         <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required, validPhone]} />

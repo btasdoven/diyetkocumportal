@@ -15,6 +15,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import MaskedInput from 'react-text-mask';
 
+import { registerEvent } from '../../components/Signin/PageTracker'
+
 const styles = theme => ({
   root: {
     height: "inherit",
@@ -233,7 +235,12 @@ const SigninForm = props => {
       </FormControl>
       <FormControl margin="normal" fullWidth>
         <ReduxFormCheckBox name="sozlesme" validate={[required]} label={
-          <Typography variant="body2"><b>Kullanıcı Sözleşmesini</b> ve <b>Kişisel Verilerin Korunması Politikasını</b> kabul ediyorum.</Typography>
+          <Typography variant="body2">
+            <a onClick={() => registerEvent('ClickKullaniciSozlesmesi')} style={{ color: 'rgba(0, 0, 0, 0.87)', textDecoration: 'none', fontWeight: 'bolder'}} target="_blank" href="/static/legal/kull_soz.pdf">Kullanıcı Sözleşmesini</a>
+             &nbsp;ve&nbsp;
+            <a onClick={() => registerEvent('ClickGdpr')} style={{ color: 'rgba(0, 0, 0, 0.87)', textDecoration: 'none', fontWeight: 'bolder'}} target="_blank" href="/static/legal/gdpr.pdf">Kişisel Verilerin Korunması Politikasını</a> 
+             &nbsp;kabul ediyorum.
+          </Typography>
         }/>
       </FormControl>
 
