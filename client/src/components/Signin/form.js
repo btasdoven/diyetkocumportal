@@ -150,11 +150,17 @@ class SigninForm extends React.Component {
             validate={[required]}
           />
         </FormControl>
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Beni hatırla"
-        />
+        /> */}
         
+        <FormControl margin="normal" fullWidth>
+          <Typography component={Link} to="/fp" style={{textAlign: 'end'}} color="textSecondary" variant="body2">
+              Şifremi unuttum
+          </Typography>
+        </FormControl>
+
         {auth && auth.error && (
           <Typography color="error" variant="body1">
               {auth.error}

@@ -49,7 +49,7 @@ app.use(function (req, res, next) {
       res.status(401).json({code: 'LOGIN_EXPIRED', message: "Giriş yaptığınız bilgiler geçerliliğini yitirmiştir. Tekrar giriş yapınız."});
     }
   }
-  
+
   func();
 })
 
@@ -266,6 +266,34 @@ app.post("/api/v1/users/signup", (req, res, next) => {
 
     // res.setHeader('Content-Type', 'application/json');
     // res.status(400).json({message: ret.error});
+  }), delayInResponseInMs);
+});
+
+app.post("/api/v1/users/requestNewPasswordEmail", (req, res, next) => {
+  setTimeout((function() {
+    dal.requestNewPasswordEmail(req.body.username.toLowerCase(), req.body)
+      .then(user => {
+        res.setHeader('Content-Type', 'application/json');
+        res.json({url: user.url, name: user.name, username: user.username, id: user.id});
+      })
+      .catch(err => {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(400).json({message: err});
+      })
+  }), delayInResponseInMs);
+});
+
+app.post("/api/v1/users/resetPassword", (req, res, next) => {
+  setTimeout((function() {
+    dal.resetPassword(req.body.username.toLowerCase(), req.body)
+      .then(user => {
+        res.setHeader('Content-Type', 'application/json');
+        res.json({url: user.url, name: user.name, username: user.username, id: user.id});
+      })
+      .catch(err => {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(400).json({message: err});
+      })
   }), delayInResponseInMs);
 });
 

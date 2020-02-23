@@ -6,6 +6,8 @@ import axios from 'axios';
 export const userService = {
     login,
     logout,
+    request_new_password_email,
+    reset_password,
     signup,
     get_message_previews,
     get_danisan_previews,
@@ -68,6 +70,34 @@ function signup(username, userInfo) {
     };
 
     return fetch(HOST_NAME + `/api/v1/users/signup`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            return user;
+        });
+}
+
+function reset_password(username, userInfo) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userInfo)
+    };
+
+    return fetch(HOST_NAME + `/api/v1/users/resetPassword`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            return user;
+        });
+}
+
+function request_new_password_email(username, userInfo) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userInfo)
+    };
+
+    return fetch(HOST_NAME + `/api/v1/users/requestNewPasswordEmail`, requestOptions)
         .then(handleResponse)
         .then(user => {
             return user;

@@ -31,6 +31,8 @@ import withTracker from './components/Signin/PageTracker'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { SnackbarProvider } from 'material-ui-snackbar-provider'
 import DiyetisyenListView from './containers/Randevu/DiyetisyenListView'
+import ForgotPassword from './containers/Register/ForgotPassword'
+import ResetPassword from './containers/Register/ResetPassword'
 
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";
@@ -108,6 +110,8 @@ class App extends Component {
                       <DashboardRoute path="/f" component={NotImplementedYet} />
                       <DashboardRoute path="/kd" component={NotImplementedYet} />
                       <EmptyRoute path="/signup" component={Register} />
+                      <Route path="/fp" render={() => <Redirect to="/" />} />
+                      <Route path="/rp" render={() => <Redirect to="/" />} />
                       <Route path="/signin" render={() => <Redirect to="/" />} />
                       <EmptyRoute component={NotFound} />
                     </Switch>
@@ -121,6 +125,8 @@ class App extends Component {
 
                       <EmptyRoute path="/signup" component={Register} />
                       <EmptyRoute path="/signin" component={Signin} />
+                      <EmptyRoute path="/fp" component={ForgotPassword} />
+                      <EmptyRoute path="/rp/:linkId" component={ResetPassword} />
                       <Route exact path="/" component={NewLandingPageTracked} />
                       <Redirect to="/" />
                     </Switch>

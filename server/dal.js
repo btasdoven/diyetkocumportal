@@ -417,6 +417,58 @@ exports.loginUser = function(uname, pwd) {
   return { error: 'Yanlış kullanıcı adı veya şifre.'};
 }
 
+exports.requestNewPasswordEmail = function(uname, userInfo) {
+  console.log('requestNewPasswordEmail');
+  console.log(uname, userInfo)
+
+  uname = uname.trim();
+  
+  if (rows[uname] == undefined ||
+      rows[uname].profile.email != userInfo.email) {
+      return Promise.resolve(userInfo);
+  }
+
+  if (rows[uname].authInfo == undefined)
+    rows[uname].authInfo = {}
+
+  rows[uname].authInfo.newPasswordLink = stringHash("new_password_" + Date.now() + "_" + uname)
+  storage.setItem(uname, rows[uname]);
+
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+    ? "TEST - " + uname + " - "
+    : "PROD - " + uname + " - "
+
+    var content = `
+Merhaba ${rows[uname].profile.name},
+
+Şifreni yenilemek için aşağıdaki linke tıklayabilirsin:
+
+https://diyetkocum.net/rp/${rows[uname].authInfo.newPasswordLink}
+
+Teşekkürler 🙏
+Diyet Koçum Ailesi`
+
+  email.sendEmail(rows[uname].profile.email, titleSuffix, `Şifre yenileme isteği`, content)
+  return Promise.resolve(userInfo);
+}
+
+exports.resetPassword = function(uname, userInfo) {
+  console.log('resetPassword');
+  console.log(uname, userInfo)
+
+  uname = uname.trim();
+  
+  if (rows[uname] == undefined ||
+      rows[uname].authInfo == undefined ||
+      rows[uname].authInfo.newPasswordLink != userInfo.linkId) {
+    return Promise.reject('Geçersiz bir şifre yenileme isteği.');
+  }
+
+  rows[0].users[uname].password = userInfo.password
+  storage.setItem('0', rows[0]);
+  return Promise.resolve(userInfo);
+}
+
 exports.signUpUser = function(uname, userInfo) {
   console.log('signupUser');
   console.log(uname, userInfo)
