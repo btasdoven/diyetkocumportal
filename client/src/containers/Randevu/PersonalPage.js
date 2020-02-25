@@ -41,6 +41,7 @@ const styles = theme => ({
     card: {
         marginBottom: theme.spacing(1),
         backgroundColor: '#f5f5f5',
+        width: '100%',
     },
     text: {
         color: '#364f6b'
@@ -93,7 +94,7 @@ class PersonalPage extends React.Component {
                                 <Avatar src="/static/favicon.png" className={classes.smallavatar} />
                             </Box>
                             <Typography style={{ fontWeight: '800', flex: 1 }} className={classes.appBar} variant="subtitle1" component="h5">DiyetKoçum</Typography>
-                            <Button style={{ display: 'inline-block', padding: 0, minHeight: 0, minWidth: 0 }} href={"https://instagram.com/" + this.props.userId}>
+                            <Button style={{ display: 'flex', padding: 0, minHeight: 0, minWidth: 0 }} href={"https://instagram.com/" + this.props.userId}>
                                 <InstagramIcon style={{ fontSize: 30, color: "white" }} />
                             </Button>
                         </Toolbar>
@@ -151,28 +152,31 @@ class PersonalPage extends React.Component {
                         </Card>
                         <Box my={3} />
 
-                        <Card className={classes.card}>
-                            <CardHeader
-                                style={{ textAlign: 'center' }}
-                                title={
-                                    <Box my={1}>
-                                        <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">OFİS</Typography>
-                                    </Box>
-                                }
-                            />
-                            <CardContent style={{ paddingTop: 0 }}>
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <div>
-                                            <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
-                                                Adres: Meşrutiyet, Konak Apt No:3, Hacı Mansur Sokak, Vali Konağı Cd. No:2, 34363 Şişli/İstanbul
-                                            </Typography>
-                                        </div>
+                        {user.address && (
+                            <Card className={classes.card}>
+                                <CardHeader
+                                    style={{ textAlign: 'center' }}
+                                    title={
+                                        <Box my={1}>
+                                            <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">OFİS</Typography>
+                                        </Box>
+                                    }
+                                />
+                                <CardContent style={{ paddingTop: 0 }}>
+                                    <Grid container>
+                                        <Grid item xs={12}>
+                                            <div>
+                                                <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
+                                                    {user.address}
+                                                </Typography>
+                                            </div>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </CardContent>
-                            {/* </div> */}
-                        </Card>
+                                </CardContent>
+                                {/* </div> */}
+                            </Card>
+                        )}
+
                         <Box my={2} />
                         <Grid container spacing={0} direction="row" alignItems="center" justify="center">
                             <Button href={"https://instagram.com/" + this.props.userId} style={{ textTransform: "none" }}>
