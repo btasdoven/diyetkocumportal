@@ -141,8 +141,8 @@ class PersonalPage extends React.Component {
                                                 <br />
                                                 <br />
                                                 {user.online_diyet == true
-                                                    ? "Online diyet yapmaktayım. Aşağıdan yüz yüze randevu ya da online diyeti seçerek daha sağlıklı ve kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏"
-                                                    : "Yalnızca yüz yüze randevu vermekteyim. Daha sağlıklı ve kaliteli bir yaşama ilk adımını aşağıdan atabilirsin 🍏💪🙏"}
+                                                    ? "Online diyet yapmaktayım. Yüz yüze randevu ya da online diyeti seçerek daha sağlıklı ve kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏"
+                                                    : "Yalnızca yüz yüze randevu vermekteyim. Daha sağlıklı ve kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏"}
                                             </Typography>
                                         </div>
                                     </Grid>
