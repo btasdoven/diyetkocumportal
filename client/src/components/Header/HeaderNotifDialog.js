@@ -67,26 +67,79 @@ const styles = theme => ({
         display: "grid",
         gridTemplateRows: "85px 1fr 1fr 1fr",
         height: "inherit"
-      },
+    },
+    stepWrapper: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+    }
 });
 
 class Step1 extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-          activeStep: 0
-        }
-    }
-
     render() {
-        const step = this.state.activeStep;
-        const { classes } = this.props;
-
         return (
-            <div>
-                <Typography color="textPrimary" variant='body1'>
-                    Profilini tamamla 
+            <div className={this.props.classes.stepWrapper}>
+                <Typography color="textPrimary" variant='body1' style={{paddingBottom: '16px'}}>
+                    Dijital asistanın ile birkaç adımda profilini tamamlayabilir ve yeni danışanlara kolayca ulaşabilirsin.
+                </Typography>
+                {/* <Button target="_blank" href="https://wa.me/14252412070">
+                    send
+                </Button> */}
+                <img width="100%" src="/static/info/1.png" />
+            </div>
+        )
+    }
+}
+
+class Step1_2 extends React.Component {
+    render() {
+        return (
+            <div className={this.props.classes.stepWrapper}>
+                <Typography color="textPrimary" variant='body1' style={{paddingBottom: '16px'}}>
+                    Kişisel ve iletişim bilgilerini buradan güncelleyerek danışanların sana daha kolay ulaşmasını sağlayabilirsin.
+                </Typography>
+                {/* <Button target="_blank" href="https://wa.me/14252412070">
+                    send
+                </Button> */}
+                <img width="100%" src="/static/info/2.png" />
+            </div>
+        )
+    }
+}
+
+class Step1_3 extends React.Component {
+    render() {
+        return (
+            <div className={this.props.classes.stepWrapper}>
+                <Typography color="textPrimary" variant='body1' style={{paddingBottom: '16px'}}>
+                    Ayrıca online diyet yapıp yapmayacagını ve yüz yüze randevu vereceğin zamanlari da buradan seçebilirsin.
+                </Typography>
+                <img width="100%" src="/static/info/3.png" />
+            </div>
+        )
+    }
+}
+
+class Step1_4 extends React.Component {
+    render() {
+        return (
+            <div className={this.props.classes.stepWrapper}>
+                <Typography color="textPrimary" variant='body1' style={{paddingBottom: '16px'}}>
+                    Kişisel sayfan senin internetteki yeni yüzün. Danışanların buradan seni daha yakından tanıyıp senden randevu talep edecekler.
+                </Typography>
+                <img width="100%" src="/static/info/1.png" />
+            </div>
+        )
+    }
+}
+
+class Step1_5 extends React.Component {
+    render() {
+        return (
+            <div className={this.props.classes.stepWrapper}>
+                <Typography color="textPrimary" variant='body1' style={{paddingBottom: '16px'}}>
+                    Kişisel sayfanın linkini Instagram profiline koyarak danışanların sana hızlıca ulaşmasını sağlayabilirsin.
                 </Typography>
                 <img width="100%" src="/static/info/1.png" />
             </div>
@@ -179,7 +232,7 @@ class FieldDialog extends React.Component {
 
     render() {
         const step = this.state.activeStep;
-        const maxSteps = 2;
+        const maxSteps = 5;
         const { classes } = this.props;
 
         return (
@@ -191,8 +244,14 @@ class FieldDialog extends React.Component {
             //   return <Slide direction="up" {...props} />
             // }}
           >
-              <DialogTitle id="form-dialog-title">Diyet Koçum'a hoş geldin</DialogTitle>
-              <DialogContent>
+              <DialogTitle id="form-dialog-title">
+                {step == 0 && "Diyet Koçum'a hoş geldin"}
+                {step == 1 && "Profil bilgilerini tamamla"}
+                {step == 2 && "Randevu zamanlarını seç"}
+                {step == 3 && "Kişisel sayfanı incele"}
+                {step == 4 && "Instagram'da paylaş"}
+              </DialogTitle>
+              <DialogContent style={{paddingBottom: 0}}>
                 {/* <DialogContentText>
                   Neler yapabilirsin?
                 </DialogContentText> */}
@@ -202,7 +261,10 @@ class FieldDialog extends React.Component {
                     onChangeIndex={(s) => this.setState({activeStep: s})}
                 >
                     <Step1 {...this.props} />
-                    <Step2 {...this.props} />
+                    <Step1_2 {...this.props} />
+                    <Step1_3 {...this.props} />
+                    <Step1_4 {...this.props} />
+                    <Step1_5 {...this.props} />
                 </SwipeableViews>
               </DialogContent>
               <DialogActions>
@@ -213,7 +275,19 @@ class FieldDialog extends React.Component {
                     variant="dots"
                     activeStep={step}
                     nextButton={
-                        <Button onClick={() => this.setState({ activeStep: step+1})} disabled={step === maxSteps - 1} size="small" color="secondary">SONRAKİ</Button>
+                        <Button 
+                            onClick={() => {
+                                if (step < maxSteps - 1)
+                                    this.setState({ activeStep: step+1})
+                                else
+                                    this.props.handleClose()
+                            }} 
+                            size="small" 
+                            color="secondary"
+                        >
+                            {step < maxSteps - 1 && "SONRAKİ"}
+                            {step === maxSteps - 1 && "KAPAT"}
+                        </Button>
                     }
                     backButton={
                         <Button onClick={() => this.setState({ activeStep: step-1})} disabled={step === 0} size="small" color="secondary">ÖNCEKİ</Button>

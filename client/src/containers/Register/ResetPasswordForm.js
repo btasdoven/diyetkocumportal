@@ -162,18 +162,7 @@ const SigninForm = props => {
   console.log(props);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <FormControl margin="normal" fullWidth>
-        <Field
-          required
-          id="name"
-          name="name"
-          component={renderTextField}
-          label="Adın ve soyadın"
-          autoComplete="name"
-          autoFocus={false}
-          validate={[required]}
-        />
-      </FormControl>
+      
       <FormControl margin="normal" fullWidth>
         <Field
           required
@@ -186,6 +175,7 @@ const SigninForm = props => {
           validate={[required]}
         />
       </FormControl>
+      
       <FormControl margin="normal" fullWidth>
         <Field
           required
@@ -193,57 +183,24 @@ const SigninForm = props => {
           name="password"
           type="password"
           component={renderTextField}
-          label="Şifre"
+          label="Yeni şifre"
           autoComplete="current-password"
           validate={[required]}
         />
       </FormControl>
-      {/* <FormControl margin="normal" fullWidth>
+      
+      <FormControl margin="normal" fullWidth>
         <Field
           required
           id="password_confirmation"
           name="password_confirmation"
           type="password"
           component={renderTextField}
-          label="Şifre Yeniden"
+          label="Yeni şifre yeniden"
+          autoComplete="current-password"
           validate={[required, matchPasswords]}
         />
-      </FormControl> */}
-      <FormControl margin="normal" fullWidth>
-        <Field
-          required
-          id="email"
-          name="email"
-          component={renderTextField}
-          label="E-posta adresin"
-          autoComplete="email"
-          autoFocus={false}
-          validate={[required, validEmail]}
-        />
       </FormControl>
-      <FormControl margin="normal" fullWidth>
-        <Field
-          required
-          id="tel"
-          name="tel"
-          component={renderMaskedTextField}
-          label="Telefon numaran"
-          autoComplete="mobile"
-          autoFocus={false}
-          validate={[required, validPhone]}
-        />
-      </FormControl>
-      <FormControl margin="normal" fullWidth>
-        <ReduxFormCheckBox name="sozlesme" validate={[required]} label={
-          <Typography variant="body2">
-            <a onClick={() => registerEvent('ClickKullaniciSozlesmesi')} style={{ color: 'rgba(0, 0, 0, 0.87)', textDecoration: 'none', fontWeight: 'bolder'}} target="_blank" href="/static/legal/kull_soz.pdf">Kullanıcı Sözleşmesini</a>
-             &nbsp;ve&nbsp;
-            <a onClick={() => registerEvent('ClickGdpr')} style={{ color: 'rgba(0, 0, 0, 0.87)', textDecoration: 'none', fontWeight: 'bolder'}} target="_blank" href="/static/legal/gdpr.pdf">Kişisel Verilerin Korunması Politikasını</a> 
-             &nbsp;kabul ediyorum.
-          </Typography>
-        }/>
-      </FormControl>
-
       {auth && auth.error && (
         <Typography color="error" variant="body1" className={classes.registerTypo}>
             {auth.error}
@@ -259,11 +216,11 @@ const SigninForm = props => {
           variant="contained"
           color="primary"
           className={classes.submit}
-          disabled={props.pristine || props.invalid || (auth && auth.signingUp)}
+          disabled={props.pristine || props.invalid || (auth && auth.resettingPassword)}
         >
-          KAYDOL
+          ŞİFREMİ YENİLE
         </Button>
-        {auth && auth.signingUp && <CircularProgress size={24} className={classes.buttonProgress} />}
+        {auth && auth.resettingPassword && <CircularProgress size={24} className={classes.buttonProgress} />}
       </div>
       </div>
     </form>
@@ -275,5 +232,5 @@ export default reduxForm({
     // username: 'demo',
     // password: '1234'
   },
-  form: "signup"
+  form: "resetPassword"
 })(withStyles(styles)(SigninForm));

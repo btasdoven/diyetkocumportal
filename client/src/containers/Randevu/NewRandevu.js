@@ -819,6 +819,7 @@ class NewRandevuStep2 extends React.Component {
 const required = value => value ? undefined : 'Zorunlu'
 const validPhone = value => value && !/^\+90 [1-9][0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}$/i.test(value) ? 'Geçerli bir telefon numarası değil' : undefined;
 const validEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Geçerli bir e-posta adresi değil' : undefined;
+const matchEmails = (email, allValues) => email !== allValues.email ? 'Girdiğin e-postalar eşleşmiyor' : undefined;
 
 class NewRandevuStep3 extends React.Component {
 
@@ -837,8 +838,16 @@ class NewRandevuStep3 extends React.Component {
 
     render() {
       const { classes } = this.props;
-        var user = this.props.apiDietitianProfile[this.state.userId].data;
-        console.log(this.props)
+      var user = this.props.apiDietitianProfile[this.state.userId].data;
+      console.log(this.props)
+
+      var emailField = 
+        this.props.apiForm == undefined ||
+        this.props.apiForm[this.props.form] == undefined ||
+        this.props.apiForm[this.props.form].values == undefined || 
+        this.props.apiForm[this.props.form].values.email == undefined 
+          ? ''
+          : this.props.apiForm[this.props.form].values.email;
 
       return (
           <span>
@@ -854,12 +863,12 @@ class NewRandevuStep3 extends React.Component {
                       {this.props.type == 'randevu' && (
                         <span>
                           Seçtiğin randevu isteği <b>{user.name}</b> ile <b>{moment(this.props.date).format('D MMMM YYYY dddd')}</b> günü saat <b>{this.props.time}</b> arasındadır.
-                          Randevunun durumu diyetisyenin randevuyu onaylamasından sonra kesinleşecektir. Randevu isteğini göndermek istiyor musun?
+                          Randevunun durumu diyetisyenin randevuyu onaylamasından sonra <b>{emailField}</b> adresine bildirilecektir. E-posta adresinin doğruluğunu lütfen kontrol edin. Randevu isteğini göndermek istiyor musun?
                         </span>
                       )}
                       {this.props.type != 'randevu' && (
                         <span>
-                          Diyetisyen <b>{user.name}</b> ile seçtiğin online diyet isteğinin durumu diyetisyenin onaylamasından sonra kesinleşecektir. Online diyet isteğini göndermek istiyor musun?
+                          Diyetisyen <b>{user.name}</b> ile seçtiğin online diyet isteğinin durumu diyetisyenin onaylamasından sonra <b>{emailField}</b> adresine bildirilecektir. E-posta adresinin doğruluğunu lütfen kontrol edin. Online diyet isteğini göndermek istiyor musun?
                         </span>
                       )}
                     </DialogContentText>
@@ -890,6 +899,9 @@ class NewRandevuStep3 extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                         <ReduxFormTextField required validate={[required, validEmail]} name="email" label="E-posta adresin" />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ReduxFormTextField required validate={[required, validEmail, matchEmails]} name="email_confirmation" label="E-posta yeniden" />
                     </Grid>
                     <Grid item xs={12}>
                         <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required, validPhone]} />
@@ -975,6 +987,7 @@ class NewRandevuStep4 extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    apiForm: state.form,
     apiDietitianProfile: state.apiDietitianProfile,
     apiDietitianAppointments: state.apiDietitianAppointments,
   };
