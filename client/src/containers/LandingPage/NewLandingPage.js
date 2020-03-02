@@ -31,6 +31,7 @@ import IntroInstaVideo from '../../components/IntroInstaVideo'
 import { WhatsappIcon } from "react-share";
 import Fab from '@material-ui/core/Fab';
 import Zoom from '@material-ui/core/Zoom';
+import SpeedDial from '../SpeedDial/SpeedDial'
 
 import DiyetisyenList from './DiyetisyenList'
 
@@ -217,7 +218,17 @@ class LandingPage extends React.Component {
 
     this.state = {
       user: JSON.parse(localStorage.getItem('user')),
+      showWhatsappText: true,
     }
+  }
+
+  componentDidMount() {
+    // setTimeout(() => {
+    //   this.setState({ showWhatsappText: true})
+    //   setTimeout(() => {
+    //     this.setState({ showWhatsappText: false})
+    //   }, 3000)
+    // }, 3000)
   }
 
   render() {
@@ -225,9 +236,9 @@ class LandingPage extends React.Component {
 
     var diffInMs = Date.now() - Date.parse('2/9/20');
     var diffInHrs = diffInMs / 1000 / 60 / 60;
-    var diyetisyenCount = 21 + parseInt(diffInHrs / 12) // her 12 saatte 1 yeni diyetisyen
-    var danisanCount = 67 + parseInt(diffInHrs / 3) // her 2 saatte 1 yeni danisan
-    var randevuCount = 167 + parseInt(diffInHrs) // her 1 saatte 1 yeni randevu
+    var diyetisyenCount = 14 + parseInt(diffInHrs / 24) // her 24 saatte 1 yeni diyetisyen
+    var danisanCount = 33 + parseInt(diffInHrs / 6) // her 6 saatte 1 yeni danisan
+    var randevuCount = 55 + parseInt(diffInHrs / 3) // her 3 saatte 1 yeni randevu
 
     return (
       <React.Fragment >
@@ -262,18 +273,30 @@ class LandingPage extends React.Component {
         </AppBar>
         <Divider />
         <main>
-          <Zoom
+          {/* <Zoom
             in={true}
             timeout={250}
             style={{
               transitionDelay: `2000ms`,
             }}
             unmountOnExit
-          >
-            <Fab componenent='a' href={whatsappLink()} target="_blank" color="primary" aria-label="add" style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}>
-              <WhatsappIcon size={40} round={true}/>
-            </Fab>
-          </Zoom>
+          > */}
+
+          
+            <SpeedDial
+              icon={<WhatsappIcon style={{marginTop: '-8px', marginRight: '-8px'}} size={40} round={true}/>}
+              iconText={this.state.showWhatsappText ? "BİZE YAZIN" : undefined}
+              onClickFab={() => window.open(whatsappLink(), '_blank')}
+              // actions={[
+              //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')},
+              //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')}
+              // ]}
+              style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}
+            />
+            {/* <Fab componenent='a' href={whatsappLink()} target="_blank" color="primary" aria-label="add" style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}>
+              
+            </Fab> */}
+          {/* </Zoom> */}
 
           <div className={classNames(classes.layout, classes.cardGrid)}>
             <Grid container spacing={0} >
@@ -336,7 +359,7 @@ class LandingPage extends React.Component {
                     🍋 Diyet geçmişi ve notlara online erişim <br />
                     🍍 Diyet listeleri oluşturma ve kaydetme <br />
                     💌 Uygulama üzerinden mesajlaşma <br />
-                    🍏 Ödeme alma kolaylığı <br />
+                    {/* 🍏 Ödeme alma kolaylığı <br /> */}
                 </Typography>
               </Grid>
               {/* <Grid className={classes.info} style={{paddingTop: '8px', paddingLeft: '16px', paddingRight: '16px'}} item xs={12} sm={12} md={12} lg={12}>
@@ -390,13 +413,13 @@ class LandingPage extends React.Component {
                       <Typography component="div" style={{textAlign: 'center'}} variant="caption">Kısıtlı mesajlaşma</Typography>
                     </Grid> */}
                     <Grid item xs={12}>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sana özel randevu linki</Typography>
+                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sana özel kişisel sayfa</Typography>
                       <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Online/yüz yüze randevu takibi</Typography>
                       <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız danışan kaydı</Typography>
                       <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız mesajlaşma</Typography>
                       <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Sınırsız vücut ölçümü</Typography>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Online ödeme alma</Typography>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Otomatik öğün/su hatırlatma</Typography>
+                      {/* <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Online ödeme alma</Typography> */}
+                      {/* <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption">Otomatik öğün/su hatırlatma</Typography> */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -415,7 +438,7 @@ class LandingPage extends React.Component {
                           /ay
                         </Typography>
                       </div>
-                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption"><b>*1 Mart 2020'ye kadar geçerlidir.</b></Typography>
+                      <Typography component="div" style={{textAlign: 'center', color: 'black'}} variant="caption"><b>*1 Nisan 2020'ye kadar geçerlidir.</b></Typography>
                     </Grid>
                     {/* <Grid style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} item xs={6}>
                       <Typography component="span" variant="h5" color="textPrimary">
