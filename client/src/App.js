@@ -21,6 +21,7 @@ import RandevuView from "./containers/Randevu/RandevuView";
 import NotImplementedYet from './containers/NotImplementedYet'
 import RandevuList from "./containers/Randevu/RandevuList";
 import NewLandingPage from './containers/LandingPage/NewLandingPage'
+import NewLandingPage2 from './containers/LandingPage/NewLandingPage2'
 import AnemnezFormView from './containers/AnemnezForm/AnemnezFormView'
 
 import MainLayout from "./layouts/MainLayout";
@@ -110,6 +111,9 @@ class App extends Component {
                       <DashboardRoute path="/f" component={NotImplementedYet} />
                       <DashboardRoute path="/kd" component={NotImplementedYet} />
                       <EmptyRoute path="/signup" component={Register} />
+
+                      <Route exact path="/np2" component={NewLandingPage2} />
+
                       <Route path="/fp" render={() => <Redirect to="/" />} />
                       <Route path="/rp" render={() => <Redirect to="/" />} />
                       <Route path="/signin" render={() => <Redirect to="/" />} />
@@ -123,6 +127,8 @@ class App extends Component {
                       <EmptyRoute exact path="/d" component={DiyetisyenListView} />
                       <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
 
+                      <Route exact path="/np2" component={NewLandingPage2} />
+                      
                       <EmptyRoute path="/signup" component={Register} />
                       <EmptyRoute path="/signin" component={Signin} />
                       <EmptyRoute path="/fp" component={ForgotPassword} />
