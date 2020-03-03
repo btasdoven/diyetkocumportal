@@ -275,7 +275,7 @@ class LandingPage extends React.Component {
           <AppBar elevation={0} position="static" className={classes.appBar}>
             <Toolbar className={classes.layoutToolbar}>
               <span edge="start" style={{display: 'flex'}}>
-                {this.state.user && <Avatar edge="start" src={this.state.user.url} style={{marginRight: '4px', width: '32px', height:'32px'}}/>}
+                <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>}
                 <Typography variant="h6" style={{fontWeight: 600, color: 'white', fontFamily: 'Open Sans,sans-serif'}}>dytkçm</Typography>
               </span>
               {/* <Typography variant="h6" color="inherit" noWrap>
@@ -317,7 +317,7 @@ class LandingPage extends React.Component {
           </div>
         </div>
 
-        <main className={classes.layoutToolbar} style={{paddingBottom: '48px'}}>
+        <main className={classes.layoutToolbar} style={{margin:'auto', paddingBottom: '48px'}}>
  
           <SpeedDial
             icon={<WhatsappIcon style={{marginTop: '-8px', marginRight: '-8px'}} size={40} round={true}/>}
@@ -341,13 +341,15 @@ class LandingPage extends React.Component {
           </div>
 
           <div style={{width: '100%', paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
-            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Öğün takibi yap</Typography>
+            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Öğün Takibi Yap</Typography>
             <Typography variant="body1" color="textSecondary">The time is now for it to be okay to be great. People in this world shun people for being great. For being a bright color. For standing out. But the time is now.</Typography>
           </div>
 
           <div style={{width: '100%', backgroundColor: 'rgb(244, 245, 247)', paddingTop: '48px', paddingBottom: '48px', marginTop: '48px'}}>
             <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>Diyetisyen Değil Misin?</Typography>
             
+            <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography>
+
             <DiyetisyenList backgroundColor="rgb(244, 245, 247)"/>
 
           </div>
