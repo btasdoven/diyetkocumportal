@@ -275,8 +275,8 @@ class LandingPage extends React.Component {
           <AppBar elevation={0} position="static" className={classes.appBar}>
             <Toolbar className={classes.layoutToolbar}>
               <span edge="start" style={{display: 'flex'}}>
-                <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>}
-                <Typography variant="h6" style={{fontWeight: 600, color: 'white', fontFamily: 'Open Sans,sans-serif'}}>dytkçm</Typography>
+                <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
+                <Typography variant="h6" style={{fontWeight: 700, color: 'white', fontFamily: 'Open Sans,sans-serif'}}>diyetkoçum</Typography>
               </span>
               {/* <Typography variant="h6" color="inherit" noWrap>
                 Digital Lab Book
@@ -305,7 +305,7 @@ class LandingPage extends React.Component {
               </Grid>
               <Grid item xs={12}>
                 <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} href="/signin">
-                  ÜCRETSİZ KAYIT OL
+                  HEMEN ŞİMDİ DENE
                 </Button>
               </Grid>
               {/* <Grid item xs={12} style={{paddingTop: '8px'}}>
@@ -345,12 +345,38 @@ class LandingPage extends React.Component {
             <Typography variant="body1" color="textSecondary">The time is now for it to be okay to be great. People in this world shun people for being great. For being a bright color. For standing out. But the time is now.</Typography>
           </div>
 
-          <div style={{width: '100%', backgroundColor: 'rgb(244, 245, 247)', paddingTop: '48px', paddingBottom: '48px', marginTop: '48px'}}>
+          <div style={{width: '100%', backgroundColor: 'rgb(244, 245, 247)', paddingTop: '48px', paddingBottom: '24px', marginTop: '48px'}}>
+            <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>İster Cepte, İster Ofiste</Typography>
+            
+            <Grid container spacing={1} style={{paddingBottom: '0px', paddingTop: '16px'}}>
+              {/* <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                <Button style={{borderColor: '#3897f0', color: '#3897f0'}} variant="outlined" component={Link} to="/signup">ŞİMDİ DENE</Button>
+              </Grid> */}
+              <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                <div style={{width: '100%', paddingLeft: '24px', paddingRight: '12px'}}>
+                  <img style={{width: '100%', borderRadius: '24px'}} src="https://demos.creative-tim.com/material-kit-react-native/assets/img/signup.png" />
+                </div>
+              </Grid>
+              <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+                <div style={{width: '100%', paddingLeft: '12px', paddingRight: '24px'}}>
+                  <img style={{width: '100%', borderRadius: '24px'}} src="https://demos.creative-tim.com/material-kit-react-native/assets/img/signup.png" />
+                </div>
+              </Grid>
+              <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '16px'}} item xs={12}>
+                <div style={{width: '100%', paddingLeft: '24px', paddingRight: '24px'}}>
+                  <img style={{width: '100%', borderRadius: '24px'}} src="https://s3.amazonaws.com/creativetim_bucket/products/215/thumb/opt_wd_laravel_thumbnail.jpg?1567087179" />
+                </div>
+              </Grid>
+            </Grid>
+
+          </div>
+
+          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px' }}>
             <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>Diyetisyen Değil Misin?</Typography>
             
             <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography>
 
-            <DiyetisyenList backgroundColor="rgb(244, 245, 247)"/>
+            <DiyetisyenList backgroundColor="white"/>
 
           </div>
         </main>
