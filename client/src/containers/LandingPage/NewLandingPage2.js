@@ -348,23 +348,23 @@ class LandingPage extends React.Component {
           <div style={{width: '100%', backgroundColor: 'rgb(244, 245, 247)', paddingTop: '48px', paddingBottom: '24px', marginTop: '48px'}}>
             <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>İster Cepte, İster Ofiste</Typography>
             
-            <Grid container spacing={1} style={{paddingBottom: '0px', paddingTop: '16px'}}>
+            <Grid container spacing={0} style={{paddingBottom: '0px', paddingTop: '8px'}}>
               {/* <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
                 <Button style={{borderColor: '#3897f0', color: '#3897f0'}} variant="outlined" component={Link} to="/signup">ŞİMDİ DENE</Button>
               </Grid> */}
               <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
                 <div style={{width: '100%', paddingLeft: '24px', paddingRight: '12px'}}>
-                  <img style={{width: '100%', borderRadius: '24px'}} src="https://demos.creative-tim.com/material-kit-react-native/assets/img/signup.png" />
+                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} src="/static/landing/1.png" />
                 </div>
               </Grid>
               <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
                 <div style={{width: '100%', paddingLeft: '12px', paddingRight: '24px'}}>
-                  <img style={{width: '100%', borderRadius: '24px'}} src="https://demos.creative-tim.com/material-kit-react-native/assets/img/signup.png" />
+                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} src="https://demos.creative-tim.com/material-kit-react-native/assets/img/signup.png" />
                 </div>
               </Grid>
               <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '16px'}} item xs={12}>
                 <div style={{width: '100%', paddingLeft: '24px', paddingRight: '24px'}}>
-                  <img style={{width: '100%', borderRadius: '24px'}} src="https://s3.amazonaws.com/creativetim_bucket/products/215/thumb/opt_wd_laravel_thumbnail.jpg?1567087179" />
+                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} src="https://s3.amazonaws.com/creativetim_bucket/products/215/thumb/opt_wd_laravel_thumbnail.jpg?1567087179" />
                 </div>
               </Grid>
             </Grid>
