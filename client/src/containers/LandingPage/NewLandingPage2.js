@@ -332,17 +332,26 @@ class LandingPage extends React.Component {
 
           <div style={{paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
             <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Kişisel Sayfanı Oluştur</Typography>
-            <Typography variant="body1" color="textSecondary">The time is now for it to be okay to be great. People in this world shun people for being great. For being a bright color. For standing out. But the time is now.</Typography>
+            <Typography variant="body1" color="textSecondary">
+              Kişisel sayfan senin internetteki yeni yüzün. Kendini tanıtabileceğin, blog yazıları paylaşabileceğin ve danışanlarına kolayca randevu verebileceğin 
+              profesyonelce hazırlanmış sadece sana özel bir sayfa.
+            </Typography>
+          </div>
+
+          <div style={{width: '100%', paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
+            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Randevularını Yönet</Typography>
+            <Typography variant="body1" color="textSecondary">
+              Ofisin mi yok? Yalnızca yüz yüze randevu mu veriyorsun? Pazartesilerin boş mu kalsın istiyorsun? Randevu tiplerini, ofislerini, gün ve saatlerini bir kere seç,
+              gerisini biz halledelim. Danışanlarına müsait olduğun zamanları tekrar tekrar söylemek son bulsun.
+            </Typography>
           </div>
 
           <div style={{width: '100%', paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
             <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Anamnez Formu Gönder</Typography>
-            <Typography variant="body1" color="textSecondary">The time is now for it to be okay to be great. People in this world shun people for being great. For being a bright color. For standing out. But the time is now.</Typography>
-          </div>
-
-          <div style={{width: '100%', paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
-            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Öğün Takibi Yap</Typography>
-            <Typography variant="body1" color="textSecondary">The time is now for it to be okay to be great. People in this world shun people for being great. For being a bright color. For standing out. But the time is now.</Typography>
+            <Typography variant="body1" color="textSecondary">
+              Yüz yüze randevuya gelen ya da online diyet yapan danışanlarınla paylaşabileceğin dijital anamnez formu sayesinde hem sen zamandan tasarruf edersin,
+              hem de danışanların tüm ihtiyacın olan bilgileri kolayca doldururlar.
+            </Typography>
           </div>
 
           <div style={{width: '100%', backgroundColor: 'rgb(244, 245, 247)', paddingTop: '48px', paddingBottom: '24px', marginTop: '48px'}}>
