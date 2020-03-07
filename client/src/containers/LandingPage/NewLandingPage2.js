@@ -35,6 +35,7 @@ import SpeedDial from '../SpeedDial/SpeedDial'
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
 import DiyetisyenList from './DiyetisyenList'
+import DiyetisyenList2 from './DiyetisyenList2'
 
 const styles = theme => ({
   appBar: {
@@ -317,7 +318,7 @@ class LandingPage extends React.Component {
           </div>
         </div>
 
-        <main className={classes.layoutToolbar} style={{margin:'auto', paddingBottom: '48px'}}>
+        <main className={classes.layoutToolbar} style={{margin:'auto'}}>
  
           <SpeedDial
             icon={<WhatsappIcon style={{marginTop: '-8px', marginRight: '-8px'}} size={40} round={true}/>}
@@ -381,13 +382,60 @@ class LandingPage extends React.Component {
           </div>
 
           <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px' }}>
+            {/* <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>Diyetisyen Değil Misin?</Typography>
+            
+            <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography> */}
+
+            <DiyetisyenList2 backgroundColor="white"/>
+
+          </div>
+
+          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px', backgroundColor: '#f8f9fe' }}>
+            <Typography variant="h5" style={{color: '#32325d', textAlign: 'center', fontWeight: 400, paddingBottom: '16px'}}>PREMIUM PAKET</Typography>
+            
+            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+              Sana özel kişisel sayfa
+            </Typography>
+            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+              Online ve yüz yüze randevu takibi
+            </Typography>
+            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+              Otomatik dijital anamnez formu
+            </Typography>
+            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+              Sınırsız mesajlaşma
+            </Typography>
+            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+              Sınırsız ölçüm ekleme
+            </Typography>
+
+            <div style={{textAlign: 'center', paddingTop: '12px'}}>
+              <Typography component="span" variant="h4" color="textPrimary">
+                49₺
+              </Typography>
+              <Typography component="span" variant="h5" color="textSecondary">
+                /ay
+              </Typography>
+            </div>
+
+            <div style={{textAlign: 'center', paddingTop: '30px'}}>
+              <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} href="/signin">
+                1 HAFTA ÜCRETSİZ DENE
+              </Button>
+            </div>
+          </div>
+
+          {/* <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px' }}>
             <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>Diyetisyen Değil Misin?</Typography>
             
             <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography>
 
             <DiyetisyenList backgroundColor="white"/>
 
-          </div>
+          </div> */}
+        <Typography component="div" variant="body2" color="textSecondary" style={{padding: '16px', textAlign: 'center'}}>
+         © 2020 Diyet Koçum
+        </Typography>
         </main>
       </React.Fragment>
     );
