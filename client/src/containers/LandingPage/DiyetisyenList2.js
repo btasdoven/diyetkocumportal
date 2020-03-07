@@ -118,7 +118,7 @@ export default function TextMobileStepper(props) {
                     style={{width: '140px', height: '140px', margin: 'auto'}}
                 />            
                 
-                <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px', paddingTop: '16px'}}>Dyt. {tutorialSteps[index].label}</Typography>
+                <Typography variant="h6" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px', paddingTop: '16px'}}>Dyt. {tutorialSteps[index].label}</Typography>
           
                 <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography>
 {/*       

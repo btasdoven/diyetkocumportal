@@ -391,7 +391,7 @@ class LandingPage extends React.Component {
           </div>
 
           <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px', backgroundColor: '#f8f9fe' }}>
-            <Typography variant="h5" style={{color: '#32325d', textAlign: 'center', fontWeight: 400, paddingBottom: '16px'}}>PREMIUM PAKET</Typography>
+            <Typography variant="h5" style={{color: '#32325d', textAlign: 'center', fontWeight: 500, paddingBottom: '16px'}}>PREMIUM PAKET</Typography>
             
             <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
               Sana özel kişisel sayfa
