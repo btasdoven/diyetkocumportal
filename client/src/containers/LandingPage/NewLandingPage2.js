@@ -15,7 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
-import { withStyles } from '@material-ui/core/styles';
+import { withTheme, withStyles } from '@material-ui/core/styles';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { Link } from "react-router-dom";
 import Dialog from '@material-ui/core/Dialog';
@@ -36,6 +36,10 @@ import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
 import DiyetisyenList from './DiyetisyenList'
 import DiyetisyenList2 from './DiyetisyenList2'
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
 
 const styles = theme => ({
   appBar: {
@@ -167,6 +171,18 @@ const styles = theme => ({
     background: 'rgba(255, 255, 255, 0.1)',
     borderRadius: '50%',
     position: 'absolute',
+  },
+  paperProps: {
+    width: '100%', 
+    top: '8px',
+    left: '8px',
+    [theme.breakpoints.up(750 + theme.spacing(6))]: {
+      width: 750,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      position: 'relative',
+      left: 0,
+    },
   }
 });
 
@@ -224,9 +240,13 @@ class LandingPage extends React.Component {
   constructor(props) {
     super(props)
 
+    this.handleMenuClose = this.handleMenuClose.bind(this)
+    this.handleMenuOpen = this.handleMenuOpen.bind(this)
+
     this.state = {
       user: JSON.parse(localStorage.getItem('user')),
       showWhatsappText: true,
+      anchorEl: undefined,
     }
   }
 
@@ -239,14 +259,24 @@ class LandingPage extends React.Component {
     // }, 3000)
   }
 
+  handleMenuOpen(event)
+  {
+    console.log(event.currentTarget);
+    this.setState({anchorEl: event.currentTarget})
+  }
+
+  handleMenuClose()
+  {
+    this.setState({anchorEl: undefined})
+  }
+
   render() {
     const { classes } = this.props;
 
     var diffInMs = Date.now() - Date.parse('2/9/20');
     var diffInHrs = diffInMs / 1000 / 60 / 60;
-    var diyetisyenCount = 14 + parseInt(diffInHrs / 24) // her 24 saatte 1 yeni diyetisyen
-    var danisanCount = 33 + parseInt(diffInHrs / 6) // her 6 saatte 1 yeni danisan
-    var randevuCount = 55 + parseInt(diffInHrs / 3) // her 3 saatte 1 yeni randevu
+
+    console.log(this.props.theme)
 
     return (
       <React.Fragment >
@@ -282,7 +312,7 @@ class LandingPage extends React.Component {
               {/* <Typography variant="h6" color="inherit" noWrap>
                 Digital Lab Book
               </Typography> */}
-              <IconButton component="span" style={{color: 'white'}}>
+              <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
                 <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
               </IconButton>
               {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
@@ -290,6 +320,27 @@ class LandingPage extends React.Component {
               </Button> */}
             </Toolbar>
           </AppBar>
+
+          <Menu
+            id="fade-menu"
+            anchorEl={this.state.anchorEl}
+            keepMounted
+            open={this.state.anchorEl != undefined}
+            onClose={this.handleMenuClose}
+            TransitionComponent={Fade}
+            style={{width: '100%'}}
+            anchorReference="anchorPosition"
+            anchorPosition={
+              { top: 8, left: 8 }
+            }
+            PaperProps={{
+              className: classes.paperProps
+            }}
+          >
+            <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
+            <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
+            {/* <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem> */}
+          </Menu>
 
           <div style={{paddingTop: '15vh', width: '100%', paddingLeft: '16px', paddingRight: '16px', textAlign: 'center', color: 'white'}}>
             <Grid container spacing={0}>
@@ -305,7 +356,7 @@ class LandingPage extends React.Component {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} href="/signin">
+                <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} href="#register">
                   HEMEN ŞİMDİ DENE
                 </Button>
               </Grid>
@@ -362,7 +413,7 @@ class LandingPage extends React.Component {
               {/* <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
                 <Button style={{borderColor: '#3897f0', color: '#3897f0'}} variant="outlined" component={Link} to="/signup">ŞİMDİ DENE</Button>
               </Grid> */}
-              <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
+              {/* <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
                 <div style={{width: '100%', paddingLeft: '24px', paddingRight: '12px'}}>
                   <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} src="/static/landing/1.png" />
                 </div>
@@ -375,6 +426,11 @@ class LandingPage extends React.Component {
               <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '16px'}} item xs={12}>
                 <div style={{width: '100%', paddingLeft: '24px', paddingRight: '24px'}}>
                   <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} src="https://s3.amazonaws.com/creativetim_bucket/products/215/thumb/opt_wd_laravel_thumbnail.jpg?1567087179" />
+                </div>
+              </Grid> */}
+              <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '16px'}} item xs={12}>
+                <div style={{width: '100%', paddingLeft: '24px', paddingRight: '24px'}}>
+                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} src="/static/landing/device.png" />
                 </div>
               </Grid>
             </Grid>
@@ -390,7 +446,7 @@ class LandingPage extends React.Component {
 
           </div>
 
-          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px', backgroundColor: '#f8f9fe' }}>
+          <div id="register" style={{width: '100%', paddingTop: '48px', paddingBottom: '48px', backgroundColor: '#f8f9fe' }}>
             <Typography variant="h5" style={{color: '#32325d', textAlign: 'center', fontWeight: 500, paddingBottom: '16px'}}>PREMIUM PAKET</Typography>
             
             <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
@@ -420,7 +476,7 @@ class LandingPage extends React.Component {
 
             <div style={{textAlign: 'center', paddingTop: '30px'}}>
               <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} href="/signin">
-                1 HAFTA ÜCRETSİZ DENE
+                1 AY ÜCRETSİZ DENE
               </Button>
             </div>
           </div>
@@ -442,4 +498,4 @@ class LandingPage extends React.Component {
   }
 }
 
-export default withStyles(styles)(LandingPage);
+export default withTheme(withStyles(styles)(LandingPage));

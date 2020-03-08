@@ -44,6 +44,7 @@ const NotFound = () => {
 
 
 const NewLandingPageTracked = withTracker(NewLandingPage);
+const NewLandingPage2Tracked = withTracker(NewLandingPage2);
 
 const DashboardRoute = withTracker(withWidth()(({ width, component: Component, backButton, viewParam, ...rest }) => {
 
@@ -98,6 +99,8 @@ class App extends Component {
                       <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
                       <EmptyRoute path="/np" render={() => <Redirect to="/" />} />
+                      <EmptyRoute path="/np2" render={() => <Redirect to="/" />} />
+
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
                       
                       <EmptyRoute exact path="/d" component={DiyetisyenListView} />
@@ -112,8 +115,6 @@ class App extends Component {
                       <DashboardRoute path="/kd" component={NotImplementedYet} />
                       <EmptyRoute path="/signup" component={Register} />
 
-                      <Route exact path="/np2" component={NewLandingPage2} />
-
                       <Route path="/fp" render={() => <Redirect to="/" />} />
                       <Route path="/rp" render={() => <Redirect to="/" />} />
                       <Route path="/signin" render={() => <Redirect to="/" />} />
@@ -122,18 +123,17 @@ class App extends Component {
                   ) : (
                     <Switch>
                       <EmptyRoute path="/np" render={() => <Redirect to="/" />} />
+                      <EmptyRoute path="/np2" render={() => <Redirect to="/" />} />
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 
                       <EmptyRoute exact path="/d" component={DiyetisyenListView} />
                       <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
 
-                      <Route exact path="/np2" component={NewLandingPage2} />
-                      
                       <EmptyRoute path="/signup" component={Register} />
                       <EmptyRoute path="/signin" component={Signin} />
                       <EmptyRoute path="/fp" component={ForgotPassword} />
                       <EmptyRoute path="/rp/:linkId" component={ResetPassword} />
-                      <Route exact path="/" component={NewLandingPageTracked} />
+                      <Route exact path="/" component={NewLandingPage2Tracked} />
                       <Redirect to="/" />
                     </Switch>
                   )}

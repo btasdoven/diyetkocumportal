@@ -24,6 +24,7 @@ const tutorialSteps = [
     label: 'Seda Nur Arslan',
     link: '/d/dyt.sedaarslan',
     unvan: 'Diyetisyen',
+    info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
       'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/79601151_440235653337041_155053159813742592_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=X6iriE12JhIAX9vj5NN&oh=6af52bb060a80f1b60225e5fcdfbeb7b&oe=5EDA438F',
   },
@@ -31,12 +32,14 @@ const tutorialSteps = [
     label: 'Aşkın Özdemir',
     link: '/d/diyetisyenasknn',
     unvan: 'Beslenme Uzmanı',
+    info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
       'https://instagram.fcxh2-1.fna.fbcdn.net/v/t51.2885-19/s320x320/84786194_595684020985796_8460187620012457984_n.jpg?_nc_ht=instagram.fcxh2-1.fna.fbcdn.net&_nc_ohc=0o-Dk-fnd3gAX9g0V-7&oh=17df74f33067343f375732fa19308dc8&oe=5E964C75',
   },
   {
     label: 'Merve Doyranlı',
     link: '/d/diyetisyendoyranli',
+    info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     unvan: 'Beslenme ve Diyet Uzmanı',
     imgPath:
       'https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/62023617_2268347290160591_911668419881861120_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=XrhwjgFngBgAX9MRmJ8&oh=d785b38c984efe16e3a7eb8eef59da7a&oe=5E9A02E5',
@@ -45,6 +48,7 @@ const tutorialSteps = [
     label: 'Ezel Kavadar',
     link: '/d/dyt_ezelkavadar',
     unvan: 'Uzman Diyetisyen',
+    info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
       'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/65535962_411795416090543_708510732999720960_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=-CRizYY6VPwAX82G5qH&oh=75c5e5b1629d904afafbe3da693681bc&oe=5E9FC51C',
   },
@@ -52,8 +56,17 @@ const tutorialSteps = [
     label: 'Büşra Özyavuz',
     link: '/d/diyetiswomen',
     unvan: 'Diyetisyen',
+    info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
       'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/70610653_361208791452601_4402972400505847808_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=Gs4EXgTm36cAX9DWG2P&oh=3e5d4f569eeb8d234384c6a56ac45628&oe=5EC4677E',
+  },
+  {
+    label: 'Aysu Taşdöven',
+    link: '/d/aysuutasdovenn',
+    unvan: 'Diyetisyen',
+    info: "Oluşturduğum kişisel sayfamın linkini Instagram profilime koydum ve yeni danışanlarıma kolayca randevu verebildim. Teşekkürler Diyet Koçum!",
+    imgPath:
+      'https://instagram.fcxh2-1.fna.fbcdn.net/v/t51.2885-19/s320x320/80809330_475914226417245_2272595860648886272_n.jpg?_nc_ht=instagram.fcxh2-1.fna.fbcdn.net&_nc_ohc=NKIcZJYMDdcAX-lZJ_Y&oh=1a8ebffe7cdb4e22df44f353cd143f46&oe=5E9A210C',
   },
 ];
 
@@ -120,7 +133,9 @@ export default function TextMobileStepper(props) {
                 
                 <Typography variant="h6" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px', paddingTop: '16px'}}>Dyt. {tutorialSteps[index].label}</Typography>
           
-                <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography>
+                <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>
+                  {tutorialSteps[index].info || ""}
+                </Typography>
 {/*       
                 <div style={{backgroundColor: props.backgroundColor ? props.backgroundColor : 'white', width: '100%', justifyContent: 'center', display: 'flex', padding: '8px', paddingBottom: '16px'}}>
                   <Button onClick={() => registerEvent('LandingPageClickRandevuAl')} style={{borderColor: 'rgb(252, 81, 133)', color: 'rgb(252, 81, 133)', backgroundColor: 'transparent'}} variant="outlined" component={Link} to={tutorialSteps[index].link}>RANDEVU AL</Button>
