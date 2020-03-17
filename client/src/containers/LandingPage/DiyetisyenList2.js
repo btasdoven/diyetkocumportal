@@ -42,7 +42,7 @@ const tutorialSteps = [
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     unvan: 'Beslenme ve Diyet Uzmanı',
     imgPath:
-      'https://instagram.fyvr2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/62023617_2268347290160591_911668419881861120_n.jpg?_nc_ht=instagram.fyvr2-1.fna.fbcdn.net&_nc_ohc=XrhwjgFngBgAX9MRmJ8&oh=d785b38c984efe16e3a7eb8eef59da7a&oe=5E9A02E5',
+      'https://instagram.fcxh2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/84672932_1308851982646011_5856861668205658112_n.jpg?_nc_ht=instagram.fcxh2-1.fna.fbcdn.net&_nc_ohc=mfNzhyRr3F8AX84h0hu&oh=db9e445c8c0311076a1094fab70d9122&oe=5EA0047F',
   },
   {
     label: 'Ezel Kavadar',
@@ -58,7 +58,7 @@ const tutorialSteps = [
     unvan: 'Diyetisyen',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
-      'https://scontent-sea1-1.cdninstagram.com/v/t51.2885-19/s320x320/70610653_361208791452601_4402972400505847808_n.jpg?_nc_ht=scontent-sea1-1.cdninstagram.com&_nc_ohc=Gs4EXgTm36cAX9DWG2P&oh=3e5d4f569eeb8d234384c6a56ac45628&oe=5EC4677E',
+      'https://instagram.fcxh2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/87233097_1321399854712319_3852451223445700608_n.jpg?_nc_ht=instagram.fcxh2-1.fna.fbcdn.net&_nc_ohc=5Yv5vL8viD8AX9MjqgC&oh=6d8323804483c1781bc3526eb4554b6c&oe=5EA073A1',
   },
   {
     label: 'Aysu Taşdöven',
