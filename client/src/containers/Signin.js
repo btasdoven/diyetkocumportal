@@ -108,7 +108,7 @@ const Signin = props => {
           <LockIcon />
         </Avatar>
         <Typography style={{textAlign:'center'}} component="h2" variant="h5">
-          Diyet Koçum Portalına Giriş
+          Diyetisyen Girişi
         </Typography>
 
         <SigninForm auth={auth} onSubmit={(v) => {

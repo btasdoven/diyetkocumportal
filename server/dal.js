@@ -1,6 +1,7 @@
 const storage = require('node-persist');
 const stringHash = require("string-hash");
 const email = require('./email')
+const massemail = require('./massemail')
 const ig = require('./ig.js');
 const moment = require("moment")
 const ipp = require('instagram-profile-picture');
@@ -234,6 +235,9 @@ async function asyncForEach(array, callback) {
 
 
 var taskInitStg = () => {
+
+  //massemail.sendMassEmail();
+
   return storage.init({ dir: 'stg', logging: true })
 };
 
@@ -1156,4 +1160,18 @@ exports.getAppointmentData = function () {
   });
 
   return ret;
+}
+
+exports.trackTopic = function (topic, email) {
+  if (rows[0].tracking == undefined) {
+    rows[0].tracking = {}
+  }
+
+  if (rows[0].tracking[topic] == undefined) {
+    rows[0].tracking[topic] = {}
+  }
+
+  rows[0].tracking[topic][email] = Date.now();
+
+  storage.setItem('0', rows[0]);
 }

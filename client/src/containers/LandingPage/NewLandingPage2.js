@@ -475,7 +475,7 @@ class LandingPage extends React.Component {
             </div>
 
             <div style={{textAlign: 'center', paddingTop: '30px'}}>
-              <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} href="/signin">
+              <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} href="/signup">
                 1 AY ÜCRETSİZ DENE
               </Button>
             </div>

@@ -10,12 +10,13 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-var sendEmailInternal = function (to, subject, text) {
+var sendEmailInternal = function (to, subject, text, html) {
     var mailOptions = {
         from: 'Diyet Koçum <info@diyetkocum.net>',
         to: to,
         subject: subject,
-        text: text
+        text: text,
+        html: html,
     };
     
     console.log(mailOptions)
@@ -29,9 +30,9 @@ var sendEmailInternal = function (to, subject, text) {
     }); 
 };
 
-exports.sendEmail = function (to, suffix, subject, text) {
-    sendEmailInternal(to, subject, text)
+exports.sendEmail = function (to, suffix, subject, text, html) {
+    sendEmailInternal(to, subject, text, html)
     if (to != 'newmessage@diyetkocum.net' && process.env.NODE_ENV == 'production') {
-        sendEmailInternal('newmessage@diyetkocum.net', suffix + subject, text)
+        sendEmailInternal('newmessage@diyetkocum.net', suffix + subject, text, html)
     }
 }

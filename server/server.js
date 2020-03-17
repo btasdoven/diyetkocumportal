@@ -324,6 +324,21 @@ app.get("/api/v1/runig", (req, res, next) => {
   // }), delayInResponseInMs);
 });
 
+app.get('/api/v1/tracking/:topic/:email', (req, res) => {
+  const trackImg = new Buffer('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
+
+  res.writeHead(200, {
+    'Content-Type': 'image/gif',
+    'Content-Length': trackImg.length
+  })
+
+  console.log('tracking')
+  const { topic, email } = req.params 
+
+  dal.trackTopic(topic, email)
+  
+  res.end(trackImg)
+})
 
 console.log(process.env.PORT);
 
