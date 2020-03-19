@@ -235,9 +235,6 @@ async function asyncForEach(array, callback) {
 
 
 var taskInitStg = () => {
-
-  massemail.sendMassEmail();
-
   return storage.init({ dir: 'stg', logging: true })
 };
 

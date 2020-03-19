@@ -25,13 +25,31 @@ Teşekkürler 🙏
 Diyet Koçum Ailesi
 <br />
 <br />
-<img src="https://diyetkocum.net/api/v1/tracking/korona/${emailAddress}" height="1" width="1">`
+<img src="https://diyetkocum.net/api/v1/tracking/korona2/${emailAddress}/img.gif" height="1" width="1">`
 
-  email.sendEmail(emailAddress, '', `Koronavirüs ve Online Diyet`, undefined, html)
+  return email.sendEmail(emailAddress, '', `Koronavirüs ve Online Diyet`, undefined, html)
+}
+
+var failed = {}
+
+var sendEmailSingle = function (name, email, i) {
+    return new Promise( (resolve, reject) => {
+        setTimeout(() => {
+            sendMassEmailInternal(name, email)
+                .then(() => resolve({[email]: true}))
+                .catch((e) => {
+                    resolve({[email]: e})
+                });
+        },
+        i * 10000)
+    });
 }
 
 exports.sendMassEmail = function () {
-    Object.keys(emailList).forEach( (name) => {
-        sendMassEmailInternal(name, emailList[name])
+    var proms = []
+    Object.keys(emailList).forEach( (name, idx) => {
+        proms.push(sendEmailSingle(name, emailList[name], idx));
     })
+
+    return Promise.all(proms);
 }

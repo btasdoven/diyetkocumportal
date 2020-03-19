@@ -19,20 +19,26 @@ var sendEmailInternal = function (to, subject, text, html) {
         html: html,
     };
     
-    console.log(mailOptions)
+    if (process.env.NODE_ENV == 'production')
+        console.log(mailOptions)
 
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    }); 
+    return new Promise( (resolve, reject) => {
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+                reject(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+                resolve();
+            }
+        }); 
+    });
 };
 
 exports.sendEmail = function (to, suffix, subject, text, html) {
-    sendEmailInternal(to, subject, text, html)
     if (to != 'newmessage@diyetkocum.net' && process.env.NODE_ENV == 'production') {
         sendEmailInternal('newmessage@diyetkocum.net', suffix + subject, text, html)
     }
+
+    return sendEmailInternal(to, subject, text, html)
 }

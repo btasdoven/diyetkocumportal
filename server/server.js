@@ -12,6 +12,7 @@ const email = require('./email');
 const ig = require('./ig');
 var compression = require('compression');
 var multer = require('multer');
+var massemail = require('./massemail')
 
 const delayInResponseInMs = 50;
 
@@ -324,7 +325,17 @@ app.get("/api/v1/runig", (req, res, next) => {
   // }), delayInResponseInMs);
 });
 
-app.get('/api/v1/tracking/:topic/:email', (req, res) => {
+app.get('/api/v1/sendMassEmail', (req, res) => {
+  massemail.sendMassEmail().then( (val) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(val, null, 4));
+  }).catch( (err) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(400).json({message: err});
+  });
+})
+
+app.get('/api/v1/tracking/:topic/:email/img.gif', (req, res) => {
   const trackImg = new Buffer('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
 
   res.writeHead(200, {
