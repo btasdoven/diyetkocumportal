@@ -106,7 +106,7 @@ class PersonalPage extends React.Component {
                         </Box>
 
                         <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">{user.unvan}</Typography>
-                        <Typography style={{ fontWeight: '500' }} className={classes.text} variant="h3" component="h2">{user.name}</Typography>
+                        <Typography style={{ fontWeight: '500', textAlign:'center' }} className={classes.text} variant="h3" component="h2">{user.name}</Typography>
 
                         <div className={classes.rootTypeSelect}>
                             {user.online_diyet == true && <Button style={{ fontSize: '16px', fontWeight: '600', backgroundColor: "#fc5185", margin: '24px' }} color="primary" size="large" variant="contained" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
