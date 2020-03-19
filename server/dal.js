@@ -1168,7 +1168,7 @@ exports.trackTopic = function (topic, email) {
     rows[0].tracking[topic] = {}
   }
 
-  rows[0].tracking[topic][email] = moment(date).format();
+  rows[0].tracking[topic][email] = moment(Date.now()).format();
 
   storage.setItem('0', rows[0]);
 }
