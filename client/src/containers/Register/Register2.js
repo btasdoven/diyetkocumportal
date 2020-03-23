@@ -480,7 +480,7 @@ class LandingPage extends React.Component {
 
     this.state = {
       anchorEl: undefined,
-      activeStep: 4,
+      activeStep: 0,
     }
   }
 
