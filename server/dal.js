@@ -1139,12 +1139,20 @@ exports.getDietitianProfiles = function () {
 
 exports.getAppointmentData = function () {
   console.log('getAppointmentData');
-  ret = {}
-  Object.keys(rows).forEach(function(userId) {
-    if (userId == '0' || userId == '1' || userId == 'demo')
-      return;
+  ret = []
 
-    ret[userId] = []
+  ret.push("diyetisyen, danisan, appt. time, appt. type, appt. status, appt. step, # of messages, # of measurements, # of fields in anamnez form, diet list exists?")
+
+  var getLength = (obj) => {
+    if (obj == undefined)
+      return 0;
+
+    return Object.keys(obj).length;
+  }
+
+  Object.keys(rows).forEach(function(userId) {
+    if (userId == '0' || userId == '1')
+      return;
 
     if (rows[userId].appointments == undefined) {
       return;
@@ -1153,13 +1161,19 @@ exports.getAppointmentData = function () {
     Object.keys(rows[userId].appointments).forEach(function(apptDate) {
       Object.keys(rows[userId].appointments[apptDate]).forEach(function(apptTime) {
         var appt = rows[userId].appointments[apptDate][apptTime]
-        ret[userId].push({
-          time: moment(apptDate).format("D MMMM YYYY") + " " + apptTime,
-          danisan: appt.info.name,
-          type: appt.type,
-          status: appt.status,
-          step: appt.step
-        })
+
+        var danisan = rows[userId].danisans[appt.info.name]
+
+        var row = [userId, appt.info.name, apptDate, appt.type, appt.status, appt.step + ","];
+
+        console.log(danisan)
+        if (danisan == undefined) {
+          row += [0, 0, 0, false]
+        } else {
+          row += [getLength(danisan.messages), getLength(danisan.measurements), getLength(danisan.profile), getLength(danisan.dietList) > 0]
+        }
+
+        ret.push(row)
       });
     });
   });
