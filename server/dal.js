@@ -1162,14 +1162,13 @@ exports.getAppointmentData = function () {
       Object.keys(rows[userId].appointments[apptDate]).forEach(function(apptTime) {
         var appt = rows[userId].appointments[apptDate][apptTime]
 
-        var danisan = rows[userId].danisans[appt.info.name]
-
         var row = [userId, appt.info.name, apptDate, appt.type, appt.status, appt.step + ","];
 
-        console.log(danisan)
-        if (danisan == undefined) {
+        if (rows[userId].danisans == undefined ||
+          rows[userId].danisans[appt.info.name] == undefined) {
           row += [0, 0, 0, false]
         } else {
+          var danisan = rows[userId].danisans[appt.info.name]
           row += [getLength(danisan.messages), getLength(danisan.measurements), getLength(danisan.profile), getLength(danisan.dietList) > 0]
         }
 
