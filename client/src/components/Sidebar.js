@@ -23,6 +23,7 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarTodayOutlined';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
+import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
 
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -152,6 +153,12 @@ class Sidebar extends React.Component {
             <List dense={true}>
               <ListItem button component={Link} to='/me' selected={location.pathname === '/me'}>
                 <Typography variant="overline">PROFİLİM</Typography>
+              </ListItem>
+              <ListItem button component={Link} to='/status' selected={location.pathname === '/status'}>
+                <Typography variant="overline">PREMIUM</Typography>
+                <ListItemIcon style={{marginLeft: '4px', color: 'orange'}}>
+                  <StarsRoundedIcon fontSize="small"/>
+              </ListItemIcon>
               </ListItem>
               {/* <ListItem button >
                 <Typography variant="overline">AYARLAR</Typography>

@@ -329,6 +329,12 @@ var taskUpgradeStg = () => {
       changed = true;
       rows[id].profile.link = 'diyetkocum.net/d/' + id;
     }
+
+    if (rows[id].profile != undefined &&
+        rows[id].profile.create_date == undefined) {
+      changed = true;
+      rows[id].profile.create_date = rows[0].users[id].create_date || moment(Date.now()).format();
+    }
     
     console.log(changed)
 
@@ -499,6 +505,7 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.name = userInfo.name
       r.profile.url = instaProfileUrl
       r.profile.tel = userInfo.tel
+      r.profile.create_date = moment(Date.now()).format()
       rows[uname] = r;
     
       storage.setItem(uname, rows[uname]);
@@ -513,6 +520,7 @@ exports.signUpUser = function(uname, userInfo) {
         url: instaProfileUrl,
         //status: 'pending',
         isAdmin: true,
+        create_date: moment(Date.now()).format()
       }
     
       storage.setItem('0', rows[0]);
