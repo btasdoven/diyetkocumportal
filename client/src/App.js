@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import MyProfile from "./containers/MyProfile/MyProfile";
 import ProfileStatus from "./containers/MyProfile/Status";
 import Signin from "./containers/Signin";
-import Register from "./containers/Register/Register";
+import Register from "./containers/Register/Register2";
 import MesajList from "./containers/Mesajlar/MesajList";
 import DanisanView from "./containers/Danisanlar/DanisanView";
 import DanisanList from "./containers/Danisanlar/DanisanList";
@@ -94,7 +94,7 @@ class App extends Component {
                     <Switch>
                       <Route exact path="/" render={() => <Redirect to="/me" />} />
                       <DashboardRoute exact path="/status" component={ProfileStatus} />
-                      
+
                       <DashboardRoute exact path="/c" component={DanisanList} />
                       <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
 

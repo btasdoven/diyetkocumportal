@@ -505,7 +505,15 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.name = userInfo.name
       r.profile.url = instaProfileUrl
       r.profile.tel = userInfo.tel
+      r.profile.instagram = userInfo.username
       r.profile.create_date = moment(Date.now()).format()
+
+      r.profile.unvan = userInfo.unvan
+      r.profile.uzmanlik_alanlari = userInfo.uzmanlik_alanlari
+      r.profile.ozgecmis = userInfo.ozgecmis
+      r.profile.online_diyet = userInfo.online_diyet
+      r.profile.address = userInfo.address
+
       rows[uname] = r;
     
       storage.setItem(uname, rows[uname]);
@@ -519,7 +527,6 @@ exports.signUpUser = function(uname, userInfo) {
         tel: userInfo.tel,
         url: instaProfileUrl,
         //status: 'pending',
-        isAdmin: true,
         create_date: moment(Date.now()).format()
       }
     
@@ -1121,7 +1128,7 @@ exports.getDietitianProfiles = function () {
   ret = []
 
   Object.keys(rows).forEach((userId) => {
-    if (userId == '0' || userId == '1' || userId == 'demo' || rows[0].users[userId].isAdmin) {
+    if (userId == '0' || userId == '1' || userId == 'demo') {
       return;
     }
 
