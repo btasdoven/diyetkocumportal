@@ -13,7 +13,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import EventIcon from '@material-ui/icons/Event';
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CloseIcon from '@material-ui/icons/Close';
@@ -371,7 +371,7 @@ class NewRandevuWrapper extends React.Component {
         this.onSubmitInternal = this.onSubmitInternal.bind(this)
 
         this.state = {
-          userId: this.props.location.pathname.split('/')[2],
+          userId: this.props.match && this.props.match.params && this.props.match.params.diyetisyenUserName ? this.props.match.params.diyetisyenUserName : '',
           addressId: -1,
           date: new Date(),
           time: Date.now(),
@@ -421,11 +421,12 @@ class NewRandevuWrapper extends React.Component {
     render() {
         const { classes } = this.props;
         const showLoader = !this.isLoaded();
-        console.log(this.state);
         var user = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
-        console.log(user)
 
         if (!showLoader && Object.keys(user).length == 0) {
+
+          return <Redirect to="/" />
+
           return (
             <div className={classes.root} style={{textAlign: 'center'}}>
               <div style={{padding: '8px'}}>Ulaşmaya çalışığın diyetisyen sistemimizde kayıtlı değildir.</div>
@@ -720,7 +721,6 @@ class NewRandevuStep2 extends React.Component {
     this.isDateLoaded = this.isDateLoaded.bind(this);
     this.handleOnDateChange = this.handleOnDateChange.bind(this);
     this.handleTimeSelected = this.handleTimeSelected.bind(this);
-    console.log(props)
     this.state = {
       userId: props.userId,
       date: props.date,
@@ -747,16 +747,13 @@ class NewRandevuStep2 extends React.Component {
   }
 
   handleOnDateChange(d) {
-      console.log(d)
       var date = moment(d).format('YYYYMMDD')
-      console.log(date)
       this.props.getDietitianAppointments(this.state.userId, date);
       this.setState({date: d, dateFmt: moment(d).format('YYYYMMDD')})
   }
 
   handleTimeSelected(h) {
       return () => {
-          console.log(h)
           this.props.onComplete(this.state.date, h)
       }
   }
@@ -839,7 +836,6 @@ class NewRandevuStep3 extends React.Component {
     render() {
       const { classes } = this.props;
       var user = this.props.apiDietitianProfile[this.state.userId].data;
-      console.log(this.props)
 
       var emailField = 
         this.props.apiForm == undefined ||

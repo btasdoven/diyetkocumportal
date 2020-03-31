@@ -491,16 +491,16 @@ class Envanter extends React.Component {
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <div className={classes.text}>
-                        <Typography variant="body2">Kendini tanıtabileceğin, danışanların senden randevu alabileceği ve blog yazıları paylaşabileceğin kişisel sayfanın linkini buradan kopyalayabilir ve instagram sayfana koyabilirsin.</Typography>
+                        <Typography variant="body2">Kendini tanıtabileceğin, danışanların senden randevu alabileceği ve blog yazıları paylaşabileceğin kişisel sayfanın linkini buradan kopyalayabilir ve Instagram sayfana koyabilirsin.</Typography>
                       </div>
                     </Grid>
 
                     <Grid style={{textAlign:'center'}} item xs={12}>
-                      <CopyToClipboard text={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/d/" + this.state.user.username} >
+                      <CopyToClipboard text={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/" + this.state.user.username} >
                         <span>
                           <Chip
                             //avatar={<Avatar>M</Avatar>}
-                            label={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/d/" + this.state.user.username}
+                            label={dietitianProfile.link != undefined ? dietitianProfile.link : "diyetkocum.net/" + this.state.user.username}
                             clickable
                             color="primary"
                             onClick={this.handleLinkCopied}
@@ -515,7 +515,7 @@ class Envanter extends React.Component {
                     <Grid item xs={12} style={{marginTop: '8px'}}>
                       <Typography variant="body2">Kişisel sayfanın nasıl gözüktüğünü görmek ister misin?</Typography>
                       <div style={{marginTop: '16px', textAlign: 'center'}}>
-                        <Button style={{borderRadius: '16px'}} to={"/d/" + this.state.user.username} component={Link} size="small" color="primary" variant="outlined">
+                        <Button style={{borderRadius: '16px'}} to={"/" + this.state.user.username} component={Link} size="small" color="primary" variant="outlined">
                           KİŞİSEL SAYFAMI GÖR
                         </Button>
                       </div>

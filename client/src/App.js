@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 
 import MyProfile from "./containers/MyProfile/MyProfile";
 import ProfileStatus from "./containers/MyProfile/Status";
-import Signin from "./containers/Signin";
+import Signin from "./containers/Signin/Signin2";
 import Register from "./containers/Register/Register2";
 import MesajList from "./containers/Mesajlar/MesajList";
 import DanisanView from "./containers/Danisanlar/DanisanView";
@@ -121,6 +121,7 @@ class App extends Component {
                       <Route path="/fp" render={() => <Redirect to="/" />} />
                       <Route path="/rp" render={() => <Redirect to="/" />} />
                       <Route path="/signin" render={() => <Redirect to="/" />} />
+                      <EmptyRoute path="/:diyetisyenUserName" component={NewRandevu} />
                       <EmptyRoute component={NotFound} />
                     </Switch>
                   ) : (
@@ -137,6 +138,7 @@ class App extends Component {
                       <EmptyRoute path="/fp" component={ForgotPassword} />
                       <EmptyRoute path="/rp/:linkId" component={ResetPassword} />
                       <Route exact path="/" component={NewLandingPage2Tracked} />
+                      <EmptyRoute path="/:diyetisyenUserName" component={NewRandevu} />
                       <Redirect to="/" />
                     </Switch>
                   )}

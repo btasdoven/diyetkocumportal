@@ -110,7 +110,7 @@ class PersonalPage extends React.Component {
 
                         <div className={classes.rootTypeSelect}>
                             {user.online_diyet == true && <Button style={{ fontSize: '16px', fontWeight: '600', backgroundColor: "#fc5185", margin: '24px' }} color="primary" size="large" variant="contained" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
-                            <Button style={{ fontSize: '16px', fontWeight: '600', border: '2px solid', color: "#05386b" }} color="red" size="large" variant="outlined" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>
+                            <Button style={{ fontSize: '16px', fontWeight: '600', border: '2px solid', color: "#05386b" }} size="large" variant="outlined" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>
                         </div>
 
                         <Box my={10} borderRadius="50%">

@@ -118,8 +118,6 @@ class Header extends React.Component  {
       this.props.apiDietitianAppointments[this.state.user.id].isGetLoading != true &&
       this.props.apiDietitianAppointments[this.state.user.id].data != undefined;
 
-    console.log(loaded);
-    console.log(loaded2);
     return loaded && loaded2;
   }
 
@@ -133,9 +131,7 @@ class Header extends React.Component  {
       notifDialogOpen: open,
     })
 
-    console.log('set')
     localStorage.setItem('intro_dialog', true);
-    console.log(localStorage.getItem('intro_dialog'))
   }
 
   componentDidMount() {
@@ -149,7 +145,6 @@ class Header extends React.Component  {
     }
 
     var didDialogOpen =  localStorage.getItem('intro_dialog');
-    console.log(didDialogOpen)
 
     if (didDialogOpen == 'true')
       return;

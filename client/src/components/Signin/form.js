@@ -83,6 +83,7 @@ const renderTextField = ({
     {...input}
     {...custom}
     error={touched && error != undefined}
+    InputLabelProps={{shrink: true}}
     helperText={touched && error ? error : undefined}
   />
 )
@@ -132,7 +133,7 @@ class SigninForm extends React.Component {
             id="username"
             name="username"
             component={renderTextField}
-            label="Kullanıcı Adı"
+            label="Instagram kullanıcı adın"
             autoComplete="username"
             autoFocus={false}
             validate={[required]}
@@ -145,7 +146,7 @@ class SigninForm extends React.Component {
             name="password"
             type="password"
             component={renderTextField}
-            label="Şifre"
+            label="Diyet Koçum şifren"
             autoComplete="current-password"
             validate={[required]}
           />

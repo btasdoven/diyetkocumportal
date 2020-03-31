@@ -789,6 +789,31 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
     };
   }
 
+  console.log(dietitianProfile)
+
+  if (dietitianProfile.cvc != undefined) {
+    rows[0].users[userId].cardInfo = {
+      cvc: dietitianProfile.cvc,
+      expiryDate: dietitianProfile.expiryDate,
+      cardNumber: dietitianProfile.cardNumber,
+      card_name: dietitianProfile.card_name
+    }
+
+    console.log(rows[0].users[userId].cardInfo)
+    storage.setItem('0', rows[0]);
+
+    delete rows[userId].profile.cvc;
+    delete rows[userId].profile.expiryDate;
+    rows[userId].profile.cardNumber = rows[userId].profile.cardNumber.replace(/\d(?!\d{0,3}$)/g, '•');
+  } else if (dietitianProfile.cardNumber == undefined) {
+    // 
+    // delete cc from 0.
+    delete rows[userId].profile.cardNumber;
+    delete rows[userId].profile.card_name;
+    delete rows[userId].profile.cardType;
+  }
+
+  console.log(rows[userId].profile)
   storage.setItem(userId, rows[userId]);
 }
 
