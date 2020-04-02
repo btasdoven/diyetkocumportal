@@ -12,6 +12,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
 
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
@@ -691,7 +692,10 @@ class Envanter extends React.Component {
                         variant="contained"
                         color="primary"
                         className={classes.nextButton}
-                        onClick={() => this.setState({openDialog: 'new_card'})}
+                        onClick={() => {
+                          registerEvent('ClickNewPaymentMethod')
+                          this.setState({openDialog: 'new_card'})
+                        }}
                       >
                         YENİ ÖDEME YÖNTEMİ EKLE
                       </Button>

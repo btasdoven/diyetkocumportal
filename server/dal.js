@@ -805,12 +805,24 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
     delete rows[userId].profile.cvc;
     delete rows[userId].profile.expiryDate;
     rows[userId].profile.cardNumber = rows[userId].profile.cardNumber.replace(/\d(?!\d{0,3}$)/g, '•');
+
+    var titleSuffix = process.env.NODE_ENV !== 'production' 
+    ? "TEST - " + userId + " - "
+    : "PROD - " + userId + " - "
+
+    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `added credit card info`, JSON.stringify(rows[userId].profile))
   } else if (dietitianProfile.cardNumber == undefined) {
     // 
     // delete cc from 0.
     delete rows[userId].profile.cardNumber;
     delete rows[userId].profile.card_name;
     delete rows[userId].profile.cardType;
+
+    var titleSuffix = process.env.NODE_ENV !== 'production' 
+    ? "TEST - " + userId + " - "
+    : "PROD - " + userId + " - "
+
+    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `deleted credit card info`, JSON.stringify(rows[userId].profile))
   }
 
   console.log(rows[userId].profile)

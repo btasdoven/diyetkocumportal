@@ -113,13 +113,13 @@ class PersonalPage extends React.Component {
                             <Button style={{ fontSize: '16px', fontWeight: '600', border: '2px solid', color: "#05386b" }} size="large" variant="outlined" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>
                         </div>
 
-                        <Box my={10} borderRadius="50%">
+                        <Typography variant="caption" style={{ textAlign: 'center', padding: '24px', paddingTop: '8px' }} className={classes.text} >
+                            Diyetisyeniniz ile gerçekleştireceğiniz online ya da yüz yüze randevular diyetisyeninizin belirleyeceği ücrete bağlıdır.
+                        </Typography>
+
+                        <Box my={5} borderRadius="50%">
                             <Rating readOnly={true} value={5} size="large" />
                         </Box>
-
-
-
-
 
                         <Card className={classes.card}>
                             <CardHeader
