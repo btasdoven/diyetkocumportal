@@ -22,7 +22,7 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const tutorialSteps = [
   {
     label: 'Seda Nur Arslan',
-    link: '/d/dyt.sedaarslan',
+    link: '/dyt.sedaarslan',
     unvan: 'Diyetisyen',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
@@ -30,7 +30,7 @@ const tutorialSteps = [
   },
   {
     label: 'Aşkın Özdemir',
-    link: '/d/diyetisyenasknn',
+    link: '/diyetisyenasknn',
     unvan: 'Beslenme Uzmanı',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
@@ -38,7 +38,7 @@ const tutorialSteps = [
   },
   {
     label: 'Merve Doyranlı',
-    link: '/d/diyetisyendoyranli',
+    link: '/diyetisyendoyranli',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     unvan: 'Beslenme ve Diyet Uzmanı',
     imgPath:
@@ -46,7 +46,7 @@ const tutorialSteps = [
   },
   {
     label: 'Ezel Kavadar',
-    link: '/d/dyt_ezelkavadar',
+    link: '/dyt_ezelkavadar',
     unvan: 'Uzman Diyetisyen',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
@@ -54,7 +54,7 @@ const tutorialSteps = [
   },
   {
     label: 'Büşra Özyavuz',
-    link: '/d/diyetiswomen',
+    link: '/diyetiswomen',
     unvan: 'Diyetisyen',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
     imgPath:
@@ -62,7 +62,7 @@ const tutorialSteps = [
   },
   {
     label: 'Aysu Taşdöven',
-    link: '/d/aysuutasdovenn',
+    link: '/aysuutasdovenn',
     unvan: 'Diyetisyen',
     info: "Oluşturduğum kişisel sayfamın linkini Instagram profilime koydum ve yeni danışanlarıma kolayca randevu verebildim. Teşekkürler Diyet Koçum!",
     imgPath:

@@ -8,6 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
+import { userService } from '../../services/user.service'
+
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -422,7 +424,7 @@ class Envanter extends React.Component {
               <Card variant="outlined" className={classes.card}>
                 <CardHeader
                   avatar={
-                      <Avatar className={classes.avatar} alt={this.state.user.name} src={this.state.user.url} />
+                      <Avatar className={classes.avatar} alt={this.state.user.name} src={userService.getStaticFileUri(this.state.user.url)} />
                   }
                   // action={
                   //   <div>

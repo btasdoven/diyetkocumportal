@@ -25,6 +25,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
 
+import { userService } from '../services/user.service'
+
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -140,7 +142,7 @@ class Sidebar extends React.Component {
             <ListItem button onClick={() => this.setState({openProfileMenu: !this.state.openProfileMenu})}>
               <ListItemIcon>
                 {/* <Badge badgeContent={1} color="secondary"> */}
-                  <Avatar className={classes.avatar} alt={this.state.user.name} src={this.state.user.url} />
+                  <Avatar className={classes.avatar} alt={this.state.user.name} src={userService.getStaticFileUri(this.state.user.url)} />
                 {/* </Badge> */}
               </ListItemIcon>
               <Typography>{this.state.user.name}</Typography>

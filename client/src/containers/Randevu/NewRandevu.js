@@ -47,6 +47,8 @@ import { getDietitianAppointments, putDietitianAppointment } from '../../store/r
 
 import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
 
+import { userService } from '../../services/user.service'
+
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import Badge from '@material-ui/core/Badge';
@@ -536,7 +538,7 @@ class NewRandevuWrapper extends React.Component {
                             <Card variant="outlined" className={classes.card}>
                                 <CardHeader
                                 avatar={
-                                    <Avatar className={classes.avatar} alt={user.name} src={user.url} />
+                                    <Avatar className={classes.avatar} alt={user.name} src={userService.getStaticFileUri(user.url)} />
                                 }
                                 title={<Typography variant="h5" component="h2">{user.name}</Typography>}
                                 subheader={user.unvan}

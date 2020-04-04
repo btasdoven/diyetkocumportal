@@ -24,6 +24,8 @@ import { connect } from "react-redux";
 import { getDanisanMessages, addDanisanMessage } from '../../store/reducers/api.danisanMessages'
 import withWidth from '@material-ui/core/withWidth';
 
+import { userService } from '../../services/user.service'
+
 const styles = theme => ({
     profile: {
       width: 'auto',
@@ -184,7 +186,7 @@ class DefaultChatMsg extends React.Component {
                     {messages && Object.keys(messages).map( (mid, idx) => {
                         var msg = messages[mid];
                         
-                        dietitianUrl = msg.dietitianUrl ? msg.dietitianUrl : dietitianUrl;
+                        dietitianUrl = msg.dietitianUrl ? userService.getStaticFileUri(msg.dietitianUrl) : dietitianUrl;
                         danisanUrl = msg.danisanUrl ? msg.danisanUrl : danisanUrl;
                         console.log(dietitianUrl);
 

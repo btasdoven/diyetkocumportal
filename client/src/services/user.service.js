@@ -36,6 +36,9 @@ export const userService = {
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
 
 function getStaticFileUri(file) {
+    if (file.startsWith("http") || file.startsWith("/static/"))
+        return file;
+
     return HOST_NAME + '/' + file;
 }
 

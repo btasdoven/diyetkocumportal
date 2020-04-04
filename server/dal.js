@@ -5,6 +5,8 @@ const massemail = require('./massemail')
 const ig = require('./ig.js');
 const moment = require("moment")
 const ipp = require('instagram-profile-picture');
+const fs = require('fs');
+const request = require('request');
 
 require('moment/locale/tr');
 moment.locale("tr")
@@ -249,8 +251,6 @@ var taskResetStg = () => {
   }
 
   return storage.getItem('0').then((data) => {
-    console.log(data)
-
     if (data == undefined) {
       return storage.setItem('0', rows[0])
     }
@@ -262,7 +262,7 @@ var taskResetStg = () => {
 
 var taskInitNewDietitians = () => {
   
-  return asyncForEach(Object.keys(rows[0].users), async (id) => {
+  var userTasks = asyncForEach(Object.keys(rows[0].users), async (id) => {
     var r = await storage.getItem(id.toString());
     if (JSON.stringify(r) == '{}' || r == undefined) {
       r = { 
@@ -275,12 +275,37 @@ var taskInitNewDietitians = () => {
       r.profile.name = rows[0].users[id].name
       r.profile.url = rows[0].users[id].url
       r.profile.tel = rows[0].users[id].tel
-      r.profile.link = 'diyetkocum.net/d/' + id
+      r.profile.link = 'diyetkocum.net/' + id
 
       return storage.setItem(id.toString(), r);
     }
 
+    if (r.profile.url != undefined && 
+        r.profile.url.startsWith("http")) {
+        return ipp.medium(id).then(instaProfileUrl => {
+            console.log(instaProfileUrl);
+
+            instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
+            localProfilePath = `public/${id}.png`
+
+            r.profile.url = `api/v1/${localProfilePath}`
+            rows[0].users[id].url = r.profile.url;
+
+            downloadAndSaveProfilePicture(instaProfileUrl, localProfilePath, () => {
+                console.log('done ', localProfilePath);
+            })
+            
+            return storage.setItem(id.toString(), r);
+        });
+    }
+
     return Promise.resolve()
+  });
+
+  return userTasks.then(() => {
+    console.log('all async user tasks done, setting 0')
+    console.log(rows[0])
+    return storage.setItem('0', rows[0]);
   });
 }
 
@@ -327,7 +352,7 @@ var taskUpgradeStg = () => {
     if (rows[id].profile != undefined &&
         rows[id].profile.link == undefined) {
       changed = true;
-      rows[id].profile.link = 'diyetkocum.net/d/' + id;
+      rows[id].profile.link = 'diyetkocum.net/' + id;
     }
 
     if (rows[id].profile != undefined &&
@@ -335,7 +360,13 @@ var taskUpgradeStg = () => {
       changed = true;
       rows[id].profile.create_date = rows[0].users[id].create_date || moment(Date.now()).format();
     }
-    
+
+    if (rows[id].profile != undefined &&
+        rows[id].profile.link.startsWith('diyetkocum.net/d/')) {
+      changed = true;
+      rows[id].profile.link = 'diyetkocum.net/' + id;
+    }
+
     console.log(changed)
 
     if (!changed) {
@@ -492,8 +523,11 @@ exports.signUpUser = function(uname, userInfo) {
       console.log(instaProfileUrl);
 
       instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
+      localProfilePath = `public/${uname}.png`
 
-      // => https://scontent-sit4-1.cdninstagram.com/7...jpg
+      downloadAndSaveProfilePicture(instaProfileUrl, localProfilePath, () => {
+        console.log('done ', localProfilePath);
+      });
 
       var r = { 
         profile: {
@@ -503,7 +537,7 @@ exports.signUpUser = function(uname, userInfo) {
       
       r.profile.email = userInfo.email
       r.profile.name = userInfo.name
-      r.profile.url = instaProfileUrl
+      r.profile.url = `api/v1/${localProfilePath}`
       r.profile.tel = userInfo.tel
       r.profile.instagram = userInfo.username
       r.profile.create_date = moment(Date.now()).format()
@@ -525,7 +559,7 @@ exports.signUpUser = function(uname, userInfo) {
         password: userInfo.password, 
         email: userInfo.email, 
         tel: userInfo.tel,
-        url: instaProfileUrl,
+        url: `api/v1/${localProfilePath}`,
         //status: 'pending',
         create_date: moment(Date.now()).format()
       }
@@ -874,7 +908,8 @@ exports.getDanisanMessages = function (userId, danisanUserName) {
   console.log('getDanisanMessages');
 
   if (rows[userId].danisans == undefined ||
-      rows[userId].danisans[danisanUserName] == undefined) {
+      rows[userId].danisans[danisanUserName] == undefined ||
+      rows[userId].danisans[danisanUserName].messages == undefined) {
     return { };
   }
 
@@ -1237,3 +1272,12 @@ exports.trackTopic = function (topic, email) {
 
   storage.setItem('0', rows[0]);
 }
+
+var downloadAndSaveProfilePicture = function(uri, filename, callback){
+  request.head(uri, function(err, res, body){
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
+
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+  });
+};

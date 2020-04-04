@@ -16,6 +16,7 @@ import { AppBar, Toolbar, Box } from "@material-ui/core";
 import InstagramIcon from '@material-ui/icons/Instagram';
 
 import Header from "../../components/Header";
+import { userService } from '../../services/user.service'
 
 const styles = theme => ({
     root: {
@@ -102,7 +103,7 @@ class PersonalPage extends React.Component {
 
                     <Grid container spacing={0} direction="column" alignItems="center" justify="center">
                         <Box my={4} borderRadius="50%">
-                            <Avatar className={classes.avatar} alt={user.name} src={user.url} />
+                            <Avatar className={classes.avatar} alt={user.name} src={userService.getStaticFileUri(user.url)} />
                         </Box>
 
                         <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">{user.unvan}</Typography>
