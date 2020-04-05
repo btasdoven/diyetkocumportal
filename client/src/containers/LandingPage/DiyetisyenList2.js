@@ -103,6 +103,10 @@ const styles = theme => ({
     height: theme.spacing(7),
     marginRight: '16px',
   },
+  dietitanList: {
+    paddingLeft: '0 !important',
+    paddingRight: '0 !important',
+  },
   rootLoading: {
       height: "inherit",
       display: "flex",
@@ -148,7 +152,7 @@ const TextMobileStepper = (props) => {
               <div key={index} style={{textAlign: 'center'}}>
                 <Avatar 
                     className={classes.img}
-                    src={userService.getStaticFileUri(`api/v1/public${tutorialSteps[index].link}`)}
+                    src={userService.getStaticFileUri(`api/v1/public${tutorialSteps[index].link}.png`)}
                     alt={tutorialSteps[index].label}
                     style={{width: '140px', height: '140px', margin: 'auto'}}
                 />            
@@ -257,7 +261,7 @@ class DietianList extends React.Component {
           <DialogContent>
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && (
-              <List className={classes.root}>
+              <List className={classes.dietitanList}>
                 {dietitians.map((step, index) => (
                   <ListItem key={index} button>
                     <ListItemAvatar>

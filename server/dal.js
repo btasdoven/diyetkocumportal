@@ -280,6 +280,8 @@ var taskInitNewDietitians = () => {
       return storage.setItem(id.toString(), r);
     }
 
+    console.log(id)
+
     if (r.profile.url != undefined && 
         r.profile.url.startsWith("http")) {
         return ipp.medium(id).then(instaProfileUrl => {
@@ -296,7 +298,7 @@ var taskInitNewDietitians = () => {
             })
             
             return storage.setItem(id.toString(), r);
-        });
+        }).catch((err) => console.log(err, 'error at ' + id + ' ' + err));
     }
 
     return Promise.resolve()
