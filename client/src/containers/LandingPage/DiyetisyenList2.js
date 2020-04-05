@@ -146,7 +146,7 @@ const TextMobileStepper = (props) => {
             index={activeStep}
             onChangeIndex={handleStepChange}
             enableMouseEvents
-            interval={5000}
+            interval={8000}
         >
             {tutorialSteps.map((step, index) => (
               <div key={index} style={{textAlign: 'center'}}>
@@ -246,14 +246,19 @@ class DietianList extends React.Component {
       <span>
         <TextMobileStepper />
 
-        <Button color="secondary" style={{marginTop: '16px', marginRight: '24px', float: 'right'}} onClick={() => this.setDialog(true)} size="small">Tümünü gör</Button>
+        <Button color="secondary" style={{marginTop: '16px', marginRight: '24px', float: 'right'}} onClick={() => {
+          registerEvent('ClickShowAllDietitians')
+          this.setDialog(true)}
+         } size="small">Tümünü gör</Button>
 
         <Dialog 
           open={this.state.openDialog} 
+          fullWidth={true}
+          maxWidth="sm"
           onClose={() => this.setDialog(false)}
         >
           <DialogTitle disableTypography style={{paddingBottom: '0px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-            <Typography variant="h6">Diyetisyenlerimiz</Typography>
+            <Typography variant="subtitle1">Diyetisyenlerimiz</Typography>
             <IconButton size="small" aria-label="close" className={classes.closeButton} onClick={() => this.setDialog(false)}>
               <CloseIcon />
             </IconButton>
@@ -272,14 +277,14 @@ class DietianList extends React.Component {
                       />
                     </ListItemAvatar>
                     <ListItemText primary={dietitians[index].name} secondary={dietitians[index].unvan || 'Diyetisyen'} />
-                    <ListItemSecondaryAction>
-                      {/* <Checkbox
+                    {/* <ListItemSecondaryAction>
+                      <Checkbox
                         edge="end"
                         onChange={handleToggle(value)}
                         checked={checked.indexOf(value) !== -1}
                         inputProps={{ 'aria-labelledby': labelId }}
-                      /> */}
-                    </ListItemSecondaryAction>
+                      />
+                    </ListItemSecondaryAction> */}
                   </ListItem>
                 ))}
               </List>

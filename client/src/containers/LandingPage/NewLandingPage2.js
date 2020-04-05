@@ -437,10 +437,10 @@ class LandingPage extends React.Component {
 
           </div>
 
-          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px' }}>
-            {/* <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>Diyetisyen Değil Misin?</Typography>
+          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '64px' }}>
+            <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '32px'}}>Popüler Diyetisyenlerimiz</Typography>
             
-            <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography> */}
+            {/* <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography> */}
 
             <DiyetisyenList2 backgroundColor="white"/>
 
