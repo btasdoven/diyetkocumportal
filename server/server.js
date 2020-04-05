@@ -308,6 +308,17 @@ app.get("/api/v1/getAppointmentData", (req, res, next) => {
   // }), delayInResponseInMs);
 });
 
+// This for landing page
+//
+app.get("/api/v1/getAllDietitians", (req, res, next) => {
+  // setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getAllDietitians());
+  // }), delayInResponseInMs);
+});
+
+// This is for internal analytics
+//
 app.get("/api/v1/getAllDietitianProfiles", (req, res, next) => {
   // setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

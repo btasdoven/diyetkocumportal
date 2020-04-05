@@ -433,7 +433,7 @@ exports.loginUser = function(uname, pwd) {
       console.log(user)
       if (user.status == 'pending') {
         console.log('pending user')
-        return { error: 'Üyeliğiniz daha aktif edilmedi.'};
+        return { error: 'Üyeliğiniz daha aktif edilmedi. info@diyetkocum.net ile iletişime geçebilirsiniz.'};
       }
 
       // First login?
@@ -1193,6 +1193,32 @@ exports.postAddDanisan = function (userId, danisanUserName, danisanPreview) {
 
   storage.setItem(userId, rows[userId]);
   storage.setItem('0', rows[0]);
+}
+
+exports.getAllDietitians = function () {
+  console.log('getAllDieitians');
+  ret = []
+  
+  Object.keys(rows).forEach((userId) => {
+    if (userId == '0' || userId == '1' || userId == 'demo') {
+      return;
+    }
+
+    if (rows[0].users[userId].status == 'pending' || 
+        rows[0].users[userId].isAdmin) {
+      return;
+    }
+
+    var d = rows[userId].profile
+    ret.push({
+      url: d.url,
+      name: d.name,
+      username: userId,
+      unvan: d.unvan
+    });
+  });
+
+  return ret
 }
 
 exports.getDietitianProfiles = function () {

@@ -30,6 +30,7 @@ export const userService = {
     get_danisan_messages,
     add_danisan_message,
     read_danisan_message,
+    get_all_dietitians,
     getStaticFileUri,
 };
 
@@ -390,6 +391,19 @@ function put_danisan_diet_list(userId, danisanUserName, danisanDietList) {
         .then(data => {
             return data;
         });
+}
+
+function get_all_dietitians() {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/getAllDietitians`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });   
 }
 
 function handleResponse(response) {

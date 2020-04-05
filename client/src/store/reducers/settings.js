@@ -16,7 +16,7 @@ const themeConfig = {
       contrastText: '#FFF'
     },
     secondary: {
-      main: 'rgb(229, 83, 86)', //'#d5602d',
+      main: 'rgb(252, 81, 133)', //rgb(229, 83, 86)', //'#d5602d',
       contrastText: '#FFF'
     },
     error: {
