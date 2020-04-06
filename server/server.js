@@ -337,7 +337,7 @@ app.get("/api/v1/runig", (req, res, next) => {
 });
 
 app.get('/api/v1/sendMassEmail', (req, res) => {
-  massemail.sendMassEmail().then( (val) => {
+  dal.sendMassEmail().then( (val) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(val, null, 4));
   }).catch( (err) => {

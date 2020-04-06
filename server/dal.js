@@ -1287,6 +1287,33 @@ exports.getAppointmentData = function () {
   return ret;
 }
 
+exports.sendMassEmail = function() {
+
+  ret = {}  
+  Object.keys(rows).forEach((userId) => {
+    if (userId == '0' || userId == '1' || userId == 'demo') {
+      return;
+    }
+
+    if (rows[0].users[userId].status == 'pending' || 
+        rows[0].users[userId].isAdmin) {
+      return;
+    }
+
+    var d = rows[userId].profile
+    ret[d.email] = {
+      email: d.email,
+      name: d.name.split(' ')[0],
+      fullname: d.name,
+      username: userId
+    };
+  });
+
+  console.log(ret)
+  
+  return massemail.sendMassEmail(ret)
+}
+
 exports.trackTopic = function (topic, email) {
   if (rows[0].tracking == undefined) {
     rows[0].tracking = {}
