@@ -93,7 +93,7 @@ class App extends Component {
                 <Router>
                   {localStorage.getItem('user') ? (
                     <Switch>
-                      <EmptyRoute path="/blog" component={Blog} />
+                      <EmptyRoute path="/enler" component={Blog} />
                       <Route exact path="/" render={() => <Redirect to="/me" />} />
                       <DashboardRoute exact path="/status" component={ProfileStatus} />
 
@@ -128,7 +128,7 @@ class App extends Component {
                     </Switch>
                   ) : (
                     <Switch>
-                      <EmptyRoute path="/blog" component={Blog} />
+                      <EmptyRoute path="/enler" component={Blog} />
                       <EmptyRoute path="/np" render={() => <Redirect to="/" />} />
                       <EmptyRoute path="/np2" render={() => <Redirect to="/" />} />
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />

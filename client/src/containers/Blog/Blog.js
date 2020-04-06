@@ -67,6 +67,7 @@ import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
 import { getAllDietitians } from '../../store/reducers/api.allDietitians';
 
 import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -454,9 +455,45 @@ const QontoConnector = withStyles({
     );
   }
 
-const dietitians = [
-    { url: 'api/v1/public/aysuutasdoven', unvan: 'Diyetisyen', name: 'Aysu Taşdöven'}
+var dietitianEnCokZiyaret = undefined;
+const usernameEnCokZiyaret = [
+  'diyetisyendoyranli',
+  'dytelifbozyel',
+  'aysuutasdovenn',
+  'diyetisyennidaceliksoydan',
+  'dyt.busedogan',
 ]
+
+var dietitianEnCokRandevu = undefined;
+const usernameEnCokRandevu = [
+  'diyetiswomen',
+  'diyetisyenasknn',
+  'diyetisyendoyranli',
+  'aysuutasdovenn',
+  'dyt.sedaarslan',
+]
+
+var dietitianEnAktif = undefined;
+const usernameEnAktif = [
+  'diyetisyennidaceliksoydan',
+  'diyetisyendoyranli',
+  'diyetiswomen',
+  'dyt_ezelkavadar',
+  'dyt.busedogan',
+]
+
+function initList(dietitians, usernames) {
+  var rr = []
+  
+  dietitians.map((d) => {
+    if (usernames.indexOf(d.username) >= 0) {
+      rr.push(d);
+    }
+  });
+
+  console.log(rr)
+  return rr;
+}
 
 function renderLoadingButton(classes) {
     return (
@@ -465,6 +502,39 @@ function renderLoadingButton(classes) {
       </div>
     )
   } 
+
+const DietitianListView = (props) => (
+  <div style={{paddingLeft:'24px', paddingRight: '24px'}}>
+    <Typography variant="h6" style={{textAlign:'center', color: '#32325d', fontWeight: 400, paddingTop: '24px', paddingBottom: '8px'}}>
+      {props.title}
+    </Typography>
+    
+    <List className={props.classes.dietitanList}>
+        {props.dietitians.map((step, index) => {
+          return (
+            <ListItem key={index} button>
+                <ListItemAvatar>
+                <Avatar
+                    className={props.classes.avatar}
+                    src={userService.getStaticFileUri(props.dietitians[index].url)}
+                    alt={props.dietitians[index].name}
+                />
+                </ListItemAvatar>
+                <ListItemText primary={props.dietitians[index].name} secondary={props.dietitians[index].unvan || 'Diyetisyen'} />
+                {/* <ListItemSecondaryAction>
+                <Checkbox
+                    edge="end"
+                    onChange={handleToggle(value)}
+                    checked={checked.indexOf(value) !== -1}
+                    inputProps={{ 'aria-labelledby': labelId }}
+                />
+                </ListItemSecondaryAction> */}
+            </ListItem>
+          )
+        })}
+    </List>
+</div>
+)
 
 class LandingPage extends React.Component {
 
@@ -532,6 +602,14 @@ class LandingPage extends React.Component {
     const showLoader = !this.isLoaded();
     const dietitians = showLoader ? undefined : this.props.apiAllDietitians.data;
 
+    if (dietitians != undefined && dietitianEnCokZiyaret == undefined) {
+      dietitianEnCokZiyaret = initList(dietitians, usernameEnCokZiyaret);
+      dietitianEnCokRandevu = initList(dietitians, usernameEnCokRandevu);
+      dietitianEnAktif = initList(dietitians, usernameEnAktif);
+
+      console.log(dietitianEnCokZiyaret)
+    }
+
     return (
       <React.Fragment >
         <CssBaseline />
@@ -589,40 +667,32 @@ class LandingPage extends React.Component {
           >
             <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
             <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
+            <MenuItem component={Link} to={"/blog"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem>
             {/* <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem> */}
           </Menu>
         </div>
 
         <main className={classes.layoutToolbar} style={{margin:'auto'}}>
             { showLoader && renderLoadingButton(classes) }
-            { !showLoader && (
-                <div style={{paddingLeft:'24px', paddingRight: '24px'}}>
-                    <Typography variant="h6" style={{textAlign:'center', color: '#32325d', fontWeight: 400, paddingTop: '24px', paddingBottom: '24px'}}>En Popüler Diyetisyenler</Typography>
-                    
-                    <List className={classes.dietitanList}>
-                        {dietitians.map((step, index) => (
-                        <ListItem key={index} button>
-                            <ListItemAvatar>
-                            <Avatar
-                                className={classes.avatar}
-                                src={userService.getStaticFileUri(dietitians[index].url)}
-                                alt={dietitians[index].name}
-                            />
-                            </ListItemAvatar>
-                            <ListItemText primary={dietitians[index].name} secondary={dietitians[index].unvan || 'Diyetisyen'} />
-                            {/* <ListItemSecondaryAction>
-                            <Checkbox
-                                edge="end"
-                                onChange={handleToggle(value)}
-                                checked={checked.indexOf(value) !== -1}
-                                inputProps={{ 'aria-labelledby': labelId }}
-                            />
-                            </ListItemSecondaryAction> */}
-                        </ListItem>
-                        ))}
-                    </List>
-                </div>
-            )}
+            { !showLoader && 
+              <div>
+                <DietitianListView 
+                  title="Profili En Çok Ziyaret Edilen Diyetisyenlerimiz"
+                  dietitians={dietitianEnCokZiyaret}
+                  classes={classes}
+                />
+                <DietitianListView 
+                  title="En Çok Randevu Alan Diyetisyenlerimiz"
+                  dietitians={dietitianEnCokRandevu}
+                  classes={classes}
+                />
+                <DietitianListView 
+                  title="En Aktif Diyetisyenlerimiz"
+                  dietitians={dietitianEnAktif}
+                  classes={classes}
+                />
+              </div>
+            }
         </main>
       </React.Fragment>
     );

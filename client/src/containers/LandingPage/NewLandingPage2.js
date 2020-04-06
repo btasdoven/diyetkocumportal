@@ -339,7 +339,7 @@ class LandingPage extends React.Component {
           >
             <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
             <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
-            {/* <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem> */}
+            <MenuItem component={Link} to={"/blog"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem>
           </Menu>
 
           <div style={{paddingTop: '15vh', width: '100%', paddingLeft: '16px', paddingRight: '16px', textAlign: 'center', color: 'white'}}>
