@@ -103,9 +103,6 @@ class App extends Component {
                       <DashboardRoute exact path="/m" component={MesajList} />
                       <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
-                      <EmptyRoute path="/np" render={() => <Redirect to="/" />} />
-                      <EmptyRoute path="/np2" render={() => <Redirect to="/" />} />
-
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
                       
                       <EmptyRoute exact path="/d" component={DiyetisyenListView} />
@@ -129,8 +126,7 @@ class App extends Component {
                   ) : (
                     <Switch>
                       <EmptyRoute path="/enler" component={Blog} />
-                      <EmptyRoute path="/np" render={() => <Redirect to="/" />} />
-                      <EmptyRoute path="/np2" render={() => <Redirect to="/" />} />
+                      
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 
                       <EmptyRoute exact path="/d" component={DiyetisyenListView} />

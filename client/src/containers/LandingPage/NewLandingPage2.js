@@ -307,7 +307,7 @@ class LandingPage extends React.Component {
             <Toolbar className={classes.layoutToolbar}>
               <span edge="start" style={{display: 'flex'}}>
                 <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
-                <Typography variant="h6" style={{fontWeight: 700, color: 'white', fontFamily: 'Open Sans,sans-serif'}}>diyetkoçum</Typography>
+                <Typography variant="h6" style={{fontWeight: 100, color: 'white', fontFamily: 'Prompt,sans-serif'}}>diyetkoçum</Typography>
               </span>
               {/* <Typography variant="h6" color="inherit" noWrap>
                 Digital Lab Book
@@ -337,6 +337,7 @@ class LandingPage extends React.Component {
               className: classes.paperProps
             }}
           >
+            <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
             <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
             <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
             <MenuItem component={Link} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem>

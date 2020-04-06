@@ -475,19 +475,19 @@ const usernameEnCokRandevu = [
 
 var dietitianEnAktif = undefined;
 const usernameEnAktif = [
-  'diyetisyennidaceliksoydan',
-  'diyetisyendoyranli',
-  'diyetiswomen',
-  'dyt_ezelkavadar',
-  'dyt.busedogan',
+  'diyetisyenbetulkingir',
+  'dyt.arslanmeltem',
+  'dyt.elifnarcinkubat',
+  'uzm.dyt.aslihansahiner',
+  'dyt_esmakurtgunes',
 ]
 
 function initList(dietitians, usernames) {
-  var rr = []
+  var rr = {}
   
   dietitians.map((d) => {
     if (usernames.indexOf(d.username) >= 0) {
-      rr.push(d);
+      rr[d.username] = d;
     }
   });
 
@@ -510,17 +510,22 @@ const DietitianListView = (props) => (
     </Typography>
     
     <List className={props.classes.dietitanList}>
-        {props.dietitians.map((step, index) => {
+        {props.usernames.map((uname) => {
+          console.log(uname)
+
+          if (props.dietitians[uname] == undefined)
+            return ;
+
           return (
-            <ListItem key={index} button>
+            <ListItem key={uname} button>
                 <ListItemAvatar>
                 <Avatar
                     className={props.classes.avatar}
-                    src={userService.getStaticFileUri(props.dietitians[index].url)}
-                    alt={props.dietitians[index].name}
+                    src={userService.getStaticFileUri(props.dietitians[uname].url)}
+                    alt={props.dietitians[uname].name}
                 />
                 </ListItemAvatar>
-                <ListItemText primary={props.dietitians[index].name} secondary={props.dietitians[index].unvan || 'Diyetisyen'} />
+                <ListItemText primary={props.dietitians[uname].name} secondary={props.dietitians[uname].unvan || 'Diyetisyen'} />
                 {/* <ListItemSecondaryAction>
                 <Checkbox
                     edge="end"
@@ -665,6 +670,7 @@ class LandingPage extends React.Component {
               className: classes.paperProps
             }}
           >
+            <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
             <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
             <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
             <MenuItem component={Link} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem>
@@ -676,21 +682,33 @@ class LandingPage extends React.Component {
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
               <div>
+                <Typography variant="subtitle2" style={{color: '#32325d', fontWeight: 600, paddingTop: '24px', paddingLeft: '24px'}}>
+                  29 Mart - 5 Nisan 2020
+                </Typography>
+
                 <DietitianListView 
-                  title="Profili En Çok Ziyaret Edilen Diyetisyenlerimiz"
+                  title="En Çok Ziyaret Edilen Diyetisyenlerimiz"
+                  usernames={usernameEnCokZiyaret}
                   dietitians={dietitianEnCokZiyaret}
                   classes={classes}
                 />
                 <DietitianListView 
                   title="En Çok Randevu Alan Diyetisyenlerimiz"
+                  usernames={usernameEnCokRandevu}
                   dietitians={dietitianEnCokRandevu}
                   classes={classes}
                 />
                 <DietitianListView 
                   title="En Aktif Diyetisyenlerimiz"
+                  usernames={usernameEnAktif}
                   dietitians={dietitianEnAktif}
                   classes={classes}
                 />
+                
+                <Divider />
+                {/* <Typography variant="subtitle2" style={{color: '#32325d', fontWeight: 600, paddingTop: '24px', paddingLeft: '24px'}}>
+                  29 Mart - 5 Nisan 2020
+                </Typography> */}
               </div>
             }
         </main>
