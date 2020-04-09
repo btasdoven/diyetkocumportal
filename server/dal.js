@@ -327,46 +327,93 @@ var taskUpgradeStg = () => {
 
     console.log(id)
 
-    if (rows[id].profile != undefined && 
-        rows[id].profile.online_diyet == undefined) {
+    if (rows[id].profile == undefined) {
+      rows[id].profile = {}
+      changed = true
+    }
+
+    if (rows[id].profile.online_diyet == undefined) {
       rows[id].profile.online_diyet = true
       changed = true
     }
     
-    if (rows[id].profile != undefined && 
-        rows[id].profile.url == undefined) {
+    if (rows[id].profile.url == undefined) {
       rows[id].profile.url = rows[0].users[id].url
       changed = true
     }
 
-    if (rows[id].profile != undefined &&
-        rows[id].profile.unvan == undefined) {
+    if (rows[id].profile.unvan == undefined) {
       changed = true;
       rows[id].profile.unvan = 'Diyetisyen'
     }
 
-    if (rows[id].profile != undefined &&
-        rows[id].profile.ozgecmis == undefined) {
+    if (rows[id].profile.ozgecmis == undefined) {
       changed = true;
       rows[id].profile.ozgecmis = 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.'
     }
 
-    if (rows[id].profile != undefined &&
-        rows[id].profile.link == undefined) {
+    if (rows[id].profile.link == undefined) {
       changed = true;
       rows[id].profile.link = 'diyetkocum.net/' + id;
     }
 
-    if (rows[id].profile != undefined &&
-        rows[id].profile.create_date == undefined) {
+    if (rows[id].profile.create_date == undefined) {
       changed = true;
       rows[id].profile.create_date = rows[0].users[id].create_date || moment(Date.now()).format();
     }
 
-    if (rows[id].profile != undefined &&
-        rows[id].profile.link.startsWith('diyetkocum.net/d/')) {
+    if (rows[id].profile.link.startsWith('diyetkocum.net/d/')) {
       changed = true;
       rows[id].profile.link = 'diyetkocum.net/' + id;
+    }
+
+    if (rows[id].profile.badges == undefined) {
+      rows[id].profile.badges = {}
+      changed = true;
+    }
+
+    if (rows[id].profile.posts == undefined) {
+      rows[id].profile.posts = {}
+      changed = true;
+    }
+
+    const usernameEnCokZiyaret = [
+      'diyetisyendoyranli',
+      'dytelifbozyel',
+      'aysuutasdovenn',
+      'diyetisyennidaceliksoydan',
+      'dyt.busedogan',
+    ]
+    
+    const usernameEnCokRandevu = [
+      'diyetiswomen',
+      'diyetisyenasknn',
+      'diyetisyendoyranli',
+      'aysuutasdovenn',
+      'dyt.sedaarslan',
+    ]
+    
+    const usernameEnAktif = [
+      'diyetisyenbetulkingir',
+      'dyt.arslanmeltem',
+      'dyt.elifnarcinkubat',
+      'uzm.dyt.aslihansahiner',
+      'dyt_esmakurtgunes',
+    ]
+
+    if (usernameEnCokZiyaret.indexOf(id) >= 0 && rows[id].profile.badges['20200329_ziyaret'] == undefined) {
+      rows[id].profile.badges['20200329_ziyaret'] = { url: '/static/badges/ziyaret_20200329.png'}
+      changed = true;
+    }
+
+    if (usernameEnCokRandevu.indexOf(id) >= 0  && rows[id].profile.badges['20200329_randevu'] == undefined) {
+      changed = true;
+      rows[id].profile.badges['20200329_randevu'] = { url: '/static/badges/randevu_20200329.png'}
+    }
+
+    if (usernameEnAktif.indexOf(id) >= 0 && rows[id].profile.badges['20200329_aktif'] == undefined) {
+      changed = true;
+      rows[id].profile.badges['20200329_aktif'] = { url: '/static/badges/aktif_20200329.png'}
     }
 
     console.log(changed)
