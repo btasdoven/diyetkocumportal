@@ -2,6 +2,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
 import Menu from '@material-ui/core/Menu';
@@ -58,7 +59,7 @@ const styles = theme => ({
     },
     appBar: {
       backgroundColor: 'transparent',
-      color: 'rgb(38,55,70)'
+      color: 'rgb(38,55,70)',
     },
 });
 
@@ -90,67 +91,77 @@ class HeaderV2 extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div style={{position: 'relative'}}>
-                <div style={{position:'absolute', top:0, width: '100%', height: '54px', zIndex: -1, background: 'linear-gradient(150deg,#281483 15%,#8f6ed5 70%,#d782d9 94%)'}}>
+            <div style={{height: '54px', display: 'block'}}>
+                <div style={{position: 'relative', width: '100%'}}>
+                    <div style={{position:'absolute', top:0, width: '100%', height: '54px', background: 'linear-gradient(150deg,#281483 15%,#8f6ed5 70%,#d782d9 94%)'}}>
 
-                    <span className={classes.floatingPoint} style={{width: '150px', height: '150px', left: '-4%', bottom: 'auto'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '4%', top: '10%'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '5%', top: '280px'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '75px', height: '75px', right: '7%', top: '320px'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '100px', height: '100px', left: '1%', top: '38%'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '200px', height: '200px', left: '10%', top: '44%'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '36%', bottom: '50%'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '100px', height: '100px', right: '2%', bottom: '70px'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '2%', bottom: '1%'}}></span>
-                    <span className={classes.floatingPoint} style={{width: '100px', height: '100px', left: '1%', bottom: '1%'}}></span>
-                </div> 
+                        <span className={classes.floatingPoint} style={{width: '150px', height: '150px', left: '-4%', bottom: 'auto'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '4%', top: '10%'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '5%', top: '280px'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '75px', height: '75px', right: '7%', top: '320px'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '100px', height: '100px', left: '1%', top: '38%'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '200px', height: '200px', left: '10%', top: '44%'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '36%', bottom: '50%'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '100px', height: '100px', right: '2%', bottom: '70px'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '2%', bottom: '1%'}}></span>
+                        <span className={classes.floatingPoint} style={{width: '100px', height: '100px', left: '1%', bottom: '1%'}}></span>
+                    </div> 
 
-                <AppBar elevation={0} position="static" className={classes.appBar}>
-                    <Toolbar className={classes.layoutToolbar}>
-                    <span edge="start" style={{display: 'flex'}}>
-                        <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
+                    <AppBar elevation={0} position="static" className={classes.appBar}>
+                        <Toolbar className={classes.layoutToolbar}>
+                        
                         {this.props.title && (
                             <Typography variant="h6" style={{position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', left:0, width: '100%', top: 0, height: '56px', fontWeight: 400, color: 'white', textAlign: 'center', fontFamily: 'Open Sans,sans-serif'}}>
                                 {this.props.title}
                             </Typography>
                         )}
-                        {!this.props.title && (
-                            <Typography variant="h6" style={{position: 'absolute', display: 'flex', alignItems: 'center', left: '36px', width: 'calc(100% - 36px)', top: 0, height: '56px', fontWeight: 100, color: 'white', textAlign: 'center', fontFamily: 'Prompt,sans-serif'}}>
-                                diyetkoçum
-                            </Typography>
+                        { this.props.backButton && (
+                            <IconButton edge="start" component={Link} to={this.props.backButton} style={{color: 'white'}}>
+                                <ChevronLeftIcon style={{width: '32px', height: '32px'}} />
+                            </IconButton>
                         )}
-                    </span>
-                    <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
-                        <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
-                    </IconButton>
-                    {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
-                        KAYDOL
-                    </Button> */}
-                    </Toolbar>
-                </AppBar>
+                        { !this.props.backButton && (
+                            <span edge="start" style={{display: 'flex'}}>
+                                <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
+                                {!this.props.title && (
+                                    <Typography variant="h6" style={{position: 'absolute', display: 'flex', alignItems: 'center', left: '36px', width: 'calc(100% - 36px)', top: 0, height: '56px', fontWeight: 100, color: 'white', textAlign: 'center', fontFamily: 'Prompt,sans-serif'}}>
+                                        diyetkoçum
+                                    </Typography>
+                                )}
+                            </span>
+                        )}
+                        <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
+                            <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
+                        </IconButton>
+                        {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
+                            KAYDOL
+                        </Button> */}
+                        </Toolbar>
+                    </AppBar>
 
-                <Menu
-                    id="fade-menu"
-                    anchorEl={this.state.anchorEl}
-                    keepMounted
-                    open={this.state.anchorEl != undefined}
-                    onClose={this.handleMenuClose}
-                    TransitionComponent={Fade}
-                    style={{width: '100%'}}
-                    anchorReference="anchorPosition"
-                    anchorPosition={
-                    { top: 8, left: 8 }
-                    }
-                    PaperProps={{
-                    className: classes.paperProps
-                    }}
-                >
-                    <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
-                    <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
-                    <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
-                    <MenuItem component={Link} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem>
-                    {/* <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem> */}
-                </Menu>
+                    <Menu
+                        id="fade-menu"
+                        anchorEl={this.state.anchorEl}
+                        keepMounted
+                        open={this.state.anchorEl != undefined}
+                        onClose={this.handleMenuClose}
+                        TransitionComponent={Fade}
+                        style={{width: '100%'}}
+                        anchorReference="anchorPosition"
+                        anchorPosition={
+                        { top: 8, left: 8 }
+                        }
+                        PaperProps={{
+                        className: classes.paperProps
+                        }}
+                    >
+                        <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
+                        <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
+                        <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
+                        <MenuItem component={Link} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem>
+                        {/* <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem> */}
+                    </Menu>
+                </div>
             </div>
         )
     }

@@ -1,4 +1,17 @@
-
+import { compose, withProps } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import styled from 'styled-components';
+import Geocode from "react-geocode";
+import GoogleMapReact from 'google-map-react';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ImageIcon from '@material-ui/icons/Image';
+import WorkIcon from '@material-ui/icons/Work';
+import BeachAccessIcon from '@material-ui/icons/BeachAccess';
+import Image from 'material-ui-image'
+import Divider from "@material-ui/core/Divider";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
@@ -26,10 +39,12 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 
 import HeaderV2 from "../../components/Header/HeaderV2";
 import { userService } from '../../services/user.service'
+import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 
 const styles = theme => ({
     root: {
-        background: 'linear-gradient(to right bottom, #f5f5f5, #f5f5f5)'
+        //background: 'linear-gradient(to right bottom, #f5f5f5, #f5f5f5)'
+        backgroundColor: '#fdfdfd'
     },
     avatar: {
         width: theme.spacing(24),
@@ -48,7 +63,7 @@ const styles = theme => ({
     },
     card: {
         marginBottom: theme.spacing(1),
-        backgroundColor: '#f5f5f5',
+        //backgroundColor: '#f5f5f5',
         width: '100%',
     },
     text: {
@@ -63,6 +78,7 @@ const styles = theme => ({
         //height: 'calc(100vh - ',
         alignItems: "center",
         padding: theme.spacing(3),
+        paddingTop: 0,
         textAlign: 'center',
         //position: 'absolute',
         //top: 0,
@@ -71,6 +87,41 @@ const styles = theme => ({
         right: 0,
     }
 });
+
+const MarkerWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  background-color: #000;
+  border: 2px solid #fff;
+  border-radius: 100%;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  cursor: ${props => (props.onClick ? 'pointer' : 'default')};
+  &:hover {
+    z-index: 1;
+  }
+`;
+
+const MyMapComponent = compose(
+    withProps({
+      googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDOdRysM2gyUv8wqF41DrNK9l6DzRRqmAE",
+      loadingElement: <div style={{ height: `100%` }} />,
+      containerElement: <div style={{ height: `512px` }} />,
+      mapElement: <div style={{ height: `100%` }} />,
+    }),
+    withScriptjs,
+    withGoogleMap
+  )((props) =>
+    <GoogleMap
+      defaultZoom={17}
+      defaultCenter={{ lat: 41.0717172, lng: 29.0130343 }}
+    >
+      {props.isMarkerShown && <Marker position={{ lat: 41.071716, lng: 29.013685 }} onClick={props.onMarkerClick} />}
+    </GoogleMap>
+  )
 
 class PersonalPage extends React.Component {
     constructor(props) {
@@ -118,28 +169,30 @@ class PersonalPage extends React.Component {
                                 <Avatar className={classes.avatar} alt={user.name} src={userService.getStaticFileUri(user.url)} />
                             </Box>
 
-                            <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">{user.unvan}</Typography>
-                            <Typography style={{ fontWeight: '500', textAlign:'center' }} className={classes.text} variant="h3" component="h2">{user.name}</Typography>
+                            <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h3">{user.unvan}</Typography>
+                            <Typography style={{ fontWeight: '500', textAlign:'center' }} className={classes.text} variant="h4" component="h2">{user.name}</Typography>
+
+                            <Box my={3} borderRadius="50%">
+                                <Rating readOnly={true} value={5} size="large" />
+                            </Box>
 
                             <div className={classes.rootTypeSelect}>
-                                {user.online_diyet == true && <Button style={{ fontSize: '16px', fontWeight: '600', backgroundColor: "#fc5185", margin: '24px' }} color="primary" size="large" variant="contained" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
+                                {user.online_diyet == true && <Button style={{ fontSize: '16px', fontWeight: '600', backgroundColor: "#fc5185", margin: '24px', marginTop: 0 }} color="primary" size="large" variant="contained" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
                                 <Button style={{ fontSize: '16px', fontWeight: '600', border: '2px solid', color: "#05386b" }} size="large" variant="outlined" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>
                             </div>
 
                             <Typography variant="caption" style={{ textAlign: 'center', padding: '24px', paddingTop: '8px' }} className={classes.text} >
-                                Diyetisyeniniz ile gerçekleştireceğiniz online ya da yüz yüze randevular diyetisyeninizin belirleyeceği ücrete bağlıdır.
+                                Diyetisyeniniz ile gerçekleştireceğiniz online ya da yüz yüze randevular diyetisyeninizin belirleyeceği ücrete tabidir.
                             </Typography>
 
-                            <Box my={5} borderRadius="50%">
-                                <Rating readOnly={true} value={5} size="large" />
-                            </Box>
+                            {/* <Divider /> */}
 
-                            <Card className={classes.card}>
+                            <Card elevation={1} className={classes.card}>
                                 <CardHeader
                                     style={{ textAlign: 'center' }}
                                     title={
                                         <Box my={1}>
-                                            <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">HAKKIMDA</Typography>
+                                            <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">HAKKIMDA</Typography>
                                         </Box>
                                     }
                                 />
@@ -163,7 +216,35 @@ class PersonalPage extends React.Component {
                                 </CardContent>
                                 {/* </div> */}
                             </Card>
-                            <Box my={3} />
+
+                            <Box my={1} />
+
+                            {user.badges && (
+                                <Card elevation={1} className={classes.card}>
+                                    <CardHeader
+                                        style={{ textAlign: 'center' }}
+                                        title={
+                                            <Box my={1}>
+                                                <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">ROZETLERİM</Typography>
+                                            </Box>
+                                        }
+                                    />
+                                    <CardContent style={{ paddingTop: 0 }}>
+                                        <Grid container>
+                                            {Object.keys(user.badges).map((b) => (
+                                                <Grid key={b} item xs={3}>
+                                                    <Image
+                                                        src={user.badges[b].url}
+                                                    /> 
+                                                </Grid>
+                                            ))}
+                                        </Grid>
+                                    </CardContent>
+                                    {/* </div> */}
+                                </Card>
+                            )}
+
+                            <Box my={1} />
 
                             {user.address && (
                                 <Card className={classes.card}>
@@ -171,7 +252,7 @@ class PersonalPage extends React.Component {
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Box my={1}>
-                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">OFİS</Typography>
+                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">ADRESİM</Typography>
                                             </Box>
                                         }
                                     />
@@ -184,13 +265,47 @@ class PersonalPage extends React.Component {
                                                     </Typography>
                                                 </div>
                                             </Grid>
+                                            {/* <Grid item xs={12}>
+                                                <MyMapComponent isMarkerShown />
+                                            </Grid> */}
                                         </Grid>
                                     </CardContent>
                                     {/* </div> */}
                                 </Card>
                             )}
 
+                            <Box my={1} />
+
+                            {user.posts && (
+                                <Card className={classes.card}>
+                                    <CardHeader
+                                        style={{ textAlign: 'center' }}
+                                        title={
+                                            <Box my={1}>
+                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BLOG YAZILARIM</Typography>
+                                            </Box>
+                                        }
+                                    />
+                                    <CardContent style={{ paddingTop: 0 }}>
+                                            <List>
+                                                {Object.keys(user.posts).map((blogId) => (
+                                                    <ListItem key={blogId} component={Link} to={`/${this.props.userId}/blog/${blogId}`}>
+                                                        <ListItemAvatar>
+                                                            <Avatar>
+                                                                <ImageIcon />
+                                                            </Avatar>
+                                                        </ListItemAvatar>
+                                                        <ListItemText primary={user.posts[blogId].title} />
+                                                    </ListItem>
+                                                ))}
+                                        </List>
+                                    </CardContent>
+                                    {/* </div> */}
+                                </Card>
+                            )}
+
                             <Box my={2} />
+
                             <Grid container spacing={0} direction="row" alignItems="center" justify="center">
                                 <Button href={"https://instagram.com/" + this.props.userId} style={{ textTransform: "none" }}>
                                     <InstagramIcon style={{ fontSize: 36 }} className={classes.text} />
@@ -207,12 +322,14 @@ class PersonalPage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        apiDietitianProfile: state.apiDietitianProfile,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
+            getDietitianProfile: (userId) => getDietitianProfile(userId),
         },
         dispatch
     );

@@ -18,6 +18,7 @@ import MesajList from "./containers/Mesajlar/MesajList";
 import DanisanView from "./containers/Danisanlar/DanisanView";
 import DanisanList from "./containers/Danisanlar/DanisanList";
 import NewRandevu from "./containers/Randevu/NewRandevu";
+import BlogPage from "./containers/Randevu/BlogPage";
 import RandevuView from "./containers/Randevu/RandevuView";
 import NotImplementedYet from './containers/NotImplementedYet'
 import RandevuList from "./containers/Randevu/RandevuList";
@@ -120,7 +121,8 @@ class App extends Component {
                       <Route path="/fp" render={() => <Redirect to="/" />} />
                       <Route path="/rp" render={() => <Redirect to="/" />} />
                       <Route path="/signin" render={() => <Redirect to="/" />} />
-                      <EmptyRoute path="/:diyetisyenUserName" component={NewRandevu} />
+                      <EmptyRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
+                      <EmptyRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
                       <EmptyRoute component={NotFound} />
                     </Switch>
                   ) : (
@@ -137,7 +139,8 @@ class App extends Component {
                       <EmptyRoute path="/fp" component={ForgotPassword} />
                       <EmptyRoute path="/rp/:linkId" component={ResetPassword} />
                       <Route exact path="/" component={NewLandingPage2Tracked} />
-                      <EmptyRoute path="/:diyetisyenUserName" component={NewRandevu} />
+                      <EmptyRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
+                      <EmptyRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
                       <Redirect to="/" />
                     </Switch>
                   )}
