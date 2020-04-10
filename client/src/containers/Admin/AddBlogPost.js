@@ -315,6 +315,8 @@ class Envanter extends React.Component {
           />
 
           <Button type="submit">SUBMIT</Button>
+
+          {file && file.title && file.text && <Typography>Post basariyla yuklendi</Typography>}
       </form>  
     )}
 };

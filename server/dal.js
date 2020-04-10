@@ -1268,6 +1268,8 @@ exports.addNewPost = function(values) {
 
   rows[userId].profile.posts[blogId] = { title: blogTitle, text: blogContent };
   storage.setItem(userId, rows[userId]);
+
+  return rows[userId].profile.posts[blogId]
 }
 
 exports.getAllDietitians = function () {

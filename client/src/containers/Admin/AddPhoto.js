@@ -278,15 +278,18 @@ class Envanter extends React.Component {
 
     const showLoader = !this.isLoaded();
     
-    var file = this.props.apiDanisanFiles != undefined &&
+    var path = this.props.apiDanisanFiles != undefined &&
       this.props.apiDanisanFiles[0] != undefined &&
       this.props.apiDanisanFiles[0][''] != undefined && 
       this.props.apiDanisanFiles[0][''].isGetLoading != true &&
-      this.props.apiDanisanFiles[0][''].data != undefined
-      ? this.props.apiDanisanFiles[0][''].data
+      this.props.apiDanisanFiles[0][''].data != undefined &&
+      this.props.apiDanisanFiles[0][''].data.data != undefined &&
+      this.props.apiDanisanFiles[0][''].data.data.file != undefined &&
+      this.props.apiDanisanFiles[0][''].data.data.file.path != undefined
+      ? this.props.apiDanisanFiles[0][''].data.data.file.path
       : undefined;
 
-    console.log(file)
+    console.log(path)
 
     return (
       <div
@@ -298,7 +301,7 @@ class Envanter extends React.Component {
           open={this.state.openDialog != undefined} 
           onClose={() => this.onDialogClose(undefined)}
         >
-          <DialogTitle id="form-dialog-title">Fotoğraf/PDF Ekle</DialogTitle>
+          <DialogTitle id="form-dialog-title">Fotoğraf Ekle</DialogTitle>
           <DialogContent>
             <Field
               name="file"
@@ -352,7 +355,7 @@ class Envanter extends React.Component {
               </ListItem>
             </List>
 
-            {file != undefined && <Typography>Dosya başarıyla yüklendi. Adresi: {`https://diyetkocum.net/api/v1/${file.data.file.path.replace('\\', '/')}`}</Typography>}
+            {path != undefined && <Typography>Dosya başarıyla yüklendi. Adresi: {`https://diyetkocum.net/api/v1/${path.replace('\\', '/')}`}</Typography>}
           </span>
         }
       </div>  
