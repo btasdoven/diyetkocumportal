@@ -109,7 +109,7 @@ const MyMapComponent = compose(
     withProps({
       googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDOdRysM2gyUv8wqF41DrNK9l6DzRRqmAE",
       loadingElement: <div style={{ height: `100%` }} />,
-      containerElement: <div style={{ height: `512px` }} />,
+      containerElement: <div style={{ height: `384px` }} />,
       mapElement: <div style={{ height: `100%` }} />,
     }),
     withScriptjs,
@@ -117,9 +117,9 @@ const MyMapComponent = compose(
   )((props) =>
     <GoogleMap
       defaultZoom={17}
-      defaultCenter={{ lat: 41.0717172, lng: 29.0130343 }}
+      defaultCenter={{ lat: props.lat, lng: props.lng }}
     >
-      {props.isMarkerShown && <Marker position={{ lat: 41.071716, lng: 29.013685 }} onClick={props.onMarkerClick} />}
+      {props.isMarkerShown && <Marker position={{ lat: props.lat, lng: props.lng }} onClick={props.onMarkerClick} />}
     </GoogleMap>
   )
 
@@ -252,7 +252,7 @@ class PersonalPage extends React.Component {
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Box my={1}>
-                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">ADRESİM</Typography>
+                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">OFİS ADRESİM</Typography>
                                             </Box>
                                         }
                                     />
@@ -265,9 +265,11 @@ class PersonalPage extends React.Component {
                                                     </Typography>
                                                 </div>
                                             </Grid>
-                                            {/* <Grid item xs={12}>
-                                                <MyMapComponent isMarkerShown />
-                                            </Grid> */}
+                                            {user.address_latlng && (
+                                                <Grid item xs={12} style={{paddingTop: '16px'}}>
+                                                    <MyMapComponent lat={user.address_latlng.lat} lng={user.address_latlng.lng} isMarkerShown />
+                                                </Grid>
+                                            )}
                                         </Grid>
                                     </CardContent>
                                     {/* </div> */}

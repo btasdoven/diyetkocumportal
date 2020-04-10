@@ -1261,7 +1261,7 @@ exports.addNewPost = function(values) {
 
   if (rows[userId].profile == undefined) {
     rows[userId].profile = {}
-  }
+  } 
 
   if (rows[userId].profile.posts == undefined) {
     rows[userId].profile.posts = {}
