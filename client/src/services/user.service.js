@@ -31,6 +31,7 @@ export const userService = {
     add_danisan_message,
     read_danisan_message,
     get_all_dietitians,
+    upload_photo,
     getStaticFileUri,
 };
 
@@ -404,6 +405,14 @@ function get_all_dietitians() {
         .then(data => {
             return data;
         });   
+}
+
+function upload_photo(data) {
+    return axios.post(HOST_NAME + `/api/v1/uploadPhoto`, data, {})
+        .then(res => {
+            console.log(res)
+            return res;
+        })
 }
 
 function handleResponse(response) {

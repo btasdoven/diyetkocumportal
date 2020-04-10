@@ -63,7 +63,17 @@ var storage = multer.diskStorage({
   }
 })
 
+var storageForAdmin = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+
 var upload = multer({ storage: storage }).single('file')
+var uploadForAdmin = multer({ storage: storageForAdmin }).single('file')
 
 
 app.get("/api/v1/users/:userId/messagePreviews", (req, res, next) => {
@@ -204,6 +214,24 @@ app.post("/api/v1/users/:userId/danisans/:danisanUserName/addFiles", (req, res, 
       console.log(req.body['type'])
       res.setHeader('Content-Type', 'application/json');
       res.json(dal.addDanisanFiles(req.params.userId, req.params.danisanUserName, req.file, req.body['type']));
+    })  
+  }), delayInResponseInMs);
+}); 
+
+app.post("/api/v1/uploadPhoto", (req, res, next) => {
+  setTimeout((function() {
+    uploadForAdmin(req, res, function (err) {
+      console.log(err)
+
+      if (err instanceof multer.MulterError) {
+          return res.status(500).json(err)
+      } else if (err) {
+          return res.status(500).json(err)
+      }
+      console.log(req.file)      
+      console.log(req.body)
+      res.setHeader('Content-Type', 'application/json');
+      res.json({file: req.file});
     })  
   }), delayInResponseInMs);
 }); 

@@ -37,6 +37,7 @@ import { SnackbarProvider } from 'material-ui-snackbar-provider'
 import DiyetisyenListView from './containers/Randevu/DiyetisyenListView'
 import ForgotPassword from './containers/Register/ForgotPassword'
 import ResetPassword from './containers/Register/ResetPassword'
+import AdminView from './containers/Admin/AddBlogPost'
 
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";
@@ -121,6 +122,7 @@ class App extends Component {
                       <Route path="/fp" render={() => <Redirect to="/" />} />
                       <Route path="/rp" render={() => <Redirect to="/" />} />
                       <Route path="/signin" render={() => <Redirect to="/" />} />
+                      <EmptyRoute exact path="/nimda" component={AdminView} />
                       <EmptyRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
                       <EmptyRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
                       <EmptyRoute component={NotFound} />

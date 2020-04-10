@@ -105,3 +105,23 @@ export function addDanisanFiles(userId, danisanUserName, files) {
   function request(userId, danisanUserName) { return { type: DANISAN_FILES_PUT_LOADING, userId, danisanUserName, isPutLoading: true } }
   function failure(userId, danisanUserName, error) { return { type: DANISAN_FILES_PUT_ERRORED, userId, danisanUserName, error } }
 }
+
+export function uploadPhoto(files) {
+    return (dispatch) => {
+        dispatch(request(0, ''));
+
+        userService.upload_photo(files)
+        .then(
+            (data) => { 
+              dispatch(success(data, 0, ''));
+            },
+            error => {
+                dispatch(failure(0, '', error.toString()));
+            }
+        );
+    };
+  
+  function request(userId, danisanUserName) { return { type: DANISAN_FILES_PUT_LOADING, userId, danisanUserName, isPutLoading: true } }
+  function failure(userId, danisanUserName, error) { return { type: DANISAN_FILES_PUT_ERRORED, userId, danisanUserName, error } }
+  function success(items, userId, danisanUserName) { return { type: DANISAN_FILES_GET_SUCCESS, userId, danisanUserName, items } }
+}
