@@ -1251,6 +1251,7 @@ exports.addNewPost = function(values) {
   userId = values.userId;
   blogId = values.blogId;
   blogTitle = values.blogTitle;
+  blogImg = values.blogImg;
   blogContent = values.blogContent;
 
   if (rows[userId] == undefined) {
@@ -1266,7 +1267,7 @@ exports.addNewPost = function(values) {
     rows[userId].profile.posts = {}
   }
 
-  rows[userId].profile.posts[blogId] = { title: blogTitle, text: blogContent };
+  rows[userId].profile.posts[blogId] = { title: blogTitle, text: blogContent, img: blogImg };
   storage.setItem(userId, rows[userId]);
 
   return rows[userId].profile.posts[blogId]

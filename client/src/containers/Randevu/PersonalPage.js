@@ -219,7 +219,7 @@ class PersonalPage extends React.Component {
 
                             <Box my={1} />
 
-                            {user.badges && (
+                            {user.badges && Object.keys(user.badges).length > 0 && (
                                 <Card elevation={1} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
@@ -276,7 +276,7 @@ class PersonalPage extends React.Component {
 
                             <Box my={1} />
 
-                            {user.posts && (
+                            {user.posts && Object.keys(user.posts).length > 0 && (
                                 <Card className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
@@ -287,6 +287,19 @@ class PersonalPage extends React.Component {
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
+                                        <Grid container>
+                                            {Object.keys(user.posts).map((blogId) => (
+                                                <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} to={`/${this.props.userId}/blog/${blogId}`}>
+                                                    <Image
+                                                        imageStyle={{borderRadius: '8px'}}
+                                                        aspectRatio={1080.0/1920}
+                                                        src={userService.getStaticFileUri(user.posts[blogId].img || '') }
+                                                    /> 
+                                                </Grid>
+                                            ))}
+                                            
+                                        </Grid>
+{/* 
                                             <List>
                                                 {Object.keys(user.posts).map((blogId) => (
                                                     <ListItem key={blogId} component={Link} to={`/${this.props.userId}/blog/${blogId}`}>
@@ -298,7 +311,7 @@ class PersonalPage extends React.Component {
                                                         <ListItemText primary={user.posts[blogId].title} />
                                                     </ListItem>
                                                 ))}
-                                        </List>
+                                        </List> */}
                                     </CardContent>
                                     {/* </div> */}
                                 </Card>

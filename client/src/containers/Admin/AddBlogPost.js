@@ -305,6 +305,12 @@ class Envanter extends React.Component {
             label="Postun başlıgı (Orn: 'Her Şeyiyle Su')"
             component={renderTextField}
            />
+           <Field
+       style={{padding: '32px'}}
+             name="blogImg"
+             label="Postun Resmi (Orn: 'api/v1/public/her-seyiyle-su.png'. Buradaki adres, 'FOTO EKLE'den ekledigin fotonun diyetkocum.net olmadanki kısmı)"
+             component={renderTextField}
+            />
           <Field
       style={{padding: '32px'}}
             name="blogContent"
