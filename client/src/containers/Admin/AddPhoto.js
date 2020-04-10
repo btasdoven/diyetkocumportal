@@ -33,7 +33,7 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
-import { getDanisanFiles, addDanisanFiles, uploadPhoto, addNewPost } from '../../store/reducers/api.danisanFiles'
+import { getDanisanFiles, addDanisanFiles, uploadPhoto } from '../../store/reducers/api.danisanFiles'
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -259,7 +259,13 @@ class Envanter extends React.Component {
   onSubmitInternal(formValues) {
     console.log(formValues);
 
-    this.props.addNewPost(formValues);
+    const formData = new FormData();
+    formData.append('file',formValues.file)
+    console.log(formData);
+
+    this.props.uploadPhoto(formData);
+
+    this.onDialogClose();
   }
 
   onDialogClose(values) {
@@ -283,39 +289,73 @@ class Envanter extends React.Component {
     console.log(file)
 
     return (
-      <form
+      <div
         onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
         name={this.props.form}
       >  
-        <Field
-      style={{padding: '32px'}}
-          name="userId"
-          label="Diyetisyenin instagram adi"
-          component={renderTextField}
-         />
-         <Field
-      style={{padding: '32px'}}
-           name="blogId"
-           label="Postun IDsi (bosluksuz, hepsi kucuk ingilizce harflerle. Orn: 'her-seyiyle-su')"
-           component={renderTextField}
-          />
-          <Field
-      style={{padding: '32px'}}
-            name="blogTitle"
-            label="Postun başlıgı (Orn: 'Her Şeyiyle Su')"
-            component={renderTextField}
-           />
-          <Field
-      style={{padding: '32px'}}
-            name="blogContent"
-            label="markdown post"
-            component={renderTextField}
-            multiline
-            rows={15}
-          />
+        <Dialog 
+          fullWidth
+          open={this.state.openDialog != undefined} 
+          onClose={() => this.onDialogClose(undefined)}
+        >
+          <DialogTitle id="form-dialog-title">Fotoğraf/PDF Ekle</DialogTitle>
+          <DialogContent>
+            <Field
+              name="file"
+              component={FieldFileInput}
+              onChange={(f) => console.log(f)}
+            />
 
-          <Button type="submit">SUBMIT</Button>
-      </form>  
+            {this.props.apiForm[this.props.form] != undefined && 
+              this.props.apiForm[this.props.form].values != undefined && Object.keys(this.props.apiForm[this.props.form].values).map((i) => {
+                const file = this.props.apiForm[this.props.form].values[i];
+
+                return (
+                  <Typography variant="body2" key={i}>{file.name}</Typography>
+                )
+              })}
+          </DialogContent>
+          <DialogActions>
+            <Button disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
+              İPTAL
+            </Button>
+            <Button disabled={this.props.submitting} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
+              YÜKLE
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        { showLoader && renderLoadingButton(classes) }
+        { !showLoader && 
+          <span>
+            <List
+              disablePadding
+            >
+              <ListItem button 
+                onClick={() => this.setState({openDialog: 'tarti_pdf'})}
+                target="_blank"
+                  //component={Link} to={"/c/" + danisan.name}
+              >
+                <ListItemAvatar >
+                  <Avatar><AddIcon /></Avatar>
+                </ListItemAvatar>
+                <ListItemText 
+                  primary={
+                      // <Typography
+                      //     variant="subtitle1"
+                      //     color="textPrimary"
+                      // >
+                      "Fotoğraf ekle"
+                      // </Typography>
+                  } 
+                />
+              </ListItem>
+            </List>
+
+            {file != undefined && <Typography>Dosya başarıyla yüklendi. Adresi: {`https://diyetkocum.net/api/v1/${file.data.file.path.replace('\\', '/')}`}</Typography>}
+          </span>
+        }
+      </div>  
     )}
 };
 
@@ -339,7 +379,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addNewPost: (userId, blogId, blogTitle, blogContent) => addNewPost(userId, blogId, blogTitle, blogContent),
+      uploadPhoto: (files) => uploadPhoto(files),
       addDanisanFiles: (userId, danisanUserName, files) => addDanisanFiles(userId, danisanUserName, files),
       getDanisanFiles: (userId, danisanUserName) => getDanisanFiles(userId, danisanUserName),
     },
@@ -350,4 +390,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'AddBlogPostForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'AddPhotoForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

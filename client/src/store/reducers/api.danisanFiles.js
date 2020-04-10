@@ -125,3 +125,23 @@ export function uploadPhoto(files) {
   function failure(userId, danisanUserName, error) { return { type: DANISAN_FILES_PUT_ERRORED, userId, danisanUserName, error } }
   function success(items, userId, danisanUserName) { return { type: DANISAN_FILES_GET_SUCCESS, userId, danisanUserName, items } }
 }
+
+export function addNewPost(formValues) {
+    return (dispatch) => {
+        dispatch(request(0, ''));
+
+        userService.add_new_post(formValues)
+        .then(
+            (data) => { 
+              dispatch(success(data, 0, ''));
+            },
+            error => {
+                dispatch(failure(0, '', error.toString()));
+            }
+        );
+    };
+  
+  function request(userId, danisanUserName) { return { type: DANISAN_FILES_PUT_LOADING, userId, danisanUserName, isPutLoading: true } }
+  function failure(userId, danisanUserName, error) { return { type: DANISAN_FILES_PUT_ERRORED, userId, danisanUserName, error } }
+  function success(items, userId, danisanUserName) { return { type: DANISAN_FILES_GET_SUCCESS, userId, danisanUserName, items } }
+}

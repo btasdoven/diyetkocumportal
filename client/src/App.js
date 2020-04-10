@@ -37,7 +37,7 @@ import { SnackbarProvider } from 'material-ui-snackbar-provider'
 import DiyetisyenListView from './containers/Randevu/DiyetisyenListView'
 import ForgotPassword from './containers/Register/ForgotPassword'
 import ResetPassword from './containers/Register/ResetPassword'
-import AdminView from './containers/Admin/AddBlogPost'
+import AdminView from './containers/Admin/AdminView'
 
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";

@@ -1244,6 +1244,32 @@ exports.postAddDanisan = function (userId, danisanUserName, danisanPreview) {
   storage.setItem('0', rows[0]);
 }
 
+exports.addNewPost = function(values) {
+  console.log("addNewPost")
+  console.log(values)
+
+  userId = values.userId;
+  blogId = values.blogId;
+  blogTitle = values.blogTitle;
+  blogContent = values.blogContent;
+
+  if (rows[userId] == undefined) {
+    console.log('no user found')
+    return;
+  }
+
+  if (rows[userId].profile == undefined) {
+    rows[userId].profile = {}
+  }
+
+  if (rows[userId].profile.posts == undefined) {
+    rows[userId].profile.posts = {}
+  }
+
+  rows[userId].profile.posts[blogId] = { title: blogTitle, text: blogContent };
+  storage.setItem(userId, rows[userId]);
+}
+
 exports.getAllDietitians = function () {
   console.log('getAllDieitians');
   ret = []

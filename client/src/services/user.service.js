@@ -32,6 +32,7 @@ export const userService = {
     read_danisan_message,
     get_all_dietitians,
     upload_photo,
+    add_new_post,
     getStaticFileUri,
 };
 
@@ -413,6 +414,20 @@ function upload_photo(data) {
             console.log(res)
             return res;
         })
+}
+
+function add_new_post(formValues) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formValues)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/addNewPost`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
 }
 
 function handleResponse(response) {

@@ -236,6 +236,13 @@ app.post("/api/v1/uploadPhoto", (req, res, next) => {
   }), delayInResponseInMs);
 }); 
  
+app.put("/api/v1/addNewPost", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.addNewPost(req.body));
+  }), delayInResponseInMs);
+});
+ 
 app.put("/api/v1/users/:userId/danisans/:danisanUserName/dietlist", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
