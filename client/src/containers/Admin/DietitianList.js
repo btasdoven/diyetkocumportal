@@ -286,26 +286,34 @@ class Envanter extends React.Component {
       >  
         { showLoader && renderLoadingButton(classes) }
           { !showLoader && (
-            <List className={classes.dietitanList}>
+            <div>
               {dietitians.map((step, index) => (
-                <ListItem key={index} button component={Link} to={`/${dietitians[index].username}`}>
-                  <ListItemAvatar>
-                    <Avatar
-                      className={classes.avatar}
-                      src={userService.getStaticFileUri(dietitians[index].url)}
-                      alt={dietitians[index].name}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText primary={dietitians[index].name} secondary={dietitians[index].username + (dietitians[index].isAdmin ? ' (Admin)' : '')} />
-                  <ListItemSecondaryAction>
-                    <DeleteForeverIcon
-                      edge="end"
-                      onClick={this.onDeleteDietitian(dietitians[index].username)}
-                    />
-                  </ListItemSecondaryAction>
-                </ListItem>
+                <ExpansionPanel key={index}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <List>
+                      <ListItem key={index} button component={Link} to={`/${dietitians[index].username}`}>
+                        <ListItemAvatar>
+                          <Avatar
+                            className={classes.avatar}
+                            src={userService.getStaticFileUri(dietitians[index].url)}
+                            alt={dietitians[index].name}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText primary={dietitians[index].name} secondary={dietitians[index].username + (dietitians[index].isAdmin ? ' (Admin)' : '')} />
+                      </ListItem>
+                    </List>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails style={{flexDirection: 'column'}}>
+                    <Typography>Status: {dietitians[index].status}</Typography> <br />
+                    <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(dietitians[index].username)}>Delete</Button>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
               ))}
-            </List>
+            </div>
           )}
       </form>  
     )}
