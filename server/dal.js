@@ -1321,7 +1321,7 @@ exports.getAllDietitians = function (isAdmin) {
     console.log(userId)
 
     if (rows[0].users[userId].status == 'pending' || 
-        (!isAdmin && rows[0].users[userId].isAdmin)) {
+        (isAdmin == "false" && rows[0].users[userId].isAdmin == true)) {
       return;
     }
 
@@ -1334,7 +1334,7 @@ exports.getAllDietitians = function (isAdmin) {
       unvan: d.unvan
     };
 
-    if (isAdmin) {
+    if (isAdmin == "true") {
       r.isAdmin = rows[0].users[userId].isAdmin
       r.status = rows[0].users[userId].status
       r.danisanCount = rows[userId].danisans == undefined ? 0 : Object.keys(rows[userId].danisans).length,
