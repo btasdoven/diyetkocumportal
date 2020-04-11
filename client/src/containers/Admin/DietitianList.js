@@ -295,7 +295,7 @@ class Envanter extends React.Component {
                     id="panel1a-header"
                   >
                     <List>
-                      <ListItem key={index} button component={Link} to={`/${dietitians[index].username}`}>
+                      <ListItem key={index}>
                         <ListItemAvatar>
                           <Avatar
                             className={classes.avatar}
