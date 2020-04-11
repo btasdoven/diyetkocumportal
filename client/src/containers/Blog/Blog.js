@@ -517,7 +517,7 @@ const DietitianListView = (props) => (
             return ;
 
           return (
-            <ListItem key={uname} button>
+            <ListItem key={uname} button component={Link} to={`/${uname}`}>
                 <ListItemAvatar>
                 <Avatar
                     className={props.classes.avatar}
