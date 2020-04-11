@@ -1,5 +1,5 @@
 import { compose, withProps } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 import styled from 'styled-components';
 import Geocode from "react-geocode";
 import GoogleMapReact from 'google-map-react';
@@ -116,10 +116,33 @@ const MyMapComponent = compose(
     withGoogleMap
   )((props) =>
     <GoogleMap
-      defaultZoom={17}
-      defaultCenter={{ lat: props.lat, lng: props.lng }}
+        disableDefaultUI={true}
+        defaultZoom={17}
+        defaultCenter={{ lat: props.lat, lng: props.lng }}
+        defaultOptions={{
+            //styles: mapStyle,
+           // these following 7 options turn certain controls off see link below
+            streetViewControl: false,
+            scaleControl: false,
+            mapTypeControl: false,
+            panControl: false,
+            zoomControl: false,
+            rotateControl: false,
+            fullscreenControl: false
+        }}
     >
-      {props.isMarkerShown && <Marker position={{ lat: props.lat, lng: props.lng }} onClick={props.onMarkerClick} />}
+        {props.isMarkerShown && (
+            <Marker position={{ lat: props.lat, lng: props.lng }} onClick={props.onMarkerClick}>
+                <InfoWindow
+                    //defaultPosition={{ lat: props.lat, lng: props.lng }}
+                >
+                    <div style={{textAlign: 'center'}}>
+                        <Typography variant="body2" style={{paddingBottom: '16px'}}>{props.address}</Typography> 
+                        <Button size="small" variant="contained" color="secondary" target="_blank" href={`https://www.google.com/maps/dir/?api=1&destination=${props.lat},${props.lng}`}>YOL TARİFİ AL</Button>
+                    </div>
+                </InfoWindow>
+            </Marker>
+        )}
     </GoogleMap>
   )
 
@@ -258,16 +281,22 @@ class PersonalPage extends React.Component {
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
                                         <Grid container>
-                                            <Grid item xs={12}>
-                                                <div>
-                                                    <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
-                                                        {user.address}
-                                                    </Typography>
-                                                </div>
-                                            </Grid>
+                                            {!user.address_latlng && (
+                                                <Grid item xs={12}>
+                                                    <div>
+                                                        <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
+                                                            {user.address}
+                                                        </Typography>
+                                                    </div>
+                                                </Grid>
+                                            )}
                                             {user.address_latlng && (
-                                                <Grid item xs={12} style={{paddingTop: '16px'}}>
-                                                    <MyMapComponent lat={user.address_latlng.lat} lng={user.address_latlng.lng} isMarkerShown />
+                                                <Grid item xs={12} >
+                                                    <MyMapComponent 
+                                                        address={user.address}
+                                                        lat={user.address_latlng.lat} 
+                                                        lng={user.address_latlng.lng} 
+                                                        isMarkerShown />
                                                 </Grid>
                                             )}
                                         </Grid>
