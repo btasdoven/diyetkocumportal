@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+const stringHash = require("string-hash");
 var qs = require('querystring');
 const express = require("express");
 const app = express();
@@ -37,7 +38,7 @@ app.use(function (req, res, next) {
         res.setHeader('Content-Type', 'application/json');
         res.status(400).json({message: "Servis güncelleniyor. Birazdan tekrar deneyiniz."});
       } else {
-        setTimeout(func, 500);
+        setTimeout(func, 1000);
       }
     } else {
       next()
@@ -272,7 +273,7 @@ app.post("/api/v1/users/auth", (req, res, next) => {
     if (ret.error == undefined) {
       var user = ret.user;
       res.setHeader('Content-Type', 'application/json');
-      res.json({token: 'Civil Management', url: user.url, name: user.name, username: user.username, id: user.id});
+      res.json({token: stringHash(user.username), url: user.url, name: user.name, username: user.username, id: user.id});
       return;
     }
 
@@ -327,8 +328,6 @@ app.post("/api/v1/users/resetPassword", (req, res, next) => {
         res.json({url: user.url, name: user.name, username: user.username, id: user.id});
       })
       .catch(err => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(400).json({message: err});
       })
   }), delayInResponseInMs);
 });
@@ -345,10 +344,25 @@ app.get("/api/v1/getAppointmentData", (req, res, next) => {
 
 // This for landing page
 //
+app.delete("/api/v1/users/:userId", (req, res, next) => {
+  // setTimeout((function() {
+    dal.deleteDietitian(req.params.userId, req.body).then(resp => {
+      res.setHeader('Content-Type', 'application/json');
+      res.json(resp);
+    })
+    .catch(err => {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(400).json({message: err});
+    });
+  // }), delayInResponseInMs);
+});
+
+// This for landing page
+//
 app.get("/api/v1/getAllDietitians", (req, res, next) => {
   // setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    res.json(dal.getAllDietitians());
+    res.json(dal.getAllDietitians(req.query.isAdmin));
   // }), delayInResponseInMs);
 });
 

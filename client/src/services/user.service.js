@@ -30,6 +30,7 @@ export const userService = {
     get_danisan_messages,
     add_danisan_message,
     read_danisan_message,
+    delete_dietitian,
     get_all_dietitians,
     upload_photo,
     add_new_post,
@@ -395,13 +396,27 @@ function put_danisan_diet_list(userId, danisanUserName, danisanDietList) {
         });
 }
 
-function get_all_dietitians() {
+function delete_dietitian(userId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: localStorage.getItem('user')
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/` + userId, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function get_all_dietitians(isAdmin) {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/getAllDietitians`, requestOptions)
+    return fetch(HOST_NAME + `/api/v1/getAllDietitians?isAdmin=${isAdmin}`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

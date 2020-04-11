@@ -3,6 +3,7 @@ import { userService } from '../../services';
 const ALL_DIETITIANS_GET_ERRORED = "api/ALL_DIETITIANS_GET_ERRORED";
 const ALL_DIETITIANS_GET_LOADING = "api/ALL_DIETITIANS_GET_LOADING";
 const ALL_DIETITIANS_GET_SUCCESS = "api/ALL_DIETITIANS_GET_SUCCESS";
+const ALL_DIETITIANS_DELETE_LOADING = "api/ALL_DIETITIANS_DELETE_LOADING";
 
 const initState = {
 };
@@ -15,6 +16,7 @@ export default function reducer(state = initState, action) {
         }
 
       case ALL_DIETITIANS_GET_LOADING:
+      case ALL_DIETITIANS_DELETE_LOADING:
         return {
           ...state,
           isGetLoading: true,
@@ -33,11 +35,11 @@ export default function reducer(state = initState, action) {
     return state;
 }
 
-export function getAllDietitians() {
+export function getAllDietitians(isAdmin=false) {
     return (dispatch) => {
         dispatch(request());
 
-        userService.get_all_dietitians()
+        userService.get_all_dietitians(isAdmin)
         .then(
             items => { 
                 console.log(items)
@@ -53,5 +55,24 @@ export function getAllDietitians() {
     
   function request() { return { type: ALL_DIETITIANS_GET_LOADING } }
   function success(items) { return { type: ALL_DIETITIANS_GET_SUCCESS, items } }
+  function failure(error) { return { type: ALL_DIETITIANS_GET_ERRORED, error } }
+}
+
+export function deleteDietitian(uname) {
+    return (dispatch) => {
+        dispatch(request(uname));
+
+        userService.delete_dietitian(uname)
+        .then(
+            items => { 
+                getAllDietitians(true)(dispatch);
+            },
+            error => {
+                dispatch(failure(error.toString()));
+            }
+        );
+    };
+    
+  function request() { return { type: ALL_DIETITIANS_DELETE_LOADING } }
   function failure(error) { return { type: ALL_DIETITIANS_GET_ERRORED, error } }
 }
