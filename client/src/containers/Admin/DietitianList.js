@@ -294,7 +294,7 @@ class Envanter extends React.Component {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <List>
+                    <List disablePadding>
                       <ListItem key={index}>
                         <ListItemAvatar>
                           <Avatar
@@ -308,7 +308,10 @@ class Envanter extends React.Component {
                     </List>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails style={{flexDirection: 'column'}}>
-                    <Typography>Status: {dietitians[index].status}</Typography> <br />
+                    <Typography variant="body2">Status: {dietitians[index].status}</Typography>
+                    <Typography variant="body2">Hesap Acma Tarihi: {dietitians[index].create_date}</Typography>
+                    <Typography variant="body2">Danisan Sayisi: {dietitians[index].danisanCount}</Typography> 
+                    <Typography variant="body2">Randevu Sayisi: {dietitians[index].randevuCount}</Typography> <br />
                     <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(dietitians[index].username)}>Delete</Button>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>

@@ -1286,10 +1286,22 @@ exports.deleteDietitian = function (userId, callerUser) {
     return Promise.reject('Bad Request')
   }
 
+  var content = {
+    userRow: { ...rows[userId] },
+    metadataRow: { ...rows[0].users[userId] }
+  };  
+
   delete rows[userId]
   return storage.removeItem(userId).then(() => {
     delete rows[0].users[userId];
     return storage.setItem('0', rows[0]).then(() => {
+
+      var titleSuffix = process.env.NODE_ENV !== 'production' 
+      ? "TEST - " + userId + " - "
+      : "PROD - " + userId + " - "
+
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Deleted user ${userId}`, JSON.stringify(content))
+
       return Promise.resolve()
     })
   })
@@ -1325,6 +1337,9 @@ exports.getAllDietitians = function (isAdmin) {
     if (isAdmin) {
       r.isAdmin = rows[0].users[userId].isAdmin
       r.status = rows[0].users[userId].status
+      r.danisanCount = rows[userId].danisans == undefined ? 0 : Object.keys(rows[userId].danisans).length,
+      r.randevuCount = rows[userId].appointments == undefined ? 0 : Object.keys(rows[userId].appointments).length
+      r.create_date = rows[userId].profile.create_date
     }
 
     ret.push(r);
