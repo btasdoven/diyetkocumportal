@@ -15,6 +15,8 @@ var compression = require('compression');
 var multer = require('multer');
 var massemail = require('./massemail')
 
+var png = require('./png')
+
 const delayInResponseInMs = 50;
 
 app.use(cors());
@@ -375,6 +377,13 @@ app.get("/api/v1/getAllDietitianProfiles", (req, res, next) => {
     res.send(JSON.stringify(dal.getDietitianProfiles(), null, 4));
   // }), delayInResponseInMs);
 });
+
+app.get('/api/v1/profilepic/:username', (req, res) => {
+  png.drawProfilePicture(req.params.username).then( (stream) => {
+    res.setHeader('Content-Type', 'image/png');
+    stream.pipe(res);
+  })
+})
 
 app.get("/api/v1/runig", (req, res, next) => {
   // setTimeout((function() {
