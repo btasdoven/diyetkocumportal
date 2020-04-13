@@ -15,8 +15,6 @@ var compression = require('compression');
 var multer = require('multer');
 var massemail = require('./massemail')
 
-var png = require('./png')
-
 console.log(process.arch)
 console.log(process.version)
 
@@ -382,6 +380,7 @@ app.get("/api/v1/getAllDietitianProfiles", (req, res, next) => {
 });
 
 app.get('/api/v1/profilepic/:username', (req, res) => {
+  var png = require('./png')
   png.drawProfilePicture(req.params.username).then( (stream) => {
     res.setHeader('Content-Type', 'image/png');
     stream.pipe(res);

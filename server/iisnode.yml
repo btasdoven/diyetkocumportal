@@ -1,1 +1,3 @@
-nodeProcessCommandLine: "D:\Program Files\nodejs\10.19.0\node.exe"
+# https://blog.lifeishao.com/2017/03/24/custom-nodejs-deployment-on-azure-web-app/
+#
+nodeProcessCommandLine: "D:\Program Files\nodejs\12.13.0\node.exe"
