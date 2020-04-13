@@ -455,36 +455,61 @@ const QontoConnector = withStyles({
     );
   }
 
-var dietitianEnCokZiyaret = undefined;
-const usernameEnCokZiyaret = [
-  'diyetisyendoyranli',
-  'dytelifbozyel',
-  'aysuutasdovenn',
-  'diyetisyennidaceliksoydan',
-  'dyt.busedogan',
-]
-
-var dietitianEnCokRandevu = undefined;
-const usernameEnCokRandevu = [
-  'diyetiswomen',
-  'diyetisyenasknn',
-  'diyetisyendoyranli',
-  'aysuutasdovenn',
-  'dyt.sedaarslan',
-]
-
-var dietitianEnAktif = undefined;
-const usernameEnAktif = [
-  'diyetisyenbetulkingir',
-  'dyt.arslanmeltem',
-  'dyt.elifnarcinkubat',
-  'uzm.dyt.aslihansahiner',
-  'dyt_esmakurtgunes',
-]
+const WeeklyUserList = {
+  "6 Nisan - 12 Nisan 2020": {
+    ziyaret: [
+      'diyetisyendoyranli',
+      'aysuutasdovenn',
+      'diyetisyennidaceliksoydan',
+      'diyetisyenvildanozkaya',
+      'diyetiswomen',
+    ],
+    randevu: [
+      'diyetiswomen',
+      'diyetisyenasknn',
+      'diyetisyendoyranli',
+      'aysuutasdovenn',
+      'dyt.sedaarslan',
+    ],
+    aktif: [
+      'diyetisyendoyranli',
+      'diyetisyenvildanozkaya',
+      'dytgozdeucak',
+      'aysuutasdovenn',
+      'diyetisyennidaceliksoydan',
+    ]
+  },
+  "29 Mart - 5 Nisan 2020": {
+    ziyaret: [
+      'diyetisyendoyranli',
+      'dytelifbozyel',
+      'aysuutasdovenn',
+      'diyetisyennidaceliksoydan',
+      'dyt.busedogan',
+    ],
+    randevu: [
+      'diyetiswomen',
+      'diyetisyenasknn',
+      'diyetisyendoyranli',
+      'aysuutasdovenn',
+      'dyt.sedaarslan',
+    ],
+    aktif: [
+      'diyetisyenbetulkingir',
+      'dyt.arslanmeltem',
+      'dyt.elifnarcinkubat',
+      'uzm.dyt.aslihansahiner',
+      'dyt_esmakurtgunes',
+    ]
+  },
+}
 
 function initList(dietitians, usernames) {
   var rr = {}
   
+  if (dietitians == undefined || dietitians == [])
+    return undefined;
+
   dietitians.map((d) => {
     if (usernames.indexOf(d.username) >= 0) {
       rr[d.username] = d;
@@ -511,9 +536,8 @@ const DietitianListView = (props) => (
     
     <List className={props.classes.dietitanList}>
         {props.usernames.map((uname) => {
-          console.log(uname)
-
-          if (props.dietitians[uname] == undefined)
+          if (props.dietitians == undefined || 
+              props.dietitians[uname] == undefined)
             return ;
 
           return (
@@ -540,6 +564,68 @@ const DietitianListView = (props) => (
     </List>
 </div>
 )
+
+class WeekView extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      dietitianEnCokZiyaret: undefined,
+      dietitianEnCokRandevu: undefined,
+      dietitianEnAktif: undefined,
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.dietitians != undefined && this.state.dietitianEnCokZiyaret == undefined) {
+      var dietitianEnCokZiyaret = initList(this.props.dietitians, this.props.usernameEnCokZiyaret);
+      var dietitianEnCokRandevu = initList(this.props.dietitians, this.props.usernameEnCokRandevu);
+      var dietitianEnAktif = initList(this.props.dietitians, this.props.usernameEnAktif);
+
+      this.setState({
+        dietitianEnCokZiyaret: dietitianEnCokZiyaret,
+        dietitianEnCokRandevu: dietitianEnCokRandevu,
+        dietitianEnAktif: dietitianEnAktif
+      })
+
+      console.log(this.state.dietitianEnCokZiyaret)
+    }
+  }
+
+  render() {
+
+    console.log(this.state);
+    console.log(this.props);
+
+    return (
+      <div>
+        <Typography variant="subtitle2" style={{color: '#32325d', fontWeight: 600, paddingTop: '24px', paddingLeft: '24px'}}>
+          {this.props.weekTitle}
+        </Typography>
+
+        <DietitianListView 
+          title="En Çok Ziyaret Edilen Diyetisyenlerimiz"
+          usernames={this.props.usernameEnCokZiyaret}
+          dietitians={this.state.dietitianEnCokZiyaret}
+          classes={this.props.classes}
+        />
+        <DietitianListView 
+          title="En Çok Randevu Alan Diyetisyenlerimiz"
+          usernames={this.props.usernameEnCokRandevu}
+          dietitians={this.state.dietitianEnCokRandevu}
+          classes={this.props.classes}
+        />
+        <DietitianListView 
+          title="En Aktif Diyetisyenlerimiz"
+          usernames={this.props.usernameEnAktif}
+          dietitians={this.state.dietitianEnAktif}
+          classes={this.props.classes}
+        />
+      </div>
+    )
+  }
+}
 
 class LandingPage extends React.Component {
 
@@ -607,14 +693,6 @@ class LandingPage extends React.Component {
     const showLoader = !this.isLoaded();
     const dietitians = showLoader ? undefined : this.props.apiAllDietitians.data;
 
-    if (dietitians != undefined && dietitianEnCokZiyaret == undefined) {
-      dietitianEnCokZiyaret = initList(dietitians, usernameEnCokZiyaret);
-      dietitianEnCokRandevu = initList(dietitians, usernameEnCokRandevu);
-      dietitianEnAktif = initList(dietitians, usernameEnAktif);
-
-      console.log(dietitianEnCokZiyaret)
-    }
-
     return (
       <React.Fragment >
         <CssBaseline />
@@ -681,35 +759,20 @@ class LandingPage extends React.Component {
         <main className={classes.layoutToolbar} style={{margin:'auto'}}>
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && 
-              <div>
-                <Typography variant="subtitle2" style={{color: '#32325d', fontWeight: 600, paddingTop: '24px', paddingLeft: '24px'}}>
-                  29 Mart - 5 Nisan 2020
-                </Typography>
-
-                <DietitianListView 
-                  title="En Çok Ziyaret Edilen Diyetisyenlerimiz"
-                  usernames={usernameEnCokZiyaret}
-                  dietitians={dietitianEnCokZiyaret}
-                  classes={classes}
-                />
-                <DietitianListView 
-                  title="En Çok Randevu Alan Diyetisyenlerimiz"
-                  usernames={usernameEnCokRandevu}
-                  dietitians={dietitianEnCokRandevu}
-                  classes={classes}
-                />
-                <DietitianListView 
-                  title="En Aktif Diyetisyenlerimiz"
-                  usernames={usernameEnAktif}
-                  dietitians={dietitianEnAktif}
-                  classes={classes}
-                />
-                
-                <Divider />
-                {/* <Typography variant="subtitle2" style={{color: '#32325d', fontWeight: 600, paddingTop: '24px', paddingLeft: '24px'}}>
-                  29 Mart - 5 Nisan 2020
-                </Typography> */}
-              </div>
+              Object.keys(WeeklyUserList).map((weekTitle) => {
+                const week = WeeklyUserList[weekTitle];
+                return (
+                  <WeekView
+                    key={weekTitle}
+                    classes={classes}
+                    dietitians={dietitians}
+                    weekTitle={weekTitle}
+                    usernameEnCokZiyaret={week.ziyaret}
+                    usernameEnCokRandevu={week.randevu}
+                    usernameEnAktif={week.aktif}
+                  />
+                )
+              })
             }
         </main>
       </React.Fragment>

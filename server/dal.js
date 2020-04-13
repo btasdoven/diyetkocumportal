@@ -905,7 +905,7 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
     ? "TEST - " + userId + " - "
     : "PROD - " + userId + " - "
 
-    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `deleted credit card info`, JSON.stringify(rows[userId].profile))
+    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `updated profile info`, JSON.stringify(rows[userId].profile))
   }
 
   console.log(rows[userId].profile)
