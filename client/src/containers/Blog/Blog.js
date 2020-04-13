@@ -465,11 +465,11 @@ const WeeklyUserList = {
       'diyetiswomen',
     ],
     randevu: [
-      'diyetiswomen',
-      'diyetisyenasknn',
+      'diyetisyennidaceliksoydan',
       'diyetisyendoyranli',
-      'aysuutasdovenn',
-      'dyt.sedaarslan',
+      'diyetisyenasknn',
+      'uzm.dyt.aslihansahiner',
+      'diyetisyenvildanozkaya',
     ],
     aktif: [
       'diyetisyendoyranli',
