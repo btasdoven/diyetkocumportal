@@ -44,5 +44,5 @@ exports.drawProfilePicture = (username) => {
         //stream.pipe(out)
         return Promise.resolve(stream);
         //out.on('finish', () =>  console.log('The PNG file was created.'))
-    })
+    }).catch((err) => Promise.reject(err))
 }

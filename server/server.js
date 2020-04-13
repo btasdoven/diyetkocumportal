@@ -382,6 +382,9 @@ app.get('/api/v1/profilepic/:username', (req, res) => {
   png.drawProfilePicture(req.params.username).then( (stream) => {
     res.setHeader('Content-Type', 'image/png');
     stream.pipe(res);
+  }).catch((err) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(400).json({message: err});
   })
 })
 
