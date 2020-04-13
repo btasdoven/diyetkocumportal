@@ -15,7 +15,10 @@ var compression = require('compression');
 var multer = require('multer');
 var massemail = require('./massemail')
 
-//var png = require('./png')
+var png = require('./png')
+
+console.log(process.arch)
+console.log(process.version)
 
 const delayInResponseInMs = 50;
 
@@ -378,15 +381,15 @@ app.get("/api/v1/getAllDietitianProfiles", (req, res, next) => {
   // }), delayInResponseInMs);
 });
 
-// app.get('/api/v1/profilepic/:username', (req, res) => {
-//   png.drawProfilePicture(req.params.username).then( (stream) => {
-//     res.setHeader('Content-Type', 'image/png');
-//     stream.pipe(res);
-//   }).catch((err) => {
-//     res.setHeader('Content-Type', 'application/json');
-//     res.status(400).json({message: err});
-//   })
-// })
+app.get('/api/v1/profilepic/:username', (req, res) => {
+  png.drawProfilePicture(req.params.username).then( (stream) => {
+    res.setHeader('Content-Type', 'image/png');
+    stream.pipe(res);
+  }).catch((err) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(400).json({message: err});
+  })
+})
 
 app.get("/api/v1/runig", (req, res, next) => {
   // setTimeout((function() {
