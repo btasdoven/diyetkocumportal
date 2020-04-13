@@ -76,6 +76,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import AddBlogPost from './AddBlogPost';
 import AddPhoto from './AddPhoto';
 import DietitianList from './DietitianList';
+import AddMapLocation from './AddMapLocation';
 
 const styles = theme => ({
   profile: {
@@ -320,6 +321,7 @@ class Envanter extends React.Component {
               <Tab label="FOTO YÜKLE" {...a11yProps(0)} />
               <Tab label="POST YÜKLE" {...a11yProps(1)} />
               <Tab label="DİYETİSYENLER" {...a11yProps(2)} />
+              <Tab label="HARITA EKLE" {...a11yProps(3)} />
             </Tabs>
           </AppBar>
           <main className={classes.content}>
@@ -331,6 +333,9 @@ class Envanter extends React.Component {
             </TabPanel>
             <TabPanel value={this.state.value} index={2}>
               <DietitianList />
+            </TabPanel>
+            <TabPanel value={this.state.value} index={3}>
+              <AddMapLocation />
             </TabPanel>
           </main>
         </span>

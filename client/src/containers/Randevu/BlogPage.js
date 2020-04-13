@@ -147,7 +147,7 @@ class BlogPage extends React.Component {
             <React.Fragment >
                 <CssBaseline />
 
-                <HeaderV2 backButton={`/${this.state.userId}`}/>
+                <HeaderV2 static backButton={`/${this.state.userId}`}/>
 
                 <div className={classes.root}>
                     <main style={{

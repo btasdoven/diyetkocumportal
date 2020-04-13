@@ -163,7 +163,7 @@ class PersonalPage extends React.Component {
             <React.Fragment >
                 <CssBaseline />
 
-                <HeaderV2 />
+                <HeaderV2 static />
 
                 <div className={classes.root}>
                     <main style={{

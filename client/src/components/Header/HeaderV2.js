@@ -92,7 +92,7 @@ class HeaderV2 extends React.Component {
 
         return (
             <div style={{height: '54px', display: 'block'}}>
-                <div style={{position: 'relative', width: '100%'}}>
+                <div style={{position: this.props.static ? 'relative' : 'relative', width: '100%'}}>
                     <div style={{position:'absolute', top:0, width: '100%', height: '54px', background: 'linear-gradient(150deg,#281483 15%,#8f6ed5 70%,#d782d9 94%)'}}>
 
                         <span className={classes.floatingPoint} style={{width: '150px', height: '150px', left: '-4%', bottom: 'auto'}}></span>
