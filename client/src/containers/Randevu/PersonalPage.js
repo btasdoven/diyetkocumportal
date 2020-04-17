@@ -41,6 +41,8 @@ import HeaderV2 from "../../components/Header/HeaderV2";
 import { userService } from '../../services/user.service'
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 
+import {Helmet} from "react-helmet";
+
 const styles = theme => ({
     root: {
         //background: 'linear-gradient(to right bottom, #f5f5f5, #f5f5f5)'
@@ -162,6 +164,12 @@ class PersonalPage extends React.Component {
         return (
             <React.Fragment >
                 <CssBaseline />
+            
+                <Helmet>
+                    <meta property="og:title" content={user.name} />
+                    <meta property="og:description" content={`${user.unvan} ${user.name} online diyet ve randevu sayfası`} />
+                    <meta property="og:image" content={userService.getStaticFileUri(user.url)} />
+                </Helmet>
 
                 <HeaderV2 static />
 
