@@ -42,6 +42,8 @@ import AdminView from './containers/Admin/AdminView'
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";
 
+import {Helmet} from "react-helmet";
+
 const NotFound = () => {
   return <div>NotFound</div>;
 };
@@ -91,6 +93,13 @@ class App extends Component {
           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={trLocale}>
             <SnackbarProvider SnackbarProps={{ autoHideDuration: 3000 }}>
               <CssBaseline />
+  
+              <Helmet>            
+                <meta property="og:title" content="Diyet Koçum" />
+                <meta property="og:description" content="Dijital diyetisyen asistanı" />
+                <meta property="og:image" content="https://diyetkocum.net/static/favicon.png" />
+              </Helmet>
+
               {/* <div style={{ height: "100vh" }}> */}
                 <Router>
                   {localStorage.getItem('user') ? (
