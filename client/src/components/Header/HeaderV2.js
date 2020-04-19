@@ -120,7 +120,12 @@ class HeaderV2 extends React.Component {
                                 <ChevronLeftIcon style={{width: '32px', height: '32px'}} />
                             </IconButton>
                         )}
-                        { !this.props.backButton && (
+                        { this.props.onBackButtonClick && (
+                            <IconButton edge="start" onClick={this.props.onBackButtonClick} style={{color: 'white'}}>
+                                <ChevronLeftIcon style={{width: '32px', height: '32px'}} />
+                            </IconButton>
+                        )}
+                        { !this.props.backButton && !this.props.onBackButtonClick && (
                             <span edge="start" style={{display: 'flex'}}>
                                 <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
                                 {!this.props.title && (

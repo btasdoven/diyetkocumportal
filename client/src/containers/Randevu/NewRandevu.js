@@ -45,6 +45,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
+import SwipeableViews from 'react-swipeable-views';
 import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
 
 import { userService } from '../../services/user.service'
@@ -89,7 +90,9 @@ import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
 import PersonalPage from './PersonalPage';
 
+import HeaderV2 from "../../components/Header/HeaderV2";
 import Header from "../../components/Header";
+
 import 'moment/locale/tr'
 moment.locale('tr')
 
@@ -402,7 +405,7 @@ class NewRandevuWrapper extends React.Component {
 
     onSubmitInternal(formValues) {
         console.log(formValues);
-        this.setState({ step: 4, formValues: formValues})
+        this.setState({ step: this.state.step + 1, formValues: formValues})
 
         var user = this.props.apiDietitianProfile[this.state.userId].data;
         var address = this.state.addressId == -1 ? undefined : (this.state.addressId == 1 ? user.address : user.address_2);
@@ -426,15 +429,7 @@ class NewRandevuWrapper extends React.Component {
         var user = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
 
         if (!showLoader && Object.keys(user).length == 0) {
-
           return <Redirect to="/" />
-
-          return (
-            <div className={classes.root} style={{textAlign: 'center'}}>
-              <div style={{padding: '8px'}}>Ulaşmaya çalışığın diyetisyen sistemimizde kayıtlı değildir.</div>
-              <Button style={{padding: '8px'}} color="primary" variant="contained" component={Link} to="/">ANA SAYFAYA GİT</Button>
-            </div>
-          )
         }
 
         var multipleOffices = user && user.address_2 != undefined && user.address_2 != '';
@@ -443,193 +438,130 @@ class NewRandevuWrapper extends React.Component {
           return renderLoadingButton(classes);
         }
 
-        if (this.state.step == 0) {
-          return (
-            <PersonalPage 
-              dietitianProfile={user}  // dietitian whose personal page is being visited
-              userId={this.state.userId}  // logged in username
-              onComplete={(type) => this.setState({step: type == 'randevu' ? (multipleOffices ? 1 : 2) : 3, type: type})} // action to be called to move to the next step
-            />
-          )
-        }
-
         return (
-            <div className={classes.root}>
-                <Header
-                    noButton={this.state.step == 0}
-                    permanentDrawer={false} 
-                    backButton={this.state.step != 0 ? this.props.location.pathname : undefined}
-                    onBackButtonClick={() => this.setState({
-                      step: this.state.step == 1
-                        ? 0 
-                        : this.state.step == 2
-                          ? (multipleOffices ? 1 : 0)
-                          : this.state.step == 3
-                            ? (this.state.type != 'randevu' ? 0 : 2)
-                            : 3
-                    })}
-                    title={
-                      this.state.step == 0
-                        ? "DİYET KOÇUM RANDEVU PORTALI"
-                        : this.state.step == 1
-                          ? "OFİS KONUMUNU SEÇ"
-                          : this.state.step == 2 
-                            ? "RANDEVU TARİHİNİ SEÇ" 
-                            : this.state.step == 3 
-                              ? "BİLGİLERİNİ GİR" 
-                              : ""}
+          <Form
+            onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
+            name={this.props.form}
+          >
+            <HeaderV2 static 
+              onBackButtonClick={this.state.step > 0 && this.state.formValues == undefined ? () => this.setState( {step : this.state.step - 1}) : undefined}
+              title={this.state.step == 0 || this.state.formValues != undefined
+                ? undefined
+                : this.state.type == 'randevu' 
+                  ? 'Yüz Yüze Randevu Al' 
+                  : 'Online Diyete Başla'
+              }
+            />
+
+            <SwipeableViews
+              axis={'x'}
+              disabled={false}
+              index={this.state.step}
+            >
+              <div style={{ height: 'calc(100vh - 56px)'}}>
+                <PersonalPage 
+                  dietitianProfile={user}  // dietitian whose personal page is being visited
+                  userId={this.state.userId}  // logged in username
+                  onComplete={(type) => this.setState({step: 1, type: type})} // action to be called to move to the next step
                 />
-
-                {this.state.user != undefined && this.state.userId == this.state.user.id && (
-                  <div className={classes.bannerTop}>
-                    <Divider />
-                    <List disablePadding className={classes.main}>
-                      <ListItem>
-                        <ListItemText
-                          style={{marginRight: '96px'}}
-                          primary={<Typography variant="caption">Kendi kişisel sayfanı görüntülüyorsun. Bu sayfadaki bilgileri profilinden güncelleyebilirsin.</Typography>} 
-                          // secondary="yo"
-                        />
-                        <ListItemSecondaryAction>
-                          <Button component={Link} onClick={() => registerEvent('GoToMyProfileFromNewAppointment')} to={"/me"} size="small" variant="contained" color="primary" edge="end">
-                            PROFİLİME GİT
-                          </Button>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    </List>
-                    <Divider />
-                  </div>
-                )}
-
-                {this.state.user == undefined && (
-                  <Paper elevation={2} square className={classes.banner} style={{bottom: this.state.showBanner ? '0' : '-100%'}}>
-                    <List disablePadding className={classes.main}>
-                      <ListItem>
-                        <ListItemText
-                          style={{marginRight: '96px'}}
-                          primary={<Typography variant="body2">Sen de diyetisyenlerimizin arasına katılmak ister misin?</Typography>} 
-                          // secondary="yo"
-                        />
-                        <ListItemSecondaryAction>
-                          <Button component={Link} onClick={() => registerEvent('SignUpFromNewAppointment')} to={"/signup"} size="small" variant="contained" color="primary" edge="end">
-                            KAYDOL
-                          </Button>
-                          <IconButton onClick={()=>this.setState({showBanner:false})} edge="end">
-                            <CloseIcon />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    </List>
-                  </Paper>
-                )}
-                <main style={{
-      maxWidth: '800px',
-      paddingLeft: '8px',
-      paddingRight: '8px',
-      paddingBottom: '56px',
-      width: '100%',
-      margin: 'auto'}}>
-                    <Form
-                        onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
-                        name={this.props.form}
-                    >
-                        { showLoader && renderLoadingButton(classes) }
-                        { !showLoader && (
-                            <Card variant="outlined" className={classes.card}>
-                                <CardHeader
-                                avatar={
-                                    <Avatar className={classes.avatar} alt={user.name} src={userService.getStaticFileUri(user.url)} />
-                                }
-                                title={<Typography variant="h5" component="h2">{user.name}</Typography>}
-                                subheader={user.unvan}
-                                />
-                            </Card>
-                        )}
-                        { !showLoader && this.state.step > 1 && this.state.type == 'randevu' && multipleOffices && (
-                          <Card variant="outlined" className={classes.card}>
-                            <CardHeader
-                              avatar={
-                                  <Avatar className={classes.avatar}>
-                                    <EventIcon />
-                                  </Avatar>
-                              }
-                              title={<Typography variant="h6">{
-                                this.state.addressId == 1 ? user.address : user.address_2
-                                }</Typography>}
-                              />
-                          </Card>
-                        )}
-                        { !showLoader && this.state.step > 2 && (
-                          <Card variant="outlined" className={classes.card}>
-                            <CardHeader
-                              avatar={
-                                  <Avatar className={classes.avatar}>
-                                    <EventIcon />
-                                  </Avatar>
-                              }
-                              title={<Typography variant="h6">{
-                                this.state.type == 'randevu' 
-                                  ? moment(this.state.date).format("DD MMMM YYYY") + " " + this.state.time
-                                  : 'Online Diyet'
-                                }</Typography>}
-                              />
-                          </Card>
-                        )}
-                        {/* { !showLoader && this.state.time != undefined && (
-                            <Card className={classes.card}>
-                                <CardHeader
-                                title={<Typography variant="h5" component="h3">{moment(this.state.date).format("DD MMMM YYYY") + " " + this.state.time}</Typography>}
-                                />
-                            </Card>
-                        )} */}
-                        { !showLoader && this.state.step == 0 && 
-                            <NewRandevuStep0 
-                                {...this.props}
-                                userId={this.state.userId}
-                                onComplete={(type) => this.setState({step: type == 'randevu' ? (multipleOffices ? 1 : 2) : 3, type: type})}  
-                            /> 
-                        }
-                        { !showLoader && multipleOffices && this.state.type == 'randevu' && this.state.step == 1 && 
-                            <NewRandevuStep1
-                                {...this.props}
-                                userId={this.state.userId}
-                                onComplete={(addressId) => this.setState({addressId, step: 2})}  
-                            /> 
-                        }
-                        { !showLoader && this.state.step == 2 && 
-                            <NewRandevuStep2 
-                            {...this.props}
-                            userId={this.state.userId}
-                            addressId={this.state.addressId}
-                            date={this.state.date} 
-                            type={this.state.type}
-                            onComplete={(date, time) => this.setState({date, time, step: 3})}  
-                        /> 
-                        }
-                        { !showLoader && this.state.step == 3 && 
-                            <NewRandevuStep3 
-                                {...this.props}
-                                userId={this.state.userId}
-                                date={this.state.date} 
-                                time={this.state.time} 
-                                type={this.state.type}
-                                handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
-                            /> 
-                        }
-                        { !showLoader && this.state.step == 4 && 
-                            <NewRandevuStep4 
-                                {...this.props}
-                                userId={this.state.userId}
-                                date={this.state.date} 
-                                time={this.state.time} 
-                                type={this.state.type}
-                                formValues={this.state.formValues} 
-                                handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
-                            /> 
-                        }
-                    </Form>
-                </main>
-            </div>
+              </div>
+              <div>
+                { multipleOffices && this.state.type == 'randevu' && 
+                      <NewRandevuStep1
+                        {...this.props}
+                        userId={this.state.userId}
+                        onComplete={(addressId) => this.setState({addressId, step: 2})}  
+                      /> 
+                }
+                { this.state.type == 'randevu' && 
+                  <NewRandevuStep2 
+                    {...this.props}
+                    userId={this.state.userId}
+                    addressId={this.state.addressId}
+                    date={this.state.date} 
+                    type={this.state.type}
+                    onComplete={(date, time) => this.setState({date, time, step: 2})}  
+                  /> 
+                }
+                { this.state.type != 'randevu' && 
+                  <NewRandevuStep3 
+                    {...this.props}
+                    userId={this.state.userId}
+                    date={this.state.date} 
+                    time={this.state.time} 
+                    type={this.state.type}
+                    handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
+                  /> 
+                }
+              </div>
+              <div>
+                { multipleOffices && this.state.type == 'randevu' && 
+                  <NewRandevuStep2 
+                    {...this.props}
+                    userId={this.state.userId}
+                    addressId={this.state.addressId}
+                    date={this.state.date} 
+                    type={this.state.type}
+                    onComplete={(date, time) => this.setState({date, time, step: 3})}  
+                  /> 
+                }
+                { this.state.type == 'randevu' && 
+                  <NewRandevuStep3 
+                    {...this.props}
+                    userId={this.state.userId}
+                    date={this.state.date} 
+                    time={this.state.time} 
+                    type={this.state.type}
+                    handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
+                  /> 
+                }
+                { this.state.type != 'randevu' && 
+                  <NewRandevuStep4 
+                    {...this.props}
+                    userId={this.state.userId}
+                    date={this.state.date} 
+                    time={this.state.time} 
+                    type={this.state.type}
+                    formValues={this.state.formValues} 
+                  />
+                }
+              </div>
+              <div>
+                { multipleOffices && this.state.type == 'randevu' && 
+                  <NewRandevuStep3 
+                    {...this.props}
+                    userId={this.state.userId}
+                    date={this.state.date} 
+                    time={this.state.time} 
+                    type={this.state.type}
+                    handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
+                  /> 
+                }
+                { this.state.type == 'randevu' && 
+                  <NewRandevuStep4 
+                    {...this.props}
+                    userId={this.state.userId}
+                    date={this.state.date} 
+                    time={this.state.time} 
+                    type={this.state.type}
+                    formValues={this.state.formValues} 
+                  />
+                }
+              </div>
+              <div>
+                { multipleOffices && this.state.type == 'randevu' && 
+                  <NewRandevuStep4 
+                    {...this.props}
+                    userId={this.state.userId}
+                    date={this.state.date} 
+                    time={this.state.time} 
+                    type={this.state.type}
+                    formValues={this.state.formValues} 
+                  />
+                }
+              </div>
+            </SwipeableViews>
+          </Form>
         )
     }
 }
@@ -875,7 +807,10 @@ class NewRandevuStep3 extends React.Component {
                     <Button onClick={() => this.setState({openDialog: false})} color="secondary">
                         VAZGEÇ
                     </Button>
-                    <Button onClick={this.props.handleFormSubmit} color="secondary" autoFocus>
+                    <Button onClick={() => {
+                      this.setState({openDialog: false})
+                      this.props.handleFormSubmit()
+                    }} color="secondary" autoFocus>
                         GÖNDER
                     </Button>
                 </DialogActions>
@@ -958,10 +893,23 @@ class NewRandevuStep4 extends React.Component {
     constructor(props) {
       super(props);
   
-  
+      this.isDateLoaded = this.isDateLoaded.bind(this)
+
       this.state = {
         userId: this.props.userId,
+        dateFmt: moment(props.date).format('YYYYMMDD')
       }
+    }
+
+    isDateLoaded() {
+      var loaded = this.props.apiDietitianAppointments != undefined &&
+        this.props.apiDietitianAppointments[this.state.userId] != undefined &&
+        this.props.apiDietitianAppointments[this.state.userId].data != undefined &&
+        this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt] != undefined &&
+        this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].isGetLoading != true &&
+        this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data != undefined;
+
+        return loaded;
     }
 
     componentDidMount() {
@@ -970,14 +918,33 @@ class NewRandevuStep4 extends React.Component {
     
     render() {
       const { classes } = this.props;
-  
+      var anamnezFormLink = '';
+
+      if (this.isDateLoaded()) {
+        var appt = this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data[this.props.time];
+
+        if (appt) {
+          anamnezFormLink = "/l/" + appt.linkId;
+        }
+      }
+
       return (
           <span>
-              <div style={{margin: '8px'}}>
-                <Typography style={{textAlign: 'center' ,marginTop: '48px', marginBottom: '8px'}} color="textPrimary" variant="body2" display="block" gutterBottom>
-                    {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğin başarıyla gönderildi. İsteğin diyetisyenin tarafından onaylandığında <b>{this.props.formValues.email}</b> adresine e-posta gelecektir.
+              <div style={{margin: '16px', display: 'flex', flexDirection: 'column'}}>
+                
+                <Typography variant="h6" style={{marginTop: '24px', textAlign:'center', color: '#32325d', fontWeight: 400 }}>
+                  {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğin başarıyla gönderildi!
                 </Typography>
 
+                <Typography style={{textAlign:'center', color: '#32325d', fontWeight: 400, marginTop: '24px', marginBottom: '8px'}} variant="body2" display="block" gutterBottom>
+                     İsteğin diyetisyenin tarafından onaylandığında <b>{this.props.formValues ? this.props.formValues.email : ''}</b> adresine e-posta gönderilecektir.
+                </Typography>
+
+                <Typography style={{textAlign: 'center' ,color: '#32325d', fontWeight: 400, marginTop: '48px', marginBottom: '32px'}} color="textPrimary" variant="body2" display="block" gutterBottom>
+                    Bu süreçte diyetisyenlerimiz danışanlarına en uygun diyet programını hazırlayabilmek için birkaç bilgi daha rica ediyorlar.
+                </Typography>
+
+                <Button variant="contained" color="secondary" component={Link} to={anamnezFormLink} style={{textAlign: 'center'}}>ANANMEZ FORMUNU DOLDUR</Button>
               </div>
           </span>
       )}

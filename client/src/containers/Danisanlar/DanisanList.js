@@ -321,34 +321,12 @@ class Envanter extends React.Component {
                 {
                   return;
                 }
-                // <Card key={idx} className={classes.card}>
-                  //   <CardActionArea>
-                  //     <CardHeader
-                  //       avatar={
-                  //           <Avatar className={classes.avatar} src={danisan.url} />
-                  //       }
-                  //       action={
-                  //         <div>
-                  //           <IconButton aria-label="settings" onClick={this.handleClick}>
-                  //             <MoreVertIcon />
-                  //           </IconButton>
-                  //           <Menu
-                  //             id="simple-menu"
-                  //             anchorEl={this.state.anchorEl}
-                  //             keepMounted
-                  //             open={this.state.anchorEl != undefined}
-                  //             onClose={this.handleClose}
-                  //           >
-                  //             <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
-                  //           </Menu>
-                  //         </div>
-                  //       }
-                  //       title={<Typography color="primary" variant="h6">{danisan.name}</Typography>}
-                  //       subheader={<Typography color="initial" variant="body2">86kg, 167cm, Son görüşme 6 gün önce</Typography>}
-                  //     />
-                  //   </CardActionArea>
-                  // </Card>  
 
+                if (danisan.visibleToDietitian == false)
+                {
+                  return;
+                }
+                
                 return (
                   <span key={idx}>
                     <ListItem button component={Link} to={"/c/" + danisan.name}>

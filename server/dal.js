@@ -679,41 +679,42 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   var oldValue = rows[userId].appointments[date][time];
 
   rows[userId].appointments[date][time] = values;
+  rows[userId].appointments[date][time].linkId = stringHash(userId + values.info.name);
 
-  if (values.step == 3) {
-    // Link gonder
-    //
-    var msg = {
-      id: Date.now(), 
-      sentByDietitian: true,
-      danisanUserName: values.info.name,
-      message: `Merhaba ${values.info.name} 👋 sana özel diyet programı hazırlayabilmem için senden bir takım taleplerim var 🙂`,
-      type: 'text',
-    }
-    exports.addDanisanMessage(userId, values.info.name, msg.id, msg, false).then(() => {
+  // if (values.step == 3) {
+  //   // Link gonder
+  //   //
+  //   var msg = {
+  //     id: Date.now(), 
+  //     sentByDietitian: true,
+  //     danisanUserName: values.info.name,
+  //     message: `Merhaba ${values.info.name} 👋 sana özel diyet programı hazırlayabilmem için senden bir takım taleplerim var 🙂`,
+  //     type: 'text',
+  //   }
+  //   exports.addDanisanMessage(userId, values.info.name, msg.id, msg, false).then(() => {
 
-      console.log(rows[userId].danisans[values.info.name].messages)
-      var msg2 = {...msg}
-      msg2.id = Date.now()
-      msg2.message = 'Öncelikle sağlık geçmişi, kan tahlili, vücut ölçümü ve diğer benzeri bilgileri diyetkocum.net sitesi üzerinden tamamlamanı rica ediyorum'
-      return exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2, false).then(() => {
+  //     console.log(rows[userId].danisans[values.info.name].messages)
+  //     var msg2 = {...msg}
+  //     msg2.id = Date.now()
+  //     msg2.message = 'Öncelikle sağlık geçmişi, kan tahlili, vücut ölçümü ve diğer benzeri bilgileri diyetkocum.net sitesi üzerinden tamamlamanı rica ediyorum'
+  //     return exports.addDanisanMessage(userId, values.info.name, msg2.id, msg2, false).then(() => {
 
-        console.log(rows[userId].danisans[values.info.name].messages)
-        var msg3 = {...msg}
-        msg3.id = Date.now()
-        msg3.message = 'İlgili bilgileri tamamladıktan sonra bu mesaj üzerinden dönüş gerçekleştirirsen sana özel programı hemen hazırlamaya başlayacağım 🙂'
-        return exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3, false).then(() => {
+  //       console.log(rows[userId].danisans[values.info.name].messages)
+  //       var msg3 = {...msg}
+  //       msg3.id = Date.now()
+  //       msg3.message = 'İlgili bilgileri tamamladıktan sonra bu mesaj üzerinden dönüş gerçekleştirirsen sana özel programı hemen hazırlamaya başlayacağım 🙂'
+  //       return exports.addDanisanMessage(userId, values.info.name, msg3.id, msg3, false).then(() => {
 
-          console.log(rows[userId].danisans[values.info.name].messages)
-          var msg4 = {...msg}
-          msg4.id = Date.now()
-          msg4.message = 'Şimdiden teşekkürler 🙏'
-          exports.addDanisanMessage(userId, values.info.name, msg4.id, msg4, true)
-          return console.log(rows[userId].danisans[values.info.name].messages);
-        })
-      })
-    })
-  }
+  //         console.log(rows[userId].danisans[values.info.name].messages)
+  //         var msg4 = {...msg}
+  //         msg4.id = Date.now()
+  //         msg4.message = 'Şimdiden teşekkürler 🙏'
+  //         exports.addDanisanMessage(userId, values.info.name, msg4.id, msg4, true)
+  //         return console.log(rows[userId].danisans[values.info.name].messages);
+  //       })
+  //     })
+  //   })
+  // }
 
   const ordered = {};
   Object.keys(rows[userId].appointments[date]).sort().forEach(function(key) {
@@ -812,7 +813,10 @@ Diyet Koçum Ailesi`
     }
   }
 
-  if ((!oldValue || oldValue.status == 'pending') && values.status == 'confirmed') {
+  if (!oldValue) {
+    // first time creating the appointment
+    // postAddDanisan will set this item. Don't set it twice to avoid concurrence issues on the storage.
+    //
     exports.postAddDanisan(userId, values.info.name, {
       name: values.info.name,
       email: values.info.email,
@@ -821,10 +825,11 @@ Diyet Koçum Ailesi`
       kilo: values.info.kilo,
       boy: values.info.boy,
       cinsiyet: values.info.cinsiyet,
+      visibleToDietitian: false,
     })
-  } else {
-    // postAddDanisan will set this item. Don't set it twice to avoid concurrence issues on the storage.
-    //
+  } else if (values.status == 'confirmed') {
+    rows[userId].danisanPreviews[values.info.name].visibleToDietitian = true
+    rows[userId].danisans[values.info.name].profile.visibleToDietitian = true;
     storage.setItem(userId, rows[userId]);
   }
 }
@@ -1218,7 +1223,7 @@ exports.postAddDanisan = function (userId, danisanUserName, danisanPreview) {
     rows[userId].danisanPreviews = {
       [danisanUserName]: danisanPreview
     };
-  } else if (rows[userId].danisanPreviews[danisanUserName] == undefined) {
+  } else {
     rows[userId].danisanPreviews[danisanUserName]= danisanPreview;
   }
 

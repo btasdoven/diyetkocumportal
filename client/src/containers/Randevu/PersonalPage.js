@@ -171,8 +171,6 @@ class PersonalPage extends React.Component {
                     <meta property="og:image" content={userService.getStaticFileUri(user.url)} />
                 </Helmet>
 
-                <HeaderV2 static />
-
                 <div className={classes.root}>
                     <main style={{
                         maxWidth: '800px',
@@ -235,11 +233,6 @@ class PersonalPage extends React.Component {
                                                     {user.ozgecmis ||
                                                         `Merhaba, Ben ${user.unvan || ''} ${user.name}! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme, hamilelik ve emzirme döneminde beslenme, hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen diyet gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.`
                                                     }
-                                                    <br />
-                                                    <br />
-                                                    {user.online_diyet == true
-                                                        ? "Online diyet yapmaktayım. Yüz yüze randevu ya da online diyeti seçerek daha sağlıklı ve kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏"
-                                                        : "Yalnızca yüz yüze randevu vermekteyim. Daha sağlıklı ve kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏"}
                                                 </Typography>
                                             </div>
                                         </Grid>
