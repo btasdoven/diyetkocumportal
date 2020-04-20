@@ -425,8 +425,68 @@ app.get('/api/v1/tracking/:topic/:email/img.gif', (req, res) => {
   res.end(trackImg)
 })
 
+//
+// SSR
+//
+app.get("/ssr/*", (req, res, next) => {
+  res.writeHead(200, { "Content-Type": "text/html" } );
+  res.end(htmlTemplate('hey'));
+});
+
 console.log(process.env.PORT);
 
 app.listen(process.env.PORT || 4000, () => {
   console.log("Listing on port 4000");
 });
+
+
+function htmlTemplate(title) {
+  return `
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Diyetisyenlerin danışanlarına kolayca randevu verebileceği, otomatik anamnez formu, kan tahlili ve tartı ölçümü isteyebileceği, danışanlarının mobil ya da bilgisayardan basit bir şekilde takibini yapabileceği dijital bir asistan." />
+  <title>${title} Diyet Koçum | Dijital diyetisyen asistanı</title>
+  <meta property="og:title" content="Diyet Koçum" />
+  <meta property="og:description" content="Dijital diyetisyen asistanı" />
+  <meta property="og:image" content="https://diyetkocum.net/static/favicon.png" />
+
+  <meta property="og:type" content="website" />
+  <!-- <meta property="og:url" content="https://diyetkocum.net/" /> -->
+  <meta name="google" content="notranslate">
+  
+  <!-- <meta name="theme-color" content="#48b986" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-navbutton-color" content="#48b986"> -->
+  
+  <link defer rel="manifest" href="/static/manifest.json" />
+  <!-- <link rel="canonical" href="https://diyetkocum.net" /> -->
+  <link defer rel="shortcut icon" href="/static/favicon.png" />
+  <link defer rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link defer rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <!-- <link defer rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" /> -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Prompt:100,200&display=swap" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Economica:700&display=swap" rel="stylesheet"> -->
+
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body 
+  style="background-color: white;"
+>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root"></div>
+</body>
+</html>
+  `
+}
