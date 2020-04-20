@@ -1,3 +1,4 @@
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import { Link } from "react-router-dom";
 
 import moment from "moment";
-
+import { WhatsappIcon } from "react-share";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import InputBase from '@material-ui/core/InputBase';
@@ -28,6 +29,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'material-ui-snackbar-provider'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import EventIcon from '@material-ui/icons/Event';
 import { logout } from "../../store/reducers/authenticate";
 
@@ -198,6 +200,23 @@ const styles = theme => ({
   },
 });
 
+function isMobileOrTablet() {
+  return /(android|iphone|ipad|mobile)/i.test(navigator.userAgent);
+}
+
+function whatsappLink(tel, text) {
+  
+  tel = tel.replace('+', '').replace(/ /g, '')
+  text = encodeURIComponent(text)
+
+  console.log(text)
+
+  return (
+    'https://' +
+    (isMobileOrTablet() ? 'api' : 'web') +
+    `.whatsapp.com/send?phone=${tel}&text=${text}`
+  );
+}
 
 function renderLoadingButton(classes, idx) {
   return (
@@ -216,6 +235,7 @@ class Envanter extends React.Component {
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.confirmAppointment = this.confirmAppointment.bind(this);
+    this.handleLinkCopied = this.handleLinkCopied.bind(this);
     
     this.state = {
       userId: JSON.parse(localStorage.getItem('user')).id,
@@ -229,6 +249,13 @@ class Envanter extends React.Component {
 
   handleBack() {
       this.setState({activeStep: this.state.activeStep - 1})
+  }
+
+  handleLinkCopied() {
+    this.props.snackbar.showMessage(
+      'Anamnez formu linki kopyalandı. Bu linki danışana sosyal medyadan gönderebilirsin.',
+      //'Undo', () => handleUndo()
+    )
   }
 
   isLoaded() {
@@ -345,8 +372,8 @@ class Envanter extends React.Component {
                               appt.status == 'pending' 
                                   ? "Randevu isteğini onayla"
                                   : appt.status == 'confirmed'
-                                      ? "Randevu isteği onaylandı."
-                                      : "Randevu isteği reddedildi."
+                                      ? "Randevu isteği onaylandı ✔️"
+                                      : "Randevu isteği reddedildi 😔"
                           } 
                           </StepLabel>
                           <StepContent>
@@ -374,7 +401,7 @@ class Envanter extends React.Component {
                       </Step>
                       {appt.status != 'rejected' && (
                           <Step>
-                              <StepLabel>{step <= 1 ? "Danışanı listeme ekle" : "Danışan listeye eklendi."}</StepLabel>
+                              <StepLabel>{step <= 1 ? "Danışanı listeme ekle" : "Danışan listene eklendi 👍"}</StepLabel>
                               <StepContent>
                                   <Typography variant="body2">Danışanınızı listenize ekleyerek danışanınızın bütün bilgilerine dijital ortamdan erişebilir ve gereken değişiklikleri anında yapabilirsiniz.</Typography>
                                   <div className={classes.actionsContainer}>
@@ -394,20 +421,33 @@ class Envanter extends React.Component {
                       )}
                       {appt.status != 'rejected' && (
                           <Step>
-                              <StepLabel>{step <= 2 ? "Danışana anamnez formu gönder" : "Danışana anamnez formu gönderildi."}</StepLabel>
+                              <StepLabel>{step <= 2 ? "Dijital Anamnez formunu gönder" : "Danışana Anamnez formu gönderildi."}</StepLabel>
                               <StepContent>
-                                  <Typography variant="body2">Anamnez formu sayesinde danışanınız eksiksiz bir diyet programı hazırlamanız için ihtiyacınız olan tüm kişisel, beslenme, sağlık, tahlil ve ölçüm bilgilerini hızlıca doldurabilir, ve siz de bu bilgilere otomatik olarak ulaşabilirsiniz.</Typography>
+                                  <Typography variant="body2">Anamnez formu sayesinde eksiksiz bir diyet programı hazırlamanız için ihtiyacınız olan tüm kişisel, beslenme, sağlık, tahlil ve ölçüm bilgilerini danışanınız hızlıca doldurabilir, ve siz de bu bilgilere otomatik olarak erişebilirsiniz.</Typography>
                                   <div className={classes.actionsContainer}>
-                                      <div>
-                                      <Button
-                                          variant="contained"
-                                          color="primary"
-                                          onClick={this.confirmAppointment(date, time, appt, appt.status, 3)}
-                                          className={classes.button}
-                                      >
-                                          {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
-                                          FORMU GÖNDER
-                                      </Button>
+                                      <div style={{display: 'flex', flexDirection: 'column', paddingTop: '16px'}}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => window.open(whatsappLink(appt.info.tel, `https://diyetkocum.net/l/${appt.linkId} `), '_blank')}
+                                            className={classes.button}
+                                            endIcon={<WhatsappIcon size={24} round={true}/>}
+                                        >
+                                            {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
+                                            WHATSAPP'TAN GÖNDER
+                                        </Button>
+                                        <CopyToClipboard text={"diyetkocum.net/l/" + appt.linkId} >
+                                          <Button
+                                              variant="contained"
+                                              color="default"
+                                              onClick={this.handleLinkCopied}
+                                              className={classes.button}
+                                              endIcon={<FileCopyIcon fontSize="large" />}
+                                          >
+                                              {/* {activeStep === steps.length - 1 ? 'Finish' : 'Next'} */}
+                                              LİNKİ KOPYALA
+                                          </Button>
+                                        </CopyToClipboard>
                                       </div>
                                   </div>
                               </StepContent>

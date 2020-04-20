@@ -426,15 +426,7 @@ class NewRandevuWrapper extends React.Component {
         var user = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
 
         if (!showLoader && Object.keys(user).length == 0) {
-
           return <Redirect to="/" />
-
-          return (
-            <div className={classes.root} style={{textAlign: 'center'}}>
-              <div style={{padding: '8px'}}>Ulaşmaya çalışığın diyetisyen sistemimizde kayıtlı değildir.</div>
-              <Button style={{padding: '8px'}} color="primary" variant="contained" component={Link} to="/">ANA SAYFAYA GİT</Button>
-            </div>
-          )
         }
 
         var multipleOffices = user && user.address_2 != undefined && user.address_2 != '';
