@@ -473,7 +473,7 @@ class NewRandevuWrapper extends React.Component {
                         onComplete={(addressId) => this.setState({addressId, step: 2})}  
                       /> 
                 }
-                { this.state.type == 'randevu' && 
+                { !multipleOffices && this.state.type == 'randevu' && 
                   <NewRandevuStep2 
                     {...this.props}
                     userId={this.state.userId}
@@ -505,7 +505,7 @@ class NewRandevuWrapper extends React.Component {
                     onComplete={(date, time) => this.setState({date, time, step: 3})}  
                   /> 
                 }
-                { this.state.type == 'randevu' && 
+                { !multipleOffices && this.state.type == 'randevu' && 
                   <NewRandevuStep3 
                     {...this.props}
                     userId={this.state.userId}
@@ -537,7 +537,7 @@ class NewRandevuWrapper extends React.Component {
                     handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
                   /> 
                 }
-                { this.state.type == 'randevu' && 
+                { !multipleOffices && this.state.type == 'randevu' && 
                   <NewRandevuStep4 
                     {...this.props}
                     userId={this.state.userId}
