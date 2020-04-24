@@ -455,7 +455,7 @@ class NewRandevuWrapper extends React.Component {
 
             <SwipeableViews
               axis={'x'}
-              disabled={false}
+              disabled={true}
               index={this.state.step}
             >
               <div style={{ height: 'calc(100vh - 56px)'}}>

@@ -438,8 +438,33 @@ app.get("/:userId", (req, res, next) => {
   var img = 'static/favicon.png'  
     
   if (user != undefined && Object.keys(user).length > 0) {
-    title = user.name
+    title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + user.username + ")"
+    descr = 'Diyet Koçum üzerinden tüm yazıları gör, yorumları incele ve randevu al'
     img = user.url
+  }  
+  
+  htmlTemplate(res, title, descr, img)    
+    .then((str) => {
+      res.setHeader('Content-Type', 'text/html');
+      res.send(subParams(str, title, descr, img));    
+    });
+});
+
+app.get("/:userId/blog/:blogId", (req, res, next) => {
+  var user = dal.getDietitianProfile(req.params.userId);
+  
+  var title ='Diyet Koçum'
+  var descr = 'Dijital diyetisyen asistanı'
+  var img = 'static/favicon.png'  
+    
+  if (user != undefined && Object.keys(user).length > 0) {
+    if (rows[req.params.userId].profile != undefined &&
+        rows[req.params.userId].profile.posts != undefined &&
+        rows[req.params.userId].profile.posts[req.params.blogId] != undefined) {
+      title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + user.username + ")"
+      descr = rows[req.params.userId].profile.posts[req.params.blogId].title
+      img = user.url
+    }
   }  
   
   htmlTemplate(res, title, descr, img)    
