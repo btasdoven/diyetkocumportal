@@ -152,13 +152,13 @@ class BlogPage extends React.Component {
                 <div className={classes.root}>
                     <main style={{
                         maxWidth: '800px',
-                        paddingLeft: '15px',
-                        paddingRight: '15px',
+                        paddingLeft: '12px',
+                        paddingRight: '12px',
                         paddingBottom: '56px',
                         paddingTop: '24px',
                         width: '100%',
                         margin: 'auto',
-                        textAlign: 'justify',
+                        //textAlign: 'justify',
                         color: '#364f6b'
                     }}
                     >
