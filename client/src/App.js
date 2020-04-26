@@ -22,7 +22,8 @@ import BlogPage from "./containers/Randevu/BlogPage";
 import RandevuView from "./containers/Randevu/RandevuView";
 import NotImplementedYet from './containers/NotImplementedYet'
 import RandevuList from "./containers/Randevu/RandevuList";
-import Blog from "./containers/Blog/Blog";
+import Enler from "./containers/Blog/Enler";
+import BlogList from "./containers/Blog/BlogList";
 import NewLandingPage from './containers/LandingPage/NewLandingPage'
 import NewLandingPage2 from './containers/LandingPage/NewLandingPage2'
 import AnemnezFormView from './containers/AnemnezForm/AnemnezFormView'
@@ -104,7 +105,8 @@ class App extends Component {
                 <Router>
                   {localStorage.getItem('user') ? (
                     <Switch>
-                      <EmptyRoute path="/enler" component={Blog} />
+                      <EmptyRoute path="/enler" component={Enler} />
+                      <EmptyRoute path="/blog" component={BlogList} />
                       <Route exact path="/" render={() => <Redirect to="/me" />} />
                       <DashboardRoute exact path="/status" component={ProfileStatus} />
 
@@ -138,7 +140,8 @@ class App extends Component {
                     </Switch>
                   ) : (
                     <Switch>
-                      <EmptyRoute path="/enler" component={Blog} />
+                      <EmptyRoute path="/enler" component={Enler} />
+                      <EmptyRoute path="/blog" component={BlogList} />
                       
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 

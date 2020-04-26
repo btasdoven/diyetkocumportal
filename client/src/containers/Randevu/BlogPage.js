@@ -143,11 +143,15 @@ class BlogPage extends React.Component {
 
         var post = userProfile.posts && userProfile.posts[this.state.postName] ? userProfile.posts[this.state.postName] : undefined;
 
+        var backButtonUrl = this.props.location && this.props.location.state && this.props.location.state.fromBlogPosts
+            ? '/blog'
+            : `/${this.state.userId}`
+
         return (
             <React.Fragment >
                 <CssBaseline />
 
-                <HeaderV2 static backButton={`/${this.state.userId}`}/>
+                <HeaderV2 static backButton={backButtonUrl}/>
 
                 <div className={classes.root}>
                     <main style={{

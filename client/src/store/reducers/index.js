@@ -8,6 +8,7 @@ import apiDietitianProfile from "./api.dietitianProfile";
 import apiDanisanNotes from "./api.danisanNotes";
 import apiDanisanDietList from './api.danisanDietList';
 import apiAllDietitians from './api.allDietitians';
+import apiAllPosts from './api.allPosts';
 import apiLinks from './api.links';
 import apiDanisanFiles from "./api.danisanFiles";
 import apiDietitianAppointments from './api.dietitianAppointments'
@@ -27,6 +28,7 @@ const reducers = combineReducers({
   apiDanisanDietList,
   apiDietitianProfile,
   apiAllDietitians,
+  apiAllPosts,
   apiDietitianAppointments,
   apiDanisanMeasurements,
   apiLinks,

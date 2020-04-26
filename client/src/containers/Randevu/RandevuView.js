@@ -9,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Link } from "react-router-dom";
 
+import { registerEvent } from '../../components/Signin/PageTracker'
+
 import moment from "moment";
 import { WhatsappIcon } from "react-share";
 import Button from "@material-ui/core/Button";
@@ -252,8 +254,9 @@ class Envanter extends React.Component {
   }
 
   handleLinkCopied() {
+    registerEvent('RandevuClickCopyToClipboard')
     this.props.snackbar.showMessage(
-      'Anamnez formu linki kopyalandı. Bu linki danışana sosyal medyadan gönderebilirsin.',
+      'Anamnez formu linki kopyalandı. Bu linki danışanına sosyal medyadan gönderebilirsin.',
       //'Undo', () => handleUndo()
     )
   }
@@ -429,7 +432,10 @@ class Envanter extends React.Component {
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            onClick={() => window.open(whatsappLink(appt.info.tel, `https://diyetkocum.net/l/${appt.linkId} `), '_blank')}
+                                            onClick={() => {
+                                              registerEvent('RandevuClickWhatsApp')
+                                              window.open(whatsappLink(appt.info.tel, `https://diyetkocum.net/l/${appt.linkId} `), '_blank')
+                                            }}
                                             className={classes.button}
                                             endIcon={<WhatsappIcon size={24} round={true}/>}
                                         >

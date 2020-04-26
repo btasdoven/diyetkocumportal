@@ -752,6 +752,7 @@ class LandingPage extends React.Component {
             <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
             <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
             <MenuItem component={Link} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem>
+            <MenuItem component={Link} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
             {/* <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem> */}
           </Menu>
         </div>

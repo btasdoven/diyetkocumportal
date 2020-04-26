@@ -1278,6 +1278,39 @@ exports.addNewPost = function(values) {
   return rows[userId].profile.posts[blogId]
 }
 
+exports.getAllPosts = function () {
+  console.log('getAllPosts');
+  ret = [];
+
+  Object.keys(rows).forEach((userId) => {
+    if (userId == '0' || userId == '1' ||
+        rows[0].users[userId].status == 'pending' || 
+        rows[0].users[userId].isAdmin == true) {
+      return;
+    }
+
+    if (rows[userId].profile == undefined ||
+        rows[userId].profile.posts == undefined) {
+          return;
+    }
+
+    Object.keys(rows[userId].profile.posts).forEach((postId) => {
+      ret.push({
+        postId: postId,
+        postImg: rows[userId].profile.posts[postId].img,
+        postTitle: rows[userId].profile.posts[postId].title,
+        postDate: rows[userId].profile.posts[postId].date,
+        userId: userId,
+        userFullName: rows[userId].profile.name,
+        userImg: rows[userId].profile.url, 
+        userUnvan: rows[userId].profile.unvan,
+      })
+    })
+  })
+
+  return ret;
+}
+
 exports.deleteDietitian = function (userId, callerUser) {
   console.log('deleteDietitian', userId, callerUser)
 
@@ -1322,8 +1355,6 @@ exports.getAllDietitians = function (isAdmin) {
     if (userId == '0' || userId == '1') {
       return;
     }
-
-    console.log(userId)
 
     if (rows[0].users[userId].status == 'pending' || 
         (isAdmin == "false" && rows[0].users[userId].isAdmin == true)) {

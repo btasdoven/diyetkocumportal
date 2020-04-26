@@ -32,6 +32,7 @@ export const userService = {
     read_danisan_message,
     delete_dietitian,
     get_all_dietitians,
+    get_all_posts,
     upload_photo,
     add_new_post,
     getStaticFileUri,
@@ -417,6 +418,19 @@ function get_all_dietitians(isAdmin) {
     };
     
     return fetch(HOST_NAME + `/api/v1/getAllDietitians?isAdmin=${isAdmin}`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });   
+}
+
+function get_all_posts() {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/posts`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

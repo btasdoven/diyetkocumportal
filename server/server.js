@@ -361,6 +361,13 @@ app.delete("/api/v1/users/:userId", (req, res, next) => {
   // }), delayInResponseInMs);
 });
 
+app.get("/api/v1/posts", (req, res, next) => {
+  // setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getAllPosts());
+  // }), delayInResponseInMs);
+});
+
 // This for landing page
 //
 app.get("/api/v1/getAllDietitians", (req, res, next) => {
