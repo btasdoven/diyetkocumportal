@@ -60,7 +60,7 @@ const styles = theme => ({
     avatar2: {
         width: theme.spacing(7),
         height: theme.spacing(7),
-        paddingRight: theme.spacing(1),
+        marginRight: theme.spacing(1),
     },
     appBar: {
         background: "#364f6b",
@@ -154,8 +154,8 @@ class BlogPage extends React.Component {
 
         var post = userProfile.posts && userProfile.posts[this.state.postName] ? userProfile.posts[this.state.postName] : undefined;
 
-        var backButtonUrl = this.props.location && this.props.location.state && this.props.location.state.fromBlogPosts
-            ? '/blog'
+        var backButtonUrl = this.props.location && this.props.location.state && this.props.location.state.fromUrl
+            ? this.props.location.state.fromUrl
             : `/${this.state.userId}`
 
         return (
@@ -218,7 +218,12 @@ class BlogPage extends React.Component {
                                             return;
 
                                         return (
-                                            <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} to={`/${this.state.userId}/blog/${blogId}`}>
+                                            <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} 
+                                                to={{ 
+                                                    pathname: `/${this.state.userId}/blog/${blogId}`, 
+                                                    state: {fromUrl: `/${post.userId}/blog/${post.postId}`}
+                                                }}
+                                            >
                                                 <Image
                                                     imageStyle={{borderRadius: '8px'}}
                                                     aspectRatio={1080.0/1920}

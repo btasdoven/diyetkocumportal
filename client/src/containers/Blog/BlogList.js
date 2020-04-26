@@ -187,7 +187,7 @@ class LandingPage extends React.Component {
             { !showLoader && posts.map((post) => {
                 return (
                   <Card elevation={0} key={post.postId} className={classes.root}>
-                    <CardActionArea component={Link} to={{ pathname: `/${post.userId}/blog/${post.postId}`, state: {fromBlogPosts: true}}} >
+                    <CardActionArea component={Link} to={{ pathname: `/${post.userId}/blog/${post.postId}`, state: {fromUrl: '/blog'}}} >
                       <CardHeader
                         style={{paddingLeft: '8px', paddingBottom: '8px'}}
                         avatar={
