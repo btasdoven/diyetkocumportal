@@ -122,15 +122,19 @@ const styles = theme => ({
       //textAlign: 'center',
   },
   root: {
-    paddingBottom: theme.spacing(1),
     margin: theme.spacing(2),
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
     marginTop: 0,
   },
   media: {
     height: '0',
     paddingTop: '125%',
     borderRadius: '12px',
+  },
+  avatar: {
+      width: theme.spacing(7),
+      height: theme.spacing(7),
+      //paddingRight: theme.spacing(1),
   },
 });
 
@@ -185,6 +189,7 @@ class LandingPage extends React.Component {
                   <Card elevation={0} key={post.postId} className={classes.root}>
                     <CardActionArea component={Link} to={{ pathname: `/${post.userId}/blog/${post.postId}`, state: {fromBlogPosts: true}}} >
                       <CardHeader
+                        style={{paddingLeft: '8px', paddingBottom: '8px'}}
                         avatar={
                           <Avatar src={userService.getStaticFileUri(post.userImg)} className={classes.avatar} />
                         }
