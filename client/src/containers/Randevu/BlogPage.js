@@ -57,9 +57,10 @@ const styles = theme => ({
         borderColor: '#fc5185',
         borderStyle: 'solid'
     },
-    smallavatar: {
-        width: theme.spacing(5),
-        height: theme.spacing(5),
+    avatar2: {
+        width: theme.spacing(7),
+        height: theme.spacing(7),
+        paddingRight: theme.spacing(1),
     },
     appBar: {
         background: "#364f6b",
@@ -121,6 +122,7 @@ class BlogPage extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.location !== prevProps.location) {
+            window.scrollTo(0, 0)
             this.setState({
                 userId: this.props.match && this.props.match.params && this.props.match.params.diyetisyenUserName ? this.props.match.params.diyetisyenUserName : '',
                 postName: this.props.match && this.props.match.params && this.props.match.params.postName ? this.props.match.params.postName : '',
@@ -176,10 +178,10 @@ class BlogPage extends React.Component {
                         }}
                     >
                         <List>
-                            <ListItem component={Link} to={`/${userProfile.username}`}>
+                            <ListItem component={Link} to={`/${this.state.userId}`} style={{paddingLeft: 0}}>
                                 <ListItemAvatar>
                                     <Avatar
-                                        //className={classes.avatar}
+                                        className={classes.avatar2}
                                         src={userService.getStaticFileUri(userProfile.url)}
                                         alt={userProfile.name}
                                     />
