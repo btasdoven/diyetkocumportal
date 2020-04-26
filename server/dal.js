@@ -11,6 +11,21 @@ const request = require('request');
 require('moment/locale/tr');
 moment.locale("tr")
 
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = a[i];
+      a[i] = a[j];
+      a[j] = x;
+  }
+  return a;
+}
+
 const rows = {
   0: {
     'links': { },
@@ -629,11 +644,17 @@ exports.signUpUser = function(uname, userInfo) {
     });
 }
 
-exports.getLinkInfo = function (linkId) {
+exports.getLinkInfo = function (linkId, isAdmin=false) {
   console.log('getLinkInfo');
   console.log(linkId)
   console.log(rows[0].links[linkId])
-  return rows[0].links[linkId];
+  var link = rows[0].links[linkId];
+
+  if (isAdmin == true) {
+    link.dietitianUrl = rows[link.userId].profile.url
+  }
+
+  return link;
 }
 
 exports.getDietitianAppointmentInfo = function (userId, date) {
@@ -1278,6 +1299,18 @@ exports.addNewPost = function(values) {
   return rows[userId].profile.posts[blogId]
 }
 
+exports.getPost = function (userId, postId) {
+  console.log('getPost', userId, postId);
+
+  if (rows[userId] == undefined || 
+      rows[userId].profile == undefined ||
+      rows[userId].profile.posts == undefined) {
+    return undefined;
+  }
+
+  return rows[userId].profile.posts[postId];
+}
+
 exports.getAllPosts = function () {
   console.log('getAllPosts');
   ret = [];
@@ -1308,7 +1341,7 @@ exports.getAllPosts = function () {
     })
   })
 
-  return ret;
+  return shuffle(ret);
 }
 
 exports.deleteDietitian = function (userId, callerUser) {

@@ -459,19 +459,16 @@ app.get("/:userId", (req, res, next) => {
 
 app.get("/:userId/blog/:blogId", (req, res, next) => {
   var user = dal.getDietitianProfile(req.params.userId);
-  
+  var post = dal.getPost(req.params.userId, req.params.blogId)
+
   var title ='Diyet Koçum'
   var descr = 'Dijital diyetisyen asistanı'
   var img = 'static/favicon.png'  
     
-  if (user != undefined && Object.keys(user).length > 0) {
-    if (rows[req.params.userId].profile != undefined &&
-        rows[req.params.userId].profile.posts != undefined &&
-        rows[req.params.userId].profile.posts[req.params.blogId] != undefined) {
-      title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + user.username + ")"
-      descr = rows[req.params.userId].profile.posts[req.params.blogId].title
-      img = user.url
-    }
+  if (user != undefined && Object.keys(user).length > 0 && post != undefined) {
+    title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + user.username + ")"
+    descr = post.title
+    img = user.url
   }  
   
   htmlTemplate(res, title, descr, img)    
@@ -482,7 +479,7 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
 });
 
 app.get("/l/:linkId", (req, res, next) => {
-  var linkInfo = dal.getLinkInfo(req.params.linkId);
+  var linkInfo = dal.getLinkInfo(req.params.linkId, true);
   
   var title ='Diyet Koçum'
   var descr = 'Dijital diyetisyen asistanı'
@@ -491,6 +488,7 @@ app.get("/l/:linkId", (req, res, next) => {
   if (linkInfo != undefined) {
     title = linkInfo.danisanUserName
     descr = 'Danışana Özel Diyet Linki'
+    img = linkInfo.dietitianUrl
   }  
   
   htmlTemplate(res, title, descr, img)    
