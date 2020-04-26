@@ -119,6 +119,15 @@ class BlogPage extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+            this.setState({
+                userId: this.props.match && this.props.match.params && this.props.match.params.diyetisyenUserName ? this.props.match.params.diyetisyenUserName : '',
+                postName: this.props.match && this.props.match.params && this.props.match.params.postName ? this.props.match.params.postName : '',
+            })
+        }
+    }
+
     isLoaded() {
         var loaded = this.props.apiDietitianProfile != undefined &&
             this.props.apiDietitianProfile[this.state.userId] != undefined &&
@@ -157,17 +166,17 @@ class BlogPage extends React.Component {
                     <main 
                         style={{
                             maxWidth: '800px',
-                            paddingLeft: '12px',
-                            paddingRight: '12px',
-                            paddingBottom: '56px',
+                            paddingLeft: '16px',
+                            paddingRight: '16px',
+                            paddingBottom: '32px',
                             width: '100%',
                             margin: 'auto',
                             //textAlign: 'justify',
-                            color: '#364f6b'
+                            color: '#364f6b',
                         }}
                     >
                         <List>
-                            <ListItem>
+                            <ListItem component={Link} to={`/${userProfile.username}`}>
                                 <ListItemAvatar>
                                     <Avatar
                                         //className={classes.avatar}
@@ -175,7 +184,7 @@ class BlogPage extends React.Component {
                                         alt={userProfile.name}
                                     />
                                 </ListItemAvatar>
-                                <ListItemText primary={userProfile.name} secondary={userProfile.unvan || 'Diyetisyen'} />
+                                <ListItemText primary={<Typography color="textPrimary">{userProfile.name}</Typography>} secondary={userProfile.unvan || 'Diyetisyen'} />
                                 {/* <ListItemSecondaryAction>
                                 <Checkbox
                                     edge="end"
@@ -186,9 +195,39 @@ class BlogPage extends React.Component {
                                 </ListItemSecondaryAction> */}
                             </ListItem>
                         </List>
-                        <div className="markdown-body">
+
+                        <div className="markdown-body" style={{fontFamily: 'Cambria, Serif'}}>
                             <ReactMarkdown source={post.text} escapeHtml={false}/>
                         </div>
+
+                        <Card elevation={0} style={{paddingTop: '32px'}}>
+                            <CardHeader
+                                style={{ textAlign: 'center' }}
+                                title={
+                                    <Box my={1}>
+                                        <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BENZER YAZILAR</Typography>
+                                    </Box>
+                                }
+                            />
+                            <CardContent style={{ paddingTop: 0 }}>
+                                <Grid container>
+                                    {Object.keys(userProfile.posts).map((blogId) => {
+                                        if (blogId == this.state.postName)
+                                            return;
+
+                                        return (
+                                            <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} to={`/${this.state.userId}/blog/${blogId}`}>
+                                                <Image
+                                                    imageStyle={{borderRadius: '8px'}}
+                                                    aspectRatio={1080.0/1920}
+                                                    src={userService.getStaticFileUri(userProfile.posts[blogId].img || '') }
+                                                /> 
+                                            </Grid>
+                                        )
+                                    })}
+                                </Grid>
+                            </CardContent>
+                        </Card>
                     </main>
                 </div>
             </React.Fragment>

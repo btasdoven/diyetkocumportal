@@ -16,6 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import green from '@material-ui/core/colors/green';
+import Image from 'material-ui-image'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -121,11 +122,15 @@ const styles = theme => ({
       //textAlign: 'center',
   },
   root: {
-    margin: theme.spacing(1)
+    paddingBottom: theme.spacing(1),
+    margin: theme.spacing(2),
+    marginBottom: theme.spacing(4),
+    marginTop: 0,
   },
   media: {
     height: '0',
-    paddingTop: '125%'
+    paddingTop: '125%',
+    borderRadius: '12px',
   },
 });
 
@@ -177,7 +182,7 @@ class LandingPage extends React.Component {
             { showLoader && renderLoadingButton(classes) }
             { !showLoader && posts.map((post) => {
                 return (
-                  <Card key={post.postId} className={classes.root}>
+                  <Card elevation={0} key={post.postId} className={classes.root}>
                     <CardActionArea component={Link} to={{ pathname: `/${post.userId}/blog/${post.postId}`, state: {fromBlogPosts: true}}} >
                       <CardHeader
                         avatar={
