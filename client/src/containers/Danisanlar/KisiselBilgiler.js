@@ -417,11 +417,11 @@ class Envanter extends React.Component {
                     </Grid>
 
                     <Grid item xs={12} style={{textAlign: 'center'}}>
-                      <CopyToClipboard text={"diyetkocum.net/l/" + danisanProfile.hash} >
+                      <CopyToClipboard text={"https://diyetkocum.net/l/" + danisanProfile.hash} >
                         <span>
                           <Chip
                             //avatar={<Avatar>M</Avatar>}
-                            label={"diyetkocum.net/l/" + danisanProfile.hash}
+                            label={"https://diyetkocum.net/l/" + danisanProfile.hash}
                             clickable
                             color="primary"
                             onClick={this.handleLinkCopied}

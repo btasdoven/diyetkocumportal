@@ -369,7 +369,7 @@ var taskUpgradeStg = () => {
 
     if (rows[id].profile.link == undefined) {
       changed = true;
-      rows[id].profile.link = 'diyetkocum.net/' + id;
+      rows[id].profile.link = 'https://diyetkocum.net/' + id;
     }
 
     if (rows[id].profile.create_date == undefined) {
@@ -377,9 +377,9 @@ var taskUpgradeStg = () => {
       rows[id].profile.create_date = rows[0].users[id].create_date || moment(Date.now()).format();
     }
 
-    if (rows[id].profile.link.startsWith('diyetkocum.net/d/')) {
+    if (rows[id].profile.link.startsWith('diyetkocum.net/')) {
       changed = true;
-      rows[id].profile.link = 'diyetkocum.net/' + id;
+      rows[id].profile.link = 'https://diyetkocum.net/' + id;
     }
 
     if (rows[id].profile.badges == undefined) {
