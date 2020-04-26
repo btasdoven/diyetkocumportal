@@ -154,18 +154,38 @@ class BlogPage extends React.Component {
                 <HeaderV2 static backButton={backButtonUrl}/>
 
                 <div className={classes.root}>
-                    <main style={{
-                        maxWidth: '800px',
-                        paddingLeft: '12px',
-                        paddingRight: '12px',
-                        paddingBottom: '56px',
-                        paddingTop: '24px',
-                        width: '100%',
-                        margin: 'auto',
-                        //textAlign: 'justify',
-                        color: '#364f6b'
-                    }}
+                    <main 
+                        style={{
+                            maxWidth: '800px',
+                            paddingLeft: '12px',
+                            paddingRight: '12px',
+                            paddingBottom: '56px',
+                            width: '100%',
+                            margin: 'auto',
+                            //textAlign: 'justify',
+                            color: '#364f6b'
+                        }}
                     >
+                        <List>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar
+                                        //className={classes.avatar}
+                                        src={userService.getStaticFileUri(userProfile.url)}
+                                        alt={userProfile.name}
+                                    />
+                                </ListItemAvatar>
+                                <ListItemText primary={userProfile.name} secondary={userProfile.unvan || 'Diyetisyen'} />
+                                {/* <ListItemSecondaryAction>
+                                <Checkbox
+                                    edge="end"
+                                    onChange={handleToggle(value)}
+                                    checked={checked.indexOf(value) !== -1}
+                                    inputProps={{ 'aria-labelledby': labelId }}
+                                />
+                                </ListItemSecondaryAction> */}
+                            </ListItem>
+                        </List>
                         <div className="markdown-body">
                             <ReactMarkdown source={post.text} escapeHtml={false}/>
                         </div>
