@@ -221,7 +221,7 @@ class BlogPage extends React.Component {
                                             <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} 
                                                 to={{ 
                                                     pathname: `/${this.state.userId}/blog/${blogId}`, 
-                                                    state: {fromUrl: `/${post.userId}/blog/${post.postId}`}
+                                                    state: {fromUrl: `/${this.state.userId}/blog/${this.state.postName}`}
                                                 }}
                                             >
                                                 <Image
