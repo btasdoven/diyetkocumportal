@@ -38,6 +38,7 @@ import Fab from '@material-ui/core/Fab';
 import Zoom from '@material-ui/core/Zoom';
 import SpeedDial from '../SpeedDial/SpeedDial'
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
+import qs from 'qs'
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -515,6 +516,8 @@ class LandingPage extends React.Component {
   onSubmitInternal(formValues) {
     console.log(formValues);
       
+    formValues.refDietitian = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).ref;
+
     this.props.signup(formValues.username, formValues);
   }
 

@@ -445,7 +445,7 @@ class Envanter extends React.Component {
   handleLinkCopied() {
     this.setState({ linkCopied: true })
     this.props.snackbar.showMessage(
-      'Randevu linkiniz panoya kopyalandı.',
+      'Referans linkiniz panoya kopyalandı.',
       //'Undo', () => handleUndo()
     )
   }
@@ -471,12 +471,14 @@ class Envanter extends React.Component {
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
     const dietitianProfile = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
+    const now = moment();
 
+    var rows = showLoader ? undefined : dietitianProfile.discounts;
 
-    var rows = [
-        {name: 'Yeni üyelere özel ilk ay ücretsiz', duration: '1 ay'},
-        {name: 'Koronavirüs destek paketi', duration: '1 ay'},
-    ]
+    // var rows = [
+    //     {name: 'Yeni üyelere özel ilk ay ücretsiz', duration: '1 ay'},
+    //     {name: 'Koronavirüs destek paketi', duration: '1 ay'},
+    // ]
 
     console.log(this.props)
 
@@ -617,7 +619,12 @@ class Envanter extends React.Component {
                   <Grid container spacing={0}>
                     <Grid item xs={12}>
                       <div className={classes.text}>
-                        <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.create_date).add(2, 'months').format('D MMMM YYYY')}</b> tarihine kadar devam etmektedir.</Typography>
+                        {now > moment(dietitianProfile.premium_until) && (
+                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY')}</b> tarihinde sona ermiştir. Lütfen geçerli bir ödeme yöntemi ekleyiniz.</Typography>
+                        )}
+                        {now <= moment(dietitianProfile.premium_until) && (
+                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY')}</b> tarihine kadar devam etmektedir.</Typography>
+                        )}
                       </div>
                     </Grid>
                     <Grid item xs={12}>
@@ -625,15 +632,18 @@ class Envanter extends React.Component {
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Aktif Paketler</TableCell>
+                                        <TableCell>Paketler</TableCell>
                                         <TableCell align="center">Süresi</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                 {rows.map(row => (
-                                    <TableRow key={row.name}>
+                                    <TableRow key={row.title}>
                                         <TableCell component="th" scope="row">
-                                            {row.name}
+                                          {now > moment(row.endDate) && (
+                                            <s>{row.title}</s>
+                                          )}
+                                          {now <= moment(row.endDate) && row.title}
                                         </TableCell>
                                         <TableCell align="center"><b>{row.duration}</b></TableCell>
                                     </TableRow>
@@ -709,7 +719,43 @@ class Envanter extends React.Component {
                 <CardHeader
                   title={
                     <Typography color="secondary" variant="button" gutterBottom>
-                     ÖDEME GEÇMİŞİ
+                    ARKADAŞINI GETİR 1 HAFTA PREMİUM KAZAN
+                    </Typography>
+                  }
+                />
+                <CardContent style={{paddingTop:0}}>
+                  <Grid container spacing={0}>
+                    <Grid item xs={12} style={{display: 'flex', flexDirection: 'column'}}>
+                      <div className={classes.text}>
+                        <Typography variant="body2">Herhangi bir diyetisyen arkadaşını aşağıdaki linki paylaşarak üye yaparsan 1 hafta ücretsiz Premium paketi kazanabilirsin.</Typography>
+                      </div>
+                      
+                      <CopyToClipboard text={"https://diyetkocum.net/signup?ref=" + this.state.userId} >
+                        <span style={{textAlign: 'center'}}>
+                          <Chip
+                            //avatar={<Avatar>M</Avatar>}
+                            label={"diyetkocum.net/signup?ref=" + this.state.userId}
+                            clickable
+                            color="primary"
+                            onClick={this.handleLinkCopied}
+                            onDelete={this.handleLinkCopied}
+                            deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
+                            variant="outlined"
+                            size="small"
+                          />
+                        </span>
+                      </CopyToClipboard>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+
+              <Card variant="outlined" className={classes.card}>
+                {/* <div className={classes.divCategory}> */}
+                <CardHeader
+                  title={
+                    <Typography color="secondary" variant="button" gutterBottom>
+                    ÖDEME GEÇMİŞİ
                     </Typography>
                   }
                 />

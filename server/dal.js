@@ -316,6 +316,11 @@ var taskInitNewDietitians = () => {
         }).catch((err) => console.log(err, 'error at ' + id + ' ' + err));
     }
 
+    if (rows[0].users[id].premium_until == undefined) {
+      createDate = moment(rows[0].users[id].create_date)
+      rows[0].users[id].premium_until = createDate.add(2, 'months').format()
+    }
+
     return Promise.resolve()
   });
 
@@ -375,6 +380,14 @@ var taskUpgradeStg = () => {
     if (rows[id].profile.create_date == undefined) {
       changed = true;
       rows[id].profile.create_date = rows[0].users[id].create_date || moment(Date.now()).format();
+    }
+
+    if (rows[id].profile.discounts == undefined) {
+      rows[id].profile.discounts = [
+        { title: "Yeni üyelere özel ilk ay ücretsiz", duration: "1 ay", startDate: moment(rows[id].profile.create_date).format(), endDate: moment(rows[id].profile.create_date).add(1, 'months').format() },
+        { title: "Koronavirüs destek paketi", duration: "1 ay", startDate: moment(rows[id].profile.create_date).add(1, 'months').format(), endDate: moment(rows[id].profile.create_date).add(2, 'months').format() },
+      ]
+      rows[id].profile.premium_until = moment(rows[id].profile.create_date).add(2, 'months').format()
     }
 
     if (rows[id].profile.link.startsWith('diyetkocum.net/')) {
@@ -582,6 +595,12 @@ exports.signUpUser = function(uname, userInfo) {
     return Promise.reject('Bu kullanıcı adına ait bir üyelik bulunmaktadır.');
   }
 
+  if (userInfo.refDietitian != undefined && rows[userInfo.refDietitian] == undefined) {
+    // ref dietitian doesn't exist. Bug? Mistake? Someone trying to trick the system?
+    //
+    return Promise.reject('Referans olarak girilen diyetisyen sistemimizde bulunmamaktadır. Anasayfaya dönerek yeniden kayıt yapmayı deneyiniz.');
+  }
+
   return ipp.medium(uname)
     .then(instaProfileUrl => {
       console.log(instaProfileUrl);
@@ -599,12 +618,20 @@ exports.signUpUser = function(uname, userInfo) {
         }
       };
       
+      createDate = moment(Date.now())
+
       r.profile.email = userInfo.email
       r.profile.name = userInfo.name
       r.profile.url = `api/v1/${localProfilePath}`
       r.profile.tel = userInfo.tel
       r.profile.instagram = userInfo.username
-      r.profile.create_date = moment(Date.now()).format()
+      
+      r.profile.create_date = createDate.format()
+      r.profile.discounts = [
+        { title: "Yeni üyelere özel ilk ay ücretsiz", duration: "1 ay", startDate: r.profile.create_date, endDate: moment(r.profile.create_date).add(1, 'months').format() },
+        { title: "Koronavirüs destek paketi", duration: "1 ay", startDate: moment(r.profile.create_date).add(1, 'months').format(), endDate: moment(r.profile.create_date).add(2, 'months').format() },
+      ]
+      r.profile.premium_until = moment(r.profile.create_date).add(2, 'months').format()
 
       r.profile.unvan = userInfo.unvan
       r.profile.uzmanlik_alanlari = userInfo.uzmanlik_alanlari
@@ -625,9 +652,32 @@ exports.signUpUser = function(uname, userInfo) {
         tel: userInfo.tel,
         url: `api/v1/${localProfilePath}`,
         //status: 'pending',
-        create_date: moment(Date.now()).format()
+        create_date: r.profile.create_date,
+        premium_until: r.profile.premium_until,
+        refDietitian: userInfo.refDietitian
       }
     
+      if (userInfo.refDietitian != undefined) {
+
+        var startDate = moment() < moment(rows[0].users[userInfo.refDietitian].premium_until)
+          ? moment(rows[0].users[userInfo.refDietitian].premium_until).format()
+          : moment().format();
+
+        var endDate = moment(startDate).add(1, 'weeks').format();
+
+        rows[userInfo.refDietitian].profile.discounts.push({
+          title: `Arkadaşını getir (@${uname}) `, 
+          duration: "1 hafta", 
+          startDate: startDate, 
+          endDate: endDate,
+        })
+
+        rows[userInfo.refDietitian].profile.premium_until = endDate;
+        rows[0].users[userInfo.refDietitian].premium_until = endDate;
+
+        storage.setItem(userInfo.refDietitian, rows[userInfo.refDietitian]);
+      }
+
       storage.setItem('0', rows[0]);
     
       var titleSuffix = process.env.NODE_ENV !== 'production' 
@@ -977,6 +1027,12 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
 
     storage.setItem('0', rows[0])
   }
+  
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+  ? "TEST - " + userId + " - " + danisanUserName + " - "
+  : "PROD - " + userId + " - " + danisanUserName + " - "
+
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `updated danisan info`, JSON.stringify(rows[userId].danisans[danisanUserName]))
 }
 
 exports.getDanisanMessages = function (userId, danisanUserName) {
