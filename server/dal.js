@@ -295,13 +295,11 @@ var taskInitNewDietitians = () => {
       return storage.setItem(id.toString(), r);
     }
 
-    console.log(id)
+    //console.log(id)
 
     if (r.profile.url != undefined && 
         r.profile.url.startsWith("http")) {
         return ipp.medium(id).then(instaProfileUrl => {
-            console.log(instaProfileUrl);
-
             instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
             localProfilePath = `public/${id}.png`
 
@@ -326,7 +324,7 @@ var taskInitNewDietitians = () => {
 
   return userTasks.then(() => {
     console.log('all async user tasks done, setting 0')
-    console.log(rows[0])
+    //console.log(rows[0])
     return storage.setItem('0', rows[0]);
   });
 }
@@ -345,7 +343,7 @@ var taskUpgradeStg = () => {
 
     var changed = false;
 
-    console.log(id)
+    //console.log(id)
 
     if (rows[id].profile == undefined) {
       rows[id].profile = {}
@@ -444,8 +442,6 @@ var taskUpgradeStg = () => {
       rows[id].profile.badges['20200329_aktif'] = { url: '/static/badges/aktif_20200329.png'}
     }
 
-    console.log(changed)
-
     if (!changed) {
       return Promise.resolve()
     }
@@ -491,12 +487,12 @@ async function startAsync() {
 }
 
 var loaded = false;
-console.log('begin')
+//console.log('begin')
 start().then(() => {
   console.log('loaded')
   loaded = true
 });
-console.log('end')
+//console.log('end')
 
 exports.isLoaded = () => loaded;
 

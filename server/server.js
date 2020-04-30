@@ -2,19 +2,22 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+require('console-stamp')(console, 'HH:MM:ss.l');
+
 const stringHash = require("string-hash");
-var qs = require('querystring');
+const qs = require('querystring');
 const express = require("express");
 const app = express();
+const morgan = require('morgan')
 const bodyParser = require('body-parser');
-var cors = require('cors');
+const cors = require('cors');
 const fs = require('fs');
 const dal = require('./dal');
 const email = require('./email');
 const ig = require('./ig');
-var compression = require('compression');
-var multer = require('multer');
-var massemail = require('./massemail')
+const compression = require('compression');
+const multer = require('multer');
+const massemail = require('./massemail')
 
 console.log(process.arch)
 console.log(process.version)
@@ -24,7 +27,11 @@ const delayInResponseInMs = 50;
 app.use(cors());
 app.use(compression({
   threshold:0, 
-  filter: (req, res) => { var x = compression.filter(req, res); console.log('to-be-compressed', x, ' ', req.originalUrl, res.getHeader('Content-Type')); return x; }  
+  filter: (req, res) => { 
+    var x = compression.filter(req, res); 
+    //console.log('to-be-compressed', x, ' ', req.originalUrl, res.getHeader('Content-Type'));
+    return x; 
+  }  
 }));
  
 app.use('/api/v1/public', express.static('public'))
@@ -58,6 +65,12 @@ app.use(function (req, res, next) {
 
   func();
 })
+
+morgan.format("date", function() {
+  var df = require('dateformat');
+  return df(new Date(), 'HH:MM:ss.l');
+})
+app.use(morgan('[:date] [:method]\t:url :status :res[content-length] - :response-time ms'))
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -544,5 +557,5 @@ function htmlTemplate(res, title, descr, img) {
 console.log(process.env.PORT);
 
 app.listen(process.env.PORT || 4000, () => {
-  console.log("Listing on port 4000");
+  console.log("Listening on port " + (process.env.PORT || 4000));
 });
