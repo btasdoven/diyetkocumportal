@@ -643,6 +643,7 @@ class LandingPage extends React.Component {
             <SwipeableViews
                 axis={'x'}
                 index={activeStep}
+                disabled={true}
             >
                 <div style={{paddingLeft:'24px', paddingRight: '24px'}}>
                     <Typography variant="h6" style={{textAlign:'center', color: '#32325d', fontWeight: 400, paddingBottom: '24px'}}>Senden birkaç bilgi rica ediyoruz</Typography>

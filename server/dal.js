@@ -1462,13 +1462,18 @@ exports.getAllDietitians = function (isAdmin) {
     if (isAdmin == "true") {
       r.isAdmin = rows[0].users[userId].isAdmin
       r.status = rows[0].users[userId].status
-      r.danisanCount = rows[userId].danisans == undefined ? 0 : Object.keys(rows[userId].danisans).length,
+      r.danisanCount = rows[userId].danisans == undefined ? 0 : Object.keys(rows[userId].danisans).length
       r.randevuCount = rows[userId].appointments == undefined ? 0 : Object.keys(rows[userId].appointments).length
       r.create_date = rows[userId].profile.create_date
+      r.premium_until = rows[0].users[userId].premium_until
     }
 
     ret.push(r);
   });
+
+  if (isAdmin == "true") {
+    ret.sort((a,b) => moment(a.premium_until) < moment(b.premium_until) ? -1 : 1)
+  }
 
   return ret
 }

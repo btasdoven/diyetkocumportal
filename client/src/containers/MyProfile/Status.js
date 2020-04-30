@@ -448,6 +448,7 @@ class Envanter extends React.Component {
       'Referans linkiniz panoya kopyalandı.',
       //'Undo', () => handleUndo()
     )
+    registerEvent('ClickCopyRefLink')
   }
 
   handleExpand(panel) {
