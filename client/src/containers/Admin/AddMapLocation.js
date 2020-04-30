@@ -171,8 +171,6 @@ class FieldFileInput  extends Component {
 const reduxFormSelect = props => {
   const { input, options } = props;
 
-  { console.log(input, options)}
-
   return (
     <Select 
       {...input} 
@@ -249,11 +247,9 @@ class Envanter extends React.Component {
   }
 
   onSubmitInternal(formValues) {
-    console.log(formValues);
 
     var profile = { address_latlng: { lat: parseFloat(formValues.lat), lng: parseFloat(formValues.lng) }}
 
-    console.log(profile)
     this.props.putDietitianProfile(formValues.userId, profile);
 
     this.setState({ loadingUser: formValues.userId })
@@ -264,7 +260,6 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { classes } = this.props;
 
     return (

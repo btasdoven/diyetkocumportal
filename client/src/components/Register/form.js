@@ -159,7 +159,6 @@ const matchPasswords = (pass1, allValues) => pass1 !== allValues.password ? 'Gir
 
 const SigninForm = props => {
   const { auth, handleSubmit, onSubmit, classes } = props;
-  console.log(props);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <FormControl margin="normal" fullWidth>

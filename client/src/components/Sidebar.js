@@ -97,8 +97,6 @@ class Sidebar extends React.Component {
       this.props.apiDietitianAppointments[this.state.user.id].isGetLoading != true &&
       this.props.apiDietitianAppointments[this.state.user.id].data != undefined;
 
-    console.log(loaded);
-    console.log(loaded2);
     return loaded && loaded2;
   }
 

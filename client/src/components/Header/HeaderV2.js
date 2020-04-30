@@ -78,7 +78,6 @@ class HeaderV2 extends React.Component {
 
     handleMenuOpen(event)
     {
-        console.log(event.currentTarget);
         this.setState({anchorEl: event.currentTarget})
     }
 

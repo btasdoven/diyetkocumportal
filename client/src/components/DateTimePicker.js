@@ -38,8 +38,6 @@ class _StaticDatePickerInput extends PureComponent {
     render () {
       const { input, label, defaultValue, className, required, ...rest } = this.props
   
-      console.log(this.props)
-
       return (
           <KeyboardDatePicker
               {...rest}

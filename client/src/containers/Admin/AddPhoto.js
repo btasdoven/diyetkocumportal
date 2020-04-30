@@ -170,8 +170,6 @@ class FieldFileInput  extends Component {
 const reduxFormSelect = props => {
   const { input, options } = props;
 
-  { console.log(input, options)}
-
   return (
     <Select 
       {...input} 
@@ -236,8 +234,6 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
 
     var loaded = this.props.apiDanisanFiles != undefined &&
       this.props.apiDanisanFiles[0] != undefined &&
@@ -245,9 +241,7 @@ class Envanter extends React.Component {
       this.props.apiDanisanFiles[0][''].isGetLoading != true &&
       this.props.apiDanisanFiles[0][''].data != undefined;
 
-      console.log(loaded);
       return true;
-      return loaded;
   }
 
   componentDidMount() {
@@ -257,11 +251,9 @@ class Envanter extends React.Component {
   }
 
   onSubmitInternal(formValues) {
-    console.log(formValues);
 
     const formData = new FormData();
     formData.append('file',formValues.file)
-    console.log(formData);
 
     this.props.uploadPhoto(formData);
 
@@ -273,7 +265,6 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();

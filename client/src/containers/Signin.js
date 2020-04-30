@@ -112,7 +112,6 @@ const Signin = props => {
         </Typography>
 
         <SigninForm auth={auth} onSubmit={(v) => {
-          //console.log(v)
           login(v.username, v.password);
         }} />
       </Paper>

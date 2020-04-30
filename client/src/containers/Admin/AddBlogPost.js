@@ -236,8 +236,6 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
 
     var loaded = this.props.apiDanisanFiles != undefined &&
       this.props.apiDanisanFiles[0] != undefined &&
@@ -245,9 +243,7 @@ class Envanter extends React.Component {
       this.props.apiDanisanFiles[0][''].isGetLoading != true &&
       this.props.apiDanisanFiles[0][''].data != undefined;
 
-      console.log(loaded);
       return true;
-      return loaded;
   }
 
   componentDidMount() {
@@ -267,7 +263,6 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
@@ -279,8 +274,6 @@ class Envanter extends React.Component {
       this.props.apiDanisanFiles[0][''].data != undefined
       ? this.props.apiDanisanFiles[0][''].data
       : undefined;
-
-    console.log(file)
 
     return (
       <form
@@ -328,9 +321,6 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('mapstatetoprops')
-  console.log(ownProps);
-  console.log(state);
 
   return {
     apiForm: state.form,

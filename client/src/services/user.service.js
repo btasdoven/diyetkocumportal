@@ -67,7 +67,6 @@ function login(username, password) {
             }
 
             console.log(user)
-            console.log(localStorage.getItem('user'));
 
             return user;
         });
@@ -314,7 +313,6 @@ function get_danisan_files(userId, danisanUserName) {
 function add_danisan_files(userId, danisanUserName, data) {
     return axios.post(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/addFiles`, data, {})
         .then(res => {
-            console.log(res)
             return res;
         })
 }
@@ -443,7 +441,6 @@ function get_all_posts() {
 function upload_photo(data) {
     return axios.post(HOST_NAME + `/api/v1/uploadPhoto`, data, {})
         .then(res => {
-            console.log(res)
             return res;
         })
 }
@@ -463,10 +460,9 @@ function add_new_post(formValues) {
 }
 
 function handleResponse(response) {
-    console.log(response)
     return response.text().then(text => {
-        console.log(text);
         const data = text && JSON.parse(text);
+        console.log(data)
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
