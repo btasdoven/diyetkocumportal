@@ -244,6 +244,8 @@ const rows = {
   }
 };
 
+var trackingStream = fs.createWriteStream("tracking.csv", {flags:'a'});
+
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
@@ -1565,6 +1567,10 @@ exports.sendMassEmail = function() {
   ret= {};
 
   return massemail.sendMassEmail(ret)
+}
+
+exports.trackActivity = function (userId, event) {
+  trackingStream.write(`${userId},${moment(Date.now()).format("D MMMM YYYY HH:MM:ss")},${event}\n`);
 }
 
 exports.trackTopic = function (topic, email) {

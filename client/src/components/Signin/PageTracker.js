@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GoogleAnalytics from 'react-ga';
 import { isProduction } from '../../services/env.service'
+import { userService } from '../../services/user.service'
 
 GoogleAnalytics.initialize('UA-48111628-4', {
   gaOptions: {
@@ -24,6 +25,8 @@ export const trackPage = (page) => {
     category: window.location.hostname + '_' + username,
     action: 'PageView_' + page,
   });
+
+  userService.track_activity(username, 'PageView_' + page)
 };
 
 export const registerEvent = (eventName) => {
@@ -40,6 +43,8 @@ export const registerEvent = (eventName) => {
     category: window.location.hostname + '_' + username,
     action: eventName,
   });
+
+  userService.track_activity(username, eventName)
 };
 
 const withTracker = (WrappedComponent) => {

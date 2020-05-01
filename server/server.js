@@ -430,6 +430,14 @@ app.get('/api/v1/sendMassEmail', (req, res) => {
   });
 })
 
+app.put('/api/v1/trackActivity/:userId', (req, res) => {
+  setTimeout((function() {
+    dal.trackActivity(req.params.userId, req.body.event)
+    res.setHeader('Content-Type', 'application/json');
+    res.json({});
+  }), delayInResponseInMs);
+})
+
 app.get('/api/v1/tracking/:topic/:email/img.gif', (req, res) => {
   const trackImg = new Buffer('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
 

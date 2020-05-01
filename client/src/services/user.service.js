@@ -36,6 +36,7 @@ export const userService = {
     upload_photo,
     add_new_post,
     getStaticFileUri,
+    track_activity,
 };
 
 const HOST_NAME = envService.isProduction ? '' : 'http://localhost:4000';
@@ -457,6 +458,20 @@ function add_new_post(formValues) {
         .then(data => {
             return data;
         });
+}
+
+function track_activity(userId, event) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event: event })
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/trackActivity/${userId}`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });   
 }
 
 function handleResponse(response) {
