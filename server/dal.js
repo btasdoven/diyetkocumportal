@@ -897,8 +897,12 @@ Diyet Koçum Ailesi`
       visibleToDietitian: false,
     })
   } else if (values.status == 'confirmed') {
-    rows[userId].danisanPreviews[values.info.name].visibleToDietitian = true
-    rows[userId].danisans[values.info.name].profile.visibleToDietitian = true;
+    if (rows[userId].danisanPreviews[values.info.name] != undefined) {
+      rows[userId].danisanPreviews[values.info.name].visibleToDietitian = true
+    }
+    if (rows[userId].danisans[values.info.name] != undefined) {
+      rows[userId].danisans[values.info.name].profile.visibleToDietitian = true;
+    }
     storage.setItem(userId, rows[userId]);
   }
 }
