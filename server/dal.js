@@ -536,8 +536,13 @@ exports.requestNewPasswordEmail = function(uname, userInfo) {
 
   uname = uname.trim();
   
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+    ? "TEST - " + uname + " - "
+    : "PROD - " + uname + " - "
+
   if (rows[uname] == undefined ||
       rows[uname].profile.email != userInfo.email) {
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Şifre yenileme isteğinde bilgiler eslesmiyor`, JSON.stringify({profile: rows[uname].profile, userInfo: userInfo}))
       return Promise.resolve(userInfo);
   }
 
@@ -547,9 +552,6 @@ exports.requestNewPasswordEmail = function(uname, userInfo) {
   rows[uname].authInfo.newPasswordLink = stringHash("new_password_" + Date.now() + "_" + uname)
   storage.setItem(uname, rows[uname]);
 
-  var titleSuffix = process.env.NODE_ENV !== 'production' 
-    ? "TEST - " + uname + " - "
-    : "PROD - " + uname + " - "
 
     var content = `
 Merhaba ${rows[uname].profile.name},
