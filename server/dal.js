@@ -244,7 +244,7 @@ const rows = {
   }
 };
 
-var trackingStream = fs.createWriteStream("tracking.csv", {flags:'a'});
+var trackingStreams = []
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
@@ -1570,7 +1570,14 @@ exports.sendMassEmail = function() {
 }
 
 exports.trackActivity = function (userId, event) {
-  trackingStream.write(`${userId},${moment(Date.now()).format("D MMMM YYYY HH:MM:ss")},${event}\n`);
+  if (userId == undefined || userId == '') 
+    return
+
+  if (trackingStreams[userId] == undefined) {
+    trackingStreams[userId] = fs.createWriteStream(`tracking/${userId}.csv`, {flags:'a'});
+  }
+
+  trackingStreams[userId].write(`${userId},${moment(Date.now()).format()},${event}\n`);
 }
 
 exports.trackTopic = function (topic, email) {
