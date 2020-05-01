@@ -432,7 +432,7 @@ app.get('/api/v1/sendMassEmail', (req, res) => {
 
 app.put('/api/v1/trackActivity/:userId', (req, res) => {
   setTimeout((function() {
-    dal.trackActivity(req.params.userId, req.body.event)
+    dal.trackActivity(req.params.userId || undefined, req.body ? req.body.event : undefined)
     res.setHeader('Content-Type', 'application/json');
     res.json({});
   }), delayInResponseInMs);

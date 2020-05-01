@@ -461,6 +461,9 @@ function add_new_post(formValues) {
 }
 
 function track_activity(userId, event) {
+    if (userId == undefined || userId == '')
+        return;
+
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
