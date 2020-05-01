@@ -1,3 +1,4 @@
+import MaterialTable from "material-table";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { Link } from "react-router-dom";
 import React, {Component} from 'react';
@@ -286,8 +287,43 @@ class Envanter extends React.Component {
       >  
         { showLoader && renderLoadingButton(classes) }
           { !showLoader && (
-            <div>
-              {dietitians.map((step, index) => (
+            <div style={{maxWidth: '100%'}}>
+              <MaterialTable
+                columns={[
+                  {
+                    title: 'Avatar',
+                    field: 'url',
+                    render: rowData => <Avatar
+                      className={classes.avatar}
+                      src={userService.getStaticFileUri(rowData.url)}
+                    />
+                  },
+                  { title: "Name", field: "name" },
+                  { title: "Insta", field: "username" },
+                  { title: "CreateDate", field: "create_date", type: 'datetime' },
+                  { title: "PremiumUntil", field: "premium_until", type: 'datetime' },
+                  { title: "Danisan", field: "danisanCount", type: 'numeric' },
+                  { title: "Randevu", field: "randevuCount", type: 'numeric' },
+                  { title: "Blog", field: "blogCount", type: 'numeric' },
+                ]}
+                data={dietitians}
+                title=""
+                detailPanel={rowData => {
+                  return (
+                    <div style={{display:'flex', flexDirection: 'column'}}>
+                      <Typography variant="body2">Admin: {rowData.isAdmin}</Typography> 
+                      <Typography variant="body2">Tel: {rowData.tel}</Typography> 
+                      <Typography variant="body2">E-mail: {rowData.email}</Typography>
+                      <Typography variant="body2">Referans: {rowData.refDietitian}</Typography>
+                    </div>
+                  )
+                }}
+                paging={false}
+                emptyRowsWhenPaging={false}
+                toolbar={false}
+              />
+
+              {/* {dietitians.map((step, index) => (
                 <ExpansionPanel key={index}>
                   <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -308,7 +344,6 @@ class Envanter extends React.Component {
                     </List>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails style={{flexDirection: 'column'}}>
-                    {/* <Typography variant="body2">Status: {dietitians[index].status}</Typography> */}
                     <Typography variant="body2">Hesap Acma Tarihi: {dietitians[index].create_date}</Typography>
                     <Typography variant="body2">Premium Bitim Tarihi: {dietitians[index].premium_until}</Typography>
                     <Typography variant="body2">Danisan Sayisi: {dietitians[index].danisanCount}</Typography> 
@@ -320,7 +355,7 @@ class Envanter extends React.Component {
                     <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(dietitians[index].username)}>Delete</Button>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
-              ))}
+              ))} */}
             </div>
           )}
       </form>  
