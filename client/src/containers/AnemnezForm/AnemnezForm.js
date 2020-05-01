@@ -94,7 +94,11 @@ const styles = theme => ({
     height: theme.spacing(7),
   },
   card: {
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1),    
+    borderRadius: '4px',
+    '&::before': {
+      backgroundColor: 'transparent'
+    }
   },
   paper: {
     padding: theme.spacing(1)
@@ -102,6 +106,16 @@ const styles = theme => ({
   root: {
       //height: 'calc(100vh - 48px)',
       padding: theme.spacing(1),
+      width: '100%',
+      display: 'block', // Fix IE 11 issue.
+      //top: 0,
+      [theme.breakpoints.up(800 + theme.spacing(6))]: {
+        width: '800px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      },
+      //backgroundColor: 'red',
+      // padding: theme.spacing(1)
   },
   rootLoading: {
       height: "inherit",
@@ -305,6 +319,11 @@ class Envanter extends React.Component {
 
     this.isLoaded = this.isLoaded.bind(this);
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
+    this.handleExpand = this.handleExpand.bind(this);
+
+    this.state = {
+      expandList: {},
+    }
   }
 
   isLoaded() {
@@ -331,6 +350,18 @@ class Envanter extends React.Component {
         'Yaptığınız değişiklikler başarıyla kaydedildi.',
         //'Undo', () => handleUndo()
       )
+  }
+
+  handleExpand(panel) {
+    return (event, isExpanded) => {
+      console.log(isExpanded, panel)
+      this.setState({ 
+        expandList: {
+          ...this.state.expandList,
+          [panel]: isExpanded
+        }
+      });
+    };
   }
 
   render() {
@@ -443,20 +474,22 @@ class Envanter extends React.Component {
                     <Grid item xs={6}>
                       <ReduxFormTextField InputProps={{ readOnly: true }} disabled name="ucret_paketi" label="Diyet paketi" />
                     </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="caption" color="textSecondary">Bu alandaki bilgiler diyetisyeniniz tarafından doldurulur.</Typography>
+                    </Grid>
                   </Grid>
                 </CardContent>
               </Card>
 
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                      KİŞİSEL BİLGİLER
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('kisisel_bilg')} expanded={this.state.expandList['kisisel_bilg'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button">
+                    KİŞİSEL BİLGİLER
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Field name='birthday' label="Doğum tarihi" component={DatePickerInput} />
@@ -497,33 +530,31 @@ class Envanter extends React.Component {
                       <ReduxFormTextField name="address" label="Adresi" />
                     </Grid>
                   </Grid>
-                </CardContent>
-              </Card>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
 
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     KAN TAHLİLLERİ
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('kan_tahlili')} expanded={this.state.expandList['kan_tahlili'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button">
+                    KAN TAHLİLLERİ
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <KanTahlili userId={this.props.userId} danisanUserName={this.props.danisanUserName} />
-                </CardContent>
-              </Card>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
 
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     SAĞLIK BİLGİLERİ
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('saglik_bilg')} expanded={this.state.expandList['saglik_bilg'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button">
+                    SAĞLIK BİLGİLERİ
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="hastalıklar" label="Tanısı Konmuş Hastalıkları" />
@@ -652,19 +683,18 @@ class Envanter extends React.Component {
                       <ReduxFormTextField name="spor_tipi" label="Egzersizin türü" />
                     </Grid>
                   </Grid>
-                </CardContent>
-              </Card>
-
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     BESLENME ALIŞKANLIKLARI
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+              
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('beslenme_alis')} expanded={this.state.expandList['beslenme_alis'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button">
+                  BESLENME ALIŞKANLIKLARI
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <ReduxFormSelect
@@ -826,19 +856,18 @@ class Envanter extends React.Component {
                       />
                     </Grid>
                   </Grid>
-                </CardContent>
-              </Card>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
 
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('diger_bilg')} expanded={this.state.expandList['diger_bilg'] || false}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button">
                     DİĞER BİLGİLER
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="kilo_almaya_baslangic" label="Ne zaman kilo almaya başladınız?" />
@@ -868,8 +897,8 @@ class Envanter extends React.Component {
                       <ReduxFormTextField name="kardes_yas_kilo" label="Kardeşinizin yaşı ve kilosu" />
                     </Grid>
                   </Grid>
-                </CardContent>
-              </Card>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
             </Form>
           </span>
         }
