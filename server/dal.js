@@ -1472,6 +1472,8 @@ exports.getAllDietitians = function (isAdmin) {
       r.tel = rows[userId].profile.tel
       r.email = rows[userId].profile.email
       r.refDietitian = rows[0].users[userId].refDietitian
+      r.addressType = rows[userId].profile.address_latlng != undefined ? "Harita" : (rows[userId].profile.address != undefined ? "Yazı" : "")
+      r.address = rows[userId].profile.address
     }
 
     ret.push(r);

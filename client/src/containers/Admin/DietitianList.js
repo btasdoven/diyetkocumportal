@@ -302,6 +302,7 @@ class Envanter extends React.Component {
                   { title: "Insta", field: "username" },
                   { title: "CreateDate", field: "create_date", type: 'datetime' },
                   { title: "PremiumUntil", field: "premium_until", type: 'datetime' },
+                  { title: "AddressType", field: "addressType" },
                   { title: "Danisan", field: "danisanCount", type: 'numeric' },
                   { title: "Randevu", field: "randevuCount", type: 'numeric' },
                   { title: "Blog", field: "blogCount", type: 'numeric' },
@@ -310,18 +311,19 @@ class Envanter extends React.Component {
                 title=""
                 detailPanel={rowData => {
                   return (
-                    <div style={{display:'flex', flexDirection: 'column'}}>
-                      <Typography variant="body2">Admin: {rowData.isAdmin}</Typography> 
-                      <Typography variant="body2">Tel: {rowData.tel}</Typography> 
-                      <Typography variant="body2">E-mail: {rowData.email}</Typography>
-                      <Typography variant="body2">Referans: {rowData.refDietitian}</Typography>
+                    <div style={{display:'flex', flexDirection: 'column', width: '100%', padding: '16px'}}>
+                      { rowData.isAdmin == true && (<Typography variant="body1">ADMİN KULLANICI</Typography>)}
+                      <Typography variant="body1">Tel: {rowData.tel}</Typography> 
+                      <Typography variant="body1">E-mail: {rowData.email}</Typography>
+                      <Typography variant="body1">Referans: {rowData.refDietitian}</Typography>
+                      <Typography variant="body1">Adres: {rowData.address}</Typography>
                     </div>
                   )
                 }}
-                paging={false}
-                emptyRowsWhenPaging={false}
-                toolbar={false}
-                pageSize={dietitians.length}
+                options={{
+                  paging: false,
+                  emptyRowsWhenPaging: false
+                }}
               />
 
               {/* {dietitians.map((step, index) => (
