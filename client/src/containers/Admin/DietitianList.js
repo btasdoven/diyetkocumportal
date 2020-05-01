@@ -321,6 +321,7 @@ class Envanter extends React.Component {
                 paging={false}
                 emptyRowsWhenPaging={false}
                 toolbar={false}
+                pageSize={dietitians.length}
               />
 
               {/* {dietitians.map((step, index) => (
