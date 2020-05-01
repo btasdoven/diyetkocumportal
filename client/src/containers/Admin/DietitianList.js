@@ -317,6 +317,7 @@ class Envanter extends React.Component {
                       <Typography variant="body1">E-mail: {rowData.email}</Typography>
                       <Typography variant="body1">Referans: {rowData.refDietitian}</Typography>
                       <Typography variant="body1">Adres: {rowData.address}</Typography>
+                      <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(rowData.username)}>Delete</Button>
                     </div>
                   )
                 }}
