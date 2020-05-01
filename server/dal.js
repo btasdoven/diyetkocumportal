@@ -542,7 +542,7 @@ exports.requestNewPasswordEmail = function(uname, userInfo) {
 
   if (rows[uname] == undefined ||
       rows[uname].profile.email != userInfo.email) {
-      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Şifre yenileme isteğinde bilgiler eslesmiyor`, JSON.stringify({profile: rows[uname].profile, userInfo: userInfo}))
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Şifre yenileme isteğinde bilgiler eslesmiyor`, JSON.stringify({profile: rows[uname].profile, userInfo: userInfo}, null, 4))
       return Promise.resolve(userInfo);
   }
 
