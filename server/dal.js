@@ -1462,8 +1462,12 @@ exports.getAllDietitians = function (isAdmin) {
       r.status = rows[0].users[userId].status
       r.danisanCount = rows[userId].danisans == undefined ? 0 : Object.keys(rows[userId].danisans).length
       r.randevuCount = rows[userId].appointments == undefined ? 0 : Object.keys(rows[userId].appointments).length
+      r.blogCount = rows[userId].profile.posts == undefined ? 0 : Object.keys(rows[userId].profile.posts).length
       r.create_date = rows[userId].profile.create_date
       r.premium_until = rows[0].users[userId].premium_until
+      r.tel = rows[userId].profile.tel
+      r.email = rows[userId].profile.email
+      r.refDietitian = rows[0].users[userId].refDietitian
     }
 
     ret.push(r);

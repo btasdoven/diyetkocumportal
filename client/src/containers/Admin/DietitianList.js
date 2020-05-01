@@ -308,11 +308,15 @@ class Envanter extends React.Component {
                     </List>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails style={{flexDirection: 'column'}}>
-                    <Typography variant="body2">Status: {dietitians[index].status}</Typography>
+                    {/* <Typography variant="body2">Status: {dietitians[index].status}</Typography> */}
                     <Typography variant="body2">Hesap Acma Tarihi: {dietitians[index].create_date}</Typography>
                     <Typography variant="body2">Premium Bitim Tarihi: {dietitians[index].premium_until}</Typography>
                     <Typography variant="body2">Danisan Sayisi: {dietitians[index].danisanCount}</Typography> 
-                    <Typography variant="body2">Randevu Sayisi: {dietitians[index].randevuCount}</Typography> <br />
+                    <Typography variant="body2">Randevu Sayisi: {dietitians[index].randevuCount}</Typography> 
+                    <Typography variant="body2">Blog Sayisi: {dietitians[index].blogCount}</Typography> 
+                    <Typography variant="body2">Tel: {dietitians[index].tel}</Typography> 
+                    <Typography variant="body2">E-mail: {dietitians[index].email}</Typography>
+                    <Typography variant="body2">Referans: {dietitians[index].refDietitian}</Typography> <br />
                     <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(dietitians[index].username)}>Delete</Button>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
