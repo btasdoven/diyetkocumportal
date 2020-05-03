@@ -63,7 +63,7 @@ class MainLayout extends Component {
 
   componentWillUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      console.log('reset title from ' + this.state.titleFromComp)
+      // console.log('reset title from ' + this.state.titleFromComp)
       this.setState({ titleFromComp: undefined})
     }
   }
@@ -76,7 +76,7 @@ class MainLayout extends Component {
 
   render() {
     const { classes, component: Component, ...rest } = this.props;
-    console.log(this.props);
+    
     return (
       <Fragment>
         <div className={classes.root}>

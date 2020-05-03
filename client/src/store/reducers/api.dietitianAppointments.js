@@ -12,7 +12,6 @@ const initState = {
 };
 
 const ModifyKeys = (items) => {
-  console.log(items)
   var ret = {}
   Object.keys(items).map((k) => {
     ret[k] = {
@@ -22,7 +21,6 @@ const ModifyKeys = (items) => {
     }
   })
 
-  console.log(ret)
   return ret
 }
 

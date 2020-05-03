@@ -72,7 +72,7 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   },
 }));
 
-const RewardCard = () => {
+const RewardCard = (props) => {
   const styles = useStyles();
   return (
     <Card className={styles.card}>
@@ -84,11 +84,10 @@ const RewardCard = () => {
         <Typography className={styles.heading} variant={'h6'} gutterBottom>
           Haftanın Enleri
         </Typography>
-        <Button className={styles.button} component={Link} 
-            to={{ 
-                pathname: `/enler`, 
-                state: {fromUrl: `/`}
-            }}
+        <Button className={styles.button} 
+            component={Link} 
+            onClick={props.onClick}
+            to={props.to}
         >KAZANANLARI GÖR</Button>
       </CardContent>
     </Card>

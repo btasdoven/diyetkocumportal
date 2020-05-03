@@ -12,6 +12,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
+import { registerEvent } from '../../components/Signin/PageTracker'
+
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 import { getDanisanPreviews } from '../../store/reducers/api.danisanPreviews';
 import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppointments';
@@ -136,15 +138,18 @@ class Dashboard extends React.Component {
       return (
         <div className={classes.root}>
           <Grid container>
-            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
+            {/* <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>Bildirimler</Typography>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <InfoCard 
                 title="Kişisel sayfana blog yazıları ekle"
                 content="Kişisel sayfan senin internetteki yeni yüzün. Sayfanı ziyaret eden danışanlarına bilgi vermek ve kendini daha iyi tanıtmak için kişisel sayfana eklemek istediğin blog yazılarını bize gönderebilirsin."
                 buttonText="BLOG YAZISI GÖNDER"
-                onClick={() => window.open(whatsappLink(), '_blank')}
+                onClick={() => {
+                  registerEvent("SendBlogPostViaWhatsAppFromDashboard")
+                  window.open(whatsappLink(), '_blank')
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
@@ -152,11 +157,14 @@ class Dashboard extends React.Component {
                 title="Arkadaşını getir, Premium kazan"
                 content="Herhangi bir diyetisyen arkadaşını referans linkin üzerinden Diyet Koçum'a üye yaparak 1 hafta ücretsiz Premium kazanabilirsin."
                 buttonText="ARKADAŞINI DAVET ET"
+                onClick={() => {
+                  registerEvent("InviteFriendFromDashboard")
+                }}
                 to={"/status"}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
-              <RewardCard />
+              <RewardCard onClick={() => registerEvent("ViewEnlerFromDashboard")} to="/enler"/>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>İstatistikler</Typography>

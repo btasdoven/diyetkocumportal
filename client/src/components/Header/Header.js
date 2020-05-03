@@ -201,7 +201,7 @@ class Header extends React.Component  {
               <ExpandMoreIcon color="primary"/>
             </IconButton>
           )}
-          {!this.props.backButton && this.props.noButton != true && (
+          {!this.props.backButton && this.props.noButton != true && !this.props.permanentDrawer && (
             <IconButton
               
               className={classes.menuButton}
