@@ -11,6 +11,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from "@material-ui/core/styles";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+
+import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
+import { getDanisanPreviews } from '../../store/reducers/api.danisanPreviews';
+import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppointments';
+
 import RewardCard from './RewardCard'
 import InfoCard from './InfoCard'
 import InfoCard2 from './InfoCard2'
@@ -45,84 +50,153 @@ function renderLoadingButton(classes) {
 class Dashboard extends React.Component {
   
     constructor(props) {
-      super(props);
+        super(props);
+
+        this.isLoadedDanisan = this.isLoadedDanisan.bind(this);
+        this.isLoadedDanisan = this.isLoadedDanisan.bind(this);
+        this.isLoadedAppointment = this.isLoadedAppointment.bind(this);
+      
+        this.state = {
+            userId: JSON.parse(localStorage.getItem('user')).id,
+        }
+    }
+
+    isLoadedProfile() {
+      var loaded = this.props.apiDietitianProfile != undefined &&
+        this.props.apiDietitianProfile[this.state.userId] != undefined &&
+        this.props.apiDietitianProfile[this.state.userId].isGetLoading != true &&
+        this.props.apiDietitianProfile[this.state.userId].data != undefined;
+  
+        return loaded;
+    }
+
+    isLoadedDanisan() {  
+      var loaded = this.props.apiDanisanPreviews != undefined &&
+        this.props.apiDanisanPreviews[this.state.userId] != undefined &&
+        this.props.apiDanisanPreviews[this.state.userId].isGetLoading != true &&
+        this.props.apiDanisanPreviews[this.state.userId].data != undefined;
+  
+        return loaded;
+    }
+
+    isLoadedAppointment() {
+      var loaded = this.props.apiDietitianAppointments != undefined &&
+        this.props.apiDietitianAppointments[this.state.userId] != undefined &&
+        this.props.apiDietitianAppointments[this.state.userId].isGetLoading != true &&
+        this.props.apiDietitianAppointments[this.state.userId].data != undefined;
+  
+        return loaded;
+    }
+
+    componentDidMount() {
+      if (!this.isLoadedProfile()) {
+        this.props.getDietitianProfile(this.state.userId);
+      }
+      if (!this.isLoadedDanisan()) {
+        this.props.getDanisanPreviews(this.state.userId);
+      }
+      if (!this.isLoadedAppointment()) {
+        this.props.getDietitianAppointments(this.state.userId);
+      }
     }
   
     render() {
-        const { classes } = this.props;
-        const showLoader = false;
-    
-        return (
-            <div className={classes.root}>
-                { showLoader && renderLoadingButton(classes) }
-                { !showLoader && 
-                    <Fragment>
-                        <Grid container>
-                            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
-                                <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>Bildirimler</Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
-                                <InfoCard />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
-                                <RewardCard />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
-                                <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>İstatistikler</Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
-                                <InfoCard3 
-                                    // title="19 MAYIS 2020 - 23 NİSAN 2020" 
-                                    value="44" 
-                                    unit="PROFİL ZİYARETİ"
-                                    img="//www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/hosting.png"
-                                    styles={{background: '#172568', color: '#fff'}} 
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
-                                <InfoCard3 
-                                    // title="19 MAYIS 2020 - 23 NİSAN 2020" 
-                                    value="13" 
-                                    unit="KAYITLI DANIŞANLARIM"
-                                    img="//www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/auth.png"
-                                    styles={{background: '#ab60b8', color: '#fff'}} 
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
-                                <InfoCard3 
-                                    // title="19 MAYIS 2020 - 23 NİSAN 2020" 
-                                    value="27" 
-                                    unit="RANDEVULARIM"
-                                    img="//www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/testlab.png"
-                                    styles={{background: '#00b098', color: '#fff'}} 
-                                />
-                            </Grid>
-                            {/* <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
-                                <InfoCard2 />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
-                                <InfoCard2 />
-                            </Grid> */}
-                        </Grid>
-                    </Fragment>
-                }
-            </div>
-        );
+      const { classes } = this.props;
+      const showLoader1 = !this.isLoadedProfile();
+      const showLoader2 = !this.isLoadedDanisan();
+      const showLoader3 = !this.isLoadedAppointment();
+      const dietitianProfile = showLoader1 ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
+      const danisanPreviews = showLoader2 ? undefined : this.props.apiDanisanPreviews[this.state.userId].data;
+      const appointments = showLoader3 ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
+      
+      var appointmentCount = 0
+
+      if (appointments != undefined) {
+        Object.keys(appointments).forEach((apptDay) => {
+          Object.keys(appointments[apptDay].data).forEach((apptHour) => {
+            ++appointmentCount;
+          })
+        })
       }
+    
+      return (
+        <div className={classes.root}>
+          <Grid container>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
+              <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>Bildirimler</Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
+              <InfoCard />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
+              <RewardCard />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
+              <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>İstatistikler</Typography>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
+              { showLoader1 && renderLoadingButton(classes) }
+              { !showLoader1 && 
+                <InfoCard3 
+                  // title="19 MAYIS 2020 - 23 NİSAN 2020" 
+                  value={dietitianProfile.pageViewCount}
+                  unit="PROFİL ZİYARETİ"
+                  img="//www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/hosting.png"
+                  styles={{background: '#172568', color: '#fff'}} 
+                />
+              }
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
+              { showLoader2 && renderLoadingButton(classes) }
+              { !showLoader2 && 
+                <InfoCard3 
+                  // title="19 MAYIS 2020 - 23 NİSAN 2020" 
+                  value={Object.keys(danisanPreviews).length}
+                  unit="KAYITLI DANIŞANLARIM"
+                  img="//www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/auth.png"
+                  styles={{background: '#ab60b8', color: '#fff'}} 
+                />
+              }
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
+              { showLoader3 && renderLoadingButton(classes) }
+              { !showLoader3 && 
+                <InfoCard3 
+                  // title="19 MAYIS 2020 - 23 NİSAN 2020" 
+                  value={appointmentCount}
+                  unit="RANDEVULARIM"
+                  img="//www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/testlab.png"
+                  styles={{background: '#00b098', color: '#fff'}} 
+                />
+              }
+            </Grid>
+          </Grid>
+        </div>
+      );
+    }
   };
   
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+
     return {
+      apiDietitianProfile: state.apiDietitianProfile,
+      apiDanisanPreviews: state.apiDanisanPreviews,
+      apiDietitianAppointments: state.apiDietitianAppointments,
     };
-};
+  };
   
-const mapDispatchToProps = dispatch => {
+  const mapDispatchToProps = dispatch => {
     return bindActionCreators(
-        {
-        },
-        dispatch
+      {
+        getDietitianProfile: (userId) => getDietitianProfile(userId),
+        getDanisanPreviews: (userId) => getDanisanPreviews(userId),
+        getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date),
+      },
+      dispatch
     );
-};
+  };
   
 export default connect(
     mapStateToProps,

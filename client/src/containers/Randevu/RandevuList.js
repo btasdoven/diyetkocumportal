@@ -205,15 +205,11 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
-
     var loaded = this.props.apiDietitianAppointments != undefined &&
       this.props.apiDietitianAppointments[this.state.userId] != undefined &&
       this.props.apiDietitianAppointments[this.state.userId].isGetLoading != true &&
       this.props.apiDietitianAppointments[this.state.userId].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
   

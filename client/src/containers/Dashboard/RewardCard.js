@@ -78,13 +78,13 @@ const RewardCard = () => {
     <Card className={styles.card}>
       {/* <CardMedia className={styles.media} image={'https://jkkm.info/ui/images/awards/victory.png'} /> */}
       <CardContent className={styles.content}>
-        <Typography className={styles.overline} variant={'overline'}>
+        {/* <Typography className={styles.overline} variant={'overline'}>
           25 NİSAN 2020 - 2 MAYIS 2020
-        </Typography>
+        </Typography> */}
         <Typography className={styles.heading} variant={'h6'} gutterBottom>
           Haftanın Enleri
         </Typography>
-        <Button size="small" className={styles.button} component={Link} 
+        <Button className={styles.button} component={Link} 
             to={{ 
                 pathname: `/enler`, 
                 state: {fromUrl: `/`}
