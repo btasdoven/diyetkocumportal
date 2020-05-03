@@ -291,6 +291,7 @@ class Envanter extends React.Component {
           <SpeedDial
             icon={<PostAddIcon />}
             iconText={"YENİ ÖLÇÜM EKLE"}
+            eventText={"DanisanYeniOlcumEkle"}
             // hidden={this.props.pristine}
             onClickFab={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})}
             // actions={[

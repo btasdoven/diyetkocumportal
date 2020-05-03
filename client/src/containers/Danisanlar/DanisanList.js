@@ -249,6 +249,7 @@ class Envanter extends React.Component {
           <SpeedDial
             icon={<PersonAddIcon />}
             iconText={"DANIŞAN EKLE"}
+            eventText={"DanisanEkle"}
             onClickFab={() => this.setState({newDanisan: true})}
           />
 

@@ -684,7 +684,7 @@ exports.signUpUser = function(uname, userInfo) {
         ? "TEST - " + uname + " - "
         : "PROD - " + uname + " - "
     
-      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify(rows[0].users[uname]))
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify(rows[0].users[uname], null, 4))
     
       return Promise.resolve(userInfo);
     })
@@ -973,7 +973,7 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
     ? "TEST - " + userId + " - "
     : "PROD - " + userId + " - "
 
-    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `added credit card info`, JSON.stringify(rows[userId].profile))
+    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `added credit card info`, JSON.stringify(rows[userId].profile, null, 4))
   } else if (dietitianProfile.cardNumber == undefined) {
     // 
     // delete cc from 0.
@@ -985,7 +985,7 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
     ? "TEST - " + userId + " - "
     : "PROD - " + userId + " - "
 
-    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `updated profile info`, JSON.stringify(rows[userId].profile))
+    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `updated profile info`, JSON.stringify(rows[userId].profile, null, 4))
   }
 
   console.log(rows[userId].profile)
@@ -1036,7 +1036,7 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
   ? "TEST - " + userId + " - " + danisanUserName + " - "
   : "PROD - " + userId + " - " + danisanUserName + " - "
 
-  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `updated danisan info`, JSON.stringify(rows[userId].danisans[danisanUserName]))
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `updated danisan info`, JSON.stringify(rows[userId].danisans[danisanUserName], null, 4))
 }
 
 exports.getDanisanMessages = function (userId, danisanUserName) {
@@ -1431,7 +1431,7 @@ exports.deleteDietitian = function (userId, callerUser) {
       ? "TEST - " + userId + " - "
       : "PROD - " + userId + " - "
 
-      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Deleted user ${userId}`, JSON.stringify(content))
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Deleted user ${userId}`, JSON.stringify(content, null, 4))
 
       return Promise.resolve()
     })

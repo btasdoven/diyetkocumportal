@@ -390,6 +390,7 @@ class Envanter extends React.Component {
               <SpeedDial
                 icon={<SaveIcon />}
                 iconText={"KAYDET"}
+                eventText={"DanisanAnamnezFormKaydet"}
                 hidden={this.props.pristine}
                 onClickFab={this.props.handleSubmit(this.onSubmitInternal)}
                 // actions={[

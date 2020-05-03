@@ -376,6 +376,7 @@ class LandingPage extends React.Component {
           <SpeedDial
             icon={<WhatsappIcon style={{marginTop: '-8px', marginRight: '-8px'}} size={40} round={true}/>}
             iconText={this.state.showWhatsappText ? "BİZE YAZIN" : undefined}
+            eventText={"LandingPageBizeYazin"}
             onClickFab={() => window.open(whatsappLink(), '_blank')}
             // actions={[
             //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')},

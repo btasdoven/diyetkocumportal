@@ -409,6 +409,7 @@ class Envanter extends React.Component {
             <SpeedDial
                 icon={<SaveIcon />}
                 iconText={"KAYDET"}
+                eventText={"DiyetisyenProfilKaydet"}
                 hidden={this.props.pristine}
                 onClickFab={this.props.handleSubmit(this.onSubmitInternal)}
                 // actions={[
@@ -421,7 +422,7 @@ class Envanter extends React.Component {
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
             >
-              <Card className={classes.card}>
+              <Card className={classes.card} style={{marginTop: '8px'}}>
                 <CardHeader
                   avatar={
                       <Avatar className={classes.avatar} alt={this.state.user.name} src={userService.getStaticFileUri(this.state.user.url)} />

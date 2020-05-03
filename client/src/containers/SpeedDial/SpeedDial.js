@@ -39,7 +39,7 @@ export default function SpeedDials(props) {
 
   const handleClick = () => {
     
-    registerEvent("ClickSpeedDial_" + props.iconText)
+    registerEvent("ClickSpeedDial_" + props.eventText)
     props.onClickFab && props.onClickFab();
 
     if (props.actions) {
