@@ -168,7 +168,7 @@ class Dashboard extends React.Component {
               { !showLoader1 && 
                 <InfoCard3 
                   // title="19 MAYIS 2020 - 23 NİSAN 2020" 
-                  value={dietitianProfile.pageViewCount}
+                  value={dietitianProfile.pageViewCount || 0 }
                   unit="PROFİL ZİYARETİ"
                   img="//www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/hosting.png"
                   styles={{background: '#172568', color: '#fff'}} 

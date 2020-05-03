@@ -421,7 +421,7 @@ class Envanter extends React.Component {
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                 name={this.props.form}
             >
-              <Card variant="outlined" className={classes.card}>
+              <Card className={classes.card}>
                 <CardHeader
                   avatar={
                       <Avatar className={classes.avatar} alt={this.state.user.name} src={userService.getStaticFileUri(this.state.user.url)} />

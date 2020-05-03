@@ -2,7 +2,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-require('console-stamp')(console, 'HH:MM:ss.l');
+// require('console-stamp')(console, 'HH:MM:ss.l');
 
 const stringHash = require("string-hash");
 const qs = require('querystring');
@@ -430,7 +430,7 @@ app.get('/api/v1/sendMassEmail', (req, res) => {
   });
 })
 
-app.put('/api/v1/trackActivity/:userId', (req, res) => {
+app.put('/api/v1/trackActivity/:userId?', (req, res) => {
   setTimeout((function() {
     dal.trackActivity(req.params.userId || undefined, req.body ? req.body.event : undefined)
     res.setHeader('Content-Type', 'application/json');

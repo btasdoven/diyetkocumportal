@@ -1582,6 +1582,24 @@ exports.sendMassEmail = function() {
 }
 
 exports.trackActivity = function (userId, event) {
+  console.log(userId, event)
+  if (event != undefined && event.startsWith("PageView_")) {
+    var pageUrl = event.split("_")[1]
+    var dietitianId = pageUrl.split("/")[1]
+
+    console.log(pageUrl, dietitianId)
+
+    if (rows[dietitianId] != undefined) {
+      if (rows[dietitianId].profile.pageViewCount == undefined) {
+        rows[dietitianId].profile.pageViewCount = 0
+      }
+
+      rows[dietitianId].profile.pageViewCount++;
+
+      storage.setItem(dietitianId, rows[dietitianId]);
+    }
+  }
+
   if (userId == undefined || userId == '') 
     return
 
