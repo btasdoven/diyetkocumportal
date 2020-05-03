@@ -39,6 +39,7 @@ import DiyetisyenListView from './containers/Randevu/DiyetisyenListView'
 import ForgotPassword from './containers/Register/ForgotPassword'
 import ResetPassword from './containers/Register/ResetPassword'
 import AdminView from './containers/Admin/AdminView'
+import Dashboard from './containers/Dashboard/Dashboard'
 
 import DateFnsUtils from '@date-io/date-fns';
 import trLocale from "date-fns/locale/tr";
@@ -107,7 +108,7 @@ class App extends Component {
                     <Switch>
                       <EmptyRoute path="/enler" component={Enler} />
                       <EmptyRoute path="/blog" component={BlogList} />
-                      <Route exact path="/" render={() => <Redirect to="/me" />} />
+                      <DashboardRoute exact path="/" component={Dashboard} />
                       <DashboardRoute exact path="/status" component={ProfileStatus} />
 
                       <DashboardRoute exact path="/c" component={DanisanList} />
