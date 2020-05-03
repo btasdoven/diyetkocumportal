@@ -8,7 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import DashboardIcon from "@material-ui/icons/DashboardOutlined";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ChatIcon from "@material-ui/icons/ChatOutlined";
 import HistoryIcon from "@material-ui/icons/History";
@@ -171,12 +171,12 @@ class Sidebar extends React.Component {
               
           <Divider />
           <List dense={true} style={{paddingRight: '8px'}}>
-            {/* <ListItem button component={Link} to='/' selected={location.pathname === '/'}>
+            <ListItem button component={Link} to='/' selected={location.pathname === '/'}>
               <ListItemIcon>
                 <DashboardIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Ana Sayfa</Typography>
-            </ListItem> */}
+            </ListItem>
               
             <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/c' selected={location.pathname.startsWith('/c')}>
               <ListItemIcon>

@@ -47,6 +47,20 @@ function renderLoadingButton(classes) {
     )
 } 
 
+function isMobileOrTablet() {
+  return /(android|iphone|ipad|mobile)/i.test(navigator.userAgent);
+}
+
+function whatsappLink() {
+  console.log(isMobileOrTablet());
+  
+  return (
+    'https://' +
+    (isMobileOrTablet() ? 'api' : 'web') +
+    '.whatsapp.com/send?phone=19712177653'
+  );
+}
+
 class Dashboard extends React.Component {
   
     constructor(props) {
@@ -108,7 +122,7 @@ class Dashboard extends React.Component {
       const dietitianProfile = showLoader1 ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
       const danisanPreviews = showLoader2 ? undefined : this.props.apiDanisanPreviews[this.state.userId].data;
       const appointments = showLoader3 ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
-      
+
       var appointmentCount = 0
 
       if (appointments != undefined) {
@@ -126,7 +140,20 @@ class Dashboard extends React.Component {
               <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>Bildirimler</Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
-              <InfoCard />
+              <InfoCard 
+                title="Kişisel sayfana blog yazıları ekle"
+                content="Kişisel sayfan senin internetteki yeni yüzün. Sayfanı ziyaret eden danışanlarına bilgi vermek ve kendini daha iyi tanıtmak için kişisel sayfana eklemek istediğin blog yazılarını bize gönderebilirsin."
+                buttonText="BLOG YAZISI GÖNDER"
+                onClick={() => window.open(whatsappLink(), '_blank')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
+              <InfoCard 
+                title="Arkadaşını getir, Premium kazan"
+                content="Herhangi bir diyetisyen arkadaşını referans linkin üzerinden Diyet Koçum'a üye yaparak 1 hafta ücretsiz Premium kazanabilirsin."
+                buttonText="ARKADAŞINI DAVET ET"
+                to={"/status"}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <RewardCard />

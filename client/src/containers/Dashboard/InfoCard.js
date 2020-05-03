@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   card: {
@@ -65,34 +66,19 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   // },
 }));
 
-
-function isMobileOrTablet() {
-  return /(android|iphone|ipad|mobile)/i.test(navigator.userAgent);
-}
-
-function whatsappLink() {
-  console.log(isMobileOrTablet());
-  
-  return (
-    'https://' +
-    (isMobileOrTablet() ? 'api' : 'web') +
-    '.whatsapp.com/send?phone=19712177653'
-  );
-}
-
-const RewardCard = () => {
+const RewardCard = (props) => {
   const styles = useStyles();
   return (
     <Card className={styles.card}>
       {/* <CardMedia className={styles.media} image={'https://jkkm.info/ui/images/awards/victory.png'} /> */}
       <CardContent className={styles.content}>
         <Typography className={styles.overline} variant={'h6'}>
-          Kişisel sayfana blog yazıları ekle
+          {props.title}
         </Typography>
         <Typography className={styles.heading} variant={'subtitle2'} gutterBottom>
-          Kişisel sayfan senin internetteki yeni yüzün. Sayfanı ziyaret eden danışanlarına bilgi vermek ve kendini daha iyi tanıtmak için kişisel sayfana eklemek istediğin blog yazılarını bize gönderebilirsin.
+          {props.content}
         </Typography>
-        <Button onClick={() => window.open(whatsappLink(), '_blank')} className={styles.button}>BLOG YAZISI GÖNDER</Button>
+        <Button onClick={props.onClick} component={Link} to={props.to} className={styles.button}>{props.buttonText}</Button>
       </CardContent>
     </Card>
   );
