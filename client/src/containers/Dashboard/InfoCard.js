@@ -78,7 +78,7 @@ const RewardCard = (props) => {
         <Typography className={styles.heading} variant={'subtitle2'} gutterBottom>
           {props.content}
         </Typography>
-        <Button color="secondary" onClick={props.onClick} component={Link} to={props.to} className={styles.button}>{props.buttonText}</Button>
+        <Button color="secondary" onClick={props.onClick} component={props.to != undefined ? Link : "div"} to={props.to} className={styles.button}>{props.buttonText}</Button>
       </CardContent>
     </Card>
   );

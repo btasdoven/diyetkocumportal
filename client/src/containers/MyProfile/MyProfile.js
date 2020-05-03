@@ -540,13 +540,21 @@ class Envanter extends React.Component {
                     <Grid item xs={12}>
                       <ReduxFormTextField name="unvan" label="Ünvanım" />
                     </Grid>
-
+{/* 
                     <Grid item xs={12}>
                       <ReduxFormTextField name="instagram" label="Instagram kullanıcı adım" />
+                    </Grid> */}
+
+                    <Grid item xs={12}>
+                      <ReduxFormTextField multiline name="uzmanlik_alanlari" label="Uzmanlık alanlarım" />
                     </Grid>
 
                     <Grid item xs={12}>
-                      <ReduxFormTextField rows={3} rowsMax={6} multiline name="ozgecmis" label="Öz geçmişim" />
+                      <ReduxFormTextField multiline name="university" label="Mezun olduğum okul" />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <ReduxFormTextField rows={3} rowsMax={6} multiline name="ozgecmis" label="Hakkımda" />
                     </Grid>
                   </Grid>
                 </ExpansionPanelDetails>
@@ -574,6 +582,10 @@ class Envanter extends React.Component {
 
                     <Grid item xs={12}>
                       <ReduxFormMaskedTextField fullWidth name="tel" label="Telefon numaram" />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <ReduxFormTextField disabled InputProps={{ readOnly: true }} name="instagram" label="Instagram kullanıcı adım" />
                     </Grid>
 
                     <Grid item xs={12}>

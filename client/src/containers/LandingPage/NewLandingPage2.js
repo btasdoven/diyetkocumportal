@@ -276,8 +276,6 @@ class LandingPage extends React.Component {
     var diffInMs = Date.now() - Date.parse('2/9/20');
     var diffInHrs = diffInMs / 1000 / 60 / 60;
 
-    console.log(this.props.theme)
-
     return (
       <React.Fragment >
         <CssBaseline />

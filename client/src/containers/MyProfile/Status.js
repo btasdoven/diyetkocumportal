@@ -728,7 +728,7 @@ class Envanter extends React.Component {
                   <Grid container spacing={0}>
                     <Grid item xs={12} style={{display: 'flex', flexDirection: 'column'}}>
                       <div className={classes.text}>
-                        <Typography variant="body2">Herhangi bir diyetisyen arkadaşını aşağıdaki linki paylaşarak üye yaparsan 1 hafta ücretsiz Premium paketi kazanabilirsin.</Typography>
+                        <Typography variant="body2">1 hafta ücretsiz Premium paket kazanmak için herhangi bir diyetisyen arkadaşını aşağıdaki referans linkin üzerinden üye yapabilirsin.</Typography>
                       </div>
                       
                       <CopyToClipboard text={"https://diyetkocum.net/signup?ref=" + this.state.userId} >
@@ -742,7 +742,7 @@ class Envanter extends React.Component {
                             onDelete={this.handleLinkCopied}
                             deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
                             variant="outlined"
-                            size="small"
+                            // size="small"
                           />
                         </span>
                       </CopyToClipboard>
