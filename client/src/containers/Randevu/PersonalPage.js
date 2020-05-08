@@ -15,6 +15,7 @@ import Divider from "@material-ui/core/Divider";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
+import SelectAddressOnMap from '../../components/SelectAddressOnMap'
 
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
@@ -241,6 +242,31 @@ class PersonalPage extends React.Component {
                                 {/* </div> */}
                             </Card>
 
+                            {user.uzmanlik_alanlari && 
+                                <Card elevation={1} className={classes.card}>
+                                    <CardHeader
+                                        style={{ textAlign: 'center' }}
+                                        title={
+                                            <Box my={1}>
+                                                <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">UZMANLIK ALANLARIM</Typography>
+                                            </Box>
+                                        }
+                                    />
+                                    <CardContent style={{ paddingTop: 0 }}>
+                                        <Grid container>
+                                            <Grid item xs={12}>
+                                                <div>
+                                                    <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
+                                                        {user.uzmanlik_alanlari}
+                                                    </Typography>
+                                                </div>
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                    {/* </div> */}
+                                </Card>
+                            }
+
                             <Box my={1} />
 
                             {user.badges && Object.keys(user.badges).length > 0 && (
@@ -302,7 +328,6 @@ class PersonalPage extends React.Component {
                                             )}
                                         </Grid>
                                     </CardContent>
-                                    {/* </div> */}
                                 </Card>
                             )}
 

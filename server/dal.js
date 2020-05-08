@@ -1585,7 +1585,14 @@ exports.trackActivity = function (userId, event) {
   console.log(userId, event)
   if (event != undefined && event.startsWith("PageView_")) {
     var pageUrl = event.split("_")[1]
-    var dietitianId = pageUrl.split("/")[1]
+    var pageParams = pageUrl.split("/");
+    
+    dietitianId = pageParams[1]
+
+    if (dietitianId == 'd' && pageParams.length > 2)
+    {
+      dietitianId = pageParams[2];
+    }
 
     console.log(pageUrl, dietitianId)
 
