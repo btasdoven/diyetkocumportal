@@ -188,7 +188,7 @@ class Dashboard extends React.Component {
               { !showLoader2 && 
                 <InfoCard3 
                   // title="19 MAYIS 2020 - 23 NİSAN 2020" 
-                  value={Object.keys(danisanPreviews).length}
+                  value={Object.keys(danisanPreviews).filter(d => danisanPreviews[d].visibleToDietitian != false).length}
                   unit="KAYITLI DANIŞANLARIM"
                   img="//www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/auth.png"
                   styles={{background: '#ab60b8', color: '#fff'}} 
