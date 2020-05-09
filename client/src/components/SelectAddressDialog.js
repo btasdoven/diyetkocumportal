@@ -216,7 +216,7 @@ class FieldDialog extends React.Component {
                       İPTAL
                   </Button>
                   <Button disabled={this.props.submitting} onClick={() => this.handleClose(false)} color="secondary">
-                      KONUMU ONAYLA
+                      ONAYLA
                   </Button>
               </DialogActions>
           </Dialog>

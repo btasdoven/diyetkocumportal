@@ -694,7 +694,7 @@ class Envanter extends React.Component {
                             subheader="September 14, 2016"
                           /> */}
 
-                          <ShowAddressOnMap latlng={address.latlng}/>
+                          {address.latlng && <ShowAddressOnMap latlng={address.latlng}/>}
                           <div style={{display:'flex', alignItems: 'center', marginTop: '16px'}}>
                             <Typography variant="body1" >{address.address}</Typography>
                             <IconButton
@@ -730,7 +730,7 @@ class Envanter extends React.Component {
                                 <Field component="input" name={`addresses["${ad}"].latlng.lng`} label="Lng" type="hidden" />
                                 <Field component="input" name={`addresses["${ad}"].latlng.zoom`} label="Zoom" type="hidden" />
                                 <Button variant="outlined" color="primary" onClick={() => this.setState({openDialog: `address_${ad}_map`})}>
-                                  HARİTADA YERİNİ SEÇ
+                                  HARİTADAN KONUM SEÇ
                                 </Button>                        
 
                                 {this.state.openDialog == `address_${ad}_map` && 

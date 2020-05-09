@@ -15,7 +15,6 @@ import Divider from "@material-ui/core/Divider";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import SelectAddressOnMap from '../../components/SelectAddressOnMap'
 
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
