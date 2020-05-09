@@ -306,6 +306,7 @@ class Envanter extends React.Component {
                   { title: "Danisan", field: "danisanCount", type: 'numeric' },
                   { title: "Randevu", field: "randevuCount", type: 'numeric' },
                   { title: "Blog", field: "blogCount", type: 'numeric' },
+                  { title: "PageView", field: "pageViewCount", type: 'numeric' },
                 ]}
                 data={dietitians}
                 title=""
