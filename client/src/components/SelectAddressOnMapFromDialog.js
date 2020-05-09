@@ -15,7 +15,7 @@ class MapInternal extends React.Component {
         //     zoom: props.zoom,
         //     center: props.latlng
         // }
-        console.log(props)
+        console.log("map props", props)
     }
 
     // handleBoundsChanged() {
@@ -31,6 +31,7 @@ class MapInternal extends React.Component {
     // }
 
     render() {
+        console.log(this.props)
         return (
             <Fragment>
                 <GoogleMap

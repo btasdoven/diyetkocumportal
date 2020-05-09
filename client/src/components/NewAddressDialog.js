@@ -230,18 +230,28 @@ class FieldDialog extends React.Component {
 
         this.state = {
           ad: Date.now(),
-          latlng: props.latlng
+          latlng: props.latlng,
+          shouldDraw: false,
         }
     }
 
     componentDidMount() {
-      if ("geolocation" in navigator && this.state.latlng == undefined) {
-        var that = this
-        navigator.geolocation.getCurrentPosition(function(position) {
-          that.setState({latlng: { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 17}})
-        });
-      } else {
-      }
+        console.log('didmount')
+        if ("geolocation" in navigator && this.state.latlng == undefined) {
+          var that = this
+          console.log('geoloc')
+          navigator.geolocation.getCurrentPosition(
+              function(position) {
+                that.setState({shouldDraw: true, latlng: { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 17}})
+              },
+              function(error) {
+                console.error("Error Code = " + error.code + " - " + error.message);
+                that.setState({shouldDraw: true})
+              }
+          );
+        } else {
+            this.setState({shouldDraw: true})
+        }
     }
 
     handleClose(cancel=false) {
@@ -271,12 +281,14 @@ class FieldDialog extends React.Component {
                 {/* <Typography variant="subtitle1">Ofisinin konumunu seç</Typography> */}
                 <Grid container spacing={2}>
                   <Grid style={{alignItems: 'center', justifyContent: 'center'}} item xs={12}>
-                    <SelectAddressOnMapFromDialog 
-                      lat={this.state.latlng ? this.state.latlng.lat : undefined}
-                      lng={this.state.latlng ? this.state.latlng.lng : undefined}
-                      zoom={this.state.latlng ? this.state.latlng.zoom : undefined}
-                      ref={this.refMap}
-                    />
+                    {this.state.shouldDraw && 
+                      <SelectAddressOnMapFromDialog 
+                        lat={this.state.latlng ? this.state.latlng.lat : undefined}
+                        lng={this.state.latlng ? this.state.latlng.lng : undefined}
+                        zoom={this.state.latlng ? this.state.latlng.zoom : undefined}
+                        ref={this.refMap}
+                      />
+                    }
                     <Field component="input" name={`addresses["${ad}"].latlng.lat`} label="Lat" type="hidden" />
                     <Field component="input" name={`addresses["${ad}"].latlng.lng`} label="Lng" type="hidden" />
                     <Field component="input" name={`addresses["${ad}"].latlng.zoom`} label="Zoom" type="hidden" />

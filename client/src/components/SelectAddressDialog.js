@@ -183,17 +183,27 @@ class FieldDialog extends React.Component {
         this.refMap = React.createRef();
 
         this.state = {
+          shouldDraw: false,
           latlng: props.latlng
         }
     }
 
     componentDidMount() {
+        console.log('didmount')
         if ("geolocation" in navigator && this.state.latlng == undefined) {
           var that = this
-          navigator.geolocation.getCurrentPosition(function(position) {
-            that.setState({latlng: { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 17}})
-          });
+          console.log('geoloc')
+          navigator.geolocation.getCurrentPosition(
+              function(position) {
+                that.setState({shouldDraw: true, latlng: { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 17}})
+              },
+              function(error) {
+                console.error("Error Code = " + error.code + " - " + error.message);
+                that.setState({shouldDraw: true})
+              }
+          );
         } else {
+            this.setState({shouldDraw: true})
         }
     }
 
@@ -211,6 +221,9 @@ class FieldDialog extends React.Component {
     }
 
     render() {
+
+        console.log(this.state.latlng)
+
         return (
           <Dialog 
               fullWidth
@@ -219,11 +232,14 @@ class FieldDialog extends React.Component {
           >
               <DialogTitle id="form-dialog-title">Haritada Ofis Konumunu Seç</DialogTitle>
               <DialogContent>
-                <SelectAddressOnMapFromDialog 
-                    lat={this.state.latlng ? this.state.latlng.lat : undefined}
-                    lng={this.state.latlng ? this.state.latlng.lng : undefined}
-                    zoom={this.state.latlng ? this.state.latlng.zoom : undefined}
-                    ref={this.refMap}/>
+                {this.state.shouldDraw && 
+                    <SelectAddressOnMapFromDialog 
+                        lat={this.state.latlng ? this.state.latlng.lat : undefined}
+                        lng={this.state.latlng ? this.state.latlng.lng : undefined}
+                        zoom={this.state.latlng ? this.state.latlng.zoom : undefined}
+                        ref={this.refMap}
+                    />
+                }
               </DialogContent>
               <DialogActions>
                   <Button disabled={this.props.submitting} onClick={() => this.handleClose(true)} color="secondary">
