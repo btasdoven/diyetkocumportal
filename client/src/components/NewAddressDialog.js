@@ -229,8 +229,19 @@ class FieldDialog extends React.Component {
         this.refMap = React.createRef();
 
         this.state = {
-          ad: Date.now()
+          ad: Date.now(),
+          latlng: props.latlng
         }
+    }
+
+    componentDidMount() {
+      if ("geolocation" in navigator && this.state.latlng == undefined) {
+        var that = this
+        navigator.geolocation.getCurrentPosition(function(position) {
+          that.setState({latlng: { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 17}})
+        });
+      } else {
+      }
     }
 
     handleClose(cancel=false) {
@@ -248,9 +259,7 @@ class FieldDialog extends React.Component {
     }
 
     render() {
-
         var ad = this.state.ad;
-
         return (
           <Dialog 
               fullWidth
@@ -263,9 +272,9 @@ class FieldDialog extends React.Component {
                 <Grid container spacing={2}>
                   <Grid style={{alignItems: 'center', justifyContent: 'center'}} item xs={12}>
                     <SelectAddressOnMapFromDialog 
-                      lat={this.props.latlng ? this.props.latlng.lat : undefined}
-                      lng={this.props.latlng ? this.props.latlng.lng : undefined}
-                      zoom={this.props.latlng ? this.props.latlng.zoom : undefined}
+                      lat={this.state.latlng ? this.state.latlng.lat : undefined}
+                      lng={this.state.latlng ? this.state.latlng.lng : undefined}
+                      zoom={this.state.latlng ? this.state.latlng.zoom : undefined}
                       ref={this.refMap}
                     />
                     <Field component="input" name={`addresses["${ad}"].latlng.lat`} label="Lat" type="hidden" />
@@ -291,7 +300,7 @@ class FieldDialog extends React.Component {
                   <Button disabled={this.props.submitting} onClick={() => this.handleClose(true)} color="secondary">
                       İPTAL
                   </Button>
-                  <Button disabled={this.props.submitting} onClick={() => this.handleClose(false)} color="secondary">
+                  <Button disabled={this.props.submitting || this.props.invalid} onClick={() => this.handleClose(false)} color="secondary">
                       OFİS EKLE
                   </Button>
               </DialogActions>

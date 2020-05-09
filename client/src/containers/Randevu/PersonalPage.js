@@ -213,9 +213,11 @@ class PersonalPage extends React.Component {
                                 {Object.keys(user.addresses).length > 0 && <Button style={{ fontSize: '16px', fontWeight: '600', border: '2px solid', color: "#05386b" }} size="large" variant="outlined" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>}
                             </div>
 
-                            <Typography variant="caption" style={{ textAlign: 'center', padding: '24px', paddingTop: '8px' }} className={classes.text} >
-                                Diyetisyeniniz ile gerçekleştireceğiniz online ya da yüz yüze randevular diyetisyeninizin belirleyeceği ücrete tabidir.
-                            </Typography>
+                            {(Object.keys(user.addresses).length > 0 || user.online_diyet == true) && 
+                                <Typography variant="caption" style={{ textAlign: 'center', padding: '24px', paddingTop: '8px' }} className={classes.text} >
+                                    Diyetisyeniniz ile gerçekleştireceğiniz online ya da yüz yüze randevular diyetisyeninizin belirleyeceği ücrete tabidir.
+                                </Typography>
+                            }
 
                             {/* <Divider /> */}
 

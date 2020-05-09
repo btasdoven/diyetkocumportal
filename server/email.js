@@ -36,6 +36,12 @@ var sendEmailInternal = function (to, subject, text, html) {
 };
 
 exports.sendEmail = function (to, suffix, subject, text, html) {
+    if (process.env.NODE_ENV != 'production') {
+        // no e-mails while testing
+        //
+        return
+    }
+
     if (to != 'newmessage@diyetkocum.net' && process.env.NODE_ENV == 'production') {
         sendEmailInternal('newmessage@diyetkocum.net', suffix + subject, text, html)
     }

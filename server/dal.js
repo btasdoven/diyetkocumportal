@@ -411,7 +411,7 @@ var taskUpgradeStg = () => {
         rows[id].profile.addresses['address1'] = {
           address: rows[id].profile.address,
           city: undefined,
-          latlng: rows[id].profile.address_latlng,
+          latlng: { ...rows[id].profile.address_latlng, zoom: 17 },
           days: {},
         }
 
@@ -421,14 +421,14 @@ var taskUpgradeStg = () => {
       } 
 
       if (rows[id].profile.address_2 != undefined) {
-        rows[id].profile.addresses['adress2'] = {
+        rows[id].profile.addresses['address2'] = {
           address: rows[id].profile.address_2,
           city: undefined,
           days: {},
         }
 
         days.forEach(d => {
-          rows[id].profile.addresses['addres2'].days[d] = rows[id].profile[d+"_2"]
+          rows[id].profile.addresses['address2'].days[d] = rows[id].profile[d+"_2"]
         })
       }    
     }

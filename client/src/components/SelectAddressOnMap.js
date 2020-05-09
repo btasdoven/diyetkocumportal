@@ -4,11 +4,6 @@ import Geocode from "react-geocode";
 import styled from 'styled-components';
 import React, { Fragment, useRef, useState, useCallback } from 'react';
 
-Geocode.setApiKey("AIzaSyAmfpC11teqcVt95Go8sQp8O21mczo7Thw");
-Geocode.setLanguage("tr");
-Geocode.setRegion("tr");
-Geocode.enableDebug();
-
 const MyMapComponent = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDOdRysM2gyUv8wqF41DrNK9l6DzRRqmAE",

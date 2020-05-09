@@ -181,6 +181,20 @@ class FieldDialog extends React.Component {
         this.handleClose = this.handleClose.bind(this);
 
         this.refMap = React.createRef();
+
+        this.state = {
+          latlng: props.latlng
+        }
+    }
+
+    componentDidMount() {
+        if ("geolocation" in navigator && this.state.latlng == undefined) {
+          var that = this
+          navigator.geolocation.getCurrentPosition(function(position) {
+            that.setState({latlng: { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 17}})
+          });
+        } else {
+        }
     }
 
     handleClose(cancel) {
@@ -206,9 +220,9 @@ class FieldDialog extends React.Component {
               <DialogTitle id="form-dialog-title">Haritada Ofis Konumunu Seç</DialogTitle>
               <DialogContent>
                 <SelectAddressOnMapFromDialog 
-                    lat={this.props.latlng ? this.props.latlng.lat : undefined}
-                    lng={this.props.latlng ? this.props.latlng.lng : undefined}
-                    zoom={this.props.latlng ? this.props.latlng.zoom : undefined}
+                    lat={this.state.latlng ? this.state.latlng.lat : undefined}
+                    lng={this.state.latlng ? this.state.latlng.lng : undefined}
+                    zoom={this.state.latlng ? this.state.latlng.zoom : undefined}
                     ref={this.refMap}/>
               </DialogContent>
               <DialogActions>
