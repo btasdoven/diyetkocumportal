@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,14 +9,26 @@ import Paper from '@material-ui/core/Paper';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import { userService } from '../../services/user.service'
+import ShowAddressOnMap from '../../components/ShowAddressOnMap'
+import SelectAddressDialog from '../../components/SelectAddressDialog'
+import NewAddressDialog from '../../components/NewAddressDialog'
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from "react-router-dom";
+import FolderIcon from '@material-ui/icons/Folder';
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardHeader from "@material-ui/core/CardHeader";
+import Collapse from '@material-ui/core/Collapse';
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { bindActionCreators } from "redux";
@@ -588,10 +600,6 @@ class Envanter extends React.Component {
                       <ReduxFormTextField disabled InputProps={{ readOnly: true }} name="instagram" label="Instagram kullanıcı adım" />
                     </Grid>
 
-                    <Grid item xs={12}>
-                      <ReduxFormTextField name="address" label="Ofis adresim" />
-                    </Grid>
-
                     {this.props.apiForm && 
                       this.props.apiForm[this.props.form] && 
                       this.props.apiForm[this.props.form].initial && 
@@ -651,7 +659,138 @@ class Envanter extends React.Component {
                 </ExpansionPanelDetails>
               </ExpansionPanel>
 
-              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_gun')} expanded={this.state.expandList['randevu_gun'] || false}>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('ofisler')} expanded={this.state.expandList['ofisler'] || true}>
+                <ExpansionPanelSummary
+                  // expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography color="secondary" variant="button">
+                    OFİS ADRESLERİM
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails style={{flexDirection: 'column'}}>
+                  {Object.keys(dietitianProfile.addresses).map((ad, idx) => {
+                    var address = dietitianProfile.addresses[ad];
+
+                    return (
+                      <Fragment key={ad}>
+                        <Card elevation={0} style={{width: '100%'}}>
+                          {/* <CardHeader
+                            avatar={
+                              <Avatar square aria-label="recipe" className={classes.avatar}>
+                                R
+                              </Avatar>
+                            }
+                            action={
+                              <IconButton
+                                // className={clsx(classes.expand, {
+                                //   [classes.expandOpen]: expanded,
+                                // })}
+                                onClick={() => this.handleExpand('ofis_' + ad)(null, !(this.state.expandList['ofis_' + ad] || false))}
+                              >
+                                <ExpandMoreIcon />
+                              </IconButton>
+                            }
+                            title={address.address}
+                            subheader="September 14, 2016"
+                          /> */}
+
+                          <ShowAddressOnMap latlng={address.latlng}/>
+                          <div style={{display:'flex', alignItems: 'center', marginTop: '16px'}}>
+                            <Typography variant="body1" >{address.address}</Typography>
+                            <IconButton
+                              style={
+                                (this.state.expandList['ofis_' + ad] || false) 
+                                  ? {marginLeft: 'auto', transform: 'rotate(180deg)'}
+                                  : {marginLeft: 'auto', transform: 'rotate(0deg)'}
+                              }
+                              onClick={() => this.handleExpand('ofis_' + ad)(null, !(this.state.expandList['ofis_' + ad] || false))}
+                            >
+                              <ExpandMoreIcon />
+                            </IconButton>
+                          </div>
+
+                          {/* <CardActions style={{padding: 0}} disableSpacing>
+                            <IconButton aria-label="add to favorites">
+                              <FavoriteIcon />
+                            </IconButton>
+                            <IconButton aria-label="share">
+                              <ShareIcon />
+                            </IconButton>
+                          </CardActions> */}
+                          <Collapse in={this.state.expandList['ofis_' + ad] || false} timeout="auto" unmountOnExit>
+                            <Grid container spacing={2} style={{paddingTop: '24px'}}>
+                              <Grid style={{paddingTop: '8px', paddingBottom: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
+                                <ReduxFormTextField name={`addresses["${ad}"].address`} label="Adres" />
+                              </Grid>
+                              <Grid style={{paddingTop: '8px', paddingBottom: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
+                                <ReduxFormTextField name={`addresses["${ad}"].city`} label="Şehir" />
+                              </Grid>
+                              <Grid style={{paddingTop: '8px', paddingBottom: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
+                                <Field component="input" name={`addresses["${ad}"].latlng.lat`} label="Lat" type="hidden" />
+                                <Field component="input" name={`addresses["${ad}"].latlng.lng`} label="Lng" type="hidden" />
+                                <Field component="input" name={`addresses["${ad}"].latlng.zoom`} label="Zoom" type="hidden" />
+                                <Button variant="outlined" color="primary" onClick={() => this.setState({openDialog: `address_${ad}_map`})}>
+                                  HARİTADA YERİNİ SEÇ
+                                </Button>                        
+
+                                {this.state.openDialog == `address_${ad}_map` && 
+                                  <SelectAddressDialog 
+                                    latlng={address.latlng}
+                                    handleClose = {(latlng) => {
+                                      console.log('final values', latlng)
+                                      if (latlng != undefined) {
+                                        this.props.change(`addresses["${ad}"].latlng.lat`, latlng.lat)
+                                        this.props.change(`addresses["${ad}"].latlng.lng`, latlng.lng)
+                                        this.props.change(`addresses["${ad}"].latlng.zoom`, latlng.zoom)
+                                        setTimeout(() => {
+                                          const submitter = this.props.handleSubmit(this.onSubmitInternal);
+                                          submitter()
+                                        }, 0);
+                                      }
+                                      this.setState({openDialog: undefined})
+                                    }}
+                                  />
+                                }
+                              </Grid>
+                              { ApptDays().map( (h, i) => {
+                                return (
+                                  <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={12} sm={6} md={4} lg={3}>
+                                    <ReduxFormCheckBox name={`addresses["${ad}"].days["${h}"]`} label={h}/>
+                                  </Grid>
+                                )}
+                              )}
+                            </Grid>
+                          </Collapse>
+                        </Card>
+                        <Divider style={{marginTop: '16px', marginBottom: '16px'}} />
+                      </Fragment>
+                    )
+                  })}
+
+                  {this.state.openDialog == `address_new_map` && 
+                    <NewAddressDialog 
+                      // latlng={address.latlng}
+                      handleClose = {(ad, latlng) => {
+                        console.log('final values for new address', latlng)
+                        if (latlng != undefined) {
+                          this.props.change(`addresses["${ad}"].latlng.lat`, latlng.lat)
+                          this.props.change(`addresses["${ad}"].latlng.lng`, latlng.lng)
+                          this.props.change(`addresses["${ad}"].latlng.zoom`, latlng.zoom)
+                          setTimeout(() => {
+                            const submitter = this.props.handleSubmit(this.onSubmitInternal);
+                            submitter()
+                          }, 0);
+                        }
+                        this.setState({openDialog: undefined})
+                      }}
+                    />
+                  }
+                  <Button variant="contained" color="secondary" size="large" onClick={() => this.setState({openDialog: `address_new_map`})}>YENİ OFİS ADRESİ EKLE</Button>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+
+              
+              {/* <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.card} variant="outlined" onChange={this.handleExpand('randevu_gun')} expanded={this.state.expandList['randevu_gun'] || false}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
                 >
@@ -693,7 +832,7 @@ class Envanter extends React.Component {
                     </Grid>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
-              )}
+              )} */}
             </Form>
           </span>
         }

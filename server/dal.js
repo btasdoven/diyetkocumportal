@@ -61,11 +61,6 @@ const rows = {
       '15:30 - 16:00': true,
       '16:00 - 16:30': true,
       '16:30 - 17:00': true,
-      'Pazartesi': true,
-      'Salı': true,
-      'Çarşamba': true,
-      'Perşembe': true,
-      'Cuma': true,
       'online_diyet': true,
       'unvan': 'Diyetisyen',
       'ozgecmis': 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.',
@@ -405,6 +400,39 @@ var taskUpgradeStg = () => {
       changed = true;
     }
 
+    if (rows[id].profile.addresses == undefined) {
+      changed = true;
+      console.log(id)
+      days = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"]
+
+      rows[id].profile.addresses = {};
+
+      if (rows[id].profile.address != undefined) {
+        rows[id].profile.addresses['address1'] = {
+          address: rows[id].profile.address,
+          city: undefined,
+          latlng: rows[id].profile.address_latlng,
+          days: {},
+        }
+
+        days.forEach(d => {
+          rows[id].profile.addresses['address1'].days[d] = rows[id].profile[d]
+        })
+      } 
+
+      if (rows[id].profile.address_2 != undefined) {
+        rows[id].profile.addresses['adress2'] = {
+          address: rows[id].profile.address_2,
+          city: undefined,
+          days: {},
+        }
+
+        days.forEach(d => {
+          rows[id].profile.addresses['addres2'].days[d] = rows[id].profile[d+"_2"]
+        })
+      }    
+    }
+
     const usernameEnCokZiyaret = [
       'diyetisyendoyranli',
       'dytelifbozyel',
@@ -637,7 +665,20 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.uzmanlik_alanlari = userInfo.uzmanlik_alanlari
       r.profile.ozgecmis = userInfo.ozgecmis
       r.profile.online_diyet = userInfo.online_diyet
-      r.profile.address = userInfo.address
+      r.profile.addresses = { 
+        'address1': {
+          name: '1. Adres',
+          address: userInfo.address,
+          city: undefined,
+          days: {
+            'Pazartesi': true,
+            'Salı': true,
+            'Çarşamba': true,
+            'Perşembe': true,
+            'Cuma': true,
+          },
+        }
+      }
 
       rows[uname] = r;
     
@@ -951,8 +992,6 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
       ...dietitianProfile
     };
   }
-
-  console.log(dietitianProfile)
 
   if (dietitianProfile.cvc != undefined) {
     rows[0].users[userId].cardInfo = {
@@ -1475,7 +1514,7 @@ exports.getAllDietitians = function (isAdmin) {
       r.email = rows[userId].profile.email
       r.refDietitian = rows[0].users[userId].refDietitian
       r.addressType = rows[userId].profile.address_latlng != undefined ? "Harita" : (rows[userId].profile.address != undefined ? "Yazı" : "")
-      r.address = rows[userId].profile.address
+      r.addresses = rows[userId].profile.addresses
     }
 
     ret.push(r);
@@ -1584,7 +1623,7 @@ exports.sendMassEmail = function() {
 exports.trackActivity = function (userId, event) {
   console.log(userId, event)
   if (event != undefined && event.startsWith("PageView_")) {
-    var pageUrl = event.split("_")[1]
+    var pageUrl = event.substring(9);
     var pageParams = pageUrl.split("/");
     
     dietitianId = pageParams[1]

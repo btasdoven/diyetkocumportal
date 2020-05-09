@@ -112,7 +112,7 @@ const MyMapComponent = compose(
     withProps({
       googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDOdRysM2gyUv8wqF41DrNK9l6DzRRqmAE",
       loadingElement: <div style={{ height: `100%` }} />,
-      containerElement: <div style={{ height: `384px` }} />,
+      containerElement: <div style={{ height: `250px` }} />,
       mapElement: <div style={{ height: `100%` }} />,
     }),
     withScriptjs,
@@ -120,8 +120,8 @@ const MyMapComponent = compose(
   )((props) =>
     <GoogleMap
         disableDefaultUI={true}
-        defaultZoom={17}
         defaultCenter={{ lat: props.lat, lng: props.lng }}
+        defaultZoom={props.zoom}
         defaultOptions={{
             //styles: mapStyle,
            // these following 7 options turn certain controls off see link below
@@ -131,7 +131,10 @@ const MyMapComponent = compose(
             panControl: false,
             zoomControl: false,
             rotateControl: false,
-            fullscreenControl: false
+            fullscreenControl: false,
+            //
+            gestureHandling : "none",
+            keyboardShortcuts: false,
         }}
     >
         {props.isMarkerShown && (
@@ -208,7 +211,7 @@ class PersonalPage extends React.Component {
 
                             <div className={classes.rootTypeSelect}>
                                 {user.online_diyet == true && <Button style={{ fontSize: '16px', fontWeight: '600', backgroundColor: "#fc5185", margin: '24px', marginTop: 0 }} color="primary" size="large" variant="contained" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
-                                <Button style={{ fontSize: '16px', fontWeight: '600', border: '2px solid', color: "#05386b" }} size="large" variant="outlined" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>
+                                {Object.keys(user.addresses).length > 0 && <Button style={{ fontSize: '16px', fontWeight: '600', border: '2px solid', color: "#05386b" }} size="large" variant="outlined" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>}
                             </div>
 
                             <Typography variant="caption" style={{ textAlign: 'center', padding: '24px', paddingTop: '8px' }} className={classes.text} >
@@ -296,36 +299,45 @@ class PersonalPage extends React.Component {
 
                             <Box my={1} />
 
-                            {user.address && (
+                            {user.addresses && Object.keys(user.addresses).length > 0 && (
                                 <Card className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Box my={1}>
-                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">OFİS ADRESİM</Typography>
+                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">
+                                                    {Object.keys(user.addresses).length == 1 ? "OFİS ADRESİM" : "OFİS ADRESLERİM"}
+                                                </Typography>
                                             </Box>
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
                                         <Grid container>
-                                            {!user.address_latlng && (
-                                                <Grid item xs={12}>
-                                                    <div>
-                                                        <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
-                                                            {user.address}
-                                                        </Typography>
-                                                    </div>
-                                                </Grid>
-                                            )}
-                                            {user.address_latlng && (
-                                                <Grid item xs={12} >
-                                                    <MyMapComponent 
-                                                        address={user.address}
-                                                        lat={user.address_latlng.lat} 
-                                                        lng={user.address_latlng.lng} 
-                                                        isMarkerShown />
-                                                </Grid>
-                                            )}
+                                            {Object.keys(user.addresses).map((address, idx) => {
+                                                var ad = user.addresses[address];
+                                                
+                                                if (ad.latlng == undefined)
+                                                    return (
+                                                        <Grid key={address} item xs={12}>
+                                                            <div>
+                                                                <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
+                                                                    {ad.address}
+                                                                </Typography>
+                                                            </div>
+                                                        </Grid>
+                                                    )
+                                                else
+                                                return (
+                                                    <Grid key={address+"_2"} item xs={12} style={{paddingTop: idx == 0 ? 0 : '16px'}} >
+                                                        <MyMapComponent 
+                                                            address={ad.address}
+                                                            lat={ad.latlng.lat} 
+                                                            lng={ad.latlng.lng} 
+                                                            zoom={ad.latlng.zoom}
+                                                            isMarkerShown />
+                                                    </Grid>
+                                                )
+                                            })}
                                         </Grid>
                                     </CardContent>
                                 </Card>

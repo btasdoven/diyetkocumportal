@@ -408,8 +408,13 @@ class NewRandevuWrapper extends React.Component {
         this.setState({ step: this.state.step + 1, formValues: formValues})
 
         var user = this.props.apiDietitianProfile[this.state.userId].data;
-        var address = this.state.addressId == -1 ? undefined : (this.state.addressId == 1 ? user.address : user.address_2);
-        var sub = { info: formValues, type: this.state.type, status: 'pending', address: address}
+        var addressId = this.state.addressId
+
+        if (addressId == -1 && this.state.type == 'randevu') {
+          addressId = Object.keys(user.addresses)[0]
+        }
+        var address = this.state.addressId == -1 ? undefined : user.addresses[addressId].address;
+        var sub = { info: formValues, type: this.state.type, status: 'pending', address: address, addressId: addressId}
 
         this.props.putDietitianAppointment(this.state.userId, moment(this.state.date).format('YYYYMMDD'), this.state.time, sub);
     }
@@ -432,11 +437,11 @@ class NewRandevuWrapper extends React.Component {
           return <Redirect to="/" />
         }
 
-        var multipleOffices = user && user.address_2 != undefined && user.address_2 != '';
-
         if (showLoader) {
           return renderLoadingButton(classes);
         }
+
+        var multipleOffices = user && Object.keys(user.addresses).length > 1;
 
         return (
           <Form
@@ -476,6 +481,7 @@ class NewRandevuWrapper extends React.Component {
                 { !multipleOffices && this.state.type == 'randevu' && 
                   <NewRandevuStep2 
                     {...this.props}
+                    activeStep={this.state.step == 1}
                     userId={this.state.userId}
                     addressId={this.state.addressId}
                     date={this.state.date} 
@@ -498,6 +504,7 @@ class NewRandevuWrapper extends React.Component {
                 { multipleOffices && this.state.type == 'randevu' && 
                   <NewRandevuStep2 
                     {...this.props}
+                    activeStep={this.state.step == 2}
                     userId={this.state.userId}
                     addressId={this.state.addressId}
                     date={this.state.date} 
@@ -626,6 +633,8 @@ class NewRandevuStep1 extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleOnComplete = this.handleOnComplete.bind(this)
+
     this.state = {
       userId: props.userId,
     }
@@ -635,14 +644,22 @@ class NewRandevuStep1 extends React.Component {
     window.scrollTo(0, 0)
   }
 
+  handleOnComplete(ad) {
+    var vad = ad;
+    return () => {
+      this.props.onComplete(vad)
+    }
+  }
+
   render() {
     const { classes } = this.props;
     var user = this.props.apiDietitianProfile[this.state.userId].data;
 
     return (
       <div className={classes.rootTypeSelect}>
-        <Button style={{margin: '24px'}} variant="contained" color="primary" onClick={() => this.props.onComplete(1)}>{user.address}</Button>
-        <Button variant="contained" color="secondary" onClick={() => this.props.onComplete(2)}>{user.address_2}</Button>
+        {Object.keys(user.addresses).map((ad) =>
+          <Button key={ad} style={{margin: '24px'}} variant="contained" color="secondary" onClick={this.handleOnComplete(ad)}>{user.addresses[ad].address}</Button>
+        )}
       </div>
     )}
 };
@@ -701,13 +718,21 @@ class NewRandevuStep2 extends React.Component {
             <div style={{margin: '8px'}}>
                 <Grid container spacing={2}>
                 <Grid style={{display: 'flex', justifyContent: 'center'}} item xs={12} sm={12} md={12} lg={12}>
-                    <StaticDatePickerInput 
-                      shouldDisableDate={(d) => {
-                        var day = moment(d).format("dddd") + (this.props.addressId <= 1 ? '' : '_2')
-                        return this.props.apiDietitianProfile[this.state.userId].data[day] != true
-                      }} 
-                      value={this.state.date} 
-                      onChange={(newValue) => this.handleOnDateChange(newValue)} />
+                    {this.props.activeStep && (
+                      <StaticDatePickerInput 
+                        shouldDisableDate={(d) => {
+                          var day = moment(d).format("dddd")
+                          var addressId = this.props.addressId;
+                          if (addressId == -1) {
+                            addressId = Object.keys(this.props.apiDietitianProfile[this.state.userId].data.addresses)[0]
+                          }
+
+                          return this.props.apiDietitianProfile[this.state.userId].data.addresses[addressId].days[day] != true
+                        }} 
+                        value={this.state.date} 
+                        onChange={(newValue) => this.handleOnDateChange(newValue)} 
+                      />
+                    )}
                 </Grid>
                 </Grid>
             </div>
