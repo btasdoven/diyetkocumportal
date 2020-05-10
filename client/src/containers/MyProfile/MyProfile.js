@@ -599,16 +599,6 @@ class Envanter extends React.Component {
                     <Grid item xs={12}>
                       <ReduxFormTextField disabled InputProps={{ readOnly: true }} name="instagram" label="Instagram kullanıcı adım" />
                     </Grid>
-
-                    {this.props.apiForm && 
-                      this.props.apiForm[this.props.form] && 
-                      this.props.apiForm[this.props.form].initial && 
-                      this.props.apiForm[this.props.form].initial.address != undefined && 
-                      this.props.apiForm[this.props.form].initial.address != "" && (
-                        <Grid item xs={12}>
-                          <ReduxFormTextField name="address_2" label="2. Ofis adresim" />
-                        </Grid>
-                      )}
                   </Grid>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
