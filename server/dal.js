@@ -7,6 +7,7 @@ const moment = require("moment")
 const ipp = require('instagram-profile-picture');
 const fs = require('fs');
 const request = require('request');
+const sitemap = require('./sitemap')
 
 require('moment/locale/tr');
 moment.locale("tr")
@@ -481,6 +482,24 @@ var taskUpgradeStg = () => {
   });
 }
 
+var taskCreateSiteMap = () => {
+  var dietitians = Object.keys(rows[0].users).filter(user => rows[0].users[user].isAdmin != true).map(user => { 
+    return { dietitian: user}
+  });
+
+  //console.log(dietitians)
+
+  var posts = []
+  dietitians.forEach(user=> {
+    Object.keys(rows[user.dietitian].profile.posts).forEach(p => posts.push({dietitian: user.dietitian, post: p}))
+  })
+
+  //console.log(posts)
+  sitemap.createSiteMapXml(dietitians, posts);
+
+  return Promise.resolve();
+}
+
 
 function start() {
   return startAsync()
@@ -495,6 +514,7 @@ async function startAsync() {
     taskInitNewDietitians,
     taskInitRows,
     taskUpgradeStg,
+    taskCreateSiteMap,
   ];
 
   return new Promise((resolve, reject) => {
