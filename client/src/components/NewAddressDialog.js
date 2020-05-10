@@ -236,10 +236,8 @@ class FieldDialog extends React.Component {
     }
 
     componentDidMount() {
-        console.log('didmount')
         if ("geolocation" in navigator && this.state.latlng == undefined) {
           var that = this
-          console.log('geoloc')
           navigator.geolocation.getCurrentPosition(
               function(position) {
                 that.setState({shouldDraw: true, latlng: { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 17}})
@@ -255,7 +253,6 @@ class FieldDialog extends React.Component {
     }
 
     handleClose(cancel=false) {
-        console.log(cancel)
         if (cancel) {
             this.props.handleClose(undefined);
             return;
