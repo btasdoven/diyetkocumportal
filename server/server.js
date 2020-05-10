@@ -34,7 +34,7 @@ app.use(compression({
   }  
 }));
  
-app.use('/api/v1/public', express.static('public'))
+app.use('/api/v1/public', express.static('public', { maxAge: 31536000 * 1000 }))
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '50mb'}));
@@ -474,6 +474,7 @@ app.get("/:userId", (req, res, next) => {
   htmlTemplate(res, title, descr, img)    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Cache-Control', 'max-age=31536000');
       res.send(subParams(str, title, descr, img));    
     });
 });
@@ -495,6 +496,7 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
   htmlTemplate(res, title, descr, img)    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Cache-Control', 'max-age=31536000');
       res.send(subParams(str, title, descr, img));    
     });
 });
@@ -515,6 +517,7 @@ app.get("/l/:linkId", (req, res, next) => {
   htmlTemplate(res, title, descr, img)    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Cache-Control', 'max-age=31536000');
       res.send(subParams(str, title, descr, img));    
     });
 });
@@ -527,6 +530,7 @@ app.get("*", (req, res, next) => {
   htmlTemplate(res, title, descr, img)    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Cache-Control', 'max-age=31536000');
       res.send(subParams(str, title, descr, img));    
     });
 });

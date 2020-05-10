@@ -7,7 +7,7 @@ exports.createSiteMapXml = function(dietitians, posts) {
 
   const hostname = 'https://www.diyetkocum.net'
 
-  var urls = ['', '/enler']
+  var urls = ['', '/blog', '/enler']
 
   dietitians.forEach(d => {
     urls.push(`/${d.dietitian}`)
