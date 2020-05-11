@@ -202,39 +202,41 @@ class BlogPage extends React.Component {
                             <ReactMarkdown source={post.text} escapeHtml={false}/>
                         </div>
 
-                        <Card elevation={0} style={{paddingTop: '32px'}}>
-                            <CardHeader
-                                style={{ textAlign: 'center' }}
-                                title={
-                                    <Box my={1}>
-                                        <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BENZER YAZILAR</Typography>
-                                    </Box>
-                                }
-                            />
-                            <CardContent style={{ paddingTop: 0 }}>
-                                <Grid container>
-                                    {Object.keys(userProfile.posts).map((blogId) => {
-                                        if (blogId == this.state.postName)
-                                            return;
+                        {Object.keys(userProfile.posts).length > 1 && (
+                            <Card elevation={0} style={{paddingTop: '32px'}}>
+                                <CardHeader
+                                    style={{ textAlign: 'center' }}
+                                    title={
+                                        <Box my={1}>
+                                            <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BENZER YAZILAR</Typography>
+                                        </Box>
+                                    }
+                                />
+                                <CardContent style={{ paddingTop: 0 }}>
+                                    <Grid container>
+                                        {Object.keys(userProfile.posts).map((blogId) => {
+                                            if (blogId == this.state.postName)
+                                                return;
 
-                                        return (
-                                            <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} 
-                                                to={{ 
-                                                    pathname: `/${this.state.userId}/blog/${blogId}`, 
-                                                    state: {fromUrl: `/${this.state.userId}/blog/${this.state.postName}`}
-                                                }}
-                                            >
-                                                <Image
-                                                    imageStyle={{borderRadius: '8px'}}
-                                                    aspectRatio={1080.0/1920}
-                                                    src={userService.getStaticFileUri(userProfile.posts[blogId].img || '') }
-                                                /> 
-                                            </Grid>
-                                        )
-                                    })}
-                                </Grid>
-                            </CardContent>
-                        </Card>
+                                            return (
+                                                <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} 
+                                                    to={{ 
+                                                        pathname: `/${this.state.userId}/blog/${blogId}`, 
+                                                        state: {fromUrl: `/${this.state.userId}/blog/${this.state.postName}`}
+                                                    }}
+                                                >
+                                                    <Image
+                                                        imageStyle={{borderRadius: '8px'}}
+                                                        aspectRatio={1080.0/1920}
+                                                        src={userService.getStaticFileUri(userProfile.posts[blogId].img || '') }
+                                                    /> 
+                                                </Grid>
+                                            )
+                                        })}
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        )}
                     </main>
                 </div>
             </React.Fragment>

@@ -1602,7 +1602,7 @@ exports.getAllDietitians = function (isAdmin) {
       r.tel = rows[userId].profile.tel
       r.email = rows[userId].profile.email
       r.refDietitian = rows[0].users[userId].refDietitian
-      r.addressType = rows[userId].profile.address_latlng != undefined ? "Harita" : (rows[userId].profile.address != undefined ? "Yazı" : "")
+      r.addressType = Object.keys(rows[userId].profile.addresses).length == 0 ? "" : (rows[userId].profile.addresses[Object.keys(rows[userId].profile.addresses)[0]].latlng != undefined ? "Harita" : "Yazı")
       r.addresses = rows[userId].profile.addresses
     }
 
