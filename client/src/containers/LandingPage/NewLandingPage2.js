@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import InstagramIcon from '@material-ui/icons/Instagram';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -36,6 +37,7 @@ import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
 import DiyetisyenList from './DiyetisyenList'
 import DiyetisyenList2 from './DiyetisyenList2'
+import LandingPageDietitianList from './LandingPageDietitianList'
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -345,13 +347,13 @@ class LandingPage extends React.Component {
           <div style={{paddingTop: '15vh', width: '100%', paddingLeft: '16px', paddingRight: '16px', textAlign: 'center', color: 'white'}}>
             <Grid container spacing={0}>
               <Grid item xs={12}>
-                <Typography variant="h3" color="inherit" style={{fontWeight: 600, fontFamily: 'Open Sans,sans-serif'}}>
+                <Typography variant="h3" component="h1" color="inherit" style={{fontWeight: 600, fontFamily: 'Open Sans,sans-serif'}}>
                   Diyet Koçum
                 </Typography>
-                <Typography variant="h6" color="inherit" style={{paddingTop: '24px', paddingBottom: '16px', fontWeight: 300, fontFamily: 'Open Sans,sans-serif'}}>
+                <Typography variant="h6" component="h2" color="inherit" style={{paddingTop: '24px', paddingBottom: '16px', fontWeight: 300, fontFamily: 'Open Sans,sans-serif'}}>
                   <b>Diyetisyenlerin Dijital Asistanı</b>
                 </Typography>
-                <Typography variant="subtitle1" color="inherit" style={{paddingBottom: '10vh', fontWeight: 300}}>
+                <Typography variant="subtitle1" component="h3" color="inherit" style={{paddingBottom: '10vh', fontWeight: 300}}>
                   Randevu sayfanı oluştur, anamnez formu gönder, otomatik öğün takibi yap.
                 </Typography>
               </Grid>
@@ -384,7 +386,7 @@ class LandingPage extends React.Component {
           />
 
           <div style={{paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
-            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Kişisel Sayfanı Oluştur</Typography>
+            <Typography variant="h5" component="h4" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Kişisel Sayfanı Oluştur</Typography>
             <Typography variant="body1" color="textSecondary">
               Kişisel sayfan senin internetteki yeni yüzün. Kendini tanıtabileceğin, blog yazıları paylaşabileceğin ve danışanlarına kolayca randevu verebileceğin 
               profesyonelce hazırlanmış sadece sana özel bir sayfa.
@@ -392,7 +394,7 @@ class LandingPage extends React.Component {
           </div>
 
           <div style={{width: '100%', paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
-            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Randevularını Yönet</Typography>
+            <Typography variant="h5" component="h4" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Randevularını Yönet</Typography>
             <Typography variant="body1" color="textSecondary">
               Ofisin mi yok? Yalnızca yüz yüze randevu mu veriyorsun? Pazartesilerin boş mu kalsın istiyorsun? Randevu tiplerini, ofislerini, gün ve saatlerini bir kere seç,
               gerisini biz halledelim. Danışanlarına müsait olduğun zamanları tekrar tekrar söylemek son bulsun.
@@ -400,7 +402,7 @@ class LandingPage extends React.Component {
           </div>
 
           <div style={{width: '100%', paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
-            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Anamnez Formu Gönder</Typography>
+            <Typography variant="h5" component="h4" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Anamnez Formu Gönder</Typography>
             <Typography variant="body1" color="textSecondary">
               Yüz yüze randevuya gelen ya da online diyet yapan danışanlarınla paylaşabileceğin dijital anamnez formu sayesinde hem sen zamandan tasarruf edersin,
               hem de danışanların tüm ihtiyacın olan bilgileri kolayca doldururlar.
@@ -408,7 +410,7 @@ class LandingPage extends React.Component {
           </div>
 
           <div style={{width: '100%', backgroundColor: 'rgb(244, 245, 247)', paddingTop: '48px', paddingBottom: '24px', marginTop: '48px'}}>
-            <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>İster Cepte, İster Ofiste</Typography>
+            <Typography variant="h5" component="h4" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>İster Cepte, İster Ofiste</Typography>
             
             <Grid container spacing={0} style={{paddingBottom: '0px', paddingTop: '8px'}}>
               {/* <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
@@ -431,7 +433,7 @@ class LandingPage extends React.Component {
               </Grid> */}
               <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '16px'}} item xs={12}>
                 <div style={{width: '100%', paddingLeft: '24px', paddingRight: '24px'}}>
-                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} src="/static/landing/device.png" />
+                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} alt="Ister evde, ister ofiste" src="/static/landing/device.png" />
                 </div>
               </Grid>
             </Grid>
@@ -444,7 +446,6 @@ class LandingPage extends React.Component {
             {/* <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography> */}
 
             <DiyetisyenList2 backgroundColor="white"/>
-
           </div>
 
           <div id="register" style={{width: '100%', paddingTop: '48px', paddingBottom: '48px', backgroundColor: '#f8f9fe' }}>
@@ -477,9 +478,14 @@ class LandingPage extends React.Component {
 
             <div style={{textAlign: 'center', paddingTop: '30px'}}>
               <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
-                1 AY ÜCRETSİZ DENE
+                2 AY ÜCRETSİZ DENE
               </Button>
             </div>
+          </div>
+
+          <div style={{width: '100%', paddingTop: '36px', paddingBottom: '32px', paddingLeft: '16px' }}>
+            <Typography variant="h5" style={{color: '#32325d', paddingLeft:'8px', fontWeight: 400, paddingBottom: '16px'}}>Bizi Tercih Edenler</Typography>
+            <LandingPageDietitianList />
           </div>
 
           {/* <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px' }}>
@@ -490,7 +496,13 @@ class LandingPage extends React.Component {
             <DiyetisyenList backgroundColor="white"/>
 
           </div> */}
-        <Typography component="div" variant="body2" color="textSecondary" style={{padding: '16px', textAlign: 'center'}}>
+          
+          <Button target="_blank" href={"https://instagram.com/diyetkocumnet"} style={{ textTransform: "none", color: 'rgb(50, 50, 93)', display: 'flex', marginTop: '24px' }}>
+              <InstagramIcon style={{ fontSize: 36 }} className={classes.text} />
+              <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h5">{'/diyetkocumnet'}</Typography>
+          </Button>
+
+        <Typography component="div" variant="body2" color="textSecondary" style={{padding: '24px', textAlign: 'center'}}>
          © 2020 Diyet Koçum
         </Typography>
         </main>

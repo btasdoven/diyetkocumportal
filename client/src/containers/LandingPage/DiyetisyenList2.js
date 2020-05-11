@@ -1,6 +1,9 @@
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+
 import { withStyles } from '@material-ui/core/styles';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
