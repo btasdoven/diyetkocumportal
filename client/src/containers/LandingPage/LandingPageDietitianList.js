@@ -127,43 +127,10 @@ class DietianList extends React.Component {
         { !showLoader && (
           <div style={{display: 'flex', flexWrap: 'wrap'}}>
             {dietitians.map((step, index) => (
-              <Fragment key={index+'_'}>
+              <Fragment key={index}>
                 <Avatar 
                   component={Link} 
                   to={`/${dietitians[index].username}`} 
-                  key={index+'_1'} 
-                  className={classes.avatar} 
-                  src={userService.getStaticFileUri(dietitians[index].url)} 
-                  alt={dietitians[index].name} 
-                />
-                <Avatar 
-                  component={Link} 
-                  to={`/${dietitians[index].username}`} 
-                  key={index+'_2'} 
-                  className={classes.avatar} 
-                  src={userService.getStaticFileUri(dietitians[index].url)} 
-                  alt={dietitians[index].name} 
-                />
-                <Avatar 
-                  component={Link} 
-                  to={`/${dietitians[index].username}`} 
-                  key={index+'_3'} 
-                  className={classes.avatar} 
-                  src={userService.getStaticFileUri(dietitians[index].url)} 
-                  alt={dietitians[index].name} 
-                />
-                <Avatar 
-                  component={Link} 
-                  to={`/${dietitians[index].username}`} 
-                  key={index+'_4'} 
-                  className={classes.avatar} 
-                  src={userService.getStaticFileUri(dietitians[index].url)} 
-                  alt={dietitians[index].name} 
-                />
-                <Avatar 
-                  component={Link} 
-                  to={`/${dietitians[index].username}`} 
-                  key={index} 
                   className={classes.avatar} 
                   src={userService.getStaticFileUri(dietitians[index].url)} 
                   alt={dietitians[index].name} 
