@@ -540,21 +540,23 @@ var taskCreateSiteMap = () => {
     }
   });
 
-  Object.keys(rows[0].users).forEach(u => {
-    Object.keys(rows[u].profile.posts).forEach(p => {
-      if (rows[u].profile.posts[p].img != undefined) {
-        var filename = path.basename(rows[u].profile.posts[p].img)
-        var srcFile = rows[u].profile.posts[p].img.replace('api/v1/', '')
-        var destFile = `public/${u}/${filename}`
+  // Object.keys(rows[0].users).forEach(u => {
+  //   Object.keys(rows[u].profile.posts).forEach(p => {
+  //     if (rows[u].profile.posts[p].img != undefined) {
+  //       var filename = path.basename(rows[u].profile.posts[p].img)
+  //       var srcFile = `./public/${filename}` //rows[u].profile.posts[p].img.replace('api/v1/', '')
+  //       var destFile = `./public/${u}/${filename}`
 
-        if (srcFile != destFile) {
-          sharp(srcFile)
-          .resize(256, 495) // width, height
-          .toFile(destFile);
-        }
-      }
-    });
-  });
+  //       console.log(srcFile, destFile)
+  //       if (srcFile != destFile) {
+  //         sharp(srcFile)
+  //         .resize(256, 495) // width, height
+  //         .toFile(destFile);
+  //       }
+  //     }
+  //   });
+  // });
+
   return Promise.resolve();
 }
 
