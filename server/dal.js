@@ -2,7 +2,8 @@ const storage = require('node-persist');
 const stringHash = require("string-hash");
 const email = require('./email')
 const massemail = require('./massemail')
-const ig = require('./ig.js');
+const ig = require('./ig');
+const png = require('./png');
 const moment = require("moment")
 const ipp = require('instagram-profile-picture');
 const fs = require('fs');
@@ -483,6 +484,11 @@ var taskUpgradeStg = () => {
     //   rows[id].profile.badges['20200329_aktif'] = { url: '/static/badges/aktif_20200329.png'}
     // }
 
+    if (rows[id].profile.shares == undefined) {
+      rows[id].profile.shares = {}
+      changed = true
+    }
+
     if (!changed) {
       return Promise.resolve()
     }
@@ -497,15 +503,24 @@ var taskCreateSiteMap = () => {
     return { dietitian: user}
   });
 
-  //console.log(dietitians)
-
   var posts = []
   dietitians.forEach(user=> {
     Object.keys(rows[user.dietitian].profile.posts).forEach(p => posts.push({dietitian: user.dietitian, post: p}))
   })
 
-  //console.log(posts)
   sitemap.createSiteMapXml(dietitians, posts);
+
+  Object.keys(rows[0].users).filter(user => rows[0].users[user].isAdmin != true).forEach(u => {
+    var profile = rows[u].profile
+
+    if (profile.shares['cekilis'] == undefined) {
+      png.drawCekilis(profile.unvan, profile.name, u).then((relFilePath) => {
+        console.log(relFilePath)
+        rows[u].profile.shares['cekilis'] = `api/v1/${relFilePath}`
+        storage.setItem(u.toString(), rows[u]);
+      })
+    }
+  });
 
   return Promise.resolve();
 }

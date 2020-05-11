@@ -5,7 +5,7 @@ exports.createSiteMapXml = function(dietitians, posts) {
   // define our destination folder and sitemap file name
   const dest = path.resolve('./public', 'sitemap.xml');
 
-  const hostname = 'https://www.diyetkocum.net'
+  const hostname = 'https://diyetkocum.net'
 
   var urls = ['', '/blog', '/enler']
 
