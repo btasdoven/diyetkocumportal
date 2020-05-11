@@ -323,30 +323,6 @@ var taskInitNewDietitians = () => {
     //     }).catch((err) => console.log(err, 'error at ' + id + ' ' + err));
     // }
 
-    if (r.profile.url64 == undefined) {
-      return ipp.medium(id).then(instaProfileUrl => {
-        instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
-        localProfilePath = `public/${id}/${id}.png`
-        localProfilePath64 = `public/${id}/${id}-64x64.png`
-
-        r.profile.url = `api/v1/${localProfilePath}`
-        r.profile.url64 = `api/v1/${localProfilePath64}`
-        rows[0].users[id].url = r.profile.url;
-
-        ensureDirectoryExistence(localProfilePath)
-
-        downloadAndSaveProfilePicture(instaProfileUrl, localProfilePath, () => {
-          console.log('done ', localProfilePath);
-              
-          sharp(localProfilePath)
-            .resize(64, 64) // width, height
-            .toFile(localProfilePath.replace('.png', '-64x64.png'));
-        })
-          
-        return storage.setItem(id.toString(), r);
-      }).catch((err) => console.log(err, 'error at ' + id + ' ' + err));
-    }
-
     if (rows[0].users[id].premium_until == undefined) {
       createDate = moment(rows[0].users[id].create_date)
       rows[0].users[id].premium_until = createDate.add(2, 'months').format()

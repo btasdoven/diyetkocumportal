@@ -155,7 +155,7 @@ const TextMobileStepper = (props) => {
               <div key={index} style={{textAlign: 'center'}}>
                 <Avatar 
                     className={classes.img}
-                    src={userService.getStaticFileUri(`api/v1/public${tutorialSteps[index].link}.png`)}
+                    src={userService.getStaticFileUri(`api/v1/public${tutorialSteps[index].link}${tutorialSteps[index].link}.png`)}
                     alt={tutorialSteps[index].label}
                     style={{width: '140px', height: '140px', margin: 'auto'}}
                 />            
@@ -275,7 +275,7 @@ class DietianList extends React.Component {
                     <ListItemAvatar>
                       <Avatar
                         className={classes.avatar}
-                        src={userService.getStaticFileUri(dietitians[index].url)}
+                        src={userService.getStaticFileUri(dietitians[index].url64)}
                         alt={dietitians[index].name}
                       />
                     </ListItemAvatar>
