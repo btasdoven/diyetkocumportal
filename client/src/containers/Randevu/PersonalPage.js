@@ -167,12 +167,6 @@ class PersonalPage extends React.Component {
         return (
             <React.Fragment >
                 <CssBaseline />
-            
-                <Helmet>
-                    <meta property="og:title" content={user.name} />
-                    <meta property="og:description" content={`${user.unvan} ${user.name} online diyet ve randevu sayfası`} />
-                    <meta property="og:image" content={userService.getStaticFileUri(user.url)} />
-                </Helmet>
 
                 <div className={classes.root}>
                     <main style={{
@@ -201,8 +195,8 @@ class PersonalPage extends React.Component {
                                 <Avatar className={classes.avatar} alt={user.name} src={userService.getStaticFileUri(user.url)} />
                             </Box>
 
-                            <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h3">{user.unvan}</Typography>
-                            <Typography style={{ fontWeight: '500', textAlign:'center' }} className={classes.text} variant="h4" component="h2">{user.name}</Typography>
+                            <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">{user.unvan}</Typography>
+                            <Typography style={{ fontWeight: '500', textAlign:'center' }} className={classes.text} variant="h4" component="h1">{user.name}</Typography>
 
                             <Box my={3} borderRadius="50%">
                                 <Rating readOnly={true} value={5} size="large" />

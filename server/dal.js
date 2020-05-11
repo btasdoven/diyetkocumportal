@@ -1,3 +1,5 @@
+const path = require('path')
+const sharp = require('sharp');
 const storage = require('node-persist');
 const stringHash = require("string-hash");
 const email = require('./email')
@@ -296,21 +298,53 @@ var taskInitNewDietitians = () => {
 
     //console.log(id)
 
-    if (r.profile.url != undefined && 
-        r.profile.url.startsWith("http")) {
-        return ipp.medium(id).then(instaProfileUrl => {
-            instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
-            localProfilePath = `public/${id}.png`
+    // if (r.profile.url != undefined && 
+    //     r.profile.url.startsWith("http")) {
+    //     return ipp.medium(id).then(instaProfileUrl => {
+    //         instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
+    //         localProfilePath = `public/${id}/${id}.png`
+    //         localProfilePath64 = `public/${id}/${id}-64x64.png`
 
-            r.profile.url = `api/v1/${localProfilePath}`
-            rows[0].users[id].url = r.profile.url;
+    //         r.profile.url = `api/v1/${localProfilePath}`
+    //         r.profile.url64 = `api/v1/${localProfilePath64}`
+    //         rows[0].users[id].url = r.profile.url;
 
-            downloadAndSaveProfilePicture(instaProfileUrl, localProfilePath, () => {
-                console.log('done ', localProfilePath);
-            })
+    //         ensureDirectoryExistence(localProfilePath)
+
+    //         downloadAndSaveProfilePicture(instaProfileUrl, localProfilePath, () => {
+    //             console.log('done ', localProfilePath);
+                
+    //             sharp(localProfilePath)
+    //               .resize(64, 64) // width, height
+    //               .toFile(localProfilePath.replace('.png', '-64x64.png'));
+    //         })
             
-            return storage.setItem(id.toString(), r);
-        }).catch((err) => console.log(err, 'error at ' + id + ' ' + err));
+    //         return storage.setItem(id.toString(), r);
+    //     }).catch((err) => console.log(err, 'error at ' + id + ' ' + err));
+    // }
+
+    if (r.profile.url64 == undefined) {
+      return ipp.medium(id).then(instaProfileUrl => {
+        instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
+        localProfilePath = `public/${id}/${id}.png`
+        localProfilePath64 = `public/${id}/${id}-64x64.png`
+
+        r.profile.url = `api/v1/${localProfilePath}`
+        r.profile.url64 = `api/v1/${localProfilePath64}`
+        rows[0].users[id].url = r.profile.url;
+
+        ensureDirectoryExistence(localProfilePath)
+
+        downloadAndSaveProfilePicture(instaProfileUrl, localProfilePath, () => {
+          console.log('done ', localProfilePath);
+              
+          sharp(localProfilePath)
+            .resize(64, 64) // width, height
+            .toFile(localProfilePath.replace('.png', '-64x64.png'));
+        })
+          
+        return storage.setItem(id.toString(), r);
+      }).catch((err) => console.log(err, 'error at ' + id + ' ' + err));
     }
 
     if (rows[0].users[id].premium_until == undefined) {
@@ -679,10 +713,16 @@ exports.signUpUser = function(uname, userInfo) {
       console.log(instaProfileUrl);
 
       instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
-      localProfilePath = `public/${uname}.png`
+      localProfilePath = `public/${uname}/${uname}.png`
+
+      ensureDirectoryExistence(localProfilePath)
 
       downloadAndSaveProfilePicture(instaProfileUrl, localProfilePath, () => {
         console.log('done ', localProfilePath);
+        
+        sharp(localProfilePath)
+          .resize(64, 64) // width, height
+          .toFile(localProfilePath.replace('.png', '-64x64.png'));
       });
 
       var r = { 
@@ -696,6 +736,7 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.email = userInfo.email
       r.profile.name = userInfo.name
       r.profile.url = `api/v1/${localProfilePath}`
+      r.profile.url64 = `api/v1/${localProfilePath.replace('.png', '-64x64.png')}`
       r.profile.tel = userInfo.tel
       r.profile.instagram = userInfo.username
       
@@ -787,7 +828,7 @@ exports.getLinkInfo = function (linkId, isAdmin=false) {
   var link = rows[0].links[linkId];
 
   if (isAdmin == true) {
-    link.dietitianUrl = rows[link.userId].profile.url
+    link.dietitianUrl = rows[link.userId].profile.url64
   }
 
   return link;
@@ -1139,7 +1180,7 @@ exports.getDanisanMessages = function (userId, danisanUserName) {
   }
 
   var firstMsgId = Object.keys(msg)[0];
-  msg[firstMsgId].dietitianUrl = rows[userId].profile.url
+  msg[firstMsgId].dietitianUrl = rows[userId].profile.url64
   msg[firstMsgId].danisanUrl = rows[userId].danisanPreviews[danisanUserName].url;
 
   return msg;
@@ -1175,7 +1216,7 @@ exports.addDanisanMessage = function (userId, danisanUserName, messageId, messag
     rows[userId].messagePreviews[danisanUserName] = { 
       unread: 0,
       danisanUrl: rows[userId].danisanPreviews[danisanUserName].url,
-      dietitianUrl: rows[userId].profile.url,
+      dietitianUrl: rows[userId].profile.url64,
     }
 
   rows[userId].messagePreviews[danisanUserName].unread += message.sentByDietitian == true ? 0 : 1;
@@ -1479,7 +1520,7 @@ exports.getAllPosts = function () {
         postDate: rows[userId].profile.posts[postId].date,
         userId: userId,
         userFullName: rows[userId].profile.name,
-        userImg: rows[userId].profile.url, 
+        userImg: rows[userId].profile.url64, 
         userUnvan: rows[userId].profile.unvan,
       })
     })
@@ -1542,6 +1583,7 @@ exports.getAllDietitians = function (isAdmin) {
 
     var r = {
       url: d.url,
+      url64: d.url64,
       name: d.name,
       username: userId,
       unvan: d.unvan
@@ -1724,3 +1766,12 @@ var downloadAndSaveProfilePicture = function(uri, filename, callback){
     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
   });
 };
+
+var ensureDirectoryExistence = function(filePath) {
+  var dirname = path.dirname(filePath);
+  if (fs.existsSync(dirname)) {
+      return true;
+  }
+  ensureDirectoryExistence(dirname);
+  fs.mkdirSync(dirname);
+}

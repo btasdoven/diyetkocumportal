@@ -132,7 +132,7 @@ class DietianList extends React.Component {
                   component={Link} 
                   to={`/${dietitians[index].username}`} 
                   className={classes.avatar} 
-                  src={userService.getStaticFileUri(dietitians[index].url)} 
+                  src={userService.getStaticFileUri(dietitians[index].url64)} 
                   alt={dietitians[index].name} 
                 />
               </Fragment>

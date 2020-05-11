@@ -462,8 +462,8 @@ app.get("/:userId", (req, res, next) => {
   var user = dal.getDietitianProfile(req.params.userId);
   
   var title ='Diyet Koçum'
-  var descr = 'Dijital diyetisyen asistanı'
-  var img = 'static/favicon.png'  
+  var descr = 'Diyetisyenlerin Dijital Asistanı'
+  var img = 'static/favicon_lg.png'  
     
   if (user != undefined && Object.keys(user).length > 0) {
     title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + user.username + ")"
@@ -484,8 +484,8 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
   var post = dal.getPost(req.params.userId, req.params.blogId)
 
   var title ='Diyet Koçum'
-  var descr = 'Dijital diyetisyen asistanı'
-  var img = 'static/favicon.png'  
+  var descr = 'Diyetisyenlerin Dijital Asistanı'
+  var img = 'static/favicon_lg.png'  
     
   if (user != undefined && Object.keys(user).length > 0 && post != undefined) {
     title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + user.username + ")"
@@ -505,8 +505,8 @@ app.get("/l/:linkId", (req, res, next) => {
   var linkInfo = dal.getLinkInfo(req.params.linkId, true);
   
   var title ='Diyet Koçum'
-  var descr = 'Dijital diyetisyen asistanı'
-  var img = 'static/favicon.png'  
+  var descr = 'Diyetisyenlerin Dijital Asistanı'
+  var img = 'static/favicon_lg.png'  
     
   if (linkInfo != undefined) {
     title = linkInfo.danisanUserName
@@ -524,8 +524,8 @@ app.get("/l/:linkId", (req, res, next) => {
 
 app.get("*", (req, res, next) => {
   var title ='Diyet Koçum'
-  var descr = 'Dijital diyetisyen asistanı'
-  var img = 'static/favicon.png'
+  var descr = 'Diyetisyenlerin Dijital Asistanı'
+  var img = 'static/favicon_lg.png'
   
   htmlTemplate(res, title, descr, img)    
     .then((str) => {
@@ -547,19 +547,12 @@ function streamToString (stream) {
 function subParams(line, title, descr, img) {
   return line
     .replace(`<meta property="og:title" content="Diyet Koçum"/>`, `<meta property="og:title" content="${title}"/>`)
-    .replace(`<meta property="og:description" content="Dijital diyetisyen asistanı"/>`, `<meta property="og:description" content="${descr}"/>`)
-    .replace(`<meta property="og:image" content="https://diyetkocum.net/static/favicon.png"/>`, `<meta property="og:image" content="https://diyetkocum.net/${img}"/>`)
+    .replace(`<meta property="og:description" content="Diyetisyenlerin Dijital Asistanı"/>`, `<meta property="og:description" content="${descr}"/>`)
+    .replace(`<meta property="og:image" content="https://diyetkocum.net/static/favicon_lg.png"/>`, `<meta property="og:image" content="https://diyetkocum.net/${img}"/>`)
 }
 
 function htmlTemplate(res, title, descr, img) {
   return streamToString(fs.createReadStream('../client/build/index.html'))
-
-     
-     // .pipe(new StringStream('utf-8'))                                // split every line
-     // .split('\n')                      
-     // .map((str) => subParams(str, title, descr, img))   // update the lines
-     // .join('\n')                                           // join again
-     // .pipe(res)
 }
 
 //
