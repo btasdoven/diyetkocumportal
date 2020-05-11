@@ -499,6 +499,14 @@ var taskUpgradeStg = () => {
       changed = true
     }
 
+    Object.keys(rows[id].profile.posts).forEach(p => {
+      if (rows[id].profile.posts[p].img != undefined) {
+        var filename = path.basename(rows[id].profile.posts[p].img)
+        rows[id].profile.posts[p].img = `api/v1/public/${id}/${filename}`
+        changed = true
+      }
+    });
+
     if (!changed) {
       return Promise.resolve()
     }
@@ -532,6 +540,21 @@ var taskCreateSiteMap = () => {
     }
   });
 
+  Object.keys(rows[0].users).forEach(u => {
+    Object.keys(rows[u].profile.posts).forEach(p => {
+      if (rows[u].profile.posts[p].img != undefined) {
+        var filename = path.basename(rows[u].profile.posts[p].img)
+        var srcFile = rows[u].profile.posts[p].img.replace('api/v1/', '')
+        var destFile = `public/${u}/${filename}`
+
+        if (srcFile != destFile) {
+          sharp(srcFile)
+          .resize(256, 495) // width, height
+          .toFile(destFile);
+        }
+      }
+    });
+  });
   return Promise.resolve();
 }
 
