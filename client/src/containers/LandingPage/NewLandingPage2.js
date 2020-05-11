@@ -483,8 +483,8 @@ class LandingPage extends React.Component {
             </div>
           </div>
 
-          <div style={{width: '100%', paddingTop: '36px', paddingBottom: '32px', paddingLeft: '16px' }}>
-            <Typography variant="h5" style={{color: '#32325d', paddingLeft:'8px', fontWeight: 400, paddingBottom: '16px'}}>Bizi Tercih Edenler</Typography>
+          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '24px', paddingLeft: '16px' }}>
+            <Typography variant="h5" style={{color: '#32325d', paddingLeft:'8px', fontWeight: 400, paddingBottom: '32px'}}>Bizi Tercih Edenler</Typography>
             <LandingPageDietitianList />
           </div>
 

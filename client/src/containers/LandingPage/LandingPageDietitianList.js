@@ -125,7 +125,7 @@ class DietianList extends React.Component {
       <Fragment>
         { showLoader && renderLoadingButton(classes) }
         { !showLoader && (
-          <div style={{display: 'flex', flexWrap: 'wrap'}}>
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
             {dietitians.map((step, index) => (
               <Fragment key={index}>
                 <Avatar 
