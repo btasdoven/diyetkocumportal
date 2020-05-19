@@ -25,7 +25,7 @@ exports.drawProfilePicture = (username) => {
     ctx.closePath();
     ctx.clip();
     
-    return loadImage(`public/${username}.png`).then((image) => {
+    return loadImage(`public/${username}/${username}.png`).then((image) => {
         ctx.drawImage(image, 0, 0, 512, 512)
     
         ctx.beginPath()

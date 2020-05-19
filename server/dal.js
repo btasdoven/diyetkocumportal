@@ -68,6 +68,8 @@ const rows = {
       'online_diyet': true,
       'unvan': 'Diyetisyen',
       'ozgecmis': 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.',
+      posts: {},
+      shares: {},
     }
   },
   'demo': {
@@ -499,6 +501,11 @@ var taskUpgradeStg = () => {
       changed = true
     }
 
+    if (rows[id].profile.posts == undefined) {
+      rows[id].profile.posts = {}
+      changed = true
+    }
+
     Object.keys(rows[id].profile.posts).forEach(p => {
       if (rows[id].profile.posts[p].img != undefined) {
         var filename = path.basename(rows[id].profile.posts[p].img)
@@ -752,18 +759,21 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.uzmanlik_alanlari = userInfo.uzmanlik_alanlari
       r.profile.ozgecmis = userInfo.ozgecmis
       r.profile.online_diyet = userInfo.online_diyet
-      r.profile.addresses = { 
-        'address1': {
-          name: '1. Adres',
-          address: userInfo.address,
-          city: undefined,
-          days: {
-            'Pazartesi': true,
-            'Salı': true,
-            'Çarşamba': true,
-            'Perşembe': true,
-            'Cuma': true,
-          },
+
+      if (userInfo.address != undefined) {
+        r.profile.addresses = { 
+          'address1': {
+            name: '1. Adres',
+            address: userInfo.address,
+            city: undefined,
+            days: {
+              'Pazartesi': true,
+              'Salı': true,
+              'Çarşamba': true,
+              'Perşembe': true,
+              'Cuma': true,
+            },
+          }
         }
       }
 

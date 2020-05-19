@@ -62,7 +62,7 @@ const tutorialSteps = [
     label: 'Ezel Kavadar',
     link: '/dyt_ezelkavadar',
     unvan: 'Uzman Diyetisyen',
-    info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
+    info: 'Bütün meslektaşlarıma, özellikle de online ağırlıklı çalışan meslektaşlarıma kullanmalarını tavsiye ettiğim randevu sistemi 👌 En güzel yanı danışan datamızı saklayabiliyor olmak 🥰',
   },
   {
     label: 'Büşra Özyavuz',

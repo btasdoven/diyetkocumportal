@@ -296,8 +296,8 @@ class LandingPage extends React.Component {
             <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '2%', bottom: '1%'}}></span>
             <span className={classes.floatingPoint} style={{width: '100px', height: '100px', left: '1%', bottom: '1%'}}></span>
 
-            <div style={{position: 'absolute', bottom: '-1px', paddingLeft: '5vh', width: '100%'}}>
-              <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" style={{height: '100%', verticalAlign: 'bottom'}} version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <div style={{position: 'absolute', bottom: '-1px', width: '100%'}}>
+              <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" style={{height: '100%', width: '100%', verticalAlign: 'bottom'}} version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <polygon style={{fill: 'white'}} points="2560 0 2560 100 0 100"></polygon>
               </svg>
             </div>
