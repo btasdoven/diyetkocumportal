@@ -74,7 +74,7 @@ app.use(morgan('[:date] [:method]\t:url :status :res[content-length] - :response
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public')
+    cb(null, `public/${req.params.userId}`)
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + req.params.userId + '-' + req.params.danisanUserName + '-' + file.originalname)
@@ -83,7 +83,9 @@ var storage = multer.diskStorage({
 
 var storageForAdmin = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public')
+    console.log(req)
+    console.log(file)
+    cb(null, `public/${req.params.userId}`)
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname)
@@ -236,8 +238,9 @@ app.post("/api/v1/users/:userId/danisans/:danisanUserName/addFiles", (req, res, 
   }), delayInResponseInMs);
 }); 
 
-app.post("/api/v1/uploadPhoto", (req, res, next) => {
+app.post("/api/v1/:userId/uploadPhoto", (req, res, next) => {
   setTimeout((function() {
+    console.log(req.params.userId)
     uploadForAdmin(req, res, function (err) {
       console.log(err)
 
@@ -246,7 +249,7 @@ app.post("/api/v1/uploadPhoto", (req, res, next) => {
       } else if (err) {
           return res.status(500).json(err)
       }
-      console.log(req.file)      
+      console.log(req.file)  
       console.log(req.body)
       res.setHeader('Content-Type', 'application/json');
       res.json({file: req.file});

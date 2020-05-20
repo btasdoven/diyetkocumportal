@@ -162,7 +162,7 @@ const SigninForm = props => {
   console.log(props);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <FormControl margin="normal" fullWidth>
+      {/* <FormControl margin="normal" fullWidth>
         <Field
           required
           id="name"
@@ -173,7 +173,7 @@ const SigninForm = props => {
           autoFocus={false}
           validate={[required]}
         />
-      </FormControl>
+      </FormControl> */}
       <FormControl margin="normal" fullWidth>
         <Field
           required
@@ -209,7 +209,7 @@ const SigninForm = props => {
           validate={[required, validEmail]}
         />
       </FormControl>
-      <FormControl margin="normal" fullWidth>
+      {/* <FormControl margin="normal" fullWidth>
         <Field
           required
           id="tel"
@@ -220,7 +220,7 @@ const SigninForm = props => {
           autoFocus={false}
           validate={[required, validPhone]}
         />
-      </FormControl>
+      </FormControl> */}
 
       {auth && auth.error && (
         <Typography color="error" variant="body1" className={classes.registerTypo}>

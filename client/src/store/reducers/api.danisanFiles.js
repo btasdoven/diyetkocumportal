@@ -106,11 +106,11 @@ export function addDanisanFiles(userId, danisanUserName, files) {
   function failure(userId, danisanUserName, error) { return { type: DANISAN_FILES_PUT_ERRORED, userId, danisanUserName, error } }
 }
 
-export function uploadPhoto(files) {
+export function uploadPhoto(userId, files) {
     return (dispatch) => {
         dispatch(request(0, ''));
 
-        userService.upload_photo(files)
+        userService.upload_photo(userId, files)
         .then(
             (data) => { 
               dispatch(success(data, 0, ''));

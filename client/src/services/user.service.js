@@ -439,8 +439,8 @@ function get_all_posts() {
         });   
 }
 
-function upload_photo(data) {
-    return axios.post(HOST_NAME + `/api/v1/uploadPhoto`, data, {})
+function upload_photo(userId, data) {
+    return axios.post(HOST_NAME + `/api/v1/${userId}/uploadPhoto`, data, {})
         .then(res => {
             return res;
         })

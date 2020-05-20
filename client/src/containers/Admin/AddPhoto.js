@@ -153,7 +153,7 @@ class FieldFileInput  extends Component {
         variant="outlined"
         component="label"
         color="primary"
-        style={{marginBottom: '16px'}}
+        style={{marginBottom: '16px', marginTop: '16px'}}
       >
         DOSYA SEÇ
         <input
@@ -255,7 +255,9 @@ class Envanter extends React.Component {
     const formData = new FormData();
     formData.append('file',formValues.file)
 
-    this.props.uploadPhoto(formData);
+    console.log(formValues)
+
+    this.props.uploadPhoto(formValues.username, formData);
 
     this.onDialogClose();
   }
@@ -294,6 +296,12 @@ class Envanter extends React.Component {
         >
           <DialogTitle id="form-dialog-title">Fotoğraf Ekle</DialogTitle>
           <DialogContent>
+            <Field
+              label="Username (i.e. dyt_ezelkavadar)"
+              name="username"
+              component={renderTextField}
+              onChange={(f) => console.log(f)}
+            />
             <Field
               name="file"
               component={FieldFileInput}
@@ -373,7 +381,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      uploadPhoto: (files) => uploadPhoto(files),
+      uploadPhoto: (userId, files) => uploadPhoto(userId, files),
       addDanisanFiles: (userId, danisanUserName, files) => addDanisanFiles(userId, danisanUserName, files),
       getDanisanFiles: (userId, danisanUserName) => getDanisanFiles(userId, danisanUserName),
     },

@@ -70,6 +70,7 @@ const rows = {
       'ozgecmis': 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.',
       posts: {},
       shares: {},
+      addresses: {},
     }
   },
   'demo': {
@@ -506,6 +507,11 @@ var taskUpgradeStg = () => {
       changed = true
     }
 
+    if (rows[id].profile.addresses == undefined) {
+      rows[id].profile.addresses = {}
+      changed = true
+    }
+
     Object.keys(rows[id].profile.posts).forEach(p => {
       if (rows[id].profile.posts[p].img != undefined) {
         var filename = path.basename(rows[id].profile.posts[p].img)
@@ -696,6 +702,11 @@ exports.resetPassword = function(uname, userInfo) {
 
   rows[0].users[uname].password = userInfo.password
   storage.setItem('0', rows[0]);
+
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+  ? "TEST - " + uname + " - "
+  : "PROD - " + uname + " - "
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Şifre başarıyla yenilendi`, JSON.stringify({profile: rows[uname].profile, profileMetadata: rows[0].users[uname], userInfo: userInfo}, null, 4))
   return Promise.resolve(userInfo);
 }
 
@@ -1385,7 +1396,7 @@ exports.addDanisanFiles = function (userId, danisanUserName, file, type) {
   rows[userId].files[danisanUserName][type][day][now] = {
     encoding: file.encoding,
     mimetype: file.mimetype,
-    path: 'api/v1/public/' + file.filename,
+    path: `api/v1/public/${userId}/${file.filename}`,
     name: file.originalname,
     type: type,
   };
