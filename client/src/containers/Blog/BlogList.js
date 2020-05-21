@@ -231,6 +231,7 @@ class LandingPage extends React.Component {
                         <div className={classes.imgContainer}>
                           {postsPerUser[userId].filter(post => post.postImg != undefined).map((post, idx) => 
                             <Link
+                              key={userId}
                               to={{pathname: `/${userId}/blog/${post.postId}`, state: {fromUrl: '/blog'}}}
                             >
                               <Image
