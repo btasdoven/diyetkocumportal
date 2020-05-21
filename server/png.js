@@ -70,7 +70,7 @@ exports.drawCekilis = (unvan, name, username) => {
         ctx.closePath();
         ctx.clip();
 
-        return loadImage(`public/${username}.png`).then((image) => {
+        return loadImage(`public/${username}/${username}.png`).then((image) => {
             ctx.drawImage(image, x, y, 2*r, 2*r)
         
             ctx.beginPath()

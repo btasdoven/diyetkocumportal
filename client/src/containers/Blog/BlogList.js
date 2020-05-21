@@ -136,7 +136,21 @@ const styles = theme => ({
       height: theme.spacing(7),
       //paddingRight: theme.spacing(1),
   },
+  imgContainer: {
+    display: 'flex', 
+    overflowX: 'auto',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    }
+  }
 });
+
+function groupBy(xs, key) {
+  return xs.reduce(function(rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};
 
 function renderLoadingButton(classes) {
     return (
@@ -172,6 +186,8 @@ class LandingPage extends React.Component {
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
     const posts = showLoader ? undefined : this.props.apiAllPosts.data;
+    const postsPerUser = showLoader ? undefined : groupBy(posts, 'userId');
+    const ratio = 40;
 
     return (
       <React.Fragment >
@@ -184,35 +200,49 @@ class LandingPage extends React.Component {
 
         <main className={classes.layoutToolbar} style={{margin:'auto'}}>
             { showLoader && renderLoadingButton(classes) }
-            { !showLoader && posts.map((post) => {
+            { !showLoader && Object.keys(postsPerUser).map((userId) => {
+                if (postsPerUser[userId].filter(post => post.postImg != undefined).length == 0) {
+                  return;
+                }
+
                 return (
-                  <Card elevation={0} key={post.postId} className={classes.root}>
-                    <CardActionArea component={Link} to={{ pathname: `/${post.userId}/blog/${post.postId}`, state: {fromUrl: '/blog'}}} >
+                  <Card elevation={0} key={userId} style={{marginBttom: '16px'}}>
+                    <CardActionArea component={Link} to={{ pathname: `/${userId}`, state: {fromUrl: '/blog'}}} >
                       <CardHeader
-                        style={{paddingLeft: '8px', paddingBottom: '8px'}}
+                        style={{paddingLeft: '24px', paddingBottom: '8px'}}
                         avatar={
-                          <Avatar src={userService.getStaticFileUri(post.userImg)} className={classes.avatar} />
+                          <Avatar src={userService.getStaticFileUri(postsPerUser[userId][0].userImg)} className={classes.avatar} />
                         }
                         // action={
                         //   <IconButton aria-label="settings">
                         //     <MoreVertIcon />
                         //   </IconButton>
                         // }
-                        title={post.userFullName}
-                        subheader={post.postDate || post.userUnvan || 'Diyetisyen'}
+                        title={postsPerUser[userId][0].userFullName}
+                        subheader={postsPerUser[userId][0].userUnvan || 'Diyetisyen'}
                       />
-                      <CardMedia
+                      {/* <CardMedia
                         className={classes.media}
                         image={userService.getStaticFileUri(post.postImg || '')}
                         title="Paella dish"
-                      />
-                      {/* <CardContent>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                          This impressive paella is a perfect party dish and a fun meal to cook together with your
-                          guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                        </Typography>
-                      </CardContent> */}
-                    </CardActionArea>
+                      /> */}
+                      </CardActionArea>
+                      <CardContent style={{padding: 0}}>
+                        <div className={classes.imgContainer}>
+                          {postsPerUser[userId].filter(post => post.postImg != undefined).map((post, idx) => 
+                            <Link
+                              to={{pathname: `/${userId}/blog/${post.postId}`, state: {fromUrl: '/blog'}}}
+                            >
+                              <Image
+                                imageStyle={{ left: idx == 0 ? '8px' : 0, borderRadius: '8px', width: `calc(${ratio}vw)`}}
+                                style={{paddingLeft: `calc(${ratio}vw + ${idx == 0 ? '8px' : '0px'})`, paddingRight: '8px', paddingTop: `${1920.0/1080.0 * ratio}vw`, width: `${ratio}vw`}}
+                                aspectRatio={1080.0/1920}
+                                src={userService.getStaticFileUri(post.postImg || '') }
+                              /> 
+                            </Link>
+                          )}
+                        </div>
+                      </CardContent>
                     {/* <CardActions disableSpacing>
                       <IconButton aria-label="add to favorites">
                         <FavoriteIcon />

@@ -354,7 +354,7 @@ class Envanter extends React.Component {
               </ListItem>
             </List>
 
-            {path != undefined && <Typography>Dosya başarıyla yüklendi. Adresi: {`https://diyetkocum.net/api/v1/${path.replace('\\', '/')}`}</Typography>}
+            {path != undefined && <Typography>Dosya başarıyla yüklendi. Adresi: {`https://diyetkocum.net/api/v1/${path.replace(/\\/g, '/')}`}</Typography>}
           </span>
         }
       </div>  
