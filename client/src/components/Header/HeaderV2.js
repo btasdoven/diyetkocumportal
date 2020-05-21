@@ -1,9 +1,11 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
-import React from 'react';
+import React, { Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
+
+import { userService } from '../../services/user.service'
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -13,6 +15,9 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withStyles } from '@material-ui/core/styles';
 
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Divider from '@material-ui/core/Divider';
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -73,6 +78,15 @@ class HeaderV2 extends React.Component {
 
         this.state = {
             anchorEl: undefined,
+            user: localStorage.getItem('user') == undefined ? undefined : JSON.parse(localStorage.getItem('user')),
+        }
+    }
+
+    componentDidMount() {
+        var user = localStorage.getItem('user') == undefined ? undefined : JSON.parse(localStorage.getItem('user'));
+
+        if (this.state.user != user) {
+            this.setState({user: user})
         }
     }
 
@@ -88,6 +102,8 @@ class HeaderV2 extends React.Component {
 
     render() {
         const { classes } = this.props;
+
+        console.log(this.state)
 
         return (
             <div style={{height: '54px', display: 'block'}}>
@@ -153,18 +169,29 @@ class HeaderV2 extends React.Component {
                         style={{width: '100%'}}
                         anchorReference="anchorPosition"
                         anchorPosition={
-                        { top: 8, left: 8 }
+                            { top: 8, left: 8 }
                         }
                         PaperProps={{
-                        className: classes.paperProps
+                            className: classes.paperProps
                         }}
                     >
+                        {this.state.user && 
+                            <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>
+                                <ListItemIcon>
+                                    <Avatar src={userService.getStaticFileUri(this.state.user.url)}/>
+                                </ListItemIcon>
+                                {this.state.user.name}
+                            </MenuItem>
+                        }
+                        {this.state.user && 
+                                <Divider style={{marginTop: '8px'}}/>
+                        }
                         <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
-                        <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
-                        <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
+                        {!this.state.user && <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>}
+                        {!this.state.user && <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>}
                         <MenuItem component={Link} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem>
                         <MenuItem component={Link} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
-                        {/* <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem> */}
+                        {/* {this.state.user && <MenuItem onClick={this.props.logout}>Logout</MenuItem>} */}
                     </Menu>
                 </div>
             </div>

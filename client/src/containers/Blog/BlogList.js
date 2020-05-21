@@ -206,7 +206,7 @@ class LandingPage extends React.Component {
                 }
 
                 return (
-                  <Card elevation={0} key={userId} style={{marginBttom: '16px'}}>
+                  <Card elevation={0} key={userId} style={{marginBottom: '16px'}}>
                     <CardActionArea component={Link} to={{ pathname: `/${userId}`, state: {fromUrl: '/blog'}}} >
                       <CardHeader
                         style={{paddingLeft: '24px', paddingBottom: '8px'}}
@@ -231,7 +231,7 @@ class LandingPage extends React.Component {
                         <div className={classes.imgContainer}>
                           {postsPerUser[userId].filter(post => post.postImg != undefined).map((post, idx) => 
                             <Link
-                              key={userId}
+                              key={post.postId}
                               to={{pathname: `/${userId}/blog/${post.postId}`, state: {fromUrl: '/blog'}}}
                             >
                               <Image

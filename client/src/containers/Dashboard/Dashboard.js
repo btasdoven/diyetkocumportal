@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from "@material-ui/core/styles";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { registerEvent } from '../../components/Signin/PageTracker'
 
@@ -141,6 +142,18 @@ class Dashboard extends React.Component {
             {/* <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>Bildirimler</Typography>
             </Grid> */}
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
+              <InfoCard 
+                Component={Link}
+                to={'/me'}
+                title="Haritadan ofis adresini seç"
+                content="Yeni eklenen bu özellik ile ofisinin konumunu kişisel sayfanda harita üzerinden gösterebilir ve danışanlarının kolayca yol tarifi almasını sağlayabilirsin."
+                buttonText="ADRESİNİ ŞİMDİ SEÇ"
+                onClick={() => {
+                  registerEvent("AddressOnMapFromDashboard")
+                }}
+              />
+            </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <InfoCard 
                 title="Kişisel sayfana blog yazıları ekle"

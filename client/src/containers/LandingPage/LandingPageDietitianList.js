@@ -119,8 +119,6 @@ class DietianList extends React.Component {
     const showLoader = !this.isLoaded();
     const dietitians = showLoader ? undefined : this.props.apiAllDietitians.data;
 
-    console.log(showLoader, this.props)
-
     return (
       <Fragment>
         { showLoader && renderLoadingButton(classes) }

@@ -263,7 +263,7 @@ class LandingPage extends React.Component {
 
   handleMenuOpen(event)
   {
-    console.log(event.currentTarget);
+    //console.log(event.currentTarget);
     this.setState({anchorEl: event.currentTarget})
   }
 

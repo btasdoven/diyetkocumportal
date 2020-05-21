@@ -160,6 +160,9 @@ class Sidebar extends React.Component {
                   <StarsRoundedIcon fontSize="small"/>
               </ListItemIcon>
               </ListItem>
+              <ListItem button component={Link} to='/blog' selected={location.pathname === '/blog'}>
+                <Typography variant="overline">BLOG YAZILARI</Typography>
+              </ListItem>
               {/* <ListItem button >
                 <Typography variant="overline">AYARLAR</Typography>
               </ListItem> */}

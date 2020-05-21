@@ -42,7 +42,7 @@ export function getAllDietitians(isAdmin=false) {
         userService.get_all_dietitians(isAdmin)
         .then(
             items => { 
-                console.log(items)
+                //console.log(items)
                 dispatch(success(items));
                 //window.history.push('/');
             },

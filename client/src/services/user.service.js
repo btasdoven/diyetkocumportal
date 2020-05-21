@@ -67,7 +67,7 @@ function login(username, password) {
                 localStorage.setItem('user', JSON.stringify(user));
             }
 
-            console.log(user)
+            envService.isProduction || console.log(user)
 
             return user;
         });
@@ -117,9 +117,9 @@ function request_new_password_email(username, userInfo) {
 
 function logout() {
     // remove user from local storage to log user out
-    console.log("logout")
+    envService.isProduction || console.log("logout")
     localStorage.removeItem('user');
-    console.log(localStorage.getItem('user'));
+    envService.isProduction || console.log(localStorage.getItem('user'));
 }
 
 function get_message_previews(userId) {
@@ -480,7 +480,7 @@ function track_activity(userId, event) {
 function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
-        console.log(data)
+        envService.isProduction || console.log(data)
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
@@ -489,7 +489,7 @@ function handleResponse(response) {
             }
 
             const error = (data && data.message) || response.statusText;
-            console.log(error);
+            envService.isProduction || console.log(error);
             return Promise.reject(error);
         }
 

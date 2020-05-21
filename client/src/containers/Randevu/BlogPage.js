@@ -233,7 +233,10 @@ class BlogPage extends React.Component {
                                                 </Grid>
                                             )
                                         })}
-                                    </Grid>
+                                    </Grid>        
+                                    <Button color="secondary" component={Link} to={'/blog'} style={{marginTop: '16px', width: '100%'}}>
+                                        TÜM YAZILARI GÖR
+                                    </Button>
                                 </CardContent>
                             </Card>
                         )}

@@ -37,7 +37,6 @@ import Button from "@material-ui/core/Button";
 import { AppBar, Toolbar, Box } from "@material-ui/core";
 import InstagramIcon from '@material-ui/icons/Instagram';
 
-import HeaderV2 from "../../components/Header/HeaderV2";
 import { userService } from '../../services/user.service'
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 
