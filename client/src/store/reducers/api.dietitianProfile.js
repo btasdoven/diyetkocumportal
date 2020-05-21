@@ -95,3 +95,22 @@ export function putDietitianProfile(userId, dietitianProfile) {
   function request(userId) { return { type: DIETITIAN_PROFILE_PUT_LOADING, userId, isPutLoading: true } }
   function failure(userId, error) { return { type: DIETITIAN_PROFILE_PUT_ERRORED, userId, error } }
 }
+
+export function addPayment(userId) {
+    return (dispatch) => {
+        dispatch(request(userId));
+
+        userService.add_payment(userId)
+        .then(
+            (data) => { 
+              getDietitianProfile(userId)(dispatch);
+            },
+            error => {
+                dispatch(failure(userId, error.toString()));
+            }
+        );
+    };
+  
+  function request(userId) { return { type: DIETITIAN_PROFILE_PUT_LOADING, userId, isPutLoading: true } }
+  function failure(userId, error) { return { type: DIETITIAN_PROFILE_PUT_ERRORED, userId, error } }
+}

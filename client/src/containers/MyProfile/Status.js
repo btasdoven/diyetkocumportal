@@ -475,6 +475,7 @@ class Envanter extends React.Component {
     const now = moment();
 
     var rows = showLoader ? undefined : dietitianProfile.discounts;
+    var payments = showLoader ? undefined : dietitianProfile.payments;
 
     // var rows = [
     //     {name: 'Yeni üyelere özel ilk ay ücretsiz', duration: '1 ay'},
@@ -763,9 +764,31 @@ class Envanter extends React.Component {
                 <CardContent style={{paddingTop:0}}>
                   <Grid container spacing={0}>
                     <Grid item xs={12}>
-                      <div className={classes.text}>
-                        <Typography variant="body2">Herhangi bir ödeme geçmişiniz bulunmamaktadır.</Typography>
-                      </div>
+                        <TableContainer component={Paper}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Ödeme</TableCell>
+                                        <TableCell align="center">Tarih</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {Object.keys(payments).map(p => {
+                                  
+                                  var payment = payments[p];
+
+                                  return (
+                                    <TableRow key={p}>
+                                        <TableCell component="th" scope="row">
+                                          {payment.title}
+                                        </TableCell>
+                                        <TableCell align="center"><b>{moment(payment.date).format("D MMM YYYY")}</b></TableCell>
+                                    </TableRow>
+                                  )
+                                })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </Grid>
                   </Grid>
                 </CardContent>

@@ -35,6 +35,7 @@ export const userService = {
     get_all_posts,
     upload_photo,
     add_new_post,
+    add_payment,
     getStaticFileUri,
     track_activity,
 };
@@ -454,6 +455,20 @@ function add_new_post(formValues) {
     };
     
     return fetch(HOST_NAME + `/api/v1/addNewPost`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function add_payment(userId) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: localStorage.getItem('user')
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/${userId}/makePayment`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data;

@@ -147,6 +147,13 @@ app.put("/api/v1/users/:userId/profile", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
+app.post("/api/v1/users/:userId/makePayment", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.makePayment(req.params.userId, req.body));
+  }), delayInResponseInMs);
+});
+
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/messages", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

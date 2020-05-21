@@ -512,6 +512,11 @@ var taskUpgradeStg = () => {
       changed = true
     }
 
+    if (rows[id].profile.payments == undefined) {
+      rows[id].profile.payments = {}
+      changed = true
+    }
+
     Object.keys(rows[id].profile.posts).forEach(p => {
       if (rows[id].profile.posts[p].img != undefined) {
         var filename = path.basename(rows[id].profile.posts[p].img)
@@ -1137,6 +1142,34 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
 
   console.log(rows[userId].profile)
   storage.setItem(userId, rows[userId]);
+}
+
+exports.makePayment = function(userId, callerUser) {
+  console.log("makePayment")
+  console.log(userId)
+
+  if (callerUser.username != 'demo' && callerUser.username != '_hsahin_') {
+    return Promise.reject('Bad Request')
+  }
+
+  console.log(stringHash(callerUser.username))
+
+  if (stringHash(callerUser.username) != callerUser.token) {
+    return Promise.reject('Bad Request')
+  }
+
+  if (rows[userId].profile.payments == undefined) {
+    rows[userId].profile.payments = {}
+  }
+
+  var now = moment().format()
+  rows[userId].profile.payments[now] = { title: '1 aylık Premium üyelik', date: now}
+  rows[userId].profile.premium_until = moment(rows[0].users[userId].premium_until).add(1, 'months').format()
+  rows[0].users[userId].premium_until = moment(rows[0].users[userId].premium_until).add(1, 'months').format()
+  
+  return storage.setItem(userId, rows[userId]).then(() => {
+    return storage.setItem('0', rows[0]);
+  });
 }
 
 exports.getDanisanProfile = function (userId, danisanUserName) {
