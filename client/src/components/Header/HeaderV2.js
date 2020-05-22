@@ -107,8 +107,8 @@ class HeaderV2 extends React.Component {
 
         return (
             <div style={{height: '54px', display: 'block'}}>
-                <div style={{position: this.props.static ? 'relative' : 'relative', width: '100%'}}>
-                    <div style={{position:'absolute', top:0, width: '100%', height: '54px', background: 'linear-gradient(150deg,#281483 15%,#8f6ed5 70%,#d782d9 94%)'}}>
+                <div style={{position: this.props.static ? 'fixed' : 'relative', zIndex: 1200, width: '100%'}}>
+                    <div style={{position:'absolute', top:0, width: '100%', height: '54px', overflow: 'hidden', background: 'linear-gradient(150deg,#281483 15%,#8f6ed5 70%,#d782d9 94%)'}}>
 
                         <span className={classes.floatingPoint} style={{width: '150px', height: '150px', left: '-4%', bottom: 'auto'}}></span>
                         <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '4%', top: '10%'}}></span>
@@ -122,7 +122,7 @@ class HeaderV2 extends React.Component {
                         <span className={classes.floatingPoint} style={{width: '100px', height: '100px', left: '1%', bottom: '1%'}}></span>
                     </div> 
 
-                    <AppBar elevation={0} position="static" className={classes.appBar}>
+                    <AppBar elevation={0} position="fixed" className={classes.appBar}>
                         <Toolbar className={classes.layoutToolbar}>
                         
                         {this.props.title && (

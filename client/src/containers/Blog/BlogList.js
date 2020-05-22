@@ -1,6 +1,6 @@
 
 import CardActionArea from '@material-ui/core/CardActionArea';
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import clsx from 'clsx';
@@ -81,6 +81,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
 import HeaderV2 from "../../components/Header/HeaderV2";
 
@@ -141,6 +142,10 @@ const styles = theme => ({
     overflowX: 'auto',
     '&::-webkit-scrollbar': {
       display: 'none',
+    },
+    [theme.breakpoints.up(750 + theme.spacing(6))]: {
+      flexWrap: 'wrap',
+      overflowX: 'auto',
     }
   }
 });
@@ -187,7 +192,8 @@ class LandingPage extends React.Component {
     const showLoader = !this.isLoaded();
     const posts = showLoader ? undefined : this.props.apiAllPosts.data;
     const postsPerUser = showLoader ? undefined : groupBy(posts, 'userId');
-    const ratio = 40;
+    const ratio = isWidthUp('xs', this.props.width) ? (750 - 64) / 4 : 40;
+    const unit = isWidthUp('xs', this.props.width) ? 'px' : 'vw';
 
     return (
       <React.Fragment >
@@ -195,7 +201,7 @@ class LandingPage extends React.Component {
 
         <HeaderV2 static 
           onBackButton={"/"}
-          title={"BLOG YAZILARI"}
+          title={"Blog Yazıları"}
         />
 
         <main className={classes.layoutToolbar} style={{margin:'auto'}}>
@@ -204,6 +210,11 @@ class LandingPage extends React.Component {
                 if (postsPerUser[userId].filter(post => post.postImg != undefined).length == 0) {
                   return;
                 }
+
+                // postsPerUser[userId] = postsPerUser[userId].concat(postsPerUser[userId])
+                // postsPerUser[userId] = postsPerUser[userId].concat(postsPerUser[userId])
+                postsPerUser[userId] = postsPerUser[userId].filter(post => post.postImg != undefined)
+                var postCount = postsPerUser[userId].length
 
                 return (
                   <Card elevation={0} key={userId} style={{marginBottom: '16px'}}>
@@ -229,14 +240,14 @@ class LandingPage extends React.Component {
                       </CardActionArea>
                       <CardContent style={{padding: 0}}>
                         <div className={classes.imgContainer}>
-                          {postsPerUser[userId].filter(post => post.postImg != undefined).map((post, idx) => 
+                          {postsPerUser[userId].map((post, idx) => 
                             <Link
                               key={post.postId}
                               to={{pathname: `/${userId}/blog/${post.postId}`, state: {fromUrl: '/blog'}}}
                             >
                               <Image
-                                imageStyle={{ left: idx == 0 ? '8px' : 0, borderRadius: '8px', width: `calc(${ratio}vw)`}}
-                                style={{paddingLeft: `calc(${ratio}vw + ${idx == 0 ? '8px' : '0px'})`, paddingRight: '8px', paddingTop: `${1920.0/1080.0 * ratio}vw`, width: `${ratio}vw`}}
+                                imageStyle={{ left: '8px', borderRadius: '8px', height: `calc(${1920.0/1080.0 * ratio}${unit})`, width: `calc(${ratio}${unit})`}}
+                                style={{paddingLeft: `calc(${ratio}${unit} + ${idx != postCount - 1 ? '0px' : '8px'})`, paddingRight: '8px', paddingTop: `calc(${1920.0/1080.0 * ratio}${unit} + 8px)`, width: `${ratio}${unit}`}}
                                 aspectRatio={1080.0/1920}
                                 src={userService.getStaticFileUri(post.postImg || '') }
                               /> 
@@ -280,4 +291,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTheme(withStyles(styles)(LandingPage)));
+)(withTheme(withWidth()(withStyles(styles)(LandingPage))));

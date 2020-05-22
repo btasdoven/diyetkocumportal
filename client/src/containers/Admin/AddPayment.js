@@ -228,7 +228,6 @@ class Envanter extends React.Component {
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
 
     this.state = {
-      userId: props.userId,
       data: undefined,
     }
   }
@@ -254,10 +253,22 @@ class Envanter extends React.Component {
     console.log(formValues);
 
     this.props.addPayment(formValues.userId);
+
+    this.setState({userId: formValues.userId});
   }
 
   render() {
     const { classes } = this.props;
+    
+    var dietitianProfile = undefined;
+
+    if (this.state.userId  &&
+        this.props.apiDietitianProfile &&
+        this.props.apiDietitianProfile[this.state.userId]) {
+        dietitianProfile = this.props.apiDietitianProfile[this.state.userId].data;
+    }
+
+    console.log(dietitianProfile)
 
     return (
       <form
@@ -273,7 +284,8 @@ class Envanter extends React.Component {
 
         <Button type="submit">SUBMIT</Button>
 
-          {/* {file && file.title && file.text && <Typography>Post basariyla yuklendi</Typography>} */}
+        {dietitianProfile && <Typography>Premium Until: {dietitianProfile.premium_until}</Typography>} <br />
+        {dietitianProfile && <pre>All payments: {JSON.stringify(dietitianProfile.payments, null, 4)}</pre>}
       </form>  
     )}
 };
@@ -281,7 +293,7 @@ class Envanter extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 
   return {
-    apiDanisanProfile: state.apiDanisanProfile,
+    apiDietitianProfile: state.apiDietitianProfile,
   };
 };
 

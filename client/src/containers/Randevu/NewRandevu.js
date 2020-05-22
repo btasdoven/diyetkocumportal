@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -373,6 +373,7 @@ class NewRandevuWrapper extends React.Component {
         super(props)
 
         this.isLoaded = this.isLoaded.bind(this);
+        this.renderHeader = this.renderHeader.bind(this);
         this.onSubmitInternal = this.onSubmitInternal.bind(this)
 
         this.state = {
@@ -428,6 +429,20 @@ class NewRandevuWrapper extends React.Component {
         return loaded;
     }
 
+    renderHeader() {
+      return (
+        <HeaderV2 static 
+          onBackButtonClick={this.state.step > 0 && this.state.formValues == undefined ? () => this.setState( {step : this.state.step - 1}) : undefined}
+          title={this.state.step == 0 || this.state.formValues != undefined
+            ? undefined
+            : this.state.type == 'randevu' 
+              ? 'Yüz Yüze Randevu Al' 
+              : 'Online Diyete Başla'
+          }
+        />
+      );
+    }
+    
     render() {
         const { classes } = this.props;
         const showLoader = !this.isLoaded();
@@ -442,28 +457,20 @@ class NewRandevuWrapper extends React.Component {
         }
 
         var multipleOffices = user && Object.keys(user.addresses).length > 1;
-
+          
         return (
           <Form
             onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
             name={this.props.form}
           >
-            <HeaderV2 static 
-              onBackButtonClick={this.state.step > 0 && this.state.formValues == undefined ? () => this.setState( {step : this.state.step - 1}) : undefined}
-              title={this.state.step == 0 || this.state.formValues != undefined
-                ? undefined
-                : this.state.type == 'randevu' 
-                  ? 'Yüz Yüze Randevu Al' 
-                  : 'Online Diyete Başla'
-              }
-            />
+            {this.renderHeader()}
 
             <SwipeableViews
               axis={'x'}
               disabled={true}
               index={this.state.step}
             >
-              <div style={{ height: 'calc(100vh - 56px)'}}>
+              <div>
                 <PersonalPage 
                   dietitianProfile={user}  // dietitian whose personal page is being visited
                   userId={this.state.userId}  // logged in username
@@ -472,11 +479,11 @@ class NewRandevuWrapper extends React.Component {
               </div>
               <div>
                 { multipleOffices && this.state.type == 'randevu' && 
-                      <NewRandevuStep1
-                        {...this.props}
-                        userId={this.state.userId}
-                        onComplete={(addressId) => this.setState({addressId, step: 2})}  
-                      /> 
+                  <NewRandevuStep1
+                    {...this.props}
+                    userId={this.state.userId}
+                    onComplete={(addressId) => this.setState({addressId, step: 2})}  
+                  /> 
                 }
                 { !multipleOffices && this.state.type == 'randevu' && 
                   <NewRandevuStep2 
