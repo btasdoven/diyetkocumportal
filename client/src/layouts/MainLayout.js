@@ -81,7 +81,7 @@ class MainLayout extends Component {
 
       if (this.state.user != undefined && 
           this.state.user.premium_until != undefined &&
-          moment(this.state.user.premium_until) < moment()) {
+          moment(this.state.user.premium_until) < moment.utc()) {
         this.props.snackbar.showMessage(
           'Premium üyeliğiniz yenilemeniz gerekmektedir.',
           //'Undo', () => handleUndo()
@@ -91,7 +91,7 @@ class MainLayout extends Component {
   }
 
   componentDidMount() {
-    if (this.state.user.premium_until == undefined || moment(this.state.user.premium_until) < moment()) {
+    if (this.state.user.premium_until == undefined || moment(this.state.user.premium_until) < moment.utc()) {
       this.props.relogin(this.state.userId, this.state.user)
       this.setState({ resetLoginInfo: Date.now() })
     }
@@ -100,12 +100,12 @@ class MainLayout extends Component {
   render() {
     const { classes, component: Component, ...rest } = this.props;
     
-    // console.log('redirect', this.state.user, this.props.location)
+    console.log('redirect', this.state.user, this.props.location)
 
     if (this.props.location.pathname != '/status' &&
         this.state.user != undefined && 
         this.state.user.premium_until != undefined &&
-        moment(this.state.user.premium_until) < moment()) {
+        moment(this.state.user.premium_until) < moment.utc()) {
       console.log('redirecting...')
       return (<Redirect to="/status" />)
     }

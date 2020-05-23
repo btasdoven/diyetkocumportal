@@ -831,9 +831,9 @@ exports.signUpUser = function(uname, userInfo) {
     
       if (userInfo.refDietitian != undefined) {
 
-        var startDate = moment() < moment(rows[0].users[userInfo.refDietitian].premium_until)
+        var startDate = moment.utc() < moment(rows[0].users[userInfo.refDietitian].premium_until)
           ? moment(rows[0].users[userInfo.refDietitian].premium_until).format()
-          : moment().format();
+          : moment.utc().format();
 
         var endDate = moment(startDate).add(1, 'weeks').format();
 
@@ -1180,7 +1180,7 @@ exports.makePayment = function(userId, callerUser) {
     rows[userId].profile.payments = {}
   }
 
-  var now = moment().format()
+  var now = moment.utc().format()
   rows[userId].profile.payments[now] = { title: '1 aylık Premium üyelik', date: now}
   rows[userId].profile.premium_until = moment(rows[0].users[userId].premium_until).add(1, 'months').format()
   rows[0].users[userId].premium_until = moment(rows[0].users[userId].premium_until).add(1, 'months').format()

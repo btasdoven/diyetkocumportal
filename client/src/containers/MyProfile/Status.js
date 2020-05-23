@@ -482,8 +482,6 @@ class Envanter extends React.Component {
     //     {name: 'Koronavirüs destek paketi', duration: '1 ay'},
     // ]
 
-    console.log(this.props)
-
     return (
       <div className={classes.root}>
         {/* <Button style={{marginRight: '8px'}} variant="outlined" disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
@@ -622,10 +620,10 @@ class Envanter extends React.Component {
                     <Grid item xs={12}>
                       <div className={classes.text}>
                         {now > moment(dietitianProfile.premium_until) && (
-                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY HH:mm')}</b> tarihinde sona ermiştir. Randevularınızı kabul etmek ve danışan bilgilerinize erişmek için lütfen geçerli bir ödeme yöntemi ekleyiniz.</Typography>
+                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY')}</b> tarihinde sona ermiştir. Randevularınızı kabul etmek ve danışan bilgilerinize erişmek için lütfen geçerli bir ödeme yöntemi ekleyiniz.</Typography>
                         )}
                         {now <= moment(dietitianProfile.premium_until) && (
-                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY HH:mm')}</b> tarihine kadar devam etmektedir.</Typography>
+                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY')}</b> tarihine kadar devam etmektedir.</Typography>
                         )}
                       </div>
                     </Grid>
