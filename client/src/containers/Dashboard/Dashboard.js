@@ -55,7 +55,7 @@ function isMobileOrTablet() {
 }
 
 function whatsappLink() {
-  console.log(isMobileOrTablet());
+  // console.log(isMobileOrTablet());
   
   return (
     'https://' +

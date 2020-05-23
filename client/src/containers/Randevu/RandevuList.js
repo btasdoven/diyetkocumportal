@@ -224,7 +224,6 @@ class Envanter extends React.Component {
 
     return () => {
       d.status = status;
-      console.log(date, time, d)
       this.props.putDietitianAppointment(this.state.userId, date, time, d);
 
       var statusText = status == 'confirmed' ? 'onaylayışınız' : 'reddedişiniz'

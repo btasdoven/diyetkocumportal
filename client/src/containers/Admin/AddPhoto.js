@@ -282,8 +282,6 @@ class Envanter extends React.Component {
       ? this.props.apiDanisanFiles[0][''].data.data.file.path
       : undefined;
 
-    console.log(path)
-
     return (
       <div
         onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
@@ -300,7 +298,6 @@ class Envanter extends React.Component {
               label="Username (i.e. dyt_ezelkavadar)"
               name="username"
               component={renderTextField}
-              onChange={(f) => console.log(f)}
             />
             <Field
               name="file"
@@ -362,9 +359,6 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('mapstatetoprops')
-  console.log(ownProps);
-  console.log(state);
 
   return {
     apiForm: state.form,

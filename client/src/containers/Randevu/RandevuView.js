@@ -211,8 +211,6 @@ function whatsappLink(tel, text) {
   tel = tel.replace('+', '').replace(/ /g, '')
   text = encodeURIComponent(text)
 
-  console.log(text)
-
   return (
     'https://' +
     (isMobileOrTablet() ? 'api' : 'web') +
@@ -262,15 +260,11 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
-
     var loaded = this.props.apiDietitianAppointments != undefined &&
       this.props.apiDietitianAppointments[this.state.userId] != undefined &&
       this.props.apiDietitianAppointments[this.state.userId].isGetLoading != true &&
       this.props.apiDietitianAppointments[this.state.userId].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
   
@@ -302,7 +296,6 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
     const date = this.props.match.params.date;
     const time = this.props.match.params.time;
-    console.log(this.props)
     var appt = undefined;
     
     if (!showLoader) {

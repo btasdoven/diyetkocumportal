@@ -230,7 +230,6 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { classes } = this.props;
     const showLoader = false;
 

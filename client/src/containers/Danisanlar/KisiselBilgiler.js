@@ -300,7 +300,6 @@ class Envanter extends React.Component {
 
   handleExpand(panel) {
     return (event, isExpanded) => {
-      console.log(isExpanded, panel)
       this.setState({ 
         expandList: {
           ...this.state.expandList,
@@ -316,7 +315,6 @@ class Envanter extends React.Component {
 
     const danisanProfile = showLoader ? undefined : this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data;
 
-    console.log('danisan', danisanProfile)
     if (!showLoader && Object.keys(danisanProfile).length == 0) {
       return (
         <div className={classes.root} style={{textAlign: 'center'}}>

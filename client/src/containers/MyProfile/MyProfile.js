@@ -386,7 +386,6 @@ class Envanter extends React.Component {
 
   handleExpand(panel) {
     return (event, isExpanded) => {
-      console.log(isExpanded, panel)
       this.setState({ 
         expandList: {
           ...this.state.expandList,
@@ -727,7 +726,6 @@ class Envanter extends React.Component {
                                   <SelectAddressDialog 
                                     latlng={address.latlng}
                                     handleClose = {(latlng) => {
-                                      console.log('final values', latlng)
                                       if (latlng != undefined) {
                                         this.props.change(`addresses["${ad}"].latlng.lat`, latlng.lat)
                                         this.props.change(`addresses["${ad}"].latlng.lng`, latlng.lng)
@@ -761,7 +759,6 @@ class Envanter extends React.Component {
                     <NewAddressDialog 
                       // latlng={address.latlng}
                       handleClose = {(ad, latlng) => {
-                        console.log('final values for new address', latlng)
                         if (latlng != undefined) {
                           this.props.change(`addresses["${ad}"].latlng.lat`, latlng.lat)
                           this.props.change(`addresses["${ad}"].latlng.lng`, latlng.lng)

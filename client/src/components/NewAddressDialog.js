@@ -147,7 +147,7 @@ const ReduxFormMaskedTextField = ({name, label, ...props}) => (
 export const reduxFormSelect = props => {
     const { input, options } = props;
 
-    { console.log(input, options)}
+    // { console.log(input, options)}
   
     return (
       <Select 
@@ -222,7 +222,7 @@ class FieldDialog extends React.Component {
  
     constructor(props) {
         super(props)
-        console.log(props)
+        // console.log(props)
 
         this.handleClose = this.handleClose.bind(this);
 

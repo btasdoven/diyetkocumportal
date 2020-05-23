@@ -142,7 +142,7 @@ const ReduxFormMaskedTextField = ({name, label, ...props}) => (
 export const reduxFormSelect = props => {
     const { input, options } = props;
 
-    { console.log(input, options)}
+    // { console.log(input, options)}
   
     return (
       <Select 
@@ -176,7 +176,7 @@ class FieldDialog extends React.Component {
  
     constructor(props) {
         super(props)
-        console.log(props)
+        // console.log(props)
 
         this.handleClose = this.handleClose.bind(this);
 
@@ -189,10 +189,10 @@ class FieldDialog extends React.Component {
     }
 
     componentDidMount() {
-        console.log('didmount')
+        // console.log('didmount')
         if ("geolocation" in navigator && this.state.latlng == undefined) {
           var that = this
-          console.log('geoloc')
+          // console.log('geoloc')
           navigator.geolocation.getCurrentPosition(
               function(position) {
                 that.setState({shouldDraw: true, latlng: { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 17}})
@@ -222,7 +222,7 @@ class FieldDialog extends React.Component {
 
     render() {
 
-        console.log(this.state.latlng)
+        // console.log(this.state.latlng)
 
         return (
           <Dialog 

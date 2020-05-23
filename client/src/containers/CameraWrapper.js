@@ -22,7 +22,6 @@ class CameraWrapper extends Component {
 
   onTakePhoto() {
     if (this.props.handleTakePhoto == undefined) {
-      console.log(this.state.url)
     } else {
       this.props.handleTakePhoto(this.state.url)
     }

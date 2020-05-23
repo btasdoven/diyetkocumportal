@@ -144,8 +144,6 @@ const ReduxFormMaskedTextField = ({name, label, ...props}) => (
 export const reduxFormSelect = props => {
     const { input, options } = props;
 
-    { console.log(input, options)}
-  
     return (
       <Select 
         {...input} 
@@ -178,7 +176,6 @@ class FieldDialog extends React.Component {
  
     constructor(props) {
         super(props)
-        console.log(props)
 
         this.onSubmitInternal = this.onSubmitInternal.bind(this);
         this.state = {
@@ -199,7 +196,6 @@ class FieldDialog extends React.Component {
             return <span></span>;
         }
 
-        console.log(this.props.reduxForm);
         return (
             <Form
                 onSubmit={this.props.handleSubmit(this.onSubmitInternal)}

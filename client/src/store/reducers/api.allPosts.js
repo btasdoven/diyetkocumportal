@@ -40,7 +40,7 @@ export function getAllPosts() {
         userService.get_all_posts()
         .then(
             items => { 
-                console.log(items)
+                // console.log(items)
                 dispatch(success(items));
             },
             error => {

@@ -170,8 +170,6 @@ class FieldFileInput  extends Component {
 const reduxFormSelect = props => {
   const { input, options } = props;
 
-  { console.log(input, options)}
-
   return (
     <Select 
       {...input} 

@@ -100,13 +100,13 @@ class MainLayout extends Component {
   render() {
     const { classes, component: Component, ...rest } = this.props;
     
-    console.log('redirect', this.state.user, this.props.location)
+    // console.log('redirect', this.state.user, this.props.location)
 
     if (this.props.location.pathname != '/status' &&
         this.state.user != undefined && 
         this.state.user.premium_until != undefined &&
         moment(this.state.user.premium_until) < moment.utc()) {
-      console.log('redirecting...')
+      // console.log('redirecting...')
       return (<Redirect to="/status" />)
     }
 

@@ -271,8 +271,6 @@ const renderCreditCardField = ({
   ...custom
 }) => {
 
-  console.log(input, label, custom, touched, error)
-
   return (
     <TextField
       label={label}
@@ -453,7 +451,6 @@ class Envanter extends React.Component {
 
   handleExpand(panel) {
     return (event, isExpanded) => {
-      console.log(isExpanded, panel)
       this.setState({ 
         expandList: {
           ...this.state.expandList,
@@ -499,7 +496,7 @@ class Envanter extends React.Component {
 
               <PaymentInputsContainer errorMessages={ERROR_MESSAGES}>
                 {({ meta, wrapperProps, getCardImageProps, getCardNumberProps, getExpiryDateProps, getCVCProps }) => {
-                  console.log(meta)
+                  // console.log(meta)
                   return (
                     <Dialog 
                       fullWidth
@@ -530,8 +527,6 @@ class Envanter extends React.Component {
                               InputProps={{
                                 startAdornment: <InputAdornment position="start"><svg {...getCardImageProps({ images })} /></InputAdornment>,
                                 inputComponent: ({inputRef, ...props}) => {
-                                  console.log(props)
-
                                   return (
                                     <input 
                                       {...props}
@@ -555,8 +550,6 @@ class Envanter extends React.Component {
                               error={meta.touchedInputs.expiryDate && meta.erroredInputs.expiryDate != undefined}
                               InputProps={{
                                 inputComponent: ({inputRef, ...props}) => {
-                                  console.log(props)
-
                                   return (
                                     <input 
                                       {...props}
@@ -577,8 +570,6 @@ class Envanter extends React.Component {
                               validate={[required]}
                               InputProps={{
                                 inputComponent: ({inputRef, ...props}) => {
-                                  console.log(props)
-
                                   return (
                                     <input 
                                       {...props}

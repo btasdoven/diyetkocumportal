@@ -354,7 +354,6 @@ class Envanter extends React.Component {
 
   handleExpand(panel) {
     return (event, isExpanded) => {
-      console.log(isExpanded, panel)
       this.setState({ 
         expandList: {
           ...this.state.expandList,

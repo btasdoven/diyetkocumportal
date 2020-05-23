@@ -518,7 +518,6 @@ function initList(dietitians, usernames) {
     }
   });
 
-  console.log(rr)
   return rr;
 }
 
@@ -590,15 +589,10 @@ class WeekView extends React.Component {
         dietitianEnCokRandevu: dietitianEnCokRandevu,
         dietitianEnAktif: dietitianEnAktif
       })
-
-      console.log(this.state.dietitianEnCokZiyaret)
     }
   }
 
   render() {
-
-    console.log(this.state);
-    console.log(this.props);
 
     return (
       <div>
@@ -663,7 +657,6 @@ class LandingPage extends React.Component {
 
   handleMenuOpen(event)
   {
-    console.log(event.currentTarget);
     this.setState({anchorEl: event.currentTarget})
   }
 

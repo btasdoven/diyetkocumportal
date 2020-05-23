@@ -179,8 +179,6 @@ class FieldFileInput  extends Component {
 const reduxFormSelect = props => {
   const { input, options } = props;
 
-  { console.log(input, options)}
-
   return (
     <Select 
       {...input} 
@@ -368,9 +366,6 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('mapstatetoprops')
-  console.log(ownProps);
-  console.log(state);
 
   return {
     apiForm: state.form,

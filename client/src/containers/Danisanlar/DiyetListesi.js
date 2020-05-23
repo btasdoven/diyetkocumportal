@@ -216,16 +216,12 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
-
     var loaded = this.props.apiDanisanDietList != undefined &&
       this.props.apiDanisanDietList[this.state.userId] != undefined &&
       this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName] != undefined && 
       this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanDietList[this.state.userId][this.props.danisanUserName].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
 
@@ -241,14 +237,8 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-    console.log('dirty');
-    console.log(this.props.dirty);
-
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
-    if (this.props.apiForm)
-      console.log(this.props.apiForm[this.props.form])
 
     return (
       <div className={classes.root}>
@@ -454,10 +444,6 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('mapstatetoprops')
-  console.log(ownProps);
-  console.log(state);
-
   return {
     apiDanisanDietList: state.apiDanisanDietList,
     apiForm: state.form,

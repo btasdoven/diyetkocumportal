@@ -173,8 +173,6 @@ class FieldFileInput  extends Component {
 const reduxFormSelect = props => {
   const { input, options } = props;
 
-  { console.log(input, options)}
-
   return (
     <Select 
       {...input} 
@@ -238,16 +236,12 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
-
     var loaded = this.props.apiDanisanMeasurements != undefined &&
       this.props.apiDanisanMeasurements[this.state.userId] != undefined &&
       this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName] != undefined && 
       this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
 
@@ -258,7 +252,6 @@ class Envanter extends React.Component {
   }
 
   onSubmitInternal(formValues) {
-    console.log(formValues);
     formValues['uniqueFileKey'] = this.state.uniqueFileKey;
     console.log(formValues);
     // const formData = new FormData();
@@ -275,12 +268,10 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { classes } = this.props;
 
     const showLoader = !this.isLoaded();
     const allMeasurements = showLoader ? undefined : this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].data;
-    console.log(allMeasurements)
 
     return (
       <div className={classes.root}> 
@@ -421,7 +412,6 @@ class Envanter extends React.Component {
 
               {Object.keys(allMeasurements).map((day, idx) => {
                 const measurementsPerDay = allMeasurements[day];
-                console.log(measurementsPerDay);
 
                 return (
                   <List
@@ -492,10 +482,6 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('mapstatetoprops')
-  console.log(ownProps);
-  console.log(state);
-
   return {
     apiForm: state.form,
     apiDanisanMeasurements: state.apiDanisanMeasurements,

@@ -197,15 +197,11 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
-
     var loaded = this.props.apiDanisanPreviews != undefined &&
       this.props.apiDanisanPreviews[this.state.userId] != undefined &&
       this.props.apiDanisanPreviews[this.state.userId].isGetLoading != true &&
       this.props.apiDanisanPreviews[this.state.userId].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
   
@@ -220,7 +216,6 @@ class Envanter extends React.Component {
   }
 
   handleCloseAddDanisan(values) {
-    console.log(values);
 
     if (values != undefined) {
       this.props.addDanisan(this.state.userId, values);

@@ -149,9 +149,6 @@ class BlogPage extends React.Component {
 
         var userProfile = this.props.apiDietitianProfile[this.state.userId].data;
 
-        console.log(userProfile);
-        console.log(this.state.postName);
-
         var post = userProfile.posts && userProfile.posts[this.state.postName] ? userProfile.posts[this.state.postName] : undefined;
 
         var backButtonUrl = this.props.location && this.props.location.state && this.props.location.state.fromUrl

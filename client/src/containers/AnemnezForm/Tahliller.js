@@ -250,8 +250,6 @@ class Envanter extends React.Component {
   }
 
   onSubmitInternal(formValues) {
-    console.log(formValues);
-
     const formData = new FormData();
     formData.append('file',formValues.file)
     formData.append('type', 'tahlil')

@@ -126,8 +126,6 @@ const createSelect = (key, label, autoFocus, values) => (
 const reduxFormSelect = props => {
   const { input, options } = props;
 
-  { console.log(input, options)}
-
   return (
     <Select 
       {...input} 
@@ -186,16 +184,12 @@ class Envanter extends React.Component {
   }
 
   isLoaded() {
-    console.log(this.props);
-    console.log(this.state.userId);
-
     var loaded = this.props.apiDanisanNotes != undefined &&
       this.props.apiDanisanNotes[this.state.userId] != undefined &&
       this.props.apiDanisanNotes[this.state.userId][this.props.danisanUserName] != undefined && 
       this.props.apiDanisanNotes[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanNotes[this.state.userId][this.props.danisanUserName].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
 
@@ -211,7 +205,6 @@ class Envanter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { classes } = this.props;
     
     const showLoader = !this.isLoaded();
@@ -256,9 +249,6 @@ class Envanter extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps)
-  console.log(state)
-  
   return {
     apiDanisanNotes: state.apiDanisanNotes,
     initialValues: 

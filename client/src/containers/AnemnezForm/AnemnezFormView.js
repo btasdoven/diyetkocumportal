@@ -298,7 +298,6 @@ class Envanter extends React.Component {
       this.props.apiLinks[this.state.linkId].isGetLoading != true &&
       this.props.apiLinks[this.state.linkId].data != undefined;
 
-      console.log(loaded);
       return loaded;
   }
 
