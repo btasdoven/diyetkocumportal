@@ -83,7 +83,7 @@ class MainLayout extends Component {
           this.state.user.premium_until != undefined &&
           moment(this.state.user.premium_until) < moment.utc()) {
         this.props.snackbar.showMessage(
-          'Premium üyeliğiniz yenilemeniz gerekmektedir.',
+          'Premium üyeliğinizi yenilemeniz gerekmektedir.',
           //'Undo', () => handleUndo()
         )
         }

@@ -93,7 +93,7 @@ class App extends Component {
       <MuiThemeProvider theme={settings.theme}>
         <ThemeProvider theme={settings.theme}>
           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={trLocale}>
-            <SnackbarProvider SnackbarProps={{ autoHideDuration: 3000 }}>
+            <SnackbarProvider SnackbarProps={{ autoHideDuration: 5000 }}>
               <CssBaseline />
 
               {/* <div style={{ height: "100vh" }}> */}
