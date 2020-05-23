@@ -300,7 +300,23 @@ app.post("/api/v1/users/auth", (req, res, next) => {
     if (ret.error == undefined) {
       var user = ret.user;
       res.setHeader('Content-Type', 'application/json');
-      res.json({token: stringHash(user.username), url: user.url, name: user.name, username: user.username, id: user.id});
+      res.json({token: stringHash(user.username), url: user.url, name: user.name, username: user.username, id: user.id, premium_until: user.premium_until});
+      return;
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(400).json({message: ret.error});
+  }), delayInResponseInMs);
+});
+
+app.post("/api/v1/users/reauth", (req, res, next) => {
+  setTimeout((function() {
+    var ret = dal.reloginUser(req.body.username.toLowerCase(), req.body.userInfo)
+
+    if (ret.error == undefined) {
+      var user = ret.user;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({token: stringHash(user.username), url: user.url, name: user.name, username: user.username, id: user.id, premium_until: user.premium_until});
       return;
     }
 

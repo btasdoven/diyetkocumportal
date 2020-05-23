@@ -114,7 +114,7 @@ class App extends Component {
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
                       
                       <EmptyRoute exact path="/d" component={DiyetisyenListView} />
-                      <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
+                      <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
 
                       <DashboardRoute exact path="/r" component={RandevuList} />
                       <DashboardRoute exact backButton="/r" path="/r/:danisan/messages" viewParam="messages" component={DanisanView} />
@@ -141,7 +141,7 @@ class App extends Component {
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 
                       <EmptyRoute exact path="/d" component={DiyetisyenListView} />
-                      <EmptyRoute path="/d/:diyetisyenUserName" component={NewRandevu} />
+                      <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
 
                       <EmptyRoute path="/signup" component={Register} />
                       <EmptyRoute path="/signin" component={Signin} />

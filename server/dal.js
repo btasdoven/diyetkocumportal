@@ -650,10 +650,28 @@ exports.loginUser = function(uname, pwd) {
       }
 
       return {user: user}
-    }
+    } 
   }
 
   return { error: 'Yanlış kullanıcı adı veya şifre.'};
+}
+exports.reloginUser = function(uname, userInfo) {
+  console.log('reloginUser');
+  console.log(uname, userInfo)
+ 
+  for (let id in rows[0].users) {
+    var user = rows[0].users[id];
+    if (uname == user.username && userInfo.token == stringHash(user.username)) {
+      console.log(user)
+      if (user.status == 'pending') {
+        return { error: 'Üyeliğiniz daha aktif edilmedi. info@diyetkocum.net ile iletişime geçebilirsiniz.'};
+      }
+
+      return {user: user}
+    }
+  }
+
+  return { error: 'Yanlış kullanıcı adı veya şifre.'}; 
 }
 
 exports.requestNewPasswordEmail = function(uname, userInfo) {

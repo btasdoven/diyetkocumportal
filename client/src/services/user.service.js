@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export const userService = {
     login,
+    relogin,
     logout,
     request_new_password_email,
     reset_password,
@@ -60,6 +61,28 @@ function login(username, password) {
     };
 
     return fetch(HOST_NAME + `/api/v1/users/auth`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // login successful if there's a jwt token in the response
+            if (user.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+
+            envService.isProduction || console.log(user)
+
+            return user;
+        });
+}
+
+function relogin(username, userInfo) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, userInfo })
+    };
+
+    return fetch(HOST_NAME + `/api/v1/users/reauth`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a jwt token in the response

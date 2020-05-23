@@ -513,7 +513,7 @@ class LandingPage extends React.Component {
   }
 
   onSubmitInternal(formValues) {
-    console.log(formValues);
+    // console.log(formValues);
       
     this.props.login(formValues.username, formValues.password);
   }

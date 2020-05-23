@@ -622,7 +622,7 @@ class Envanter extends React.Component {
                     <Grid item xs={12}>
                       <div className={classes.text}>
                         {now > moment(dietitianProfile.premium_until) && (
-                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY HH:mm')}</b> tarihinde sona ermiştir. Lütfen geçerli bir ödeme yöntemi ekleyiniz.</Typography>
+                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY HH:mm')}</b> tarihinde sona ermiştir. Randevularınızı kabul etmek ve danışan bilgilerinize erişmek için lütfen geçerli bir ödeme yöntemi ekleyiniz.</Typography>
                         )}
                         {now <= moment(dietitianProfile.premium_until) && (
                           <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY HH:mm')}</b> tarihine kadar devam etmektedir.</Typography>

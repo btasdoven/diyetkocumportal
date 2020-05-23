@@ -4,11 +4,17 @@ import classNames from "classnames";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import { Redirect } from "react-router-dom";
+import { withSnackbar } from 'material-ui-snackbar-provider'
 
 import { withRouter } from 'react-router'
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import { logout } from "../store/reducers/authenticate";
+import { logout, relogin } from "../store/reducers/authenticate";
+
+import moment from "moment";
+import 'moment/locale/tr'
+moment.locale('tr')
 
 const drawerWidth = 240;
 
@@ -40,7 +46,8 @@ class MainLayout extends Component {
   state = {
     open: false,
     titleFromComp: undefined,
-    userId: JSON.parse(localStorage.getItem('user')).id
+    userId: JSON.parse(localStorage.getItem('user')).id,
+    user: JSON.parse(localStorage.getItem('user')),
   };
 
   handleOpenDrawer = () => {
@@ -71,12 +78,38 @@ class MainLayout extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       this.handleCloseDrawer();
+
+      if (this.state.user != undefined && 
+          this.state.user.premium_until != undefined &&
+          moment(this.state.user.premium_until) < moment()) {
+        this.props.snackbar.showMessage(
+          'Premium üyeliğiniz yenilemeniz gerekmektedir.',
+          //'Undo', () => handleUndo()
+        )
+        }
+    }
+  }
+
+  componentDidMount() {
+    if (this.state.user.premium_until == undefined || moment(this.state.user.premium_until) < moment()) {
+      this.props.relogin(this.state.userId, this.state.user)
+      this.setState({ resetLoginInfo: Date.now() })
     }
   }
 
   render() {
     const { classes, component: Component, ...rest } = this.props;
     
+    // console.log('redirect', this.state.user, this.props.location)
+
+    if (this.props.location.pathname != '/status' &&
+        this.state.user != undefined && 
+        this.state.user.premium_until != undefined &&
+        moment(this.state.user.premium_until) < moment()) {
+      console.log('redirecting...')
+      return (<Redirect to="/status" />)
+    }
+
     return (
       <Fragment>
         <div className={classes.root}>
@@ -110,7 +143,8 @@ class MainLayout extends Component {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      logout: () => logout()
+      logout: () => logout(),
+      relogin: (username, userInfo) => relogin(username, userInfo)
     },
     dispatch
   );
@@ -119,4 +153,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   null,
   mapDispatchToProps
-)(withStyles(styles)(withRouter(MainLayout)));
+)(withStyles(styles)(withSnackbar()(withRouter(MainLayout))));

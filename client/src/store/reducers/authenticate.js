@@ -115,6 +115,28 @@ export function login(username, password) {
   function failure(error) { return { type: LOGIN_FAILURE, error } }
 }
 
+export function relogin(username, userInfo) {
+  return dispatch => {
+      dispatch(request({ username }));
+
+      userService.relogin(username, userInfo)
+          .then(
+              user => { 
+                  dispatch(success(user));
+                  //window.history.push('/');
+              },
+              error => {
+                  dispatch(failure(error.toString()));
+                  // dispatch(alertActions.error(error.toString()));
+              }
+          );
+  };
+
+  function request(user) { return { type: LOGIN_REQUEST, user } }
+  function success(user) { return { type: LOGIN_SUCCESS, user } }
+  function failure(error) { return { type: LOGIN_FAILURE, error } }
+}
+
 export function signup(username, userInfo) {
   return dispatch => {
       dispatch(request({ username }));
