@@ -517,6 +517,11 @@ var taskUpgradeStg = () => {
       changed = true
     }
 
+    if (rows[id].profile.pageViewCountPerDay == undefined) {
+      rows[id].profile.pageViewCountPerDay = {}
+      changed = true
+    }
+
     Object.keys(rows[id].profile.posts).forEach(p => {
       if (rows[id].profile.posts[p].img != undefined) {
         var filename = path.basename(rows[id].profile.posts[p].img)
@@ -1806,8 +1811,27 @@ exports.trackActivity = function (userId, event) {
       if (rows[dietitianId].profile.pageViewCount == undefined) {
         rows[dietitianId].profile.pageViewCount = 0
       }
+      
+      if (pageParams[pageParams.length-2] == 'blog') {
+        postId = pageParams[pageParams.length-1];
+        
+        if (rows[dietitianId].profile.posts[postId] != undefined) {
+          if (rows[dietitianId].profile.posts[postId].viewCount == undefined) {
+            rows[dietitianId].profile.posts[postId].viewCount = 0;
+          }
 
-      rows[dietitianId].profile.pageViewCount++;
+          rows[dietitianId].profile.posts[postId].viewCount++;
+        }
+      } else {
+        const today = moment.utc().format('YYYYMMDD');
+
+        if (rows[dietitianId].profile.pageViewCountPerDay[today] == undefined) {
+          rows[dietitianId].profile.pageViewCountPerDay[today] = 0;
+        }
+          
+        rows[dietitianId].profile.pageViewCountPerDay[today]++;
+        rows[dietitianId].profile.pageViewCount++;
+      }
 
       storage.setItem(dietitianId, rows[dietitianId]);
     }

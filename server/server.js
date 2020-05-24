@@ -185,7 +185,7 @@ app.get("/api/v1/users/:userId/appointments/:date?", (req, res, next) => {
   }), delayInResponseInMs);
 }); 
 
-app.put("/api/v1/users/:userId/appointments/:date/times/:time", (req, res, next) => {
+app.put("/api/v1/users/:userId/appointments/:date/times/:time", isPremiumUser, (req, res, next) => {
   setTimeout((function() { 
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.putDietitianAppointmentInfo(req.params.userId, req.params.date, req.params.time, req.body));
@@ -200,7 +200,7 @@ app.get("/api/v1/links/:linkId", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
-app.get("/api/v1/users/:userId/profile", (req, res, next) => {
+app.get("/api/v1/users/:userId/profile", isPremiumUser, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     console.log(req.params)
@@ -208,7 +208,7 @@ app.get("/api/v1/users/:userId/profile", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
-app.put("/api/v1/users/:userId/profile", (req, res, next) => {
+app.put("/api/v1/users/:userId/profile", isPremiumUser, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.putDietitianProfile(req.params.userId, req.body));
@@ -238,7 +238,7 @@ app.post("/api/v1/users/:userId/danisans/:danisanUserName/messages/read", (req, 
   }), delayInResponseInMs);
 });
 
-app.put("/api/v1/users/:userId/danisans/:danisanUserName/messages/:messageId", (req, res, next) => {
+app.put("/api/v1/users/:userId/danisans/:danisanUserName/messages/:messageId", isPremiumUser, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.addDanisanMessage(req.params.userId, req.params.danisanUserName, req.params.messageId, req.body));
@@ -339,7 +339,7 @@ app.put("/api/v1/addNewPost", (req, res, next) => {
   }), delayInResponseInMs);
 });
  
-app.put("/api/v1/users/:userId/danisans/:danisanUserName/dietlist", (req, res, next) => {
+app.put("/api/v1/users/:userId/danisans/:danisanUserName/dietlist", isPremiumUser, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.putDanisanDietList(req.params.userId, req.params.danisanUserName, req.body));
