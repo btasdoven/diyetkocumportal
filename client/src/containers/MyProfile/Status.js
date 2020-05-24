@@ -753,6 +753,12 @@ class Envanter extends React.Component {
                 <CardContent style={{paddingTop:0}}>
                   <Grid container spacing={0}>
                     <Grid item xs={12}>
+                      { Object.keys(payments).length == 0 && 
+                        <div className={classes.text}>
+                          <Typography variant="body2">Herhangi bir ödeme geçmişiniz bulunmamaktadır.</Typography>
+                        </div>
+                      }
+                      { Object.keys(payments).length > 0 && (
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableHead>
@@ -778,6 +784,7 @@ class Envanter extends React.Component {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                      )}
                     </Grid>
                   </Grid>
                 </CardContent>

@@ -19,12 +19,40 @@ const compression = require('compression');
 const multer = require('multer');
 const massemail = require('./massemail')
 
+const cookieSession = require('cookie-session')
+// const session = require('express-session');
+// const FileStore = require('session-file-store')(session);
+// const redis = require('redis');
+// const redisStore = require('connect-redis')(session);
+// const client  = redis.createClient();
+
 console.log(process.arch)
 console.log(process.version)
 
-const delayInResponseInMs = 50;
+const delayInResponseInMs = 0;
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://www.diyetkocum.net',
+  'https://diyetkocum.net'];
+
+app.use(cors({
+  credentials: true,
+  origin: function(origin, callback) {
+    // allow requests with no origin 
+    // (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    
+    if(allowedOrigins.indexOf(origin) === -1){
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+
+    return callback(null, true);
+  }
+}));
+
 app.use(compression({
   threshold:0, 
   filter: (req, res) => { 
@@ -34,11 +62,26 @@ app.use(compression({
   }  
 }));
  
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
 app.use('/api/v1/public', express.static('public', { maxAge: 31536000 * 1000 }))
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
+
+// app.use(session({
+//   secret: 'halil-batu',
+//   // create new redis store.
+//   // store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl : 260}),
+//   // store: new MemcachedStore({ hosts: ['127.0.0.1:11211'], secret: 'memcached-secret-key' }),
+//   store: new FileStore(),
+//   saveUninitialized: false,
+//   resave: true
+// }));
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 app.use(function (req, res, next) {
   var retry = 0
 
@@ -56,15 +99,26 @@ app.use(function (req, res, next) {
     }
   };
 
-  if (req && req.params && req.params.userId) {
-    if (req.params.userId == 'yaseminozman') {
-      res.setHeader('Content-Type', 'application/json');
-      res.status(401).json({code: 'LOGIN_EXPIRED', message: "Giriş yaptığınız bilgiler geçerliliğini yitirmiştir. Tekrar giriş yapınız."});
-    }
-  }
-
   func();
 })
+
+// app.param('userId', function(req, res, next) {
+//   // if (req && req.params && req.params.userId) {
+//   //   if (!dal.isPremiumUser(req.params.userId)) {
+//   //     if (!req.originalUrl.endsWith("/profile")) {
+//   //       res.setHeader('Content-Type', 'application/json');
+//   //       res.status(402).json({code: 'PREMIUM_EXPIRED', message: "Premium üyeliğiniz aktif değil. Tekrar giriş yapınız."});
+//   //       return;
+//   //     }
+//   //   } else if (req.params.userId == 'yaseminozman') {
+//   //     res.setHeader('Content-Type', 'application/json');
+//   //     res.status(401).json({code: 'LOGIN_EXPIRED', message: "Giriş yaptığınız bilgiler geçerliliğini yitirmiştir. Tekrar giriş yapınız."});
+//   //     return;
+//   //   }
+//   // }
+
+//   next();
+// })
 
 morgan.format("date", function() {
   var df = require('dateformat');
@@ -95,6 +149,20 @@ var storageForAdmin = multer.diskStorage({
 var upload = multer({ storage: storage }).single('file')
 var uploadForAdmin = multer({ storage: storageForAdmin }).single('file')
 
+var isPremiumUser = function (req, res, next) {
+  console.log('premium', req.params, req.session.views)
+
+  if (req && req.params && req.params.userId) {
+    if (!dal.isPremiumUser(req.params.userId) && req.session.views != 124) {
+      req.session.views = 124;
+      res.setHeader('Content-Type', 'application/json');
+      res.status(401).json({code: 'PREMIUM_EXPIRED', message: "Premium üyeliğiniz aktif değil. Tekrar giriş yapınız."});
+      return;
+    }
+  }
+
+  next();
+}
 
 app.get("/api/v1/users/:userId/messagePreviews", (req, res, next) => {
   setTimeout((function() {
@@ -313,6 +381,12 @@ app.post("/api/v1/users/reauth", (req, res, next) => {
   setTimeout((function() {
     var ret = dal.reloginUser(req.body.username.toLowerCase(), req.body.userInfo)
 
+    if (req.body.userInfo.premium_until == undefined) {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(401).json({code: 'PREMIUM_EXPIRED', message: "Premium üyeliğiniz sona ermiştir. Tekrar giriş yapınız."});
+      return;
+    }
+
     if (ret.error == undefined) {
       var user = ret.user;
       res.setHeader('Content-Type', 'application/json');
@@ -385,7 +459,7 @@ app.get("/api/v1/getAppointmentData", (req, res, next) => {
   // }), delayInResponseInMs);
 });
 
-// This for landing page
+// This is for landing page
 //
 app.delete("/api/v1/users/:userId", (req, res, next) => {
   // setTimeout((function() {
@@ -456,7 +530,7 @@ app.get('/api/v1/sendMassEmail', (req, res) => {
   });
 })
 
-app.put('/api/v1/trackActivity/:userId?', (req, res) => {
+app.put('/api/v1/trackActivity/:userId?', isPremiumUser, (req, res) => {
   setTimeout((function() {
     dal.trackActivity(req.params.userId || undefined, req.body ? req.body.event : undefined)
     res.setHeader('Content-Type', 'application/json');

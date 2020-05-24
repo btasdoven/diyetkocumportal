@@ -106,7 +106,7 @@ class MainLayout extends Component {
         this.state.user != undefined && 
         this.state.user.premium_until != undefined &&
         moment(this.state.user.premium_until) < moment.utc()) {
-      // console.log('redirecting...')
+    // console.log('redirecting...')
       return (<Redirect to="/status" />)
     }
 

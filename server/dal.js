@@ -891,8 +891,6 @@ exports.getDietitianAppointmentInfo = function (userId, date) {
     (date != undefined && rows[userId].appointments[date] == undefined))
     return {};
 
-  console.log(rows[userId].appointments)
-
   if (date == undefined) {
     return rows[userId].appointments;
   }
@@ -1752,6 +1750,15 @@ exports.getAppointmentData = function () {
   return ret;
 }
 
+exports.isPremiumUser = function (userId) {
+  console.log("isPremiumUser", userId)
+  if (rows[0].users[userId] == undefined) {
+    return false;
+  }
+
+  return moment.utc() < moment(rows[0].users[userId].premium_until)
+}
+
 exports.sendMassEmail = function() {
 
   ret = {}  
@@ -1782,7 +1789,6 @@ exports.sendMassEmail = function() {
 }
 
 exports.trackActivity = function (userId, event) {
-  console.log(userId, event)
   if (event != undefined && event.startsWith("PageView_")) {
     var pageUrl = event.substring(9);
     var pageParams = pageUrl.split("/");
@@ -1808,13 +1814,15 @@ exports.trackActivity = function (userId, event) {
   }
 
   if (userId == undefined || userId == '') 
-    return
+    return Promise.resolve();
 
   if (trackingStreams[userId] == undefined) {
     trackingStreams[userId] = fs.createWriteStream(`tracking/${userId}.csv`, {flags:'a'});
   }
 
   trackingStreams[userId].write(`${userId},${moment(Date.now()).format()},${event}\n`);
+
+  return Promise.resolve();
 }
 
 exports.trackTopic = function (topic, email) {

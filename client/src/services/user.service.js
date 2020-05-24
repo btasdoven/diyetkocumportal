@@ -504,6 +504,7 @@ function track_activity(userId, event) {
 
     const requestOptions = {
         method: 'PUT',
+        credentials: 'include', // Don't forget to specify this if you need cookies
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ event: event })
     };
