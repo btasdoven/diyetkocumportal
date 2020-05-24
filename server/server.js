@@ -150,11 +150,12 @@ var upload = multer({ storage: storage }).single('file')
 var uploadForAdmin = multer({ storage: storageForAdmin }).single('file')
 
 var isPremiumUser = function (req, res, next) {
-  console.log('premium', req.params, req.session.views)
-
   if (req && req.params && req.params.userId) {
+    // console.log('premium', req.originalUrl, req.params, req.session.views)
+
     if (!dal.isPremiumUser(req.params.userId) && req.session.views != 124) {
       req.session.views = 124;
+      // console.log('setting premium', req.originalUrl, req.params, req.session.views)
       res.setHeader('Content-Type', 'application/json');
       res.status(401).json({code: 'PREMIUM_EXPIRED', message: "Premium üyeliğiniz aktif değil. Tekrar giriş yapınız."});
       return;
@@ -200,7 +201,7 @@ app.get("/api/v1/links/:linkId", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
-app.get("/api/v1/users/:userId/profile", isPremiumUser, (req, res, next) => {
+app.get("/api/v1/users/:userId/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     console.log(req.params)
