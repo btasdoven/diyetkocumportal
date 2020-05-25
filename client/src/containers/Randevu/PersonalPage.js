@@ -40,6 +40,8 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import { userService } from '../../services/user.service'
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 
+import CommentList from './CommentList'
+
 import {Helmet} from "react-helmet";
 
 const styles = theme => ({
@@ -68,7 +70,7 @@ const styles = theme => ({
         width: '100%',
     },
     text: {
-        color: '#364f6b'
+        // color: '#364f6b'
     },
     rootTypeSelect: {
         height: "inherit",
@@ -194,8 +196,8 @@ class PersonalPage extends React.Component {
                                 <Avatar className={classes.avatar} alt={user.name} src={userService.getStaticFileUri(user.url)} />
                             </Box>
 
-                            <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h2">{user.unvan}</Typography>
-                            <Typography style={{ fontWeight: '500', textAlign:'center' }} className={classes.text} variant="h4" component="h1">{user.name}</Typography>
+                            <Typography style={{ fontWeight: '600', color: '#32325d' }} className={classes.text} variant="h5" component="h2">{user.unvan}</Typography>
+                            <Typography style={{ fontWeight: '500', textAlign:'center', color: '#32325d' }} className={classes.text} variant="h4" component="h1">{user.name}</Typography>
 
                             <Box my={3} borderRadius="50%">
                                 <Rating readOnly={true} value={5} size="large" />
@@ -214,20 +216,21 @@ class PersonalPage extends React.Component {
 
                             {/* <Divider /> */}
 
-                            <Card elevation={1} className={classes.card}>
+                            <Card elevation={0} className={classes.card}>
                                 <CardHeader
                                     style={{ textAlign: 'center' }}
                                     title={
-                                        <Box my={1}>
-                                            <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">HAKKIMDA</Typography>
-                                        </Box>
+                                        <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Hakkımda</Typography>
+                                        // <Box my={1}>
+                                        //     <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">HAKKIMDA</Typography>
+                                        // </Box>
                                     }
                                 />
                                 <CardContent style={{ paddingTop: 0 }}>
                                     <Grid container>
                                         <Grid item xs={12}>
                                             <div>
-                                                <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
+                                                <Typography variant="body1" color="textSecondary" className={classes.text} >
                                                     {user.ozgecmis ||
                                                         `Merhaba, Ben ${user.unvan || ''} ${user.name}! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme, hamilelik ve emzirme döneminde beslenme, hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen diyet gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.`
                                                     }
@@ -240,20 +243,21 @@ class PersonalPage extends React.Component {
                             </Card>
 
                             {user.uzmanlik_alanlari && 
-                                <Card elevation={1} className={classes.card}>
+                                <Card elevation={0} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
                                         title={
-                                            <Box my={1}>
-                                                <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">UZMANLIK ALANLARIM</Typography>
-                                            </Box>
+                                            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Uzmanlık Alanlarım</Typography>
+                                            // <Box my={1}>
+                                            //     <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">UZMANLIK ALANLARIM</Typography>
+                                            // </Box>
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
                                         <Grid container>
                                             <Grid item xs={12}>
                                                 <div>
-                                                    <Typography variant="body1" style={{ textAlign: 'center' }} className={classes.text} >
+                                                    <Typography variant="body1" color="textSecondary" className={classes.text} >
                                                         {user.uzmanlik_alanlari}
                                                     </Typography>
                                                 </div>
@@ -267,13 +271,14 @@ class PersonalPage extends React.Component {
                             <Box my={1} />
 
                             {user.badges && Object.keys(user.badges).length > 0 && (
-                                <Card elevation={1} className={classes.card}>
+                                <Card elevation={0} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
                                         title={
-                                            <Box my={1}>
-                                                <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">ROZETLERİM</Typography>
-                                            </Box>
+                                            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Rozetlerim</Typography>
+                                            // <Box my={1}>
+                                            //     <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">ROZETLERİM</Typography>
+                                            // </Box>
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -291,18 +296,17 @@ class PersonalPage extends React.Component {
                                 </Card>
                             )}
 
-                            <Box my={1} />
-
                             {user.addresses && Object.keys(user.addresses).length > 0 && (
-                                <Card className={classes.card}>
+                                <Card elevation={0} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
                                         title={
-                                            <Box my={1}>
-                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">
-                                                    {Object.keys(user.addresses).length == 1 ? "OFİS ADRESİM" : "OFİS ADRESLERİM"}
-                                                </Typography>
-                                            </Box>
+                                            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>{Object.keys(user.addresses).length == 1 ? "Ofis Adresim" : "Ofis Adreslerim"}</Typography>
+                                            // <Box my={1}>
+                                            //     <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">
+                                            //         {Object.keys(user.addresses).length == 1 ? "OFİS ADRESİM" : "OFİS ADRESLERİM"}
+                                            //     </Typography>
+                                            // </Box>
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -337,16 +341,13 @@ class PersonalPage extends React.Component {
                                 </Card>
                             )}
 
-                            <Box my={1} />
-
                             {user.posts && Object.keys(user.posts).length > 0 && (
-                                <Card className={classes.card}>
+                                <Card elevation={0} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
                                         title={
-                                            <Box my={1}>
-                                                <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BLOG YAZILARIM</Typography>
-                                            </Box>
+                                            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Blog Yazılarım</Typography>
+                                            /* <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BLOG YAZILARIM</Typography> */
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -362,30 +363,31 @@ class PersonalPage extends React.Component {
                                             ))}
                                             
                                         </Grid>
-{/* 
-                                            <List>
-                                                {Object.keys(user.posts).map((blogId) => (
-                                                    <ListItem key={blogId} component={Link} to={`/${this.props.userId}/blog/${blogId}`}>
-                                                        <ListItemAvatar>
-                                                            <Avatar>
-                                                                <ImageIcon />
-                                                            </Avatar>
-                                                        </ListItemAvatar>
-                                                        <ListItemText primary={user.posts[blogId].title} />
-                                                    </ListItem>
-                                                ))}
-                                        </List> */}
                                     </CardContent>
-                                    {/* </div> */}
                                 </Card>
                             )}
+
+                            <Card elevation={0} className={classes.card}>
+                                <CardHeader
+                                    style={{ textAlign: 'center' }}
+                                    title={
+                                        <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Danışan Görüşleri</Typography>
+                                        // <Box my={1}>
+                                        //     <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">YORUMLAR</Typography>
+                                        // </Box>
+                                    }
+                                />
+                                <CardContent style={{ paddingTop: 0 }}>
+                                    <CommentList userId={this.props.userId} />
+                                </CardContent>
+                            </Card>
 
                             <Box my={2} />
 
                             <Grid container spacing={0} direction="row" alignItems="center" justify="center">
                                 <Button href={"https://instagram.com/" + this.props.userId} style={{ textTransform: "none" }}>
-                                    <InstagramIcon style={{ fontSize: 36 }} className={classes.text} />
-                                    <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h5">{'/' + this.props.userId}</Typography>
+                                    <InstagramIcon style={{ fontSize: 36, color: '#32325d' }} className={classes.text} />
+                                    <Typography style={{ fontWeight: '600',color: '#32325d' }} className={classes.text} variant="h5" component="h5">{'/' + this.props.userId}</Typography>
                                 </Button>
                             </Grid>
                         </Grid>

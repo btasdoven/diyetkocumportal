@@ -28,6 +28,7 @@ const styles = theme => ({
     root: {
         //height: 'calc(100vh - 48px)',
         padding: theme.spacing(1),
+        paddingTop: 0,
         width: '100%',
         maxWidth: '800px',
         margin: 'auto'

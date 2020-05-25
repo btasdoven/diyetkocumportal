@@ -196,15 +196,34 @@ app.put("/api/v1/users/:userId/appointments/:date/times/:time", isPremiumUser, (
 app.get("/api/v1/links/:linkId", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    console.log(req.params)
     res.json(dal.getLinkInfo(req.params.linkId));
+  }), delayInResponseInMs);
+});
+
+app.get("/api/v1/users/:userId/comments", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getDietitianComments(req.params.userId));
+  }), delayInResponseInMs);
+});
+
+app.put("/api/v1/users/:userId/comments", isPremiumUser, (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.putDietitianComments(req.params.userId, req.body));
+  }), delayInResponseInMs);
+});
+
+app.post("/api/v1/users/:userId/newcomment", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.postDietitianComment(req.params.userId, req.body));
   }), delayInResponseInMs);
 });
 
 app.get("/api/v1/users/:userId/profile", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    console.log(req.params)
     res.json(dal.getDietitianProfile(req.params.userId));
   }), delayInResponseInMs);
 });
@@ -226,7 +245,6 @@ app.post("/api/v1/users/:userId/makePayment", (req, res, next) => {
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/messages", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    console.log(req.params)
     res.json(dal.getDanisanMessages(req.params.userId, req.params.danisanUserName));
   }), delayInResponseInMs);
 });
@@ -234,7 +252,6 @@ app.get("/api/v1/users/:userId/danisans/:danisanUserName/messages", (req, res, n
 app.post("/api/v1/users/:userId/danisans/:danisanUserName/messages/read", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
-    console.log(req.params)
     res.json(dal.readDanisanMessages(req.params.userId, req.params.danisanUserName));
   }), delayInResponseInMs);
 });

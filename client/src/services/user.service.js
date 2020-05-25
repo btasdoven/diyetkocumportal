@@ -34,6 +34,9 @@ export const userService = {
     delete_dietitian,
     get_all_dietitians,
     get_all_posts,
+    get_dietitian_comments,
+    put_dietitian_comments,
+    post_dietitian_comment,
     upload_photo,
     add_new_post,
     add_payment,
@@ -470,6 +473,48 @@ function upload_photo(userId, data) {
         })
 }
 
+function get_dietitian_comments(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    console.log('comment', userId)
+    return fetch(HOST_NAME + `/api/v1/users/${userId}/comments`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        }); 
+}
+
+function put_dietitian_comments(userId, comments) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(comments)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/${userId}/comments`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
+function post_dietitian_comment(userId, comment) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(comment)
+    };
+    
+    return fetch(HOST_NAME + `/api/v1/users/${userId}/newcomment`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data;
+        });
+}
+
 function add_new_post(formValues) {
     const requestOptions = {
         method: 'PUT',
@@ -519,7 +564,6 @@ function track_activity(userId, event) {
 function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
-        envService.isProduction || console.log(data)
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api

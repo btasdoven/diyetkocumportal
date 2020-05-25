@@ -1104,6 +1104,42 @@ exports.getDanisanPreviews = function (userId) {
   return rows[userId].danisanPreviews;
 }
 
+exports.getDietitianComments = function (userId) {
+  console.log('getDietitianComments');
+
+  if (rows[userId] == undefined) {
+    return {}
+  }
+
+  return rows[userId].comments || {};
+}
+
+exports.postDietitianComment = function (userId, comment) {
+  console.log('postDietitianComment');
+  console.log(comment);
+
+  if (rows[userId].comments == undefined) {
+    rows[userId].comments = {}
+  }
+
+  rows[userId].comments[Date.now()] = {
+    ...comment,
+    status: 'pending',
+    date: moment.utc().format('D MMMM YYYY'),
+  }
+
+  storage.setItem(userId, rows[userId]);
+}
+
+exports.putDietitianComments = function (userId, comments) {
+  console.log('putDietitianComments');
+  console.log(comments);
+
+  rows[userId].comments = comments;
+
+  storage.setItem(userId, rows[userId]);
+}
+
 exports.getDietitianProfile = function (userId) {
   console.log('getDietitianProfile');
 
@@ -1814,7 +1850,7 @@ exports.trackActivity = function (userId, event) {
       
       if (pageParams[pageParams.length-2] == 'blog') {
         postId = pageParams[pageParams.length-1];
-        
+
         if (rows[dietitianId].profile.posts[postId] != undefined) {
           if (rows[dietitianId].profile.posts[postId].viewCount == undefined) {
             rows[dietitianId].profile.posts[postId].viewCount = 0;

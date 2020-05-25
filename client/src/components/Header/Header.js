@@ -74,6 +74,8 @@ const getPageTitle = (props) => {
     return "PROFİLİM"
   } else if (pathname === '/c') {
     return "DANIŞANLARIM"
+  } else if (pathname === '/cmt') {
+    return "DANIŞAN GÖRÜŞLERİ"
   } else if (pathname === '/m') {
     return "MESAJLARIM"
   } else if (pathname === '/r') {

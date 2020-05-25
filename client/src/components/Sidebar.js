@@ -24,6 +24,7 @@ import CreditCardIcon from '@material-ui/icons/CreditCard';
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
+import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
 
 import { userService } from '../services/user.service'
 
@@ -158,7 +159,7 @@ class Sidebar extends React.Component {
                 <Typography variant="overline">PREMIUM</Typography>
                 <ListItemIcon style={{marginLeft: '4px', color: 'orange'}}>
                   <StarsRoundedIcon fontSize="small"/>
-              </ListItemIcon>
+                </ListItemIcon>
               </ListItem>
               <ListItem button component={Link} to='/blog' selected={location.pathname === '/blog'}>
                 <Typography variant="overline">BLOG YAZILARI</Typography>
@@ -174,22 +175,22 @@ class Sidebar extends React.Component {
               
           <Divider />
           <List dense={true} style={{paddingRight: '8px'}}>
-            <ListItem button component={Link} to='/' selected={location.pathname === '/'}>
-              <ListItemIcon>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/' selected={location.pathname == '/'}>
+              <ListItemIcon style={{minWidth: '40px'}}>
                 <DashboardIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Ana Sayfa</Typography>
             </ListItem>
               
-            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/c' selected={location.pathname.startsWith('/c')}>
-              <ListItemIcon>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/c' selected={location.pathname != '/cmt' && location.pathname.startsWith('/c')}>
+              <ListItemIcon style={{minWidth: '40px'}}>
                 <PeopleIcon fontSize="small" color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
 
             <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/m' selected={location.pathname != '/me' && location.pathname.startsWith('/m')}>
-              <ListItemIcon>
+              <ListItemIcon style={{minWidth: '40px'}}>
                 <ChatIcon fontSize="small" color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Mesajlarım</Typography>
@@ -203,7 +204,7 @@ class Sidebar extends React.Component {
             </ListItem>
 
             <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/r' selected={location.pathname.startsWith('/r')}>
-              <ListItemIcon>
+              <ListItemIcon style={{minWidth: '40px'}}>
                 <CalendarTodayIcon fontSize="small" color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">RANDEVULARIM</Typography>
@@ -211,6 +212,19 @@ class Sidebar extends React.Component {
                 pendingAppts > 0 && 
                 <ListItemSecondaryAction>
                   <Badge badgeContent={pendingAppts} color="secondary">
+                  </Badge>
+                </ListItemSecondaryAction>
+              }
+            </ListItem>
+
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/cmt' selected={location.pathname.startsWith('/cmt')}>
+              <ListItemIcon style={{minWidth: '40px'}}>
+                <RateReviewOutlinedIcon fontSize="small" color="primary"/>
+              </ListItemIcon>
+              <Typography variant="overline">DANIŞAN GÖRÜŞLERİ</Typography>
+              { 
+                <ListItemSecondaryAction>
+                  <Badge badgeContent={1} color="secondary">
                   </Badge>
                 </ListItemSecondaryAction>
               }

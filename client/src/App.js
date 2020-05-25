@@ -12,6 +12,8 @@ import { connect } from "react-redux";
 
 import MyProfile from "./containers/MyProfile/MyProfile";
 import ProfileStatus from "./containers/MyProfile/Status";
+import CommentList from "./containers/MyProfile/Comments";
+import NewCommentPage from './containers/MyProfile/NewCommentPage';
 import Signin from "./containers/Signin/Signin2";
 import Register from "./containers/Register/Register2";
 import MesajList from "./containers/Mesajlar/MesajList";
@@ -107,6 +109,8 @@ class App extends Component {
 
                       <DashboardRoute exact path="/c" component={DanisanList} />
                       <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
+                      
+                      <DashboardRoute exact path="/cmt" component={CommentList} />
 
                       <DashboardRoute exact path="/m" component={MesajList} />
                       <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
@@ -131,6 +135,7 @@ class App extends Component {
                       <EmptyRoute exact path="/nimda" component={AdminView} />
                       <EmptyRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
                       <EmptyRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
+                      <EmptyRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />
                       <EmptyRoute component={NotFound} />
                     </Switch>
                   ) : (
@@ -138,6 +143,7 @@ class App extends Component {
                       <EmptyRoute path="/enler" component={Enler} />
                       <EmptyRoute path="/blog" component={BlogList} />
                       
+                      <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
                       <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
 
                       <EmptyRoute exact path="/d" component={DiyetisyenListView} />
@@ -150,6 +156,7 @@ class App extends Component {
                       <Route exact path="/" component={NewLandingPage2Tracked} />
                       <EmptyRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
                       <EmptyRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
+                      <EmptyRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />
                       <Redirect to="/" />
                     </Switch>
                   )}
