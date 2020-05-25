@@ -374,7 +374,7 @@ class NewRandevuWrapper extends React.Component {
 
         this.state = {
           userId: this.props.match && this.props.match.params && this.props.match.params.diyetisyenUserName ? this.props.match.params.diyetisyenUserName : '',
-          step: 1,
+          step: 0,
           user: JSON.parse(localStorage.getItem('user')),
         }
     }
