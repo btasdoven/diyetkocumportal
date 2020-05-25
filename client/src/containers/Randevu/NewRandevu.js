@@ -373,6 +373,7 @@ class NewRandevuWrapper extends React.Component {
         super(props)
 
         this.isLoaded = this.isLoaded.bind(this);
+        this.setStateInternal = this.setStateInternal.bind(this);
         this.renderHeader = this.renderHeader.bind(this);
         this.onSubmitInternal = this.onSubmitInternal.bind(this)
 
@@ -404,9 +405,26 @@ class NewRandevuWrapper extends React.Component {
       }
     }
 
+    setStateInternal(newState) {
+      newState = {
+        ...this.state,
+        ...newState
+      }
+      
+      this.props.setOnBackButtonClick(newState.step > 0 && newState.formValues == undefined ? () => this.setStateInternal( {step : newState.step - 1}) : undefined)
+      this.props.setTitle(newState.step == 0 || newState.formValues != undefined
+        ? undefined
+        : newState.type == 'randevu' 
+          ? 'Yüz Yüze Randevu Al' 
+          : 'Online Diyete Başla'
+      )
+
+      this.setState(newState);
+    }
+
     onSubmitInternal(formValues) {
         console.log(formValues);
-        this.setState({ step: this.state.step + 1, formValues: formValues})
+        this.setStateInternal({ step: this.state.step + 1, formValues: formValues})
 
         var user = this.props.apiDietitianProfile[this.state.userId].data;
         var addressId = this.state.addressId
@@ -432,7 +450,7 @@ class NewRandevuWrapper extends React.Component {
     renderHeader() {
       return (
         <HeaderV2 static 
-          onBackButtonClick={this.state.step > 0 && this.state.formValues == undefined ? () => this.setState( {step : this.state.step - 1}) : undefined}
+          onBackButtonClick={this.state.step > 0 && this.state.formValues == undefined ? () => this.setStateInternal( {step : this.state.step - 1}) : undefined}
           title={this.state.step == 0 || this.state.formValues != undefined
             ? undefined
             : this.state.type == 'randevu' 
@@ -463,7 +481,7 @@ class NewRandevuWrapper extends React.Component {
             onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
             name={this.props.form}
           >
-            {this.renderHeader()}
+            {/* {this.renderHeader()} */}
 
             <SwipeableViews
               axis={'x'}
@@ -474,7 +492,7 @@ class NewRandevuWrapper extends React.Component {
                 <PersonalPage 
                   dietitianProfile={user}  // dietitian whose personal page is being visited
                   userId={this.state.userId}  // logged in username
-                  onComplete={(type) => this.setState({step: 1, type: type})} // action to be called to move to the next step
+                  onComplete={(type) => this.setStateInternal({step: 1, type: type})} // action to be called to move to the next step
                 />
               </div>
               <div>
@@ -482,7 +500,7 @@ class NewRandevuWrapper extends React.Component {
                   <NewRandevuStep1
                     {...this.props}
                     userId={this.state.userId}
-                    onComplete={(addressId) => this.setState({addressId, step: 2})}  
+                    onComplete={(addressId) => this.setStateInternal({addressId, step: 2})}  
                   /> 
                 }
                 { !multipleOffices && this.state.type == 'randevu' && 
@@ -493,7 +511,7 @@ class NewRandevuWrapper extends React.Component {
                     addressId={this.state.addressId}
                     date={this.state.date} 
                     type={this.state.type}
-                    onComplete={(date, time) => this.setState({date, time, step: 2})}  
+                    onComplete={(date, time) => this.setStateInternal({date, time, step: 2})}  
                   /> 
                 }
                 { this.state.type != 'randevu' && 
@@ -516,7 +534,7 @@ class NewRandevuWrapper extends React.Component {
                     addressId={this.state.addressId}
                     date={this.state.date} 
                     type={this.state.type}
-                    onComplete={(date, time) => this.setState({date, time, step: 3})}  
+                    onComplete={(date, time) => this.setStateInternal({date, time, step: 3})}  
                   /> 
                 }
                 { !multipleOffices && this.state.type == 'randevu' && 

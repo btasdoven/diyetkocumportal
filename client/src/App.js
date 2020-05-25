@@ -73,6 +73,23 @@ const DashboardRoute = withTracker(withWidth()(({ width, component: Component, b
   );
 }));
 
+const DashboardNonSignedRoute = withTracker(withWidth()(({ width, component: Component, backButton, viewParam, ...rest }) => {
+
+  return (
+    <Route
+      {...rest}
+      render={matchProps => 
+        true //width != 'xs' && width != 'sm'
+          ? (
+            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} permanentDrawer={false} {...matchProps}>
+            </MainLayout>
+          ) : (
+            <MainLayoutBottomNav component={Component} {...matchProps} />
+          )}
+    />
+  );
+}));
+
 const EmptyRoute = withTracker(({ component: Component, ...rest }) => {
   return (
     <Route
@@ -102,8 +119,8 @@ class App extends Component {
                 <Router>
                   {localStorage.getItem('user') ? (
                     <Switch>
-                      <EmptyRoute path="/enler" component={Enler} />
-                      <EmptyRoute path="/blog" component={BlogList} />
+                      <DashboardRoute path="/enler" component={Enler} />
+                      <DashboardRoute path="/blog" component={BlogList} />
                       <DashboardRoute exact path="/" component={Dashboard} />
                       <DashboardRoute exact path="/status" component={ProfileStatus} />
 
@@ -115,9 +132,8 @@ class App extends Component {
                       <DashboardRoute exact path="/m" component={MesajList} />
                       <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
 
-                      <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
+                      <DashboardRoute path="/l/:linkId" component={AnemnezFormView} />
                       
-                      <EmptyRoute exact path="/d" component={DiyetisyenListView} />
                       <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
 
                       <DashboardRoute exact path="/r" component={RandevuList} />
@@ -125,28 +141,27 @@ class App extends Component {
                       <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />
 
                       <DashboardRoute path="/me" component={MyProfile} />
-                      <DashboardRoute path="/f" component={NotImplementedYet} />
-                      <DashboardRoute path="/kd" component={NotImplementedYet} />
-                      <EmptyRoute path="/signup" component={Register} />
+                      {/* <DashboardRoute path="/f" component={NotImplementedYet} />
+                      <DashboardRoute path="/kd" component={NotImplementedYet} /> */}
 
+                      <EmptyRoute path="/signup" component={Register} />
                       <Route path="/fp" render={() => <Redirect to="/" />} />
                       <Route path="/rp" render={() => <Redirect to="/" />} />
                       <Route path="/signin" render={() => <Redirect to="/" />} />
-                      <EmptyRoute exact path="/nimda" component={AdminView} />
-                      <EmptyRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
-                      <EmptyRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
-                      <EmptyRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />
+
+                      <DashboardRoute exact path="/nimda" component={AdminView} />
+                      <DashboardRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
+                      <DashboardRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
+                      <DashboardRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />
                       <EmptyRoute component={NotFound} />
                     </Switch>
                   ) : (
                     <Switch>
-                      <EmptyRoute path="/enler" component={Enler} />
-                      <EmptyRoute path="/blog" component={BlogList} />
+                      <DashboardNonSignedRoute path="/enler" component={Enler} />
+                      <DashboardNonSignedRoute path="/blog" component={BlogList} />
                       
-                      <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
-                      <EmptyRoute path="/l/:linkId" component={AnemnezFormView} />
+                      <DashboardNonSignedRoute path="/l/:linkId" component={AnemnezFormView} />
 
-                      <EmptyRoute exact path="/d" component={DiyetisyenListView} />
                       <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
 
                       <EmptyRoute path="/signup" component={Register} />
@@ -154,9 +169,9 @@ class App extends Component {
                       <EmptyRoute path="/fp" component={ForgotPassword} />
                       <EmptyRoute path="/rp/:linkId" component={ResetPassword} />
                       <Route exact path="/" component={NewLandingPage2Tracked} />
-                      <EmptyRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
-                      <EmptyRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
-                      <EmptyRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />
+                      <DashboardNonSignedRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
+                      <DashboardNonSignedRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
+                      <DashboardNonSignedRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />
                       <Redirect to="/" />
                     </Switch>
                   )}

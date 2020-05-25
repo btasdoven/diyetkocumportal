@@ -1,3 +1,5 @@
+
+import Badge from "@material-ui/core/Badge";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import React, { Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
@@ -56,11 +58,11 @@ const styles = theme => ({
       // display: 'flex',
       justifyContent: 'space-between',
       minHeight: theme.spacing(7),
-      [theme.breakpoints.up(750 + theme.spacing(6))]: {
-        width: 750,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      },
+    //   [theme.breakpoints.up(750 + theme.spacing(6))]: {
+    //     width: 750,
+    //     marginLeft: 'auto',
+    //     marginRight: 'auto',
+    //   },
     },
     appBar: {
       backgroundColor: 'transparent',
@@ -103,10 +105,12 @@ class HeaderV2 extends React.Component {
     render() {
         const { classes } = this.props;
 
+        const leftOffset = this.props.permanentDrawer ? '240px' : '0px';
+
         return (
             <div style={{height: '54px', display: 'block'}}>
                 <div style={{position: this.props.static ? 'fixed' : 'relative', zIndex: 1200, width: '100%'}}>
-                    <div style={{position:'absolute', top:0, width: '100%', height: '54px', overflow: 'hidden', background: 'linear-gradient(150deg,#281483 15%,#8f6ed5 70%,#d782d9 94%)'}}>
+                    <div style={{position:'absolute', left: leftOffset, top:0, width: `calc(100% - ${leftOffset})`, height: '54px', overflow: 'hidden', background: 'linear-gradient(150deg,#281483 15%,#8f6ed5 70%,#d782d9 94%)'}}>
 
                         <span className={classes.floatingPoint} style={{width: '150px', height: '150px', left: '-4%', bottom: 'auto'}}></span>
                         <span className={classes.floatingPoint} style={{width: '50px', height: '50px', right: '4%', top: '10%'}}></span>
@@ -120,11 +124,11 @@ class HeaderV2 extends React.Component {
                         <span className={classes.floatingPoint} style={{width: '100px', height: '100px', left: '1%', bottom: '1%'}}></span>
                     </div> 
 
-                    <AppBar elevation={0} position="fixed" className={classes.appBar}>
+                    <AppBar elevation={0} position="fixed" style={{left: leftOffset}} className={classes.appBar}>
                         <Toolbar className={classes.layoutToolbar}>
                         
                         {this.props.title && (
-                            <Typography variant="h6" style={{position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', left:0, width: '100%', top: 0, height: '56px', fontWeight: 400, color: 'white', textAlign: 'center', fontFamily: 'Open Sans,sans-serif'}}>
+                            <Typography variant="h6" style={{position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', left: 0, width: `calc(100% - ${leftOffset})`, top: 0, height: '56px', fontWeight: 400, color: 'white', textAlign: 'center', fontFamily: 'Open Sans,sans-serif'}}>
                                 {this.props.title}
                             </Typography>
                         )}
@@ -138,7 +142,7 @@ class HeaderV2 extends React.Component {
                                 <ChevronLeftIcon style={{width: '32px', height: '32px'}} />
                             </IconButton>
                         )}
-                        { !this.props.backButton && !this.props.onBackButtonClick && (
+                        {!this.noButton && !this.props.backButton && !this.props.onBackButtonClick && (
                             <span edge="start" style={{display: 'flex'}}>
                                 <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
                                 {!this.props.title && (
@@ -148,9 +152,13 @@ class HeaderV2 extends React.Component {
                                 )}
                             </span>
                         )}
-                        <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
-                            <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
-                        </IconButton>
+                        {!this.props.permanentDrawer && 
+                            <IconButton onClick={this.props.overrideMenuClick ? () => this.props.overrideMenuClick() : this.handleMenuOpen} component="span" style={{color: 'white'}}>
+                                <Badge variant="dot" badgeContent={this.props.showBadge ? 1 : 0} color="secondary">
+                                    <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
+                                </Badge>
+                            </IconButton>
+                        }
                         {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
                             KAYDOL
                         </Button> */}

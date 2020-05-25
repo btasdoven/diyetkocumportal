@@ -46,7 +46,6 @@ class MainLayout extends Component {
   state = {
     open: false,
     titleFromComp: undefined,
-    userId: JSON.parse(localStorage.getItem('user')).id,
     user: JSON.parse(localStorage.getItem('user')),
   };
 
@@ -71,7 +70,7 @@ class MainLayout extends Component {
   componentWillUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       // console.log('reset title from ' + this.state.titleFromComp)
-      this.setState({ titleFromComp: undefined})
+      this.setState({ titleFromComp: undefined, onBackButtonClickFromComp: undefined, backButtonFromComp: undefined})
     }
   }
 
@@ -91,9 +90,11 @@ class MainLayout extends Component {
   }
 
   componentDidMount() {
-    if (this.state.user.premium_until == undefined || moment(this.state.user.premium_until) < moment.utc()) {
-      this.props.relogin(this.state.userId, this.state.user)
-      this.setState({ resetLoginInfo: Date.now() })
+    if (this.state.user) {
+      if (this.state.user.premium_until == undefined || moment(this.state.user.premium_until) < moment.utc()) {
+        this.props.relogin(this.state.user.id, this.state.user)
+        this.setState({ resetLoginInfo: Date.now() })
+      }
     }
   }
 
@@ -115,9 +116,10 @@ class MainLayout extends Component {
         <div className={classes.root}>
           <Header
             permanentDrawer={this.props.permanentDrawer} 
-            backButton={this.props.backButton}
+            backButton={this.state.backButtonFromComp || this.props.backButton}
+            onBackButtonClick={this.state.onBackButtonClickFromComp || this.props.onBackButtonClick}
             logout={this.props.logout}
-            handleOpenDrawer={this.handleToggleDrawer}
+            handleOpenDrawer={this.state.user ? this.handleToggleDrawer : undefined}
             title={this.state.titleFromComp}
           />
           <main
@@ -125,16 +127,21 @@ class MainLayout extends Component {
               [classes.contentShift]: this.props.permanentDrawer
             })}
           >
-            <Component {...rest} userId={this.state.userId} setTitle={(title) => this.setState({ titleFromComp: title })} />
+            <Component 
+              {...rest} 
+              userId={this.state.user ? this.state.user.id : undefined} 
+              setBackButton={(f) => this.setState({backButtonFromComp: f})}
+              setOnBackButtonClick={(f) => this.setState({onBackButtonClickFromComp: f})}
+              setTitle={(title) => this.setState({ titleFromComp: title })} />
           </main>
         </div>
         
-        {/* <ClickAwayListener mouseEvent={false} onClickAway={() => this.handleCloseDrawer()}> */}
+        {this.state.user &&
           <Sidebar 
             permanentDrawer={this.props.permanentDrawer} 
             logout={this.props.logout}
             open={this.props.permanentDrawer ? true : this.state.open} handleClose={this.handleCloseDrawer} drawerWidth={drawerWidth} />
-        {/* </ClickAwayListener> */}
+        }
       </Fragment>
     );
   }

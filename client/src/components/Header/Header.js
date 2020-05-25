@@ -27,6 +27,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppointments';
 import { getMessagePreviews } from '../../store/reducers/api.messagePreviews';
 import HeaderNotifDialog from './HeaderNotifDialog'
+import HeaderV2 from './HeaderV2'
 
 const styles = theme => ({
   toolbarRoot: {
@@ -69,17 +70,17 @@ const getPageTitle = (props) => {
   const pathname = props.location.pathname;
 
   if (pathname === '/') {
-    return "ANA SAYFA"
+    return undefined
   } else if (pathname === '/me') {
-    return "PROFİLİM"
+    return "Profilim"
   } else if (pathname === '/c') {
-    return "DANIŞANLARIM"
+    return "Danışanlarım"
   } else if (pathname === '/cmt') {
-    return "DANIŞAN GÖRÜŞLERİ"
+    return "Danışan Görüşleri"
   } else if (pathname === '/m') {
-    return "MESAJLARIM"
+    return "Mesajlarım"
   } else if (pathname === '/r') {
-    return "RANDEVULARIM"
+    return "Randevularım"
   } else if (pathname === '/f') {
     return "FİNANSLARIM"
   } else if (pathname === '/kd') {
@@ -190,76 +191,15 @@ class Header extends React.Component  {
     }
 
     return (
-      <AppBar color="inherit" elevation={0} className={this.props.permanentDrawer ? classes.appBarShifted : classes.appBar} position="fixed">
-        <Toolbar classes={{ root: classes.toolbarRoot }}>
-          {this.props.backButton && (
-            <IconButton
-              className={classes.backButton}
-              //onClick={() => this.props.history.goBack()}
-              component={Link}
-              to={this.props.backButton}
-              onClick={this.props.onBackButtonClick}
-            >
-              <ExpandMoreIcon color="primary"/>
-            </IconButton>
-          )}
-          {!this.props.backButton && this.props.noButton != true && !this.props.permanentDrawer && (
-            <IconButton
-              
-              className={classes.menuButton}
-              onClick={() => this.props.handleOpenDrawer()}
-            >
-              <Badge variant="dot" badgeContent={showBadge ? 1 : 0} color="secondary">
-                <MenuIcon color="primary"/>
-              </Badge>
-            </IconButton>
-          )}
-
-          {/* <a href='/' >
-            <img src="/static/favicon.png" className={classes.icon} />
-          </a> */}
-
-          <Typography
-            variant="button"
-            color="primary"
-            noWrap
-            className={classes.title}
-            style={{fontSize: '1.125em', position: 'absolute', marginLeft: '48px', marginRight: '48px', width: 'calc(100% - 112px)'}}
-          >
-            {this.props.title || getPageTitle(this.props) || ''}
-          </Typography>
-
-          {this.props.noButton != true && this.state.user && (
-            <IconButton onClick={() => this.handleNotifDialog(true)} color="inherit">
-              {/* <Badge variant="dot" badgeContent={4} color="secondary"> */}
-                <HelpOutlineOutlinedIcon color="primary"/>
-              {/* </Badge> */}
-            </IconButton>
-          )}
-
-          {/* <IconButton onClick={this.handleClick} color="inherit">
-            <Badge badgeContent={1} color="secondary">
-              <Avatar className={classes.avatar} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </Badge>
-          </IconButton> */}
-          {/* <Menu
-            id="long-menu"
-            anchorEl={this.state.anchorEl}
-            open={this.state.anchorEl ? true : false}
-            onClose={() => this.setState({anchorEl: null})}
-          >
-            <MenuItem onClick={this.props.logout}>
-              <ListItemIcon>
-                  <ExitToAppIcon fontSize="small"/>
-              </ListItemIcon>
-              <Typography variant="inherit">Çıkış yap</Typography>
-              <ListItemText inset primary="Çıkış yap" />
-            </MenuItem>
-          </Menu> */}
-        </Toolbar>
-
-        <HeaderNotifDialog open={this.state.notifDialogOpen} handleClose={() => this.handleNotifDialog(false)}/>
-      </AppBar>
+      <HeaderV2 static
+        title={this.props.title || getPageTitle(this.props) || ''}
+        backButton={this.props.backButton}
+        noButton={this.props.noButton}
+        onBackButtonClick={this.props.onBackButtonClick}
+        permanentDrawer={this.props.permanentDrawer}
+        showBadge={showBadge}
+        overrideMenuClick={this.props.handleOpenDrawer}
+      />
     );
   }
 }

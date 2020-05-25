@@ -118,6 +118,12 @@ class BlogPage extends React.Component {
         if (!this.isLoaded()) {
             this.props.getDietitianProfile(this.state.userId);
         }
+
+        var backButtonUrl = this.props.location && this.props.location.state && this.props.location.state.fromUrl
+            ? this.props.location.state.fromUrl
+            : `/${this.state.userId}`
+
+        this.props.setBackButton(backButtonUrl)
     }
 
     componentDidUpdate(prevProps) {
@@ -151,15 +157,12 @@ class BlogPage extends React.Component {
 
         var post = userProfile.posts && userProfile.posts[this.state.postName] ? userProfile.posts[this.state.postName] : undefined;
 
-        var backButtonUrl = this.props.location && this.props.location.state && this.props.location.state.fromUrl
-            ? this.props.location.state.fromUrl
-            : `/${this.state.userId}`
 
         return (
             <React.Fragment >
                 <CssBaseline />
 
-                <HeaderV2 static backButton={backButtonUrl}/>
+                {/* <HeaderV2 static backButton={backButtonUrl}/> */}
 
                 <div className={classes.root}>
                     <main 

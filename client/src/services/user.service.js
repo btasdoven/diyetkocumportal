@@ -479,7 +479,6 @@ function get_dietitian_comments(userId) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    console.log('comment', userId)
     return fetch(HOST_NAME + `/api/v1/users/${userId}/comments`, requestOptions)
         .then(handleResponse)
         .then(data => {

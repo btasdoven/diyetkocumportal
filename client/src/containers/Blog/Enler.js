@@ -645,6 +645,8 @@ class LandingPage extends React.Component {
     if (!this.isLoaded()) {
         this.props.getAllDietitians();
     }
+
+    this.props.setTitle('Haftanın Enleri')
   }
 
   isLoaded() {
@@ -691,11 +693,11 @@ class LandingPage extends React.Component {
     return (
       <React.Fragment >
         <CssBaseline />
-
+{/* 
         <HeaderV2 static 
           // onBackButton={"/"}
           title={"Haftanın Enleri"}
-        />
+        /> */}
 
         <main className={classes.layoutToolbar} style={{margin:'auto'}}>
             { showLoader && renderLoadingButton(classes) }

@@ -456,6 +456,8 @@ class NewRandevuWrapper extends React.Component {
       if (!this.isLoaded()) {
         this.props.getDietitianProfile(this.state.userId);
       }
+
+      this.props.setTitle('Anket')
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -494,9 +496,9 @@ class NewRandevuWrapper extends React.Component {
                     onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
                     name={this.props.form}
                 >
-                    <HeaderV2 static 
+                    {/* <HeaderV2 static 
                         title={'Anket'}
-                    />
+                    /> */}
 
 
                     <div className={classes.main}>

@@ -181,8 +181,6 @@ class Envanter extends React.Component {
   }
   
   isLoaded() {
-    console.log(this.props.apiMessagePreviews);
-
     var userId = this.state.userId;
 
     var loaded = 
@@ -190,7 +188,6 @@ class Envanter extends React.Component {
       this.props.apiMessagePreviews[userId].isGetLoading != true &&
       this.props.apiMessagePreviews[userId].data != undefined;
 
-    console.log(loaded);
     return loaded;
   }
 

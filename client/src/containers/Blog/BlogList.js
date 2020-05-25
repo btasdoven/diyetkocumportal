@@ -177,6 +177,8 @@ class LandingPage extends React.Component {
     if (!this.isLoaded()) {
         this.props.getAllPosts();
     }
+
+    this.props.setTitle('Blog Yazıları')
   }
 
   isLoaded() {
@@ -199,10 +201,10 @@ class LandingPage extends React.Component {
       <React.Fragment >
         <CssBaseline />
 
-        <HeaderV2 static 
+        {/* <HeaderV2 static 
           onBackButton={"/"}
           title={"Blog Yazıları"}
-        />
+        /> */}
 
         <main className={classes.layoutToolbar} style={{margin:'auto'}}>
             { showLoader && renderLoadingButton(classes) }

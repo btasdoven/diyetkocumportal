@@ -266,6 +266,7 @@ const mapStateToProps = state => {
   return {
     apiMessagePreviews: state.apiMessagePreviews,
     apiDietitianAppointments: state.apiDietitianAppointments,
+    apiDietitianComments: state.apiDietitianComments,
   };
 };
 
