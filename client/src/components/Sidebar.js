@@ -42,6 +42,7 @@ import { withRouter } from 'react-router'
 import Tooltip from '@material-ui/core/Tooltip';
 import { getDietitianAppointments } from '../store/reducers/api.dietitianAppointments';
 import { getMessagePreviews } from '../store/reducers/api.messagePreviews';
+import { getDietitianComments } from '../store/reducers/api.dietitianComments';
 
 const drawerWidth = 240;
 
@@ -98,13 +99,20 @@ class Sidebar extends React.Component {
       this.props.apiDietitianAppointments[this.state.user.id].isGetLoading != true &&
       this.props.apiDietitianAppointments[this.state.user.id].data != undefined;
 
-    return loaded && loaded2;
+    var loaded3 = 
+      this.props.apiDietitianComments != undefined &&
+      this.props.apiDietitianComments[this.state.user.id] != undefined &&
+      this.props.apiDietitianComments[this.state.user.id].isGetLoading != true &&
+      this.props.apiDietitianComments[this.state.user.id].data != undefined;
+
+    return loaded && loaded2 && loaded3;
   }
 
   componentDidMount() {
     if (!this.isLoaded()) {
       this.props.getMessagePreviews(this.state.user.id);
       this.props.getDietitianAppointments(this.state.user.id);
+      this.props.getDietitianComments(this.state.user.id);
     }
   }
 
@@ -113,14 +121,17 @@ class Sidebar extends React.Component {
     
     var showLoader = !this.isLoaded();
 
+    var pendingComments = 0;
     var pendingAppts = 0;
-    var unreadMsgs = showLoader 
-      ? 0 
-      : Object.keys(this.props.apiMessagePreviews[this.state.user.id].data).map((u) => this.props.apiMessagePreviews[this.state.user.id].data[u].unread).reduce((a,b) => a+b, 0);
+    var unreadMsgs = 0;
 
     if (!showLoader) {
       var appts = this.props.apiDietitianAppointments[this.state.user.id].data;
       pendingAppts = Object.keys(appts).map((u) => Object.keys(appts[u].data).map((t) => appts[u].data[t].status == "pending" ? 1 : 0).reduce((a,b) => a+b, 0)).reduce((a,b) => a+b, 0);
+
+      unreadMsgs = Object.keys(this.props.apiMessagePreviews[this.state.user.id].data).filter((u) => this.props.apiMessagePreviews[this.state.user.id].data[u].unread).length;
+
+      pendingComments = Object.keys(this.props.apiDietitianComments[this.state.user.id].data).filter(c => this.props.apiDietitianComments[this.state.user.id].data[c].status == 'pending').length;
     }
 
     return (
@@ -224,7 +235,7 @@ class Sidebar extends React.Component {
               <Typography variant="overline">DANIŞAN GÖRÜŞLERİ</Typography>
               { 
                 <ListItemSecondaryAction>
-                  <Badge badgeContent={1} color="secondary">
+                  <Badge badgeContent={pendingComments} color="secondary">
                   </Badge>
                 </ListItemSecondaryAction>
               }
@@ -262,6 +273,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date),
+      getDietitianComments: (userId) => getDietitianComments(userId),
       getMessagePreviews: (userId) => getMessagePreviews(userId),
     },
     dispatch

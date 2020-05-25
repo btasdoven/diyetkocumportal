@@ -442,7 +442,7 @@ class NewRandevuWrapper extends React.Component {
         />
       );
     }
-    
+
     render() {
         const { classes } = this.props;
         const showLoader = !this.isLoaded();
@@ -470,7 +470,7 @@ class NewRandevuWrapper extends React.Component {
               disabled={true}
               index={this.state.step}
             >
-              <div>
+              <div style={this.state.step == 0 ? {} : {height: 'calc(100vh - 56px)', overflowY: 'hidden'}}>
                 <PersonalPage 
                   dietitianProfile={user}  // dietitian whose personal page is being visited
                   userId={this.state.userId}  // logged in username

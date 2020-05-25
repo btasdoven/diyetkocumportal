@@ -79,7 +79,15 @@ import Menu from '@material-ui/core/Menu';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import Check from '@material-ui/icons/Check';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import StepConnector from '@material-ui/core/StepConnector';
 
+import clsx from 'clsx';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import {reset} from 'redux-form';
@@ -227,6 +235,37 @@ const renderCheckBox = props => {
 }
 
 
+const ReduxFormRating = ({name, label, ...props}) => (
+    <FormControl
+      //margin="normal"
+      style={{width: '100%', display: 'flex'}}
+      required
+    >
+      <InputLabel shrink={true} id={label}>{label}</InputLabel>
+  
+      <Field
+        name={name}
+        component={renderRating}
+        {...props}
+      />
+    </FormControl>
+  )
+  
+  const renderRating = props => {
+    const { input, options } = props;
+  
+    return (
+        <Rating 
+            style={{display: 'flex', justifyContent: 'center', paddingTop: '16px'}}
+            size="large"
+            {...input}
+            onChange={value => input.onChange(value)} 
+            onBlur={() => input.onBlur(input.value)} 
+            onFocus={() => input.onFocus(input.value)} 
+            value={parseInt(input.value)}
+        />
+    )
+  }
 
 const ReduxFormSelect = ({name, label, values, ...props}) => (
   <FormControl
@@ -338,31 +377,65 @@ const renderTextField = ({
     InputLabelProps={{color: 'primary', shrink: true}}
   />
 )
-  
-const ApptDays = () => {
-  return [
-    "Pazartesi",
-    "Salı",
-    "Çarşamba",
-    "Perşembe",
-    "Cuma",
-    "Cumartesi",
-    "Pazar",
-  ]
-}
+const QontoConnector = withStyles({
+    alternativeLabel: {
+        top: 10,
+        left: 'calc(-50% + 16px)',
+        right: 'calc(50% + 16px)',
+    },
+    active: {
+        '& $line': {
+        borderColor: '#784af4',
+        },
+    },
+    completed: {
+        '& $line': {
+        borderColor: '#784af4',
+        },
+    },
+    line: {
+        borderColor: '#eaeaf0',
+        borderTopWidth: 3,
+        borderRadius: 1,
+    },
+})(StepConnector);
 
-const ApptHours = () => {
-  var s = 7;
-  var e = 18;
-  var ret = []
-  for (var i = s; i <= e; ++i) {
-    var hour = i < 10 ? "0" + i.toString() : i.toString();
-    var hour1 = i+1 < 10 ? "0" + (i+1).toString() : (i+1).toString();
-    ret.push(hour + ":00 - " + hour + ":30");
-    ret.push(hour + ":30 - " + hour1 + ":00");
-  }
+const useQontoStepIconStyles = makeStyles({
+    root: {
+        color: '#eaeaf0',
+        display: 'flex',
+        height: 22,
+        alignItems: 'center',
+    },
+    active: {
+        color: '#784af4',
+    },
+    circle: {
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        backgroundColor: 'currentColor',
+    },
+    completed: {
+        color: '#784af4',
+        zIndex: 1,
+        fontSize: 18,
+    }
+});
 
-  return ret;
+function QontoStepIcon(props) {
+    const classes = useQontoStepIconStyles();
+    const { active, completed } = props;
+
+    return (
+        <div
+            className={clsx(classes.root, {
+                [classes.active]: active,
+            })}
+        >
+            {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
+        </div>
+    );
 }
 
 class NewRandevuWrapper extends React.Component {
@@ -417,35 +490,51 @@ class NewRandevuWrapper extends React.Component {
         }
           
         return (
-          <Form
-            onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
-            name={this.props.form}
-          >
-            <HeaderV2 static 
-                title={'Anket'}
-            />
+                <Form
+                    onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
+                    name={this.props.form}
+                >
+                    <HeaderV2 static 
+                        title={'Anket'}
+                    />
 
-            <SwipeableViews
-              axis={'x'}
-              disabled={true}
-              index={this.state.step}
-            >
-              <div>
-                <Step1 
-                    {...this.props}
-                    handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
-                    userId={this.state.userId}
-                    onComplete={(type) => this.setState({step: 1})} // action to be called to move to the next step
-                />
-              </div>
-              <div>
-                <Step2 
-                    {...this.props}
-                    userId={this.state.userId}
-                />
-              </div>
-            </SwipeableViews>
-          </Form>
+
+                    <div className={classes.main}>
+                        <Stepper
+                            alternativeLabel 
+                            activeStep={this.state.step}
+                            connector={<QontoConnector />}
+                            style={{paddingBottom: '8px'}}
+                        >
+                            <Step>
+                                <StepLabel StepIconComponent={QontoStepIcon}></StepLabel>
+                            </Step>
+                            <Step>
+                                <StepLabel StepIconComponent={QontoStepIcon}></StepLabel>
+                            </Step>
+                        </Stepper>
+                        <SwipeableViews
+                            axis={'x'}
+                            disabled={true}
+                            index={this.state.step}
+                            >
+                            <div>
+                                <Step1 
+                                    {...this.props}
+                                    handleFormSubmit={this.props.handleSubmit(this.onSubmitInternal)} 
+                                    userId={this.state.userId}
+                                    onComplete={(type) => this.setState({step: 1})} // action to be called to move to the next step
+                                />
+                            </div>
+                            <div>
+                                <Step2 
+                                    {...this.props}
+                                    userId={this.state.userId}
+                                />
+                            </div>
+                        </SwipeableViews>
+                    </div>
+                </Form>
         )
     }
 }
@@ -503,14 +592,18 @@ class Step1 extends React.Component {
                 </DialogActions>
               </Dialog>
 
-              <Card variant="outlined" className={classes.card}>
+              <Typography variant="h6" style={{textAlign:'center', color: '#32325d', fontWeight: 400, paddingLeft: '16px', paddingRight: '16px', paddingBottom: '24px'}}>
+                  {user.name}<br /> senden görüşlerini rica ediyor
+                </Typography>
+
+              <Card elevation={0} className={classes.card}>
                 {/* <div className={classes.divCategory}> */}
-                <CardHeader
+                {/* <CardHeader
                     style={{textAlign: 'center'}}
                     title={
                     <Rating readOnly={true} value={5} size="large" />
                     }
-                />
+                /> */}
                 <CardContent style={{paddingTop:0}}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -520,7 +613,10 @@ class Step1 extends React.Component {
                         <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required, validPhone]} />
                     </Grid>
                     <Grid item xs={12}>
-                        <ReduxFormTextField name="notes" rows={3} label="Görüşlerin" multiline validate={[required]}/>
+                        <ReduxFormRating required name="rating" label="Genel Puanın" validate={[required]}/>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ReduxFormTextField required name="notes" rows={4} label="Görüşlerin" multiline validate={[required]}/>
                     </Grid>
                   </Grid>
                   <div style={{marginTop: '16px'}}>
