@@ -1129,6 +1129,11 @@ exports.postDietitianComment = function (userId, comment) {
   }
 
   storage.setItem(userId, rows[userId]);
+
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+  ? "TEST - " + userId + " - "
+  : "PROD - " + userId + " - "
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `new comment`, JSON.stringify(comment, null, 4))
 }
 
 exports.putDietitianComments = function (userId, comments) {
@@ -1138,6 +1143,11 @@ exports.putDietitianComments = function (userId, comments) {
   rows[userId].comments = comments;
 
   storage.setItem(userId, rows[userId]);
+
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+  ? "TEST - " + userId + " - "
+  : "PROD - " + userId + " - "
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `comments changed`, JSON.stringify(comments, null, 4))
 }
 
 exports.getDietitianProfile = function (userId) {

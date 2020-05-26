@@ -43,37 +43,37 @@ const tutorialSteps = [
   {
     label: 'Seda Nur Arslan',
     link: '/dyt.sedaarslan',
-    unvan: 'Diyetisyen',
+    unvan: 'Dyt.',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
   },
   {
     label: 'Aşkın Özdemir',
     link: '/diyetisyenasknn',
-    unvan: 'Beslenme Uzmanı',
+    unvan: 'Dyt.',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
   },
   {
     label: 'Merve Doyranlı',
     link: '/diyetisyendoyranli',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
-    unvan: 'Beslenme ve Diyet Uzmanı',
+    unvan: 'Dyt.',
   },
   {
     label: 'Ezel Kavadar',
     link: '/dyt_ezelkavadar',
-    unvan: 'Uzman Diyetisyen',
+    unvan: 'Uzm. Dyt.',
     info: 'Bütün meslektaşlarıma, özellikle de online ağırlıklı çalışan meslektaşlarıma kullanmalarını tavsiye ettiğim randevu sistemi 👌 En güzel yanı danışan datamızı saklayabiliyor olmak 🥰',
   },
   {
     label: 'Büşra Özyavuz',
     link: '/diyetiswomen',
-    unvan: 'Diyetisyen',
+    unvan: 'Dyt.',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
   },
   {
     label: 'Aysu Taşdöven',
     link: '/aysuutasdovenn',
-    unvan: 'Diyetisyen',
+    unvan: 'Dyt.',
     info: "Oluşturduğum kişisel sayfamın linkini Instagram profilime koydum ve yeni danışanlarıma kolayca randevu verebildim. Teşekkürler Diyet Koçum!",
   },
 ];
@@ -160,7 +160,7 @@ const TextMobileStepper = (props) => {
                     style={{width: '140px', height: '140px', margin: 'auto'}}
                 />            
                 
-                <Typography variant="h6" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px', paddingTop: '16px'}}>Dyt. {tutorialSteps[index].label}</Typography>
+                <Typography variant="h6" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px', paddingTop: '16px'}}>{tutorialSteps[index].unvan} {tutorialSteps[index].label}</Typography>
           
                 <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>
                   {tutorialSteps[index].info || ""}
@@ -247,10 +247,10 @@ class DietianList extends React.Component {
       <span>
         <TextMobileStepper />
 
-        <Button color="secondary" style={{marginTop: '16px', marginRight: '24px', float: 'right'}} onClick={() => {
+        {/* <Button color="secondary" style={{marginTop: '16px', marginRight: '24px', float: 'right'}} onClick={() => {
           registerEvent('ClickShowAllDietitians')
           this.setDialog(true)}
-         } size="small">Tümünü gör</Button>
+         } size="small">Tümünü gör</Button> */}
 
         <Dialog 
           open={this.state.openDialog} 

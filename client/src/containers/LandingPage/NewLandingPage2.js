@@ -354,7 +354,7 @@ class LandingPage extends React.Component {
                   <b>Diyetisyenlerin Dijital Asistanı</b>
                 </Typography>
                 <Typography variant="subtitle1" component="h3" color="inherit" style={{paddingBottom: '10vh', fontWeight: 300}}>
-                  Randevu sayfanı oluştur, anamnez formu gönder, otomatik öğün takibi yap.
+                  Kişisel sayfanı oluştur, anamnez formu gönder, otomatik öğün takibi yap.
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -441,7 +441,7 @@ class LandingPage extends React.Component {
           </div>
 
           <div style={{width: '100%', paddingTop: '48px', paddingBottom: '64px' }}>
-            <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '32px'}}>Popüler Diyetisyenlerimiz</Typography>
+            <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '32px'}}>Mutlu Diyetisyenlerimizden Bazıları</Typography>
             
             {/* <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography> */}
 

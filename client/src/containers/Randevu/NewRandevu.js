@@ -388,7 +388,7 @@ class NewRandevuWrapper extends React.Component {
           user: JSON.parse(localStorage.getItem('user')),
         }
 
-        setTimeout(() => this.setState({showBanner: true}), 750)
+        // setTimeout(() => this.setState({showBanner: true}), 750)
     }
 
     componentDidMount() {
