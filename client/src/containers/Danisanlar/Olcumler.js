@@ -13,6 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Image from 'material-ui-image'
 
 import moment from "moment";
 import { DatePickerInput } from '../../components/DateTimePicker'
@@ -35,7 +36,7 @@ import AppBar from '@material-ui/core/AppBar';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDanisanMeasurements, addDanisanMeasurement } from '../../store/reducers/api.danisanMeasurements'
+import { getDanisanMeasurements, addDanisanMeasurement, addDanisanMeasurementWithPhoto } from '../../store/reducers/api.danisanMeasurements'
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -221,6 +222,66 @@ const createTextField = (key, label, inputProps) => (
     />
   )
   
+  class FieldFileInput2  extends Component {
+    constructor(props) {
+      super(props)
+      this.onChange = this.onChange.bind(this)
+
+      this.state = {
+        img: undefined
+      }
+    }
+  
+    onChange(e) {
+      const { input: { onChange } } = this.props
+      onChange(e.target.files[0])
+
+      var imgUrl = URL.createObjectURL(e.target.files[0])
+      this.setState({img: e.target.files[0], imgUrl: imgUrl})
+      this.props.onNewImageAdded(e.target.files[0], imgUrl)
+    }
+  
+    render() {
+      const { input: { value } } = this.props
+      const {input,label, required, meta, } = this.props  //whatever props you send to the component from redux-form Field
+      return(
+        <ListItem button 
+          onClick={() => this.fileInput.click()}
+          target="_blank"
+            //component={Link} to={"/c/" + danisan.name}
+        >
+          {this.state.img == undefined &&
+            <ListItemAvatar >
+              <Avatar><AddIcon /></Avatar>
+            </ListItemAvatar>
+          }
+          {this.state.img != undefined && 
+            <ListItemAvatar >
+              <Avatar variant="square" src={this.state.imgUrl} />
+            </ListItemAvatar>
+          }
+          <ListItemText 
+            primary={
+                // <Typography
+                //     variant="subtitle1"
+                //     color="textPrimary"
+                // >
+                this.state.img == undefined ? "Fotoğraf ekle" : "Fotoğrafı değiştir"
+                // </Typography>
+            } 
+          />
+          <input
+            ref={fileInput => this.fileInput = fileInput}
+            type="file"
+            accept=".pdf,.png,.jpg,.jpeg"
+            onChange={this.onChange}
+            style={{display: 'none'}}
+          />
+        </ListItem>
+      )
+    }
+  }
+  
 class Envanter extends React.Component {
   
   constructor(props) {
@@ -229,9 +290,12 @@ class Envanter extends React.Component {
     this.isLoaded = this.isLoaded.bind(this);
     this.onDialogClose = this.onDialogClose.bind(this);
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
+    this.onNewImageAdded = this.onNewImageAdded.bind(this)
 
     this.state = {
-      userId: JSON.parse(localStorage.getItem('user')).id
+      userId: JSON.parse(localStorage.getItem('user')).id,
+      images: [],
+      imgBase64s: [],
     }
   }
 
@@ -252,19 +316,26 @@ class Envanter extends React.Component {
   }
 
   onSubmitInternal(formValues) {
-    formValues['uniqueFileKey'] = this.state.uniqueFileKey;
-    console.log(formValues);
-    // const formData = new FormData();
-    // formData.append('file',formValues.file)
-    // formData.append('type', 'olcum')
-    // console.log(formData);
+    const formData = new FormData();
+    Object.keys(formValues).forEach((k) => {
+      console.log(k)
+      formData.append(k, formValues[k])
+    })
+    console.log(formData);
+    console.log(formValues)
 
-    this.props.addDanisanMeasurement(this.state.userId, this.props.danisanUserName, formValues);
+    this.props.addDanisanMeasurementWithPhoto(this.state.userId, this.props.danisanUserName, formData);
     this.onDialogClose();
   }
 
   onDialogClose(values) {
     this.setState({openDialog: undefined, uniqueFileKey: undefined})
+  }
+
+  onNewImageAdded(imgBase64, imageUrl) {
+    this.state.images.push(imageUrl)
+    this.state.imgBase64s.push(imgBase64)
+    this.setState({ images: this.state.images, imgBase64s: this.state.imgBase64s })
   }
 
   render() {
@@ -389,8 +460,19 @@ class Envanter extends React.Component {
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
                 </Grid>
+                {/* {this.state.images.map((imgUrl, idx) => (
+                  <Grid key={idx} item xs={6} sm={4} md={3} lg={2}>
+                      <Image src={imgUrl} />
+                  </Grid>
+                ))} */}
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <OlcumlerTartiPdf uniqueFileKey={this.state.uniqueFileKey} danisanUserName={this.props.danisanUserName} />
+                  <Field
+                      name="file"
+                      component={FieldFileInput2}
+                      onChange={(f) => console.log(f)}
+                      onNewImageAdded={this.onNewImageAdded}
+                    />
+                  {/* <OlcumlerTartiPdf uniqueFileKey={this.state.uniqueFileKey} danisanUserName={this.props.danisanUserName} /> */}
                 </Grid>
               </Grid> 
 
@@ -424,6 +506,7 @@ class Envanter extends React.Component {
                   }>
                     {Object.keys(measurementsPerDay).map((mTs, midx) => {
                       const measurement = measurementsPerDay[mTs];
+                      console.log(measurement)
 
                       return (
                         <ListItem 
@@ -438,30 +521,45 @@ class Envanter extends React.Component {
                           <Card variant="outlined" className={classes.card}>
                             <CardContent>
                               <Grid container spacing={1}>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                   <Typography className={classes.pos} color="textSecondary">Kilo</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.kilo || ''} {measurement.kilo ? 'kg' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                   <Typography className={classes.pos} color="textSecondary">Boy</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.boy || ''} {measurement.boy ? 'cm' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                   <Typography className={classes.pos} color="textSecondary">Bacak</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.bacak || ''} {measurement.bacak ? 'cm' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                   <Typography className={classes.pos} color="textSecondary">Kol</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.kol || ''} {measurement.kol ? 'cm' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                   <Typography className={classes.pos} color="textSecondary">Göğüs</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.gogus || ''} {measurement.gogus ? 'cm' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                   <Typography className={classes.pos} color="textSecondary">Göbek</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.gobek || ''} {measurement.gobek ? 'cm' : ''}</Typography>
                                 </Grid>
+                                {measurement.images && measurement.images.map((img) => {
+                                  console.log(img)
+                                  return (
+                                  <Grid key={idx} item xs={6} sm={4} md={3} lg={2}>
+                                      <Image src={userService.getStaticFileUri(img.path || '')} />
+                                  </Grid>
+                                )})}
+                                {/* <Grid item xs={12} sm={6} md={4} lg={3}>
+                                  <Image
+                                    imageStyle={{ left: '8px', borderRadius: '8px', height: `calc(${1920.0/1080.0 * ratio}${unit})`, width: `calc(${ratio}${unit})`}}
+                                    style={{paddingLeft: `calc(${ratio}${unit} + ${idx != postCount - 1 ? '0px' : '8px'})`, paddingRight: '8px', paddingTop: `calc(${1920.0/1080.0 * ratio}${unit} + 8px)`, width: `${ratio}${unit}`}}
+                                    aspectRatio={1080.0/1920}
+                                    src={userService.getStaticFileUri(post.postImg || '') }
+                                  />
+                                </Grid> */}
                               </Grid>
                             </CardContent>
                             {/* <CardActions>
@@ -495,6 +593,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      addDanisanMeasurementWithPhoto: (userId, danisanUserName, measurement) => addDanisanMeasurementWithPhoto(userId, danisanUserName, measurement),
       addDanisanMeasurement: (userId, danisanUserName, measurement) => addDanisanMeasurement(userId, danisanUserName, measurement),
       getDanisanMeasurements: (userId, danisanUserName) => getDanisanMeasurements(userId, danisanUserName),
     },

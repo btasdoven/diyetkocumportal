@@ -307,23 +307,21 @@ class Envanter extends React.Component {
     else
       return (
         <span>
-          <AppBar style={{top: '56px'}} color="inherit" elevation={0}>
-            <Tabs
-              value={this.state.value}
-              onChange={this.handleValueChange}
-              indicatorColor="secondary"
-              textColor="secondary"
-              variant="scrollable"
-              scrollButtons="on"
-              aria-label="scrollable auto tabs example"
-            >
-              <Tab label="FOTO YÜKLE" {...a11yProps(0)} />
-              <Tab label="POST YÜKLE" {...a11yProps(1)} />
-              <Tab label="DİYETİSYENLER" {...a11yProps(2)} />
-              <Tab label="HARITA EKLE" {...a11yProps(3)} />
-              <Tab label="ÖDEME EKLE" {...a11yProps(3)} />
-            </Tabs>
-          </AppBar>
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleValueChange}
+            indicatorColor="secondary"
+            textColor="secondary"
+            variant="scrollable"
+            scrollButtons="on"
+            aria-label="scrollable auto tabs example"
+          >
+            <Tab label="FOTO YÜKLE" {...a11yProps(0)} />
+            <Tab label="POST YÜKLE" {...a11yProps(1)} />
+            <Tab label="DİYETİSYENLER" {...a11yProps(2)} />
+            <Tab label="HARITA EKLE" {...a11yProps(3)} />
+            <Tab label="ÖDEME EKLE" {...a11yProps(3)} />
+          </Tabs>
           <main className={classes.content}>
             <TabPanel value={this.state.value} index={0}>
               <AddPhoto />

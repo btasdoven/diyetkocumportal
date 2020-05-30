@@ -28,6 +28,7 @@ export const userService = {
     add_danisan_files,
     get_danisan_measurements,
     add_danisan_measurement,
+    add_danisan_measurement_with_photo,
     get_danisan_messages,
     add_danisan_message,
     read_danisan_message,
@@ -464,6 +465,13 @@ function get_all_posts() {
         .then(data => {
             return data;
         });   
+}
+
+function add_danisan_measurement_with_photo(userId, danisanUserName, data) {
+    return axios.post(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/addMeasurementWithPhoto`, data, {})
+        .then(res => {
+            return res;
+        })
 }
 
 function upload_photo(userId, data) {

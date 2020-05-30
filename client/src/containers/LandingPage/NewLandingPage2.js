@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import { withTheme, withStyles } from '@material-ui/core/styles';
@@ -309,15 +310,26 @@ class LandingPage extends React.Component {
                 <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
                 <Typography variant="h6" style={{fontWeight: 100, color: 'white', fontFamily: 'Prompt,sans-serif'}}>diyetkoçum</Typography>
               </span>
-              {/* <Typography variant="h6" color="inherit" noWrap>
-                Digital Lab Book
-              </Typography> */}
-              <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
-                <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
-              </IconButton>
-              {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
-                KAYDOL
-              </Button> */}
+              <span edge="end">
+                { this.props.width == 'xs' &&
+                  <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
+                    <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
+                  </IconButton>
+                }
+                { this.props.width != 'xs' && 
+                  <Fragment>
+                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/enler">
+                      HAFTANIN ENLERİ
+                    </Button>
+                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/blog">
+                      BLOG YAZILARI
+                    </Button>
+                    <Button variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signin">
+                      GİRİŞ YAP
+                    </Button>
+                  </Fragment>
+                }
+              </span>
             </Toolbar>
           </AppBar>
 
@@ -511,4 +523,4 @@ class LandingPage extends React.Component {
   }
 }
 
-export default withTheme(withStyles(styles)(LandingPage));
+export default withTheme(withWidth()(withStyles(styles)(LandingPage)));

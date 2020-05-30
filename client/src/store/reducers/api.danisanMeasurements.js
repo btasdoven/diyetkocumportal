@@ -107,3 +107,22 @@ export function addDanisanMeasurement(userId, danisanUserName, danisanMeasuremen
   function request(userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_PUT_LOADING, userId, danisanUserName, isPutLoading: true } }
   function failure(userId, danisanUserName, error) { return { type: DANISAN_MEASUREMENTS_PUT_ERRORED, userId, danisanUserName, error } }
 }
+
+export function addDanisanMeasurementWithPhoto(userId, danisanUserName, danisanMeasurement) {
+    return (dispatch) => {
+        dispatch(request(userId, danisanUserName));
+
+        userService.add_danisan_measurement_with_photo(userId, danisanUserName, danisanMeasurement)
+        .then(
+            (data) => { 
+              getDanisanMeasurements(userId, danisanUserName)(dispatch);
+            },
+            error => {
+                dispatch(failure(userId, danisanUserName, error.toString()));
+            }
+        );
+    };
+  
+  function request(userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_PUT_LOADING, userId, danisanUserName, isPutLoading: true } }
+  function failure(userId, danisanUserName, error) { return { type: DANISAN_MEASUREMENTS_PUT_ERRORED, userId, danisanUserName, error } }
+}

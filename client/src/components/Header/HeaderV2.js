@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withStyles } from '@material-ui/core/styles';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -29,6 +30,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { AppBar, Toolbar, Box } from "@material-ui/core";
+import classNames from "classnames";
 
 const styles = theme => ({
     floatingPoint: {
@@ -63,6 +65,11 @@ const styles = theme => ({
     //     marginLeft: 'auto',
     //     marginRight: 'auto',
     //   },
+    },
+    maxWidthToolbar: {
+        width: 750,
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     appBar: {
       backgroundColor: 'transparent',
@@ -105,7 +112,7 @@ class HeaderV2 extends React.Component {
     render() {
         const { classes } = this.props;
 
-        const leftOffset = this.props.permanentDrawer ? '240px' : '0px';
+        const leftOffset = this.props.permanentDrawer && this.state.user != undefined ? '240px' : '0px';
 
         return (
             <div style={{height: '54px', display: 'block'}}>
@@ -125,7 +132,11 @@ class HeaderV2 extends React.Component {
                     </div> 
 
                     <AppBar elevation={0} position="fixed" style={{left: leftOffset}} className={classes.appBar}>
-                        <Toolbar className={classes.layoutToolbar}>
+                        <Toolbar 
+                            className={classNames(classes.layoutToolbar, {
+                                [classes.maxWidthToolbar]: this.props.permanentDrawer && this.state.user == undefined
+                            })}
+                        >
                         
                         {this.props.title && (
                             <Typography variant="h6" style={{position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', left: 0, width: `calc(100% - ${leftOffset})`, top: 0, height: '56px', fontWeight: 400, color: 'white', textAlign: 'center', fontFamily: 'Open Sans,sans-serif'}}>
@@ -152,16 +163,26 @@ class HeaderV2 extends React.Component {
                                 )}
                             </span>
                         )}
-                        {!this.props.permanentDrawer && 
+                        {(!this.props.permanentDrawer || this.state.user == undefined) &&
                             <IconButton onClick={this.props.overrideMenuClick ? () => this.props.overrideMenuClick() : this.handleMenuOpen} component="span" style={{color: 'white'}}>
                                 <Badge variant="dot" badgeContent={this.props.showBadge ? 1 : 0} color="secondary">
                                     <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
                                 </Badge>
                             </IconButton>
                         }
-                        {/* <Button size="small" className={classes.loginButton} variant="contained" color="primary" component={Link} to="/signin">
-                            KAYDOL
-                        </Button> */}
+                        {/* {this.props.permanentDrawer && this.state.user == undefined &&
+                            <span edge="end">
+                                <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/enler">
+                                    HAFTANIN ENLERİ
+                                </Button>
+                                <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/blog">
+                                    BLOG YAZILARI
+                                </Button>
+                                <Button variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signin">
+                                    GİRİŞ YAP
+                                </Button>
+                            </span>
+                        } */}
                         </Toolbar>
                     </AppBar>
 
@@ -205,4 +226,4 @@ class HeaderV2 extends React.Component {
     }
 }
 
-export default withStyles(styles)(HeaderV2);
+export default withWidth()(withStyles(styles)(HeaderV2));

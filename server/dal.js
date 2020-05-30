@@ -1391,10 +1391,11 @@ exports.getDanisanMeasurements = function (userId, danisanUserName) {
   return rows[userId].danisans[danisanUserName].measurements;
 }
 
-exports.addDanisanMeasurement = function (userId, danisanUserName, danisanMeasurement) {
+exports.addDanisanMeasurement = function (userId, danisanUserName, danisanMeasurement, file) {
   console.log('addDanisanMeasurement');
   console.log(danisanUserName);
   console.log(danisanMeasurement);
+  console.log(file)
 
   if (rows[userId].danisans == undefined ||
       rows[userId].danisans[danisanUserName] == undefined) {
@@ -1409,7 +1410,17 @@ exports.addDanisanMeasurement = function (userId, danisanUserName, danisanMeasur
     rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi] = {}
   }
 
-  rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi][Date.now()] = danisanMeasurement;
+  var photo = {
+    encoding: file.encoding,
+    mimetype: file.mimetype,
+    path: `api/v1/public/${userId}/${file.filename}`,
+    name: file.originalname
+  };
+
+  rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi][Date.now()] = {
+    ...danisanMeasurement,
+    images: [ photo ]
+  };
 
   const ordered = {};
   Object.keys(rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi]).sort().forEach(function(key) {

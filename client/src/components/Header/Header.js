@@ -81,10 +81,10 @@ const getPageTitle = (props) => {
     return "Mesajlarım"
   } else if (pathname === '/r') {
     return "Randevularım"
-  } else if (pathname === '/f') {
-    return "FİNANSLARIM"
-  } else if (pathname === '/kd') {
-    return "KAYITLI DİYETLERİM"
+  } else if (pathname === '/signin') {
+    return 'Diyetisyen Girişi'
+  } else if (pathname === '/signup') {
+    return 'Diyetisyen Kaydı'
   }
 
   return undefined;

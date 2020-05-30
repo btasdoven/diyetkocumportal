@@ -81,7 +81,7 @@ const DashboardNonSignedRoute = withTracker(withWidth()(({ width, component: Com
       render={matchProps => 
         true //width != 'xs' && width != 'sm'
           ? (
-            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} permanentDrawer={false} {...matchProps}>
+            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
             </MainLayout>
           ) : (
             <MainLayoutBottomNav component={Component} {...matchProps} />
@@ -164,8 +164,8 @@ class App extends Component {
 
                       <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
 
-                      <EmptyRoute path="/signup" component={Register} />
-                      <EmptyRoute path="/signin" component={Signin} />
+                      <DashboardNonSignedRoute path="/signup" component={Register} />
+                      <DashboardNonSignedRoute path="/signin" component={Signin} />
                       <EmptyRoute path="/fp" component={ForgotPassword} />
                       <EmptyRoute path="/rp/:linkId" component={ResetPassword} />
                       <Route exact path="/" component={NewLandingPage2Tracked} />

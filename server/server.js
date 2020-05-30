@@ -146,6 +146,7 @@ var storageForAdmin = multer.diskStorage({
   }
 })
 
+var uploadMeasurements = multer({ storage: storage })
 var upload = multer({ storage: storage }).single('file')
 var uploadForAdmin = multer({ storage: storageForAdmin }).single('file')
 
@@ -288,6 +289,13 @@ app.post("/api/v1/users/:userId/danisans/:danisanUserName/addMeasurement", (req,
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.addDanisanMeasurement(req.params.userId, req.params.danisanUserName, req.body));
+  }), delayInResponseInMs);
+});
+
+app.post("/api/v1/users/:userId/danisans/:danisanUserName/addMeasurementWithPhoto", uploadMeasurements.single('file'), (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');    
+    res.json(dal.addDanisanMeasurement(req.params.userId, req.params.danisanUserName, req.body, req.file));
   }), delayInResponseInMs);
 });
 

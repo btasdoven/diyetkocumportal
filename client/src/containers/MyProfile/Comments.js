@@ -256,9 +256,9 @@ class Envanter extends React.Component {
                 <Grid item xs={12}>
                   <div className={classes.text}>
                     <Typography variant="body2" style={{}}>
-                      * Artık danışanlarından yorum almak çok kolay. <br />
-                      * Aşağıdaki linke tıkladığında bu link kopyalanmış olacak. <br />
-                      * Bu linki danışanına ister e-posta olarak ister WhatsApp'tan istersen de Instagram'dan gönder. <br />
+                      * Artık danışanlarından yorum almak çok kolay.<br />
+                      * Aşağıdaki linke tıkladığında bu link kopyalanmış olacak.<br />
+                      * Bu linki danışanına ister WhatsApp'tan istersen de Instagram'dan gönder.<br />
                       * Danışanların senin hakkında yorum yazsın. <br />
                       * Yazılan yorumlar onayın için bu sayfaya düşsün. <br />
                       * Sen de beğendiğin yorumları kişisel sayfanda göstermek için buradan onayla.

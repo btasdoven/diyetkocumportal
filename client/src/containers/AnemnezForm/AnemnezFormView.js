@@ -125,6 +125,16 @@ const styles = theme => ({
       marginBottom: theme.spacing(2),
   },
   content: {
+    width: '100%',
+    display: 'block', // Fix IE 11 issue.
+    //top: 0,
+    [theme.breakpoints.up(750)]: {
+      width: '750px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    //backgroundColor: 'red',
+    // padding: theme.spacing(1)
     //flexGrow: 1,
     //marginLeft: theme.spacing(7),
     //padding: theme.spacing(1),
@@ -324,22 +334,20 @@ class Envanter extends React.Component {
     else
       return (
         <span>
-          <AppBar style={{top: '56px'}} color="inherit" elevation={0}>
-            <Tabs
-              value={this.state.value}
-              onChange={this.handleValueChange}
-              indicatorColor="secondary"
-              textColor="secondary"
-              variant="scrollable"
-              scrollButtons="on"
-              aria-label="scrollable auto tabs example"
-            >
-              <Tab label="PROFİL" {...a11yProps(0)} />
-              <Tab label="ÖLÇÜMLER" {...a11yProps(1)} />
-              <Tab label="DİYET PROGRAMI" {...a11yProps(2)} />
-              <Tab label="MESAJLAR" {...a11yProps(3)} />
-            </Tabs>
-          </AppBar>
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleValueChange}
+            indicatorColor="secondary"
+            textColor="secondary"
+            variant="scrollable"
+            scrollButtons="on"
+            aria-label="scrollable auto tabs example"
+          >
+            <Tab label="PROFİL" {...a11yProps(0)} />
+            <Tab label="ÖLÇÜMLER" {...a11yProps(1)} />
+            <Tab label="DİYET PROGRAMI" {...a11yProps(2)} />
+            <Tab label="MESAJLAR" {...a11yProps(3)} />
+          </Tabs>
           <main className={classes.content}>
             <TabPanel value={this.state.value} index={0}>
               <AnemnezForm userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />

@@ -124,7 +124,7 @@ class MainLayout extends Component {
           />
           <main
             className={classNames(classes.content, {
-              [classes.contentShift]: this.props.permanentDrawer
+              [classes.contentShift]: this.props.permanentDrawer && this.state.user
             })}
           >
             <Component 

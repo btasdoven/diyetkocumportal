@@ -221,6 +221,51 @@ const createTextField = (key, label, inputProps) => (
     />
   )
   
+class FieldFileInput2  extends Component {
+  constructor(props) {
+    super(props)
+    this.onChange = this.onChange.bind(this)
+  }
+
+  onChange(e) {
+    const { input: { onChange } } = this.props
+    onChange(e.target.files[0])
+  }
+
+  render() {
+    const { input: { value } } = this.props
+    const {input,label, required, meta, } = this.props  //whatever props you send to the component from redux-form Field
+    return(
+      <ListItem button 
+        onClick={() => this.fileInput.click()}
+        target="_blank"
+          //component={Link} to={"/c/" + danisan.name}
+      >
+        <ListItemAvatar >
+          <Avatar><AddIcon /></Avatar>
+        </ListItemAvatar>
+        <ListItemText 
+          primary={
+              // <Typography
+              //     variant="subtitle1"
+              //     color="textPrimary"
+              // >
+              "Fotoğraf/PDF ekle"
+              // </Typography>
+          } 
+        />
+        <input
+          ref={fileInput => this.fileInput = fileInput}
+          type="file"
+          accept=".pdf,.png,.jpg,.jpeg"
+          onChange={this.onChange}
+          style={{display: 'none'}}
+        />
+      </ListItem>
+    )
+  }
+}
+
 class Envanter extends React.Component {
   
   constructor(props) {
@@ -385,7 +430,12 @@ class Envanter extends React.Component {
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <OlcumlerTartiPdf userId={this.state.userId} uniqueFileKey={this.state.uniqueFileKey} danisanUserName={this.props.danisanUserName} />
+                  <Field
+                    name="file"
+                    component={FieldFileInput2}
+                    onChange={(f) => console.log(f)}
+                  />
+                  {/* <OlcumlerTartiPdf userId={this.state.userId} uniqueFileKey={this.state.uniqueFileKey} danisanUserName={this.props.danisanUserName} /> */}
                 </Grid>
               </Grid> 
 
