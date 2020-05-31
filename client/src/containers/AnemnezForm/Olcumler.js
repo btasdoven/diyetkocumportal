@@ -1,3 +1,4 @@
+import MaterialTable from "material-table";
 import React, {Component} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -13,6 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Image from 'material-ui-image'
 
 import moment from "moment";
 import { DatePickerInput } from '../../components/DateTimePicker'
@@ -35,7 +37,7 @@ import AppBar from '@material-ui/core/AppBar';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDanisanMeasurements, addDanisanMeasurement } from '../../store/reducers/api.danisanMeasurements'
+import { getDanisanMeasurements, addDanisanMeasurement, addDanisanMeasurementWithPhoto } from '../../store/reducers/api.danisanMeasurements'
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -75,6 +77,28 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { scaleTime } from "d3-scale";
+
+import { EventTracker } from '@devexpress/dx-react-chart';
+import { ArgumentScale } from '@devexpress/dx-react-chart';
+import { Animation } from '@devexpress/dx-react-chart';
+import {
+  Chart,
+  Title,
+  Tooltip,
+  ArgumentAxis,
+  ValueAxis,
+  LineSeries,
+  SplineSeries,
+  ScatterSeries,
+} from '@devexpress/dx-react-chart-material-ui';
+import {
+  symbol,
+  symbolCircle,
+  symbolCross,
+  symbolDiamond,
+  symbolStar,
+} from 'd3-shape';
 
 const styles = theme => ({
   profile: {
@@ -104,7 +128,7 @@ const styles = theme => ({
     padding: theme.spacing(1)
   },
   root: {
-    padding : theme.spacing(1),
+      margin: theme.spacing(1),
   },
   rootLoading: {
     height: "inherit",
@@ -221,49 +245,113 @@ const createTextField = (key, label, inputProps) => (
     />
   )
   
-class FieldFileInput2  extends Component {
-  constructor(props) {
-    super(props)
-    this.onChange = this.onChange.bind(this)
+  class FieldFileInput2  extends Component {
+    constructor(props) {
+      super(props)
+      this.onChange = this.onChange.bind(this)
+
+      this.state = {
+        img: undefined
+      }
+    }
+  
+    onChange(e) {
+      const { input: { onChange } } = this.props
+      onChange(e.target.files[0])
+
+      var imgUrl = URL.createObjectURL(e.target.files[0])
+      this.setState({img: e.target.files[0], imgUrl: imgUrl})
+      this.props.onNewImageAdded(e.target.files[0], imgUrl)
+    }
+  
+    render() {
+      const { input: { value } } = this.props
+      const {input,label, required, meta, } = this.props  //whatever props you send to the component from redux-form Field
+      return(
+        <ListItem button 
+          onClick={() => this.fileInput.click()}
+          target="_blank"
+            //component={Link} to={"/c/" + danisan.name}
+        >
+          {this.state.img == undefined &&
+            <ListItemAvatar >
+              <Avatar><AddIcon /></Avatar>
+            </ListItemAvatar>
+          }
+          {this.state.img != undefined && 
+            <ListItemAvatar >
+              <Avatar variant="square" src={this.state.imgUrl} />
+            </ListItemAvatar>
+          }
+          <ListItemText 
+            primary={
+                // <Typography
+                //     variant="subtitle1"
+                //     color="textPrimary"
+                // >
+                this.state.img == undefined ? "Fotoğraf ekle" : "Fotoğrafı değiştir"
+                // </Typography>
+            } 
+          />
+          <input
+            ref={fileInput => this.fileInput = fileInput}
+            type="file"
+            accept=".pdf,.png,.jpg,.jpeg"
+            onChange={this.onChange}
+            style={{display: 'none'}}
+          />
+        </ListItem>
+      )
+    }
   }
 
-  onChange(e) {
-    const { input: { onChange } } = this.props
-    onChange(e.target.files[0])
-  }
+  const Point = (type, styles) => (props) => {
+    const {
+      arg, val, color,
+    } = props;
+    return (
+      <path
+        fill={color}
+        transform={`translate(${arg} ${val})`}
+        d={symbol().size([6 ** 2]).type(type)()}
+        style={styles}
+      />
+    );
+  };
+  
+  const DiamondPoint = Point(symbolCircle, {
+    stroke: 'white',
+    strokeWidth: '1px',
+  });
 
-  render() {
-    const { input: { value } } = this.props
-    const {input,label, required, meta, } = this.props  //whatever props you send to the component from redux-form Field
-    return(
-      <ListItem button 
-        onClick={() => this.fileInput.click()}
-        target="_blank"
-          //component={Link} to={"/c/" + danisan.name}
-      >
-        <ListItemAvatar >
-          <Avatar><AddIcon /></Avatar>
-        </ListItemAvatar>
-        <ListItemText 
-          primary={
-              // <Typography
-              //     variant="subtitle1"
-              //     color="textPrimary"
-              // >
-              "Fotoğraf/PDF ekle"
-              // </Typography>
-          } 
-        />
-        <input
-          ref={fileInput => this.fileInput = fileInput}
-          type="file"
-          accept=".pdf,.png,.jpg,.jpeg"
-          onChange={this.onChange}
-          style={{display: 'none'}}
-        />
-      </ListItem>
-    )
-  }
+  const LineWithDiamondPoint = props => (
+    <React.Fragment>
+      <LineSeries.Path {...props} />
+      <ScatterSeries.Path {...props} pointComponent={DiamondPoint} />
+    </React.Fragment>
+  );
+
+var MyScale = (p) => {
+  console.log('called', 'ctor', p)
+  
+  var scale = scaleTime()
+
+  scale._ticks = scale.ticks;
+  scale.ticks = (cnt) => {
+    console.log('called', 'ticks', cnt)
+    return scale._ticks(4)
+  };
+  
+  scale.tickFormat = function(count, specifier) {
+    return (tick) => moment(tick).format('D MMM');
+  };
+
+  return scale;
+}
+
+const myScale = () => {
+  return MyScale()
+
 }
 
 class Envanter extends React.Component {
@@ -274,9 +362,12 @@ class Envanter extends React.Component {
     this.isLoaded = this.isLoaded.bind(this);
     this.onDialogClose = this.onDialogClose.bind(this);
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
+    this.onNewImageAdded = this.onNewImageAdded.bind(this)
 
     this.state = {
-      userId: props.userId
+      userId: props.userId,
+      images: [],
+      imgBase64s: [],
     }
   }
 
@@ -297,19 +388,27 @@ class Envanter extends React.Component {
   }
 
   onSubmitInternal(formValues) {
-    formValues['uniqueFileKey'] = this.state.uniqueFileKey;
-    console.log(formValues);
-    // const formData = new FormData();
-    // formData.append('file',formValues.file)
-    // formData.append('type', 'olcum')
-    // console.log(formData);
+    const formData = new FormData();
+    Object.keys(formValues).forEach((k) => {
+      console.log(k)
+      formData.append(k, formValues[k])
+    })
+    formData['olcum_tarihi'] = moment.utc(formValues['olcum_tarihi']).format()
+    console.log(formData);
+    console.log(formValues)
 
-    this.props.addDanisanMeasurement(this.state.userId, this.props.danisanUserName, formValues);
+    this.props.addDanisanMeasurementWithPhoto(this.state.userId, this.props.danisanUserName, formData);
     this.onDialogClose();
   }
 
   onDialogClose(values) {
     this.setState({openDialog: undefined, uniqueFileKey: undefined})
+  }
+
+  onNewImageAdded(imgBase64, imageUrl) {
+    this.state.images.push(imageUrl)
+    this.state.imgBase64s.push(imgBase64)
+    this.setState({ images: this.state.images, imgBase64s: this.state.imgBase64s })
   }
 
   render() {
@@ -318,16 +417,36 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
     const allMeasurements = showLoader ? undefined : this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].data;
 
+    var measurementChartData = []
+
+    if (!showLoader) {
+      var i = 0
+      Object.keys(allMeasurements).forEach((day, idx) => {
+        const measurementsPerDay = allMeasurements[day];
+        Object.keys(measurementsPerDay).forEach((mTs, midx) => {
+          const measurement = measurementsPerDay[mTs];
+          measurementChartData.push({...measurement, kilo: parseInt(measurement.kilo), argument: moment(measurement.olcum_tarihi).toDate()})
+        })
+      })
+    }
+
+    console.log(measurementChartData)
+
     return (
       <div className={classes.root}> 
         <Form
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
+          {/* <Button onClick={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
+            YENİ ÖLÇÜM EKLE
+          </Button>
+          <Divider style={{marginTop: '8px'}} /> */}
+
           <SpeedDial
             icon={<PostAddIcon />}
             iconText={"YENİ ÖLÇÜM EKLE"}
-            eventText={"DanisanYeniOlcumEkle"}
+            eventText={"DiyetisyenYeniOlcumEkle"}
             // hidden={this.props.pristine}
             onClickFab={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})}
             // actions={[
@@ -369,7 +488,7 @@ class Envanter extends React.Component {
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
+                {/* <Grid item xs={6} sm={6} md={6} lg={6}>
                   <Field
                     fullWidth
                     name="bacak"
@@ -378,7 +497,7 @@ class Envanter extends React.Component {
                     type="number" 
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={6} sm={6} md={6} lg={6}>
                   <Field
                     fullWidth
@@ -409,7 +528,7 @@ class Envanter extends React.Component {
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
+                {/* <Grid item xs={6} sm={6} md={6} lg={6}>
                   <Field
                     fullWidth
                     name="gobek"
@@ -418,7 +537,7 @@ class Envanter extends React.Component {
                     type="number" 
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={6} sm={6} md={6} lg={6}>
                   <Field
                     fullWidth
@@ -429,13 +548,19 @@ class Envanter extends React.Component {
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
                 </Grid>
+                {/* {this.state.images.map((imgUrl, idx) => (
+                  <Grid key={idx} item xs={6} sm={4} md={3} lg={2}>
+                      <Image src={imgUrl} />
+                  </Grid>
+                ))} */}
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <Field
-                    name="file"
-                    component={FieldFileInput2}
-                    onChange={(f) => console.log(f)}
-                  />
-                  {/* <OlcumlerTartiPdf userId={this.state.userId} uniqueFileKey={this.state.uniqueFileKey} danisanUserName={this.props.danisanUserName} /> */}
+                      name="file"
+                      component={FieldFileInput2}
+                      onChange={(f) => console.log(f)}
+                      onNewImageAdded={this.onNewImageAdded}
+                    />
+                  {/* <OlcumlerTartiPdf uniqueFileKey={this.state.uniqueFileKey} danisanUserName={this.props.danisanUserName} /> */}
                 </Grid>
               </Grid> 
 
@@ -451,19 +576,100 @@ class Envanter extends React.Component {
           </Dialog>
 
           { showLoader && renderLoadingButton(classes) }
-          { !showLoader && 
+          { !showLoader &&  
             <span>
-              {/* <SpeedDial
-                icon={<SpeedDialIcon icon={<AddIcon />} />}
-                actions={[
-                  {name: 'Kan Tahlili Ekle', icon: <NoteAddIcon />, onClick: () => console.log('kan tahlılı')},
-                  {name: 'Tartı Ölçümü Ekle', icon: <PostAddIcon />, onClick: () => console.log('tartı')}
-                ]}
-              /> */}
+              {allMeasurements.length == 0 && <Typography variant="body2" style={{paddingTop: 'calc(50vh - 100px)', textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
 
-              {allMeasurements.length == 0 && <Typography variant="body2" style={{paddingTop: '8px', textAlign: 'center'}}>Size ait ölçüm bilgisi bulunmamaktadır.</Typography>}
+              {allMeasurements.length != 0 && (
+                <Chart
+                  style={{marginBottom: '24px'}}
+                  data={measurementChartData}
+                >
+                  <ArgumentScale factory={myScale}/>
+                  <ArgumentAxis />
+                  <ValueAxis />
+                  <SplineSeries
+                    valueField="kilo"
+                    argumentField="argument"
+                    seriesComponent={LineWithDiamondPoint}
+                  />
+                  <Animation />
+                  <Title text="Kilo (kg)" />
+                  <EventTracker />
+                  <Tooltip />
+                </Chart>
+              )}
 
-              {Object.keys(allMeasurements).map((day, idx) => {
+              
+              {allMeasurements.length != 0 && (
+                <MaterialTable
+                  columns={[
+                    // {
+                    //   title: 'Avatar',
+                    //   field: 'url',
+                    //   render: rowData => <Avatar
+                    //     className={classes.avatar}
+                    //     src={userService.getStaticFileUri(rowData.url)}
+                    //   />
+                    // },
+                    { title: "Ölçüm tarihi", field: "argument", render: rowData => moment(rowData.argument).format('D MMMM YYYY'), type: 'datetime' },
+                    { title: "Kilo (kg)", field: "kilo" },
+                    { title: "Boy (cm)", field: "boy" },
+                    { title: "Bel (cm)", field: "bel" },
+                    { title: "Kalça (cm)", field: "kalca" },
+                    // { title: "PremiumUntil", field: "premium_until", type: 'datetime' },
+                    // { title: "AddressType", field: "addressType" },
+                    // { title: "Danisan", field: "danisanCount", type: 'numeric' },
+                    // { title: "Randevu", field: "randevuCount", type: 'numeric' },
+                    // { title: "Blog", field: "blogCount", type: 'numeric' },
+                    // { title: "PageView", field: "pageViewCount", type: 'numeric' },
+                  ]}
+                  data={measurementChartData}
+                  title=""
+                  detailPanel={measurement => {
+                    return (
+                      // <div style={{display:'flex', flexDirection: 'column', width: '100%', padding: '16px'}}>
+                      <Grid container spacing={0}>
+                        {/* <Grid item xs={3} sm={3} md={3} lg={3}>
+                          <Typography className={classes.pos} color="textSecondary">Bacak</Typography>
+                          <Typography className={classes.pos} color="textPrimary">{measurement.bacak || ''} {measurement.bacak ? 'cm' : ''}</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} md={3} lg={3}>
+                          <Typography className={classes.pos} color="textSecondary">Kol</Typography>
+                          <Typography className={classes.pos} color="textPrimary">{measurement.kol || ''} {measurement.kol ? 'cm' : ''}</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} md={3} lg={3}>
+                          <Typography className={classes.pos} color="textSecondary">Göğüs</Typography>
+                          <Typography className={classes.pos} color="textPrimary">{measurement.gogus || ''} {measurement.gogus ? 'cm' : ''}</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} md={3} lg={3}>
+                          <Typography className={classes.pos} color="textSecondary">Göbek</Typography>
+                          <Typography className={classes.pos} color="textPrimary">{measurement.gobek || ''} {measurement.gobek ? 'cm' : ''}</Typography>
+                        </Grid> */}
+                        {measurement.images && measurement.images.map((img, idx) => {
+                          if (img == null || img == undefined) 
+                            return;
+
+                          console.log(img)
+                          return (
+                            <Grid key={idx} item xs={4} sm={4} md={3} lg={2}>
+                                <img style={{width: '100%'}} src={userService.getStaticFileUri(img.path || '')} />
+                            </Grid>
+                        )})}
+                      </Grid>
+                    )
+                  }}
+                  options={{
+                    sorting: false,
+                    toolbar: false,
+                    search: false,
+                    paging: false,
+                    emptyRowsWhenPaging: false
+                  }}
+                />
+              )}
+
+              {/* {Object.keys(allMeasurements).map((day, idx) => {
                 const measurementsPerDay = allMeasurements[day];
 
                 return (
@@ -472,11 +678,12 @@ class Envanter extends React.Component {
                     disablePadding
                     subheader={
                       <ListSubheader component="span" id="nested-list-subheader">
-                        {moment(day).format('DD MMMM YYYY')}
+                        <Typography component="span" variant="subtitle2" color="secondary">{moment(day).format('D MMMM YYYY')}</Typography>
                       </ListSubheader>
                   }>
                     {Object.keys(measurementsPerDay).map((mTs, midx) => {
                       const measurement = measurementsPerDay[mTs];
+                      console.log(measurement)
 
                       return (
                         <ListItem 
@@ -488,45 +695,59 @@ class Envanter extends React.Component {
                           // target="_blank"
                             //component={Link} to={"/c/" + danisan.name}
                         >
-                          <Card className={classes.card}>
+                          <Card variant="outlined" className={classes.card}>
                             <CardContent>
                               <Grid container spacing={1}>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
                                   <Typography className={classes.pos} color="textSecondary">Kilo</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.kilo || ''} {measurement.kilo ? 'kg' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
                                   <Typography className={classes.pos} color="textSecondary">Boy</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.boy || ''} {measurement.boy ? 'cm' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
                                   <Typography className={classes.pos} color="textSecondary">Bacak</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.bacak || ''} {measurement.bacak ? 'cm' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
                                   <Typography className={classes.pos} color="textSecondary">Kol</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.kol || ''} {measurement.kol ? 'cm' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
                                   <Typography className={classes.pos} color="textSecondary">Göğüs</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.gogus || ''} {measurement.gogus ? 'cm' : ''}</Typography>
                                 </Grid>
-                                <Grid item xs={4} sm={3} md={3} lg={2}>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
                                   <Typography className={classes.pos} color="textSecondary">Göbek</Typography>
                                   <Typography className={classes.pos} color="textPrimary">{measurement.gobek || ''} {measurement.gobek ? 'cm' : ''}</Typography>
                                 </Grid>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                  <Typography className={classes.pos} color="textSecondary">Bel</Typography>
+                                  <Typography className={classes.pos} color="textPrimary">{measurement.bel || ''} {measurement.bel ? 'cm' : ''}</Typography>
+                                </Grid>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                  <Typography className={classes.pos} color="textSecondary">Kalça</Typography>
+                                  <Typography className={classes.pos} color="textPrimary">{measurement.kalca || ''} {measurement.kalca ? 'cm' : ''}</Typography>
+                                </Grid>
+                                {measurement.images && measurement.images.map((img) => {
+                                  if (img == null || img == undefined) 
+                                    return;
+
+                                  return (
+                                    <Grid key={idx} item xs={6} sm={4} md={3} lg={2}>
+                                        <Image src={userService.getStaticFileUri(img.path || '')} />
+                                    </Grid>
+                                )})}
                               </Grid>
                             </CardContent>
-                            {/* <CardActions>
-                              <Button size="small">Learn More</Button>
-                            </CardActions> */}
                           </Card>
                         </ListItem>
                       )
                     })}
                   </List>
                 )
-              })}
+              })} */}
             </span>
           }
         </Form>  
@@ -548,6 +769,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      addDanisanMeasurementWithPhoto: (userId, danisanUserName, measurement) => addDanisanMeasurementWithPhoto(userId, danisanUserName, measurement),
       addDanisanMeasurement: (userId, danisanUserName, measurement) => addDanisanMeasurement(userId, danisanUserName, measurement),
       getDanisanMeasurements: (userId, danisanUserName) => getDanisanMeasurements(userId, danisanUserName),
     },
@@ -558,4 +780,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'AnemnezOlcumForm', enableReinitialize: true })(withStyles(styles)(Envanter)));
+)(reduxForm({ form: 'DanisanOlcumForm', enableReinitialize: true })(withStyles(styles)(Envanter)));

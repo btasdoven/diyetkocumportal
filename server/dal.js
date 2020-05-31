@@ -1397,6 +1397,9 @@ exports.addDanisanMeasurement = function (userId, danisanUserName, danisanMeasur
   console.log(danisanMeasurement);
   console.log(file)
 
+  danisanMeasurement.olcum_tarihi = moment(danisanMeasurement.olcum_tarihi).format()
+  const day = danisanMeasurement.olcum_tarihi
+
   if (rows[userId].danisans == undefined ||
       rows[userId].danisans[danisanUserName] == undefined) {
     rows[userId].danisans[danisanUserName] = { };
@@ -1406,32 +1409,36 @@ exports.addDanisanMeasurement = function (userId, danisanUserName, danisanMeasur
     rows[userId].danisans[danisanUserName].measurements = {}
   }
 
-  if (rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi] == undefined) {
-    rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi] = {}
+  if (rows[userId].danisans[danisanUserName].measurements[day] == undefined) {
+    rows[userId].danisans[danisanUserName].measurements[day] = {}
   }
 
-  var photo = {
-    encoding: file.encoding,
-    mimetype: file.mimetype,
-    path: `api/v1/public/${userId}/${file.filename}`,
-    name: file.originalname
-  };
+  var photo = undefined
 
-  rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi][Date.now()] = {
+  if (file != undefined) {
+    photo = {
+      encoding: file.encoding,
+      mimetype: file.mimetype,
+      path: `api/v1/public/${userId}/${file.filename}`,
+      name: file.originalname
+    };
+  }
+
+  rows[userId].danisans[danisanUserName].measurements[day][Date.now()] = {
     ...danisanMeasurement,
     images: [ photo ]
   };
 
   const ordered = {};
-  Object.keys(rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi]).sort().forEach(function(key) {
-    ordered[key] = rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi][key];
+  Object.keys(rows[userId].danisans[danisanUserName].measurements[day]).sort().forEach(function(key) {
+    ordered[key] = rows[userId].danisans[danisanUserName].measurements[day][key];
   });
 
-  rows[userId].danisans[danisanUserName].measurements[danisanMeasurement.olcum_tarihi] = ordered;
+  rows[userId].danisans[danisanUserName].measurements[day] = ordered;
 
   const ordered2 = {};
   Object.keys(rows[userId].danisans[danisanUserName].measurements).sort().reverse().forEach(function(key) {
-    ordered2[key] = rows[userId].danisans[danisanUserName].measurements[key];
+    ordered2[moment(key).format('YYYYMMDD')] = rows[userId].danisans[danisanUserName].measurements[key];
   });
 
   rows[userId].danisans[danisanUserName].measurements = ordered2;

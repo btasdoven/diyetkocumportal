@@ -866,13 +866,13 @@ class Envanter extends React.Component {
                 <ExpansionPanelDetails>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
+                      <ReduxFormTextField name="onceki_diyet" label="Daha önce diyetisyene gittiniz mi" />
+                    </Grid>
+                    <Grid item xs={12}>
                       <ReduxFormTextField name="kilo_almaya_baslangic" label="Ne zaman kilo almaya başladınız?" />
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="kilo_sebebi" label="Sizce neden kilo almaya başladınız?" />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <ReduxFormTextField name="onceki_diyet" label="Daha önce diyet yaptınız mı?" />
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="yemekleri_pisiren" label="Yemekleri kim pişirir?" />
