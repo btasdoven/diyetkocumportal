@@ -1,5 +1,3 @@
-
-import SwipeableViews from 'react-swipeable-views';
 import MaterialTable from "material-table";
 import React, {Component} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,7 +15,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Image from 'material-ui-image'
-import MobileStepper from '@material-ui/core/MobileStepper';
 
 import moment from "moment";
 import { DatePickerInput } from '../../components/DateTimePicker'
@@ -262,15 +259,9 @@ const createTextField = (key, label, inputProps) => (
       const { input: { onChange } } = this.props
       onChange(e.target.files[0])
 
-      console.log(e.target.files)
-
-      if (e.target.files.length == 0) {
-        this.setState({img: undefined, imgUrl: undefined})
-      } else {
-        var imgUrl = URL.createObjectURL(e.target.files[0])
-        this.setState({img: e.target.files[0], imgUrl: imgUrl})
-        this.props.onNewImageAdded(e.target.files[0], imgUrl)
-      }
+      var imgUrl = URL.createObjectURL(e.target.files[0])
+      this.setState({img: e.target.files[0], imgUrl: imgUrl})
+      this.props.onNewImageAdded(e.target.files[0], imgUrl)
     }
   
     render() {
@@ -341,13 +332,13 @@ const createTextField = (key, label, inputProps) => (
   );
 
 var MyScale = (p) => {
-  // console.log('called', 'ctor', p)
+  console.log('called', 'ctor', p)
   
   var scale = scaleTime()
 
   scale._ticks = scale.ticks;
   scale.ticks = (cnt) => {
-    // console.log('called', 'ticks', cnt)
+    console.log('called', 'ticks', cnt)
     return scale._ticks(4)
   };
   
@@ -374,10 +365,9 @@ class Envanter extends React.Component {
     this.onNewImageAdded = this.onNewImageAdded.bind(this)
 
     this.state = {
-      userId: props.userId || JSON.parse(localStorage.getItem('user')).id,
+      userId: props.userId,
       images: [],
       imgBase64s: [],
-      activeStep: 0,
     }
   }
 
@@ -435,12 +425,12 @@ class Envanter extends React.Component {
         const measurementsPerDay = allMeasurements[day];
         Object.keys(measurementsPerDay).forEach((mTs, midx) => {
           const measurement = measurementsPerDay[mTs];
-          measurementChartData.push({...measurement, kalca: parseInt(measurement.kalca), bel: parseInt(measurement.bel), kilo: parseInt(measurement.kilo), argument: moment(measurement.olcum_tarihi).toDate()})
+          measurementChartData.push({...measurement, kilo: parseInt(measurement.kilo), argument: moment(measurement.olcum_tarihi).toDate()})
         })
       })
     }
 
-    // console.log(measurementChartData)
+    console.log(measurementChartData)
 
     return (
       <div className={classes.root}> 
@@ -565,15 +555,11 @@ class Envanter extends React.Component {
                 ))} */}
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <Field
-                    name="file"
-                    component={FieldFileInput2}
-                    onChange={(f) => console.log(f)}
-                    onNewImageAdded={this.onNewImageAdded}
-                    style={{marginBottom: '16px'}}
-                  />
-                  <Typography style={{paddingTop: '16px'}} variant="caption">* Yüklediğiniz fotoğraflara yalnızca diyetisyeniniz ulaşabilir.</Typography> <br />
-                  <Typography variant="caption">* Diyetisyeniniz ile yaptığımız sözleşme gereğince, diyetisyeniniz fotoğraflarınızı sizden habersiz hiçbir yerde hiçbir amaçla kullanamaz.</Typography> <br />
-                  <Typography variant="caption">* Yüklediğiniz fotoğrafları istediğiniz zaman kaldırabilirsiniz. Kaldırdığınız fotoğraflar sistemimizden tamamen silinirler ve bir daha hiçbir şekilde ulaşılamazlar.</Typography>
+                      name="file"
+                      component={FieldFileInput2}
+                      onChange={(f) => console.log(f)}
+                      onNewImageAdded={this.onNewImageAdded}
+                    />
                   {/* <OlcumlerTartiPdf uniqueFileKey={this.state.uniqueFileKey} danisanUserName={this.props.danisanUserName} /> */}
                 </Grid>
               </Grid> 
@@ -595,78 +581,23 @@ class Envanter extends React.Component {
               {allMeasurements.length == 0 && <Typography variant="body2" style={{paddingTop: 'calc(50vh - 100px)', textAlign: 'center'}}>Bu danışana ait ölçüm bilgisi bulunmamaktadır.</Typography>}
 
               {allMeasurements.length != 0 && (
-                <React.Fragment>
-                  <SwipeableViews
-                      axis={'x'}
-                      onChangeIndex={(s) => this.setState({activeStep: s})}
-                      index={this.state.activeStep}
-                      // disabled={true}
-                  >
-                    <Chart
-                      data={measurementChartData.filter(m => isNaN(m.kilo) == false)}
-                    >
-                      <ArgumentScale factory={myScale}/>
-                      <ArgumentAxis />
-                      <ValueAxis />
-                      <SplineSeries
-                        valueField="kilo"
-                        argumentField="argument"
-                        seriesComponent={LineWithDiamondPoint}
-                      />
-                      <Animation />
-                      <Title text="Kilo (kg)" />
-                      <EventTracker />
-                      <Tooltip />
-                    </Chart>
-                    <Chart
-                      data={measurementChartData.filter(m => isNaN(m.bel) == false)}
-                    >
-                      <ArgumentScale factory={myScale}/>
-                      <ArgumentAxis />
-                      <ValueAxis />
-                      <SplineSeries
-                        valueField="bel"
-                        argumentField="argument"
-                        seriesComponent={LineWithDiamondPoint}
-                      />
-                      <Animation />
-                      <Title text="Bel (cm)" />
-                      <EventTracker />
-                      <Tooltip />
-                    </Chart>
-                    <Chart
-                      data={measurementChartData.filter(m => isNaN(m.kalca) == false)}
-                    >
-                      <ArgumentScale factory={myScale}/>
-                      <ArgumentAxis />
-                      <ValueAxis />
-                      <SplineSeries
-                        valueField="kalca"
-                        argumentField="argument"
-                        seriesComponent={LineWithDiamondPoint}
-                      />
-                      <Animation />
-                      <Title text="Kalça (cm)" />
-                      <EventTracker />
-                      <Tooltip />
-                    </Chart>
-                  </SwipeableViews>
-                  <MobileStepper
-                    style={{backgroundColor: 'white', marginBottom: '24px'}}
-                    steps={3}
-                    position="static"
-                    variant="dots"
-                    activeStep={this.state.activeStep}
-                    nextButton={
-                        <span></span>
-                        //<Button onClick={handleNext} disabled={activeStep === maxSteps - 1} size="small"><KeyboardArrowRight /></Button>
-                    }
-                    backButton={
-                        <span></span>
-                        //<Button onClick={handleBack} disabled={activeStep === 0} size="small"><KeyboardArrowLeft /></Button>
-                    }
+                <Chart
+                  style={{marginBottom: '24px'}}
+                  data={measurementChartData}
+                >
+                  <ArgumentScale factory={myScale}/>
+                  <ArgumentAxis />
+                  <ValueAxis />
+                  <SplineSeries
+                    valueField="kilo"
+                    argumentField="argument"
+                    seriesComponent={LineWithDiamondPoint}
                   />
-                </React.Fragment>
+                  <Animation />
+                  <Title text="Kilo (kg)" />
+                  <EventTracker />
+                  <Tooltip />
+                </Chart>
               )}
 
               
@@ -682,18 +613,10 @@ class Envanter extends React.Component {
                     //   />
                     // },
                     { title: "Ölçüm tarihi", field: "argument", render: rowData => moment(rowData.argument).format('D MMMM YYYY'), type: 'datetime' },
-                    { title: "Kilo (kg)", field: "kilo", render: rowData => isNaN(rowData.kilo) ? '' : rowData.kilo },
-                    { title: "Boy (cm)", field: "boy", render: rowData => isNaN(rowData.boy) ? '' : rowData.boy },
-                    { title: "Bel (cm)", field: "bel", render: rowData => {
-                      
-                      // console.log(rowData, 'girdik')
-                      var x = isNaN(rowData.bel) ? '' : rowData.bel
-                      // console.log(rowData, x)
-                      return x
-                    }},
-                    { title: "Kalça (cm)", field: "kalca", render: rowData => isNaN(rowData.kalca) ? '' : rowData.kalca },
-                    { title: "Kol (cm)", field: "kol", render: rowData => isNaN(rowData.kol) ? '' : rowData.kol },
-                    { title: "Göğüs (cm)", field: "gogus", render: rowData => isNaN(rowData.gogus) ? '' : rowData.gogus },
+                    { title: "Kilo (kg)", field: "kilo" },
+                    { title: "Boy (cm)", field: "boy" },
+                    { title: "Bel (cm)", field: "bel" },
+                    { title: "Kalça (cm)", field: "kalca" },
                     // { title: "PremiumUntil", field: "premium_until", type: 'datetime' },
                     // { title: "AddressType", field: "addressType" },
                     // { title: "Danisan", field: "danisanCount", type: 'numeric' },

@@ -75,7 +75,7 @@ import Slide from '@material-ui/core/Slide';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
-import Olcumler from './Olcumler';
+import Olcumler from '../Danisanlar/Olcumler';
 import MesajView from '../Mesajlar/MesajView'
 
 const styles = theme => ({
