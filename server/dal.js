@@ -71,6 +71,7 @@ const rows = {
       posts: {},
       shares: {},
       addresses: {},
+      pageViewCountPerDay: {},
     }
   },
   'demo': {
@@ -991,7 +992,7 @@ Diyet Koçum Ailesi`
     console.log(rows[userId].profile.email)
     email.sendEmail(rows[userId].profile.email, titleSuffix, `Yeni ${type} isteği`, content)
 
-    ig.sendIgMsgForNewAppointment(userId, values.info.name, `https://diyetkocum.net/r/${date}/${time.replace(/ /g, '%20')}`);
+    //ig.sendIgMsgForNewAppointment(userId, values.info.name, `https://diyetkocum.net/r/${date}/${time.replace(/ /g, '%20')}`);
   } 
   else if ((!oldValue || oldValue.status == 'pending') && (values.status == 'confirmed' || values.status == 'rejected')) {
     if (values.type != 'onlinediyet') {
@@ -1888,6 +1889,10 @@ exports.trackActivity = function (userId, event) {
         }
       } else {
         const today = moment.utc().format('YYYYMMDD');
+
+        if (rows[dietitianId].profile.pageViewCountPerDay == undefined) {
+          rows[dietitianId].profile.pageViewCountPerDay = {}
+        }
 
         if (rows[dietitianId].profile.pageViewCountPerDay[today] == undefined) {
           rows[dietitianId].profile.pageViewCountPerDay[today] = 0;

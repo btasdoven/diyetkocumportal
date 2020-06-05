@@ -163,9 +163,12 @@ class Sidebar extends React.Component {
           </List>
           <Collapse in={this.state.openProfileMenu} timeout="auto" unmountOnExit>
             <List dense={true}>
-              <ListItem button component={Link} to='/me' selected={location.pathname === '/me'}>
-                <Typography variant="overline">PROFİLİM</Typography>
+              <ListItem button component={Link} to={`/${this.state.user.id}`} selected={location.pathname === `/${this.state.user.id}`}>
+                <Typography variant="overline">KİŞİSEL SAYFAM</Typography>
               </ListItem>
+              {/* <ListItem button component={Link} to='/me' selected={location.pathname === '/me'}>
+                <Typography variant="overline">PROFİLİM</Typography>
+              </ListItem> */}
               <ListItem button component={Link} to='/status' selected={location.pathname === '/status'}>
                 <Typography variant="overline">PREMIUM</Typography>
                 <ListItemIcon style={{marginLeft: '4px', color: 'orange'}}>

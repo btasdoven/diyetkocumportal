@@ -485,15 +485,6 @@ class LandingPage extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // setTimeout(() => {
-    //   this.setState({ showWhatsappText: true})
-    //   setTimeout(() => {
-    //     this.setState({ showWhatsappText: false})
-    //   }, 3000)
-    // }, 3000)
-  }
-
   handleMenuOpen(event)
   {
     this.setState({anchorEl: event.currentTarget})
@@ -518,10 +509,8 @@ class LandingPage extends React.Component {
     formValues.refDietitian = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).ref;
 
     this.props.signup(formValues.username, formValues);
-  }
 
-  componentWillReceiveProps(nextProps, nextState) {
-
+    // handleNextStep();
   }
 
   render() {
@@ -531,6 +520,10 @@ class LandingPage extends React.Component {
         this.props.apiForm[this.props.form];
 
     var activeStep = this.state.activeStep;
+
+    if (apiForm && apiForm.submitSucceeded) {
+      activeStep = 4;
+    }
 
     if (auth && auth.signedUp == true) {
         activeStep += 1;
@@ -789,7 +782,7 @@ class LandingPage extends React.Component {
                 <div style={{paddingLeft:'24px', paddingRight: '24px'}}>
                     <Typography variant="h6" style={{textAlign:'center', color: '#32325d', fontWeight: 400, paddingBottom: '24px'}}>Üyeliğin başarıyla oluşturuldu</Typography>
                     
-                    <Typography variant="body1" color="textSecondary" style={{paddingBottom: '16px'}}>
+                    <Typography variant="body1" color="textSecondary" style={{paddingBottom: '16px', textAlign: 'center'}}>
                         Diyet Koçum'u dijital asistanın olarak tercih ettiğin için teşekkürler.
                     </Typography>
 
@@ -836,4 +829,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: 'DiyetisyenRegisterV2Form', enableReinitialize: true })(withTheme(withStyles(styles)(LandingPage))));
+)(reduxForm({ form: 'DiyetisyenRegisterV2Form' })(withTheme(withStyles(styles)(LandingPage))));

@@ -42,12 +42,11 @@ import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 
 import CommentList from './CommentList'
 
-import {Helmet} from "react-helmet";
-
 const styles = theme => ({
     root: {
         //background: 'linear-gradient(to right bottom, #f5f5f5, #f5f5f5)'
-        backgroundColor: '#fdfdfd'
+        //backgroundColor: '#fdfdfd'
+        backgroundColor: 'white'
     },
     avatar: {
         width: theme.spacing(24),
@@ -174,7 +173,7 @@ class PersonalPage extends React.Component {
                         maxWidth: '800px',
                         paddingLeft: '8px',
                         paddingRight: '8px',
-                        paddingBottom: '56px',
+                        paddingBottom: '64px',
                         width: '100%',
                         margin: 'auto'
                     }}

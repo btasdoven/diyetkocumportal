@@ -64,7 +64,7 @@ const DashboardRoute = withTracker(withWidth()(({ width, component: Component, b
       render={matchProps => 
         true //width != 'xs' && width != 'sm'
           ? (
-            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
+            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} sideBar={true} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
             </MainLayout>
           ) : (
             <MainLayoutBottomNav component={Component} {...matchProps} />
@@ -81,7 +81,7 @@ const DashboardNonSignedRoute = withTracker(withWidth()(({ width, component: Com
       render={matchProps => 
         true //width != 'xs' && width != 'sm'
           ? (
-            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
+            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} sideBar={false} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
             </MainLayout>
           ) : (
             <MainLayoutBottomNav component={Component} {...matchProps} />
@@ -144,7 +144,7 @@ class App extends Component {
                       {/* <DashboardRoute path="/f" component={NotImplementedYet} />
                       <DashboardRoute path="/kd" component={NotImplementedYet} /> */}
 
-                      <EmptyRoute path="/signup" component={Register} />
+                      <DashboardNonSignedRoute path="/signup" component={Register} />
                       <Route path="/fp" render={() => <Redirect to="/" />} />
                       <Route path="/rp" render={() => <Redirect to="/" />} />
                       <Route path="/signin" render={() => <Redirect to="/" />} />

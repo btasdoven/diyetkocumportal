@@ -153,6 +153,7 @@ class HeaderV2 extends React.Component {
                                 <ChevronLeftIcon style={{width: '32px', height: '32px'}} />
                             </IconButton>
                         )}
+                        
                         {!this.noButton && !this.props.backButton && !this.props.onBackButtonClick && (
                             <span edge="start" style={{display: 'flex'}}>
                                 <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
@@ -163,6 +164,7 @@ class HeaderV2 extends React.Component {
                                 )}
                             </span>
                         )}
+
                         {(!this.props.permanentDrawer || this.state.user == undefined) &&
                             <IconButton onClick={this.props.overrideMenuClick ? () => this.props.overrideMenuClick() : this.handleMenuOpen} component="span" style={{color: 'white'}}>
                                 <Badge variant="dot" badgeContent={this.props.showBadge ? 1 : 0} color="secondary">

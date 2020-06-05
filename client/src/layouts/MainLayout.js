@@ -115,16 +115,16 @@ class MainLayout extends Component {
       <Fragment>
         <div className={classes.root}>
           <Header
-            permanentDrawer={this.props.permanentDrawer} 
+            permanentDrawer={this.props.permanentDrawer && this.state.user && this.props.sideBar != false} 
             backButton={this.state.backButtonFromComp || this.props.backButton}
             onBackButtonClick={this.state.onBackButtonClickFromComp || this.props.onBackButtonClick}
             logout={this.props.logout}
-            handleOpenDrawer={this.state.user ? this.handleToggleDrawer : undefined}
+            handleOpenDrawer={this.state.user && this.props.sideBar != false ? this.handleToggleDrawer : undefined}
             title={this.state.titleFromComp}
           />
           <main
             className={classNames(classes.content, {
-              [classes.contentShift]: this.props.permanentDrawer && this.state.user
+              [classes.contentShift]: this.props.permanentDrawer && this.state.user && this.props.sideBar != false
             })}
           >
             <Component 
@@ -136,7 +136,7 @@ class MainLayout extends Component {
           </main>
         </div>
         
-        {this.state.user &&
+        {this.state.user && this.props.sideBar != false &&
           <Sidebar 
             permanentDrawer={this.props.permanentDrawer} 
             logout={this.props.logout}

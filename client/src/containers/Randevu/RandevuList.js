@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import { Link } from "react-router-dom";
 
 import moment from "moment";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -32,6 +34,7 @@ import { withSnackbar } from 'material-ui-snackbar-provider'
 import EventIcon from '@material-ui/icons/Event';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 import Chip from '@material-ui/core/Chip';
 import Badge from '@material-ui/core/Badge';
@@ -75,6 +78,21 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { withRouter } from "react-router-dom";
 import IntroInstaVideo from '../../components/IntroInstaVideo'
+
+import { ViewState } from '@devexpress/dx-react-scheduler';
+import {
+  Scheduler,
+  DayView,
+  WeekView,
+  Toolbar,
+  TodayButton,
+  DateNavigator,
+  ViewSwitcher,
+  Appointments,
+  AppointmentTooltip,
+  AppointmentForm,
+} from '@devexpress/dx-react-scheduler-material-ui';
+import { Fragment } from 'react';
 
 const styles = theme => ({
   root: {
@@ -190,6 +208,30 @@ function renderLoadingButton(classes, idx) {
   )
 } 
 
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
+  
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && <div>{children}</div>}
+    </Typography>
+  );
+}
+
 class Envanter extends React.Component {
   
   constructor(props) {
@@ -197,10 +239,12 @@ class Envanter extends React.Component {
 
     this.isLoaded = this.isLoaded.bind(this);
     this.confirmAppointment = this.confirmAppointment.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
     
     this.state = {
       userId: JSON.parse(localStorage.getItem('user')).id,
-      date: moment().format('YYYYMMDD')
+      date: moment().format('YYYYMMDD'),
+      value: 0,
     }
   }
 
@@ -213,6 +257,13 @@ class Envanter extends React.Component {
       return loaded;
   }
   
+
+  handleValueChange = (ev, newVal) => {
+    if (this.state.value != newVal) {
+      this.setState({value: newVal})
+    }
+  }
+
   componentDidMount() {
     if (!this.isLoaded()) {
       this.props.getDietitianAppointments(this.state.userId);
@@ -240,36 +291,35 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     var apptList = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
-    
+    var schedulerData = []
+
+    if (apptList) {
+      Object.keys(apptList).forEach((apptDate, idx) => {
+        if (apptList[apptDate].data == undefined)
+        {
+          return;
+        }
+
+        var danisans = apptList[apptDate].data;
+        Object.keys(danisans).forEach( (danisanKey) => {
+            var danisan = danisans[danisanKey]; 
+            var hours = danisanKey.split(' - ')
+
+            schedulerData.push({
+              startDate: moment(apptDate).format('YYYY-MM-DD') + 'T' + hours[0],
+              endDate: moment(apptDate).format('YYYY-MM-DD') + 'T' + hours[1],
+              title: `${danisan.info.name} (${danisan.type})`,
+            })
+        })
+      })
+    }
+
     return (
         <div className={classes.root}>
         <div className={classes.main}>
-          {/* <div className={classes.searchWrapper}>
-            <IconButton onClick={() => this.setState({newDanisan: true})} color="primary" className={classes.iconButton} aria-label="directions">
-              <PersonAddIcon />
-            </IconButton>
-            <Divider className={classes.divider} orientation="vertical" />
-            <InputBase
-              onChange={this.handleOnSearchChange}
-              className={classes.search}
-              placeholder="Danışan Ara..."
-              value={this.state.searchKey}
-              startAdornment={
-                <InputAdornment className={classes.searchIconStart} position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              }
-              endAdornment={this.state.searchKey != '' &&
-                (<InputAdornment position="end">
-                  <ClearIcon onClick={() => this.setState({ searchKey: '' })} />
-                </InputAdornment>)
-              }
-            />
-          </div>
-          <Divider /> */}
 
           { showLoader && renderLoadingButton(classes) }
-          { !showLoader && (!apptList || Object.keys(apptList).length == 0) && (
+          {/* { !showLoader && (!apptList || Object.keys(apptList).length == 0) && (
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 0, left: 0, right: 0, height: `100%`}}>
               <Grid container spacing={0} >
                 <Grid item xs={12}>
@@ -292,115 +342,163 @@ class Envanter extends React.Component {
                 </Grid>
               </Grid>
             </div>
-          )}
-          { !showLoader && 
-            Object.keys(apptList).sort().reverse().map((apptDate, idx) => {
-              if (apptList[apptDate].isGetLoading == true || 
-                  apptList[apptDate].isPutLoading == true)
-              {
-                return renderLoadingButton(classes, idx);
-              }
+          )} */}
 
-              var danisans = apptList[apptDate].data;
+          {!showLoader &&
+            <Fragment>
+              <Tabs
+                centered
+                variant="fullWidth"
+                // variant="scrollable"
+                // scrollButtons="on"
+                value={this.state.value}
+                onChange={this.handleValueChange}
+                indicatorColor="secondary"
+                textColor="secondary"
+              >
+                <Tab label="LİSTE" {...a11yProps(0)} />
+                <Tab label="TAKVİM" {...a11yProps(1)} />
+              </Tabs>
+              <main className={classes.content}>
+                <TabPanel value={this.state.value} index={0}>
+                  {Object.keys(apptList).sort().reverse().map((apptDate, idx) => {
+                    if (apptList[apptDate].isGetLoading == true || 
+                        apptList[apptDate].isPutLoading == true)
+                    {
+                      return renderLoadingButton(classes, idx);
+                    }
 
-              return (
-                <List
-                  key={idx} 
-                  disablePadding
-                  subheader={
-                    <ListSubheader component="span" id="nested-list-subheader">
-                      <Typography component="span" variant="subtitle2" color="secondary">{moment(apptDate).format('D MMMM YYYY')}</Typography>
-                    </ListSubheader>
-                }>
-                  {Object.keys(danisans).map( (danisanKey, idx) => {
-
-                    var danisan = danisans[danisanKey]; 
-
-                    var hours = danisanKey.split(' - ')
-
-                    var avatar = danisan.type != 'onlinediyet'
-                      ? (
-                          <span>
-                            <Typography color="textSecondary" variant="subtitle2">{hours[0]}</Typography>
-                            <Typography color="textSecondary" variant="subtitle2">{hours[1]}</Typography>
-                          </span>
-                        )
-                      : (
-                          <Avatar>
-                          <EventIcon />
-                          </Avatar>
-                        );
+                    var danisans = apptList[apptDate].data;
 
                     return (
-                      <span key={idx}>
-                        <Divider component="li" />
-                        <ListItem 
-                            button 
-                            component={Link} 
-                            to={"/r/" + apptDate + '/' + danisanKey}
-                        >
-                          <ListItemAvatar >
-                            {avatar}
-                          </ListItemAvatar>
-                          <ListItemText 
-                            style={{paddingRight: '36px'}}
-                            primary={
-                                // <Typography
-                                //     variant="subtitle1"
-                                //     color="textPrimary"
-                                // >
-                                danisan.info.name
-                                // </Typography>
-                            } 
-                            secondary={
-                                // <Typography
-                                //     variant="caption"
-                                //     color="inherit"
-                                // >
-                                    danisan.type == 'onlinediyet' ? 'Online Diyet İsteği' : 
-                                      danisan.address == undefined 
-                                        ? 'Yüz Yüze Randevu İsteği'
-                                        : danisan.address
-                                // </Typography>
-                            }
-                          />
-                          {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
-                          {danisan.status == 'pending' && (
-                            <ListItemSecondaryAction>
-                              <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} aria-label="delete">
-                              
-                              <Badge badgeContent={'1'} color="secondary">
-                              </Badge>
+                      <List
+                        key={idx} 
+                        disablePadding
+                        subheader={
+                          <ListSubheader component="span" id="nested-list-subheader">
+                            <Typography component="span" variant="subtitle2" color="secondary">{moment(apptDate).format('D MMMM YYYY')}</Typography>
+                          </ListSubheader>
+                      }>
+                        {Object.keys(danisans).map( (danisanKey, idx) => {
 
-                              </IconButton>
-                              {/* <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
-                                  <CheckSharpIcon style={{ color: green[500] }} />
-                              </IconButton> */}
-                            </ListItemSecondaryAction>
-                          )}
-                          {danisan.status == 'confirmed' && (
-                            <ListItemSecondaryAction>
-                              <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
-                              {/* <Chip size="small" label="ONAYLANDI" /> */}
-                                <CheckIcon style={{color: '#00756b80'}}/>
-                              </IconButton>
-                            </ListItemSecondaryAction>
-                          )}
-                          {danisan.status == 'rejected' && (
-                            <ListItemSecondaryAction>
-                              <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
-                                <ClearIcon style={{color: '#d5602d80'}}/>
-                              </IconButton>
-                            </ListItemSecondaryAction>
-                          )}
-                        </ListItem>
-                      </span>
+                          var danisan = danisans[danisanKey]; 
+
+                          var hours = danisanKey.split(' - ')
+
+                          var avatar = danisan.type != 'onlinediyet'
+                            ? (
+                                <span>
+                                  <Typography color="textSecondary" variant="subtitle2">{hours[0]}</Typography>
+                                  <Typography color="textSecondary" variant="subtitle2">{hours[1]}</Typography>
+                                </span>
+                              )
+                            : (
+                                <Avatar>
+                                <EventIcon />
+                                </Avatar>
+                              );
+
+                          return (
+                            <span key={idx}>
+                              <Divider component="li" />
+                              <ListItem 
+                                  button 
+                                  component={Link} 
+                                  to={"/r/" + apptDate + '/' + danisanKey}
+                              >
+                                <ListItemAvatar >
+                                  {avatar}
+                                </ListItemAvatar>
+                                <ListItemText 
+                                  style={{paddingRight: '36px'}}
+                                  primary={
+                                      // <Typography
+                                      //     variant="subtitle1"
+                                      //     color="textPrimary"
+                                      // >
+                                      danisan.info.name
+                                      // </Typography>
+                                  } 
+                                  secondary={
+                                      // <Typography
+                                      //     variant="caption"
+                                      //     color="inherit"
+                                      // >
+                                          danisan.type == 'onlinediyet' ? 'Online Diyet İsteği' : 
+                                            danisan.address == undefined 
+                                              ? 'Yüz Yüze Randevu İsteği'
+                                              : danisan.address
+                                      // </Typography>
+                                  }
+                                />
+                                {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
+                                {danisan.status == 'pending' && (
+                                  <ListItemSecondaryAction>
+                                    <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} aria-label="delete">
+                                    
+                                    <Badge badgeContent={'1'} color="secondary">
+                                    </Badge>
+
+                                    </IconButton>
+                                    {/* <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
+                                        <CheckSharpIcon style={{ color: green[500] }} />
+                                    </IconButton> */}
+                                  </ListItemSecondaryAction>
+                                )}
+                                {danisan.status == 'confirmed' && (
+                                  <ListItemSecondaryAction>
+                                    <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
+                                    {/* <Chip size="small" label="ONAYLANDI" /> */}
+                                      <CheckIcon style={{color: '#00756b80'}}/>
+                                    </IconButton>
+                                  </ListItemSecondaryAction>
+                                )}
+                                {danisan.status == 'rejected' && (
+                                  <ListItemSecondaryAction>
+                                    <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
+                                      <ClearIcon style={{color: '#d5602d80'}}/>
+                                    </IconButton>
+                                  </ListItemSecondaryAction>
+                                )}
+                              </ListItem>
+                            </span>
+                          )
+                        })}  
+                        <Divider component="li" />
+                      </List>
                     )
-                  })}  
-                  <Divider component="li" />
-                </List>
-              )
-            })
+                  })}
+                </TabPanel>
+                <TabPanel value={this.state.value} index={1}>
+                  <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Bu özellik çok yakında hizmetinizde...</Typography>
+                  {/* <Scheduler
+                    data={schedulerData}
+                  >
+                    <ViewState
+                      defaultCurrentDate={moment().format()}
+                      defaultCurrentViewName={this.props.width == 'xs' ? 'Day' : 'Week'}
+                    />
+                    <DayView
+                      startDayHour={7}
+                      endDayHour={20}
+                    />
+                    <WeekView
+                      startDayHour={7}
+                      endDayHour={20}
+                    />
+                    <Toolbar />
+                    <ViewSwitcher />
+                    <DateNavigator />
+                    <TodayButton />
+                    <Appointments />
+                    <AppointmentTooltip
+                      showCloseButton
+                      showOpenButton
+                    />
+                  </Scheduler> */}
+                </TabPanel>
+              </main>
+            </Fragment>
           }
         </div>
         </div>
@@ -427,4 +525,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(withRouter(withSnackbar()(Envanter))));
+)(withStyles(styles)(withRouter(withWidth()(withSnackbar()(Envanter)))));

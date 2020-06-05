@@ -92,6 +92,8 @@ import PersonalPage from './PersonalPage';
 
 import HeaderV2 from "../../components/Header/HeaderV2";
 import Header from "../../components/Header";
+import SpeedDial from '../SpeedDial/SpeedDial'
+import EditIcon from '@material-ui/icons/Edit';
 
 import 'moment/locale/tr'
 moment.locale('tr')
@@ -376,6 +378,7 @@ class NewRandevuWrapper extends React.Component {
         this.setStateInternal = this.setStateInternal.bind(this);
         this.renderHeader = this.renderHeader.bind(this);
         this.onSubmitInternal = this.onSubmitInternal.bind(this)
+        this.getData = this.getData.bind(this)
 
         this.state = {
           userId: this.props.match && this.props.match.params && this.props.match.params.diyetisyenUserName ? this.props.match.params.diyetisyenUserName : '',
@@ -391,12 +394,37 @@ class NewRandevuWrapper extends React.Component {
         // setTimeout(() => this.setState({showBanner: true}), 750)
     }
 
-    componentDidMount() {
-      if (!this.isLoaded()) {
-        this.props.getDietitianProfile(this.state.userId);
+    getData(userId) {
+      if (!this.isLoaded(userId)) {
+        this.props.getDietitianProfile(userId);
       }
   
-      this.props.getDietitianAppointments(this.state.userId, moment(this.state.date).format('YYYYMMDD'))
+      this.props.getDietitianAppointments(userId, moment(this.state.date).format('YYYYMMDD'))
+    }
+
+    componentDidMount() {
+      this.getData(this.state.userId)
+    }
+
+    componentWillReceiveProps(newProps) {
+
+      var userId = newProps.match && newProps.match.params && newProps.match.params.diyetisyenUserName ? newProps.match.params.diyetisyenUserName : ''
+
+      if (userId != this.state.userId) {
+        this.setState({
+          userId: userId,
+          addressId: -1,
+          date: new Date(),
+          time: Date.now(),
+          step: 0,
+          type: undefined,
+          showBanner: false,
+          user: JSON.parse(localStorage.getItem('user')),
+        })
+
+        this.getData(userId);
+      }
+
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -438,11 +466,11 @@ class NewRandevuWrapper extends React.Component {
         this.props.putDietitianAppointment(this.state.userId, moment(this.state.date).format('YYYYMMDD'), this.state.time, sub);
     }
 
-    isLoaded() {
+    isLoaded(userId) {
         var loaded = this.props.apiDietitianProfile != undefined &&
-            this.props.apiDietitianProfile[this.state.userId] != undefined &&
-            this.props.apiDietitianProfile[this.state.userId].isGetLoading != true &&
-            this.props.apiDietitianProfile[this.state.userId].data != undefined;
+            this.props.apiDietitianProfile[userId] != undefined &&
+            this.props.apiDietitianProfile[userId].isGetLoading != true &&
+            this.props.apiDietitianProfile[userId].data != undefined;
 
         return loaded;
     }
@@ -462,8 +490,8 @@ class NewRandevuWrapper extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const showLoader = !this.isLoaded();
+        const { classes, history } = this.props;
+        const showLoader = !this.isLoaded(this.state.userId);
         var user = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
 
         if (!showLoader && Object.keys(user).length == 0) {
@@ -481,7 +509,16 @@ class NewRandevuWrapper extends React.Component {
             onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
             name={this.props.form}
           >
-            {/* {this.renderHeader()} */}
+
+            { this.state.user != undefined && this.state.user.id == this.state.userId && this.state.step == 0 &&
+              <SpeedDial
+                  icon={<EditIcon />}
+                  iconText={"DÜZENLE"}
+                  eventText={"PersonalPageEdit"}
+                  onClickFab={() => history.push("/me")}
+                  style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}
+              />
+            }
 
             <SwipeableViews
               axis={'x'}
@@ -491,7 +528,7 @@ class NewRandevuWrapper extends React.Component {
               <div style={this.state.step == 0 ? {} : {height: 'calc(100vh - 56px)', overflowY: 'hidden'}}>
                 <PersonalPage 
                   dietitianProfile={user}  // dietitian whose personal page is being visited
-                  userId={this.state.userId}  // logged in username
+                  userId={this.state.userId} 
                   onComplete={(type) => this.setStateInternal({step: 1, type: type})} // action to be called to move to the next step
                 />
               </div>
