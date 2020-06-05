@@ -112,7 +112,8 @@ class HeaderV2 extends React.Component {
     render() {
         const { classes } = this.props;
 
-        const leftOffset = this.props.permanentDrawer && this.state.user != undefined ? '240px' : '0px';
+        // console.log('sidebar', 'headerv2', this.props)
+        const leftOffset = this.props.permanentDrawer && this.state.user != undefined && this.props.sideBar != false ? '240px' : '0px';
 
         return (
             <div style={{height: '54px', display: 'block'}}>
@@ -134,7 +135,7 @@ class HeaderV2 extends React.Component {
                     <AppBar elevation={0} position="fixed" style={{left: leftOffset}} className={classes.appBar}>
                         <Toolbar 
                             className={classNames(classes.layoutToolbar, {
-                                [classes.maxWidthToolbar]: this.props.permanentDrawer && this.state.user == undefined
+                                [classes.maxWidthToolbar]: this.props.permanentDrawer && (this.state.user == undefined || this.props.sideBar == false)
                             })}
                         >
                         
@@ -165,7 +166,7 @@ class HeaderV2 extends React.Component {
                             </span>
                         )}
 
-                        {(!this.props.permanentDrawer || this.state.user == undefined) &&
+                        {(!this.props.permanentDrawer || this.state.user == undefined || this.props.sideBar == false) &&
                             <IconButton onClick={this.props.overrideMenuClick ? () => this.props.overrideMenuClick() : this.handleMenuOpen} component="span" style={{color: 'white'}}>
                                 <Badge variant="dot" badgeContent={this.props.showBadge ? 1 : 0} color="secondary">
                                     <MenuRoundedIcon style={{width: '32px', height: '32px'}} />

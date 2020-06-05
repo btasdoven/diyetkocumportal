@@ -111,11 +111,14 @@ class MainLayout extends Component {
       return (<Redirect to="/status" />)
     }
 
+    // console.log('sidebar', 'mainlay', this.props)
+
     return (
       <Fragment>
         <div className={classes.root}>
           <Header
-            permanentDrawer={this.props.permanentDrawer && this.state.user && this.props.sideBar != false} 
+            sideBar={this.props.sideBar}
+            permanentDrawer={this.props.permanentDrawer} 
             backButton={this.state.backButtonFromComp || this.props.backButton}
             onBackButtonClick={this.state.onBackButtonClickFromComp || this.props.onBackButtonClick}
             logout={this.props.logout}

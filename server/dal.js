@@ -756,11 +756,12 @@ exports.signUpUser = function(uname, userInfo) {
     return Promise.reject('Referans olarak girilen diyetisyen sistemimizde bulunmamaktadır. Anasayfaya dönerek yeniden kayıt yapmayı deneyiniz.');
   }
 
-  return ipp.medium(uname)
-    .then(instaProfileUrl => {
-      console.log(instaProfileUrl);
+  // return ipp.medium(uname)
+  //   .then(instaProfileUrl => {
+  //     console.log(instaProfileUrl);
 
-      instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
+      //instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
+      instaProfileUrl = 'https://diyetkocum.net/api/v1/public/diyetkocumnet.png'
       localProfilePath = `public/${uname}/${uname}.png`
 
       ensureDirectoryExistence(localProfilePath)
@@ -865,11 +866,11 @@ exports.signUpUser = function(uname, userInfo) {
       email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify(rows[0].users[uname], null, 4))
     
       return Promise.resolve(userInfo);
-    })
-    .catch(err => {
-      console.log(err)
-      return Promise.reject('Instagram kullanıcı adı yanlış')
-    });
+    // })
+    // .catch(err => {
+    //   console.log(err)
+    //   return Promise.reject('Instagram kullanıcı adı yanlış')
+    // });
 }
 
 exports.getLinkInfo = function (linkId, isAdmin=false) {

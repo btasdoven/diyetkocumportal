@@ -718,10 +718,12 @@ class NewRandevuStep1 extends React.Component {
     var user = this.props.apiDietitianProfile[this.state.userId].data;
 
     return (
-      <div className={classes.rootTypeSelect}>
-        {Object.keys(user.addresses).map((ad) =>
-          <Button key={ad} style={{margin: '24px'}} variant="contained" color="secondary" onClick={this.handleOnComplete(ad)}>{user.addresses[ad].address}</Button>
-        )}
+      <div className={classes.main}>
+        <div className={classes.rootTypeSelect}>
+          {Object.keys(user.addresses).map((ad) =>
+            <Button key={ad} style={{margin: '24px'}} variant="contained" color="secondary" onClick={this.handleOnComplete(ad)}>{user.addresses[ad].address}</Button>
+          )}
+        </div>
       </div>
     )}
 };
@@ -776,61 +778,61 @@ class NewRandevuStep2 extends React.Component {
     const showDateLoader = !this.isDateLoaded();
 
     return (
-        <div>
-            <div style={{margin: '8px'}}>
-                <Grid container spacing={2}>
-                <Grid style={{display: 'flex', justifyContent: 'center'}} item xs={12} sm={12} md={12} lg={12}>
-                    {this.props.activeStep && (
-                      <StaticDatePickerInput 
-                        shouldDisableDate={(d) => {
-                          var day = moment(d).format("dddd")
-                          var addressId = this.props.addressId;
-                          if (addressId == -1) {
-                            addressId = Object.keys(this.props.apiDietitianProfile[this.state.userId].data.addresses)[0]
-                          }
-
-                          return this.props.apiDietitianProfile[this.state.userId].data.addresses[addressId].days[day] != true
-                        }} 
-                        value={this.state.date} 
-                        onChange={(newValue) => this.handleOnDateChange(newValue)} 
-                      />
-                    )}
-                </Grid>
-                </Grid>
-            </div>
-
-            { showDateLoader && renderLoadingButton(classes)}
-            { !showDateLoader &&
-              <div style={{margin: '8px'}}>
-                <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
-                  MÜSAİT ZAMANLAR
-                </Typography>
-
-                <Grid container spacing={2}>
-                  { ApptHours().map( (h, i) => {
-                      var profile = this.props.apiDietitianProfile[this.state.userId].data;
-
-                      if (profile[h] != true) {
-                          return;
-                      }
-              
-                      var appts = this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data;
-
-                      if (appts[h] != undefined) {
-                          return;
+      <div className={classes.main}>
+        <div style={{margin: '8px'}}>
+            <Grid container spacing={2}>
+            <Grid style={{display: 'flex', justifyContent: 'center'}} item xs={12} sm={12} md={12} lg={12}>
+                {this.props.activeStep && (
+                  <StaticDatePickerInput 
+                    shouldDisableDate={(d) => {
+                      var day = moment(d).format("dddd")
+                      var addressId = this.props.addressId;
+                      if (addressId == -1) {
+                        addressId = Object.keys(this.props.apiDietitianProfile[this.state.userId].data.addresses)[0]
                       }
 
-                      return (
-                        <Grid style={{display: 'flex', justifyContent: 'center'}} key={i} item xs={6}>
-                          <Button onClick={this.handleTimeSelected(h)} variant="outlined" size="medium" color="default" >
-                            {h}
-                          </Button>
-                        </Grid>)
-                  })}
-                </Grid>
-              </div>
-            }
+                      return this.props.apiDietitianProfile[this.state.userId].data.addresses[addressId].days[day] != true
+                    }} 
+                    value={this.state.date} 
+                    onChange={(newValue) => this.handleOnDateChange(newValue)} 
+                  />
+                )}
+            </Grid>
+            </Grid>
         </div>
+
+        { showDateLoader && renderLoadingButton(classes)}
+        { !showDateLoader &&
+          <div style={{margin: '8px'}}>
+            <Typography style={{marginTop: '16px', marginBottom: '8px'}} color="secondary" variant="button" display="block" gutterBottom>
+              MÜSAİT ZAMANLAR
+            </Typography>
+
+            <Grid container spacing={2}>
+              { ApptHours().map( (h, i) => {
+                  var profile = this.props.apiDietitianProfile[this.state.userId].data;
+
+                  if (profile[h] != true) {
+                      return;
+                  }
+          
+                  var appts = this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data;
+
+                  if (appts[h] != undefined) {
+                      return;
+                  }
+
+                  return (
+                    <Grid style={{display: 'flex', justifyContent: 'center'}} key={i} item xs={6}>
+                      <Button onClick={this.handleTimeSelected(h)} variant="outlined" size="medium" color="default" >
+                        {h}
+                      </Button>
+                    </Grid>)
+              })}
+            </Grid>
+          </div>
+        }
+      </div>
     )}
 };
 
@@ -867,111 +869,111 @@ class NewRandevuStep3 extends React.Component {
           : this.props.apiForm[this.props.form].values.email;
 
       return (
-          <span>
-              <Dialog 
-                open={this.state.openDialog} 
-                onClose={() => this.setState({openDialog: false})}
-              >
-                <DialogTitle id="form-dialog-title">
-                  {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğini onaylıyor musun?
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                      {this.props.type == 'randevu' && (
-                        <span>
-                          Seçtiğin randevu isteği <b>{user.name}</b> ile <b>{moment(this.props.date).format('D MMMM YYYY dddd')}</b> günü saat <b>{this.props.time}</b> arasındadır.
-                          Randevunun durumu diyetisyenin randevuyu onaylamasından sonra <b>{emailField}</b> adresine bildirilecektir. E-posta adresinin doğruluğunu lütfen kontrol edin. Randevu isteğini göndermek istiyor musun?
-                        </span>
-                      )}
-                      {this.props.type != 'randevu' && (
-                        <span>
-                          Diyetisyen <b>{user.name}</b> ile seçtiğin online diyet isteğinin durumu diyetisyenin onaylamasından sonra <b>{emailField}</b> adresine bildirilecektir. E-posta adresinin doğruluğunu lütfen kontrol edin. Online diyet isteğini göndermek istiyor musun?
-                        </span>
-                      )}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => this.setState({openDialog: false})} color="secondary">
-                        VAZGEÇ
-                    </Button>
-                    <Button onClick={() => {
-                      this.setState({openDialog: false})
-                      this.props.handleFormSubmit()
-                    }} color="secondary" autoFocus>
-                        GÖNDER
-                    </Button>
-                </DialogActions>
-              </Dialog>
+        <div className={classes.main}>
+          <Dialog 
+            open={this.state.openDialog} 
+            onClose={() => this.setState({openDialog: false})}
+          >
+            <DialogTitle id="form-dialog-title">
+              {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğini onaylıyor musun?
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {this.props.type == 'randevu' && (
+                    <span>
+                      Seçtiğin randevu isteği <b>{user.name}</b> ile <b>{moment(this.props.date).format('D MMMM YYYY dddd')}</b> günü saat <b>{this.props.time}</b> arasındadır.
+                      Randevunun durumu diyetisyenin randevuyu onaylamasından sonra <b>{emailField}</b> adresine bildirilecektir. E-posta adresinin doğruluğunu lütfen kontrol edin. Randevu isteğini göndermek istiyor musun?
+                    </span>
+                  )}
+                  {this.props.type != 'randevu' && (
+                    <span>
+                      Diyetisyen <b>{user.name}</b> ile seçtiğin online diyet isteğinin durumu diyetisyenin onaylamasından sonra <b>{emailField}</b> adresine bildirilecektir. E-posta adresinin doğruluğunu lütfen kontrol edin. Online diyet isteğini göndermek istiyor musun?
+                    </span>
+                  )}
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => this.setState({openDialog: false})} color="secondary">
+                    VAZGEÇ
+                </Button>
+                <Button onClick={() => {
+                  this.setState({openDialog: false})
+                  this.props.handleFormSubmit()
+                }} color="secondary" autoFocus>
+                    GÖNDER
+                </Button>
+            </DialogActions>
+          </Dialog>
 
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                    KİŞİSEL BİLGİLER
+          <Card variant="outlined" className={classes.card}>
+            {/* <div className={classes.divCategory}> */}
+            <CardHeader
+              title={
+                <Typography color="secondary" variant="button" gutterBottom>
+                KİŞİSEL BİLGİLER
+                </Typography>
+              }
+            />
+            <CardContent style={{paddingTop:0}}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <ReduxFormTextField required validate={[required]} name="name" label="Adın ve soyadın" />
+                </Grid>
+                <Grid item xs={12}>
+                    <ReduxFormTextField required validate={[required, validEmail]} name="email" label="E-posta adresin" />
+                </Grid>
+                <Grid item xs={12}>
+                    <ReduxFormTextField required validate={[required, validEmail, matchEmails]} name="email_confirmation" label="E-posta yeniden" />
+                </Grid>
+                <Grid item xs={12}>
+                    <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required, validPhone]} />
+                </Grid>
+                <Grid item xs={6}>
+                    <Field required name='birthday' label="Doğum tarihin" component={DatePickerInput} validate={[required]}/>
+                    {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
+                </Grid>
+                <Grid item xs={6}>
+                    <ReduxFormSelect
+                    required
+                    name="cinsiyet"
+                    label="Cinsiyetin"
+                    validate={[required]}
+                    values={[
+                        {
+                        label: 'Kadın',
+                        value: 'Kadın',
+                        },
+                        {
+                        label: 'Erkek',
+                        value: 'Erkek',
+                        },
+                        {
+                        label: 'Diğer',
+                        value: 'Diğer',
+                        },
+                    ]}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <ReduxFormTextField name="notes" rows={3} label="Diyetisyene notların" multiline />
+                </Grid>
+                <Grid item xs={12}>
+                  <ReduxFormCheckBox name="sozlesme" validate={[required]} label={
+                    <Typography variant="caption" style={{letterSpacing: 0, lineHeight: 0}}>
+                      DiyetKoçum'a sağladığım bu bilgilerin doğruluğunu teyit ediyorum ve bu bilgiler üzerinden bana ulaşılmasına izin veriyorum. 
+                      DiyetKoçum bu bilgileri yalnızca diyetisyeniniz ile paylaşacaktır.
                     </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <ReduxFormTextField required validate={[required]} name="name" label="Adın ve soyadın" />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <ReduxFormTextField required validate={[required, validEmail]} name="email" label="E-posta adresin" />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <ReduxFormTextField required validate={[required, validEmail, matchEmails]} name="email_confirmation" label="E-posta yeniden" />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required, validPhone]} />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Field required name='birthday' label="Doğum tarihin" component={DatePickerInput} validate={[required]}/>
-                        {/* <ReduxFormTextField name="yas" label="Yaşı" type="number"/> */}
-                    </Grid>
-                    <Grid item xs={6}>
-                        <ReduxFormSelect
-                        required
-                        name="cinsiyet"
-                        label="Cinsiyetin"
-                        validate={[required]}
-                        values={[
-                            {
-                            label: 'Kadın',
-                            value: 'Kadın',
-                            },
-                            {
-                            label: 'Erkek',
-                            value: 'Erkek',
-                            },
-                            {
-                            label: 'Diğer',
-                            value: 'Diğer',
-                            },
-                        ]}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <ReduxFormTextField name="notes" rows={3} label="Diyetisyene notların" multiline />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <ReduxFormCheckBox name="sozlesme" validate={[required]} label={
-                        <Typography variant="caption" style={{letterSpacing: 0, lineHeight: 0}}>
-                          DiyetKoçum'a sağladığım bu bilgilerin doğruluğunu teyit ediyorum ve bu bilgiler üzerinden bana ulaşılmasına izin veriyorum. 
-                          DiyetKoçum bu bilgileri yalnızca diyetisyeniniz ile paylaşacaktır.
-                        </Typography>
-                      }/>
-                    </Grid>
-                  </Grid>
-                  <div style={{marginTop: '16px'}}>
-                    <Button disabled={this.props.pristine || this.props.invalid} onClick={() => this.setState({openDialog: true})} variant="contained" color="primary">
-                      {this.props.type == 'randevu' ? "RANDEVU" : "ONLİNE DİYET"} İSTEĞİNİ GÖNDER
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-          </span>
+                  }/>
+                </Grid>
+              </Grid>
+              <div style={{marginTop: '16px'}}>
+                <Button disabled={this.props.pristine || this.props.invalid} onClick={() => this.setState({openDialog: true})} variant="contained" color="primary">
+                  {this.props.type == 'randevu' ? "RANDEVU" : "ONLİNE DİYET"} İSTEĞİNİ GÖNDER
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
   };
 
@@ -1016,24 +1018,24 @@ class NewRandevuStep4 extends React.Component {
       }
 
       return (
-          <span>
-              <div style={{margin: '16px', display: 'flex', flexDirection: 'column'}}>
-                
-                <Typography variant="h6" style={{marginTop: '24px', textAlign:'center', color: '#32325d', fontWeight: 400 }}>
-                  {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğin başarıyla gönderildi!
-                </Typography>
+        <div className={classes.main}>
+          <div style={{margin: '16px', display: 'flex', flexDirection: 'column'}}>
+            
+            <Typography variant="h6" style={{marginTop: '24px', textAlign:'center', color: '#32325d', fontWeight: 400 }}>
+              {this.props.type == 'randevu' ? "Randevu" : "Online diyet"} isteğin başarıyla gönderildi!
+            </Typography>
 
-                <Typography style={{textAlign:'center', color: '#32325d', fontWeight: 400, marginTop: '24px', marginBottom: '8px'}} variant="body2" display="block" gutterBottom>
-                     İsteğin diyetisyenin tarafından onaylandığında <b>{this.props.formValues ? this.props.formValues.email : ''}</b> adresine e-posta gönderilecektir.
-                </Typography>
+            <Typography style={{textAlign:'center', color: '#32325d', fontWeight: 400, marginTop: '24px', marginBottom: '8px'}} variant="body2" display="block" gutterBottom>
+                  İsteğin diyetisyenin tarafından onaylandığında <b>{this.props.formValues ? this.props.formValues.email : ''}</b> adresine e-posta gönderilecektir.
+            </Typography>
 
-                <Typography style={{textAlign: 'center' ,color: '#32325d', fontWeight: 400, marginTop: '48px', marginBottom: '32px'}} color="textPrimary" variant="body2" display="block" gutterBottom>
-                    Bu süreçte diyetisyenlerimiz danışanlarına en uygun diyet programını hazırlayabilmek için birkaç bilgi daha rica ediyorlar.
-                </Typography>
+            <Typography style={{textAlign: 'center' ,color: '#32325d', fontWeight: 400, marginTop: '48px', marginBottom: '32px'}} color="textPrimary" variant="body2" display="block" gutterBottom>
+                Bu süreçte diyetisyenlerimiz danışanlarına en uygun diyet programını hazırlayabilmek için birkaç bilgi daha rica ediyorlar.
+            </Typography>
 
-                <Button variant="contained" color="secondary" component={Link} to={anamnezFormLink} style={{textAlign: 'center'}}>ANANMEZ FORMUNU DOLDUR</Button>
-              </div>
-          </span>
+            <Button variant="contained" color="secondary" component={Link} to={anamnezFormLink} style={{textAlign: 'center'}}>ANANMEZ FORMUNU DOLDUR</Button>
+          </div>
+        </div>
       )}
   };
 

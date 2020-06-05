@@ -324,8 +324,11 @@ class LandingPage extends React.Component {
                     <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/blog">
                       BLOG YAZILARI
                     </Button>
-                    <Button variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signin">
+                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/signin">
                       GİRİŞ YAP
+                    </Button>
+                    <Button variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
+                      KAYDOL
                     </Button>
                   </Fragment>
                 }

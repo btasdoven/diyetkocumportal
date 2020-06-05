@@ -198,7 +198,9 @@ class BlogPage extends React.Component {
                             </ListItem>
                         </List>
 
-                        <div className="markdown-body" style={{fontFamily: 'Cambria, Serif'}}>
+                        <div className="markdown-body" 
+                            //style={{fontFamily: 'Cambria, Serif'}}
+                        >
                             <ReactMarkdown source={post.text} escapeHtml={false}/>
                         </div>
 

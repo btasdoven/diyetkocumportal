@@ -190,6 +190,8 @@ class Header extends React.Component  {
       showBadge = true;
     }
 
+    // console.log('sidebar', 'header', this.props)
+
     return (
       <HeaderV2 static
         title={this.props.title || getPageTitle(this.props) || ''}
@@ -197,6 +199,7 @@ class Header extends React.Component  {
         noButton={this.props.noButton}
         onBackButtonClick={this.props.onBackButtonClick}
         permanentDrawer={this.props.permanentDrawer}
+        sideBar={this.props.sideBar}
         showBadge={showBadge}
         overrideMenuClick={this.props.handleOpenDrawer}
       />
