@@ -48,7 +48,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme => ({
     root: {
         //background: 'linear-gradient(to right bottom, #f5f5f5, #f5f5f5)'
-        backgroundColor: '#fdfdfd'
+        //backgroundColor: '#fdfdfd',
+        backgroundColor: 'white',
     },
     avatar: {
         width: theme.spacing(24),
@@ -199,6 +200,11 @@ class BlogPage extends React.Component {
                         </List>
 
                         <div className="markdown-body" 
+                            style={{
+                                lineHeight: '2',
+                                fontSize: '18px',
+                                letterSpacing: '-0.2px',
+                            }}
                             //style={{fontFamily: 'Cambria, Serif'}}
                         >
                             <ReactMarkdown source={post.text} escapeHtml={false}/>
