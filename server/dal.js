@@ -71,6 +71,7 @@ const rows = {
       posts: {},
       shares: {},
       addresses: {},
+      payments: {},
       pageViewCountPerDay: {},
     }
   },
@@ -690,8 +691,12 @@ exports.requestNewPasswordEmail = function(uname, userInfo) {
     ? "TEST - " + uname + " - "
     : "PROD - " + uname + " - "
 
-  if (rows[uname] == undefined ||
-      rows[uname].profile.email != userInfo.email) {
+  if (rows[uname] == undefined) {
+    email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Şifre yenileme isteğindeki kullanici adi yanlis`, JSON.stringify({username: uname, userInfo: userInfo}, null, 4))
+    return Promise.resolve(userInfo);
+  } 
+  
+  if (rows[uname].profile.email != userInfo.email) {
       email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Şifre yenileme isteğinde bilgiler eslesmiyor`, JSON.stringify({profile: rows[uname].profile, userInfo: userInfo}, null, 4))
       return Promise.resolve(userInfo);
   }
