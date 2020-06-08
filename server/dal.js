@@ -914,6 +914,29 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   console.log('putDietitianAppointmentInfo');
   console.log(userId, date, time);
 
+  if (values.createdBy == 'dietitian') {
+    origValues = { ...values }
+
+    var danisan = rows[userId].danisans[origValues.name];
+
+    values = {
+      status: 'confirmed',
+      createdBy: 'dietitian',
+      step: 3,
+      type: origValues.type,
+      address: origValues.address,
+      linkId: danisan.profile.hash,
+      info: {
+        birthday: danisan.profile.birthday,
+        cinsiyet: danisan.profile.cinsiyet,
+        email: danisan.profile.email,
+        name: origValues.name,
+        sozlesme: false,
+        tel: danisan.profile.tel,      
+      }
+    }
+  }
+
   values.info.name = values.info.name.trim();
 
   if (values.info.name == "Ayşe çam") {
@@ -1066,7 +1089,7 @@ Diyet Koçum Ailesi`
     }
   }
 
-  if (!oldValue) {
+  if (!oldValue && values.createdBy != 'dietitian') {
     // first time creating the appointment
     // postAddDanisan will set this item. Don't set it twice to avoid concurrence issues on the storage.
     //
@@ -1154,7 +1177,7 @@ exports.putDietitianComments = function (userId, comments) {
   var titleSuffix = process.env.NODE_ENV !== 'production' 
   ? "TEST - " + userId + " - "
   : "PROD - " + userId + " - "
-  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `comments changed`, JSON.stringify(comments, null, 4))
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `comment changed`, JSON.stringify(comments, null, 4))
 }
 
 exports.getDietitianProfile = function (userId) {

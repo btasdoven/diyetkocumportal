@@ -1,3 +1,5 @@
+
+import SpeedDial from '../SpeedDial/SpeedDial'
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,6 +14,8 @@ import moment from "moment";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
+import VideocamIcon from '@material-ui/icons/Videocam';
+import RoomIcon from '@material-ui/icons/Room';
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import InputBase from '@material-ui/core/InputBase';
@@ -79,6 +83,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { withRouter } from "react-router-dom";
 import IntroInstaVideo from '../../components/IntroInstaVideo'
 
+import AddAppointmentDialog from './AddAppointmentDialog'
+
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
@@ -88,6 +94,7 @@ import {
   TodayButton,
   DateNavigator,
   ViewSwitcher,
+  CurrentTimeIndicator,
   Appointments,
   AppointmentTooltip,
   AppointmentForm,
@@ -104,8 +111,8 @@ const styles = theme => ({
   main: {
     width: '100%',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
     //top: 0,
     [theme.breakpoints.up(600 + theme.spacing(6))]: {
       width: '100%',
@@ -196,6 +203,32 @@ const styles = theme => ({
       width: '100%',
       alignItems: "center",
       marginTop: theme.spacing(5)
+  },  
+  icon: {
+    color: theme.palette.action.active,
+  },
+  textCenter: {
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  todayCell: {
+    backgroundColor: fade(theme.palette.primary.main, 0.1),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.primary.main, 0.14),
+    },
+    '&:focus': {
+      backgroundColor: fade(theme.palette.primary.main, 0.16),
+    },
+  },
+  weekendCell: {
+    backgroundColor: fade(theme.palette.action.disabledBackground, 0.04),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.action.disabledBackground, 0.04),
+    },
+    '&:focus': {
+      backgroundColor: fade(theme.palette.action.disabledBackground, 0.04),
+    },
   },
 });
 
@@ -232,6 +265,47 @@ function TabPanel(props) {
   );
 }
 
+const ApptContent = withStyles(styles, { name: 'Content' })(({
+  children, appointmentData, classes, ...restProps
+}) => {
+  
+  return (
+  <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
+    <Grid container alignItems="center">
+      <Grid item xs={2} className={classes.textCenter}>
+        {appointmentData.details.type == 'randevu' 
+          ? <RoomIcon className={classes.icon} />
+          : <VideocamIcon className={classes.icon} />
+        }
+      </Grid>
+      <Grid item xs={10}>
+        <span>
+          {
+            appointmentData.details.type == 'randevu' 
+              ? appointmentData.details.address 
+              : 'Online Görüşme'
+          }
+        </span>
+      </Grid>
+    </Grid>
+  </AppointmentTooltip.Content>
+)});
+
+const TimeTableCellBase = ({ classes, onCellClickHandler, ...restProps }) => {
+  const { startDate } = restProps;
+
+  var clickHandler = (e) => {
+    onCellClickHandler(startDate)
+  }
+
+  return <WeekView.TimeTableCell 
+    // onDoubleClick={(e) => console.log('viewstate', 'doubleclick', e)}
+    onClick={clickHandler}
+    {...restProps} />;
+};
+
+;
+
 class Envanter extends React.Component {
   
   constructor(props) {
@@ -245,7 +319,49 @@ class Envanter extends React.Component {
       userId: JSON.parse(localStorage.getItem('user')).id,
       date: moment().format('YYYYMMDD'),
       value: 0,
+      selectedCellStartDate: undefined,
+      newAppointment: undefined,
     }
+
+    var TimeTableCell = withStyles(styles, { name: 'TimeTableCell' })(TimeTableCellBase)
+
+    this.handleCloseAddAppointment = this.handleCloseAddAppointment.bind(this);
+    this.onCellClickHandler = this.onCellClickHandler.bind(this);
+    this.TimeTableCellWithProps = (props) => <TimeTableCell {...props} onCellClickHandler={this.onCellClickHandler} />
+  }
+
+  onCellClickHandler(startDate) {
+    if (!this.isLoaded()) {
+      this.setState({selectedCellStartDate: undefined})
+      return;
+    }
+
+    if (startDate < Date.now()) {
+      this.setState({selectedCellStartDate: undefined})
+      return;
+    }
+    var appts = this.props.apiDietitianAppointments[this.state.userId].data;
+    var apptDate = moment(startDate).format('YYYYMMDD');
+
+    if (appts[apptDate] == undefined) {
+      // No appt on this *day*. Select the cell
+      //
+      this.setState({selectedCellStartDate: moment(startDate).format('DD.MM.YYYY HH:mm')})
+      return;
+    }
+
+    var apptStartHour = moment(startDate).format('HH:mm');
+    var apptEndHour = moment(startDate).add(30, 'minutes').format('HH:mm');
+    var apptHour = `${apptStartHour} - ${apptEndHour}`
+
+    if (appts[apptDate].data[apptHour] != undefined) {
+      this.setState({selectedCellStartDate: undefined})
+      return;
+    }
+
+    // No appt at this *date*. Select the cell.
+    //
+    this.setState({selectedCellStartDate: moment(startDate).format('DD.MM.YYYY HH:mm')})
   }
 
   isLoaded() {
@@ -256,7 +372,14 @@ class Envanter extends React.Component {
 
       return loaded;
   }
-  
+
+  handleCloseAddAppointment(values) {
+    if (values != undefined) {
+      this.props.putDietitianAppointment(this.state.userId, values.date, values.time, values);
+    }
+
+    this.setState({newAppointment: undefined});
+  }
 
   handleValueChange = (ev, newVal) => {
     if (this.state.value != newVal) {
@@ -282,7 +405,6 @@ class Envanter extends React.Component {
         'Randevuyu ' + statusText + ' danışanınızın e-posta adresine gönderildi.',
         //'Undo', () => handleUndo()
       )
-
     }
   }
 
@@ -308,7 +430,8 @@ class Envanter extends React.Component {
             schedulerData.push({
               startDate: moment(apptDate).format('YYYY-MM-DD') + 'T' + hours[0],
               endDate: moment(apptDate).format('YYYY-MM-DD') + 'T' + hours[1],
-              title: `${danisan.info.name} (${danisan.type})`,
+              title: `${danisan.info.name}`,
+              details: danisan
             })
         })
       })
@@ -319,31 +442,15 @@ class Envanter extends React.Component {
         <div className={classes.main}>
 
           { showLoader && renderLoadingButton(classes) }
-          {/* { !showLoader && (!apptList || Object.keys(apptList).length == 0) && (
-            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 0, left: 0, right: 0, height: `100%`}}>
-              <Grid container spacing={0} >
-                <Grid item xs={12}>
-                  <div style={{position: 'relative', margin: 'auto', minWidth: '128px', maxWidth: '144px', width: '33%'}}>
-                    <IntroInstaVideo 
-                      introName="RandevuList"
-                      infoHighlightSrc={"/static/randevu/thumbnail.png"}
-                      sources={[
-                        '/static/randevu/randevu_1.mov',
-                        '/static/randevu/randevu_2.mov',
-                        '/static/randevu/randevu_3.mov',
-                        '/static/randevu/randevu_4.mov',
-                        '/static/randevu/randevu_5.mov',
-                      ]}
-                    />
-                  </div>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography component="div" style={{padding: '16px', textAlign: 'center'}} color="textSecondary" variant="body1">Çok üzgünüz, henüz hiç randevun yok 😞</Typography>
-                </Grid>
-              </Grid>
-            </div>
-          )} */}
-
+{/* 
+          {!showLoader && 
+            <AddAppointmentDialog 
+              form='newAppointment' 
+              userId={this.state.userId}
+              startDate='08.06.2020 14:00'
+              handleClose={this.handleCloseAddAppointment}
+            />
+          } */}
           {!showLoader &&
             <Fragment>
               <Tabs
@@ -470,9 +577,30 @@ class Envanter extends React.Component {
                   })}
                 </TabPanel>
                 <TabPanel value={this.state.value} index={1}>
-                  <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Bu özellik çok yakında hizmetinizde...</Typography>
-                  {/* <Scheduler
+                  {/* <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Bu özellik çok yakında hizmetinizde...</Typography> */}
+                  
+                  {this.state.newAppointment != undefined &&
+                    <AddAppointmentDialog 
+                      form='newAppointment' 
+                      userId={this.state.userId}
+                      startDate={this.state.selectedCellStartDate}
+                      handleClose={this.handleCloseAddAppointment}
+                    />
+                  }
+
+                  {this.state.selectedCellStartDate != undefined &&
+                    <SpeedDial
+                      icon={<AddIcon />}
+                      iconText={"YENİ RANDEVU"}
+                      eventText={"AppointmentListAddNew"}
+                      onClickFab={() => this.setState({newAppointment: true})}
+                      style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}
+                    />
+                  }
+
+                  <Scheduler
                     data={schedulerData}
+                    locale="tr-TR"
                   >
                     <ViewState
                       defaultCurrentDate={moment().format()}
@@ -481,21 +609,30 @@ class Envanter extends React.Component {
                     <DayView
                       startDayHour={7}
                       endDayHour={20}
+                      timeTableCellComponent={this.TimeTableCellWithProps}
                     />
                     <WeekView
                       startDayHour={7}
                       endDayHour={20}
+                      timeTableCellComponent={this.TimeTableCellWithProps}
                     />
                     <Toolbar />
-                    <ViewSwitcher />
+                    {/* <ViewSwitcher /> */}
                     <DateNavigator />
-                    <TodayButton />
+                    <TodayButton messages={{today:"BUGÜN"}} />
                     <Appointments />
-                    <AppointmentTooltip
-                      showCloseButton
-                      showOpenButton
+                    
+                    <CurrentTimeIndicator
+                      shadePreviousCells={true}
+                      shadePreviousAppointments={true}
+                      updateInterval={60000}
                     />
-                  </Scheduler> */}
+
+                    <AppointmentTooltip
+                      contentComponent={ApptContent}
+                      showCloseButton
+                    />
+                  </Scheduler>
                 </TabPanel>
               </main>
             </Fragment>

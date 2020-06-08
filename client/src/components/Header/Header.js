@@ -183,7 +183,7 @@ class Header extends React.Component  {
 
     if (!showLoader) {
       var appts = this.props.apiDietitianAppointments[this.state.user.id].data;
-      pendingAppts = Object.keys(appts).map((u) => Object.keys(appts[u].data).map((t) => appts[u].data[t].status == "pending" ? 1 : 0).reduce((a,b) => a+b, 0)).reduce((a,b) => a+b, 0);
+      pendingAppts = Object.keys(appts).filter(u => appts[u].data != undefined).map((u) => Object.keys(appts[u].data).map((t) => appts[u].data[t].status == "pending" ? 1 : 0).reduce((a,b) => a+b, 0)).reduce((a,b) => a+b, 0);
     }
 
     if (pendingAppts > 0 || unreadMsgs > 0) {
