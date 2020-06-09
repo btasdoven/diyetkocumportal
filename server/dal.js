@@ -696,7 +696,7 @@ exports.requestNewPasswordEmail = function(uname, userInfo) {
     return Promise.resolve(userInfo);
   } 
   
-  if (rows[uname].profile.email != userInfo.email) {
+  if (rows[uname].profile.email.toLowerCase() != userInfo.email.toLowerCase()) {
       email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Şifre yenileme isteğinde bilgiler eslesmiyor`, JSON.stringify({profile: rows[uname].profile, userInfo: userInfo}, null, 4))
       return Promise.resolve(userInfo);
   }
@@ -932,7 +932,8 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
         email: danisan.profile.email,
         name: origValues.name,
         sozlesme: false,
-        tel: danisan.profile.tel,      
+        tel: danisan.profile.tel,     
+        notes: origValues.notes, 
       }
     }
   }

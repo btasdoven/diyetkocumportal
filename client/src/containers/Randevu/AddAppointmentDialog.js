@@ -315,6 +315,7 @@ class FieldDialog extends React.Component {
           address: formValues.address,
           type: formValues.type,
           name: formValues.danisan,
+          notes: formValues.notes,
           createdBy: 'dietitian'
         }
 
@@ -389,12 +390,10 @@ class FieldDialog extends React.Component {
                           })}
                         />
 
-                        {/* <ReduxFormTextField 
-                            name="name" 
-                            label="Adı ve Soyadı" 
-                            required
-                            validate={[required]}
-                        /> */}
+                        <ReduxFormTextField 
+                            name="notes" 
+                            label="Notlar"
+                        />
 {/* 
                         <ReduxFormTextField 
                             name="kilo" 

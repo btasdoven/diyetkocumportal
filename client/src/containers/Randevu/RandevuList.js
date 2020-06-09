@@ -1,4 +1,5 @@
-
+import BusinessIcon from '@material-ui/icons/Business';
+import CommentIcon from '@material-ui/icons/Comment';
 import SpeedDial from '../SpeedDial/SpeedDial'
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -265,6 +266,31 @@ function TabPanel(props) {
   );
 }
 
+const Appointment = withStyles(styles, { name: 'Appointment' })(({
+  children, style, classes, ...restProps
+}) => {
+  var apptData = restProps.data;
+  var apptType = apptData.details.type
+
+  return (
+    <Appointments.Appointment
+      {...restProps}
+      style={{
+        ...style,
+        backgroundColor: apptType == 'randevu' ? 'rgb(100, 181, 246)' : 'rgb(102, 187, 106)',
+      }}
+    >    
+      <IconButton style={{position: 'absolute', top: 0, right: 0, width: '16px', height: '16px'}}>
+        {apptType == 'randevu'
+          ? <RoomIcon className={classes.icon} style={{width: '16px', height: '16px'}}/>
+          : <VideocamIcon className={classes.icon} style={{width: '16px', height: '16px'}}/>
+        }
+      </IconButton>
+      {children}
+    </Appointments.Appointment>
+  );
+})
+
 const ApptContent = withStyles(styles, { name: 'Content' })(({
   children, appointmentData, classes, ...restProps
 }) => {
@@ -287,6 +313,18 @@ const ApptContent = withStyles(styles, { name: 'Content' })(({
           }
         </span>
       </Grid>
+      {appointmentData.details.info.notes != undefined &&
+        <Fragment>
+          <Grid item xs={2} className={classes.textCenter} style={{paddingTop: '12px'}}>
+            <CommentIcon className={classes.icon} />
+          </Grid>
+          <Grid item xs={10} style={{paddingTop: '12px'}}>
+            <span>
+              {appointmentData.details.info.notes}
+            </span>
+          </Grid>
+        </Fragment>
+      }
     </Grid>
   </AppointmentTooltip.Content>
 )});
@@ -426,6 +464,10 @@ class Envanter extends React.Component {
         Object.keys(danisans).forEach( (danisanKey) => {
             var danisan = danisans[danisanKey]; 
             var hours = danisanKey.split(' - ')
+
+            if (danisan.status != 'confirmed') {
+              return;
+            }
 
             schedulerData.push({
               startDate: moment(apptDate).format('YYYY-MM-DD') + 'T' + hours[0],
@@ -620,7 +662,7 @@ class Envanter extends React.Component {
                     {/* <ViewSwitcher /> */}
                     <DateNavigator />
                     <TodayButton messages={{today:"BUGÜN"}} />
-                    <Appointments />
+                    <Appointments appointmentComponent={Appointment} />
                     
                     <CurrentTimeIndicator
                       shadePreviousCells={true}
