@@ -25,6 +25,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
 import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
+import EventAvailableIcon from '@material-ui/icons/EventAvailableOutlined';
 
 import { userService } from '../services/user.service'
 
@@ -88,10 +89,10 @@ class Sidebar extends React.Component {
   }
     
   isLoaded() {
-    var loaded = 
-      this.props.apiMessagePreviews[this.state.user.id] != undefined &&
-      this.props.apiMessagePreviews[this.state.user.id].isGetLoading != true &&
-      this.props.apiMessagePreviews[this.state.user.id].data != undefined;
+    var loaded = true;
+      // this.props.apiMessagePreviews[this.state.user.id] != undefined &&
+      // this.props.apiMessagePreviews[this.state.user.id].isGetLoading != true &&
+      // this.props.apiMessagePreviews[this.state.user.id].data != undefined;
 
     var loaded2 = 
       this.props.apiDietitianAppointments != undefined &&
@@ -110,7 +111,7 @@ class Sidebar extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getMessagePreviews(this.state.user.id);
+      // this.props.getMessagePreviews(this.state.user.id);
       this.props.getDietitianAppointments(this.state.user.id);
       this.props.getDietitianComments(this.state.user.id);
     }
@@ -123,13 +124,13 @@ class Sidebar extends React.Component {
 
     var pendingComments = 0;
     var pendingAppts = 0;
-    var unreadMsgs = 0;
+    // var unreadMsgs = 0;
 
     if (!showLoader) {
       var appts = this.props.apiDietitianAppointments[this.state.user.id].data;
       pendingAppts = Object.keys(appts).filter(u => appts[u].data != undefined).map((u) => Object.keys(appts[u].data).map((t) => appts[u].data[t].status == "pending" ? 1 : 0).reduce((a,b) => a+b, 0)).reduce((a,b) => a+b, 0);
 
-      unreadMsgs = Object.keys(this.props.apiMessagePreviews[this.state.user.id].data).filter((u) => this.props.apiMessagePreviews[this.state.user.id].data[u].unread).length;
+      // unreadMsgs = Object.keys(this.props.apiMessagePreviews[this.state.user.id].data).filter((u) => this.props.apiMessagePreviews[this.state.user.id].data[u].unread).length;
 
       pendingComments = Object.keys(this.props.apiDietitianComments[this.state.user.id].data).filter(c => this.props.apiDietitianComments[this.state.user.id].data[c].status == 'pending').length;
     }
@@ -202,7 +203,7 @@ class Sidebar extends React.Component {
               </ListItemIcon>
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
-
+{/* 
             <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/m' selected={location.pathname != '/me' && location.pathname.startsWith('/m')}>
               <ListItemIcon style={{minWidth: '40px'}}>
                 <ChatIcon fontSize="small" color="primary"/>
@@ -215,13 +216,20 @@ class Sidebar extends React.Component {
                   </Badge>
                 </ListItemSecondaryAction>
               }
+            </ListItem> */}
+
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/t' selected={location.pathname.startsWith('/t')}>
+              <ListItemIcon style={{minWidth: '40px'}}>
+                <CalendarTodayIcon fontSize="small" color="primary"/>
+              </ListItemIcon>
+              <Typography variant="overline">TAKVİMİM</Typography>
             </ListItem>
 
             <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/r' selected={location.pathname.startsWith('/r')}>
               <ListItemIcon style={{minWidth: '40px'}}>
-                <CalendarTodayIcon fontSize="small" color="primary"/>
+                <EventAvailableIcon fontSize="small" color="primary"/>
               </ListItemIcon>
-              <Typography variant="overline">RANDEVULARIM</Typography>
+              <Typography variant="overline">RANDEVU İSTEKLERİ</Typography>
               { 
                 pendingAppts > 0 && 
                 <ListItemSecondaryAction>

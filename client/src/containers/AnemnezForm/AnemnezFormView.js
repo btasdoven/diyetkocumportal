@@ -346,7 +346,7 @@ class Envanter extends React.Component {
             <Tab label="PROFİL" {...a11yProps(0)} />
             <Tab label="ÖLÇÜMLER" {...a11yProps(1)} />
             <Tab label="DİYET PROGRAMI" {...a11yProps(2)} />
-            <Tab label="MESAJLAR" {...a11yProps(3)} />
+            {/* <Tab label="MESAJLAR" {...a11yProps(3)} /> */}
           </Tabs>
           <main className={classes.content}>
             <TabPanel value={this.state.value} index={0}>
@@ -358,12 +358,9 @@ class Envanter extends React.Component {
             <TabPanel value={this.state.value} index={2}>
               <DiyetListesi userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
             </TabPanel>
-            <TabPanel value={this.state.value} index={3}>
+            {/* <TabPanel value={this.state.value} index={3}>
               <MesajView isDanisanView={true} userId={linkInfo.userId} danisanUserName={linkInfo.danisanUserName} />
-              {/* <div className={classes.rootLoading}>
-                <Typography style={{textAlign: 'center', marginTop: '24px'}} variant="body2">Şu anda diyetisyeninizden herhangi bir mesaj bulunmamaktadır.</Typography>
-              </div> */}
-            </TabPanel>
+            </TabPanel> */}
           </main>
         </span>
       )

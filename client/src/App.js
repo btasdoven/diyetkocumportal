@@ -24,6 +24,7 @@ import BlogPage from "./containers/Randevu/BlogPage";
 import RandevuView from "./containers/Randevu/RandevuView";
 import NotImplementedYet from './containers/NotImplementedYet'
 import RandevuList from "./containers/Randevu/RandevuList";
+import Calendar from "./containers/Randevu/Calendar";
 import Enler from "./containers/Blog/Enler";
 import BlogList from "./containers/Blog/BlogList";
 import NewLandingPage from './containers/LandingPage/NewLandingPage'
@@ -136,6 +137,7 @@ class App extends Component {
                       
                       <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
 
+                      <DashboardRoute exact path="/t" component={Calendar} />
                       <DashboardRoute exact path="/r" component={RandevuList} />
                       <DashboardRoute exact backButton="/r" path="/r/:danisan/messages" viewParam="messages" component={DanisanView} />
                       <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />

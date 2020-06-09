@@ -249,10 +249,10 @@ class Envanter extends React.Component {
               aria-label="scrollable auto tabs example"
             >
               <Tab label="PROFİL" {...a11yProps(0)} />
-              <Tab label="MESAJLAR" {...a11yProps(1)} />
-              <Tab label="ÖLÇÜMLER" {...a11yProps(2)} />
-              <Tab label="DİYET LİSTESİ" {...a11yProps(3)} />
-              <Tab label="NOTLARIM" {...a11yProps(4)} />
+              {/* <Tab label="MESAJLAR" {...a11yProps(1)} /> */}
+              <Tab label="ÖLÇÜMLER" {...a11yProps(1)} />
+              <Tab label="DİYET LİSTESİ" {...a11yProps(2)} />
+              <Tab label="NOTLARIM" {...a11yProps(3)} />
               {/* <Tab label="DİYET GEÇMİŞİ" {...a11yProps(4)} /> */}
               {/* <Tab label="ÖDEME BİLGİLERİ" {...a11yProps(5)} /> */}
             </Tabs>
@@ -261,16 +261,16 @@ class Envanter extends React.Component {
               <TabPanel value={this.state.value} index={0}>
                 <KisiselBilgiler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
               </TabPanel>
-              <TabPanel value={this.state.value} index={1}>
+              {/* <TabPanel value={this.state.value} index={1}>
                 <MesajView userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
-              </TabPanel>
-              <TabPanel value={this.state.value} index={2}>
+              </TabPanel> */}
+              <TabPanel value={this.state.value} index={1}>
                 <Olcumler userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
               </TabPanel>
-              <TabPanel value={this.state.value} index={3}>
+              <TabPanel value={this.state.value} index={2}>
                 <DiyetListesi userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
               </TabPanel>
-              <TabPanel value={this.state.value} index={4}>
+              <TabPanel value={this.state.value} index={3}>
                 <Notlar userId={this.state.userId} danisanUserName={this.props.danisanUserName} />
               </TabPanel>
               {/* <TabPanel value={this.state.value} index={4}>

@@ -940,11 +940,6 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
 
   values.info.name = values.info.name.trim();
 
-  if (values.info.name == "Ayşe çam") {
-    console.log("throttling ayşe çam")
-    return;
-  }
-
   if (rows[userId].appointments == undefined) {
       rows[userId].appointments = {}
   }
@@ -1024,7 +1019,7 @@ Diyet Koçum Ailesi`
 
     //ig.sendIgMsgForNewAppointment(userId, values.info.name, `https://diyetkocum.net/r/${date}/${time.replace(/ /g, '%20')}`);
   } 
-  else if ((!oldValue || oldValue.status == 'pending') && (values.status == 'confirmed' || values.status == 'rejected')) {
+  else if ((!oldValue || oldValue.status == 'pending') && values.createdBy != 'dietitian' && (values.status == 'confirmed' || values.status == 'rejected')) {
     if (values.type != 'onlinediyet') {
       var statusTxt = values.status == 'confirmed' ? 'onaylanmıştır' : 'reddedilmiştir'
 
@@ -1104,13 +1099,16 @@ Diyet Koçum Ailesi`
       cinsiyet: values.info.cinsiyet,
       visibleToDietitian: false,
     })
-  } else if (values.status == 'confirmed') {
-    if (rows[userId].danisanPreviews[values.info.name] != undefined) {
-      rows[userId].danisanPreviews[values.info.name].visibleToDietitian = true
+  } else {
+    if (values.status == 'confirmed') {
+      if (rows[userId].danisanPreviews[values.info.name] != undefined) {
+        rows[userId].danisanPreviews[values.info.name].visibleToDietitian = true
+      }
+      if (rows[userId].danisans[values.info.name] != undefined) {
+        rows[userId].danisans[values.info.name].profile.visibleToDietitian = true;
+      }
     }
-    if (rows[userId].danisans[values.info.name] != undefined) {
-      rows[userId].danisans[values.info.name].profile.visibleToDietitian = true;
-    }
+    
     storage.setItem(userId, rows[userId]);
   }
 }

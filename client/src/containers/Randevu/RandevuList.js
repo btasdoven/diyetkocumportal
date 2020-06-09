@@ -451,233 +451,139 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
 
     var apptList = showLoader ? undefined : this.props.apiDietitianAppointments[this.state.userId].data;
-    var schedulerData = []
+    var pendingAppts = 0
 
-    if (apptList) {
-      Object.keys(apptList).forEach((apptDate, idx) => {
-        if (apptList[apptDate].data == undefined)
-        {
-          return;
-        }
-
-        var danisans = apptList[apptDate].data;
-        Object.keys(danisans).forEach( (danisanKey) => {
-            var danisan = danisans[danisanKey]; 
-            var hours = danisanKey.split(' - ')
-
-            if (danisan.status != 'confirmed') {
-              return;
-            }
-
-            schedulerData.push({
-              startDate: moment(apptDate).format('YYYY-MM-DD') + 'T' + hours[0],
-              endDate: moment(apptDate).format('YYYY-MM-DD') + 'T' + hours[1],
-              title: `${danisan.info.name}`,
-              details: danisan
-            })
-        })
-      })
+    if (!showLoader) {
+      pendingAppts = Object.keys(apptList)
+        .filter(u => apptList[u].data != undefined)
+        .map((u) => Object.keys(apptList[u].data).map((t) => apptList[u].data[t].status == "pending" ? 1 : 0).reduce((a,b) => a+b, 0))
+        .reduce((a,b) => a+b, 0);
     }
 
     return (
         <div className={classes.root}>
         <div className={classes.main}>
 
-          { showLoader && renderLoadingButton(classes) }
-{/* 
-          {!showLoader && 
-            <AddAppointmentDialog 
-              form='newAppointment' 
-              userId={this.state.userId}
-              startDate='08.06.2020 14:00'
-              handleClose={this.handleCloseAddAppointment}
-            />
-          } */}
-          {!showLoader &&
-            <Fragment>
-              <Tabs
-                centered
-                variant="fullWidth"
-                // variant="scrollable"
-                // scrollButtons="on"
-                value={this.state.value}
-                onChange={this.handleValueChange}
-                indicatorColor="secondary"
-                textColor="secondary"
-              >
-                <Tab label="LİSTE" {...a11yProps(0)} />
-                <Tab label="TAKVİM" {...a11yProps(1)} />
-              </Tabs>
-              <main className={classes.content}>
-                <TabPanel value={this.state.value} index={0}>
-                  {Object.keys(apptList).sort().reverse().map((apptDate, idx) => {
-                    if (apptList[apptDate].isGetLoading == true || 
-                        apptList[apptDate].isPutLoading == true)
-                    {
-                      return renderLoadingButton(classes, idx);
-                    }
+          {showLoader && renderLoadingButton(classes) }
+          {!showLoader && pendingAppts == 0 && 
+              <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Onayınızı bekleyen randevu bulunmamaktadır. 👍</Typography>
+          }
+          {!showLoader && pendingAppts > 0 && 
+            <main className={classes.content}>
+              {/* <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Bu özellik çok yakında hizmetinizde...</Typography> */}
+              
+              {Object.keys(apptList).sort().reverse().map((apptDate, idx) => {
 
-                    var danisans = apptList[apptDate].data;
+                if (apptList[apptDate].isGetLoading == true || 
+                    apptList[apptDate].isPutLoading == true)
+                {
+                  return renderLoadingButton(classes, idx);
+                }
 
-                    return (
-                      <List
-                        key={idx} 
-                        disablePadding
-                        subheader={
-                          <ListSubheader component="span" id="nested-list-subheader">
-                            <Typography component="span" variant="subtitle2" color="secondary">{moment(apptDate).format('D MMMM YYYY')}</Typography>
-                          </ListSubheader>
-                      }>
-                        {Object.keys(danisans).map( (danisanKey, idx) => {
+                var danisans = apptList[apptDate].data;
 
-                          var danisan = danisans[danisanKey]; 
+                if (Object.keys(danisans).filter(d => danisans[d].status == 'pending').length == 0) {
+                  return;
+                }
 
-                          var hours = danisanKey.split(' - ')
+                return (
+                  <List
+                    key={idx} 
+                    disablePadding
+                    subheader={
+                      <ListSubheader component="span" id="nested-list-subheader">
+                        <Typography component="span" variant="subtitle2" color="secondary">{moment(apptDate).format('D MMMM YYYY')}</Typography>
+                      </ListSubheader>
+                  }>
+                    {Object.keys(danisans).filter(d => danisans[d].status == 'pending').map((danisanKey, idx) => {
+                      var danisan = danisans[danisanKey]; 
 
-                          var avatar = danisan.type != 'onlinediyet'
-                            ? (
-                                <span>
-                                  <Typography color="textSecondary" variant="subtitle2">{hours[0]}</Typography>
-                                  <Typography color="textSecondary" variant="subtitle2">{hours[1]}</Typography>
-                                </span>
-                              )
-                            : (
-                                <Avatar>
-                                <EventIcon />
-                                </Avatar>
-                              );
+                      var hours = danisanKey.split(' - ')
 
-                          return (
-                            <span key={idx}>
-                              <Divider component="li" />
-                              <ListItem 
-                                  button 
-                                  component={Link} 
-                                  to={"/r/" + apptDate + '/' + danisanKey}
-                              >
-                                <ListItemAvatar >
-                                  {avatar}
-                                </ListItemAvatar>
-                                <ListItemText 
-                                  style={{paddingRight: '36px'}}
-                                  primary={
-                                      // <Typography
-                                      //     variant="subtitle1"
-                                      //     color="textPrimary"
-                                      // >
-                                      danisan.info.name
-                                      // </Typography>
-                                  } 
-                                  secondary={
-                                      // <Typography
-                                      //     variant="caption"
-                                      //     color="inherit"
-                                      // >
-                                          danisan.type == 'onlinediyet' ? 'Online Diyet İsteği' : 
-                                            danisan.address == undefined 
-                                              ? 'Yüz Yüze Randevu İsteği'
-                                              : danisan.address
-                                      // </Typography>
-                                  }
-                                />
-                                {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
-                                {danisan.status == 'pending' && (
-                                  <ListItemSecondaryAction>
-                                    <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} aria-label="delete">
-                                    
-                                    <Badge badgeContent={'1'} color="secondary">
-                                    </Badge>
-
-                                    </IconButton>
-                                    {/* <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
-                                        <CheckSharpIcon style={{ color: green[500] }} />
-                                    </IconButton> */}
-                                  </ListItemSecondaryAction>
-                                )}
-                                {danisan.status == 'confirmed' && (
-                                  <ListItemSecondaryAction>
-                                    <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
-                                    {/* <Chip size="small" label="ONAYLANDI" /> */}
-                                      <CheckIcon style={{color: '#00756b80'}}/>
-                                    </IconButton>
-                                  </ListItemSecondaryAction>
-                                )}
-                                {danisan.status == 'rejected' && (
-                                  <ListItemSecondaryAction>
-                                    <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
-                                      <ClearIcon style={{color: '#d5602d80'}}/>
-                                    </IconButton>
-                                  </ListItemSecondaryAction>
-                                )}
-                              </ListItem>
+                      var avatar = danisan.type != 'onlinediyet'
+                        ? (
+                            <span>
+                              <Typography color="textSecondary" variant="subtitle2">{hours[0]}</Typography>
+                              <Typography color="textSecondary" variant="subtitle2">{hours[1]}</Typography>
                             </span>
                           )
-                        })}  
-                        <Divider component="li" />
-                      </List>
-                    )
-                  })}
-                </TabPanel>
-                <TabPanel value={this.state.value} index={1}>
-                  {/* <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Bu özellik çok yakında hizmetinizde...</Typography> */}
-                  
-                  {this.state.newAppointment != undefined &&
-                    <AddAppointmentDialog 
-                      form='newAppointment' 
-                      userId={this.state.userId}
-                      startDate={this.state.selectedCellStartDate}
-                      handleClose={this.handleCloseAddAppointment}
-                    />
-                  }
+                        : (
+                            <Avatar>
+                            <EventIcon />
+                            </Avatar>
+                          );
 
-                  {this.state.selectedCellStartDate != undefined &&
-                    <SpeedDial
-                      icon={<AddIcon />}
-                      iconText={"YENİ RANDEVU"}
-                      eventText={"AppointmentListAddNew"}
-                      onClickFab={() => this.setState({newAppointment: true})}
-                      style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px'}}
-                    />
-                  }
+                      return (
+                        <span key={idx}>
+                          <Divider component="li" />
+                          <ListItem 
+                              button 
+                              component={Link} 
+                              to={"/r/" + apptDate + '/' + danisanKey}
+                          >
+                            <ListItemAvatar >
+                              {avatar}
+                            </ListItemAvatar>
+                            <ListItemText 
+                              style={{paddingRight: '36px'}}
+                              primary={
+                                  // <Typography
+                                  //     variant="subtitle1"
+                                  //     color="textPrimary"
+                                  // >
+                                  danisan.info.name
+                                  // </Typography>
+                              } 
+                              secondary={
+                                  // <Typography
+                                  //     variant="caption"
+                                  //     color="inherit"
+                                  // >
+                                      danisan.type == 'onlinediyet' ? 'Online Diyet İsteği' : 
+                                        danisan.address == undefined 
+                                          ? 'Yüz Yüze Randevu İsteği'
+                                          : danisan.address
+                                  // </Typography>
+                              }
+                            />
+                            {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
+                            {danisan.status == 'pending' && (
+                              <ListItemSecondaryAction>
+                                <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} aria-label="delete">
+                                
+                                <Badge badgeContent={'1'} color="secondary">
+                                </Badge>
 
-                  <Scheduler
-                    data={schedulerData}
-                    locale="tr-TR"
-                  >
-                    <ViewState
-                      defaultCurrentDate={moment().format()}
-                      defaultCurrentViewName={this.props.width == 'xs' ? 'Day' : 'Week'}
-                    />
-                    <DayView
-                      startDayHour={7}
-                      endDayHour={20}
-                      timeTableCellComponent={this.TimeTableCellWithProps}
-                    />
-                    <WeekView
-                      startDayHour={7}
-                      endDayHour={20}
-                      timeTableCellComponent={this.TimeTableCellWithProps}
-                    />
-                    <Toolbar />
-                    {/* <ViewSwitcher /> */}
-                    <DateNavigator />
-                    <TodayButton messages={{today:"BUGÜN"}} />
-                    <Appointments appointmentComponent={Appointment} />
-                    
-                    <CurrentTimeIndicator
-                      shadePreviousCells={true}
-                      shadePreviousAppointments={true}
-                      updateInterval={60000}
-                    />
-
-                    <AppointmentTooltip
-                      contentComponent={ApptContent}
-                      showCloseButton
-                    />
-                  </Scheduler>
-                </TabPanel>
-              </main>
-            </Fragment>
+                                </IconButton>
+                                {/* <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
+                                    <CheckSharpIcon style={{ color: green[500] }} />
+                                </IconButton> */}
+                              </ListItemSecondaryAction>
+                            )}
+                            {danisan.status == 'confirmed' && (
+                              <ListItemSecondaryAction>
+                                <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
+                                {/* <Chip size="small" label="ONAYLANDI" /> */}
+                                  <CheckIcon style={{color: '#00756b80'}}/>
+                                </IconButton>
+                              </ListItemSecondaryAction>
+                            )}
+                            {danisan.status == 'rejected' && (
+                              <ListItemSecondaryAction>
+                                <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
+                                  <ClearIcon style={{color: '#d5602d80'}}/>
+                                </IconButton>
+                              </ListItemSecondaryAction>
+                            )}
+                          </ListItem>
+                        </span>
+                      )
+                    })}  
+                    <Divider component="li" />
+                  </List>
+                )
+              })}
+            </main>
           }
         </div>
         </div>

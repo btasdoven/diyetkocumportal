@@ -80,7 +80,9 @@ const getPageTitle = (props) => {
   } else if (pathname === '/m') {
     return "Mesajlarım"
   } else if (pathname === '/r') {
-    return "Randevularım"
+    return "Randevu İstekleri"
+  } else if (pathname === '/t') {
+    return "Takvimim"
   } else if (pathname === '/signin') {
     return 'Diyetisyen Girişi'
   } else if (pathname === '/signup') {
@@ -110,10 +112,10 @@ class Header extends React.Component  {
       return false;
     }
 
-    var loaded = 
-      this.props.apiMessagePreviews[this.state.user.id] != undefined &&
-      this.props.apiMessagePreviews[this.state.user.id].isGetLoading != true &&
-      this.props.apiMessagePreviews[this.state.user.id].data != undefined;
+    var loaded = true;
+      // this.props.apiMessagePreviews[this.state.user.id] != undefined &&
+      // this.props.apiMessagePreviews[this.state.user.id].isGetLoading != true &&
+      // this.props.apiMessagePreviews[this.state.user.id].data != undefined;
 
     var loaded2 = 
       this.props.apiDietitianAppointments != undefined &&
@@ -139,7 +141,7 @@ class Header extends React.Component  {
 
   componentDidMount() {
     if (!this.isLoaded() && this.state.user && this.props.noButton != true && !this.props.backButton) {
-      this.props.getMessagePreviews(this.state.user.id);
+      // this.props.getMessagePreviews(this.state.user.id);
       this.props.getDietitianAppointments(this.state.user.id);
     }
 
@@ -177,9 +179,10 @@ class Header extends React.Component  {
     var showLoader = !this.isLoaded();
     var showBadge = false;
     var pendingAppts = 0;
-    var unreadMsgs = showLoader 
-      ? 0 
-      : Object.keys(this.props.apiMessagePreviews[this.state.user.id].data).map((u) => this.props.apiMessagePreviews[this.state.user.id].data[u].unread).reduce((a,b) => a+b, 0);
+    var unreadMsgs = 0;
+      // showLoader 
+      //   ? 0 
+      //   : Object.keys(this.props.apiMessagePreviews[this.state.user.id].data).map((u) => this.props.apiMessagePreviews[this.state.user.id].data[u].unread).reduce((a,b) => a+b, 0);
 
     if (!showLoader) {
       var appts = this.props.apiDietitianAppointments[this.state.user.id].data;
