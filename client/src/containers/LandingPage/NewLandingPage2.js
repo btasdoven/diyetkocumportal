@@ -36,6 +36,7 @@ import Zoom from '@material-ui/core/Zoom';
 import SpeedDial from '../SpeedDial/SpeedDial'
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
+import PricingList from './PricingList'
 import DiyetisyenList from './DiyetisyenList'
 import DiyetisyenList2 from './DiyetisyenList2'
 import LandingPageDietitianList from './LandingPageDietitianList'
@@ -312,9 +313,14 @@ class LandingPage extends React.Component {
               </span>
               <span edge="end">
                 { this.props.width == 'xs' &&
-                  <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
-                    <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
-                  </IconButton>
+                  <Fragment>
+                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white'}} component={Link} to="/signin">
+                      GİRİŞ YAP
+                    </Button>
+                    <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
+                      <MenuRoundedIcon style={{width: '32px', height: '32px'}} />
+                    </IconButton>
+                  </Fragment>
                 }
                 { this.props.width != 'xs' && 
                   <Fragment>
@@ -455,7 +461,7 @@ class LandingPage extends React.Component {
 
           </div>
 
-          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '64px' }}>
+          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px' }}>
             <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '32px'}}>Mutlu Diyetisyenlerimizden Bazıları</Typography>
             
             {/* <Typography variant="body1" color="textSecondary" style={{paddingLeft:'24px', paddingRight: '24px', paddingBottom: '16px'}}>Sistemimizi kullanan diyetisyenlerimizden hemen şimdi randevu alabilirsin.</Typography> */}
@@ -463,40 +469,80 @@ class LandingPage extends React.Component {
             <DiyetisyenList2 backgroundColor="white"/>
           </div>
 
-          <div id="register" style={{width: '100%', paddingTop: '48px', paddingBottom: '48px', backgroundColor: '#f8f9fe' }}>
-            <Typography variant="h5" style={{color: '#32325d', textAlign: 'center', fontWeight: 500, paddingBottom: '16px'}}>PREMIUM PAKET</Typography>
-            
-            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
-              Sana özel kişisel sayfa
-            </Typography>
-            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
-              Online ve yüz yüze randevu takibi
-            </Typography>
-            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
-              Otomatik dijital anamnez formu
-            </Typography>
-            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
-              Sınırsız mesajlaşma
-            </Typography>
-            <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
-              Sınırsız ölçüm ekleme
-            </Typography>
-
-            <div style={{textAlign: 'center', paddingTop: '12px'}}>
-              <Typography component="span" variant="h4" color="textPrimary">
-                49₺
-              </Typography>
-              <Typography component="span" variant="h5" color="textSecondary">
-                /ay
-              </Typography>
-            </div>
-
-            <div style={{textAlign: 'center', paddingTop: '30px'}}>
-              <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
-                2 AY ÜCRETSİZ DENE
-              </Button>
-            </div>
+          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '32px', backgroundColor: '#f8f9fe' }}>
+            <PricingList backgroundColor="white"/>
           </div>
+
+          {/* <Grid container spacing={0} id="register" style={{width: '100%', paddingTop: '48px', paddingBottom: '48px', backgroundColor: '#f8f9fe' }}>
+            <Grid style={{paddingLeft: '16px', paddingRight: '8px'}} item xs={6}>
+              <Typography variant="h5" style={{color: '#32325d', textAlign: 'center', fontWeight: 500, paddingBottom: '16px'}}>PREMIUM PAKET</Typography>
+              
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Sana özel kişisel sayfa
+              </Typography>
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Online ve yüz yüze randevu takibi
+              </Typography>
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Otomatik dijital anamnez formu
+              </Typography>
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Sınırsız mesajlaşma
+              </Typography>
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Sınırsız ölçüm ekleme
+              </Typography>
+
+              <div style={{textAlign: 'center', paddingTop: '12px'}}>
+                <Typography component="span" variant="h4" color="textPrimary">
+                  49₺
+                </Typography>
+                <Typography component="span" variant="h5" color="textSecondary">
+                  /ay
+                </Typography>
+              </div>
+
+              <div style={{textAlign: 'center', paddingTop: '30px'}}>
+                <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
+                  2 AY ÜCRETSİZ DENE
+                </Button>
+              </div>
+            </Grid>
+            <Grid style={{paddingLeft: '8px', paddingRight: '16px'}} item xs={6}>
+              <Typography variant="h5" style={{color: '#32325d', textAlign: 'center', fontWeight: 500, paddingBottom: '16px'}}>PREMIUM PAKET</Typography>
+              
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Sana özel kişisel sayfa
+              </Typography>
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Online ve yüz yüze randevu takibi
+              </Typography>
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Otomatik dijital anamnez formu
+              </Typography>
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Sınırsız mesajlaşma
+              </Typography>
+              <Typography variant="body1" color="textSecondary" style={{textAlign:'center', paddingLeft:'24px', paddingRight: '24px', paddingBottom: '4px'}}>
+                Sınırsız ölçüm ekleme
+              </Typography>
+
+              <div style={{textAlign: 'center', paddingTop: '12px'}}>
+                <Typography component="span" variant="h4" color="textPrimary">
+                  49₺
+                </Typography>
+                <Typography component="span" variant="h5" color="textSecondary">
+                  /ay
+                </Typography>
+              </div>
+
+              <div style={{textAlign: 'center', paddingTop: '30px'}}>
+                <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
+                  2 AY ÜCRETSİZ DENE
+                </Button>
+              </div>
+            </Grid>
+          </Grid> */}
 
           <div style={{width: '100%', paddingTop: '48px', paddingBottom: '24px' }}>
             <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '32px'}}>Bizi Tercih Edenler</Typography>
