@@ -190,7 +190,7 @@ class Sidebar extends React.Component {
               
           <Divider />
           <List dense={true} style={{paddingRight: '8px'}}>
-            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/' selected={location.pathname == '/'}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/home' selected={location.pathname == '/home'}>
               <ListItemIcon style={{minWidth: '40px'}}>
                 <DashboardIcon color="primary"/>
               </ListItemIcon>

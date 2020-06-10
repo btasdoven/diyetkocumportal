@@ -120,9 +120,10 @@ class App extends Component {
                 <Router>
                   {localStorage.getItem('user') ? (
                     <Switch>
-                      <DashboardRoute path="/enler" component={Enler} />
-                      <DashboardRoute path="/blog" component={BlogList} />
-                      <DashboardRoute exact path="/" component={Dashboard} />
+                      <DashboardRoute exact path="/enler" component={Enler} />
+                      <DashboardRoute exact path="/blog" component={BlogList} />
+                      <Route exact path="/" render={(props) => <Redirect to={`/t`} />} />
+                      <DashboardRoute exact path="/home" component={Dashboard} />
                       <DashboardRoute exact path="/status" component={ProfileStatus} />
 
                       <DashboardRoute exact path="/c" component={DanisanList} />
@@ -142,14 +143,14 @@ class App extends Component {
                       <DashboardRoute exact backButton="/r" path="/r/:danisan/messages" viewParam="messages" component={DanisanView} />
                       <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />
 
-                      <DashboardRoute path="/me" component={MyProfile} />
+                      <DashboardRoute exact path="/me" component={MyProfile} />
                       {/* <DashboardRoute path="/f" component={NotImplementedYet} />
                       <DashboardRoute path="/kd" component={NotImplementedYet} /> */}
 
                       <DashboardNonSignedRoute path="/signup" component={Register} />
-                      <Route path="/fp" render={() => <Redirect to="/" />} />
-                      <Route path="/rp" render={() => <Redirect to="/" />} />
-                      <Route path="/signin" render={() => <Redirect to="/" />} />
+                      <Route exact path="/fp" render={() => <Redirect to="/" />} />
+                      <Route exact path="/rp" render={() => <Redirect to="/" />} />
+                      <Route exact path="/signin" render={() => <Redirect to="/" />} />
 
                       <DashboardRoute exact path="/nimda" component={AdminView} />
                       <DashboardRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
@@ -159,16 +160,16 @@ class App extends Component {
                     </Switch>
                   ) : (
                     <Switch>
-                      <DashboardNonSignedRoute path="/enler" component={Enler} />
-                      <DashboardNonSignedRoute path="/blog" component={BlogList} />
+                      <DashboardNonSignedRoute exact path="/enler" component={Enler} />
+                      <DashboardNonSignedRoute exact path="/blog" component={BlogList} />
                       
                       <DashboardNonSignedRoute path="/l/:linkId" component={AnemnezFormView} />
 
                       <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
 
-                      <DashboardNonSignedRoute path="/signup" component={Register} />
-                      <DashboardNonSignedRoute path="/signin" component={Signin} />
-                      <EmptyRoute path="/fp" component={ForgotPassword} />
+                      <DashboardNonSignedRoute exact path="/signup" component={Register} />
+                      <DashboardNonSignedRoute exact path="/signin" component={Signin} />
+                      <EmptyRoute exact path="/fp" component={ForgotPassword} />
                       <EmptyRoute path="/rp/:linkId" component={ResetPassword} />
                       <Route exact path="/" component={NewLandingPage2Tracked} />
                       <DashboardNonSignedRoute exact path="/:diyetisyenUserName" component={NewRandevu} />

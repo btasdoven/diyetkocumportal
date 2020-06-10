@@ -41,16 +41,16 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const tutorialSteps = [
   {
-    label: 'Seda Nur Arslan',
-    link: '/dyt.sedaarslan',
-    unvan: 'Dyt.',
-    info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
-  },
-  {
     label: 'Aşkın Özdemir',
     link: '/diyetisyenasknn',
     unvan: 'Dyt.',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
+  },
+  {
+    label: 'Meltem Arslan',
+    link: '/dyt.arslanmeltem',
+    unvan: 'Dyt.',
+    info: 'Online asistanlık ile online diyet sistemini pratik ve kolay hale getiren bir platform. Diyetisyenler için her şey düşünülmüş 😊 Tüm meslektaşlarıma tavsiye ederim 👍🏻',
   },
   {
     label: 'Merve Doyranlı',
@@ -65,16 +65,16 @@ const tutorialSteps = [
     info: 'Bütün meslektaşlarıma, özellikle de online ağırlıklı çalışan meslektaşlarıma kullanmalarını tavsiye ettiğim randevu sistemi 👌 En güzel yanı danışan datamızı saklayabiliyor olmak 🥰',
   },
   {
+    label: 'Aysu Taşdöven',
+    link: '/aysuutasdovenn',
+    unvan: 'Dyt.',
+    info: "Oluşturduğum kişisel sayfamın linkini Instagram profilime koydum ve yeni danışanlarıma kolayca randevu verebildim. Teşekkürler Diyet Koçum 😊",
+  },
+  {
     label: 'Büşra Özyavuz',
     link: '/diyetiswomen',
     unvan: 'Dyt.',
     info: 'Sağlıklı bir yaşam ve fit bir görüntü için daha fazla vakit kaybetme! Hemen şimdi randevu alabilirsin.',
-  },
-  {
-    label: 'Aysu Taşdöven',
-    link: '/aysuutasdovenn',
-    unvan: 'Dyt.',
-    info: "Oluşturduğum kişisel sayfamın linkini Instagram profilime koydum ve yeni danışanlarıma kolayca randevu verebildim. Teşekkürler Diyet Koçum!",
   },
 ];
 
