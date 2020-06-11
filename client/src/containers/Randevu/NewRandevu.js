@@ -670,11 +670,6 @@ class NewRandevuStep0 extends React.Component {
                     {user.ozgecmis || 
                       `Merhaba, Ben ${user.unvan || ''} ${user.name}! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme, hamilelik ve emzirme döneminde beslenme, hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen diyet gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.`
                     }
-                    <br />
-                    <br />
-                    {user.online_diyet == true 
-                      ? "Online diyet yapmaktayım. Yüz yüze randevu ya da online diyeti seçerek daha sağlıklı ve kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏" 
-                      : "Yalnızca yüz yüze randevu vermekteyim. Daha sağlıklı ve kaliteli bir yaşama ilk adımını atabilirsin 🍏💪🙏"}
                   </Typography>
                 </div>
               </Grid>
@@ -684,7 +679,7 @@ class NewRandevuStep0 extends React.Component {
         </Card>
         <div className={classes.rootTypeSelect}>
           {user.online_diyet == true && <Button style={{margin: '24px'}} variant="contained" color="primary" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
-          <Button variant="contained" color="secondary" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>
+          {user.yuzyuze_diyet == true && <Button variant="contained" color="secondary" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>}
         </div>
       </span>
     )}

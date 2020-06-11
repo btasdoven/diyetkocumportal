@@ -624,16 +624,26 @@ class Envanter extends React.Component {
                   expandIcon={<ExpandMoreIcon />}
                 >
                   <Typography color="secondary" variant="button">
-                  YÜZ YÜZE RANDEVU SAATLERİM
+                  YÜZ YÜZE RANDEVU
                   </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                   <Grid container spacing={2}>
+                    <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
+                      <ReduxFormSwitch name="yuzyuze_diyet" label={<Typography variant="body2">Yüz yüze randevu istekleri gelsin</Typography>}/>
+                    </Grid>
+
                     <Grid item xs={12}>
+                      <div className={classes.text}>
+                        <Typography variant="body2">Yüz yüze randevu verebilmek için sistemimizde en az bir ofis adresinizin kayıtlı bulunması gerekmektedir.</Typography>
+                      </div>
+                    </Grid>
+
+                    {/* <Grid item xs={12}>
                       <div className={classes.text}>
                         <Typography variant="body2">Yukarıdaki linki paylaştığınız danışanlarınız aşağıda seçtiğiniz saat aralıklarına göre randevu isteklerini otomatik olarak sizin e-posta adresinize onayınız için gönderebilirler.</Typography>
                       </div>
-                    </Grid>
+                    </Grid> */}
 
                     <Grid item xs={12}>
                       <Grid container spacing={2}>

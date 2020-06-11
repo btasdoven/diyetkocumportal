@@ -66,6 +66,7 @@ const rows = {
       '16:00 - 16:30': true,
       '16:30 - 17:00': true,
       'online_diyet': true,
+      'yuzyuze_diyet': true,
       'unvan': 'Diyetisyen',
       'ozgecmis': 'Merhaba! Siz değerli danışanlarıma zayıflama, kilo alma, kilo verme; hamilelikte, emzirme döneminde ve hastalıklarda beslenme, sporcu beslenmesi, vegan/vejetaryen/aralıklı oruç diyeti gibi farklı alanlarda sağlıklı beslenme ve diyet danışmanlığı hizmeti vermekteyim.',
       posts: {},
@@ -521,6 +522,11 @@ var taskUpgradeStg = () => {
 
     if (rows[id].profile.pageViewCountPerDay == undefined) {
       rows[id].profile.pageViewCountPerDay = {}
+      changed = true
+    }
+
+    if (rows[id].profile.yuzyuze_diyet == undefined) {
+      rows[id].profile.yuzyuze_diyet = true
       changed = true
     }
 
@@ -1108,7 +1114,7 @@ Diyet Koçum Ailesi`
         rows[userId].danisans[values.info.name].profile.visibleToDietitian = true;
       }
     }
-    
+
     storage.setItem(userId, rows[userId]);
   }
 }
