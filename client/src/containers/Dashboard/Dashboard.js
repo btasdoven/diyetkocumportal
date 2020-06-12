@@ -177,9 +177,9 @@ class Dashboard extends React.Component {
                 to={"/status"}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
+            {/* <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <RewardCard onClick={() => registerEvent("ViewEnlerFromDashboard")} to="/enler"/>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <Typography variant="h5" style={{color: 'rgb(50, 50, 93)'}}>İstatistikler</Typography>
             </Grid>
