@@ -4,6 +4,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 // require('console-stamp')(console, 'HH:MM:ss.l');
 
+const serverVersion = 1.0
+const jwt = require('jsonwebtoken');
+
 const stringHash = require("string-hash");
 const qs = require('querystring');
 const express = require("express");
@@ -18,13 +21,6 @@ const ig = require('./ig');
 const compression = require('compression');
 const multer = require('multer');
 const massemail = require('./massemail')
-
-const cookieSession = require('cookie-session')
-// const session = require('express-session');
-// const FileStore = require('session-file-store')(session);
-// const redis = require('redis');
-// const redisStore = require('connect-redis')(session);
-// const client  = redis.createClient();
 
 console.log(process.arch)
 console.log(process.version)
@@ -61,11 +57,6 @@ app.use(compression({
     return x; 
   }  
 }));
- 
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}))
 
 app.use('/api/v1/public', express.static('public', { maxAge: 31536000 * 1000 }))
 
@@ -150,6 +141,38 @@ var uploadMeasurements = multer({ storage: storage })
 var upload = multer({ storage: storage }).single('file')
 var uploadForAdmin = multer({ storage: storageForAdmin }).single('file')
 
+var verifyJwtToken = function (req, res, next) {
+  var token = req.headers['x-access-token'];
+
+  console.log('token', token)
+
+  if (!token) {
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(401).send({ message: 'Kimliğiniz doğrulanamadı. Yeniden giriş yapınız.' });
+  }
+  
+  jwt.verify(token, process.env.EMAIL_PASS, function(err, decoded) {
+    if (err) {
+      res.setHeader('Content-Type', 'application/json');
+      return res.status(500).send({ message: 'Geçersiz kimlik bilgieri.' });
+    }
+    
+    res.locals.jwtToken = token;
+    res.locals.jwtUser = decoded.id;
+
+    console.log(decoded)
+
+    if (req && req.params && req.params.userId) {
+      if (req.params.userId != decoded.id) {
+        res.setHeader('Content-Type', 'application/json');
+        return res.status(401).send({ message: 'Bu bilgiye erişiminiz yoktur.' });
+      }
+    }
+
+    next();
+  });
+}
+
 var isPremiumUser = function (req, res, next) {
   if (req && req.params && req.params.userId) {
     // console.log('premium', req.originalUrl, req.params, req.session.views)
@@ -166,14 +189,14 @@ var isPremiumUser = function (req, res, next) {
   next();
 }
 
-app.get("/api/v1/users/:userId/messagePreviews", (req, res, next) => {
+app.get("/api/v1/users/:userId/messagePreviews", verifyJwtToken, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.getMessagePreviews(req.params.userId));
   }), delayInResponseInMs);
 });
 
-app.get("/api/v1/users/:userId/danisanPreviews", (req, res, next) => {
+app.get("/api/v1/users/:userId/danisanPreviews", verifyJwtToken, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.getDanisanPreviews(req.params.userId));
@@ -187,7 +210,7 @@ app.get("/api/v1/users/:userId/appointments/:date?", (req, res, next) => {
   }), delayInResponseInMs);
 }); 
 
-app.put("/api/v1/users/:userId/appointments/:date/times/:time", isPremiumUser, (req, res, next) => {
+app.put("/api/v1/users/:userId/appointments/:date/times/:time", (req, res, next) => {
   setTimeout((function() { 
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.putDietitianAppointmentInfo(req.params.userId, req.params.date, req.params.time, req.body));
@@ -208,7 +231,7 @@ app.get("/api/v1/users/:userId/comments", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
-app.put("/api/v1/users/:userId/comments", isPremiumUser, (req, res, next) => {
+app.put("/api/v1/users/:userId/comments", verifyJwtToken, isPremiumUser, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.putDietitianComments(req.params.userId, req.body));
@@ -229,14 +252,14 @@ app.get("/api/v1/users/:userId/profile", (req, res, next) => {
   }), delayInResponseInMs);
 });
 
-app.put("/api/v1/users/:userId/profile", isPremiumUser, (req, res, next) => {
+app.put("/api/v1/users/:userId/profile", verifyJwtToken, isPremiumUser, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.putDietitianProfile(req.params.userId, req.body));
   }), delayInResponseInMs);
 });
 
-app.post("/api/v1/users/:userId/makePayment", (req, res, next) => {
+app.post("/api/v1/users/:userId/makePayment", verifyJwtToken, (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.makePayment(req.params.userId, req.body));
@@ -393,8 +416,13 @@ app.post("/api/v1/users/auth", (req, res, next) => {
 
     if (ret.error == undefined) {
       var user = ret.user;
+
+      var token = jwt.sign({ id: user.username, server_version: serverVersion }, process.env.EMAIL_PASS, {
+        expiresIn: 86400 // expires in 24 hours
+      });
+
       res.setHeader('Content-Type', 'application/json');
-      res.json({token: stringHash(user.username), url: user.url, name: user.name, username: user.username, id: user.id, premium_until: user.premium_until});
+      res.json({token: token, url: user.url, name: user.name, username: user.username, id: user.id, premium_until: user.premium_until});
       return;
     }
 

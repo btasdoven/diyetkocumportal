@@ -438,7 +438,7 @@ class NewRandevuWrapper extends React.Component {
         ...this.state,
         ...newState
       }
-      
+
       this.props.setOnBackButtonClick(newState.step > 0 && newState.formValues == undefined ? () => this.setStateInternal( {step : newState.step - 1}) : undefined)
       this.props.setTitle(newState.step == 0 || newState.formValues != undefined
         ? undefined
@@ -571,7 +571,9 @@ class NewRandevuWrapper extends React.Component {
                     addressId={this.state.addressId}
                     date={this.state.date} 
                     type={this.state.type}
-                    onComplete={(date, time) => this.setStateInternal({date, time, step: 3})}  
+                    onComplete={(date, time) => {
+                      this.setStateInternal({date, time, step: 3})
+                    }}  
                   /> 
                 }
                 { !multipleOffices && this.state.type == 'randevu' && 
@@ -991,9 +993,16 @@ class NewRandevuStep4 extends React.Component {
         this.props.apiDietitianAppointments[this.state.userId].data != undefined &&
         this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt] != undefined &&
         this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].isGetLoading != true &&
+        this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].isPutLoading != true &&
         this.props.apiDietitianAppointments[this.state.userId].data[this.state.dateFmt].data != undefined;
 
         return loaded;
+    }
+
+    componentWillReceiveProps(newProps) {
+      if (this.props.date != newProps.date) {
+        this.setState({ dateFmt: moment(newProps.date).format('YYYYMMDD') })
+      }
     }
 
     componentDidMount() {

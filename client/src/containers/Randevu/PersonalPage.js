@@ -154,6 +154,10 @@ const MyMapComponent = compose(
 class PersonalPage extends React.Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+          user: JSON.parse(localStorage.getItem('user')),
+        }
     }
 
     componentDidMount() {
@@ -340,6 +344,24 @@ class PersonalPage extends React.Component {
                                 </Card>
                             )}
 
+                            {this.state.user != undefined && this.state.user.id == this.props.userId && user.posts && Object.keys(user.posts).length == 0 && (
+                                <Card elevation={0} className={classes.card}>
+                                    <CardHeader
+                                        style={{ textAlign: 'center' }}
+                                        title={
+                                            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Blog Yazılarım</Typography>
+                                            /* <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BLOG YAZILARIM</Typography> */
+                                        }
+                                    />
+                                    <CardContent style={{ paddingTop: 0 }}>
+                                        <Typography variant="body2" color="textSecondary" component="p" style={{textAlign: 'center'}}>
+                                            Hiç blog yazınız bulunmamaktadır. Yeni yazı eklemek için yazılarınızı info@diyetkocum.net e-posta adresine gönderebilirsiniz.
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            )}
+                            
+                            
                             {user.posts && Object.keys(user.posts).length > 0 && (
                                 <Card elevation={0} className={classes.card}>
                                     <CardHeader

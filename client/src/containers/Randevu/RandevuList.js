@@ -466,7 +466,10 @@ class Envanter extends React.Component {
 
           {showLoader && renderLoadingButton(classes) }
           {!showLoader && pendingAppts == 0 && 
-              <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Onayınızı bekleyen randevu bulunmamaktadır. 👍</Typography>
+            <React.Fragment>
+              <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', paddingTop: '56px'}}>Onayınızı bekleyen randevu bulunmamaktadır 👍</Typography>
+              <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', paddingTop: '16px'}}>Sosyal medyada paylaştığınız kişisel sayfanız üzerinden sizden randevu alan danışanlarınızın isteklerini buradan onaylayabilirsiniz. </Typography>
+            </React.Fragment>
           }
           {!showLoader && pendingAppts > 0 && 
             <main className={classes.content}>

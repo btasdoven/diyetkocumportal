@@ -3,6 +3,13 @@ import envService from './env.service'
 import dateFnsFormat from 'date-fns/format';
 import axios from 'axios';
 
+var JWT_TOKEN = undefined;
+var localUser = JSON.parse(localStorage.getItem('user'))
+
+if (localUser != undefined) {
+    JWT_TOKEN = localUser.token;
+}
+
 export const userService = {
     login,
     relogin,
@@ -71,6 +78,8 @@ function login(username, password) {
             if (user.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
+
+                JWT_TOKEN = user.token;
             }
 
             envService.isProduction || console.log(user)
@@ -108,11 +117,7 @@ function signup(username, userInfo) {
         body: JSON.stringify(userInfo)
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/signup`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            return user;
-        });
+    return handleRequest(`/api/v1/users/signup`, requestOptions);
 }
 
 function reset_password(username, userInfo) {
@@ -122,11 +127,7 @@ function reset_password(username, userInfo) {
         body: JSON.stringify(userInfo)
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/resetPassword`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            return user;
-        });
+    return handleRequest(`/api/v1/users/resetPassword`, requestOptions);
 }
 
 function request_new_password_email(username, userInfo) {
@@ -136,11 +137,7 @@ function request_new_password_email(username, userInfo) {
         body: JSON.stringify(userInfo)
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/requestNewPasswordEmail`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            return user;
-        });
+    return handleRequest(`/api/v1/users/requestNewPasswordEmail`, requestOptions);
 }
 
 function logout() {
@@ -156,11 +153,7 @@ function get_message_previews(userId) {
         headers: { 'Content-Type': 'application/json' },
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/messagePreviews`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/messagePreviews`, requestOptions);
 }
 
 function get_danisan_previews(userId) {
@@ -169,11 +162,7 @@ function get_danisan_previews(userId) {
         headers: { 'Content-Type': 'application/json' },
     };
 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisanPreviews`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisanPreviews`, requestOptions);
 }
 
 function new_danisan(userId, newDanisanPreview) {
@@ -183,11 +172,7 @@ function new_danisan(userId, newDanisanPreview) {
         body: JSON.stringify(newDanisanPreview)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + newDanisanPreview.username, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + newDanisanPreview.username, requestOptions);
 }
 
 function get_dietitian_appointments(userId, date) {
@@ -198,11 +183,7 @@ function get_dietitian_appointments(userId, date) {
     
     date = date == undefined ? '' : date;
 
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/appointments/` + date, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/appointments/` + date, requestOptions);
 }
 
 function put_dietitian_appointment(userId, date, time, values) {
@@ -212,11 +193,7 @@ function put_dietitian_appointment(userId, date, time, values) {
         body: JSON.stringify(values)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/appointments/` + date + `/times/` + time, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/appointments/` + date + `/times/` + time, requestOptions);
 }
 
 function get_dietitian_profile(userId) {
@@ -225,11 +202,7 @@ function get_dietitian_profile(userId) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/profile`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/profile`, requestOptions);
 }
 
 function put_dietitian_profile(userId, dietitianProfile) {
@@ -239,11 +212,7 @@ function put_dietitian_profile(userId, dietitianProfile) {
         body: JSON.stringify(dietitianProfile)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/profile`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/profile`, requestOptions);
 }
 
 function get_link_info(linkId) {
@@ -252,11 +221,7 @@ function get_link_info(linkId) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/links/` + linkId, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/links/` + linkId, requestOptions);
 }
 
 function get_danisan_messages(userId, danisanUserName) {
@@ -265,11 +230,7 @@ function get_danisan_messages(userId, danisanUserName) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages`, requestOptions);
 }
 
 function add_danisan_message(userId, danisanUserName, message) {
@@ -279,11 +240,7 @@ function add_danisan_message(userId, danisanUserName, message) {
         body: JSON.stringify(message)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages/` + message.id, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages/` + message.id, requestOptions);
 }
 
 function read_danisan_message(userId, danisanUserName) {
@@ -292,11 +249,7 @@ function read_danisan_message(userId, danisanUserName) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages/read`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/messages/read`, requestOptions);
 }
 
 function get_danisan_profile(userId, danisanUserName) {
@@ -305,11 +258,7 @@ function get_danisan_profile(userId, danisanUserName) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/profile`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/profile`, requestOptions);
 }
 
 function put_danisan_profile(userId, danisanUserName, danisanProfile) {
@@ -319,11 +268,7 @@ function put_danisan_profile(userId, danisanUserName, danisanProfile) {
         body: JSON.stringify(danisanProfile)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/profile`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/profile`, requestOptions);
 }
 
 function get_danisan_files(userId, danisanUserName) {
@@ -332,11 +277,7 @@ function get_danisan_files(userId, danisanUserName) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/files`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/files`, requestOptions);
 }
 
 function add_danisan_files(userId, danisanUserName, data) {
@@ -352,11 +293,7 @@ function get_danisan_measurements(userId, danisanUserName) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/measurements`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/measurements`, requestOptions);
 }
 
 function add_danisan_measurement(userId, danisanUserName, danisanMeasurement) {
@@ -366,11 +303,7 @@ function add_danisan_measurement(userId, danisanUserName, danisanMeasurement) {
         body: JSON.stringify(danisanMeasurement)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/addMeasurement`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/addMeasurement`, requestOptions);
 }
 
 function get_danisan_notes(userId, danisanUserName) {
@@ -379,11 +312,7 @@ function get_danisan_notes(userId, danisanUserName) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/notes`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/notes`, requestOptions);
 }
 
 function put_danisan_notes(userId, danisanUserName, danisanNotes) {
@@ -393,11 +322,7 @@ function put_danisan_notes(userId, danisanUserName, danisanNotes) {
         body: JSON.stringify(danisanNotes)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/notes`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/notes`, requestOptions);
 }
 
 function get_danisan_diet_list(userId, danisanUserName) {
@@ -406,11 +331,7 @@ function get_danisan_diet_list(userId, danisanUserName) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/dietlist`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/dietlist`, requestOptions);
 }
 
 function put_danisan_diet_list(userId, danisanUserName, danisanDietList) {
@@ -420,11 +341,7 @@ function put_danisan_diet_list(userId, danisanUserName, danisanDietList) {
         body: JSON.stringify(danisanDietList)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/dietlist`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId + `/danisans/` + danisanUserName + `/dietlist`, requestOptions);
 }
 
 function delete_dietitian(userId) {
@@ -434,11 +351,7 @@ function delete_dietitian(userId) {
         body: localStorage.getItem('user')
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/` + userId, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/` + userId, requestOptions);
 }
 
 function get_all_dietitians(isAdmin) {
@@ -447,11 +360,7 @@ function get_all_dietitians(isAdmin) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/getAllDietitians?isAdmin=${isAdmin}`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });   
+    return handleRequest(`/api/v1/getAllDietitians?isAdmin=${isAdmin}`, requestOptions);
 }
 
 function get_all_posts() {
@@ -460,11 +369,7 @@ function get_all_posts() {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/posts`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });   
+    return handleRequest(`/api/v1/posts`, requestOptions);
 }
 
 function add_danisan_measurement_with_photo(userId, danisanUserName, data) {
@@ -487,11 +392,7 @@ function get_dietitian_comments(userId) {
         headers: { 'Content-Type': 'application/json' }
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/${userId}/comments`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        }); 
+    return handleRequest(`/api/v1/users/${userId}/comments`, requestOptions);
 }
 
 function put_dietitian_comments(userId, comments) {
@@ -501,11 +402,7 @@ function put_dietitian_comments(userId, comments) {
         body: JSON.stringify(comments)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/${userId}/comments`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/${userId}/comments`, requestOptions);
 }
 
 function post_dietitian_comment(userId, comment) {
@@ -515,11 +412,7 @@ function post_dietitian_comment(userId, comment) {
         body: JSON.stringify(comment)
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/${userId}/newcomment`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/${userId}/newcomment`, requestOptions);
 }
 
 function add_new_post(formValues) {
@@ -529,11 +422,7 @@ function add_new_post(formValues) {
         body: JSON.stringify(formValues)
     };
     
-    return fetch(HOST_NAME + `/api/v1/addNewPost`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/addNewPost`, requestOptions);
 }
 
 function add_payment(userId) {
@@ -543,11 +432,7 @@ function add_payment(userId) {
         body: localStorage.getItem('user')
     };
     
-    return fetch(HOST_NAME + `/api/v1/users/${userId}/makePayment`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+    return handleRequest(`/api/v1/users/${userId}/makePayment`, requestOptions);
 }
 
 function track_activity(userId, event) {
@@ -561,11 +446,20 @@ function track_activity(userId, event) {
         body: JSON.stringify({ event: event })
     };
     
-    return fetch(HOST_NAME + `/api/v1/trackActivity/${userId}`, requestOptions)
+    return handleRequest(`/api/v1/trackActivity/${userId}`, requestOptions);
+}
+
+function handleRequest(endpoint, requestOptions) {
+    if (JWT_TOKEN != undefined) {
+        requestOptions.headers = {
+            ...requestOptions.headers,
+            'x-access-token': JWT_TOKEN
+        }
+    }
+
+    return fetch(HOST_NAME + endpoint, requestOptions)
         .then(handleResponse)
-        .then(data => {
-            return data;
-        });   
+        .then(data => data);
 }
 
 function handleResponse(response) {

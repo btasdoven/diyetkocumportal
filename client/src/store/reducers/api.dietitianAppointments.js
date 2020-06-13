@@ -45,9 +45,12 @@ export default function reducer(state = initState, action) {
             ...state,
             [action.userId]: {
               ...state[action.userId],
-              [action.date]: {
-                error: action.error
-              },
+              data: {
+                ...(state[action.userId] == undefined ? {} : state[action.userId].data),
+                [action.date]: {
+                  error: action.error
+                },
+              }
             }
           }
         } else {
@@ -64,9 +67,13 @@ export default function reducer(state = initState, action) {
             ...state,
             [action.userId]: {
               ...state[action.userId],
-              [action.date]: {
-                isGetLoading: true,
-              },
+              data: {
+                ...(state[action.userId] == undefined ? {} : state[action.userId].data),
+                [action.date]: {
+                  ...(getValue(state, [action.userId, 'data', action.date])),
+                  isGetLoading: true,
+                },
+              }
             }
           }
         } else {
@@ -154,7 +161,10 @@ export function putDietitianAppointment(userId, date, time, values) {
         .then(
             (data) => { 
               getDietitianAppointments(userId, date)(dispatch);
-              getDanisanPreviews(userId)(dispatch);
+
+              if (JSON.parse(localStorage.getItem('user')) != undefined) {
+                getDanisanPreviews(userId)(dispatch);
+              }
             },
             error => {
                 dispatch(failure(userId, date, time, error.toString()));
