@@ -229,7 +229,7 @@ class FieldDialog extends React.Component {
         this.refMap = React.createRef();
 
         this.state = {
-          ad: Date.now(),
+          ad: props.addressId ? props.addressId : Date.now(),
           latlng: props.latlng,
           shouldDraw: false,
         }
@@ -261,12 +261,23 @@ class FieldDialog extends React.Component {
         var center = this.refMap.current.getCenter();
         var zoom = this.refMap.current.getZoom()
         if (this.props.handleClose != undefined) {
-            this.props.handleClose(this.state.ad, { lat: center.lat(), lng: center.lng(), zoom: zoom});
+            this.props.handleClose(this.state.ad, { lat: center.lat(), lng: center.lng(), zoom: zoom });
         }        
     }
 
     render() {
         var ad = this.state.ad;
+        var formValid = false;
+
+        if (this.props.apiForm &&
+            this.props.apiForm[this.props.form] &&
+            this.props.apiForm[this.props.form].values &&
+            this.props.apiForm[this.props.form].values.addresses && 
+            this.props.apiForm[this.props.form].values.addresses[this.state.ad] && 
+            this.props.apiForm[this.props.form].values.addresses[this.state.ad].address != undefined) {
+          formValid = true;
+        }
+
         return (
           <Dialog 
               fullWidth
@@ -286,16 +297,20 @@ class FieldDialog extends React.Component {
                         ref={this.refMap}
                       />
                     }
-                    <Field component="input" name={`addresses["${ad}"].latlng.lat`} label="Lat" type="hidden" />
-                    <Field component="input" name={`addresses["${ad}"].latlng.lng`} label="Lng" type="hidden" />
-                    <Field component="input" name={`addresses["${ad}"].latlng.zoom`} label="Zoom" type="hidden" />
+                    {this.props.addressId == undefined && (
+                      <React.Fragment>
+                        <Field validate={[required]} component="input" name={`addresses["${ad}"].latlng.lat`} label="Lat" type="hidden" />
+                        <Field validate={[required]} component="input" name={`addresses["${ad}"].latlng.lng`} label="Lng" type="hidden" />
+                        <Field validate={[required]} component="input" name={`addresses["${ad}"].latlng.zoom`} label="Zoom" type="hidden" />
+                      </React.Fragment>
+                    )}
                   </Grid>
                   <Grid style={{paddingTop: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
-                    <ReduxFormTextField name={`addresses["${ad}"].address`} label="Adres" validate={[required]}/>
+                    <ReduxFormTextField required name={`addresses["${ad}"].address`} label="Adres" validate={[required]}/>
                   </Grid>
-                  <Grid style={{paddingTop: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
+                  {/* <Grid style={{paddingTop: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
                     <ReduxFormTextField name={`addresses["${ad}"].city`} label="Şehir" validate={[required]}/>
-                  </Grid>
+                  </Grid> */}
                   { ApptDays().map( (h, i) => {
                     return (
                       <Grid style={{paddingTop: '0', paddingBottom: '0', alignItems: 'center', justifyContent: 'center'}} key={i} item xs={12} sm={6} md={4} lg={3}>
@@ -309,7 +324,7 @@ class FieldDialog extends React.Component {
                   <Button disabled={this.props.submitting} onClick={() => this.handleClose(true)} color="secondary">
                       İPTAL
                   </Button>
-                  <Button disabled={this.props.submitting || this.props.invalid} onClick={() => this.handleClose(false)} color="secondary">
+                  <Button disabled={!formValid} onClick={() => this.handleClose(false)} color="secondary">
                       OFİS EKLE
                   </Button>
               </DialogActions>
@@ -320,6 +335,7 @@ class FieldDialog extends React.Component {
 
 function mapStateToProps(state, props) {
     return {
+      apiForm: state.form,
     }
 }
 

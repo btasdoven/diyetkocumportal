@@ -12,6 +12,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import UzmanlikAlanlariAutocomplete from '../../components/UzmanlikAlanlariAutocomplete'
+import NewAddressDialog from '../../components/NewAddressDialog'
+import ShowAddressOnMap from '../../components/ShowAddressOnMap'
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import green from '@material-ui/core/colors/green';
@@ -483,6 +485,8 @@ class LandingPage extends React.Component {
     this.state = {
       anchorEl: undefined,
       activeStep: 0,
+      openAddressDialog: undefined,
+      currentTimeForAddress: '1. Adres',
     }
   }
 
@@ -522,7 +526,7 @@ class LandingPage extends React.Component {
 
     var activeStep = this.state.activeStep;
 
-    if (apiForm && apiForm.submitSucceeded) {
+    if (apiForm && apiForm.submitSucceeded && !(auth && auth.error)) {
       activeStep = 4;
     }
 
@@ -530,6 +534,18 @@ class LandingPage extends React.Component {
         activeStep += 1;
     }
 
+    var addressValue = undefined
+    if (apiForm && 
+        apiForm.values && 
+        apiForm.values.addresses) {
+      addressValue = Object.values(apiForm.values.addresses)[0]
+      if (addressValue.done != true) {
+        addressValue = undefined
+      }
+    }
+    
+    console.log(addressValue)
+    
     const checkDisabled = (f, props) => {
 
         if (f == undefined) {
@@ -540,7 +556,10 @@ class LandingPage extends React.Component {
             return false;
         }
 
-        return !props.every((prop) => f.syncErrors[prop] == undefined);
+        return !props.every((prop) => {
+          console.log(prop, f.registeredFields[prop], f.syncErrors[prop])
+          return f.syncErrors[prop] == undefined
+        });
     }
 
     return (
@@ -725,9 +744,34 @@ class LandingPage extends React.Component {
                         <ReduxFormSwitch name="yuzyuze_diyet" label={<Typography variant="body2" color="textSecondary">Yüz yüze randevu istekleri gelsin</Typography>}/>
                     </FormControl>
 
-                    {this.props.apiForm && this.props.apiForm[this.props.form] && this.props.apiForm[this.props.form].values && this.props.apiForm[this.props.form].values.yuzyuze_diyet == true && (
+                    {apiForm && apiForm.values && apiForm.values.yuzyuze_diyet == true && (
                       <FormControl margin="normal" fullWidth>
-                        <ReduxFormTextField required validate={[required]} name="address" label="Ofis adresim" />
+                        {/* <ReduxFormTextField required validate={[required]} name="address" label="Ofis adresim" /> */}
+                        
+                        <Field validate={[required]} component="input" name={`addresses["${this.state.currentTimeForAddress}"].latlng.lat`} label="Lat" type="hidden" />
+                        <Field validate={[required]} component="input" name={`addresses["${this.state.currentTimeForAddress}"].latlng.lng`} label="Lng" type="hidden" />
+                        <Field validate={[required]} component="input" name={`addresses["${this.state.currentTimeForAddress}"].latlng.zoom`} label="Zoom" type="hidden" />
+
+                        {addressValue != undefined && <ShowAddressOnMap latlng={addressValue.latlng}/>}
+                        {addressValue != undefined && <ReduxFormTextField required validate={[required]} name={`addresses["${this.state.currentTimeForAddress}"].address`} label="Ofis Adresim" style={{marginTop: '16px'}} />}
+
+                        {addressValue == undefined && <Button variant="outlined" color="secondary" onClick={() => this.setState({openAddressDialog: `address_new_map`})}>OFİS ADRESİ EKLE</Button>}
+
+                        {this.state.openAddressDialog == `address_new_map` && 
+                          <NewAddressDialog 
+                            form={this.props.form}
+                            addressId={this.state.currentTimeForAddress}
+                            handleClose = {(adKey, latlng) => {
+                              if (latlng != undefined) {
+                                this.props.change(`addresses["${adKey}"].latlng.lat`, latlng.lat)
+                                this.props.change(`addresses["${adKey}"].latlng.lng`, latlng.lng)
+                                this.props.change(`addresses["${adKey}"].latlng.zoom`, latlng.zoom)
+                                this.props.change(`addresses["${adKey}"].done`, true)
+                              }
+                              this.setState({openAddressDialog: undefined})
+                            }}
+                          />
+                        }
                       </FormControl>
                     )}
 
@@ -736,7 +780,7 @@ class LandingPage extends React.Component {
                             <KeyboardArrowLeft /> GERİ
                         </Button>
                         <Button 
-                          disabled={checkDisabled(apiForm, ['address'])}
+                          disabled={apiForm && apiForm.registeredFields[`addresses["${this.state.currentTimeForAddress}"].latlng.lat`] != undefined && checkDisabled(apiForm, [`addresses`])}
                           className={classes.nextButton} 
                           variant="contained"
                           onClick={this.handleNextStep} 

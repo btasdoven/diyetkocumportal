@@ -707,7 +707,8 @@ class Envanter extends React.Component {
 
                           {address.latlng && <ShowAddressOnMap latlng={address.latlng}/>}
                           <div style={{display:'flex', alignItems: 'center', marginTop: '16px'}}>
-                            <Typography variant="body1" >{address.address}</Typography>
+                            {this.state.expandList['ofis_' + ad] == true && <ReduxFormTextField name={`addresses["${ad}"].address`} label="Adres" />}
+                            {this.state.expandList['ofis_' + ad] != true && <Typography variant="body1" >{address.address}</Typography>}
                             <IconButton
                               style={
                                 (this.state.expandList['ofis_' + ad] || false) 
@@ -730,17 +731,14 @@ class Envanter extends React.Component {
                           </CardActions> */}
                           <Collapse in={this.state.expandList['ofis_' + ad] || false} timeout="auto" unmountOnExit>
                             <Grid container spacing={2} style={{paddingTop: '24px'}}>
-                              <Grid style={{paddingTop: '8px', paddingBottom: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
+                              {/* <Grid style={{paddingTop: '8px', paddingBottom: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
                                 <ReduxFormTextField name={`addresses["${ad}"].address`} label="Adres" />
-                              </Grid>
-                              <Grid style={{paddingTop: '8px', paddingBottom: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
-                                <ReduxFormTextField name={`addresses["${ad}"].city`} label="Şehir" />
-                              </Grid>
+                              </Grid> */}
                               <Grid style={{paddingTop: '8px', paddingBottom: '8px', alignItems: 'center', justifyContent: 'center'}} item xs={12}>
                                 <Field component="input" name={`addresses["${ad}"].latlng.lat`} label="Lat" type="hidden" />
                                 <Field component="input" name={`addresses["${ad}"].latlng.lng`} label="Lng" type="hidden" />
                                 <Field component="input" name={`addresses["${ad}"].latlng.zoom`} label="Zoom" type="hidden" />
-                                <Button variant="outlined" color="primary" onClick={() => this.setState({openDialog: `address_${ad}_map`})}>
+                                <Button variant="outlined" color="secondary" onClick={() => this.setState({openDialog: `address_${ad}_map`})}>
                                   HARİTADAN KONUM SEÇ
                                 </Button>                        
 
@@ -779,6 +777,7 @@ class Envanter extends React.Component {
 
                   {this.state.openDialog == `address_new_map` && 
                     <NewAddressDialog 
+                      form={this.props.form}
                       // latlng={address.latlng}
                       handleClose = {(ad, latlng) => {
                         if (latlng != undefined) {

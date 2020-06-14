@@ -753,7 +753,7 @@ exports.resetPassword = function(uname, userInfo) {
 exports.signUpUser = function(uname, userInfo) {
   console.log('signupUser');
   console.log(uname, userInfo)
-
+  
   uname = uname.trim();
   
   if (rows[uname] != undefined ||
@@ -811,6 +811,10 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.uzmanlik_alanlari = userInfo.uzmanlik_alanlari
       r.profile.ozgecmis = userInfo.ozgecmis
       r.profile.online_diyet = userInfo.online_diyet
+
+      if (userInfo.addresses != undefined) {
+        r.profile.addresses = userInfo.addresses
+      }
 
       if (userInfo.address != undefined) {
         r.profile.addresses = { 
