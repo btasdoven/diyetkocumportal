@@ -246,7 +246,7 @@ class PersonalPage extends React.Component {
                                 {/* </div> */}
                             </Card>
 
-                            {user.uzmanlik_alanlari && user.uzmanlik_alanlari_v2 == undefined &&
+                            {user.uzmanlik_alanlari && user.uzmanlik_alanlari_v2.length == 0 &&
                                 <Card elevation={0} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
@@ -272,7 +272,7 @@ class PersonalPage extends React.Component {
                                 </Card>
                             }
 
-                            {user.uzmanlik_alanlari_v2 && 
+                            {user.uzmanlik_alanlari_v2.length > 0 && 
                                 <Card elevation={0} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}

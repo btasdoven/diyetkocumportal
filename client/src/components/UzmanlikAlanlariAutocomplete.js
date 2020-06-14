@@ -30,7 +30,7 @@ export default ({
     <Autocomplete
       // {...input}
       multiple
-      defaultValue={input.value != undefined ? input.value : ''}
+      defaultValue={input.value != undefined && input.value != '' ? input.value : []}
       // limitTags={2}
       {...custom}
       id={custom.name}

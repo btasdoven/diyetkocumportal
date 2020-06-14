@@ -537,6 +537,11 @@ var taskUpgradeStg = () => {
         changed = true
       }
     });
+    
+    if (rows[id].profile.uzmanlik_alanlari_v2 == undefined) {
+      rows[id].profile.uzmanlik_alanlari_v2 = []
+      changed = true
+    }
 
     if (!changed) {
       return Promise.resolve()
@@ -753,7 +758,7 @@ exports.resetPassword = function(uname, userInfo) {
 exports.signUpUser = function(uname, userInfo) {
   console.log('signupUser');
   console.log(uname, userInfo)
-  
+
   uname = uname.trim();
   
   if (rows[uname] != undefined ||
