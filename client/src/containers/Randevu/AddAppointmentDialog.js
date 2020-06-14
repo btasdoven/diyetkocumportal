@@ -276,60 +276,6 @@ const renderAutocompleteTextField = ({
   );
 }
 
-const Asynchronous = (props) => {
-  const [open, setOpen] = React.useState(false);
-  const options = props.options;
-  // const [options, setOptions] = React.useState([]);
-  const loading = open && options == undefined;
-
-  return (
-    <Autocomplete
-      id={props.name}
-      // style={{ width: 300 }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.name}
-      options={options}
-      loading={loading}
-      // blurOnSelect={true}
-      autoSelect={true}
-      disabled={props.disabled}
-      loadingText="Yükleniyor..."
-      noOptionsText="Hiç kayıtlı danışanınız bulunamadı. Lütfen Danışanlarım sayfasından yeni danışan ekleyiniz."
-      renderInput={(params) => {
-        // console.log('input', params, props)
-
-        return (
-        <ReduxFormTextField
-          fullWidth
-          {...params}
-          name={props.name}
-          label={props.label}
-          disabled={props.disabled}
-          validate={props.validate}
-          required={props.required}
-          InputProps={{
-            ...params.InputProps,
-            ...props.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? <CircularProgress color="primary" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
-        />
-      )}}
-    />
-  );
-}
-
 class FieldDialog extends React.Component {
  
     constructor(props) {

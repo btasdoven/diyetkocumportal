@@ -48,6 +48,8 @@ import Switch from '@material-ui/core/Switch';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 
+import UzmanlikAlanlariAutocomplete from '../../components/UzmanlikAlanlariAutocomplete'
+
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import Badge from '@material-ui/core/Badge';
@@ -339,6 +341,7 @@ const ApptHours = () => {
 
   return ret;
 }
+
 class Envanter extends React.Component {
 
   constructor(props) {
@@ -556,8 +559,17 @@ class Envanter extends React.Component {
                       <ReduxFormTextField name="instagram" label="Instagram kullanıcı adım" />
                     </Grid> */}
 
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                       <ReduxFormTextField multiline name="uzmanlik_alanlari" label="Uzmanlık alanlarım" />
+                    </Grid> */}
+
+                    
+                    <Grid item xs={12}>
+                      <Field
+                        name="uzmanlik_alanlari_v2"
+                        label="Uzmanlık alanlarım"
+                        component={UzmanlikAlanlariAutocomplete}
+                      />
                     </Grid>
 
                     <Grid item xs={12}>

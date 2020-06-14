@@ -15,6 +15,7 @@ import Divider from "@material-ui/core/Divider";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
+import Chip from '@material-ui/core/Chip';
 
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
@@ -245,7 +246,7 @@ class PersonalPage extends React.Component {
                                 {/* </div> */}
                             </Card>
 
-                            {user.uzmanlik_alanlari && 
+                            {user.uzmanlik_alanlari && user.uzmanlik_alanlari_v2 == undefined &&
                                 <Card elevation={0} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
@@ -271,7 +272,34 @@ class PersonalPage extends React.Component {
                                 </Card>
                             }
 
-                            <Box my={1} />
+                            {user.uzmanlik_alanlari_v2 && 
+                                <Card elevation={0} className={classes.card}>
+                                    <CardHeader
+                                        style={{ textAlign: 'center' }}
+                                        title={
+                                            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Uzmanlık Alanlarım</Typography>
+                                            // <Box my={1}>
+                                            //     <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">UZMANLIK ALANLARIM</Typography>
+                                            // </Box>
+                                        }
+                                    />
+                                    <CardContent style={{ paddingTop: 0 }}>
+                                        <Grid container>
+                                            <Grid item xs={12}>
+                                                {user.uzmanlik_alanlari_v2.map(o => (
+                                                    <Chip key={o.name} variant="outlined" label={o.name} style={{marginRight: '4px', marginBottom: '4px'}} />    
+                                                ))}
+                                                {/* <div>
+                                                    <Typography variant="body1" color="textSecondary" className={classes.text} >
+                                                        {user.uzmanlik_alanlari_v2}
+                                                    </Typography>
+                                                </div> */}
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                    {/* </div> */}
+                                </Card>
+                            }
 
                             {user.badges && Object.keys(user.badges).length > 0 && (
                                 <Card elevation={0} className={classes.card}>

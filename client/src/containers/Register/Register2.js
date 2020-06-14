@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import UzmanlikAlanlariAutocomplete from '../../components/UzmanlikAlanlariAutocomplete'
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import green from '@material-ui/core/colors/green';
@@ -688,7 +689,11 @@ class LandingPage extends React.Component {
                     </FormControl>
 
                     <FormControl margin="normal" fullWidth>
-                        <ReduxFormTextField name="uzmanlik_alanlari" label="Uzmanlık alanlarım" />
+                      <Field
+                        name="uzmanlik_alanlari_v2"
+                        label="Uzmanlık alanlarım"
+                        component={UzmanlikAlanlariAutocomplete}
+                      />
                     </FormControl>
 
                     <FormControl margin="normal" fullWidth>
@@ -717,15 +722,26 @@ class LandingPage extends React.Component {
                     </FormControl>
 
                     <FormControl margin="normal" fullWidth>
-                        <ReduxFormTextField name="address" label="Ofis adresim" />
+                        <ReduxFormSwitch name="yuzyuze_diyet" label={<Typography variant="body2" color="textSecondary">Yüz yüze randevu istekleri gelsin</Typography>}/>
                     </FormControl>
+
+                    {this.props.apiForm && this.props.apiForm[this.props.form] && this.props.apiForm[this.props.form].values && this.props.apiForm[this.props.form].values.yuzyuze_diyet == true && (
+                      <FormControl margin="normal" fullWidth>
+                        <ReduxFormTextField required validate={[required]} name="address" label="Ofis adresim" />
+                      </FormControl>
+                    )}
 
                     <div style={{paddingTop: '24px', width: '100%', display: 'flex', justifyContent: 'space-between'}}>
                         <Button disabled={this.state.activeStep == 0} onClick={this.handlePrevStep}>
                             <KeyboardArrowLeft /> GERİ
                         </Button>
-                        <Button className={classes.nextButton} variant="contained" onClick={this.handleNextStep} disableElevation>
-                            
+                        <Button 
+                          disabled={checkDisabled(apiForm, ['address'])}
+                          className={classes.nextButton} 
+                          variant="contained"
+                          onClick={this.handleNextStep} 
+                          disableElevation
+                        >
                             İLERİ<KeyboardArrowRight />
                         </Button>
                     </div>
@@ -813,7 +829,7 @@ const mapStateToProps = (state, ownProps) => {
       auth: state.auth,
       apiForm: state.form,
       initialValues: 
-        { online_diyet: true},
+        { online_diyet: true, yuzyuze_diyet: true},
     };
   };
   
