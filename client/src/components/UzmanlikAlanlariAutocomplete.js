@@ -23,31 +23,30 @@ export default ({
   const [open, setOpen] = React.useState(false);
   const loading = false;
 
-  // console.log(options)
-  // console.log(custom)
-  // console.log(input)
-  console.log(custom.value)
+  console.log(options)
+  console.log(custom)
+  console.log(input)
 
   return (
     <Autocomplete
       // {...input}
       multiple
-      defaultValue={input.value}
+      defaultValue={input.value != undefined ? input.value : ''}
       // limitTags={2}
       {...custom}
       id={custom.name}
       name={custom.name}
       getOptionSelected={(option, value) => {
-        // console.log(option, value)
+        console.log(option, value)
         return option.name === value.name
       }}
       getOptionLabel={(option) => {
-        // console.log(option)
+        console.log(option)
         if (typeof option == 'string') {
           return option
         }
         
-        // console.log(option)
+        console.log(option)
         return option.name
       }}
       // inputValue={input.value == '' ? undefined : getInputLabel(input.value)}
@@ -95,7 +94,7 @@ export default ({
         input.onChange(option == null ? '' : option)
       }}
       onBlur={() => {
-        // console.log(input)
+        console.log(input)
         input.onBlur(input.value) 
       }}
       onFocus={() => input.onFocus()}

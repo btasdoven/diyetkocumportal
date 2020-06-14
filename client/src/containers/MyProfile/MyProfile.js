@@ -403,12 +403,7 @@ class Envanter extends React.Component {
     const showLoader = !this.isLoaded();
     const dietitianProfile = showLoader ? undefined : this.props.apiDietitianProfile[this.state.userId].data;
 
-    var multipleOffices = 
-      this.props.apiForm && 
-      this.props.apiForm[this.props.form] && 
-      this.props.apiForm[this.props.form].values && 
-      this.props.apiForm[this.props.form].values.address_2 != undefined &&
-      this.props.apiForm[this.props.form].values.address_2 != "";
+    console.log(this.props)
 
     return (
       <div className={classes.root}>
