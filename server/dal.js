@@ -813,7 +813,7 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.premium_until = moment(r.profile.create_date).add(2, 'months').format()
 
       r.profile.unvan = userInfo.unvan
-      r.profile.uzmanlik_alanlari = userInfo.uzmanlik_alanlari
+      r.profile.uzmanlik_alanlari_v2 = userInfo.uzmanlik_alanlari_v2
       r.profile.ozgecmis = userInfo.ozgecmis
       r.profile.online_diyet = userInfo.online_diyet
 

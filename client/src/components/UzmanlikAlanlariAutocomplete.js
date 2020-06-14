@@ -12,6 +12,45 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const filter = createFilterOptions();
 
+const uzmanlikAlanlari = [
+    "Sporcu Beslenmesi",
+    "Hastalıklarda Beslenme",
+    "Anne ve Çocuk Beslenmesi",
+    "Laktasyonda Beslenme",
+    "Gebelikte Beslenme",
+    "Obezite",
+    "Kronik Hastalıklarda Beslenme",
+    "Kilo Aldırma",
+    "Kilo Verdirme",
+    "Kilo Kontrolü",
+    "Spor ve Egzersizde Beslenme",
+    "Pediatride Beslenme",
+    "Aralıklı Oruç",
+    "Ketejonik Diyet",
+    "Vegan Beslenme",
+    "Emzirme Döneminde Beslenme",
+    "Farkındakıkla Beslenme",
+    "Ergenlik Çağında Beslenme",
+    "Sezgisel Yeme",
+    "Yaşlılıkta Beslenme",
+    "Sağlıklı Beslenme",
+    "Metabolik ve Bariatrik Cerrahi",
+    "Klinik Beslenme",
+    "Biyoetik",
+    "Beslenme Danışmanlığı",
+    "Diyabet",
+    "Nutrisyon",
+    "Futbolcu Beslenmesi",
+    "Geriatri Beslenmesi",
+    "İnsülin Direnci ve Metabolik Sendrom",
+    "Vejetaryen Beslenme",
+    "Gluten Enteropatisinde(Çölyak) Beslenme",
+    "Peskateryan Beslenme",
+    "Dönemsel Beslenme",
+    "Yeme Bozukluklarında Beslenme",
+    "Popüler Diyetler ile Beslenme",
+]
+
 export default ({
   label,
   input,
@@ -50,12 +89,7 @@ export default ({
       }}
       // inputValue={input.value == '' ? undefined : getInputLabel(input.value)}
       
-      options={[
-        { name: 'Kilo verme', value: 'Kilo verme' },
-        { name: 'Kilo alma', value: 'Kilo alma' },
-        { name: 'Sporcu beslenmesi', value: 'Sporcu beslenmesi' },
-      ]}
-
+      options={uzmanlikAlanlari.map(u => { return {name: u, value: u}})}
       loading={loading}
       autoSelect={true}
       disabled={custom.disabled}
