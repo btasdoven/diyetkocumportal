@@ -141,6 +141,32 @@ var uploadMeasurements = multer({ storage: storage })
 var upload = multer({ storage: storage }).single('file')
 var uploadForAdmin = multer({ storage: storageForAdmin }).single('file')
 
+
+var registerJwtInfo = function (req, res, next) {
+  var token = req.headers['x-access-token'];
+
+  console.log('token', token)
+
+  if (!token) {
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(401).send({ message: 'Kimliğiniz doğrulanamadı. Yeniden giriş yapınız.' });
+  }
+  
+  jwt.verify(token, process.env.EMAIL_PASS, function(err, decoded) {
+    if (err) {
+      res.setHeader('Content-Type', 'application/json');
+      return res.status(401).send({ message: 'Geçersiz kimlik bilgieri.' });
+    }
+    
+    res.locals.jwtToken = token;
+    res.locals.jwtUser = decoded.id;
+
+    console.log(decoded)
+
+    next();
+  });
+}
+
 var verifyJwtToken = function (req, res, next) {
   var token = req.headers['x-access-token'];
 
@@ -515,8 +541,14 @@ app.get("/api/v1/getAppointmentData", (req, res, next) => {
 
 // This is for landing page
 //
-app.delete("/api/v1/users/:userId", (req, res, next) => {
+app.delete("/api/v1/users/:userId", registerJwtInfo, (req, res, next) => {
   // setTimeout((function() {
+    if (res.locals.jwtUser != '_hsahin_' && res.locals.jwtUser != 'demo') {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(400).json({message: 'Bad Request'});
+      return;
+    }
+
     dal.deleteDietitian(req.params.userId, req.body).then(resp => {
       res.setHeader('Content-Type', 'application/json');
       res.json(resp);

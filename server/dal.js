@@ -1720,12 +1720,6 @@ exports.deleteDietitian = function (userId, callerUser) {
     return Promise.reject('Bad Request')
   }
 
-  console.log(stringHash(callerUser.username))
-
-  if (stringHash(callerUser.username) != callerUser.token) {
-    return Promise.reject('Bad Request')
-  }
-
   var content = {
     userRow: { ...rows[userId] },
     metadataRow: { ...rows[0].users[userId] }
