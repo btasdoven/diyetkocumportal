@@ -188,39 +188,99 @@ function sleep(delay = 0) {
   });
 }
 
+const renderAutocompleteTextField = ({
+  label,
+  input,
+  meta: { touched, invalid, error },
+  options,
+  InputProps,
+  getInputLabel,
+  ...custom
+}) => {
+  const [open, setOpen] = React.useState(false);
+  const loading = open && options == undefined;
+
+  // console.log(options)
+  // console.log(custom)
+  // console.log(input)
+
+  return (
+    <Autocomplete
+      // {...input}
+      {...custom}
+      id={custom.name}
+      name={custom.name}
+      getOptionSelected={(option, value) => {
+        // console.log(option, value)
+        return option.name === value.name
+      }}
+      getOptionLabel={(option) => {
+        // console.log(option)
+        if (typeof option == 'string') {
+          return option
+        }
+        
+        // console.log(option)
+        return option.name
+      }}
+      // inputValue={input.value == '' ? undefined : getInputLabel(input.value)}
+      options={options}
+      loading={loading}
+      autoSelect={true}
+      disabled={custom.disabled}
+
+      open={open}
+      onOpen={() => {
+        setOpen(true);
+      }}
+      onClose={() => {
+        setOpen(false);
+      }}
+
+      loadingText="Yükleniyor..."
+      label={label}
+      onChange={(event, option) => {
+        // console.log(event, option)
+        input.onChange(option == null ? '' : option.value)
+      }}
+      onBlur={() => {
+        // console.log(input)
+        input.onBlur(input.value) 
+      }}
+      onFocus={() => input.onFocus()}
+      renderInput={params => (
+        <TextField 
+          {...params} 
+          label={label} 
+          margin="normal"
+          fullWidth
+          color="primary"
+          disabled={custom.disabled}
+          validate={custom.validate}
+          required={custom.required}
+          error={touched && error != undefined}
+          helperText={touched && error ? error : undefined}
+          InputLabelProps={{color: 'primary', shrink: true}}
+          InputProps={{
+            ...params.InputProps,
+            ...InputProps,
+            endAdornment: (
+              <React.Fragment>
+                {loading ? <CircularProgress color="primary" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </React.Fragment>
+            ),
+          }} />
+      )}
+    />
+  );
+}
+
 const Asynchronous = (props) => {
   const [open, setOpen] = React.useState(false);
   const options = props.options;
   // const [options, setOptions] = React.useState([]);
   const loading = open && options == undefined;
-
-  // React.useEffect(() => {
-  //   let active = true;
-
-  //   if (!loading) {
-  //     return undefined;
-  //   }
-
-  //   (async () => {
-  //     const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
-  //     await sleep(1e5); // For demo purposes.
-  //     const countries = await response.json();
-
-  //     if (active) {
-  //       setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-  //     }
-  //   })();
-
-  //   return () => {
-  //     active = false;
-  //   };
-  // }, [loading]);
-
-  // React.useEffect(() => {
-  //   if (!open) {
-  //     setOptions([]);
-  //   }
-  // }, [open]);
 
   return (
     <Autocomplete
@@ -305,14 +365,12 @@ class FieldDialog extends React.Component {
     }
 
     onSubmitInternal(formValues) {
-        // console.log(formValues);
-
         var mDate = moment(formValues.appt_date, 'DD.MM.YYYY HH:mm')
 
         formValues = {
           date: mDate.format('YYYYMMDD'),
           time: `${mDate.format('HH:mm')} - ${mDate.add(30, 'minutes').format('HH:mm')}`,
-          address: formValues.address,
+          address: formValues.type == 'randevu' ? formValues.address : undefined,
           type: formValues.type,
           name: formValues.danisan,
           notes: formValues.notes,
@@ -355,7 +413,7 @@ class FieldDialog extends React.Component {
                           validate={[required]}
                         />
 
-                        <Asynchronous 
+                        {/* <Asynchronous 
                           name="danisan"
                           label="Danışan"
                           required
@@ -363,6 +421,18 @@ class FieldDialog extends React.Component {
                             return { name: danisans[d].name, value: d }
                           })}
                           validate={[required]}
+                        /> */}
+
+                        <Field
+                          required
+                          validate={[required]}
+                          name="danisan"
+                          label="Danışan"
+                          noOptionsText="Kayıtlı danışanınız bulunamadı. Lütfen Danışanlarım sayfasından yeni danışan ekleyiniz."
+                          component={renderAutocompleteTextField}
+                          options={danisans == undefined ? [] : Object.keys(danisans).map(d => {
+                            return { name: danisans[d].name, value: d }
+                          })}
                         />
 
                         {createSelect('type', 'Randevu Tipi', false, 
@@ -378,7 +448,23 @@ class FieldDialog extends React.Component {
                           ])
                         }
 
-                        <Asynchronous 
+                        {selectedApptType == 'randevu' &&
+                          <Field
+                            required={selectedApptType == 'randevu'}
+                            validate={selectedApptType == 'randevu' ? [required] : []}
+                            disabled={selectedApptType != 'randevu'}
+                            InputProps={{ readOnly: selectedApptType != 'randevu' }} 
+                            name="address"
+                            label="Adres"
+                            noOptionsText="Kayıtlı adresiniz bulunamadı. Lütfen profilinizden adres ekleyiniz."
+                            component={renderAutocompleteTextField}
+                            options={addresses == undefined ? [] : Object.keys(addresses).map((ad, idx) => {
+                              var address = addresses[ad];
+                              return {name: address.address, value: address}
+                            })}
+                          />          
+                        }
+                        {/* <Asynchronous 
                           name="address"
                           label="Adres"
                           required
@@ -388,7 +474,7 @@ class FieldDialog extends React.Component {
                             var address = addresses[ad];
                             return {...address, name: address.address, value: ad}
                           })}
-                        />
+                        /> */}
 
                         <ReduxFormTextField 
                             name="notes" 

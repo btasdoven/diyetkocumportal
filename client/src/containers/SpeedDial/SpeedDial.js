@@ -49,28 +49,28 @@ export default function SpeedDials(props) {
   };
 
   const handleBlur = () => {
-    console.log("handleBlur")
+    // console.log("handleBlur")
     setOpen(false)
   };
 
   const handleClose = () => {
-    console.log("handleClose")
+    // console.log("handleClose")
     setOpen(false)
   };
 
   const handleOpen = () => {
-    console.log("handleOpen")
+    // console.log("handleOpen")
     setOpen(true);
   };
 
   const handleMouseEnter = () => {
-    console.log("handleMouseEnter")
+    // console.log("handleMouseEnter")
     setOpen(true);
   };
 
   const handleMouseLeave = () => {
-    console.log("handleMouseLeave")
-    console.log(action);
+    // console.log("handleMouseLeave")
+    // console.log(action);
     action != undefined && action[0](action[1]);
     //action != undefined && action();
     setAction(undefined);
@@ -110,7 +110,7 @@ export default function SpeedDials(props) {
                 tooltipTitle={<Typography variant="caption">{act.name}</Typography>}
                 onClick={() => 
                 {
-                  console.log("actionCLick", act.onClick)
+                  // console.log("actionCLick", act.onClick)
 
                   if (act.onClick != undefined) {
                       setAction([act.onClick, act.name]); 

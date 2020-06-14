@@ -154,7 +154,7 @@ var verifyJwtToken = function (req, res, next) {
   jwt.verify(token, process.env.EMAIL_PASS, function(err, decoded) {
     if (err) {
       res.setHeader('Content-Type', 'application/json');
-      return res.status(500).send({ message: 'Geçersiz kimlik bilgieri.' });
+      return res.status(401).send({ message: 'Geçersiz kimlik bilgieri.' });
     }
     
     res.locals.jwtToken = token;

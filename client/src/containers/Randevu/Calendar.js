@@ -364,20 +364,38 @@ const ApptContent = withStyles(styles, { name: 'Content' })(({
   </AppointmentTooltip.Content>
 )});
 
-const TimeTableCellBase = ({ classes, onCellClickHandler, ...restProps }) => {
-  const { startDate } = restProps;
 
-  var clickHandler = (e) => {
-    onCellClickHandler(startDate)
+class TimeTableCellBase extends React.Component {
+  constructor(props) {
+    super(props)
+
+    var startDate = props.startDate;
+    this.apptStartHour = moment(startDate).format('HH:mm');
+    this.apptEndHour = moment(startDate).add(30, 'minutes').format('HH:mm');
+
+    this.state = {
+      apptDay: moment(startDate).format('YYYYMMDD'),
+      apptHour: `${this.apptStartHour} - ${this.apptEndHour}`,
+    }
+
+    this.clickHandler = this.clickHandler.bind(this)
   }
 
-  return <WeekView.TimeTableCell 
-    // onDoubleClick={(e) => console.log('viewstate', 'doubleclick', e)}
-    onClick={clickHandler}
-    {...restProps} />;
-};
+  clickHandler(e) {
+    this.props.onCellClickHandler(this.props.startDate, this.state.apptDay, this.state.apptHour)
+  }
 
-;
+  render() {
+    const { classes, onCellClickHandler, ...restProps } = this.props;
+
+    return (
+      <WeekView.TimeTableCell 
+        onClick={this.clickHandler}
+        {...restProps} 
+      />
+    );
+  }
+}
 
 class Envanter extends React.Component {
   
@@ -404,7 +422,7 @@ class Envanter extends React.Component {
     this.TimeTableCellWithProps = (props) => <TimeTableCell {...props} onCellClickHandler={this.onCellClickHandler} />
   }
 
-  onCellClickHandler(startDate) {
+  onCellClickHandler(startDate, apptDate, apptHour) {
     if (!this.isLoaded()) {
       this.setState({selectedCellStartDate: undefined})
       return;
@@ -414,8 +432,8 @@ class Envanter extends React.Component {
       this.setState({selectedCellStartDate: undefined})
       return;
     }
+
     var appts = this.props.apiDietitianAppointments[this.state.userId].data;
-    var apptDate = moment(startDate).format('YYYYMMDD');
 
     if (appts[apptDate] == undefined) {
       // No appt on this *day*. Select the cell
@@ -423,10 +441,6 @@ class Envanter extends React.Component {
       this.setState({selectedCellStartDate: moment(startDate).format('DD.MM.YYYY HH:mm')})
       return;
     }
-
-    var apptStartHour = moment(startDate).format('HH:mm');
-    var apptEndHour = moment(startDate).add(30, 'minutes').format('HH:mm');
-    var apptHour = `${apptStartHour} - ${apptEndHour}`
 
     if (appts[apptDate].data[apptHour] != undefined) {
       this.setState({selectedCellStartDate: undefined})
@@ -502,7 +516,7 @@ class Envanter extends React.Component {
             var danisan = danisans[danisanKey]; 
             var hours = danisanKey.split(' - ')
 
-            if (danisan.status != 'confirmed') {
+            if (danisan.status != 'confirmed' || danisan.type == 'onlinediyet') {
               return;
             }
 
@@ -558,6 +572,7 @@ class Envanter extends React.Component {
                 locale="tr-TR"
                 height={600}
                 rootComponent={SchedulerRoot}
+                firstDayOfWeek={1}
               >
                 <ViewState
                   defaultCurrentDate={moment().format()}

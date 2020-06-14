@@ -1168,7 +1168,7 @@ exports.postDietitianComment = function (userId, comment) {
   var titleSuffix = process.env.NODE_ENV !== 'production' 
   ? "TEST - " + userId + " - "
   : "PROD - " + userId + " - "
-  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `new comment`, JSON.stringify(comment, null, 4))
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `new comment`, JSON.stringify({ dietitian: userId, comment }, null, 4))
 }
 
 exports.putDietitianComments = function (userId, comments) {
@@ -1182,7 +1182,7 @@ exports.putDietitianComments = function (userId, comments) {
   var titleSuffix = process.env.NODE_ENV !== 'production' 
   ? "TEST - " + userId + " - "
   : "PROD - " + userId + " - "
-  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `comment changed`, JSON.stringify(comments, null, 4))
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `comment changed`, JSON.stringify({ dietitian: userId, comments }, null, 4))
 }
 
 exports.getDietitianProfile = function (userId) {
