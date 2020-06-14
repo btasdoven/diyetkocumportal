@@ -852,7 +852,7 @@ class LandingPage extends React.Component {
                             variant="contained"
                             className={classes.nextButton}
                             component={Link}
-                            to="/"
+                            to={auth && auth.user ? `/${auth.user.id}` : '/'}
                             onClick={() => this.setState({activeStep: 0})}
                         >
                             ŞİMDİ PORTALA GİRİŞ YAP

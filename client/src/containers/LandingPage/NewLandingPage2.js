@@ -469,7 +469,7 @@ class LandingPage extends React.Component {
             <DiyetisyenList2 backgroundColor="white"/>
           </div>
 
-          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '32px', backgroundColor: '#f8f9fe' }}>
+          <div id="register" style={{width: '100%', paddingTop: '48px', paddingBottom: '32px', backgroundColor: '#f8f9fe' }}>
             <PricingList backgroundColor="white"/>
           </div>
 
