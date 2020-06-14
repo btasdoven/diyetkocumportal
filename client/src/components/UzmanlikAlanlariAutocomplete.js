@@ -23,7 +23,6 @@ export default ({
   const [open, setOpen] = React.useState(false);
   const loading = false;
 
-  console.log(options)
   console.log(custom)
   console.log(input)
 
