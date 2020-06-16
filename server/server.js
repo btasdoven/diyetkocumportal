@@ -652,7 +652,7 @@ app.get("/:userId", (req, res, next) => {
   var img = 'static/favicon_lg.png'  
     
   if (user != undefined && Object.keys(user).length > 0) {
-    title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + user.username + ")"
+    title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + req.params.userId + ")"
     descr = 'Diyet Koçum üzerinden tüm yazıları gör, yorumları incele ve randevu al'
     img = user.url
   }  
@@ -674,8 +674,8 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
   var img = 'static/favicon_lg.png'  
     
   if (user != undefined && Object.keys(user).length > 0 && post != undefined) {
-    title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + user.username + ")"
-    descr = post.title
+    title = post.title
+    descr = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + req.params.userId + ")"
     img = user.url
   }  
   
