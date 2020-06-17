@@ -906,6 +906,59 @@ exports.getLinkInfo = function (linkId, isAdmin=false) {
   return link;
 }
 
+exports.getDietitianAppointmentsPending = function (userId) {
+  console.log('getDietitianAppointmentsPending', userId);
+
+  if (rows[userId] == undefined ||
+      rows[userId].appointments == undefined) {
+    return [];
+  }
+
+  ret = [];
+  Object.keys(rows[userId].appointments).forEach(date => {
+    var appts = rows[userId].appointments[date]
+
+    var pendingApptTimes = Object.keys(appts).filter(time => appts[time].status == 'pending' && appts[time].type != undefined);
+
+    if (pendingApptTimes.length == 0) {
+      return;
+    }
+
+    ret.push({type: 'header', text: moment(date).format('D MMMM YYYY')})
+
+    pendingApptTimes.forEach(time => {
+      var appt = appts[time];
+
+      if (appt.type == 'randevu') {
+        ret.push({
+          type: 'appoinment',
+          startTime: time.split(' - ')[0],
+          endTime: time.split(' - ')[1],
+          name: appt.info.name,
+          address: appt.address,
+          date: date + ' ' + time
+        })
+      } else if (appt.type == 'online_diyet') {
+        ret.push({
+          type: 'online_diet',
+          name: appt.info.name,
+          date: date + ' ' + time
+        })
+      } else if (appt.type == 'online_gorusme') {
+        ret.push({
+          type: 'online_call',
+          startTime: time.split(' - ')[0],
+          endTime: time.split(' - ')[1],
+          name: appt.info.name,
+          date: date + ' ' + time
+        })
+      }
+    })
+  })
+
+  return ret;
+}
+
 exports.getDietitianAppointmentInfo = function (userId, date) {
   console.log('getDietitianAppointmentInfo');
   console.log(userId, date)
