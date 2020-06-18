@@ -250,6 +250,13 @@ app.put("/api/v1/users/:userId/appointments/:date/times/:time", (req, res, next)
   }), delayInResponseInMs);
 });
 
+app.get("/api/v1/users/:userId/appointments/:date/times/:time", (req, res, next) => {
+  setTimeout(function () {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.getDietitianAppointmentInfo(req.params.userId, req.params.date, req.params.time));
+  });
+});
+
 app.get("/api/v1/links/:linkId", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
