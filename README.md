@@ -7,7 +7,7 @@
 - Start the client app `npm start`
 - In a separate terminal, navigate to the server folder `cd server`
 - Install node modules using `npm install`
-- Create the `public` and `tracking` folders using `mkdir public` and `mkdir tracking`
-- Rename .env.example file to .env and fill in the parameters
+- Create _public_ and _tracking_ folders using `mkdir public` and `mkdir tracking`
+- Copy .env.example file to .env and fill in the parameters
 - Start the server app `npm start`
 
