@@ -938,7 +938,7 @@ exports.getDietitianAppointmentsPending = function (userId) {
           address: appt.address,
           date: date + ' ' + time
         })
-      } else if (appt.type == 'online_diyet') {
+      } else if (appt.type == 'onlinediyet') {
         ret.push({
           type: 'online_diet',
           name: appt.info.name,
