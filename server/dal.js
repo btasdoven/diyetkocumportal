@@ -934,7 +934,7 @@ exports.getDietitianAppointmentsPending = function (userId) {
 
       if (appt.type == "randevu") {
         ret.push({
-          type: "appoinment",
+          type: "appointment",
           value: {
             startTime: time.split(" - ")[0],
             endTime: time.split(" - ")[1],
