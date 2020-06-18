@@ -990,6 +990,25 @@ exports.getDietitianAppointmentInfo = function (userId, date) {
   return rows[userId].appointments[date];
 }
 
+exports.getDietitianAppointmentInfo = function (userId, date, time) {
+  console.log("getDietitianAppointmentInfo");
+  console.log(userId, date, time);
+
+  if (
+    userId == undefined ||
+    time == undefined ||
+    date == undefined ||
+    rows[userId] == undefined ||
+    rows[userId].appointments == undefined ||
+    rows[userId].appointments[date] == undefined ||
+    rows[userId].appointments[date][time] == undefined
+  ) {
+    return {};
+  }
+
+  return rows[userId].appointments[date][time];
+};
+
 exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   console.log('putDietitianAppointmentInfo');
   console.log(userId, date, time);
