@@ -553,10 +553,7 @@ class Envanter extends React.Component {
                             {danisan.status == 'pending' && (
                               <ListItemSecondaryAction>
                                 <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} aria-label="delete">
-                                
-                                <Badge badgeContent={'1'} color="secondary">
-                                </Badge>
-
+                                  <ChevronRightIcon />
                                 </IconButton>
                                 {/* <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
                                     <CheckSharpIcon style={{ color: green[500] }} />
