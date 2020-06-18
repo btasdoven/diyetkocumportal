@@ -924,34 +924,46 @@ exports.getDietitianAppointmentsPending = function (userId) {
       return;
     }
 
-    ret.push({type: 'header', text: moment(date).format('D MMMM YYYY')})
+    ret.push({
+      type: "header",
+      value: { text: moment(date).format("D MMMM YYYY") },
+    });
 
     pendingApptTimes.forEach(time => {
       var appt = appts[time];
 
-      if (appt.type == 'randevu') {
+      if (appt.type == "randevu") {
         ret.push({
-          type: 'appoinment',
-          startTime: time.split(' - ')[0],
-          endTime: time.split(' - ')[1],
-          name: appt.info.name,
-          address: appt.address,
-          date: date + ' ' + time
-        })
-      } else if (appt.type == 'onlinediyet') {
+          type: "appoinment",
+          value: {
+            startTime: time.split(" - ")[0],
+            endTime: time.split(" - ")[1],
+            name: appt.info.name,
+            address: appt.address,
+            date: date,
+            time: time,
+          },
+        });
+      } else if (appt.type == "onlinediyet") {
         ret.push({
-          type: 'online_diet',
-          name: appt.info.name,
-          date: date + ' ' + time
-        })
-      } else if (appt.type == 'online_gorusme') {
+          type: "online_diet",
+          value: {
+            name: appt.info.name,
+            date: date,
+            time: time,
+          }
+        });
+      } else if (appt.type == "online_gorusme") {
         ret.push({
-          type: 'online_call',
-          startTime: time.split(' - ')[0],
-          endTime: time.split(' - ')[1],
-          name: appt.info.name,
-          date: date + ' ' + time
-        })
+          type: "online_call",
+          value: {
+            startTime: time.split(" - ")[0],
+            endTime: time.split(" - ")[1],
+            name: appt.info.name,
+            date: date,
+            time: time,
+          },
+        });
       }
     })
   })
