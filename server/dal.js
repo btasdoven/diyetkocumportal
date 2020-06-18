@@ -971,43 +971,33 @@ exports.getDietitianAppointmentsPending = function (userId) {
   return ret;
 }
 
-exports.getDietitianAppointmentInfo = function (userId, date) {
+exports.getDietitianAppointmentInfo = function (userId, date, time) {
   console.log('getDietitianAppointmentInfo');
-  console.log(userId, date)
+  console.log(userId, date, time)
 
-  if (rows[userId] == undefined) {
+  if (rows[userId] == undefined || 
+      rows[userId].appointments == undefined) {
     return {};
   }
 
-  if (rows[userId].appointments == undefined ||
-    (date != undefined && rows[userId].appointments[date] == undefined))
+  if (date != undefined && rows[userId].appointments[date] == undefined) {
+    return {}
+  }
+
+  if (date != undefined && time != undefined && rows[userId].appointments[date][time] == undefined) {
     return {};
+  }
 
   if (date == undefined) {
     return rows[userId].appointments;
   }
 
-  return rows[userId].appointments[date];
-}
-
-exports.getDietitianAppointmentInfo = function (userId, date, time) {
-  console.log("getDietitianAppointmentInfo");
-  console.log(userId, date, time);
-
-  if (
-    userId == undefined ||
-    time == undefined ||
-    date == undefined ||
-    rows[userId] == undefined ||
-    rows[userId].appointments == undefined ||
-    rows[userId].appointments[date] == undefined ||
-    rows[userId].appointments[date][time] == undefined
-  ) {
-    return {};
+  if (time == undefined) {
+    return rows[userId].appointments[date];
   }
 
   return rows[userId].appointments[date][time];
-};
+}
 
 exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
   console.log('putDietitianAppointmentInfo');
