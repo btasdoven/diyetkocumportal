@@ -1022,7 +1022,7 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
         name: origValues.name,
         sozlesme: false,
         tel: danisan.profile.tel,     
-        notes: origValues.notes, 
+        notes: origValues.notes
       }
     }
   }
@@ -1185,6 +1185,7 @@ Diyet Koçum Ailesi`
       birthday: values.info.birthday,
       kilo: values.info.kilo,
       boy: values.info.boy,
+      hedef_kilo: values.info.hedef_kilo,
       cinsiyet: values.info.cinsiyet,
       visibleToDietitian: false,
     })

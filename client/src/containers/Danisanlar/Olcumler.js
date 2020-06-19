@@ -535,7 +535,7 @@ class Envanter extends React.Component {
                     fullWidth
                     name="bel"
                     component={renderTextField}
-                    label="Karın(göbek) ölçüsü"
+                    label="Bel ölçüsü"
                     type="number" 
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
@@ -543,9 +543,9 @@ class Envanter extends React.Component {
                 <Grid item xs={6} sm={6} md={6} lg={6}>
                   <Field
                     fullWidth
-                    name="kol"
+                    name="karin_gobek"
                     component={renderTextField}
-                    label="Kol ölçüsü"
+                    label="Karın(göbek) ölçüsü"
                     type="number" 
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
@@ -661,7 +661,7 @@ class Envanter extends React.Component {
                         seriesComponent={LineWithDiamondPoint}
                       />
                       <Animation />
-                      <Title text="Karın(göbek) (cm)" />
+                      <Title text="Bel (cm)" />
                       <EventTracker />
                       <Tooltip />
                     </Chart>
@@ -715,8 +715,8 @@ class Envanter extends React.Component {
                     { title: "Ölçüm tarihi", field: "momentDate", type: 'datetime' },
                     { title: "Kilo (kg)", field: "kilo", render: rowData => isNaN(rowData.kilo) ? '' : rowData.kilo },
                     { title: "Boy (cm)", field: "boy", render: rowData => isNaN(rowData.boy) ? '' : rowData.boy },
-                    { title: "Karın(göbek) (cm)", field: "bel", render: rowData => isNaN(rowData.bel) ? '' : rowData.bel },
-                    { title: "Kol (cm)", field: "kol", render: rowData => isNaN(rowData.kol) ? '' : rowData.kol },
+                    { title: "Bel (cm)", field: "bel", render: rowData => isNaN(rowData.bel) ? '' : rowData.bel },
+                    { title: "Karın(göbek) (cm)", field: "karin_gobek", render: rowData => isNaN(rowData.karin_gobek) ? '' : rowData.karin_gobek },
                     { title: "Kalça (cm)", field: "kalca", render: rowData => isNaN(rowData.kalca) ? '' : rowData.kalca },
                     { title: "Göğüs (cm)", field: "gogus", render: rowData => isNaN(rowData.gogus) ? '' : rowData.gogus },
                     // { title: "PremiumUntil", field: "premium_until", type: 'datetime' },

@@ -529,6 +529,14 @@ class Envanter extends React.Component {
                     <Grid item xs={12}>
                       <ReduxFormTextField name="address" label="Adresi" />
                     </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField 
+                        name="hedef_kilo" 
+                        label="Hedef kilo" 
+                        type="number" 
+                        InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}}
+                      />
+                    </Grid>
                   </Grid>
                 </ExpansionPanelDetails>
               </ExpansionPanel>

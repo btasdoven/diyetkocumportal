@@ -464,6 +464,8 @@ class NewRandevuWrapper extends React.Component {
         var sub = { info: formValues, type: this.state.type, status: 'pending', address: address, addressId: addressId}
 
         this.props.putDietitianAppointment(this.state.userId, moment(this.state.date).format('YYYYMMDD'), this.state.time, sub);
+  
+        window.scrollTo(0, 0)
     }
 
     isLoaded(userId) {
@@ -922,7 +924,7 @@ class NewRandevuStep3 extends React.Component {
                 <Grid item xs={12}>
                     <ReduxFormTextField required validate={[required, validEmail, matchEmails]} name="email_confirmation" label="E-posta yeniden" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <ReduxFormMasketTextField required name="tel" label="Telefon numaran" validate={[required, validPhone]} />
                 </Grid>
                 <Grid item xs={6}>
@@ -950,6 +952,9 @@ class NewRandevuStep3 extends React.Component {
                         },
                     ]}
                     />
+                </Grid>
+                <Grid item xs={6}>
+                    <ReduxFormTextField required name='hedef_kilo' label="Hedef kilo" type="number" validate={[required]} /> 
                 </Grid>
                 <Grid item xs={12}>
                     <ReduxFormTextField name="notes" rows={3} label="Diyetisyene notların" multiline />
