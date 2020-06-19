@@ -2,6 +2,7 @@ import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import Rating from '@material-ui/lab/Rating';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -249,9 +250,9 @@ class Envanter extends React.Component {
                     </IconButton>
                   }
                   title={comments[commentId].name}
-                  // subheader={comments[commentId].date}
+                  subheader={<Rating readOnly={true} value={comments[commentId].rating} size="small" />}
                 />
-                <Typography variant="body2" color="textSecondary" component="p" style={{paddingLeft: '48px'}}>
+                <Typography variant="body2" color="textSecondary" component="p" style={{paddingTop: '8px', paddingLeft: '48px'}}>
                   {comments[commentId].notes.split("\n").map((item, idx) => <span key={idx}>{item}<br/></span>)}
                 </Typography>
               </Card>

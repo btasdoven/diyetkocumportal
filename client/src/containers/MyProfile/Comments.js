@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Rating from '@material-ui/lab/Rating';
 import { Link } from "react-router-dom";
 
 import moment from "moment";
@@ -296,20 +297,20 @@ class Envanter extends React.Component {
                       
                     </Avatar>
                   }
-                  // action={
-                  //   <IconButton disabled color="textSecondary" style={{paddingTop: '20px'}}>
-                  //     <Typography variant="caption" color="textSecondary">{comments[commentId].date}</Typography>
-                  //   </IconButton>
-                  // }
+                  action={
+                    <IconButton disabled style={{paddingTop: '20px'}}>
+                      <Typography variant="caption" color="textSecondary">{comments[commentId].date}</Typography>
+                    </IconButton>
+                  }
                   title={comments[commentId].name}
-                  subheader={comments[commentId].date}
+                  subheader={<Rating readOnly={true} value={comments[commentId].rating} size="small" />}
                 />
                 <CardContent>
                   <Typography variant="body2" color="textPrimary" component="p" style={{paddingLeft: '40px'}}>
                     {comments[commentId].notes.split("\n").map((item, idx) => <span key={idx}>{item}<br/></span>)}
                   </Typography>
                 </CardContent>
-                <CardActions style={{justifyContent: 'center'}}>
+                <CardActions style={{justifyContent: 'center', paddingBottom: '16px'}}>
                   {comments[commentId].status == 'pending' && <Button onClick={this.handleStatusChange(commentId, 'confirmed')} size="small" variant="contained" color="secondary">KİŞİSEL SAYFANA EKLE</Button>}
                   {comments[commentId].status == 'pending' && <Button  onClick={this.handleStatusChange(commentId, 'rejected')} size="small" variant="outlined" color="default">REDDET</Button>}
                   {comments[commentId].status == 'confirmed' && 

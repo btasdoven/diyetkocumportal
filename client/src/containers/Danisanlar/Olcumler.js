@@ -41,6 +41,7 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { getDanisanMeasurements, deleteDanisanMeasurement, addDanisanMeasurement, addDanisanMeasurementWithPhoto } from '../../store/reducers/api.danisanMeasurements'
+import { getDanisanProfile } from '../../store/reducers/api.danisanProfile';
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -85,6 +86,7 @@ import { scaleTime } from "d3-scale";
 import { EventTracker } from '@devexpress/dx-react-chart';
 import { ArgumentScale } from '@devexpress/dx-react-chart';
 import { Animation } from '@devexpress/dx-react-chart';
+import { ValueScale } from '@devexpress/dx-react-chart';
 import {
   Chart,
   Title,
@@ -92,6 +94,7 @@ import {
   ArgumentAxis,
   ValueAxis,
   LineSeries,
+  Legend,
   SplineSeries,
   ScatterSeries,
 } from '@devexpress/dx-react-chart-material-ui';
@@ -363,6 +366,12 @@ const myScale = () => {
 
 }
 
+
+const modifyDomain = domain => {
+  console.log('domain', domain)
+  return [domain[0] * 0.9, domain[1] * 1.1]
+};
+
 class Envanter extends React.Component {
   
   constructor(props) {
@@ -388,12 +397,19 @@ class Envanter extends React.Component {
       this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
       this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].data != undefined;
 
-      return loaded;
+    var loaded2 = this.props.apiDanisanProfile != undefined &&
+      this.props.apiDanisanProfile[this.state.userId] != undefined &&
+      this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName] != undefined && 
+      this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].isGetLoading != true &&
+      this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data != undefined;
+
+    return loaded && loaded2;
   }
 
   componentDidMount() {
     if (!this.isLoaded()) {
       this.props.getDanisanMeasurements(this.state.userId, this.props.danisanUserName);
+      this.props.getDanisanProfile(this.state.userId, this.props.danisanUserName);
     }
   }
 
@@ -426,6 +442,7 @@ class Envanter extends React.Component {
 
     const showLoader = !this.isLoaded();
     const allMeasurements = showLoader ? undefined : this.props.apiDanisanMeasurements[this.state.userId][this.props.danisanUserName].data;
+    const danisanProfile = showLoader ? undefined : this.props.apiDanisanProfile[this.state.userId][this.props.danisanUserName].data;
 
     var measurementChartData = []
 
@@ -443,6 +460,7 @@ class Envanter extends React.Component {
             momentDate: moment(measurement.olcum_tarihi).format('D MMMM YYYY'),
             date: day,
             time: mTs,
+            targetWeight: parseInt(danisanProfile.hedef_kilo)
           })
         })
       })
@@ -612,16 +630,24 @@ class Envanter extends React.Component {
                     >
                       <ArgumentScale factory={myScale}/>
                       <ArgumentAxis />
+                      <ValueScale modifyDomain={modifyDomain} />
                       <ValueAxis />
                       <SplineSeries
+                        name="Kilo (kg)"
                         valueField="kiloInt"
                         argumentField="argument"
                         seriesComponent={LineWithDiamondPoint}
                       />
+                      <LineSeries
+                        name="Hedef kilo"
+                        valueField="targetWeight"
+                        argumentField="argument"
+                      />
                       <Animation />
-                      <Title text="Kilo (kg)" />
+                      {/* <Title text="Kilo (kg)" /> */}
                       <EventTracker />
                       <Tooltip />
+                      <Legend position='bottom' />
                     </Chart>
                     <Chart
                       data={measurementChartData.filter(m => isNaN(m.belInt) == false)}
@@ -851,7 +877,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     apiForm: state.form,
     apiDanisanMeasurements: state.apiDanisanMeasurements,
-    // apiDanisanProfile: state.apiDanisanProfile,
+    apiDanisanProfile: state.apiDanisanProfile,
     initialValues: { 
       olcum_tarihi: moment(moment().format('DD.MM.YYYY'), 'DD.MM.YYYY').toDate(),
     },
@@ -861,6 +887,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      getDanisanProfile: (userId, danisanUserName) => getDanisanProfile(userId, danisanUserName),
       addDanisanMeasurementWithPhoto: (userId, danisanUserName, measurement) => addDanisanMeasurementWithPhoto(userId, danisanUserName, measurement),
       addDanisanMeasurement: (userId, danisanUserName, measurement) => addDanisanMeasurement(userId, danisanUserName, measurement),
       getDanisanMeasurements: (userId, danisanUserName) => getDanisanMeasurements(userId, danisanUserName),

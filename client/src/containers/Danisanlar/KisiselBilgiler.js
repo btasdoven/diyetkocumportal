@@ -459,7 +459,7 @@ class Envanter extends React.Component {
                   expandIcon={<ExpandMoreIcon />}
                 >
                   <Typography color="secondary" variant="button">
-                    DİYET PAKETİ
+                    DİYET BİLGİLERİ
                   </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
@@ -472,6 +472,14 @@ class Envanter extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormTextField helperText={<Typography variant="caption" color="primary">Ücreti danışanınız göremez</Typography>} name="ucret_paketi_ucreti" label="Diyet paketi ücreti" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ReduxFormTextField 
+                        name="hedef_kilo" 
+                        label="Hedef kilo" 
+                        type="number" 
+                        InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Kg</Typography></InputAdornment>}}
+                      />
                     </Grid>
                   </Grid>
                 </ExpansionPanelDetails>
@@ -880,7 +888,7 @@ class Envanter extends React.Component {
                     <Grid item xs={12}>
                       <ReduxFormTextField name="alisveris_yapan" label="Alışverişi kim yapar?" />
                     </Grid>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                       <ReduxFormTextField name="anne_yas_kilo" label="Annenizin yaşı ve kilosu" />
                     </Grid>
                     <Grid item xs={12}>
@@ -891,7 +899,7 @@ class Envanter extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="kardes_yas_kilo" label="Kardeşinizin yaşı ve kilosu" />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </ExpansionPanelDetails>
               </ExpansionPanel>

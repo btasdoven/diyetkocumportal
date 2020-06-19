@@ -402,7 +402,7 @@ class PersonalPage extends React.Component {
                                     <CardContent style={{ paddingTop: 0 }}>
                                         <Grid container>
                                             {Object.keys(user.posts).map((blogId) => (
-                                                <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} to={`/${this.props.userId}/blog/${blogId}`}>
+                                                <Grid key={blogId} item xs={4} sm={3} style={{padding: '4px'}} component={Link} to={`/${this.props.userId}/blog/${blogId}`}>
                                                     <Image
                                                         imageStyle={{borderRadius: '8px'}}
                                                         aspectRatio={1080.0/1920}
