@@ -40,7 +40,7 @@ import AppBar from '@material-ui/core/AppBar';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDanisanMeasurements, addDanisanMeasurement, addDanisanMeasurementWithPhoto } from '../../store/reducers/api.danisanMeasurements'
+import { getDanisanMeasurements, deleteDanisanMeasurement, addDanisanMeasurement, addDanisanMeasurementWithPhoto } from '../../store/reducers/api.danisanMeasurements'
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -430,29 +430,33 @@ class Envanter extends React.Component {
     var measurementChartData = []
 
     if (!showLoader) {
-      var i = 0
       Object.keys(allMeasurements).forEach((day, idx) => {
         const measurementsPerDay = allMeasurements[day];
         Object.keys(measurementsPerDay).forEach((mTs, midx) => {
           const measurement = measurementsPerDay[mTs];
-          measurementChartData.push({...measurement, kalca: parseInt(measurement.kalca), bel: parseInt(measurement.bel), kilo: parseInt(measurement.kilo), argument: moment(measurement.olcum_tarihi).toDate()})
+          measurementChartData.push({
+            ...measurement, 
+            kalcaInt: parseInt(measurement.kalca), 
+            belInt: parseInt(measurement.bel), 
+            kiloInt: parseInt(measurement.kilo), 
+            argument: moment(measurement.olcum_tarihi).toDate(),
+            momentDate: moment(measurement.olcum_tarihi).format('D MMMM YYYY'),
+            date: day,
+            time: mTs,
+          })
         })
       })
     }
 
+    measurementChartData.sort((a, b) => b.olcum_tarihi.localeCompare(a.olcum_tarihi))
     // console.log(measurementChartData)
 
     return (
-      <div className={classes.root}> 
+      <div className={classes.root} style={{paddingBottom: '84px'}}> 
         <Form
           onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
           name={this.props.form}
         >  
-          {/* <Button onClick={() => this.setState({openDialog: true, uniqueFileKey: 'olcum_' + Date.now()})} style={{marginRight: '8px'}} variant="outlined" size="small" color="primary" startIcon={<PostAddIcon />}>
-            YENİ ÖLÇÜM EKLE
-          </Button>
-          <Divider style={{marginTop: '8px'}} /> */}
-
           <SpeedDial
             icon={<PostAddIcon />}
             iconText={"YENİ ÖLÇÜM EKLE"}
@@ -511,6 +515,16 @@ class Envanter extends React.Component {
                 <Grid item xs={6} sm={6} md={6} lg={6}>
                   <Field
                     fullWidth
+                    name="bel"
+                    component={renderTextField}
+                    label="Karın(göbek) ölçüsü"
+                    type="number" 
+                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={6} lg={6}>
+                  <Field
+                    fullWidth
                     name="kol"
                     component={renderTextField}
                     label="Kol ölçüsü"
@@ -524,16 +538,6 @@ class Envanter extends React.Component {
                     name="gogus"
                     component={renderTextField}
                     label="Göğüs ölçüsü"
-                    type="number" 
-                    InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6}>
-                  <Field
-                    fullWidth
-                    name="bel"
-                    component={renderTextField}
-                    label="Bel ölçüsü"
                     type="number" 
                     InputProps={{endAdornment: <InputAdornment position="end"><Typography color="primary" variant="caption">Cm</Typography></InputAdornment>}}
                   />
@@ -597,19 +601,20 @@ class Envanter extends React.Component {
               {allMeasurements.length != 0 && (
                 <React.Fragment>
                   <SwipeableViews
+                      enableMouseEvents={true}
                       axis={'x'}
                       onChangeIndex={(s) => this.setState({activeStep: s})}
                       index={this.state.activeStep}
                       // disabled={true}
                   >
                     <Chart
-                      data={measurementChartData.filter(m => isNaN(m.kilo) == false)}
+                      data={measurementChartData.filter(m => isNaN(m.kiloInt) == false)}
                     >
                       <ArgumentScale factory={myScale}/>
                       <ArgumentAxis />
                       <ValueAxis />
                       <SplineSeries
-                        valueField="kilo"
+                        valueField="kiloInt"
                         argumentField="argument"
                         seriesComponent={LineWithDiamondPoint}
                       />
@@ -619,29 +624,29 @@ class Envanter extends React.Component {
                       <Tooltip />
                     </Chart>
                     <Chart
-                      data={measurementChartData.filter(m => isNaN(m.bel) == false)}
+                      data={measurementChartData.filter(m => isNaN(m.belInt) == false)}
                     >
                       <ArgumentScale factory={myScale}/>
                       <ArgumentAxis />
                       <ValueAxis />
                       <SplineSeries
-                        valueField="bel"
+                        valueField="belInt"
                         argumentField="argument"
                         seriesComponent={LineWithDiamondPoint}
                       />
                       <Animation />
-                      <Title text="Bel (cm)" />
+                      <Title text="Karın(göbek) (cm)" />
                       <EventTracker />
                       <Tooltip />
                     </Chart>
                     <Chart
-                      data={measurementChartData.filter(m => isNaN(m.kalca) == false)}
+                      data={measurementChartData.filter(m => isNaN(m.kalcaInt) == false)}
                     >
                       <ArgumentScale factory={myScale}/>
                       <ArgumentAxis />
                       <ValueAxis />
                       <SplineSeries
-                        valueField="kalca"
+                        valueField="kalcaInt"
                         argumentField="argument"
                         seriesComponent={LineWithDiamondPoint}
                       />
@@ -681,18 +686,12 @@ class Envanter extends React.Component {
                     //     src={userService.getStaticFileUri(rowData.url)}
                     //   />
                     // },
-                    { title: "Ölçüm tarihi", field: "argument", render: rowData => moment(rowData.argument).format('D MMMM YYYY'), type: 'datetime' },
+                    { title: "Ölçüm tarihi", field: "momentDate", type: 'datetime' },
                     { title: "Kilo (kg)", field: "kilo", render: rowData => isNaN(rowData.kilo) ? '' : rowData.kilo },
                     { title: "Boy (cm)", field: "boy", render: rowData => isNaN(rowData.boy) ? '' : rowData.boy },
-                    { title: "Bel (cm)", field: "bel", render: rowData => {
-                      
-                      // console.log(rowData, 'girdik')
-                      var x = isNaN(rowData.bel) ? '' : rowData.bel
-                      // console.log(rowData, x)
-                      return x
-                    }},
-                    { title: "Kalça (cm)", field: "kalca", render: rowData => isNaN(rowData.kalca) ? '' : rowData.kalca },
+                    { title: "Karın(göbek) (cm)", field: "bel", render: rowData => isNaN(rowData.bel) ? '' : rowData.bel },
                     { title: "Kol (cm)", field: "kol", render: rowData => isNaN(rowData.kol) ? '' : rowData.kol },
+                    { title: "Kalça (cm)", field: "kalca", render: rowData => isNaN(rowData.kalca) ? '' : rowData.kalca },
                     { title: "Göğüs (cm)", field: "gogus", render: rowData => isNaN(rowData.gogus) ? '' : rowData.gogus },
                     // { title: "PremiumUntil", field: "premium_until", type: 'datetime' },
                     // { title: "AddressType", field: "addressType" },
@@ -706,7 +705,7 @@ class Envanter extends React.Component {
                   detailPanel={measurement => {
                     return (
                       // <div style={{display:'flex', flexDirection: 'column', width: '100%', padding: '16px'}}>
-                      <Grid container spacing={0}>
+                      <Grid container spacing={0} style={{padding: '8px'}}>
                         {/* <Grid item xs={3} sm={3} md={3} lg={3}>
                           <Typography className={classes.pos} color="textSecondary">Bacak</Typography>
                           <Typography className={classes.pos} color="textPrimary">{measurement.bacak || ''} {measurement.bacak ? 'cm' : ''}</Typography>
@@ -736,12 +735,28 @@ class Envanter extends React.Component {
                       </Grid>
                     )
                   }}
+                  actions={[
+                    {
+                      icon: 'delete',
+                      tooltip: 'Ölçümü Sil',
+                      onClick: (event, rowData) => {
+                        console.log(event, rowData)
+                        this.props.deleteDanisanMeasurement(this.state.userId, this.props.danisanUserName, rowData.date, rowData.time);
+                      }
+                    }
+                  ]}
                   options={{
                     sorting: false,
                     toolbar: false,
                     search: false,
                     paging: false,
-                    emptyRowsWhenPaging: false
+                    emptyRowsWhenPaging: false,
+                    actionsColumnIndex: -1,
+                  }}
+                  localization={{
+                    header: {
+                      actions: "Ölçüm Sil"
+                    }
                   }}
                 />
               )}
@@ -849,6 +864,7 @@ const mapDispatchToProps = dispatch => {
       addDanisanMeasurementWithPhoto: (userId, danisanUserName, measurement) => addDanisanMeasurementWithPhoto(userId, danisanUserName, measurement),
       addDanisanMeasurement: (userId, danisanUserName, measurement) => addDanisanMeasurement(userId, danisanUserName, measurement),
       getDanisanMeasurements: (userId, danisanUserName) => getDanisanMeasurements(userId, danisanUserName),
+      deleteDanisanMeasurement: (userId, danisanUserName, date, time) => deleteDanisanMeasurement(userId, danisanUserName, date, time),
     },
     dispatch
   );

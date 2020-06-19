@@ -33,6 +33,7 @@ export const userService = {
     get_link_info,
     get_danisan_files,
     add_danisan_files,
+    delete_danisan_measurement,
     get_danisan_measurements,
     add_danisan_measurement,
     add_danisan_measurement_with_photo,
@@ -285,6 +286,15 @@ function add_danisan_files(userId, danisanUserName, data) {
         .then(res => {
             return res;
         })
+}
+
+function delete_danisan_measurement(userId, danisanUserName, date, time) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    return handleRequest(`/api/v1/users/${userId}/danisans/${danisanUserName}/measurements/${date}/${time}`, requestOptions);
 }
 
 function get_danisan_measurements(userId, danisanUserName) {

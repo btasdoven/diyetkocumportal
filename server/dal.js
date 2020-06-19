@@ -1497,9 +1497,23 @@ Diyet Koçum Ailesi`
   return storage.setItem(userId, rows[userId]);
 }
 
+exports.deleteDanisanMeasurement = function (userId, danisanUserName, date, time) {
+  console.log('deleteDanisanMeasurement', danisanUserName, date, time);
+
+  if (rows[userId].danisans == undefined ||
+      rows[userId].danisans[danisanUserName] == undefined ||
+      rows[userId].danisans[danisanUserName].measurements == undefined ||
+      rows[userId].danisans[danisanUserName].measurements[date] == undefined ||
+      rows[userId].danisans[danisanUserName].measurements[date][time] == undefined) {
+    return;
+  }
+
+  delete rows[userId].danisans[danisanUserName].measurements[date][time];
+  storage.setItem(userId, rows[userId]);
+}
+
 exports.getDanisanMeasurements = function (userId, danisanUserName) {
-  console.log('getDanisanMeasurements');
-  console.log(danisanUserName);
+  console.log('getDanisanMeasurements', danisanUserName);
 
   if (rows[userId].danisans == undefined ||
       rows[userId].danisans[danisanUserName] == undefined) {

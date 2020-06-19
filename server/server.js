@@ -341,6 +341,13 @@ app.put("/api/v1/users/:userId/danisans/:danisanUserName/profile", (req, res, ne
   }), delayInResponseInMs);
 });
 
+app.delete("/api/v1/users/:userId/danisans/:danisanUserName/measurements/:date/:time", (req, res, next) => {
+  setTimeout((function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.json(dal.deleteDanisanMeasurement(req.params.userId, req.params.danisanUserName, req.params.date, req.params.time));
+  }), delayInResponseInMs);
+});
+
 app.get("/api/v1/users/:userId/danisans/:danisanUserName/measurements", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');

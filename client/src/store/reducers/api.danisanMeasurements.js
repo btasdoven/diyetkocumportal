@@ -7,6 +7,9 @@ const DANISAN_MEASUREMENTS_GET_SUCCESS = "api/DANISAN_MEASUREMENTS_GET_SUCCESS";
 const DANISAN_MEASUREMENTS_PUT_ERRORED = "api/DANISAN_MEASUREMENTS_PUT_ERRORED";
 const DANISAN_MEASUREMENTS_PUT_LOADING = "api/DANISAN_MEASUREMENTS_PUT_LOADING";
 
+const DANISAN_MEASUREMENTS_DELETE_ERRORED = "api/DANISAN_MEASUREMENTS_DELETE_ERRORED";
+const DANISAN_MEASUREMENTS_DELETE_LOADING = "api/DANISAN_MEASUREMENTS_DELETE_LOADING";
+
 const initState = {
 };
 
@@ -14,6 +17,7 @@ export default function reducer(state = initState, action) {
     switch (action.type) {
       case DANISAN_MEASUREMENTS_GET_ERRORED:
       case DANISAN_MEASUREMENTS_PUT_ERRORED:
+      case DANISAN_MEASUREMENTS_DELETE_ERRORED:
         return {
           ...state,
           [action.userId]: {
@@ -60,6 +64,27 @@ export default function reducer(state = initState, action) {
           }
         };
 
+        case DANISAN_MEASUREMENTS_DELETE_LOADING:
+          return {
+            ...state,
+            [action.userId]: {
+              ...state[action.userId],
+              [action.danisanUserName]: {
+                ...state[action.userId][action.danisanUserName],
+                data: {
+                  ...state[action.userId][action.danisanUserName].data,
+                  [action.date]: {
+                    ...state[action.userId][action.danisanUserName].data[action.date],
+                    [action.time]: {
+                      ...state[action.userId][action.danisanUserName].data[action.date][action.time],
+                      isDeleteLoading: true
+                    }
+                  }
+                }
+              },
+            }
+          };
+
       default:
         break;
     }
@@ -87,6 +112,25 @@ export function getDanisanMeasurements(userId, danisanUserName) {
   function request(userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_GET_LOADING, userId, danisanUserName } }
   function success(items, userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_GET_SUCCESS, userId, danisanUserName, items } }
   function failure(error, userId, danisanUserName) { return { type: DANISAN_MEASUREMENTS_GET_ERRORED, userId, danisanUserName, error } }
+}
+
+export function deleteDanisanMeasurement(userId, danisanUserName, date, time) {
+  return (dispatch) => {
+    dispatch(request(userId, danisanUserName, date, time));
+
+    userService.delete_danisan_measurement(userId, danisanUserName, date, time)
+      .then(
+        (data) => { 
+          getDanisanMeasurements(userId, danisanUserName)(dispatch);
+        },
+        error => {
+            dispatch(failure(userId, danisanUserName, date, time, error.toString()));
+        }
+    );
+  };
+
+  function request(userId, danisanUserName, date, time) { return { type: DANISAN_MEASUREMENTS_DELETE_LOADING, userId, danisanUserName, date, time, isDeleteLoading: true } }
+  function failure(userId, danisanUserName, date, time, error) { return { type: DANISAN_MEASUREMENTS_DELETE_ERRORED, userId, danisanUserName, date, time, error } }  
 }
 
 export function addDanisanMeasurement(userId, danisanUserName, danisanMeasurement) {
