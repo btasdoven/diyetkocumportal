@@ -470,7 +470,7 @@ class Envanter extends React.Component {
               <Card className={classes.card} style={{marginTop: '8px'}}>
                 <CardHeader
                   avatar={
-                      <Avatar className={classes.avatar} alt={this.state.user.name} src={userService.getStaticFileUri(this.state.user.url)} />
+                      <Avatar className={classes.avatar} alt={this.state.user.name} src={userService.getStaticFileUri(dietitianProfile.url)} />
                   }
                   // action={
                   //   <div>

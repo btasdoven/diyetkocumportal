@@ -400,6 +400,9 @@ function upload_photo(userId, data) {
 function upload_profile_photo(userId, data) {
     return axios.post(HOST_NAME + `/api/v1/${userId}/uploadProfilePhoto`, data, {})
         .then(res => {
+            var user = JSON.parse(localStorage.getItem('user'))
+            user.url = res.data.url
+            localStorage.setItem('user', JSON.stringify(user));
             return res;
         })
 }

@@ -32,6 +32,8 @@ const allowedOrigins = [
   'https://www.diyetkocum.net',
   'https://diyetkocum.net'];
 
+app.enable('etag') // use strong etags
+
 app.use(cors({
   credentials: true,
   origin: function(origin, callback) {
@@ -58,7 +60,10 @@ app.use(compression({
   }  
 }));
 
-app.use('/api/v1/public', express.static('public', { maxAge: 31536000 * 1000 }))
+app.use('/api/v1/public', express.static('public', { 
+  //maxAge: 31536000 * 1000,
+  etag: true,
+}))
 
 // app.use(session({
 //   secret: 'halil-batu',
@@ -141,6 +146,30 @@ var uploadMeasurements = multer({ storage: storage })
 var upload = multer({ storage: storage }).single('file')
 var uploadForAdmin = multer({ storage: storageForAdmin }).single('file')
 
+var retrieveJwtInfo = function (req, res, next) {
+  var token = req.headers['x-access-token'];
+
+  console.log('token', token)
+
+  if (!token) {
+    next();
+    return;
+  }
+  
+  jwt.verify(token, process.env.EMAIL_PASS, function(err, decoded) {
+    if (err) {
+      next();
+      return;
+    }
+    
+    res.locals.jwtToken = token;
+    res.locals.jwtUser = decoded.id;
+
+    console.log(decoded)
+
+    next();
+  });
+}
 
 var registerJwtInfo = function (req, res, next) {
   var token = req.headers['x-access-token'];
@@ -657,9 +686,9 @@ app.get('/api/v1/sendMassEmail', (req, res) => {
   });
 })
 
-app.put('/api/v1/trackActivity/:userId?', isPremiumUser, (req, res) => {
+app.put('/api/v1/trackActivity/:userId?', retrieveJwtInfo, isPremiumUser, (req, res) => {
   setTimeout((function() {
-    dal.trackActivity(req.params.userId || undefined, req.body ? req.body.event : undefined)
+    dal.trackActivity(res.locals.jwtUser, req.params.userId || undefined, req.body ? req.body.event : undefined)
     res.setHeader('Content-Type', 'application/json');
     res.json({});
   }), delayInResponseInMs);

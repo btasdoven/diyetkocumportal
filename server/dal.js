@@ -1627,7 +1627,27 @@ exports.uploadDietitianProfilePhoto = function(userId, file) {
     return Promise.reject("Undefined user");
   }
 
-  var localProfilePath = `public/${userId}/${userId}.png`
+  var localProfilePath = `public/${userId}/${userId}_${Date.now()}.png`
+  var localProfilePath64 = localProfilePath.replace('.png', '-64x64.png')
+
+  rows[userId].profile.url = `api/v1/${localProfilePath}`
+  rows[userId].profile.url64 = `api/v1/${localProfilePath64}`
+
+  if (rows[userId].messagePreviews != undefined) {
+    Object.keys(rows[userId].messagePreviews).forEach(m => rows[userId].messagePreviews[m].dietitianUrl = `api/v1/${localProfilePath64}`)
+  }
+
+  if (rows[userId].danisans != undefined) {
+    Object.keys(rows[userId].danisans).forEach(d => Object.keys(rows[userId].danisans[d].messages).forEach(m => rows[userId].danisans[d].messages[m].dietitianUrl = `api/v1/${localProfilePath64}`))
+  }
+
+  rows[0].users[userId].url = `api/v1/${localProfilePath}`
+
+  var titleSuffix = process.env.NODE_ENV !== 'production' 
+  ? "TEST - " + userId + " - "
+  : "PROD - " + userId + " - "
+
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Changed profile picture ${userId}`, JSON.stringify(rows[userId], null, 4))
 
   return sharp(file.path)
     .png()
@@ -1637,8 +1657,12 @@ exports.uploadDietitianProfilePhoto = function(userId, file) {
       sharp(file.path)
         .png()
         .resize(64, 64) // width, height
-        .toFile(localProfilePath.replace('.png', '-64x64.png'))
-        .then(res2 => Promise.resolve({}))
+        .toFile(localProfilePath64)
+        .then(res2 => 
+          storage.setItem(userId, rows[userId]).then(res3 => 
+            storage.setItem('0', rows[0]).then(res4 => Promise.resolve({url: `api/v1/${localProfilePath}`, url64: `api/v1/${localProfilePath64}`}))
+          )
+        )
     );
 }
 
@@ -2005,7 +2029,7 @@ exports.sendMassEmail = function() {
   return massemail.sendMassEmail(ret)
 }
 
-exports.trackActivity = function (userId, event) {
+exports.trackActivity = function (loggedInUser, userId, event) {
   if (event != undefined && event.startsWith("PageView_")) {
     var pageUrl = event.substring(9);
     var pageParams = pageUrl.split("/");
@@ -2017,9 +2041,9 @@ exports.trackActivity = function (userId, event) {
       dietitianId = pageParams[2];
     }
 
-    console.log(pageUrl, dietitianId)
+    console.log(pageUrl, dietitianId, loggedInUser)
 
-    if (rows[dietitianId] != undefined) {
+    if (rows[dietitianId] != undefined && loggedInUser != dietitianId) {
       if (rows[dietitianId].profile.pageViewCount == undefined) {
         rows[dietitianId].profile.pageViewCount = 0
       }

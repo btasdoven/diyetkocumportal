@@ -44,6 +44,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { getDietitianAppointments } from '../store/reducers/api.dietitianAppointments';
 import { getMessagePreviews } from '../store/reducers/api.messagePreviews';
 import { getDietitianComments } from '../store/reducers/api.dietitianComments';
+import { getDietitianProfile } from '../store/reducers/api.dietitianProfile';
 
 const drawerWidth = 240;
 
@@ -106,7 +107,12 @@ class Sidebar extends React.Component {
       this.props.apiDietitianComments[this.state.user.id].isGetLoading != true &&
       this.props.apiDietitianComments[this.state.user.id].data != undefined;
 
-    return loaded && loaded2 && loaded3;
+    var loaded4 = this.props.apiDietitianProfile != undefined &&
+      this.props.apiDietitianProfile[this.state.user.id] != undefined &&
+      this.props.apiDietitianProfile[this.state.user.id].isGetLoading != true &&
+      this.props.apiDietitianProfile[this.state.user.id].data != undefined;
+
+    return loaded && loaded2 && loaded3 && loaded4;
   }
 
   componentDidMount() {
@@ -114,6 +120,7 @@ class Sidebar extends React.Component {
       // this.props.getMessagePreviews(this.state.user.id);
       this.props.getDietitianAppointments(this.state.user.id);
       this.props.getDietitianComments(this.state.user.id);
+      this.props.getDietitianProfile(this.state.user.id);
     }
   }
 
@@ -135,6 +142,9 @@ class Sidebar extends React.Component {
       pendingComments = Object.keys(this.props.apiDietitianComments[this.state.user.id].data).filter(c => this.props.apiDietitianComments[this.state.user.id].data[c].status == 'pending').length;
     }
 
+    const dietitianProfile = showLoader ? undefined : this.props.apiDietitianProfile[this.state.user.id].data;
+    const dietitianProfilePictureUrl = dietitianProfile == undefined ? this.state.user.url : dietitianProfile.url64
+
     return (
         <Drawer
           variant={this.props.permanentDrawer ? "permanent" : "temporary"}
@@ -153,7 +163,7 @@ class Sidebar extends React.Component {
             <ListItem button onClick={() => this.setState({openProfileMenu: !this.state.openProfileMenu})}>
               <ListItemIcon>
                 {/* <Badge badgeContent={1} color="secondary"> */}
-                  <Avatar className={classes.avatar} alt={this.state.user.name} src={userService.getStaticFileUri(this.state.user.url)} />
+                  <Avatar className={classes.avatar} alt={this.state.user.name} src={userService.getStaticFileUri(dietitianProfilePictureUrl)} />
                 {/* </Badge> */}
               </ListItemIcon>
               <Typography>{this.state.user.name}</Typography>
@@ -278,12 +288,14 @@ const mapStateToProps = state => {
     apiMessagePreviews: state.apiMessagePreviews,
     apiDietitianAppointments: state.apiDietitianAppointments,
     apiDietitianComments: state.apiDietitianComments,
+    apiDietitianProfile: state.apiDietitianProfile,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      getDietitianProfile: (userId) => getDietitianProfile(userId),
       getDietitianAppointments: (userId, date) => getDietitianAppointments(userId, date),
       getDietitianComments: (userId) => getDietitianComments(userId),
       getMessagePreviews: (userId) => getMessagePreviews(userId),
