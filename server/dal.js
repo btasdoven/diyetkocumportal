@@ -1022,7 +1022,7 @@ exports.putDietitianAppointmentInfo = function (userId, date, time, values) {
         name: origValues.name,
         sozlesme: false,
         tel: danisan.profile.tel,     
-        notes: origValues.notes
+        notes: origValues.notes,
       }
     }
   }
@@ -1402,7 +1402,7 @@ exports.putDanisanProfile = function (userId, danisanUserName, danisanProfile) {
   ? "TEST - " + userId + " - " + danisanUserName + " - "
   : "PROD - " + userId + " - " + danisanUserName + " - "
 
-  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `updated danisan info`, JSON.stringify(rows[userId].danisans[danisanUserName], null, 4))
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `updated danisan info`, JSON.stringify({ userId: userId, danisan: rows[userId].danisans[danisanUserName] }, null, 4))
 }
 
 exports.getDanisanMessages = function (userId, danisanUserName) {
@@ -1694,9 +1694,7 @@ exports.putDanisanDietList = function (userId, danisanUserName, danisanDietList)
 }
 
 exports.postAddDanisan = function (userId, danisanUserName, danisanPreview) {
-  console.log('postAddDanisan')
-  console.log(danisanUserName)
-  console.log(danisanPreview);
+  console.log('postAddDanisan', danisanUserName, danisanPreview);
 
   if (rows[userId].danisanPreviews == undefined) {
     rows[userId].danisanPreviews = {

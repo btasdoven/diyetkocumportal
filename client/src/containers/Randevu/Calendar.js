@@ -329,7 +329,6 @@ const Appointment = withStyles(styles, { name: 'Appointment' })(({
 const ApptContent = withStyles(styles, { name: 'Content' })(({
   children, appointmentData, classes, ...restProps
 }) => {
-  
   return (
   <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
     <Grid container alignItems="center">
@@ -343,7 +342,7 @@ const ApptContent = withStyles(styles, { name: 'Content' })(({
         <span>
           {
             appointmentData.details.type == 'randevu' 
-              ? appointmentData.details.address 
+              ? appointmentData.details.address.address
               : 'Online Görüşme'
           }
         </span>
