@@ -250,7 +250,7 @@ class Envanter extends React.Component {
                     </IconButton>
                   }
                   title={comments[commentId].name}
-                  subheader={<Rating readOnly={true} value={comments[commentId].rating} size="small" />}
+                  subheader={<Rating readOnly={true} value={parseInt(comments[commentId].rating) || 5} size="small" />}
                 />
                 <Typography variant="body2" color="textSecondary" component="p" style={{paddingTop: '8px', paddingLeft: '48px'}}>
                   {comments[commentId].notes.split("\n").map((item, idx) => <span key={idx}>{item}<br/></span>)}

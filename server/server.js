@@ -409,6 +409,26 @@ app.post("/api/v1/users/:userId/danisans/:danisanUserName/addFiles", (req, res, 
   }), delayInResponseInMs);
 }); 
 
+app.post("/api/v1/:userId/uploadProfilePhoto", (req, res, next) => {
+  setTimeout((function() {
+    req.params.danisanUserName = 'profilepic';
+    upload(req, res, function (err) {
+      console.log(err)
+
+      if (err) {
+          return res.status(500).json(err)
+      }
+
+      console.log(req.file)      
+      dal.uploadDietitianProfilePhoto(req.params.userId, req.file)
+        .then(resp => {
+          res.setHeader('Content-Type', 'application/json');
+          res.json(resp);
+        }).catch(err => res.status(500).json(err));
+    })  
+  }), delayInResponseInMs);
+}); 
+
 app.post("/api/v1/:userId/uploadPhoto", (req, res, next) => {
   setTimeout((function() {
     console.log(req.params.userId)

@@ -1619,6 +1619,29 @@ exports.getDanisanFiles = function (userId, danisanUserName) {
   return rows[userId].files[danisanUserName];
 }
 
+exports.uploadDietitianProfilePhoto = function(userId, file) {
+  console.log('uploadDietitianProfilePhoto', file);
+
+  if (rows[userId] == undefined ||
+      rows[userId].profile == undefined) {
+    return Promise.reject("Undefined user");
+  }
+
+  var localProfilePath = `public/${userId}/${userId}.png`
+
+  return sharp(file.path)
+    .png()
+    .resize(256, 256) // width, height
+    .toFile(localProfilePath)
+    .then(res => 
+      sharp(file.path)
+        .png()
+        .resize(64, 64) // width, height
+        .toFile(localProfilePath.replace('.png', '-64x64.png'))
+        .then(res2 => Promise.resolve({}))
+    );
+}
+
 exports.addDanisanFiles = function (userId, danisanUserName, file, type) {
   console.log('addDanisanFiles');
   console.log(danisanUserName);

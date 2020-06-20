@@ -46,7 +46,7 @@ import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import Switch from '@material-ui/core/Switch';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
+import { getDietitianProfile, putDietitianProfile, uploadProfilePhoto } from '../../store/reducers/api.dietitianProfile';
 
 import UzmanlikAlanlariAutocomplete from '../../components/UzmanlikAlanlariAutocomplete'
 
@@ -80,7 +80,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
 import DateTimePicker from '../../components/DateTimePicker'
-
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import {reset} from 'redux-form';
@@ -342,6 +342,33 @@ const ApptHours = () => {
   return ret;
 }
 
+
+class FieldFileInput extends React.Component {
+  constructor(props) {
+    super(props)
+    this.onChange = this.onChange.bind(this)
+  }
+
+  onChange(e) {
+    const { onChange } = this.props
+    onChange(e.target.files[0])
+  }
+
+  render() {
+    return(
+      <Button size="small" component="label" color="default" startIcon={<AddAPhotoIcon />}>
+        PROFİL FOTOĞRAFI DEĞİŞTİR
+        <input
+          type="file"
+          accept=".pdf,.png,.jpg,.jpeg"
+          onChange={this.onChange}
+          style={{display: 'none'}}
+        />
+      </Button>
+    )
+  }
+}
+
 class Envanter extends React.Component {
 
   constructor(props) {
@@ -351,6 +378,7 @@ class Envanter extends React.Component {
     this.onSubmitInternal = this.onSubmitInternal.bind(this);
     this.handleLinkCopied = this.handleLinkCopied.bind(this);
     this.handleExpand = this.handleExpand.bind(this);
+    this.onChangeProfilePicture = this.onChangeProfilePicture.bind(this);
 
     this.state = {
       userId: JSON.parse(localStorage.getItem('user')).id,
@@ -377,6 +405,14 @@ class Envanter extends React.Component {
 
   onSubmitInternal(formValues) {
       this.props.putDietitianProfile(this.state.userId, formValues);
+  }
+
+  onChangeProfilePicture(file) {
+    console.log(file)
+    const formData = new FormData();
+    formData.append('file', file)
+
+    this.props.uploadProfilePhoto(this.state.userId, formData);
   }
 
   handleLinkCopied() {
@@ -466,12 +502,12 @@ class Envanter extends React.Component {
                     </Typography>
                 </CardContent>
                 */}
-                {/* <Divider />
+                {/* <Divider /> */}
                 <CardActions disableSpacing>
-                  <Button disabled={this.props.pristine} size="small" color="primary" onClick={this.props.handleSubmit(this.onSubmitInternal)} startIcon={<SaveIcon />}>
-                    KAYDET
-                  </Button>
-                  <IconButton aria-label="add to favorites">
+                  <FieldFileInput
+                    onChange={this.onChangeProfilePicture}
+                  />
+                  {/* <IconButton aria-label="add to favorites">
                       <FavoriteIcon />
                   </IconButton>
                   <IconButton aria-label="share">
@@ -486,8 +522,8 @@ class Envanter extends React.Component {
                       aria-label="show more"
                   >
                       <ExpandMoreIcon />
-                  </IconButton>
-                </CardActions>  */}
+                  </IconButton> */}
+                </CardActions> 
               </Card>
 
               <Card variant="outlined" className={classes.card}>
@@ -858,6 +894,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      uploadProfilePhoto: (userId, files) => uploadProfilePhoto(userId, files),
       getDietitianProfile: (userId) => getDietitianProfile(userId),
       putDietitianProfile: (userId, dietitianProfile) => putDietitianProfile(userId, dietitianProfile)
     },

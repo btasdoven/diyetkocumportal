@@ -218,16 +218,11 @@ class PersonalPage extends React.Component {
                                 </Typography>
                             }
 
-                            {/* <Divider /> */}
-
                             <Card elevation={0} className={classes.card}>
                                 <CardHeader
                                     style={{ textAlign: 'center' }}
                                     title={
                                         <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Hakkımda</Typography>
-                                        // <Box my={1}>
-                                        //     <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">HAKKIMDA</Typography>
-                                        // </Box>
                                     }
                                 />
                                 <CardContent style={{ paddingTop: 0 }}>
@@ -243,7 +238,6 @@ class PersonalPage extends React.Component {
                                         </Grid>
                                     </Grid>
                                 </CardContent>
-                                {/* </div> */}
                             </Card>
 
                             {user.uzmanlik_alanlari && user.uzmanlik_alanlari_v2 && user.uzmanlik_alanlari_v2.length == 0 &&
@@ -252,9 +246,6 @@ class PersonalPage extends React.Component {
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Uzmanlık Alanlarım</Typography>
-                                            // <Box my={1}>
-                                            //     <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">UZMANLIK ALANLARIM</Typography>
-                                            // </Box>
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -268,7 +259,6 @@ class PersonalPage extends React.Component {
                                             </Grid>
                                         </Grid>
                                     </CardContent>
-                                    {/* </div> */}
                                 </Card>
                             }
 
@@ -278,9 +268,6 @@ class PersonalPage extends React.Component {
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Uzmanlık Alanlarım</Typography>
-                                            // <Box my={1}>
-                                            //     <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">UZMANLIK ALANLARIM</Typography>
-                                            // </Box>
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -289,17 +276,28 @@ class PersonalPage extends React.Component {
                                                 {user.uzmanlik_alanlari_v2.map(o => (
                                                     <Chip key={o.name} variant="outlined" label={o.name} style={{marginRight: '4px', marginBottom: '4px'}} />    
                                                 ))}
-                                                {/* <div>
-                                                    <Typography variant="body1" color="textSecondary" className={classes.text} >
-                                                        {user.uzmanlik_alanlari_v2}
-                                                    </Typography>
-                                                </div> */}
                                             </Grid>
                                         </Grid>
                                     </CardContent>
-                                    {/* </div> */}
                                 </Card>
                             }
+
+                            {this.state.user != undefined && this.state.user.id == this.props.userId && 
+                            user.uzmanlik_alanlari == undefined && (user.uzmanlik_alanlari_v2 == undefined || user.uzmanlik_alanlari_v2.length == 0) &&
+                                <Card elevation={0} className={classes.card}>
+                                    <CardHeader
+                                        style={{ textAlign: 'center' }}
+                                        title={
+                                            <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Uzmanlık Alanlarım</Typography>
+                                        }
+                                    />
+                                    <CardContent style={{ paddingTop: 0 }}>
+                                        <Typography variant="body2" color="textSecondary" component="p" style={{textAlign: 'center'}}>
+                                            Hiç uzmanlık alanı eklemediniz. Eklemek için sağ alttan profilinizi düzenleyebilirsiniz.
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            }              
 
                             {user.badges && Object.keys(user.badges).length > 0 && (
                                 <Card elevation={0} className={classes.card}>
@@ -307,9 +305,6 @@ class PersonalPage extends React.Component {
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Rozetlerim</Typography>
-                                            // <Box my={1}>
-                                            //     <Typography style={{ fontWeight: '600', color: 'rgb(50, 50, 93)' }} className={classes.text} variant="h6">ROZETLERİM</Typography>
-                                            // </Box>
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -323,7 +318,6 @@ class PersonalPage extends React.Component {
                                             ))}
                                         </Grid>
                                     </CardContent>
-                                    {/* </div> */}
                                 </Card>
                             )}
 
@@ -333,11 +327,6 @@ class PersonalPage extends React.Component {
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>{Object.keys(user.addresses).length == 1 ? "Ofis Adresim" : "Ofis Adreslerim"}</Typography>
-                                            // <Box my={1}>
-                                            //     <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">
-                                            //         {Object.keys(user.addresses).length == 1 ? "OFİS ADRESİM" : "OFİS ADRESLERİM"}
-                                            //     </Typography>
-                                            // </Box>
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -378,7 +367,6 @@ class PersonalPage extends React.Component {
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Blog Yazılarım</Typography>
-                                            /* <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BLOG YAZILARIM</Typography> */
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -396,7 +384,6 @@ class PersonalPage extends React.Component {
                                         style={{ textAlign: 'center' }}
                                         title={
                                             <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Blog Yazılarım</Typography>
-                                            /* <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">BLOG YAZILARIM</Typography> */
                                         }
                                     />
                                     <CardContent style={{ paddingTop: 0 }}>
@@ -421,9 +408,6 @@ class PersonalPage extends React.Component {
                                     style={{ textAlign: 'center' }}
                                     title={
                                         <Typography variant="h5" style={{color: '#32325d', fontWeight: 400}}>Danışan Görüşleri</Typography>
-                                        // <Box my={1}>
-                                        //     <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h6">YORUMLAR</Typography>
-                                        // </Box>
                                     }
                                 />
                                 <CardContent style={{ paddingTop: 0 }}>

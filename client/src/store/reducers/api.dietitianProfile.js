@@ -96,6 +96,25 @@ export function putDietitianProfile(userId, dietitianProfile) {
   function failure(userId, error) { return { type: DIETITIAN_PROFILE_PUT_ERRORED, userId, error } }
 }
 
+export function uploadProfilePhoto(userId, file) {
+    return (dispatch) => {
+        dispatch(request(userId));
+
+        userService.upload_profile_photo(userId, file)
+        .then(
+            (data) => { 
+              getDietitianProfile(userId)(dispatch);
+            },
+            error => {
+              dispatch(failure(userId, error.toString()));
+            }
+        );
+    };
+  
+    function request(userId) { return { type: DIETITIAN_PROFILE_PUT_LOADING, userId, isPutLoading: true } }
+    function failure(userId, error) { return { type: DIETITIAN_PROFILE_PUT_ERRORED, userId, error } }
+}
+
 export function addPayment(userId) {
     return (dispatch) => {
         dispatch(request(userId));

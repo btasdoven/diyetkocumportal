@@ -47,6 +47,7 @@ export const userService = {
     put_dietitian_comments,
     post_dietitian_comment,
     upload_photo,
+    upload_profile_photo,
     add_new_post,
     add_payment,
     getStaticFileUri,
@@ -391,6 +392,13 @@ function add_danisan_measurement_with_photo(userId, danisanUserName, data) {
 
 function upload_photo(userId, data) {
     return axios.post(HOST_NAME + `/api/v1/${userId}/uploadPhoto`, data, {})
+        .then(res => {
+            return res;
+        })
+}
+
+function upload_profile_photo(userId, data) {
+    return axios.post(HOST_NAME + `/api/v1/${userId}/uploadProfilePhoto`, data, {})
         .then(res => {
             return res;
         })
