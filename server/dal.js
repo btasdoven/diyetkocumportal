@@ -542,17 +542,23 @@ var taskUpgradeStg = () => {
       rows[id].profile.uzmanlik_alanlari_v2 = []
       changed = true
     }
-
+    
     if (rows[id].lastActivityDate == undefined) {
-      var data = fs.readFileSync(`tracking/${id}.csv`, 'utf-8');
-      var lines = data.trim().split('\n');
-      var lastLine = lines.slice(-1)[0];
-  
-      var fields = lastLine.split(',');
-      rows[id].lastActivityDate = moment(fields[1]).format('YYYY-MM-DD')
-
-      console.log(id, rows[id].lastActivityDate)
-      changed = true;
+      if (fs.existsSync(`tracking/${id}.csv`)) {
+        var data = fs.readFileSync(`tracking/${id}.csv`, 'utf-8');
+        var lines = data.trim().split('\n');
+        var lastLine = lines.slice(-1)[0];
+        
+        console.log(lastLine);
+        
+        if (lastLine.indexOf(',') > 0) {
+          var fields = lastLine.split(',');
+          rows[id].lastActivityDate = moment(fields[1]).format('YYYY-MM-DD')
+    
+          console.log(id, rows[id].lastActivityDate)
+          changed = true;
+        }
+      }
     }
 
     if (!changed) {
