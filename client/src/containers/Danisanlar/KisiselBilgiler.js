@@ -391,7 +391,7 @@ class Envanter extends React.Component {
                 */}
                 {/* <Divider />
                 <CardActions disableSpacing>
-                  <Button size="small" color="primary" component={Link} to={"/l/" + danisanProfile.hash} startIcon={<SaveIcon />}>
+                  <Button size="small" color="primary" component={ExtendedLink} to={"/l/" + danisanProfile.hash} startIcon={<SaveIcon />}>
                    {danisanProfile.hash} 
                   </Button>
                   <IconButton aria-label="add to favorites">

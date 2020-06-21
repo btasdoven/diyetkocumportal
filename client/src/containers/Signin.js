@@ -3,11 +3,10 @@ import Card from "@material-ui/core/Card";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import ExtendedLink from "./ExtendedLink"
 import SigninForm from "../components/Signin";
 import { login } from "../store/reducers/authenticate";
 import { Field, reduxForm } from "redux-form";
-import { Link } from "react-router-dom";
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';

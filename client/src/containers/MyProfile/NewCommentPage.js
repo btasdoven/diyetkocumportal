@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -661,7 +663,7 @@ class Step2 extends React.Component {
                     Görüşlerin bizim için çok değerli. Görüşlerini en kısa zamanda diyetisyenine ulaştıracağız.
                 </Typography>
 
-                <Button variant="contained" color="secondary" component={Link} to={`/${this.state.userId}`} style={{textAlign: 'center'}}>KİŞİSEL SAYFAYA GİT</Button>
+                <Button variant="contained" color="secondary" component={ExtendedLink} to={`/${this.state.userId}`} style={{textAlign: 'center'}}>KİŞİSEL SAYFAYA GİT</Button>
               </div>
           </span>
       )}

@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -160,7 +162,7 @@ export default function TextMobileStepper(props) {
         }
       />
       <div style={{backgroundColor: props.backgroundColor ? props.backgroundColor : 'white', width: '100%', justifyContent: 'center', display: 'flex', padding: '8px'}}>
-        <Button onClick={() => registerEvent('LandingPageClickRandevuAl')} style={{color: 'white', backgroundColor: '#3897f0'}} variant="contained" component={Link} to={tutorialSteps[activeStep].link}>RANDEVU AL</Button>
+        <Button onClick={() => registerEvent('LandingPageClickRandevuAl')} style={{color: 'white', backgroundColor: '#3897f0'}} variant="contained" component={ExtendedLink} to={tutorialSteps[activeStep].link}>RANDEVU AL</Button>
       </div>
     </Paper>
   );

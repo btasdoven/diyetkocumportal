@@ -16,6 +16,7 @@ import PeopleIcon from "@material-ui/icons/PeopleOutlined";
 import AppsIcon from "@material-ui/icons/Apps";
 import StoreIcon from "@material-ui/icons/Store";
 import { Link } from "react-router-dom";
+import ExtendedLink from "./ExtendedLink"
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from '@material-ui/core/MenuItem';
 import FolderSpecialIcon from "@material-ui/icons/FolderSpecial";
@@ -174,19 +175,19 @@ class Sidebar extends React.Component {
           </List>
           <Collapse in={this.state.openProfileMenu} timeout="auto" unmountOnExit>
             <List dense={true}>
-              <ListItem button component={Link} to={`/${this.state.user.id}`} selected={location.pathname === `/${this.state.user.id}`}>
+              <ListItem button component={ExtendedLink} to={`/${this.state.user.id}`} selected={location.pathname === `/${this.state.user.id}`}>
                 <Typography variant="overline">KİŞİSEL SAYFAM</Typography>
               </ListItem>
-              {/* <ListItem button component={Link} to='/me' selected={location.pathname === '/me'}>
+              {/* <ListItem button component={ExtendedLink} to='/me' selected={location.pathname === '/me'}>
                 <Typography variant="overline">PROFİLİM</Typography>
               </ListItem> */}
-              <ListItem button component={Link} to='/status' selected={location.pathname === '/status'}>
+              <ListItem button component={ExtendedLink} to='/status' selected={location.pathname === '/status'}>
                 <Typography variant="overline">PREMIUM</Typography>
                 <ListItemIcon style={{marginLeft: '4px', color: 'orange'}}>
                   <StarsRoundedIcon fontSize="small"/>
                 </ListItemIcon>
               </ListItem>
-              <ListItem button component={Link} to='/blog' selected={location.pathname === '/blog'}>
+              <ListItem button component={ExtendedLink} to='/blog' selected={location.pathname === '/blog'}>
                 <Typography variant="overline">BLOG YAZILARI</Typography>
               </ListItem>
               {/* <ListItem button >
@@ -200,21 +201,21 @@ class Sidebar extends React.Component {
               
           <Divider />
           <List dense={true} style={{paddingRight: '8px'}}>
-            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/home' selected={location.pathname == '/home'}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={ExtendedLink} to='/home' selected={location.pathname == '/home'}>
               <ListItemIcon style={{minWidth: '40px'}}>
                 <DashboardIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Ana Sayfa</Typography>
             </ListItem>
               
-            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/c' selected={location.pathname != '/cmt' && location.pathname.startsWith('/c')}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={ExtendedLink} to='/c' selected={location.pathname == '/c' || location.pathname.startsWith('/c/')}>
               <ListItemIcon style={{minWidth: '40px'}}>
                 <PeopleIcon fontSize="small" color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">Danışanlarım</Typography>
             </ListItem>
 {/* 
-            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/m' selected={location.pathname != '/me' && location.pathname.startsWith('/m')}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={ExtendedLink} to='/m' selected={location.pathname != '/me' && location.pathname.startsWith('/m')}>
               <ListItemIcon style={{minWidth: '40px'}}>
                 <ChatIcon fontSize="small" color="primary"/>
               </ListItemIcon>
@@ -228,14 +229,14 @@ class Sidebar extends React.Component {
               }
             </ListItem> */}
 
-            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/t' selected={location.pathname.startsWith('/t')}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={ExtendedLink} to='/t' selected={location.pathname == '/t' || location.pathname.startsWith('/t/')}>
               <ListItemIcon style={{minWidth: '40px'}}>
                 <CalendarTodayIcon fontSize="small" color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">TAKVİMİM</Typography>
             </ListItem>
 
-            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/r' selected={location.pathname.startsWith('/r')}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={ExtendedLink} to='/r' selected={location.pathname == '/r' || location.pathname.startsWith('/r/')}>
               <ListItemIcon style={{minWidth: '40px'}}>
                 <EventAvailableIcon fontSize="small" color="primary"/>
               </ListItemIcon>
@@ -249,7 +250,7 @@ class Sidebar extends React.Component {
               }
             </ListItem>
 
-            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={Link} to='/cmt' selected={location.pathname.startsWith('/cmt')}>
+            <ListItem style={{borderTopRightRadius: '32px', borderBottomRightRadius: '32px'}} button component={ExtendedLink} to='/cmt' selected={location.pathname == '/cmt' || location.pathname.startsWith('/cmt/')}>
               <ListItemIcon style={{minWidth: '40px'}}>
                 <RateReviewOutlinedIcon fontSize="small" color="primary"/>
               </ListItemIcon>
@@ -265,13 +266,13 @@ class Sidebar extends React.Component {
           {/* </List>
           <Divider />
           <List dense={true}> */}
-            {/* <ListItem button component={Link} to='/f' selected={location.pathname === '/f'}>
+            {/* <ListItem button component={ExtendedLink} to='/f' selected={location.pathname === '/f'}>
               <ListItemIcon>
                 <CreditCardIcon color="primary"/>
               </ListItemIcon>
               <Typography variant="overline">FİNANSLARIM</Typography>
             </ListItem>
-            <ListItem button component={Link} to='/kd' selected={location.pathname === '/kd'}>
+            <ListItem button component={ExtendedLink} to='/kd' selected={location.pathname === '/kd'}>
               <ListItemIcon>
                 <BookmarkBorderIcon color="primary"/>
               </ListItemIcon>

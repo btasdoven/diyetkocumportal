@@ -1638,7 +1638,11 @@ exports.uploadDietitianProfilePhoto = function(userId, file) {
   }
 
   if (rows[userId].danisans != undefined) {
-    Object.keys(rows[userId].danisans).forEach(d => Object.keys(rows[userId].danisans[d].messages).forEach(m => rows[userId].danisans[d].messages[m].dietitianUrl = `api/v1/${localProfilePath64}`))
+    Object.keys(rows[userId].danisans).forEach(d => {
+      if (rows[userId].danisans[d].messages != undefined) {
+        Object.keys(rows[userId].danisans[d].messages).forEach(m => rows[userId].danisans[d].messages[m].dietitianUrl = `api/v1/${localProfilePath64}`)
+      }
+    })
   }
 
   rows[0].users[userId].url = `api/v1/${localProfilePath}`
@@ -1647,7 +1651,7 @@ exports.uploadDietitianProfilePhoto = function(userId, file) {
   ? "TEST - " + userId + " - "
   : "PROD - " + userId + " - "
 
-  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Changed profile picture ${userId}`, JSON.stringify(rows[userId], null, 4))
+  email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Changed profile picture ${userId}`, JSON.stringify({}, null, 4))
 
   return sharp(file.path)
     .png()

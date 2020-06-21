@@ -1,4 +1,5 @@
 
+import ExtendedLink from '../../components/ExtendedLink'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -127,7 +128,7 @@ class DietianList extends React.Component {
             {dietitians.map((step, index) => (
               <Fragment key={index}>
                 <Avatar 
-                  component={Link} 
+                  component={ExtendedLink} 
                   to={`/${dietitians[index].username}`} 
                   className={classes.avatar} 
                   src={userService.getStaticFileUri(dietitians[index].url64)} 

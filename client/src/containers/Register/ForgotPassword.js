@@ -1,3 +1,4 @@
+import ExtendedLink from '../../components/ExtendedLink'
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -95,7 +96,7 @@ class Register extends React.Component {
                   disableElevation
                   variant="contained"
                   color="secondary"
-                  component={Link}
+                  component={ExtendedLink}
                   to="/signin"
                 >
                   GİRİŞ YAP
@@ -113,7 +114,7 @@ class Register extends React.Component {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  component={Link}
+                  component={ExtendedLink}
                   to="/"
                 >
                   ANA SAYFAYA GERİ DÖN

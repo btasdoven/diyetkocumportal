@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -587,7 +589,7 @@ class LandingPage extends React.Component {
               </FormControl>
 
               <FormControl margin="normal" fullWidth>
-                <Typography component={Link} to="/fp" style={{textAlign: 'end'}} color="textSecondary" variant="body2">
+                <Typography component={ExtendedLink} to="/fp" style={{textAlign: 'end'}} color="textSecondary" variant="body2">
                     Şifremi unuttum
                 </Typography>
               </FormControl>

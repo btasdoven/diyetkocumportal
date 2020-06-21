@@ -1,4 +1,4 @@
-
+import ExtendedLink from "../../components/ExtendedLink"
 import CardActionArea from '@material-ui/core/CardActionArea';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
@@ -220,7 +220,7 @@ class LandingPage extends React.Component {
 
                 return (
                   <Card elevation={0} key={userId} style={{marginBottom: '16px'}}>
-                    <CardActionArea component={Link} to={{ pathname: `/${userId}`, state: {fromUrl: '/blog'}}} >
+                    <CardActionArea component={ExtendedLink} to={{ pathname: `/${userId}`, state: {fromUrl: '/blog'}}} >
                       <CardHeader
                         style={{paddingLeft: '24px', paddingBottom: '8px'}}
                         avatar={
@@ -243,7 +243,7 @@ class LandingPage extends React.Component {
                       <CardContent style={{padding: 0}}>
                         <div className={classes.imgContainer}>
                           {postsPerUser[userId].map((post, idx) => 
-                            <Link
+                            <ExtendedLink
                               key={post.postId}
                               to={{pathname: `/${userId}/blog/${post.postId}`, state: {fromUrl: '/blog'}}}
                             >
@@ -253,7 +253,7 @@ class LandingPage extends React.Component {
                                 aspectRatio={1080.0/1920}
                                 src={userService.getStaticFileUri(post.postImg || '') }
                               /> 
-                            </Link>
+                            </ExtendedLink>
                           )}
                         </div>
                       </CardContent>

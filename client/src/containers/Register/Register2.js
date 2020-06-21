@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -851,7 +853,7 @@ class LandingPage extends React.Component {
                             disableElevation
                             variant="contained"
                             className={classes.nextButton}
-                            component={Link}
+                            component={ExtendedLink}
                             to={auth && auth.user ? `/${auth.user.id}` : '/'}
                             onClick={() => this.setState({activeStep: 0})}
                         >

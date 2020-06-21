@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React from 'react';
 import { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -145,7 +147,7 @@ class Dashboard extends React.Component {
             </Grid> */}
             <Grid item xs={12} sm={12} md={12} lg={12} style={{padding: '8px'}}>
               <InfoCard 
-                Component={Link}
+                Component={ExtendedLink}
                 to={'/me'}
                 title="Haritadan ofis adresini seç"
                 content="Yeni eklenen bu özellik ile ofisinin konumunu kişisel sayfanda harita üzerinden gösterebilir ve danışanlarının kolayca yol tarifi almasını sağlayabilirsin."

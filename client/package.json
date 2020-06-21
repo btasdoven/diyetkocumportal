@@ -36,6 +36,7 @@
     "net-browserify": "^0.2.4",
     "notistack": "^0.9.7",
     "qs": "^6.9.3",
+    "query-string": "^6.13.1",
     "react": "^16.8.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-datepicker": "^2.10.1",

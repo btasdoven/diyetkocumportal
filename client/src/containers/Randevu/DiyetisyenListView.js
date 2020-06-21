@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -330,7 +332,7 @@ class Envanter extends React.Component {
 
                 return (
                   <span key={idx}>
-                    <ListItem button component={Link} to={"/c/" + danisan.name}>
+                    <ListItem button component={ExtendedLink} to={"/c/" + danisan.name}>
                       <ListItemAvatar>
                       <Avatar src={danisan.url} />
                       </ListItemAvatar>

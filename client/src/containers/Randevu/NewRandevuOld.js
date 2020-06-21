@@ -483,7 +483,7 @@ class NewRandevuWrapper extends React.Component {
                           // secondary="yo"
                         />
                         <ListItemSecondaryAction>
-                          <Button component={Link} onClick={() => registerEvent('GoToMyProfileFromNewAppointment')} to={"/me"} size="small" variant="contained" color="primary" edge="end">
+                          <Button component={ExtendedLink} onClick={() => registerEvent('GoToMyProfileFromNewAppointment')} to={"/me"} size="small" variant="contained" color="primary" edge="end">
                             PROFİLİME GİT
                           </Button>
                         </ListItemSecondaryAction>
@@ -503,7 +503,7 @@ class NewRandevuWrapper extends React.Component {
                           // secondary="yo"
                         />
                         <ListItemSecondaryAction>
-                          <Button component={Link} onClick={() => registerEvent('SignUpFromNewAppointment')} to={"/signup"} size="small" variant="contained" color="primary" edge="end">
+                          <Button component={ExtendedLink} onClick={() => registerEvent('SignUpFromNewAppointment')} to={"/signup"} size="small" variant="contained" color="primary" edge="end">
                             KAYDOL
                           </Button>
                           <IconButton onClick={()=>this.setState({showBanner:false})} edge="end">

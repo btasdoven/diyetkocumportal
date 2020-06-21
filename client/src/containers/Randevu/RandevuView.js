@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -463,7 +465,7 @@ class Envanter extends React.Component {
                         <Button
                             variant="contained"
                             color="primary"
-                            component={Link}
+                            component={ExtendedLink}
                             to={"/r/" + appt.info.name + "/messages"}
                             className={classes.button}
                             style={{marginBottom: 0}}

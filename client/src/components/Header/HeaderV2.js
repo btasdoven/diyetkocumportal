@@ -3,7 +3,7 @@ import Badge from "@material-ui/core/Badge";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import React, { Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-
+import ExtendedLink from "../ExtendedLink"
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
@@ -12,7 +12,6 @@ import { userService } from '../../services/user.service'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
-import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withStyles } from '@material-ui/core/styles';
@@ -145,7 +144,7 @@ class HeaderV2 extends React.Component {
                             </Typography>
                         )}
                         { this.props.backButton && (
-                            <IconButton edge="start" component={Link} to={this.props.backButton} style={{color: 'white'}}>
+                            <IconButton edge="start" component={ExtendedLink} to={this.props.backButton} style={{color: 'white'}}>
                                 <ChevronLeftIcon style={{width: '32px', height: '32px'}} />
                             </IconButton>
                         )}
@@ -175,13 +174,13 @@ class HeaderV2 extends React.Component {
                         }
                         {/* {this.props.permanentDrawer && this.state.user == undefined &&
                             <span edge="end">
-                                <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/enler">
+                                <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/enler">
                                     HAFTANIN ENLERİ
                                 </Button>
-                                <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/blog">
+                                <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/blog">
                                     BLOG YAZILARI
                                 </Button>
-                                <Button variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signin">
+                                <Button variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={ExtendedLink} to="/signin">
                                     GİRİŞ YAP
                                 </Button>
                             </span>
@@ -206,7 +205,7 @@ class HeaderV2 extends React.Component {
                         }}
                     >
                         {this.state.user && 
-                            <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>
+                            <MenuItem component={ExtendedLink} to={"/"} onClick={this.handleMenuClose}>
                                 <ListItemIcon>
                                     <Avatar src={userService.getStaticFileUri(this.state.user.url)}/>
                                 </ListItemIcon>
@@ -216,11 +215,11 @@ class HeaderV2 extends React.Component {
                         {this.state.user && 
                                 <Divider style={{marginTop: '8px'}}/>
                         }
-                        <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
-                        {!this.state.user && <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>}
-                        {!this.state.user && <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>}
-                        {/* <MenuItem component={Link} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
-                        <MenuItem component={Link} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
+                        <MenuItem component={ExtendedLink} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
+                        {!this.state.user && <MenuItem component={ExtendedLink} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>}
+                        {!this.state.user && <MenuItem component={ExtendedLink} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>}
+                        {/* <MenuItem component={ExtendedLink} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
+                        <MenuItem component={ExtendedLink} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
                         {/* {this.state.user && <MenuItem onClick={this.props.logout}>Logout</MenuItem>} */}
                     </Menu>
                 </div>

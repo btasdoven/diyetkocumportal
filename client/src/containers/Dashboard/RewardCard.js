@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -85,7 +87,7 @@ const RewardCard = (props) => {
           Haftanın Enleri
         </Typography>
         <Button className={styles.button} 
-            component={Link} 
+            component={ExtendedLink} 
             onClick={props.onClick}
             to={props.to}
         >KAZANANLARI GÖR</Button>

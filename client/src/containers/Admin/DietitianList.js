@@ -1,6 +1,5 @@
 import MaterialTable from "material-table";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { Link } from "react-router-dom";
 import React, {Component} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -17,7 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { getAllDietitians, deleteDietitian } from '../../store/reducers/api.allDietitians';
-
+import ExtendedLink from "../../components/ExtendedLink"
 import moment from "moment";
 
 import Button from "@material-ui/core/Button";

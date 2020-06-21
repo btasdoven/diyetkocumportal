@@ -1,4 +1,5 @@
 
+import ExtendedLink from '../../components/ExtendedLink'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import GridList from '@material-ui/core/GridList';
@@ -269,7 +270,7 @@ class DietianList extends React.Component {
             { !showLoader && (
               <List className={classes.dietitanList}>
                 {dietitians.map((step, index) => (
-                  <ListItem key={index} button component={Link} to={`/${dietitians[index].username}`}>
+                  <ListItem key={index} button component={ExtendedLink} to={`/${dietitians[index].username}`}>
                     <ListItemAvatar>
                       <Avatar
                         className={classes.avatar}

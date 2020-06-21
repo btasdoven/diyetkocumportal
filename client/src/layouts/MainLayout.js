@@ -1,3 +1,4 @@
+import queryString from 'query-string'
 import React, { Fragment, Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
@@ -25,12 +26,12 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    //marginLeft: theme.spacing(7),
-    //padding: theme.spacing(1),
     marginTop: theme.spacing(7),
     overflowX: "hidden",
-    //paddingBottom: '16px',
-    //height: '100vh',
+  },
+  contentHeadless: {
+    flexGrow: 1,
+    overflowX: "hidden",
   },
   contentShift: {
     marginLeft: drawerWidth,
@@ -111,24 +112,15 @@ class MainLayout extends Component {
       return (<Redirect to="/status" />)
     }
 
+    const headless = queryString.parse(this.props.location.search).headless
+
     // console.log('sidebar', 'mainlay', this.props)
 
-    return (
-      <Fragment>
+    if (headless) {
+      return (
         <div className={classes.root}>
-          <Header
-            sideBar={this.props.sideBar}
-            permanentDrawer={this.props.permanentDrawer} 
-            backButton={this.state.backButtonFromComp || this.props.backButton}
-            onBackButtonClick={this.state.onBackButtonClickFromComp || this.props.onBackButtonClick}
-            logout={this.props.logout}
-            handleOpenDrawer={this.state.user && this.props.sideBar != false ? this.handleToggleDrawer : undefined}
-            title={this.state.titleFromComp}
-          />
           <main
-            className={classNames(classes.content, {
-              [classes.contentShift]: this.props.permanentDrawer && this.state.user && this.props.sideBar != false
-            })}
+            className={classes.contentHeadless}
           >
             <Component 
               {...rest} 
@@ -138,15 +130,43 @@ class MainLayout extends Component {
               setTitle={(title) => this.setState({ titleFromComp: title })} />
           </main>
         </div>
-        
-        {this.state.user && this.props.sideBar != false &&
-          <Sidebar 
-            permanentDrawer={this.props.permanentDrawer} 
-            logout={this.props.logout}
-            open={this.props.permanentDrawer ? true : this.state.open} handleClose={this.handleCloseDrawer} drawerWidth={drawerWidth} />
-        }
-      </Fragment>
-    );
+      )
+    } else {
+      return (
+        <Fragment>
+          <div className={classes.root}>
+            <Header
+              sideBar={this.props.sideBar}
+              permanentDrawer={this.props.permanentDrawer} 
+              backButton={this.state.backButtonFromComp || this.props.backButton}
+              onBackButtonClick={this.state.onBackButtonClickFromComp || this.props.onBackButtonClick}
+              logout={this.props.logout}
+              handleOpenDrawer={this.state.user && this.props.sideBar != false ? this.handleToggleDrawer : undefined}
+              title={this.state.titleFromComp}
+            />
+            <main
+              className={classNames(classes.content, {
+                [classes.contentShift]: this.props.permanentDrawer && this.state.user && this.props.sideBar != false
+              })}
+            >
+              <Component 
+                {...rest} 
+                userId={this.state.user ? this.state.user.id : undefined} 
+                setBackButton={(f) => this.setState({backButtonFromComp: f})}
+                setOnBackButtonClick={(f) => this.setState({onBackButtonClickFromComp: f})}
+                setTitle={(title) => this.setState({ titleFromComp: title })} />
+            </main>
+          </div>
+          
+          {this.state.user && this.props.sideBar != false &&
+            <Sidebar 
+              permanentDrawer={this.props.permanentDrawer} 
+              logout={this.props.logout}
+              open={this.props.permanentDrawer ? true : this.state.open} handleClose={this.handleCloseDrawer} drawerWidth={drawerWidth} />
+          }
+        </Fragment>
+      );
+    }
   }
 }
 

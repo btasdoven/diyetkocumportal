@@ -13,7 +13,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
-import { Link } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -157,7 +156,7 @@ class SigninForm extends React.Component {
         /> */}
         
         <FormControl margin="normal" fullWidth>
-          <Typography component={Link} to="/fp" style={{textAlign: 'end'}} color="textSecondary" variant="body2">
+          <Typography component={ExtendedLink} to="/fp" style={{textAlign: 'end'}} color="textSecondary" variant="body2">
               Şifremi unuttum
           </Typography>
         </FormControl>
@@ -209,7 +208,7 @@ class SigninForm extends React.Component {
             disableElevation
             variant="contained"
             color="secondary"
-            component={Link}
+            component={ExtendedLink}
             to="/signup"
           >
             ŞİMDİ KAYIT YAPTIR!

@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import BusinessIcon from '@material-ui/icons/Business';
 import CommentIcon from '@material-ui/icons/Comment';
 import SpeedDial from '../SpeedDial/SpeedDial'
@@ -521,7 +523,7 @@ class Envanter extends React.Component {
                           <Divider component="li" />
                           <ListItem 
                               button 
-                              component={Link} 
+                              component={ExtendedLink} 
                               to={"/r/" + apptDate + '/' + danisanKey}
                           >
                             <ListItemAvatar >
@@ -552,7 +554,7 @@ class Envanter extends React.Component {
                             {/* <Typography color="initial" variant="caption">{danisan.aktivite}</Typography> */}
                             {danisan.status == 'pending' && (
                               <ListItemSecondaryAction>
-                                <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} aria-label="delete">
+                                <IconButton component={ExtendedLink} to={"/r/" + apptDate + "/" + danisanKey} aria-label="delete">
                                   <ChevronRightIcon />
                                 </IconButton>
                                 {/* <IconButton onClick={this.confirmAppointment(apptDate, danisanKey, danisan, 'confirmed')} edge="end" aria-label="delete">
@@ -562,7 +564,7 @@ class Envanter extends React.Component {
                             )}
                             {danisan.status == 'confirmed' && (
                               <ListItemSecondaryAction>
-                                <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
+                                <IconButton component={ExtendedLink} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
                                 {/* <Chip size="small" label="ONAYLANDI" /> */}
                                   <CheckIcon style={{color: '#00756b80'}}/>
                                 </IconButton>
@@ -570,7 +572,7 @@ class Envanter extends React.Component {
                             )}
                             {danisan.status == 'rejected' && (
                               <ListItemSecondaryAction>
-                                <IconButton component={Link} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
+                                <IconButton component={ExtendedLink} to={"/r/" + apptDate + "/" + danisanKey} edge="end" >
                                   <ClearIcon style={{color: '#d5602d80'}}/>
                                 </IconButton>
                               </ListItemSecondaryAction>

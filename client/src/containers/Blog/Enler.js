@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -542,7 +544,7 @@ const DietitianListView = (props) => (
             return ;
 
           return (
-            <ListItem key={uname} button component={Link} to={`/${uname}`}>
+            <ListItem key={uname} button component={ExtendedLink} to={`/${uname}`}>
                 <ListItemAvatar>
                 <Avatar
                     className={props.classes.avatar}

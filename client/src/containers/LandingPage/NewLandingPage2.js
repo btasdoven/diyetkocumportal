@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -314,7 +316,7 @@ class LandingPage extends React.Component {
               <span edge="end">
                 { this.props.width == 'xs' &&
                   <Fragment>
-                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white'}} component={Link} to="/signin">
+                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white'}} component={ExtendedLink} to="/signin">
                       GİRİŞ YAP
                     </Button>
                     <IconButton onClick={this.handleMenuOpen} component="span" style={{color: 'white'}}>
@@ -324,16 +326,16 @@ class LandingPage extends React.Component {
                 }
                 { this.props.width != 'xs' && 
                   <Fragment>
-                    {/* <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/enler">
+                    {/* <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/enler">
                       HAFTANIN ENLERİ
                     </Button> */}
-                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/blog">
+                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/blog">
                       BLOG YAZILARI
                     </Button>
-                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={Link} to="/signin">
+                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/signin">
                       GİRİŞ YAP
                     </Button>
-                    <Button variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
+                    <Button variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={ExtendedLink} to="/signup">
                       KAYDOL
                     </Button>
                   </Fragment>
@@ -358,11 +360,11 @@ class LandingPage extends React.Component {
               className: classes.paperProps
             }}
           >
-            <MenuItem component={Link} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
-            <MenuItem component={Link} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
-            <MenuItem component={Link} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
-            {/* <MenuItem component={Link} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
-            <MenuItem component={Link} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
+            <MenuItem component={ExtendedLink} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
+            <MenuItem component={ExtendedLink} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
+            <MenuItem component={ExtendedLink} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
+            {/* <MenuItem component={ExtendedLink} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
+            <MenuItem component={ExtendedLink} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
           </Menu>
 
           <div style={{paddingTop: '15vh', width: '100%', paddingLeft: '16px', paddingRight: '16px', textAlign: 'center', color: 'white'}}>
@@ -435,7 +437,7 @@ class LandingPage extends React.Component {
             
             <Grid container spacing={0} style={{paddingBottom: '0px', paddingTop: '8px'}}>
               {/* <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
-                <Button style={{borderColor: '#3897f0', color: '#3897f0'}} variant="outlined" component={Link} to="/signup">ŞİMDİ DENE</Button>
+                <Button style={{borderColor: '#3897f0', color: '#3897f0'}} variant="outlined" component={ExtendedLink} to="/signup">ŞİMDİ DENE</Button>
               </Grid> */}
               {/* <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} item xs={6}>
                 <div style={{width: '100%', paddingLeft: '24px', paddingRight: '12px'}}>
@@ -503,7 +505,7 @@ class LandingPage extends React.Component {
               </div>
 
               <div style={{textAlign: 'center', paddingTop: '30px'}}>
-                <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
+                <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={ExtendedLink} to="/signup">
                   2 AY ÜCRETSİZ DENE
                 </Button>
               </div>
@@ -537,7 +539,7 @@ class LandingPage extends React.Component {
               </div>
 
               <div style={{textAlign: 'center', paddingTop: '30px'}}>
-                <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
+                <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={ExtendedLink} to="/signup">
                   2 AY ÜCRETSİZ DENE
                 </Button>
               </div>

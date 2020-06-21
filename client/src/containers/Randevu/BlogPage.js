@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import styled from 'styled-components';
@@ -179,7 +181,7 @@ class BlogPage extends React.Component {
                         }}
                     >
                         <List>
-                            <ListItem component={Link} to={`/${this.state.userId}`} style={{paddingLeft: 0}}>
+                            <ListItem component={ExtendedLink} to={`/${this.state.userId}`} style={{paddingLeft: 0}}>
                                 <ListItemAvatar>
                                     <Avatar
                                         className={classes.avatar2}
@@ -227,7 +229,7 @@ class BlogPage extends React.Component {
                                                 return;
 
                                             return (
-                                                <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={Link} 
+                                                <Grid key={blogId} item xs={4} style={{padding: '4px'}} component={ExtendedLink} 
                                                     to={{ 
                                                         pathname: `/${this.state.userId}/blog/${blogId}`, 
                                                         state: {fromUrl: `/${this.state.userId}/blog/${this.state.postName}`}
@@ -242,7 +244,7 @@ class BlogPage extends React.Component {
                                             )
                                         })}
                                     </Grid>        
-                                    <Button color="secondary" component={Link} to={'/blog'} style={{marginTop: '16px', width: '100%'}}>
+                                    <Button color="secondary" component={ExtendedLink} to={'/blog'} style={{marginTop: '16px', width: '100%'}}>
                                         TÜM YAZILARI GÖR
                                     </Button>
                                 </CardContent>

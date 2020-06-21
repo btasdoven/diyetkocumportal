@@ -1,4 +1,5 @@
 
+import ExtendedLink from '../../components/ExtendedLink'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import GridList from '@material-ui/core/GridList';
@@ -194,7 +195,7 @@ const TextMobileStepper = (props) => {
             </div>
 
             <div style={{textAlign: 'center', paddingTop: '24px', paddingBottom: '8px'}}>
-              <Button size="large" className={classes.loginButton} variant="outlined" style={{borderColor: 'rgb(252, 81, 133)', color: 'rgb(252, 81, 133)'}} component={Link} to="/signup">
+              <Button size="large" className={classes.loginButton} variant="outlined" style={{borderColor: 'rgb(252, 81, 133)', color: 'rgb(252, 81, 133)'}} component={ExtendedLink} to="/signup">
                 ŞİMDİ KAYDOL
               </Button>
             </div>
@@ -231,7 +232,7 @@ const TextMobileStepper = (props) => {
             </div>
 
             <div style={{textAlign: 'center', paddingTop: '24px', paddingBottom: '8px'}}>
-              <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={Link} to="/signup">
+              <Button size="large" className={classes.loginButton} variant="contained" style={{backgroundColor: 'rgb(252, 81, 133)', color: 'white'}} component={ExtendedLink} to="/signup">
                 2 AY ÜCRETSİZ DENE
               </Button>
             </div>
@@ -334,7 +335,7 @@ class DietianList extends React.Component {
             { !showLoader && (
               <List className={classes.dietitanList}>
                 {dietitians.map((step, index) => (
-                  <ListItem key={index} button component={Link} to={`/${dietitians[index].username}`}>
+                  <ListItem key={index} button component={ExtendedLink} to={`/${dietitians[index].username}`}>
                     <ListItemAvatar>
                       <Avatar
                         className={classes.avatar}

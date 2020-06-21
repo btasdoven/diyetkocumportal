@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import React, {Fragment} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -563,7 +565,7 @@ class Envanter extends React.Component {
                     <Grid item xs={12} style={{marginTop: '8px'}}>
                       <Typography variant="body2">Kişisel sayfanın nasıl gözüktüğünü görmek ister misin?</Typography>
                       <div style={{marginTop: '16px', textAlign: 'center'}}>
-                        <Button style={{borderRadius: '16px'}} to={"/" + this.state.user.username} component={Link} size="small" color="primary" variant="outlined">
+                        <Button style={{borderRadius: '16px'}} to={"/" + this.state.user.username} component={ExtendedLink} size="small" color="primary" variant="outlined">
                           KİŞİSEL SAYFAMI GÖR
                         </Button>
                       </div>

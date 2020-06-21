@@ -13,7 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-
+import ExtendedLink from "../../components/ExtendedLink"
 import moment from "moment";
 
 import Button from "@material-ui/core/Button";
@@ -333,7 +333,7 @@ class Envanter extends React.Component {
               <ListItem button 
                 onClick={() => this.setState({openDialog: 'tarti_pdf'})}
                 target="_blank"
-                  //component={Link} to={"/c/" + danisan.name}
+                  //component={ExtendedLink} to={"/c/" + danisan.name}
               >
                 <ListItemAvatar >
                   <Avatar><AddIcon /></Avatar>

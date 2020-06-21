@@ -12,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import EventIcon from '@material-ui/icons/Event';
+import ExtendedLink from '../../components/ExtendedLink'
 import moment from "moment";
 import { Link, Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
@@ -1042,7 +1043,7 @@ class NewRandevuStep4 extends React.Component {
                 Bu süreçte diyetisyenlerimiz danışanlarına en uygun diyet programını hazırlayabilmek için birkaç bilgi daha rica ediyorlar.
             </Typography>
 
-            <Button variant="contained" color="secondary" component={Link} to={anamnezFormLink} style={{textAlign: 'center'}}>ANANMEZ FORMUNU DOLDUR</Button>
+            <Button variant="contained" color="secondary" component={ExtendedLink} to={anamnezFormLink} style={{textAlign: 'center'}}>ANANMEZ FORMUNU DOLDUR</Button>
           </div>
         </div>
       )}

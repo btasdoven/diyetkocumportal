@@ -95,7 +95,7 @@ class Register extends React.Component {
                   disableElevation
                   variant="contained"
                   color="secondary"
-                  component={Link}
+                  component={ExtendedLink}
                   to="/signin"
                 >
                   GİRİŞ YAP
@@ -113,7 +113,7 @@ class Register extends React.Component {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  component={Link}
+                  component={ExtendedLink}
                   to="/"
                 >
                   ŞİMDİ PORTALA GİRİŞ YAP

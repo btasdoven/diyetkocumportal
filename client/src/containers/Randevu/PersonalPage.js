@@ -1,3 +1,5 @@
+
+import ExtendedLink from '../../components/ExtendedLink'
 import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 import styled from 'styled-components';
@@ -389,7 +391,7 @@ class PersonalPage extends React.Component {
                                     <CardContent style={{ paddingTop: 0 }}>
                                         <Grid container>
                                             {Object.keys(user.posts).map((blogId) => (
-                                                <Grid key={blogId} item xs={4} sm={3} style={{padding: '4px'}} component={Link} to={`/${this.props.userId}/blog/${blogId}`}>
+                                                <Grid key={blogId} item xs={4} sm={3} style={{padding: '4px'}} component={ExtendedLink} to={`/${this.props.userId}/blog/${blogId}`}>
                                                     <Image
                                                         imageStyle={{borderRadius: '8px'}}
                                                         aspectRatio={1080.0/1920}
