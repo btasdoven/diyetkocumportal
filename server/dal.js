@@ -543,6 +543,18 @@ var taskUpgradeStg = () => {
       changed = true
     }
 
+    if (rows[id].lastActivityDate == undefined) {
+      var data = fs.readFileSync(`tracking/${id}.csv`, 'utf-8');
+      var lines = data.trim().split('\n');
+      var lastLine = lines.slice(-1)[0];
+  
+      var fields = lastLine.split(',');
+      rows[id].lastActivityDate = moment(fields[1]).format('YYYY-MM-DD')
+
+      console.log(id, rows[id].lastActivityDate)
+      changed = true;
+    }
+
     if (!changed) {
       return Promise.resolve()
     }
@@ -2037,7 +2049,8 @@ exports.trackActivity = function (loggedInUser, userId, event) {
   if (event != undefined && event.startsWith("PageView_")) {
     var pageUrl = event.substring(9);
     var pageParams = pageUrl.split("/");
-    
+    var changed = false;
+
     dietitianId = pageParams[1]
 
     if (dietitianId == 'd' && pageParams.length > 2)
@@ -2077,18 +2090,37 @@ exports.trackActivity = function (loggedInUser, userId, event) {
         rows[dietitianId].profile.pageViewCount++;
       }
 
-      storage.setItem(dietitianId, rows[dietitianId]);
+      changed = true;
     }
   }
 
-  if (userId == undefined || userId == '') 
-    return Promise.resolve();
+  if (loggedInUser != undefined) {
+    var today = moment().format('YYYY-MM-DD');
 
-  if (trackingStreams[userId] == undefined) {
-    trackingStreams[userId] = fs.createWriteStream(`tracking/${userId}.csv`, {flags:'a'});
+    if (rows[loggedInUser].lastActivityDate == undefined ||
+        rows[loggedInUser].lastActivityDate != today) {
+      rows[loggedInUser].lastActivityDate = today;
+
+      if (loggedInUser == dietitianId) {
+        changed = true;
+      } else {
+        storage.setItem(loggedInUser, rows[loggedInUser]);
+      }
+    }
   }
 
-  trackingStreams[userId].write(`${userId},${moment(Date.now()).format()},${event}\n`);
+  if (changed) {
+    storage.setItem(dietitianId, rows[dietitianId]);
+  }
+
+  if (loggedInUser == undefined || loggedInUser == '') 
+    return Promise.resolve();
+
+  if (trackingStreams[loggedInUser] == undefined) {
+    trackingStreams[loggedInUser] = fs.createWriteStream(`tracking/${loggedInUser}.csv`, {flags:'a'});
+  }
+
+  trackingStreams[loggedInUser].write(`${loggedInUser},${moment(Date.now()).format()},${event}\n`);
 
   return Promise.resolve();
 }

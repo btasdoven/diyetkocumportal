@@ -9,8 +9,6 @@ class ExtendedLink extends React.Component {
         var calculatedTo = typeof(to) == 'object' ? to : {pathname: to}
         calculatedTo.search = location.search
 
-        console.log(this.props, to)
-
         return (
             <Link
                 to={calculatedTo}
