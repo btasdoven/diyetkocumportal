@@ -1924,6 +1924,7 @@ exports.getAllDietitians = function (isAdmin) {
       r.randevuCount = rows[userId].appointments == undefined ? 0 : Object.keys(rows[userId].appointments).length
       r.blogCount = rows[userId].profile.posts == undefined ? 0 : Object.keys(rows[userId].profile.posts).length
       r.pageViewCount = rows[userId].profile.pageViewCount
+      r.last_activity_date = rows[userId].lastActivityDate
       r.create_date = rows[userId].profile.create_date
       r.premium_until = rows[0].users[userId].premium_until
       r.tel = rows[userId].profile.tel

@@ -297,6 +297,7 @@ class Envanter extends React.Component {
                   },
                   { title: "Name", field: "name" },
                   { title: "Insta", field: "username" },
+                  { title: "LastActivityDate", field: "last_activity_date" },
                   { title: "CreateDate", field: "create_date", type: 'datetime' },
                   { title: "PremiumUntil", field: "premium_until", type: 'datetime' },
                   { title: "AddressType", field: "addressType" },
