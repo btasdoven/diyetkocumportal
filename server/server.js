@@ -328,8 +328,14 @@ app.put("/api/v1/users/:userId/profile", verifyJwtToken, isPremiumUser, (req, re
   }), delayInResponseInMs);
 });
 
-app.post("/api/v1/users/:userId/makePayment", verifyJwtToken, (req, res, next) => {
+app.post("/api/v1/users/:userId/makePayment", registerJwtInfo, (req, res, next) => {
   setTimeout((function() {
+    if (res.locals.jwtUser != '_hsahin_' && res.locals.jwtUser != 'demo') {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(400).json({message: 'Bad Request'});
+      return;
+    }
+    
     res.setHeader('Content-Type', 'application/json');
     res.json(dal.makePayment(req.params.userId, req.body));
   }), delayInResponseInMs);
