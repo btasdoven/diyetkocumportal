@@ -1,3 +1,4 @@
+import queryString from 'query-string'
 import BusinessIcon from '@material-ui/icons/Business';
 import CommentIcon from '@material-ui/icons/Comment';
 import SpeedDial from '../SpeedDial/SpeedDial'
@@ -267,21 +268,25 @@ function TabPanel(props) {
   );
 }
 
-const SchedulerRoot = withStyles(styles, { name: 'Scheduler' })(({
-  children, style, classes, ...restProps
+const SchedulerRoot = withRouter(withStyles(styles, { name: 'Scheduler' })(({
+  children, style, classes, location, staticContext, ...restProps
 }) => {
+
+  const headless = queryString.parse(location.search).headless
+  console.log(headless)
+
   return (
       <Scheduler.Root
         {...restProps}
         style={{
           ...style,
-          height: 'calc(100vh - 56px)',
+          height: headless ? '100vh' : 'calc(100vh - 56px)',
         }}
       > 
         {children}
       </Scheduler.Root>
   );
-})
+}))
 
 const CalendarToolbar = withStyles(styles, { name: 'Toolbar' })(({
   children, style, classes, ...restProps
@@ -570,6 +575,7 @@ class Envanter extends React.Component {
                 data={schedulerData}
                 locale="tr-TR"
                 height={600}
+                headless={this.state.headless}
                 rootComponent={SchedulerRoot}
                 firstDayOfWeek={1}
               >

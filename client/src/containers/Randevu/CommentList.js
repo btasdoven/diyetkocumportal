@@ -200,6 +200,7 @@ class Envanter extends React.Component {
     
     this.state = {
       userId: props.userId,
+      loggedInUser: JSON.parse(localStorage.getItem('user')),
     }
   }
 
@@ -232,6 +233,10 @@ class Envanter extends React.Component {
           { !showLoader && commentKeys.length == 0 && (
             <Typography variant="body2" color="textSecondary" component="p" style={{textAlign: 'center'}}>
               Herhangi bir danışan görüşü bulunmamaktadır.
+
+              {this.state.loggedInUser != undefined && this.state.loggedInUser.id == this.state.userId && 
+                " Danışan görüşü eklemek için Danışan Görüşleri sayfasından anket linkinizi danışanlarınız ile paylaşabilirsiniz."
+              }
             </Typography>
           )}
           { !showLoader && commentKeys.sort().reverse().map((commentId, idx) => {

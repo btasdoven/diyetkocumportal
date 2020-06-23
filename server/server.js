@@ -232,8 +232,7 @@ var isPremiumUser = function (req, res, next) {
   if (req && req.params && req.params.userId) {
     // console.log('premium', req.originalUrl, req.params, req.session.views)
 
-    if (!dal.isPremiumUser(req.params.userId) && req.session.views != 124) {
-      req.session.views = 124;
+    if (!dal.isPremiumUser(req.params.userId)) {
       // console.log('setting premium', req.originalUrl, req.params, req.session.views)
       res.setHeader('Content-Type', 'application/json');
       res.status(401).json({code: 'PREMIUM_EXPIRED', message: "Premium üyeliğiniz aktif değil. Tekrar giriş yapınız."});
@@ -692,7 +691,7 @@ app.get('/api/v1/sendMassEmail', (req, res) => {
   });
 })
 
-app.put('/api/v1/trackActivity/:userId?', retrieveJwtInfo, isPremiumUser, (req, res) => {
+app.put('/api/v1/trackActivity/:userId?', retrieveJwtInfo, (req, res) => {
   setTimeout((function() {
     dal.trackActivity(res.locals.jwtUser, req.params.userId || undefined, req.body ? req.body.event : undefined)
     res.setHeader('Content-Type', 'application/json');

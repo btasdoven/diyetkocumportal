@@ -1356,12 +1356,6 @@ exports.makePayment = function(userId, callerUser) {
     return Promise.reject('Bad Request')
   }
 
-  console.log(stringHash(callerUser.username))
-
-  if (stringHash(callerUser.username) != callerUser.token) {
-    return Promise.reject('Bad Request')
-  }
-
   if (rows[userId].profile.payments == undefined) {
     rows[userId].profile.payments = {}
   }
