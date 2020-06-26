@@ -13,6 +13,8 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { logout, relogin } from "../store/reducers/authenticate";
 
+import CircularLoader from "../components/CircularLoader"
+
 import moment from "moment";
 import 'moment/locale/tr'
 moment.locale('tr')
@@ -122,12 +124,14 @@ class MainLayout extends Component {
           <main
             className={classes.contentHeadless}
           >
-            <Component 
-              {...rest} 
-              userId={this.state.user ? this.state.user.id : undefined} 
-              setBackButton={(f) => this.setState({backButtonFromComp: f})}
-              setOnBackButtonClick={(f) => this.setState({onBackButtonClickFromComp: f})}
-              setTitle={(title) => this.setState({ titleFromComp: title })} />
+            <React.Suspense fallback={<CircularLoader />}>
+              <Component 
+                {...rest} 
+                userId={this.state.user ? this.state.user.id : undefined} 
+                setBackButton={(f) => this.setState({backButtonFromComp: f})}
+                setOnBackButtonClick={(f) => this.setState({onBackButtonClickFromComp: f})}
+                setTitle={(title) => this.setState({ titleFromComp: title })} />
+            </React.Suspense>
           </main>
         </div>
       )
@@ -149,12 +153,14 @@ class MainLayout extends Component {
                 [classes.contentShift]: this.props.permanentDrawer && this.state.user && this.props.sideBar != false
               })}
             >
-              <Component 
-                {...rest} 
-                userId={this.state.user ? this.state.user.id : undefined} 
-                setBackButton={(f) => this.setState({backButtonFromComp: f})}
-                setOnBackButtonClick={(f) => this.setState({onBackButtonClickFromComp: f})}
-                setTitle={(title) => this.setState({ titleFromComp: title })} />
+              <React.Suspense fallback={<CircularLoader />}>
+                <Component 
+                  {...rest} 
+                  userId={this.state.user ? this.state.user.id : undefined} 
+                  setBackButton={(f) => this.setState({backButtonFromComp: f})}
+                  setOnBackButtonClick={(f) => this.setState({onBackButtonClickFromComp: f})}
+                  setTitle={(title) => this.setState({ titleFromComp: title })} />
+              </React.Suspense>
             </main>
           </div>
           
