@@ -91,6 +91,7 @@ function renderLoadingButton(classes) {
 } 
 
 class DietianList extends React.Component {
+
   constructor(props) {
     super(props)
 
@@ -99,6 +100,8 @@ class DietianList extends React.Component {
     this.state = {
       openDialog: false
     }
+
+    this.timer = undefined;
   }
 
   isLoaded() {
@@ -111,7 +114,15 @@ class DietianList extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.props.getAllDietitians();
+      this.timer = setTimeout(() => {
+        this.props.getAllDietitians()
+      }, 5000)
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.timer != undefined) {
+      clearTimeout(this.timer);
     }
   }
 
