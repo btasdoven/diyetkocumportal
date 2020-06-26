@@ -456,7 +456,7 @@ class LandingPage extends React.Component {
               </Grid> */}
               <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '16px'}} item xs={12}>
                 <div style={{width: '100%', paddingLeft: '24px', paddingRight: '24px'}}>
-                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} alt="Ister evde, ister ofiste" src="/static/landing/device.png" />
+                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} alt="Ister evde, ister ofiste" src="/static/landing/device.webp" />
                 </div>
               </Grid>
             </Grid>

@@ -257,7 +257,6 @@ async function asyncForEach(array, callback) {
   }
 }
 
-
 var taskInitStg = () => {
   return storage.init({ dir: 'stg', logging: true })
 };
@@ -561,6 +560,30 @@ var taskUpgradeStg = () => {
       }
     }
 
+    if (!rows[id].profile.url.endsWith(".webp")) {
+      var now = Date.now()
+      var oldLocalPath = rows[id].profile.url.replace('api/v1/', '')
+      var localProfilePath = `public/${id}/${id}_${now}.webp`
+      var localProfilePath64 = `public/${id}/${id}_${now}-64x64.webp`
+
+      rows[id].profile.url = `api/v1/${localProfilePath}`
+      rows[id].profile.url64 = `api/v1/${localProfilePath64}`
+
+      console.log(oldLocalPath)
+
+      sharp(oldLocalPath)
+        .webp({ lossless: true })
+        .resize(178, 178) // width, height
+        .toFile(localProfilePath)
+
+      sharp(oldLocalPath)
+        .webp({ lossless: true })
+        .resize(56, 56) // width, height
+        .toFile(localProfilePath64)
+
+      changed = true;
+    }
+
     if (!changed) {
       return Promise.resolve()
     }
@@ -593,6 +616,18 @@ var taskCreateSiteMap = () => {
       })
     }
   });
+
+  var changed = false
+  Object.keys(rows[0].users).forEach(u => {
+    if (!rows[0].users[u].url.endsWith(".webp")) {
+      rows[0].users[u].url = rows[u].profile.url
+      changed = true
+    }
+  });
+
+  if (changed) {
+    storage.setItem('0', rows[0]);
+  }
 
   // Object.keys(rows[0].users).forEach(u => {
   //   Object.keys(rows[u].profile.posts).forEach(p => {
@@ -796,16 +831,23 @@ exports.signUpUser = function(uname, userInfo) {
 
       //instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
       instaProfileUrl = 'https://diyetkocum.net/api/v1/public/diyetkocumnet.png'
-      localProfilePath = `public/${uname}/${uname}.png`
+      oldLocalProfilePath = `public/${uname}/${uname}.png`
+      localProfilePath = `public/${uname}/${uname}.webp`
 
-      ensureDirectoryExistence(localProfilePath)
+      ensureDirectoryExistence(oldLocalProfilePath)
 
-      downloadAndSaveProfilePicture(instaProfileUrl, localProfilePath, () => {
-        console.log('done ', localProfilePath);
+      downloadAndSaveProfilePicture(instaProfileUrl, oldLocalProfilePath, () => {
+        console.log('done ', oldLocalProfilePath);
         
-        sharp(localProfilePath)
-          .resize(64, 64) // width, height
-          .toFile(localProfilePath.replace('.png', '-64x64.png'));
+        sharp(oldLocalProfilePath)
+          .webp({ lossless: true })
+          .resize(178, 178) // width, height
+          .toFile(oldLocalProfilePath.replace('.png', '.webp'));
+
+        sharp(oldLocalProfilePath)
+          .webp({ lossless: true })
+          .resize(56, 56) // width, height
+          .toFile(oldLocalProfilePath.replace('.png', '-64x64.webp'));
       });
 
       var r = { 
@@ -819,7 +861,7 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.email = userInfo.email
       r.profile.name = userInfo.name
       r.profile.url = `api/v1/${localProfilePath}`
-      r.profile.url64 = `api/v1/${localProfilePath.replace('.png', '-64x64.png')}`
+      r.profile.url64 = `api/v1/${localProfilePath.replace('.webp', '-64x64.webp')}`
       r.profile.tel = userInfo.tel
       r.profile.instagram = userInfo.username
       
@@ -1639,8 +1681,8 @@ exports.uploadDietitianProfilePhoto = function(userId, file) {
     return Promise.reject("Undefined user");
   }
 
-  var localProfilePath = `public/${userId}/${userId}_${Date.now()}.png`
-  var localProfilePath64 = localProfilePath.replace('.png', '-64x64.png')
+  var localProfilePath = `public/${userId}/${userId}_${Date.now()}.webp`
+  var localProfilePath64 = localProfilePath.replace('.png', '-64x64.webp')
 
   rows[userId].profile.url = `api/v1/${localProfilePath}`
   rows[userId].profile.url64 = `api/v1/${localProfilePath64}`
@@ -1666,13 +1708,13 @@ exports.uploadDietitianProfilePhoto = function(userId, file) {
   email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Changed profile picture ${userId}`, JSON.stringify({}, null, 4))
 
   return sharp(file.path)
-    .png()
-    .resize(256, 256) // width, height
+    .webp({ lossless: true })
+    .resize(178, 178) // width, height
     .toFile(localProfilePath)
     .then(res => 
       sharp(file.path)
-        .png()
-        .resize(64, 64) // width, height
+        .webp({ lossless: true })
+        .resize(56, 56) // width, height
         .toFile(localProfilePath64)
         .then(res2 => 
           storage.setItem(userId, rows[userId]).then(res3 => 
