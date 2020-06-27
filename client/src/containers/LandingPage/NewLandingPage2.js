@@ -433,7 +433,7 @@ class LandingPage extends React.Component {
               </Grid> */}
               <Grid style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '16px'}} item xs={12}>
                 <div style={{width: '100%', paddingLeft: '24px', paddingRight: '24px'}}>
-                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} alt="Ister evde, ister ofiste" src="/static/landing/device.webp" />
+                  <img style={{width: '100%', borderRadius: '24px', boxShadow: '0 0 2px #ccc'}} alt="Ister evde, ister ofiste" src="/static/landing/device.png" />
                 </div>
               </Grid>
             </Grid>
@@ -537,7 +537,7 @@ class LandingPage extends React.Component {
 
           </div> */}
           
-          <Button target="_blank" href={"https://instagram.com/diyetkocumnet"} style={{ textTransform: "none", color: 'rgb(50, 50, 93)', display: 'flex', marginTop: '24px' }}>
+          <Button target="_blank" rel="noreferrer" href={"https://instagram.com/diyetkocumnet"} style={{ textTransform: "none", color: 'rgb(50, 50, 93)', display: 'flex', marginTop: '24px' }}>
               <InstagramIcon style={{ fontSize: 36 }} className={classes.text} />
               <Typography style={{ fontWeight: '600' }} className={classes.text} variant="h5" component="h5">{'/diyetkocumnet'}</Typography>
           </Button>

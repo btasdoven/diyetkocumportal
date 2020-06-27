@@ -237,40 +237,6 @@ const renderCheckBox = props => {
   )
 }
 
-
-
-const ReduxFormSelect = ({name, label, values, ...props}) => (
-  <FormControl
-    //margin="normal"
-    style={{width: '100%'}}
-    required
-  >
-    <InputLabel shrink={true} id={label}>{label}</InputLabel>
-
-    <Field
-      name={name}
-      options={values}
-      component={renderSelect}
-      {...props}
-    />
-  </FormControl>
-)
-
-const renderSelect = props => {
-  const { input, options } = props;
-
-  return (
-    <Select 
-      {...input} 
-      onChange={value => input.onChange(value)} 
-      onBlur={() => input.onBlur(input.value)} 
-      value={input.value}
-    >
-      {options.map((val) => <MenuItem key={val.value} value={val.value}>{val.label}</MenuItem>)}
-    </Select>
-  )
-}
-
 function TextMaskCustom(props) {
   const { inputRef, ...other } = props;
 
@@ -308,13 +274,13 @@ const renderMaskedTextField = ({
   )
 };
 
-const ReduxFormMasketTextField = ({name, label, ...props}) => (
-  <Field
-      name={name}
-      component={renderMaskedTextField}
-      label={label}
-      {...props}
-  />)
+// const ReduxFormMasketTextField = ({name, label, ...props}) => (
+//   <Field
+//       name={name}
+//       component={renderMaskedTextField}
+//       label={label}
+//       {...props}
+//   />)
 
 const ReduxFormTextField = ({name, label, ...props}) => (
   <Field
@@ -378,7 +344,7 @@ const renderSwitch = props => {
 const required = value => value ? undefined : 'Zorunlu'
 const validPhone = value => value && !/^\+90 [1-9][0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}$/i.test(value) ? 'Geçerli bir telefon numarası değil' : undefined;
 const validEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Geçerli bir e-posta adresi değil' : undefined;
-const matchEmails = (email, allValues) => email !== allValues.email ? 'Girdiğin e-postalar eşleşmiyor' : undefined;
+// const matchEmails = (email, allValues) => email !== allValues.email ? 'Girdiğin e-postalar eşleşmiyor' : undefined;
 
 const QontoConnector = withStyles({
     alternativeLabel: {

@@ -1,102 +1,53 @@
-import React, { Fragment } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import EventIcon from '@material-ui/icons/Event';
-import ExtendedLink from '../../components/ExtendedLink'
-import moment from "moment";
-import { Link, Redirect } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CloseIcon from '@material-ui/icons/Close';
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardHeader from "@material-ui/core/CardHeader";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import { withSnackbar } from 'material-ui-snackbar-provider'
-import MaskedInput from 'react-text-mask';
-import Rating from '@material-ui/lab/Rating';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
-import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
-
-import SwipeableViews from 'react-swipeable-views';
-import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
-
-import { userService } from '../../services/user.service'
-
-import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import Badge from '@material-ui/core/Badge';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import SaveIcon from '@material-ui/icons/Save';
-import ShareIcon from '@material-ui/icons/Share';
-import SendIcon from '@material-ui/icons/Send';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-
-import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
-import InputBase from '@material-ui/core/InputBase';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import { Form, Field, reduxForm } from "redux-form";
-import Menu from '@material-ui/core/Menu';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-
-import { DatePickerInput, StaticDatePickerInput } from '../../components/DateTimePicker'
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import {reset} from 'redux-form';
-import Slide from '@material-ui/core/Slide';
-import Chip from '@material-ui/core/Chip';
-import FaceIcon from '@material-ui/icons/Face';
-import DoneIcon from '@material-ui/icons/Done';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Typography from "@material-ui/core/Typography";
+import EditIcon from '@material-ui/icons/Edit';
+import Rating from '@material-ui/lab/Rating';
+import { withSnackbar } from 'material-ui-snackbar-provider';
+import moment from "moment";
+import 'moment/locale/tr';
+import React from 'react';
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import SwipeableViews from 'react-swipeable-views';
+import MaskedInput from 'react-text-mask';
+import { bindActionCreators } from "redux";
+import { Field, Form, reduxForm } from "redux-form";
+import { DatePickerInput, StaticDatePickerInput } from '../../components/DateTimePicker';
+import ExtendedLink from '../../components/ExtendedLink';
+import HeaderV2 from "../../components/Header/HeaderV2";
+import { trackPage } from '../../components/Signin/PageTracker';
+import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
+import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
+import SpeedDial from '../SpeedDial/SpeedDial';
 import PersonalPage from './PersonalPage';
 
-import HeaderV2 from "../../components/Header/HeaderV2";
-import Header from "../../components/Header";
-import SpeedDial from '../SpeedDial/SpeedDial'
-import EditIcon from '@material-ui/icons/Edit';
 
-import 'moment/locale/tr'
+
+
+
+
+
+
+
+
 moment.locale('tr')
 
 const styles = theme => ({

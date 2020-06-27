@@ -16,14 +16,6 @@ import KisiselBilgiler from './KisiselBilgiler';
 import Notlar from './Notlar';
 import Olcumler from './Olcumler';
 
-
-
-
-
-
-
-
-
 const styles = theme => ({
   root: {
     height: "inherit",

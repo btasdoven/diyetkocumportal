@@ -399,7 +399,7 @@ class PersonalPage extends React.Component {
                             <Box my={2} />
 
                             <Grid container spacing={0} direction="row" alignItems="center" justify="center">
-                                <Button href={"https://instagram.com/" + this.props.userId} style={{ textTransform: "none" }}>
+                                <Button rel="noreferrer" href={"https://instagram.com/" + this.props.userId} style={{ textTransform: "none" }}>
                                     <InstagramIcon style={{ fontSize: 36, color: '#32325d' }} className={classes.text} />
                                     <Typography style={{ fontWeight: '600',color: '#32325d' }} className={classes.text} variant="h5" component="h5">{'/' + this.props.userId}</Typography>
                                 </Button>

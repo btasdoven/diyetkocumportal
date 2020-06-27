@@ -94,20 +94,6 @@ function renderLoadingButton(classes) {
   )
 } 
 
-const createSelect = (key, label, autoFocus, values) => (
-  <FormControl
-      style={{width: '100%'}}>
-      <InputLabel id={label+"_label"}>{label}</InputLabel>
-
-      <Field
-          name={key}
-          options={values}
-          autoFocus={autoFocus}
-          component={reduxFormSelect}
-      />
-  </FormControl>
-)
-
 const reduxFormSelect = props => {
   const { input, options } = props;
 
