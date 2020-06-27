@@ -1,51 +1,28 @@
 
-import ExtendedLink from '../../components/ExtendedLink'
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Fade from '@material-ui/core/Fade';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import { withTheme, withStyles } from '@material-ui/core/styles';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import { Link } from "react-router-dom";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import SendIcon from '@material-ui/icons/Send';
-import Divider from '@material-ui/core/Divider';
-import IntroInstaVideo from '../../components/IntroInstaVideo'
-import { WhatsappIcon } from "react-share";
-import Fab from '@material-ui/core/Fab';
-import Zoom from '@material-ui/core/Zoom';
-import SpeedDial from '../SpeedDial/SpeedDial'
-import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
-
-import PricingList from './PricingList'
-import DiyetisyenList from './DiyetisyenList'
-import DiyetisyenList2 from './DiyetisyenList2'
-import LandingPageDietitianList from './LandingPageDietitianList'
-
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
+import { withStyles, withTheme } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import withWidth from '@material-ui/core/withWidth';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
+import React, { Fragment } from 'react';
+import { WhatsappIcon } from "react-share";
+import ExtendedLink from '../../components/ExtendedLink';
+import SpeedDial from '../SpeedDial/SpeedDial';
+import DiyetisyenList2 from './DiyetisyenList2';
+import LandingPageDietitianList from './LandingPageDietitianList';
+import PricingList from './PricingList';
+
+
 
 const styles = theme => ({
   appBar: {

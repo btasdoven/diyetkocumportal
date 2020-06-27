@@ -1,35 +1,22 @@
 
+import { AppBar, Toolbar } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
-import CssBaseline from '@material-ui/core/CssBaseline';
-import React, { Fragment } from 'react';
+import Divider from '@material-ui/core/Divider';
+import Fade from '@material-ui/core/Fade';
 import IconButton from '@material-ui/core/IconButton';
-import ExtendedLink from "../ExtendedLink"
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
-
-import { userService } from '../../services/user.service'
-
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import { withStyles } from '@material-ui/core/styles';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Divider from '@material-ui/core/Divider';
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Rating from '@material-ui/lab/Rating';
-import Grid from '@material-ui/core/Grid';
-import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { AppBar, Toolbar, Box } from "@material-ui/core";
+import withWidth from '@material-ui/core/withWidth';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 import classNames from "classnames";
+import React from 'react';
+import { userService } from '../../services/user.service';
+import ExtendedLink from "../ExtendedLink";
 
 const styles = theme => ({
     floatingPoint: {

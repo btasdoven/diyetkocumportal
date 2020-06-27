@@ -1,12 +1,7 @@
+import { KeyboardDatePicker } from '@material-ui/pickers'
+import moment from "moment"
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
 import 'react-datepicker/dist/react-datepicker.css'
-import { MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardDateTimePicker  } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import moment from "moment";
 
 class _DatePickerInput extends PureComponent {
   render () {

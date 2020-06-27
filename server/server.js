@@ -55,7 +55,7 @@ app.use(compression({
   threshold:0, 
   filter: (req, res) => { 
     var x = compression.filter(req, res); 
-    //console.log('to-be-compressed', x, ' ', req.originalUrl, res.getHeader('Content-Type'));
+    console.log('to-be-compressed', x, ' ', req.originalUrl, res.getHeader('Content-Type'));
     return x; 
   }  
 }));

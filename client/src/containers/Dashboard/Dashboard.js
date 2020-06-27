@@ -1,30 +1,21 @@
 
-import ExtendedLink from '../../components/ExtendedLink'
-import React from 'react';
-import { Fragment } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from "@material-ui/core/styles";
-import { bindActionCreators } from "redux";
+import Typography from '@material-ui/core/Typography';
+import React from 'react';
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-
-import { registerEvent } from '../../components/Signin/PageTracker'
-
-import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
+import { bindActionCreators } from "redux";
+import ExtendedLink from '../../components/ExtendedLink';
+import { registerEvent } from '../../components/Signin/PageTracker';
 import { getDanisanPreviews } from '../../store/reducers/api.danisanPreviews';
 import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppointments';
+import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
+import InfoCard from './InfoCard';
+import InfoCard3 from './InfoCard3';
 
-import RewardCard from './RewardCard'
-import InfoCard from './InfoCard'
-import InfoCard2 from './InfoCard2'
-import InfoCard3 from './InfoCard3'
+
+
 
 const styles = theme => ({
     root: {

@@ -560,11 +560,11 @@ var taskUpgradeStg = () => {
       }
     }
 
-    if (!rows[id].profile.url.endsWith(".webp")) {
+    if (!rows[id].profile.url.endsWith(".png")) {
       var now = Date.now()
       var oldLocalPath = rows[id].profile.url.replace('api/v1/', '')
-      var localProfilePath = `public/${id}/${id}_${now}.webp`
-      var localProfilePath64 = `public/${id}/${id}_${now}-64x64.webp`
+      var localProfilePath = `public/${id}/${id}_${now}.png`
+      var localProfilePath64 = `public/${id}/${id}_${now}-64x64.png`
 
       rows[id].profile.url = `api/v1/${localProfilePath}`
       rows[id].profile.url64 = `api/v1/${localProfilePath64}`
@@ -572,17 +572,41 @@ var taskUpgradeStg = () => {
       console.log(oldLocalPath)
 
       sharp(oldLocalPath)
-        .webp({ lossless: true })
+        .png()
         .resize(178, 178) // width, height
         .toFile(localProfilePath)
 
       sharp(oldLocalPath)
-        .webp({ lossless: true })
+        .png()
         .resize(56, 56) // width, height
         .toFile(localProfilePath64)
 
       changed = true;
     }
+
+    // if (!rows[id].profile.url.endsWith(".webp")) {
+    //   var now = Date.now()
+    //   var oldLocalPath = rows[id].profile.url.replace('api/v1/', '')
+    //   var localProfilePath = `public/${id}/${id}_${now}.webp`
+    //   var localProfilePath64 = `public/${id}/${id}_${now}-64x64.webp`
+
+    //   rows[id].profile.url = `api/v1/${localProfilePath}`
+    //   rows[id].profile.url64 = `api/v1/${localProfilePath64}`
+
+    //   console.log(oldLocalPath)
+
+    //   sharp(oldLocalPath)
+    //     .webp({ lossless: true })
+    //     .resize(178, 178) // width, height
+    //     .toFile(localProfilePath)
+
+    //   sharp(oldLocalPath)
+    //     .webp({ lossless: true })
+    //     .resize(56, 56) // width, height
+    //     .toFile(localProfilePath64)
+
+    //   changed = true;
+    // }
 
     if (!changed) {
       return Promise.resolve()
@@ -619,7 +643,7 @@ var taskCreateSiteMap = () => {
 
   var changed = false
   Object.keys(rows[0].users).forEach(u => {
-    if (!rows[0].users[u].url.endsWith(".webp")) {
+    if (rows[0].users[u].url != rows[u].profile.url) {
       rows[0].users[u].url = rows[u].profile.url
       changed = true
     }
@@ -832,22 +856,26 @@ exports.signUpUser = function(uname, userInfo) {
       //instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
       instaProfileUrl = 'https://diyetkocum.net/api/v1/public/diyetkocumnet.png'
       oldLocalProfilePath = `public/${uname}/${uname}.png`
-      localProfilePath = `public/${uname}/${uname}.webp`
 
       ensureDirectoryExistence(oldLocalProfilePath)
 
       downloadAndSaveProfilePicture(instaProfileUrl, oldLocalProfilePath, () => {
         console.log('done ', oldLocalProfilePath);
         
-        sharp(oldLocalProfilePath)
-          .webp({ lossless: true })
-          .resize(178, 178) // width, height
-          .toFile(oldLocalProfilePath.replace('.png', '.webp'));
+        // sharp(oldLocalProfilePath)
+        //   .webp({ lossless: true })
+        //   .resize(178, 178) // width, height
+        //   .toFile(oldLocalProfilePath.replace('.png', '.webp'));
+
+        // sharp(oldLocalProfilePath)
+        //   .webp({ lossless: true })
+        //   .resize(56, 56) // width, height
+        //   .toFile(oldLocalProfilePath.replace('.png', '-64x64.webp'));
 
         sharp(oldLocalProfilePath)
-          .webp({ lossless: true })
+          .png()
           .resize(56, 56) // width, height
-          .toFile(oldLocalProfilePath.replace('.png', '-64x64.webp'));
+          .toFile(oldLocalProfilePath.replace('.png', '-64x64.png'));
       });
 
       var r = { 
@@ -860,8 +888,8 @@ exports.signUpUser = function(uname, userInfo) {
 
       r.profile.email = userInfo.email
       r.profile.name = userInfo.name
-      r.profile.url = `api/v1/${localProfilePath}`
-      r.profile.url64 = `api/v1/${localProfilePath.replace('.webp', '-64x64.webp')}`
+      r.profile.url = `api/v1/${oldLocalProfilePath.replace('.png', '.png')}`
+      r.profile.url64 = `api/v1/${oldLocalProfilePath.replace('.png', '-64x64.png')}`
       r.profile.tel = userInfo.tel
       r.profile.instagram = userInfo.username
       
@@ -1681,8 +1709,8 @@ exports.uploadDietitianProfilePhoto = function(userId, file) {
     return Promise.reject("Undefined user");
   }
 
-  var localProfilePath = `public/${userId}/${userId}_${Date.now()}.webp`
-  var localProfilePath64 = localProfilePath.replace('.png', '-64x64.webp')
+  var localProfilePath = `public/${userId}/${userId}_${Date.now()}.png`
+  var localProfilePath64 = localProfilePath.replace('.png', '-64x64.png')
 
   rows[userId].profile.url = `api/v1/${localProfilePath}`
   rows[userId].profile.url64 = `api/v1/${localProfilePath64}`
@@ -1708,12 +1736,14 @@ exports.uploadDietitianProfilePhoto = function(userId, file) {
   email.sendEmail('newmessage@diyetkocum.net', titleSuffix, `Changed profile picture ${userId}`, JSON.stringify({}, null, 4))
 
   return sharp(file.path)
-    .webp({ lossless: true })
+    // .webp({ lossless: true })
+    .png()
     .resize(178, 178) // width, height
     .toFile(localProfilePath)
     .then(res => 
       sharp(file.path)
-        .webp({ lossless: true })
+        // .webp({ lossless: true })
+        .png()
         .resize(56, 56) // width, height
         .toFile(localProfilePath64)
         .then(res2 => 

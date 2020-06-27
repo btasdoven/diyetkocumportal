@@ -1,21 +1,18 @@
-import React, { PropTypes } from 'react';
-import { Field, reduxForm } from "redux-form";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-
-import classNames from 'classnames';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import green from '@material-ui/core/colors/green';
-
-import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import InputLabel from '@material-ui/core/InputLabel';
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import Typography from '@material-ui/core/Typography';
+import React from 'react';
 import MaskedInput from 'react-text-mask';
+import { Field, reduxForm } from "redux-form";
 
-import { registerEvent } from '../../components/Signin/PageTracker'
+
+
 
 const styles = theme => ({
   root: {

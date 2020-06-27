@@ -1,33 +1,18 @@
-import ExtendedLink from '../../components/ExtendedLink'
-import React from 'react';
-import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
-import Review from './Review';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import ExtendedLink from '../../components/ExtendedLink';
 import { requestNewPasswordEmail } from "../../store/reducers/authenticate";
+import ForgotPasswordForm from './ForgotPasswordForm';
 
-import ForgotPasswordForm from './ForgotPasswordForm'
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from "react-router-dom";
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
   root: {

@@ -1,25 +1,11 @@
-import clsx from 'clsx';
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
-import { capitalize } from '@material-ui/core/utils';
 import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
-import SaveIcon from '@material-ui/icons/Save';
-import PrintIcon from '@material-ui/icons/Print';
-import ShareIcon from '@material-ui/icons/Share';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
+import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
+import React from 'react';
+import { registerEvent } from '../../components/Signin/PageTracker';
 
-import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
 
 const useStyles = makeStyles(theme => ({
   root: {

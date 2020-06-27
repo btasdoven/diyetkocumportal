@@ -1,72 +1,32 @@
 
-import ExtendedLink from '../../components/ExtendedLink'
-import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Link } from "react-router-dom";
-
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import InputBase from '@material-ui/core/InputBase';
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import DirectionsIcon from '@material-ui/icons/Directions';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import ClearIcon from '@material-ui/icons/Clear';
-import SpeedDial from '../SpeedDial/SpeedDial'
-
-import { getDanisanPreviews, addDanisan } from '../../store/reducers/api.danisanPreviews';
-
-import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
-import AddIcon from '@material-ui/icons/Add';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import SearchIcon from '@material-ui/icons/Search';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import FacebookIcon from '@material-ui/icons/Facebook';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import { userService } from "../../services";
-import { Form, Field, reduxForm } from "redux-form";
-import IntroInstaVideo from '../../components/IntroInstaVideo'
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-
-import InstagramLogin from 'react-instagram-login';
-import FontAwesome from 'react-fontawesome'
-import 'font-awesome/css/font-awesome.min.css'; 
-
+import Divider from '@material-ui/core/Divider';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import InputBase from '@material-ui/core/InputBase';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import { fade, withStyles } from '@material-ui/core/styles';
+import ClearIcon from '@material-ui/icons/Clear';
+import SearchIcon from '@material-ui/icons/Search';
+import 'font-awesome/css/font-awesome.min.css';
+import React from 'react';
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import ExtendedLink from '../../components/ExtendedLink';
+import { addDanisan, getDanisanPreviews } from '../../store/reducers/api.danisanPreviews';
+
+
+
+
+
+
+
+
+
 
 const styles = theme => ({
   root: {

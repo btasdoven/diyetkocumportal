@@ -1,108 +1,45 @@
 
-import ExtendedLink from '../../components/ExtendedLink'
-import BusinessIcon from '@material-ui/icons/Business';
-import CommentIcon from '@material-ui/icons/Comment';
-import SpeedDial from '../SpeedDial/SpeedDial'
-import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Link } from "react-router-dom";
-
-import moment from "moment";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-
-import VideocamIcon from '@material-ui/icons/Videocam';
-import RoomIcon from '@material-ui/icons/Room';
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import InputBase from '@material-ui/core/InputBase';
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardHeader from "@material-ui/core/CardHeader";
+import { Appointments, AppointmentTooltip, WeekView } from '@devexpress/dx-react-scheduler-material-ui';
 import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import DirectionsIcon from '@material-ui/icons/Directions';
-import CancelIcon from '@material-ui/icons/Cancel';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import ClearIcon from '@material-ui/icons/Clear';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CheckSharpIcon from '@material-ui/icons/CheckSharp';
-import CloseIcon from '@material-ui/icons/Close';
-import { withSnackbar } from 'material-ui-snackbar-provider'
-import EventIcon from '@material-ui/icons/Event';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
-import Chip from '@material-ui/core/Chip';
-import Badge from '@material-ui/core/Badge';
-
-import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-
-import IconButton from '@material-ui/core/IconButton';
-import { red, green } from '@material-ui/core/colors';
-import AddIcon from '@material-ui/icons/Add';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import SearchIcon from '@material-ui/icons/Search';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import CheckIcon from '@material-ui/icons/Check';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import { userService } from "../../services";
-import { Form, Field, reduxForm } from "redux-form";
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import 'font-awesome/css/font-awesome.min.css'; 
-
-import InputAdornment from '@material-ui/core/InputAdornment';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import { fade, withStyles } from '@material-ui/core/styles';
+import Typography from "@material-ui/core/Typography";
+import withWidth from '@material-ui/core/withWidth';
+import CheckIcon from '@material-ui/icons/Check';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ClearIcon from '@material-ui/icons/Clear';
+import CommentIcon from '@material-ui/icons/Comment';
+import EventIcon from '@material-ui/icons/Event';
+import RoomIcon from '@material-ui/icons/Room';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import 'font-awesome/css/font-awesome.min.css';
+import { withSnackbar } from 'material-ui-snackbar-provider';
+import moment from "moment";
+import React, { Fragment } from 'react';
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import IntroInstaVideo from '../../components/IntroInstaVideo'
+import { bindActionCreators } from "redux";
+import ExtendedLink from '../../components/ExtendedLink';
+import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 
-import AddAppointmentDialog from './AddAppointmentDialog'
 
-import { ViewState } from '@devexpress/dx-react-scheduler';
-import {
-  Scheduler,
-  DayView,
-  WeekView,
-  Toolbar,
-  TodayButton,
-  DateNavigator,
-  ViewSwitcher,
-  CurrentTimeIndicator,
-  Appointments,
-  AppointmentTooltip,
-  AppointmentForm,
-} from '@devexpress/dx-react-scheduler-material-ui';
-import { Fragment } from 'react';
+
+
+
+
+
+
+
+
 
 const styles = theme => ({
   root: {

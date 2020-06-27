@@ -1,8 +1,6 @@
-import { compose, withProps } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
-import Geocode from "react-geocode";
-import styled from 'styled-components';
-import React, { Fragment, useRef, useState, useCallback } from 'react';
+import React, { Fragment } from 'react';
+import { GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
+import { compose, withProps } from "recompose";
 
 class MapInternal extends React.Component {
     constructor(props) {

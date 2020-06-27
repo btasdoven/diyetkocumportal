@@ -1,81 +1,20 @@
-import MaterialTable from "material-table";
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import React, {Component} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { userService } from '../../services/user.service'
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import { getAllDietitians, deleteDietitian } from '../../store/reducers/api.allDietitians';
-import ExtendedLink from "../../components/ExtendedLink"
-import moment from "moment";
-
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
-import { getDanisanFiles, addDanisanFiles, uploadPhoto, addNewPost } from '../../store/reducers/api.danisanFiles'
-
-import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import Badge from '@material-ui/core/Badge';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SpeedDial from '../SpeedDial/SpeedDial'
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import SaveIcon from '@material-ui/icons/Save';
-import ShareIcon from '@material-ui/icons/Share';
-import SendIcon from '@material-ui/icons/Send';
-import AddIcon from '@material-ui/icons/Add';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-
+import Button from "@material-ui/core/Button";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
-import InputBase from '@material-ui/core/InputBase';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import { Form, Field, reduxForm } from "redux-form";
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-
+import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Typography from "@material-ui/core/Typography";
+import MaterialTable from "material-table";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Field, reduxForm } from "redux-form";
+import { userService } from '../../services/user.service';
+import { deleteDietitian, getAllDietitians } from '../../store/reducers/api.allDietitians';
 
 const styles = theme => ({
   profile: {

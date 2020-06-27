@@ -1,51 +1,33 @@
 
-import ExtendedLink from '../../components/ExtendedLink'
-import { compose, withProps } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
-import styled from 'styled-components';
-import Geocode from "react-geocode";
-import GoogleMapReact from 'google-map-react';
+import { Box } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
-import Image from 'material-ui-image'
-import Divider from "@material-ui/core/Divider";
-import CssBaseline from '@material-ui/core/CssBaseline';
-import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import ReactMarkdown from 'react-markdown/with-html'
-
-import 'github-markdown-css'
-
-import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import { Link } from "react-router-dom";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
-
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Rating from '@material-ui/lab/Rating';
-import Grid from '@material-ui/core/Grid';
-import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { AppBar, Toolbar, Box } from "@material-ui/core";
-import InstagramIcon from '@material-ui/icons/Instagram';
-
-import HeaderV2 from "../../components/Header/HeaderV2";
-import { userService } from '../../services/user.service'
+import 'github-markdown-css';
+import Image from 'material-ui-image';
+import React from 'react';
+import ReactMarkdown from 'react-markdown/with-html';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import ExtendedLink from '../../components/ExtendedLink';
+import { userService } from '../../services/user.service';
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
-import CircularProgress from '@material-ui/core/CircularProgress';
+
+
+
+
+
 
 const styles = theme => ({
     root: {

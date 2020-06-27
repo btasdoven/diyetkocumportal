@@ -1,27 +1,24 @@
-import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { DatePickerInput } from '../../components/DateTimePicker'
-import Typography from "@material-ui/core/Typography";
-
-import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-
+import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import moment from 'moment'
-
 import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import moment from 'moment';
+import React from 'react';
 import { connect } from "react-redux";
-
-import { Form, Field, reduxForm } from "redux-form";
 import MaskedInput from 'react-text-mask';
+import { Field, Form, reduxForm } from "redux-form";
+import { DatePickerInput } from '../../components/DateTimePicker';
+
+
+
+
 
 const styles = theme => ({
     root: {

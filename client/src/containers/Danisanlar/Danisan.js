@@ -1,67 +1,28 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardHeader from "@material-ui/core/CardHeader";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
-import { withRouter } from "react-router-dom";
-
-import { getDanisanProfile } from '../../store/reducers/api.danisanProfile';
-
-import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import Badge from '@material-ui/core/Badge';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import SendIcon from '@material-ui/icons/Send';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import ShareIcon from '@material-ui/icons/Share';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
 import InputBase from '@material-ui/core/InputBase';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import { userService } from "../../services";
-import { Form, Field, reduxForm } from "redux-form";
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import {reset} from 'redux-form';
-import Slide from '@material-ui/core/Slide';
-
-import KisiselBilgiler from './KisiselBilgiler';
-import Olcumler from './Olcumler';
+import { withStyles } from '@material-ui/core/styles';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { reduxForm } from "redux-form";
+import { trackPage } from '../../components/Signin/PageTracker';
+import { getDanisanProfile } from '../../store/reducers/api.danisanProfile';
 import DiyetListesi from './DiyetListesi';
+import KisiselBilgiler from './KisiselBilgiler';
 import Notlar from './Notlar';
-import Finans from './Finans';
-import MesajView from '../Mesajlar/MesajView'
+import Olcumler from './Olcumler';
 
-import { trackPage } from '../../components/Signin/PageTracker'
+
+
+
+
+
+
+
 
 const styles = theme => ({
   root: {

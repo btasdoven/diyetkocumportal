@@ -1,32 +1,11 @@
-import React from "react";
-import Avatar from '@material-ui/core/Avatar';
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
-import PersonIcon from "@material-ui/icons/Person";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import { withRouter } from 'react-router'
-import { bindActionCreators } from "redux";
+import React from "react";
 import { connect } from "react-redux";
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
-import ExtendedLink from "../ExtendedLink"
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import { withRouter } from 'react-router';
+import { bindActionCreators } from "redux";
 import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppointments';
 import { getMessagePreviews } from '../../store/reducers/api.messagePreviews';
-import HeaderNotifDialog from './HeaderNotifDialog'
-import HeaderV2 from './HeaderV2'
+import HeaderV2 from './HeaderV2';
 
 const styles = theme => ({
   toolbarRoot: {
@@ -144,22 +123,22 @@ class Header extends React.Component  {
       this.props.getDietitianAppointments(this.state.user.id);
     }
 
-    if (this.state.t != undefined) {
-      clearInterval(this.state.t)
-    }
+    // if (this.state.t != undefined) {
+    //   clearInterval(this.state.t)
+    // }
 
-    var didDialogOpen =  localStorage.getItem('intro_dialog');
+    // var didDialogOpen =  localStorage.getItem('intro_dialog');
 
-    if (didDialogOpen == 'true')
-      return;
+    // if (didDialogOpen == 'true')
+    //   return;
     
-    var t = setTimeout(() => {
-      this.handleNotifDialog(true);
-    }, 3000);
+    // var t = setTimeout(() => {
+    //   this.handleNotifDialog(true);
+    // }, 3000);
 
-    this.setState({
-      timeoutInt: t,
-    })
+    // this.setState({
+    //   timeoutInt: t,
+    // })
   }
 
   componentWillUnmount() {

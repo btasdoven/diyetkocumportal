@@ -1,30 +1,19 @@
-import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import { withStyles } from '@material-ui/core/styles';
-import ChatMsg from '@mui-treasury/components/chatMsg/ChatMsg';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
-import Avatar from '@material-ui/core/Avatar';
-import MenuIcon from '@material-ui/icons/Menu';
-import AddIcon from '@material-ui/icons/Add';
-import SendIcon from '@material-ui/icons/Send';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import ClearIcon from '@material-ui/icons/Clear';
-import InputBase from '@material-ui/core/InputBase';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import Divider from '@material-ui/core/Divider';
-import { Form, Field, reduxForm } from "redux-form";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { getDanisanMessages, addDanisanMessage } from '../../store/reducers/api.danisanMessages'
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+import { fade, withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
 import withWidth from '@material-ui/core/withWidth';
+import SendIcon from '@material-ui/icons/Send';
+import ChatMsg from '@mui-treasury/components/chatMsg/ChatMsg';
+import React from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Field, Form, reduxForm } from "redux-form";
+import { userService } from '../../services/user.service';
+import { addDanisanMessage, getDanisanMessages } from '../../store/reducers/api.danisanMessages';
 
-import { userService } from '../../services/user.service'
 
 const styles = theme => ({
     profile: {

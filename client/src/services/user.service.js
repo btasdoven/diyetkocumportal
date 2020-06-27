@@ -1,6 +1,5 @@
 
 import envService from './env.service'
-import dateFnsFormat from 'date-fns/format';
 import axios from 'axios';
 
 var JWT_TOKEN = undefined;

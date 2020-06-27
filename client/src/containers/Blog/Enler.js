@@ -1,84 +1,41 @@
 
-import ExtendedLink from '../../components/ExtendedLink'
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import clsx from 'clsx';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import green from '@material-ui/core/colors/green';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import { withTheme, makeStyles, withStyles } from '@material-ui/core/styles';
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import SvgIcon from '@material-ui/core/SvgIcon';
-import { Link } from "react-router-dom";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import SendIcon from '@material-ui/icons/Send';
-import Divider from '@material-ui/core/Divider';
-import IntroInstaVideo from '../../components/IntroInstaVideo'
-import { WhatsappIcon } from "react-share";
-import Fab from '@material-ui/core/Fab';
-import Zoom from '@material-ui/core/Zoom';
-import SpeedDial from '../SpeedDial/SpeedDial'
-import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import { Form, Field, reduxForm } from "redux-form";
-import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import MaskedInput from 'react-text-mask';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import green from '@material-ui/core/colors/green';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import InputLabel from '@material-ui/core/InputLabel';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import Switch from '@material-ui/core/Switch';
-
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Check from '@material-ui/icons/Check';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import StepConnector from '@material-ui/core/StepConnector';
-
-import SwipeableViews from 'react-swipeable-views';
-import { signup } from "../../store/reducers/authenticate";
-import { userService } from '../../services/user.service'
-import { registerEvent, trackPage } from '../../components/Signin/PageTracker'
+import { makeStyles, withStyles, withTheme } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Check from '@material-ui/icons/Check';
+import clsx from 'clsx';
+import moment from "moment";
+import 'moment/locale/tr';
+import React from 'react';
+import { connect } from "react-redux";
+import MaskedInput from 'react-text-mask';
+import { bindActionCreators } from "redux";
+import { Field } from "redux-form";
+import ExtendedLink from '../../components/ExtendedLink';
+import { userService } from '../../services/user.service';
 import { getAllDietitians } from '../../store/reducers/api.allDietitians';
 
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
-import HeaderV2 from "../../components/Header/HeaderV2";
 
-import moment from "moment";
-import 'moment/locale/tr'
+
+
+
 moment.locale('tr')
 
 const styles = theme => ({

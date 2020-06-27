@@ -1,29 +1,18 @@
-import React, { Component, Suspense } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import DateFnsUtils from '@date-io/date-fns';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
-import { connect } from "react-redux";
-
-import DateFnsUtils from '@date-io/date-fns';
-import trLocale from "date-fns/locale/tr";
-
-import NotImplementedYet from './containers/NotImplementedYet'
-
-import MainLayout from "./layouts/MainLayout";
-import EmptyLayout from "./layouts/EmptyLayout";
-import MainLayoutBottomNav from "./layouts/MainLayoutBottomNav";
 import withWidth from '@material-ui/core/withWidth';
-import withTracker from './components/Signin/PageTracker'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import { SnackbarProvider } from 'material-ui-snackbar-provider'
-
-import CircularLoader from "./components/CircularLoader"
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { ThemeProvider } from "@material-ui/styles";
+import trLocale from "date-fns/locale/tr";
+import { SnackbarProvider } from 'material-ui-snackbar-provider';
+import React, { Component, Suspense } from "react";
+import { connect } from "react-redux";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import CircularLoader from "./components/CircularLoader";
+import withTracker from './components/Signin/PageTracker';
+import EmptyLayout from "./layouts/EmptyLayout";
+import MainLayout from "./layouts/MainLayout";
 
 const MyProfile = React.lazy(() => import( "./containers/MyProfile/MyProfile"))
 const ProfileStatus = React.lazy(() => import( "./containers/MyProfile/Status"))
@@ -42,7 +31,6 @@ const Enler = React.lazy(() => import( "./containers/Blog/Enler"))
 const BlogList = React.lazy(() => import( "./containers/Blog/BlogList"))
 const AnemnezFormView = React.lazy(() => import( './containers/AnemnezForm/AnemnezFormView'))
 
-const DiyetisyenListView = React.lazy(() => import( './containers/Randevu/DiyetisyenListView'))
 const ForgotPassword = React.lazy(() => import('./containers/Register/ForgotPassword'))
 const ResetPassword = React.lazy(() => import('./containers/Register/ResetPassword'))
 const AdminView = React.lazy(() => import('./containers/Admin/AdminView'))
@@ -62,13 +50,9 @@ const DashboardRoute = withTracker(withWidth()(({ width, component: Component, b
     <Route
       {...rest}
       render={matchProps => 
-        true //width != 'xs' && width != 'sm'
-          ? (
-            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} sideBar={true} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
-            </MainLayout>
-          ) : (
-            <MainLayoutBottomNav component={Component} {...matchProps} />
-          )}
+        <MainLayout component={Component} viewParam={viewParam} backButton={backButton} sideBar={true} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
+        </MainLayout>
+      }
     />
   );
 }));
@@ -79,13 +63,9 @@ const DashboardNonSignedRoute = withTracker(withWidth()(({ width, component: Com
     <Route
       {...rest}
       render={matchProps => 
-        true //width != 'xs' && width != 'sm'
-          ? (
-            <MainLayout component={Component} viewParam={viewParam} backButton={backButton} sideBar={false} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
-            </MainLayout>
-          ) : (
-            <MainLayoutBottomNav component={Component} {...matchProps} />
-          )}
+        <MainLayout component={Component} viewParam={viewParam} backButton={backButton} sideBar={false} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
+        </MainLayout>
+      }
     />
   );
 }));

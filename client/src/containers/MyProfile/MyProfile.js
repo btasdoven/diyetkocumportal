@@ -1,96 +1,58 @@
 
-import ExtendedLink from '../../components/ExtendedLink'
-import React, {Fragment} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
-
-import { userService } from '../../services/user.service'
-import ShowAddressOnMap from '../../components/ShowAddressOnMap'
-import SelectAddressDialog from '../../components/SelectAddressDialog'
-import NewAddressDialog from '../../components/NewAddressDialog'
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Link } from "react-router-dom";
-import FolderIcon from '@material-ui/icons/Folder';
+import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import { withSnackbar } from 'material-ui-snackbar-provider'
-import SpeedDial from '../SpeedDial/SpeedDial'
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import Switch from '@material-ui/core/Switch';
-
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { getDietitianProfile, putDietitianProfile, uploadProfilePhoto } from '../../store/reducers/api.dietitianProfile';
-
-import UzmanlikAlanlariAutocomplete from '../../components/UzmanlikAlanlariAutocomplete'
-
-import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import Badge from '@material-ui/core/Badge';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-
-import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import SaveIcon from '@material-ui/icons/Save';
-import ShareIcon from '@material-ui/icons/Share';
-import SendIcon from '@material-ui/icons/Send';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-
+import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
-import InputBase from '@material-ui/core/InputBase';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import { Form, Field, reduxForm } from "redux-form";
-import Menu from '@material-ui/core/Menu';
-import InputLabel from '@material-ui/core/InputLabel';
+import Collapse from '@material-ui/core/Collapse';
+import Divider from '@material-ui/core/Divider';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import FormControl from '@material-ui/core/FormControl';
-
-import DateTimePicker from '../../components/DateTimePicker'
-import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import {reset} from 'redux-form';
-import Slide from '@material-ui/core/Slide';
-import Chip from '@material-ui/core/Chip';
-import FaceIcon from '@material-ui/icons/Face';
+import { withStyles } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
+import Typography from "@material-ui/core/Typography";
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import DoneIcon from '@material-ui/icons/Done';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import SaveIcon from '@material-ui/icons/Save';
+import { withSnackbar } from 'material-ui-snackbar-provider';
+import React, { Fragment } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { connect } from "react-redux";
 import MaskedInput from 'react-text-mask';
+import { bindActionCreators } from "redux";
+import { Field, Form, reduxForm } from "redux-form";
+import ExtendedLink from '../../components/ExtendedLink';
+import NewAddressDialog from '../../components/NewAddressDialog';
+import SelectAddressDialog from '../../components/SelectAddressDialog';
+import ShowAddressOnMap from '../../components/ShowAddressOnMap';
+import UzmanlikAlanlariAutocomplete from '../../components/UzmanlikAlanlariAutocomplete';
+import { userService } from '../../services/user.service';
+import { getDietitianProfile, putDietitianProfile, uploadProfilePhoto } from '../../store/reducers/api.dietitianProfile';
+import SpeedDial from '../SpeedDial/SpeedDial';
+
+
+
+
+
+
+
+
+
 
 const styles = theme => ({
   profile: {

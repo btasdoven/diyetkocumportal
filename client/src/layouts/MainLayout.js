@@ -4,19 +4,20 @@ import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Redirect } from "react-router-dom";
 import { withSnackbar } from 'material-ui-snackbar-provider'
 
 import { withRouter } from 'react-router'
 import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import { logout, relogin } from "../store/reducers/authenticate";
 
 import CircularLoader from "../components/CircularLoader"
 
 import moment from "moment";
 import 'moment/locale/tr'
+
+const Sidebar = React.lazy(() => import("../components/Sidebar"));
+
 moment.locale('tr')
 
 const drawerWidth = 240;
@@ -165,10 +166,12 @@ class MainLayout extends Component {
           </div>
           
           {this.state.user && this.props.sideBar != false &&
-            <Sidebar 
-              permanentDrawer={this.props.permanentDrawer} 
-              logout={this.props.logout}
-              open={this.props.permanentDrawer ? true : this.state.open} handleClose={this.handleCloseDrawer} drawerWidth={drawerWidth} />
+              <React.Suspense fallback={<CircularLoader />}>
+                <Sidebar 
+                  permanentDrawer={this.props.permanentDrawer} 
+                  logout={this.props.logout}
+                  open={this.props.permanentDrawer ? true : this.state.open} handleClose={this.handleCloseDrawer} drawerWidth={drawerWidth} />
+              </React.Suspense>
           }
         </Fragment>
       );
