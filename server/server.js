@@ -725,18 +725,40 @@ app.get("/:userId", (req, res, next) => {
   var title ='Diyet Koçum'
   var descr = 'Diyetisyenlerin Dijital Asistanı'
   var img = 'static/favicon_lg.png'  
+  var jsonld = undefined;
     
   if (user != undefined && Object.keys(user).length > 0) {
     title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + req.params.userId + ")"
     descr = 'Diyet Koçum üzerinden tüm yazıları gör, yorumları incele ve randevu al'
     img = user.url
-  }  
   
-  htmlTemplate(res, title, descr, img)    
+    jsonld = {
+      "@context" : "http://schema.org",
+      "@type" : "LocalBusiness",
+      "name" : user.name,
+      "image" : `https://diyetkocum.net/${user.url}`,
+      "url" : `https://diyetkocum.net/${req.params.userId}`,
+      "aggregateRating" : {
+        "@type" : "AggregateRating",
+        "ratingValue" : "5",
+        "ratingCount" : "13"
+      }
+    }
+
+    if (user.addresses != undefined && Object.keys(user.addresses).length > 0) {
+      jsonld.address = {
+        "@type" : "PostalAddress",
+        "streetAddress" : user.addresses[Object.keys(user.addresses)[0]].address,
+        "addressCountry" : "TR"
+      }
+    }
+  }  
+
+  htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=31536000');
-      res.send(subParams(str, title, descr, img));    
+      res.send(subParams(str, title, descr, img, jsonld));    
     });
 });
 
@@ -747,18 +769,51 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
   var title ='Diyet Koçum'
   var descr = 'Diyetisyenlerin Dijital Asistanı'
   var img = 'static/favicon_lg.png'  
-    
+  var jsonld = undefined;
+
   if (user != undefined && Object.keys(user).length > 0 && post != undefined) {
     title = post.title
     descr = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + req.params.userId + ")"
     img = user.url
+    jsonld = { 
+      "@context": "https://schema.org", 
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "image": `https://diyetkocum.net/${post.img}`,
+      "publisher": {
+        "@type": "Organization",
+        "name": "Diyet Koçum",
+        "url": "https://diyetkocum.net",
+        "sameAs": [
+          "https://twitter.com/diyetkocumnet",
+          "https://www.instagram.com/diyetkocumnet/"
+        ],
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://diyetkocum.net/static/favicon.png"
+        }
+      },
+      "mainEntityOfPage": "True",
+      "url": `https://diyetkocum.net/${req.originalUrl}`,
+      "datePublished": post.date ? moment(post.date).format("YYYY-MM-DD") : "2020-04-07",
+      "dateCreated": post.date ? moment(post.date).format("YYYY-MM-DD") : "2020-04-07",
+      "dateModified": post.date ? moment(post.date).format("YYYY-MM-DD") : "2020-04-07",
+      "articleBody": post.text,
+      "author": {
+        "@type": "Person",
+        "name": user.name,
+        "jobTitle": user.unvan,
+        "url": `https://diyetkocum.net/${req.params.userId}`,
+        "image": `https://diyetkocum.net/${user.url}`
+      }
+     }
   }  
   
-  htmlTemplate(res, title, descr, img)    
+  htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=31536000');
-      res.send(subParams(str, title, descr, img));    
+      res.send(subParams(str, title, descr, img, jsonld));    
     });
 });
 
@@ -775,7 +830,7 @@ app.get("/l/:linkId", (req, res, next) => {
     img = linkInfo.dietitianUrl
   }  
   
-  htmlTemplate(res, title, descr, img)    
+  htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=31536000');
@@ -788,7 +843,7 @@ app.get("*", (req, res, next) => {
   var descr = 'Diyetisyenlerin Dijital Asistanı'
   var img = 'static/favicon_lg.png'
   
-  htmlTemplate(res, title, descr, img)    
+  htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=31536000');
@@ -805,14 +860,17 @@ function streamToString (stream) {
   })
 }
 
-function subParams(line, title, descr, img) {
+function subParams(line, title, descr, img, jsonld) {
   return line
     .replace(`<meta property="og:title" content="Diyet Koçum"/>`, `<meta property="og:title" content="${title}"/>`)
     .replace(`<meta property="og:description" content="Diyetisyenlerin Dijital Asistanı"/>`, `<meta property="og:description" content="${descr}"/>`)
     .replace(`<meta property="og:image" content="https://diyetkocum.net/static/favicon_lg.png"/>`, `<meta property="og:image" content="https://diyetkocum.net/${img}"/>`)
+    .replace(`<script type="application/ld+json" name="ssr-based"></script>`, jsonld == undefined
+      ? ''
+      : `<script type="application/ld+json" name="ssr-based">${JSON.stringify(jsonld)}</script>`)
 }
 
-function htmlTemplate(res, title, descr, img) {
+function htmlTemplate() {
   return streamToString(fs.createReadStream('../client/build/index.html'))
 }
 
