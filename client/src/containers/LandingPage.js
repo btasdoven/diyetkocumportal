@@ -155,7 +155,7 @@ function Album(props) {
       <CssBaseline />
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.layout}>
-          <img src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
+          <img alt="diyet koçum diyetisyen asistan" src="/static/favicon.png" style={{marginRight: '10px', height:'40px'}}/>
           <Typography variant="h6" color="inherit" noWrap>
             Digital Lab Book
           </Typography>

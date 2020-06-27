@@ -85,9 +85,9 @@ class DietianList extends React.Component {
 
   componentDidMount() {
     if (!this.isLoaded()) {
-      this.timer = setTimeout(() => {
+      // this.timer = setTimeout(() => {
         this.props.getAllDietitians()
-      }, 5000)
+      // }, 5000)
     }
   }
 

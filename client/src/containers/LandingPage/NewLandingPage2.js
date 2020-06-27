@@ -287,7 +287,7 @@ class LandingPage extends React.Component {
           <AppBar elevation={0} position="static" className={classes.appBar}>
             <Toolbar className={classes.layoutToolbar}>
               <span edge="start" style={{display: 'flex'}}>
-                <Avatar edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
+                <Avatar alt="diyet koçum diyetisyen asistan" edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
                 <Typography variant="h6" style={{fontWeight: 100, color: 'white', fontFamily: 'Prompt,sans-serif'}}>diyetkoçum</Typography>
               </span>
               <span edge="end">
@@ -338,8 +338,8 @@ class LandingPage extends React.Component {
             }}
           >
             <MenuItem component={ExtendedLink} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
-            <MenuItem component={ExtendedLink} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>
-            <MenuItem component={ExtendedLink} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>
+            <MenuItem component={ExtendedLink} to={"/signin"} onClick={this.handleMenuClose}>Diyetisyen Girişi</MenuItem>
+            <MenuItem component={ExtendedLink} to={"/signup"} onClick={this.handleMenuClose}>Diyetisyen Kaydı</MenuItem>
             {/* <MenuItem component={ExtendedLink} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
             <MenuItem component={ExtendedLink} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
           </Menu>

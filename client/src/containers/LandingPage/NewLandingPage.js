@@ -322,7 +322,7 @@ class LandingPage extends React.Component {
                   </style>
                   <div style={{animation: 'rotate 3s linear infinite'}} className={classes.avatarWrapper}>
                   </div> */}
-                  <Avatar src="/static/favicon.png" className={classes.avatar} />
+                  <Avatar alt="diyet koçum diyetisyen asistan" src="/static/favicon.png" className={classes.avatar} />
                 </div>
               </Grid>
               <Grid style={{paddingLeft: '5%'}} item xs={9} sm={9} md={9} lg={9}>

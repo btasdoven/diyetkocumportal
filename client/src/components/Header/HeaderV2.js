@@ -203,8 +203,8 @@ class HeaderV2 extends React.Component {
                                 <Divider style={{marginTop: '8px'}}/>
                         }
                         <MenuItem component={ExtendedLink} to={"/"} onClick={this.handleMenuClose}>Anasayfa</MenuItem>
-                        {!this.state.user && <MenuItem component={ExtendedLink} to={"/signin"} onClick={this.handleMenuClose}>Giriş Yap</MenuItem>}
-                        {!this.state.user && <MenuItem component={ExtendedLink} to={"/signup"} onClick={this.handleMenuClose}>Kayıt Ol</MenuItem>}
+                        {!this.state.user && <MenuItem component={ExtendedLink} to={"/signin"} onClick={this.handleMenuClose}>Diyetisyen Girişi</MenuItem>}
+                        {!this.state.user && <MenuItem component={ExtendedLink} to={"/signup"} onClick={this.handleMenuClose}>Diyetisyen Kaydı</MenuItem>}
                         {/* <MenuItem component={ExtendedLink} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
                         <MenuItem component={ExtendedLink} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
                         {/* {this.state.user && <MenuItem onClick={this.props.logout}>Logout</MenuItem>} */}
