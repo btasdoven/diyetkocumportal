@@ -937,7 +937,7 @@ exports.signUpUser = function(uname, userInfo) {
         password: userInfo.password, 
         email: userInfo.email, 
         tel: userInfo.tel,
-        url: `api/v1/${localProfilePath}`,
+        url: `api/v1/${oldLocalProfilePath.replace('.png', '.png')}`,
         //status: 'pending',
         create_date: r.profile.create_date,
         premium_until: r.profile.premium_until,
