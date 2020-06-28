@@ -1418,6 +1418,39 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
   storage.setItem(userId, rows[userId]);
 }
 
+exports.getDietitianStatistics = function (userId) {
+  var statistics = {
+    profileViews: 0,
+    adviseeCount: 0,
+    appointmentCount: 0,
+  };
+
+  if (rows[userId] == undefined) {
+    return statistics;
+  }
+
+  const user = rows[userId];
+  statistics.profileViews = user.profile.pageViewCount;
+
+  var adviseeCount = 0;
+  for (advisee in user.danisanPreviews) {
+    if (user.danisanPreviews[advisee].visibleToDietitian == true) {
+      adviseeCount++;
+    }
+  }
+  statistics.adviseeCount = adviseeCount;
+
+  var appointmentCount = 0;
+  for (var date in user.appointments) {
+    for (var _time in user.appointments[date]) {
+      appointmentCount++;
+    }
+  }
+  statistics.appointmentCount = appointmentCount;
+
+  return statistics;
+};
+
 exports.makePayment = function(userId, callerUser) {
   console.log("makePayment")
   console.log(userId)
