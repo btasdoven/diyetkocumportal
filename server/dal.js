@@ -1428,7 +1428,7 @@ exports.getDietitianStatistics = function (userId) {
   statistics[0] = {
     title: "PROFİL ZİYARETİ",
     value: user.profile.pageViewCount.toString(),
-    image: "www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/hosting.png",
+    image: "https://www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/hosting.png",
     aspectRatio: 2.4,
     color: "#172568",
   };
@@ -1442,7 +1442,7 @@ exports.getDietitianStatistics = function (userId) {
   statistics[1] = {
     title: "KAYITLI DANIŞANLARIM",
     value: adviseeCount.toString(),
-    image: "www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/auth.png",
+    image: "https://www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/auth.png",
     aspectRatio: 2.4,
     color: "#ab60b8",
   };
@@ -1456,7 +1456,7 @@ exports.getDietitianStatistics = function (userId) {
   statistics[2] = {
     title: "RANDEVULARIM",
     value: appointmentCount.toString(),
-    image: "www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/testlab.png",
+    image: "https://www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/testlab.png",
     aspectRatio: 2.4,
     color: "#00b098",
   };
