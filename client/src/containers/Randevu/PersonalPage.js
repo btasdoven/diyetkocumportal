@@ -188,13 +188,13 @@ class PersonalPage extends React.Component {
                                 <Rating readOnly={true} value={5} size="large" />
                             </Box>
 
-                            <div className={classes.rootTypeSelect}>
+                            <div data-nosnippet className={classes.rootTypeSelect}>
                                 {user.online_diyet == true && <Button style={{ fontSize: '16px', fontWeight: '600', backgroundColor: "#fc5185", margin: '24px', marginTop: 0 }} color="primary" size="large" variant="contained" onClick={() => this.props.onComplete('onlinediyet')}>ONLİNE DİYETE BAŞLA</Button>}
                                 {user.yuzyuze_diyet == true && Object.keys(user.addresses).length > 0 && <Button style={{ fontSize: '16px', fontWeight: '600', border: '2px solid', color: "#05386b" }} size="large" variant="outlined" onClick={() => this.props.onComplete('randevu')}>YÜZ YÜZE RANDEVU AL</Button>}
                             </div> 
 
                             {(Object.keys(user.addresses).length > 0 || user.online_diyet == true) && 
-                                <Typography variant="caption" style={{ textAlign: 'center', padding: '24px', paddingTop: '8px' }} className={classes.text} >
+                                <Typography data-nosnippet variant="caption" style={{ textAlign: 'center', padding: '24px', paddingTop: '8px' }} className={classes.text} >
                                     Diyetisyeniniz ile gerçekleştireceğiniz online ya da yüz yüze randevular diyetisyeninizin belirleyeceği ücrete tabidir.
                                 </Typography>
                             }

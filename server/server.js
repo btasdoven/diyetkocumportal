@@ -725,11 +725,12 @@ app.get("/:userId", (req, res, next) => {
   var title ='Diyet Koçum'
   var descr = 'Diyetisyenlerin Dijital Asistanı'
   var img = 'static/favicon_lg.png'  
+  var url = `https://diyetkocum.net${req.originalUrl}`
   var jsonld = undefined;
     
   if (user != undefined && Object.keys(user).length > 0) {
     title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + req.params.userId + ")"
-    descr = 'Diyet Koçum üzerinden tüm yazıları gör, yorumları incele ve randevu al'
+    descr = 'Diyet Koçum üzerinden tüm yazıları gör, danışan yorumlarını incele, ofis bilgilerine ulaş ya da randevu al'
     img = user.url
   
     jsonld = {
@@ -758,7 +759,7 @@ app.get("/:userId", (req, res, next) => {
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=31536000');
-      res.send(subParams(str, title, descr, img, jsonld));    
+      res.send(subParams(str, title, descr, img, url, jsonld));    
     });
 });
 
@@ -769,6 +770,7 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
   var title ='Diyet Koçum'
   var descr = 'Diyetisyenlerin Dijital Asistanı'
   var img = 'static/favicon_lg.png'  
+  var url = `https://diyetkocum.net${req.originalUrl}`
   var jsonld = undefined;
 
   if (user != undefined && Object.keys(user).length > 0 && post != undefined) {
@@ -794,7 +796,7 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
         }
       },
       "mainEntityOfPage": "True",
-      "url": `https://diyetkocum.net/${req.originalUrl}`,
+      "url": `https://diyetkocum.net${req.originalUrl}`,
       "datePublished": post.date ? moment(post.date).format("YYYY-MM-DD") : "2020-04-07",
       "dateCreated": post.date ? moment(post.date).format("YYYY-MM-DD") : "2020-04-07",
       "dateModified": post.date ? moment(post.date).format("YYYY-MM-DD") : "2020-04-07",
@@ -813,7 +815,7 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=31536000');
-      res.send(subParams(str, title, descr, img, jsonld));    
+      res.send(subParams(str, title, descr, img, url, jsonld));    
     });
 });
 
@@ -823,6 +825,7 @@ app.get("/l/:linkId", (req, res, next) => {
   var title ='Diyet Koçum'
   var descr = 'Diyetisyenlerin Dijital Asistanı'
   var img = 'static/favicon_lg.png'  
+  var url = `https://diyetkocum.net${req.originalUrl}`
     
   if (linkInfo != undefined) {
     title = linkInfo.danisanUserName
@@ -834,7 +837,7 @@ app.get("/l/:linkId", (req, res, next) => {
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=31536000');
-      res.send(subParams(str, title, descr, img));    
+      res.send(subParams(str, title, descr, img, url));    
     });
 });
 
@@ -842,12 +845,13 @@ app.get("*", (req, res, next) => {
   var title ='Diyet Koçum'
   var descr = 'Diyetisyenlerin Dijital Asistanı'
   var img = 'static/favicon_lg.png'
+  var url = `https://diyetkocum.net${req.originalUrl}`
   
   htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
       res.setHeader('Cache-Control', 'max-age=31536000');
-      res.send(subParams(str, title, descr, img));    
+      res.send(subParams(str, title, descr, img, url));    
     });
 });
 
@@ -860,14 +864,19 @@ function streamToString (stream) {
   })
 }
 
-function subParams(line, title, descr, img, jsonld) {
+function subParams(line, title, descr, img, url, jsonld) {
   return line
     .replace(`<meta property="og:title" content="Diyet Koçum"/>`, `<meta property="og:title" content="${title}"/>`)
+    .replace(`<title>Diyet Koçum | Diyetisyenlerin Dijital Asistanı</title>`, `<title>${title}</title>`)
     .replace(`<meta property="og:description" content="Diyetisyenlerin Dijital Asistanı"/>`, `<meta property="og:description" content="${descr}"/>`)
+    .replace(
+      `<meta name="description" content="Diyetisyenlerin danışanlarına randevu verebileceği; otomatik anamnez formu, kan tahlili ve tartı ölçümü isteyebileceği, danışanlarının takibini yapabileceği dijital bir asistan."/>`,
+      `<meta name="description" content="${descr}"/>`)
     .replace(`<meta property="og:image" content="https://diyetkocum.net/static/favicon_lg.png"/>`, `<meta property="og:image" content="https://diyetkocum.net/${img}"/>`)
+    .replace(`<meta property="og:url" content="https://diyetkocum.net/"/>`, `<meta property="og:url" content="${url}"/>`)
     .replace(`<script type="application/ld+json" name="ssr-based"></script>`, jsonld == undefined
       ? ''
-      : `<script type="application/ld+json" name="ssr-based">${JSON.stringify(jsonld)}</script>`)
+      : `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>`)
 }
 
 function htmlTemplate() {
