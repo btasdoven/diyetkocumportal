@@ -1419,18 +1419,19 @@ exports.putDietitianProfile = function (userId, dietitianProfile) {
 }
 
 exports.getDietitianStatistics = function (userId) {
-  var statistics = {
-    profileViews: 0,
-    adviseeCount: 0,
-    appointmentCount: 0,
-  };
-
+  const statistics = [];
   if (rows[userId] == undefined) {
     return statistics;
   }
 
   const user = rows[userId];
-  statistics.profileViews = user.profile.pageViewCount;
+  statistics[0] = {
+    title: "PROFİL ZİYARETİ",
+    value: user.profile.pageViewCount.toString(),
+    image: "www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/hosting.png",
+    aspectRatio: 2.4,
+    color: "#172568",
+  };
 
   var adviseeCount = 0;
   for (advisee in user.danisanPreviews) {
@@ -1438,7 +1439,13 @@ exports.getDietitianStatistics = function (userId) {
       adviseeCount++;
     }
   }
-  statistics.adviseeCount = adviseeCount;
+  statistics[1] = {
+    title: "KAYITLI DANIŞANLARIM",
+    value: adviseeCount.toString(),
+    image: "www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/auth.png",
+    aspectRatio: 2.4,
+    color: "#ab60b8",
+  };
 
   var appointmentCount = 0;
   for (var date in user.appointments) {
@@ -1446,7 +1453,13 @@ exports.getDietitianStatistics = function (userId) {
       appointmentCount++;
     }
   }
-  statistics.appointmentCount = appointmentCount;
+  statistics[2] = {
+    title: "RANDEVULARIM",
+    value: appointmentCount.toString(),
+    image: "www.gstatic.com/mobilesdk/160505_mobilesdk/discoverycards/2x/testlab.png",
+    aspectRatio: 2.4,
+    color: "#00b098",
+  };
 
   return statistics;
 };
