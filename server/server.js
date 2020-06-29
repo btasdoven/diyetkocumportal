@@ -257,6 +257,13 @@ app.get("/api/v1/users/:userId/danisanPreviews", verifyJwtToken, (req, res, next
   }), delayInResponseInMs); 
 });
 
+app.get("/api/v1/users/:userId/statistics", (req, res, next) => {
+  setTimeout(function () {
+    res.setHeader("Content-Type", "application/json");
+    res.json(dal.getDietitianStatistics(req.params.userId));
+  }, delayInResponseInMs);
+});
+
 app.get("/api/v1/users/:userId/appointments/pending", (req, res, next) => {
   setTimeout((function() {
     res.setHeader('Content-Type', 'application/json');
