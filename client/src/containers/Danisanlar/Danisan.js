@@ -14,7 +14,7 @@ import { getDanisanProfile } from '../../store/reducers/api.danisanProfile';
 import DiyetListesi from './DiyetListesi';
 import KisiselBilgiler from './KisiselBilgiler';
 import Notlar from './Notlar';
-import Olcumler from './Olcumler';
+const Olcumler = React.lazy(() => import('./Olcumler'));
 
 const styles = theme => ({
   root: {
@@ -70,7 +70,7 @@ const styles = theme => ({
 
 function renderLoadingButton(classes) {
   return (
-    <div className={classes.rootLoading}>
+    <div className={classes.rootLoading} style={{padding: '8px'}}>
       <CircularProgress size={24} className={classes.buttonProgress} />
     </div>
   )

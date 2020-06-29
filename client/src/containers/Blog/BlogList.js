@@ -84,7 +84,15 @@ const styles = theme => ({
       flexWrap: 'wrap',
       overflowX: 'auto',
     }
-  }
+  },
+  rootLoading: {
+    height: "inherit",
+    display: "flex",
+    justifyContent: "center",
+    width: '100%',
+    alignItems: "center",
+    marginTop: theme.spacing(5)
+  },
 });
 
 function groupBy(xs, key) {
@@ -96,7 +104,7 @@ function groupBy(xs, key) {
 
 function renderLoadingButton(classes) {
     return (
-      <div className={classes.rootLoading}>
+      <div className={classes.rootLoading} style={{padding: '8px'}}>
         <CircularProgress size={24} className={classes.buttonProgress} />
       </div>
     )

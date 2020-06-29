@@ -17,18 +17,9 @@ import { bindActionCreators } from "redux";
 import { Field } from "redux-form";
 import { trackPage } from '../../components/Signin/PageTracker';
 import { getLinkInfo } from '../../store/reducers/api.links';
-import Olcumler from '../Danisanlar/Olcumler';
 import AnemnezForm from './AnemnezForm';
 import DiyetListesi from './DiyetListesi';
-
-
-
-
-
-
-
-
-
+const Olcumler = React.lazy(() => import('../Danisanlar/Olcumler'));
 
 const styles = theme => ({
   profile: {
@@ -99,7 +90,7 @@ const styles = theme => ({
 
 function renderLoadingButton(classes) {
   return (
-    <div className={classes.rootLoading}>
+    <div className={classes.rootLoading} style={{padding: '8px'}}>
       <CircularProgress size={24} className={classes.buttonProgress} />
     </div>
   )

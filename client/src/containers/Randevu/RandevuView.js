@@ -26,15 +26,6 @@ import { registerEvent } from '../../components/Signin/PageTracker';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
 import { logout } from "../../store/reducers/authenticate";
 
-
-
-
-
-
-
-
-
-
 const styles = theme => ({
   root1: {
     height: "inherit",

@@ -11,7 +11,6 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import CircularLoader from "./components/CircularLoader";
 import withTracker from './components/Signin/PageTracker';
-import EmptyLayout from "./layouts/EmptyLayout";
 import MainLayout from "./layouts/MainLayout";
 
 const MyProfile = React.lazy(() => import( "./containers/MyProfile/MyProfile"))
@@ -63,7 +62,7 @@ const DashboardNonSignedRoute = withTracker(withWidth()(({ width, component: Com
     <Route
       {...rest}
       render={matchProps => 
-        <MainLayout component={Component} viewParam={viewParam} backButton={backButton} sideBar={false} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
+        <MainLayout component={Component} viewParam={viewParam} backButton={backButton} sideBar={true} permanentDrawer={width != 'xs' && width != 'sm' ? true : false} {...matchProps}>
         </MainLayout>
       }
     />
@@ -75,9 +74,11 @@ const EmptyRoute = withTracker(({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={matchProps => (
-        <EmptyLayout>
-          <Component {...matchProps} />
-        </EmptyLayout>
+        <Suspense fallback={<CircularLoader />}>
+          {/* <EmptyLayout> */}
+            <Component {...matchProps} />
+          {/* </EmptyLayout> */}
+        </Suspense>
       )}
     />
   );
@@ -87,6 +88,7 @@ class App extends Component {
 
   render() {
     const { settings } = this.props;
+    const localUser = localStorage.getItem('user');
 
     return (
       <MuiThemeProvider theme={settings.theme}>
@@ -94,73 +96,59 @@ class App extends Component {
           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={trLocale}>
             <SnackbarProvider SnackbarProps={{ autoHideDuration: 5000 }}>
               <CssBaseline />
-                {/* <div style={{ height: "100vh" }}> */}
-                  <Router>
-                    {localStorage.getItem('user') ? (
+              <Router>
+                <Switch>
+                  <DashboardNonSignedRoute exact path="/signup" component={Register} />
+                  <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
+                  
+                  {localUser && <Route exact path="/" render={(props) => <Redirect to={`/t`} />} />}
+                  {!localUser && <EmptyRoute exact path="/" component={NewLandingPage2Tracked} />}
 
-                      <Switch>
-                        <DashboardRoute exact path="/enler" component={Enler} />
-                        <DashboardRoute exact path="/blog" component={BlogList} />
-                        <Route exact path="/" render={(props) => <Redirect to={`/t`} />} />
-                        <DashboardRoute exact path="/home" component={Dashboard} />
-                        <DashboardRoute exact path="/status" component={ProfileStatus} />
+                  {localUser && <DashboardRoute exact path="/enler" component={Enler} />}
+                  {!localUser && <DashboardNonSignedRoute exact path="/enler" component={Enler} />}
 
-                        <DashboardRoute exact path="/c" component={DanisanList} />
-                        <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />
-                        
-                        <DashboardRoute exact path="/cmt" component={CommentList} />
+                  {localUser && <DashboardRoute exact path="/blog" component={BlogList} />}
+                  {!localUser && <DashboardNonSignedRoute exact path="/blog" component={BlogList} />}
 
-                        <DashboardRoute exact path="/m" component={MesajList} />
-                        <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />
+                  {localUser && <DashboardRoute path="/l/:linkId" component={AnemnezFormView} />}
+                  {!localUser && <DashboardNonSignedRoute path="/l/:linkId" component={AnemnezFormView} />}
 
-                        <DashboardRoute path="/l/:linkId" component={AnemnezFormView} />
-                        
-                        <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
+                  {localUser && <Route exact path="/signin" render={() => <Redirect to="/" />} />}
+                  {!localUser && <DashboardNonSignedRoute exact path="/signin" component={Signin} />}
 
-                        <DashboardRoute exact path="/t" component={Calendar} />
-                        <DashboardRoute exact path="/r" component={RandevuList} />
-                        <DashboardRoute exact backButton="/r" path="/r/:danisan/messages" viewParam="messages" component={DanisanView} />
-                        <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />
+                  {localUser && <Route exact path="/fp" render={() => <Redirect to="/" />} />}
+                  {!localUser && <EmptyRoute exact path="/fp" component={ForgotPassword} />}
+                  
+                  {localUser && <Route exact path="/rp/:linkId" render={() => <Redirect to="/" />} />}
+                  {!localUser && <EmptyRoute path="/rp/:linkId" component={ResetPassword} />}
 
-                        <DashboardRoute exact path="/me" component={MyProfile} />
-                        {/* <DashboardRoute path="/f" component={NotImplementedYet} />
-                        <DashboardRoute path="/kd" component={NotImplementedYet} /> */}
+                  {localUser && <DashboardRoute exact path="/home" component={Dashboard} />}
+                  {localUser && <DashboardRoute exact path="/status" component={ProfileStatus} />}
+                  {localUser && <DashboardRoute exact path="/cmt" component={CommentList} />}
+                  {localUser && <DashboardRoute exact path="/c" component={DanisanList} />}
+                  {localUser && <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />}
+                  {localUser && <DashboardRoute exact path="/m" component={MesajList} />}
+                  {localUser && <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />}
+                  {localUser && <DashboardRoute exact path="/t" component={Calendar} />}
+                  {localUser && <DashboardRoute exact path="/r" component={RandevuList} />}
+                  {localUser && <DashboardRoute exact backButton="/r" path="/r/:danisan/messages" viewParam="messages" component={DanisanView} />}
+                  {localUser && <DashboardRoute exact backButton="/r" path="/r/:date/:time" component={RandevuView} />}
+                  {localUser && <DashboardRoute exact path="/me" component={MyProfile} />}
+                  {localUser && <DashboardRoute exact path="/nimda" component={AdminView} />}
 
-                        <DashboardNonSignedRoute path="/signup" component={Register} />
-                        <Route exact path="/fp" render={() => <Redirect to="/" />} />
-                        <Route exact path="/rp" render={() => <Redirect to="/" />} />
-                        <Route exact path="/signin" render={() => <Redirect to="/" />} />
+                  {localUser && <DashboardRoute exact path="/:diyetisyenUserName" component={NewRandevu} />}
+                  {!localUser && <DashboardNonSignedRoute exact path="/:diyetisyenUserName" component={NewRandevu} />}
+                  
+                  {localUser && <DashboardRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />}
+                  {!localUser && <DashboardNonSignedRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />}
 
-                        <DashboardRoute exact path="/nimda" component={AdminView} />
-                        <DashboardRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
-                        <DashboardRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
-                        <DashboardRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />
-                        <EmptyRoute component={NotFound} />
-                      </Switch>
-                    ) : (
-                      <Suspense fallback={<CircularLoader />}>
-                        <Switch>
-                          <DashboardNonSignedRoute exact path="/enler" component={Enler} />
-                          <DashboardNonSignedRoute exact path="/blog" component={BlogList} />
-                          
-                          <DashboardNonSignedRoute path="/l/:linkId" component={AnemnezFormView} />
+                  {localUser && <DashboardRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />}
+                  {!localUser && <DashboardNonSignedRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />}
 
-                          <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
-
-                          <DashboardNonSignedRoute exact path="/signup" component={Register} />
-                          <DashboardNonSignedRoute exact path="/signin" component={Signin} />
-                          <EmptyRoute exact path="/fp" component={ForgotPassword} />
-                          <EmptyRoute path="/rp/:linkId" component={ResetPassword} />
-                          <Route exact path="/" component={NewLandingPage2Tracked} />
-                          <DashboardNonSignedRoute exact path="/:diyetisyenUserName" component={NewRandevu} />
-                          <DashboardNonSignedRoute exact path="/:diyetisyenUserName/blog/:postName" component={BlogPage} />
-                          <DashboardNonSignedRoute exact path="/:diyetisyenUserName/anket" component={NewCommentPage} />
-                          <Redirect to="/" />
-                        </Switch>
-                      </Suspense>
-                    )}
-                  </Router>
-                {/* </div> */}
+                  {localUser && <EmptyRoute component={NotFound} />}
+                  {!localUser && <Redirect to="/" />}
+                </Switch>
+              </Router>
             </SnackbarProvider>
           </MuiPickersUtilsProvider>
         </ThemeProvider>
