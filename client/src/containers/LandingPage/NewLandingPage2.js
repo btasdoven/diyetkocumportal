@@ -15,14 +15,10 @@ import withWidth from '@material-ui/core/withWidth';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 import React, { Fragment } from 'react';
-import { WhatsappIcon } from "react-share";
 import ExtendedLink from '../../components/ExtendedLink';
-import SpeedDial from '../SpeedDial/SpeedDial';
 import DiyetisyenList2 from './DiyetisyenList2';
 import LandingPageDietitianList from './LandingPageDietitianList';
 import PricingList from './PricingList';
-
-
 
 const styles = theme => ({
   appBar: {
@@ -373,7 +369,7 @@ class LandingPage extends React.Component {
 
         <main className={classes.layoutToolbar} style={{margin:'auto'}}>
  
-          <SpeedDial
+          {/* <SpeedDial
             icon={<WhatsappIcon style={{marginTop: '-8px', marginRight: '-8px'}} size={40} round={true}/>}
             iconText={this.state.showWhatsappText ? "BİZE YAZIN" : undefined}
             eventText={"LandingPageBizeYazin"}
@@ -383,7 +379,7 @@ class LandingPage extends React.Component {
             //   {name: 'hey', icon: <MoreVertIcon />, onClick: () => console.log('click')}
             // ]}
             style={{zIndex: 1, position: 'fixed', bottom: '16px', right: '16px', backgroundColor: 'rgb(44, 183, 66)'}}
-          />
+          /> */}
 
           <div style={{paddingLeft:'24px', paddingRight: '24px', paddingTop: '48px'}}>
             <Typography variant="h5" component="h4" style={{color: '#32325d', fontWeight: 400, paddingBottom: '16px'}}>Kişisel Sayfanı Oluştur</Typography>

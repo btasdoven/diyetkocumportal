@@ -1,51 +1,38 @@
-import React from "react";
-import classNames from "classnames";
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
+import Badge from "@material-ui/core/Badge";
+import Collapse from '@material-ui/core/Collapse';
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/DashboardOutlined";
-import SettingsIcon from "@material-ui/icons/Settings";
-import ChatIcon from "@material-ui/icons/ChatOutlined";
-import HistoryIcon from "@material-ui/icons/History";
-import PeopleIcon from "@material-ui/icons/PeopleOutlined";
-import AppsIcon from "@material-ui/icons/Apps";
-import StoreIcon from "@material-ui/icons/Store";
-import { Link } from "react-router-dom";
-import ExtendedLink from "./ExtendedLink"
 import { withStyles } from "@material-ui/core/styles";
-import MenuItem from '@material-ui/core/MenuItem';
-import FolderSpecialIcon from "@material-ui/icons/FolderSpecial";
-import CalendarTodayIcon from '@material-ui/icons/CalendarTodayOutlined';
-import CreditCardIcon from '@material-ui/icons/CreditCard';
-import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
-import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
-import EventAvailableIcon from '@material-ui/icons/EventAvailableOutlined';
-
-import { userService } from '../services/user.service'
-
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-
 import Typography from "@material-ui/core/Typography";
-
-import { bindActionCreators } from "redux";
+import CalendarTodayIcon from '@material-ui/icons/CalendarTodayOutlined';
+import DashboardIcon from "@material-ui/icons/DashboardOutlined";
+import EventAvailableIcon from '@material-ui/icons/EventAvailableOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PeopleIcon from "@material-ui/icons/PeopleOutlined";
+import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
+import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
+import classNames from "classnames";
+import React from "react";
 import { connect } from "react-redux";
-import { withRouter } from 'react-router'
-
-import Tooltip from '@material-ui/core/Tooltip';
+import { withRouter } from 'react-router';
+import { WhatsappIcon } from "react-share";
+import { bindActionCreators } from "redux";
+import { userService } from '../services/user.service';
 import { getDietitianAppointments } from '../store/reducers/api.dietitianAppointments';
-import { getMessagePreviews } from '../store/reducers/api.messagePreviews';
 import { getDietitianComments } from '../store/reducers/api.dietitianComments';
 import { getDietitianProfile } from '../store/reducers/api.dietitianProfile';
+import { getMessagePreviews } from '../store/reducers/api.messagePreviews';
+import ExtendedLink from "./ExtendedLink";
+
+
+
+
+
 
 const drawerWidth = 240;
 
@@ -76,6 +63,20 @@ const styles = theme => ({
 
   }
 });
+
+function isMobileOrTablet() {
+  return /(android|iphone|ipad|mobile)/i.test(navigator.userAgent);
+}
+
+function whatsappLink() {
+  console.log(isMobileOrTablet());
+  
+  return (
+    'https://' +
+    (isMobileOrTablet() ? 'api' : 'web') +
+    '.whatsapp.com/send?phone=19712177653'
+  );
+}
 
 class Sidebar extends React.Component {
 
@@ -173,6 +174,7 @@ class Sidebar extends React.Component {
               </ListItemSecondaryAction> */}
             </ListItem>
           </List>
+
           <Collapse in={this.state.openProfileMenu} timeout="auto" unmountOnExit>
             <List dense={true}>
               <ListItem button component={ExtendedLink} to={`/${this.state.user.id}`} selected={location.pathname === `/${this.state.user.id}`}>
@@ -189,12 +191,6 @@ class Sidebar extends React.Component {
               </ListItem>
               <ListItem button component={ExtendedLink} to='/blog' selected={location.pathname === '/blog'}>
                 <Typography variant="overline">BLOG YAZILARI</Typography>
-              </ListItem>
-              {/* <ListItem button >
-                <Typography variant="overline">AYARLAR</Typography>
-              </ListItem> */}
-              <ListItem button onClick={this.props.logout}>
-                <Typography variant="overline">ÇIKIŞ YAP</Typography>
               </ListItem>
             </List>
           </Collapse>
@@ -279,6 +275,24 @@ class Sidebar extends React.Component {
               <Typography variant="overline">KAYITLI DİYETLERİM</Typography>
             </ListItem> */}
           </List>
+
+          <List dense={true} style={{marginTop: 'auto'}}>
+              <ListItem button onClick={() => window.open(whatsappLink(), '_blank')}>
+                <ListItemIcon style={{marginLeft: '0', minWidth: '36px'}}>
+                  <WhatsappIcon round={true} bgStyle={{fill: "transparent"}} iconFillColor="rgb(44, 183, 66)" size={28}/>
+                </ListItemIcon>
+                <Typography variant="overline">CANLI YARDIM</Typography>
+              </ListItem>
+              {/* <ListItem button >
+                <Typography variant="overline">AYARLAR</Typography>
+              </ListItem> */}
+              <ListItem button onClick={this.props.logout}>
+                <ListItemIcon color="primary" style={{marginLeft: '0', minWidth: '36px'}}>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+                <Typography variant="overline">ÇIKIŞ YAP</Typography>
+              </ListItem>
+            </List>
         </Drawer>
     );
   }

@@ -24,14 +24,6 @@ import { withRouter } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { getDietitianComments, putDietitianComments } from '../../store/reducers/api.dietitianComments';
 
-
-
-
-
-
-
-
-
 const styles = theme => ({
   root: {
     height: "inherit",
@@ -42,8 +34,8 @@ const styles = theme => ({
   main: {
     width: '100%',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
     //top: 0,
     [theme.breakpoints.up(750 + theme.spacing(6))]: {
       width: '750px',

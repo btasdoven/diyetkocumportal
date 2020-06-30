@@ -1,4 +1,5 @@
 
+import { WhatsappIcon } from "react-share";
 import { AppBar, Toolbar } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
@@ -62,6 +63,21 @@ const styles = theme => ({
       color: 'rgb(38,55,70)',
     },
 });
+
+
+function isMobileOrTablet() {
+    return /(android|iphone|ipad|mobile)/i.test(navigator.userAgent);
+  }
+  
+  function whatsappLink() {
+    console.log(isMobileOrTablet());
+    
+    return (
+      'https://' +
+      (isMobileOrTablet() ? 'api' : 'web') +
+      '.whatsapp.com/send?phone=19712177653'
+    );
+  }
 
 class HeaderV2 extends React.Component {
 
@@ -207,6 +223,12 @@ class HeaderV2 extends React.Component {
                         {!this.state.user && <MenuItem component={ExtendedLink} to={"/signup"} onClick={this.handleMenuClose}>Diyetisyen Kaydı</MenuItem>}
                         {/* <MenuItem component={ExtendedLink} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
                         <MenuItem component={ExtendedLink} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
+                        <MenuItem onClick={() => window.open(whatsappLink(), '_blank')}>
+                            Canlı Yardım <WhatsappIcon round={true} bgStyle={{fill: "transparent"}} style={{marginLeft: '8px', marginTop: '2px'}} iconFillColor="rgb(44, 183, 66)" size={28}/>
+                        </MenuItem>
+
+                        
+                        
                         {/* {this.state.user && <MenuItem onClick={this.props.logout}>Logout</MenuItem>} */}
                     </Menu>
                 </div>
