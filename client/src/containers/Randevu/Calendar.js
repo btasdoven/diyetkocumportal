@@ -123,7 +123,8 @@ const styles = theme => ({
       justifyContent: "center",
       width: '100%',
       alignItems: "center",
-      marginTop: theme.spacing(5)
+      marginTop: theme.spacing(5),
+      padding: '8px',
   },  
   icon: {
     color: theme.palette.action.active,

@@ -20,17 +20,8 @@ import AddBlogPost from './AddBlogPost';
 import AddMapLocation from './AddMapLocation';
 import AddPayment from './AddPayment';
 import AddPhoto from './AddPhoto';
-import DietitianList from './DietitianList';
 
-
-
-
-
-
-
-
-
-
+const DietitianList = React.lazy(() => import('./DietitianList'));
 
 const styles = theme => ({
   profile: {

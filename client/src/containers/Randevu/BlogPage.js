@@ -24,11 +24,6 @@ import ExtendedLink from '../../components/ExtendedLink';
 import { userService } from '../../services/user.service';
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 
-
-
-
-
-
 const styles = theme => ({
     root: {
         //background: 'linear-gradient(to right bottom, #f5f5f5, #f5f5f5)'
@@ -75,12 +70,24 @@ const styles = theme => ({
         bottom: 0,
         left: 0,
         right: 0,
-    }
+    },
+    rootLoading: {
+        height: "inherit",
+        display: "flex",
+        justifyContent: "center",
+        width: '100%',
+        alignItems: "center",
+        marginTop: theme.spacing(5)
+    },
+    buttonProgress: {
+        top: '50%',
+        left: '50%',
+    },
 });
 
 function renderLoadingButton(classes) {
   return (
-    <div className={classes.rootLoading}>
+    <div className={classes.rootLoading} style={{padding: '8px'}}>
       <CircularProgress size={24} className={classes.buttonProgress} />
     </div>
   )
