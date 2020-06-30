@@ -6,14 +6,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import UserDetails from './Danisan';
 
-
-
-
-
-
-
-
-
 const styles = theme => ({
   root: {
     height: "inherit",
@@ -96,26 +88,11 @@ const styles = theme => ({
 
 function renderLoadingButton(classes) {
   return (
-    <div className={classes.rootLoading}>
+    <div className={classes.rootLoading} style={{padding: '8px'}}>
       <CircularProgress size={24} className={classes.buttonProgress} />
     </div>
   )
 } 
-
-class __SocialButton extends React.Component {  
-  render () {
-    const { component: Component, children, ...props } = this.props
-
-    return (
-      <Component
-        onClick={this.props.triggerLogin} 
-        {...props}
-      >
-        {children}
-      </Component>
-    )
-  }
-}
 
 class Envanter extends React.Component {
   
@@ -199,6 +176,7 @@ class Envanter extends React.Component {
                       redirect={this.props.location.pathname} 
                       viewParam={this.props.viewParam}
                       setTitle={this.props.setTitle}
+                      setBackButton={this.props.setBackButton}
                       danisanUserName={danisanUserName}
                     />
                   }

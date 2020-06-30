@@ -137,7 +137,7 @@ class Envanter extends React.Component {
 
     this.state = {
       anchorEl: undefined, 
-      value: this.props.viewParam == 'messages' ? 1 : 0,
+      value: this.props.viewParam == 'measurements' ? 1 : 0,
       userId: JSON.parse(localStorage.getItem('user')).id
     }
   }
@@ -149,7 +149,10 @@ class Envanter extends React.Component {
   }
 
   componentDidMount() {
-    //this.handleValueChange(undefined, this.state.value);
+    if (this.props.location && this.props.location.state && this.props.location.state.fromUrl) {
+      this.props.setBackButton(this.props.location.state.fromUrl)
+    }    
+
     this.props.setTitle(this.props.danisanUserName)
   }
 

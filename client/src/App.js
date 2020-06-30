@@ -129,6 +129,7 @@ class App extends Component {
                   {localUser && <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />}
                   {localUser && <DashboardRoute exact path="/m" component={MesajList} />}
                   {localUser && <DashboardRoute exact backButton="/m" path="/m/:danisan" viewParam="messages" component={DanisanView} />}
+                  {localUser && <DashboardRoute exact path="/c/:danisan/measurements" viewParam="measurements" component={DanisanView} />}
                   {localUser && <DashboardRoute exact path="/t" component={Calendar} />}
                   {localUser && <DashboardRoute exact path="/r" component={RandevuList} />}
                   {localUser && <DashboardRoute exact backButton="/r" path="/r/:danisan/messages" viewParam="messages" component={DanisanView} />}

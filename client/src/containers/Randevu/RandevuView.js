@@ -1,4 +1,25 @@
+import SmartphoneIcon from '@material-ui/icons/Smartphone';
 
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+
+import clsx from 'clsx';
+import Check from '@material-ui/icons/Check';
+import StepConnector from '@material-ui/core/StepConnector';
+import CategoryIcon from '@material-ui/icons/Category';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import CommentIcon from '@material-ui/icons/Comment';
+import RoomIcon from '@material-ui/icons/Room';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import IconButton from '@material-ui/core/IconButton';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/Inbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+
+import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,7 +30,7 @@ import Step from '@material-ui/core/Step';
 import StepContent from '@material-ui/core/StepContent';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
-import { fade, withStyles } from '@material-ui/core/styles';
+import { fade, withStyles, makeStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import 'font-awesome/css/font-awesome.min.css';
@@ -165,6 +186,71 @@ function whatsappLink(tel, text) {
   );
 }
 
+
+const QontoConnector = withStyles({
+  alternativeLabel: {
+    top: 10,
+    left: 'calc(-50% + 16px)',
+    right: 'calc(50% + 16px)',
+  },
+  active: {
+    '& $line': {
+      borderColor: 'rgb(252, 81, 133)',
+    },
+  },
+  completed: {
+    '& $line': {
+      borderColor: 'rgb(252, 81, 133)',
+    },
+  },
+  line: {
+    borderColor: 'rgb(252, 81, 133)',
+    borderTopWidth: 3,
+    borderRadius: 1,
+  },
+})(StepConnector);
+
+const useQontoStepIconStyles = makeStyles({
+  root: {
+    color: '#eaeaf0',
+    display: 'flex',
+    height: 22,
+    alignItems: 'center',
+    marginLeft: '4px'
+  },
+  active: {
+    color: 'rgb(252, 81, 133)',
+    marginLeft: '4px'
+  },
+  circle: {
+    width: 8,
+    height: 8,
+    borderRadius: '50%',
+    backgroundColor: 'currentColor',
+    marginLeft: '4px'
+  },
+  completed: {
+    color: 'rgb(252, 81, 133)',
+    zIndex: 1,
+    fontSize: 18,
+  }
+});
+
+function QontoStepIcon(props) {
+  const classes = useQontoStepIconStyles();
+  const { active, completed } = props;
+
+  return (
+    <div
+      className={clsx(classes.root, {
+        [classes.active]: active,
+      })}
+    >
+      {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
+    </div>
+  );
+}
+
 function renderLoadingButton(classes, idx) {
   return (
     <div key={idx} className={classes.rootLoading}>
@@ -274,7 +360,95 @@ class Envanter extends React.Component {
           { showLoader && renderLoadingButton(classes) }
           { !showLoader && 
             <span>
-                <Card elevation={0} variant="outlined" className={classes.root} >
+              <Card elevation={0} className={classes.card} style={{marginTop: 0}}>
+                <CardHeader
+                  avatar={
+                      <Avatar className={classes.avatar} src={undefined} />
+                  }
+                  // action={
+                  //   <div>
+                  //     <IconButton aria-label="settings" onClick={this.handleClick}>
+                  //       <MoreVertIcon />
+                  //     </IconButton>
+                  //     <Menu
+                  //       id="simple-menu"
+                  //       anchorEl={this.state.anchorEl}
+                  //       keepMounted
+                  //       open={this.state.anchorEl != undefined}
+                  //       onClose={this.handleClose}
+                  //     >
+                  //       <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
+                  //     </Menu>
+                  //   </div>
+                  // }
+                  title={<Typography variant="h5" component="h2">{appt.info.name}</Typography>}
+                  subheader={`${appt.info.cinsiyet}, ${moment.utc().diff(appt.info.birthday, 'years', false)} yaşında`}
+                />
+                {/* <CardMedia
+                className={classes.media}
+                image="/static/images/cards/paella.jpg"
+                title="Paella dish"
+                /> */}
+                <CardContent style={{paddingTop: 0, paddingBottom: 0}}>
+                  <List disablePadding>
+                    <ListItem>
+                      <ListItemIcon>
+                        {appt.type == 'randevu' 
+                          ? <RoomIcon className={classes.icon} />
+                          : <SmartphoneIcon className={classes.icon} />
+                        }
+                      </ListItemIcon>
+                      <ListItemText primary={
+                        appt.type == 'randevu' 
+                          ? appt.address
+                          : 'Online Diyet'
+                        } 
+                      />
+                    </ListItem>
+                    {appt.type == 'randevu' &&
+                      <ListItem>
+                        <ListItemIcon>
+                          <ScheduleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={moment(date).format('D MMMM YYYY') + ' ' + time} />
+                      </ListItem>
+                    }
+                    {appt.info.notes != undefined &&
+                      <ListItem>
+                        <ListItemIcon>
+                          <CommentIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={appt.info.notes} />
+                      </ListItem>
+                    }
+                  </List>
+                </CardContent>
+               
+                {/* <Divider /> */}
+                {/* <CardActions disableSpacing>
+                  <FieldFileInput
+                    onChange={this.onChangeProfilePicture}
+                  /> */}
+                  {/* <IconButton aria-label="add to favorites">
+                      <FavoriteIcon />
+                  </IconButton>
+                  <IconButton aria-label="share">
+                      <ShareIcon />
+                  </IconButton>
+                  <IconButton
+                      className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                      })}
+                      onClick={handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label="show more"
+                  >
+                      <ExpandMoreIcon />
+                  </IconButton> */}
+                {/* </CardActions>  */}
+              </Card>
+
+                {/* <Card elevation={0} variant="outlined" className={classes.root} >
                     <CardHeader title={appt.type == 'randevu' ? moment(date).format('D MMMM YYYY') + ' ' + time : 'Online Diyet'} className={classes.header} />
                     <Divider variant="middle" />
                     <CardContent>
@@ -299,18 +473,69 @@ class Envanter extends React.Component {
                             </div>
                         )}
                     </CardContent>
-                    {/* <Divider variant="middle" />
-                    <CardActions className={classes.action}>
-                    <Button variant="contained" color="primary" className={classes.button}>
-                        Buy
-                    </Button>
-                    </CardActions> */}
+                </Card> */}
+
+
+                <Card elevation={0} style={{marginTop: '8px', marginBottom: '8px'}}  >
+                  <CardContent style={{paddingTop: 0, paddingBottom: 0}}>
+                    <List disablePadding>
+                      <Divider />
+                      <ListItem 
+                          button 
+                          component={ExtendedLink} 
+                          to={{ 
+                              pathname: `/c/${appt.info.name}`, 
+                              state: {fromUrl: this.props.location.pathname}
+                          }}
+                      >
+                        <ListItemText 
+                          style={{paddingRight: '36px'}}
+                          primary={"Anamnez Formuna Git"} 
+                        />
+                          <ListItemSecondaryAction>
+                            <IconButton style={{color: 'rgb(252, 81, 133)'}} component={ExtendedLink} 
+                              to={{ 
+                                  pathname: `/c/${appt.info.name}`, 
+                                  state: {fromUrl: this.props.location.pathname}
+                              }}
+                            >
+                              <ChevronRightIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                      </ListItem>
+                      <Divider />
+                      <ListItem 
+                          button 
+                          component={ExtendedLink} 
+                          to={{ 
+                              pathname: `/c/${appt.info.name}/measurements`, 
+                              state: {fromUrl: this.props.location.pathname}
+                          }}
+                      >
+                        <ListItemText 
+                          style={{paddingRight: '36px'}}
+                          primary={"Ölçümleri Görüntüle"} 
+                        />
+                          <ListItemSecondaryAction>
+                            <IconButton style={{color: 'rgb(252, 81, 133)'}} component={ExtendedLink} 
+                              to={{ 
+                                  pathname: `/c/${appt.info.name}/measurements`, 
+                                  state: {fromUrl: this.props.location.pathname}
+                              }}
+                            >  
+                              <ChevronRightIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                      </ListItem>
+                      <Divider />
+                    </List>
+                  </CardContent>
                 </Card>
-                
-                <Card style={{marginBottom: '8px'}} variant="outlined" >
-                  <Stepper activeStep={step} orientation="vertical">
+
+                <Card elevation={0} style={{marginBottom: '8px'}}  >
+                  <Stepper activeStep={step} orientation="vertical" connector={<QontoConnector />}>
                       <Step>
-                          <StepLabel>
+                          <StepLabel StepIconComponent={QontoStepIcon}>
                           {
                               appt.status == 'pending' 
                                   ? "Randevu isteğini onayla"
@@ -332,7 +557,7 @@ class Envanter extends React.Component {
                                   </Button>
                                   <Button
                                       variant="contained"
-                                      color="primary"
+                                      color="secondary"
                                       onClick={this.confirmAppointment(date, time, appt, 'confirmed', 1)}
                                       className={classes.button}
                                   >
@@ -344,7 +569,7 @@ class Envanter extends React.Component {
                       </Step>
                       {appt.status != 'rejected' && (
                           <Step>
-                              <StepLabel>{step <= 1 ? "Danışanı listeme ekle" : "Danışan listene eklendi 👍"}</StepLabel>
+                              <StepLabel StepIconComponent={QontoStepIcon}>{step <= 1 ? "Danışanı listeme ekle" : "Danışan listene eklendi 👍"}</StepLabel>
                               <StepContent>
                                   <Typography variant="body2">Danışanınızı listenize ekleyerek danışanınızın bütün bilgilerine dijital ortamdan erişebilir ve gereken değişiklikleri anında yapabilirsiniz.</Typography>
                                   <div className={classes.actionsContainer}>
@@ -364,9 +589,9 @@ class Envanter extends React.Component {
                       )}
                       {appt.status != 'rejected' && (
                           <Step>
-                              <StepLabel>{step <= 2 ? "Dijital Anamnez formunu gönder" : "Danışana Anamnez formu gönderildi."}</StepLabel>
+                              <StepLabel StepIconComponent={QontoStepIcon}>{step <= 2 ? "Dijital Anamnez formunu gönder" : "Danışana Anamnez formu gönderildi."}</StepLabel>
                               <StepContent>
-                                  <Typography variant="body2">Anamnez formu sayesinde eksiksiz bir diyet programı hazırlamanız için ihtiyacınız olan tüm kişisel, beslenme, sağlık, tahlil ve ölçüm bilgilerini danışanınız hızlıca doldurabilir, ve siz de bu bilgilere otomatik olarak erişebilirsiniz.</Typography>
+                                  <Typography variant="body2">Anamnez formu sayesinde eksiksiz bir diyet programı hazırlamanız için ihtiyacınız olan tüm kişisel, beslenme, sağlık, tahlil ve ölçüm bilgilerini danışanınıza hızlıca doldurtabilir ve bu bilgilere otomatik olarak erişebilirsiniz.</Typography>
                                   <div className={classes.actionsContainer}>
                                       <div style={{display: 'flex', flexDirection: 'column', paddingTop: '16px'}}>
                                         <Button

@@ -30,15 +30,7 @@ import { withRouter } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import ExtendedLink from '../../components/ExtendedLink';
 import { getDietitianAppointments, putDietitianAppointment } from '../../store/reducers/api.dietitianAppointments';
-
-
-
-
-
-
-
-
-
+import IntroInstaVideo from '../../components/IntroInstaVideo'
 
 
 const styles = theme => ({
@@ -404,12 +396,36 @@ class Envanter extends React.Component {
         <div className={classes.main}>
 
           {showLoader && renderLoadingButton(classes) }
-          {!showLoader && pendingAppts == 0 && 
+          {!showLoader && pendingAppts == 0 && (
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 0, left: 0, right: 0, height: `100%`}}>
+              <Grid container spacing={0} >
+                <Grid item xs={12}>
+                  <div style={{position: 'relative', margin: 'auto', minWidth: '128px', maxWidth: '144px', width: '33%'}}>
+                    <IntroInstaVideo 
+                      introName="RandevuList"
+                      infoHighlightSrc={"/static/randevu/thumbnail.png"}
+                      sources={[
+                        '/static/randevu/randevu_1.mov',
+                        '/static/randevu/randevu_2.mov',
+                        '/static/randevu/randevu_3.mov',
+                        '/static/randevu/randevu_4.mov',
+                        '/static/randevu/randevu_5.mov',
+                      ]}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography component="div" style={{padding: '16px', textAlign: 'center'}} color="textSecondary" variant="body1">Onayınızı bekleyen randevu bulunmamaktadır 😞</Typography>
+                </Grid>
+              </Grid>
+            </div>
+          )}
+          {/* {!showLoader && pendingAppts == 0 && 
             <React.Fragment>
               <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', paddingTop: '56px'}}>Onayınızı bekleyen randevu bulunmamaktadır 👍</Typography>
               <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', paddingTop: '16px'}}>Sosyal medyada paylaştığınız kişisel sayfanız üzerinden sizden randevu alan danışanlarınızın isteklerini buradan onaylayabilirsiniz. </Typography>
             </React.Fragment>
-          }
+          } */}
           {!showLoader && pendingAppts > 0 && 
             <main className={classes.content}>
               {/* <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Bu özellik çok yakında hizmetinizde...</Typography> */}
