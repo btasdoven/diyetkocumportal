@@ -224,7 +224,7 @@ class HeaderV2 extends React.Component {
                         {/* <MenuItem component={ExtendedLink} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
                         <MenuItem component={ExtendedLink} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
                         <MenuItem onClick={() => window.open(whatsappLink(), '_blank')}>
-                            Canlı Yardım <WhatsappIcon round={true} bgStyle={{fill: "transparent"}} style={{marginLeft: '8px', marginTop: '2px'}} iconFillColor="rgb(44, 183, 66)" size={28}/>
+                            Canlı Yardım <WhatsappIcon round={true} bgStyle={{fill: "transparent"}} style={{marginLeft: '8px', marginTop: '4px'}} iconFillColor="rgb(44, 183, 66)" size={28}/>
                         </MenuItem>
 
                         

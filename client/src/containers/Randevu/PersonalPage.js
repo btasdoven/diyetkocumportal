@@ -280,7 +280,7 @@ class PersonalPage extends React.Component {
                                 </Card>
                             }              
 
-                            {user.badges && Object.keys(user.badges).length > 0 && (
+                            {/* {user.badges && Object.keys(user.badges).length > 0 && (
                                 <Card elevation={0} className={classes.card}>
                                     <CardHeader
                                         style={{ textAlign: 'center' }}
@@ -300,7 +300,7 @@ class PersonalPage extends React.Component {
                                         </Grid>
                                     </CardContent>
                                 </Card>
-                            )}
+                            )} */}
 
                             {user.addresses && Object.keys(user.addresses).length > 0 && (
                                 <Card elevation={0} className={classes.card}>

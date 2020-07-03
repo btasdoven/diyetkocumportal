@@ -341,6 +341,7 @@ const renderSwitch = props => {
   )
 }
 
+const nowhitespace = value => value && !/^[^\s@-]+$/g.test(value) ? "Lütfen boşluk, '@' ya da '-' kullanmayınız." : undefined;
 const required = value => value ? undefined : 'Zorunlu'
 const validPhone = value => value && !/^\+90 [1-9][0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}$/i.test(value) ? 'Geçerli bir telefon numarası değil' : undefined;
 const validEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'Geçerli bir e-posta adresi değil' : undefined;
@@ -604,7 +605,7 @@ class LandingPage extends React.Component {
                         label="Instagram kullanıcı adın"
                         autoComplete="username"
                         autoFocus={false}
-                        validate={[required]}
+                        validate={[required, nowhitespace]}
                         />
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
