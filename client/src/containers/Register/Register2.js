@@ -481,8 +481,6 @@ class LandingPage extends React.Component {
       }
     }
     
-    console.log(addressValue)
-    
     const checkDisabled = (f, props) => {
 
         if (f == undefined) {
@@ -494,7 +492,6 @@ class LandingPage extends React.Component {
         }
 
         return !props.every((prop) => {
-          console.log(prop, f.registeredFields[prop], f.syncErrors[prop])
           return f.syncErrors[prop] == undefined
         });
     }

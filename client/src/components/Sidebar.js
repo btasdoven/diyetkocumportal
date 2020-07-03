@@ -29,11 +29,6 @@ import { getDietitianProfile } from '../store/reducers/api.dietitianProfile';
 import { getMessagePreviews } from '../store/reducers/api.messagePreviews';
 import ExtendedLink from "./ExtendedLink";
 
-
-
-
-
-
 const drawerWidth = 240;
 
 const styles = theme => ({

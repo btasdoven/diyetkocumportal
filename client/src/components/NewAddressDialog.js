@@ -1,4 +1,6 @@
 
+import { bindActionCreators } from "redux";
+import { change } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
@@ -18,11 +20,6 @@ import { connect } from "react-redux";
 import MaskedInput from 'react-text-mask';
 import { Field } from "redux-form";
 import SelectAddressOnMapFromDialog from './SelectAddressOnMapFromDialog';
-
-
-
-
-
 
 const styles = theme => ({
     root: {
@@ -223,7 +220,7 @@ class FieldDialog extends React.Component {
         // console.log(props)
 
         this.handleClose = this.handleClose.bind(this);
-
+        this.handleAddressChange = this.handleAddressChange.bind(this)
         this.refMap = React.createRef();
 
         this.state = {
@@ -263,10 +260,14 @@ class FieldDialog extends React.Component {
         }        
     }
 
+    handleAddressChange(newAddress) {
+      this.props.change(this.props.form, `addresses["${this.state.ad}"].address`, newAddress)
+    }
+
     render() {
         var ad = this.state.ad;
         var formValid = false;
-
+        
         if (this.props.apiForm &&
             this.props.apiForm[this.props.form] &&
             this.props.apiForm[this.props.form].values &&
@@ -293,6 +294,7 @@ class FieldDialog extends React.Component {
                         lng={this.state.latlng ? this.state.latlng.lng : undefined}
                         zoom={this.state.latlng ? this.state.latlng.zoom : undefined}
                         ref={this.refMap}
+                        onAddressChanged={this.handleAddressChange}
                       />
                     }
                     {this.props.addressId == undefined && (
@@ -337,6 +339,10 @@ function mapStateToProps(state, props) {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({change}, dispatch);
+}
+
 export default connect(
     mapStateToProps,
-    null)(withStyles(styles)(FieldDialog));
+    mapDispatchToProps)(withStyles(styles)(FieldDialog));

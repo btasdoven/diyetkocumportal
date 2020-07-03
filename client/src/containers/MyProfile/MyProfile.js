@@ -523,7 +523,7 @@ class Envanter extends React.Component {
                         </span>
                       </CopyToClipboard>
                     </Grid>
-
+{/* 
                     <Grid item xs={12} style={{marginTop: '8px'}}>
                       <Typography variant="body2">Kişisel sayfanın nasıl gözüktüğünü görmek ister misin?</Typography>
                       <div style={{marginTop: '16px', textAlign: 'center'}}>
@@ -531,7 +531,7 @@ class Envanter extends React.Component {
                           KİŞİSEL SAYFAMI GÖR
                         </Button>
                       </div>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </CardContent>
               </Card>

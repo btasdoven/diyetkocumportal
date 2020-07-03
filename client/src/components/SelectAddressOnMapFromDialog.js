@@ -4,6 +4,12 @@ import { compose, withProps } from "recompose";
 
 class MapInternal extends React.Component {
 
+    constructor(props) {
+        super(props)
+
+        this.handleLocationChanged = this.handleLocationChanged.bind(this)
+        this.geocoder = new window.google.maps.Geocoder();
+    }
     // handleBoundsChanged() {
     //     this.setState({
     //         center: this.props.refMap.current.getCenter()
@@ -16,13 +22,27 @@ class MapInternal extends React.Component {
     //     })
     // }
 
+    handleLocationChanged(from) {
+        if (this.props.onAddressChanged) {
+            var center = this.props.refMap.current.getCenter();
+            var that = this
+            this.geocoder.geocode({ location: { lat: center.lat(), lng: center.lng() }}, function(res, status) {
+                if (status == "OK") {
+                    if (res[0]) {
+                        that.props.onAddressChanged(res[0].formatted_address)     
+                    }
+                }
+            });
+        }
+    }
+
     render() {
         return (
             <Fragment>
                 <GoogleMap
                     ref={this.props.refMap}
-                    // onBoundsChanged={this.handleBoundsChanged}
-                    // onZoomChanged={this.handleZoomChanged}
+                    //onBoundsChanged={() => this.handleLocationChanged('onBoundsChanged')}
+                    onZoomChanged={() => this.handleLocationChanged('onZoomChanged')}
                     disableDefaultUI={true}
                     defaultZoom={this.props.zoom || 6.75}
                     defaultCenter={{ lat: this.props.lat || 38.987996, lng: this.props.lng || 35.453948}}
@@ -35,6 +55,7 @@ class MapInternal extends React.Component {
                         rotateControl: false,
                         fullscreenControl: false
                     }}
+                    onDragEnd={() => this.handleLocationChanged('onDragEnd')}
                 >
                 </GoogleMap>
                 <img 
@@ -54,7 +75,7 @@ class MapInternal extends React.Component {
 
 const MyMapComponent = compose(
     withProps({
-      googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDOdRysM2gyUv8wqF41DrNK9l6DzRRqmAE",
+      googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDOdRysM2gyUv8wqF41DrNK9l6DzRRqmAE&language=tr&region=TR",
       loadingElement: <div style={{ height: `100%` }} />,
       containerElement: <div style={{ height: `385px`, position: 'relative' }} />,
       mapElement: <div style={{ height: `100%` }} />,
