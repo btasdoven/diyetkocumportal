@@ -144,6 +144,9 @@ const styles = theme => ({
     //backgroundColor: 'red',
     // padding: theme.spacing(1)
   },
+  checkBoxRoot: {
+    lineHeight: 1
+  }
 });
 
 function renderLoadingButton(classes) {
@@ -164,7 +167,7 @@ const ReduxFormCheckBox = ({name, label, ...props}) => (
 )
   
 const renderCheckBox = props => {
-  const { input, label, ...rest } = props;
+  const { input, label, classes, ...rest } = props;
 
   return (
       <FormControlLabel
@@ -178,6 +181,7 @@ const renderCheckBox = props => {
           checked={input.value == true}
           color="primary"/> 
         }
+        classes= {{ label: classes.checkBoxRoot}}
         label={label}
       />
   )
@@ -856,7 +860,7 @@ class NewRandevuStep3 extends React.Component {
             </DialogActions>
           </Dialog>
 
-          <Card variant="outlined" className={classes.card}>
+          <Card elevation={0} className={classes.card}>
             {/* <div className={classes.divCategory}> */}
             <CardHeader
               title={
@@ -912,16 +916,50 @@ class NewRandevuStep3 extends React.Component {
                     <ReduxFormTextField name="notes" rows={3} label="Diyetisyene notların" multiline />
                 </Grid>
                 <Grid item xs={12}>
-                  <ReduxFormCheckBox name="sozlesme" validate={[required]} label={
+                    <ReduxFormSelect
+                    required
+                    validate={[required]}
+                    name="appointment_source"
+                    label="Diyetisyeninizi nereden duydunuz?"
+                    values={[
+                        {
+                        label: "Instagram'dan",
+                        value: "Instagram'dan",
+                        },
+                        {
+                        label: "Diyet Koçum'dan",
+                        value: "Diyet Koçum'dan",
+                        },
+                        {
+                        label: 'İnternetten',
+                        value: 'İnternetten',
+                        },
+                        {
+                        label: 'Arkadaşımdan',
+                        value: 'Arkadaşımdan',
+                        },
+                        {
+                        label: 'Zaten tanıyordum',
+                        value: 'Zaten tanıyordum',
+                        },
+                        {
+                        label: "Diğer",
+                        value: "Diğer",
+                        },
+                    ]}
+                    />
+                </Grid>
+                <Grid item xs={12} style={{marginTop: '16px'}}>
+                  <ReduxFormCheckBox name="sozlesme" validate={[required]} classes={classes} label={
                     <Typography variant="caption" style={{letterSpacing: 0, lineHeight: 0}}>
-                      DiyetKoçum'a sağladığım bu bilgilerin doğruluğunu teyit ediyorum ve bu bilgiler üzerinden bana ulaşılmasına izin veriyorum. 
+                      DiyetKoçum'a sağladığım bu bilgilerin doğruluğunu teyit ediyorum ve bu bilgiler üzerinden bana ulaşılmasına izin veriyorum.
                       DiyetKoçum bu bilgileri yalnızca diyetisyeniniz ile paylaşacaktır.
                     </Typography>
                   }/>
                 </Grid>
               </Grid>
-              <div style={{marginTop: '16px'}}>
-                <Button disabled={this.props.pristine || this.props.invalid} onClick={() => this.setState({openDialog: true})} variant="contained" color="primary">
+              <div style={{marginTop: '32px', textAlign: 'center'}}>
+                <Button disabled={this.props.pristine || this.props.invalid} onClick={() => this.setState({openDialog: true})} variant="contained" color="secondary">
                   {this.props.type == 'randevu' ? "RANDEVU" : "ONLİNE DİYET"} İSTEĞİNİ GÖNDER
                 </Button>
               </div>

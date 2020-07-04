@@ -261,7 +261,7 @@ class Envanter extends React.Component {
             />
           )} */}
           
-          {!showLoader && Object.keys(danisans).length == 0 && 
+          {!showLoader && Object.keys(danisans).filter(d => danisans[d].visibleToDietitian ==  true).length == 0 && 
             <React.Fragment>
               <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', padding: '16px', paddingTop: '56px'}}>Kayıtlı danışanınız bulunmamaktadır 😔</Typography>
               <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', padding: '16px'}}>Danışanlarınızı kaydederek onlara dijital Anamnez formu gönderebilir, diyet listeleri hazırlayabilir, düzenli randevular verebilir ve onların ölçümlerini grafikler ile takip edebilirsiniz.</Typography>
