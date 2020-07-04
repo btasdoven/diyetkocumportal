@@ -1,4 +1,4 @@
-
+import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
@@ -21,16 +21,6 @@ import ExtendedLink from '../../components/ExtendedLink';
 import { addDanisan, getDanisanPreviews } from '../../store/reducers/api.danisanPreviews';
 import SpeedDial from '../SpeedDial/SpeedDial';
 import DanisanAddDialog from './DanisanAddDialog';
-
-
-
-
-
-
-
-
-
-
 
 const styles = theme => ({
   root: {
@@ -270,6 +260,14 @@ class Envanter extends React.Component {
               topMargin={'140px'}
             />
           )} */}
+          
+          {!showLoader && Object.keys(danisans).length == 0 && 
+            <React.Fragment>
+              <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', padding: '16px', paddingTop: '56px'}}>Kayıtlı danışanınız bulunmamaktadır 😔</Typography>
+              <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', padding: '16px'}}>Danışanlarınızı kaydederek onlara dijital Anamnez formu gönderebilir, diyet listeleri hazırlayabilir, düzenli randevular verebilir ve onların ölçümlerini grafikler ile takip edebilirsiniz.</Typography>
+              <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', padding: '16px'}}>Excel'de, Word'te, not defterinizde ya da baska uygulamalarda kayıtlarını tuttuğunuz danışanlarınızı bize taşımak ve hepsini tek bir uygulamadan yönetmek için yardım almak isterseniz bize Canlı Yardım'dan ulaşabilirsiniz ✋</Typography>
+            </React.Fragment>
+          }
           { !showLoader && 
             <List disablePadding>
               {Object.keys(danisans).map( (danisanKey, idx) => {

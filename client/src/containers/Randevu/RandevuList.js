@@ -396,7 +396,7 @@ class Envanter extends React.Component {
         <div className={classes.main}>
 
           {showLoader && renderLoadingButton(classes) }
-          {!showLoader && pendingAppts == 0 && (
+          {/* {!showLoader && pendingAppts == 0 && (
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 0, left: 0, right: 0, height: `100%`}}>
               <Grid container spacing={0} >
                 <Grid item xs={12}>
@@ -419,13 +419,13 @@ class Envanter extends React.Component {
                 </Grid>
               </Grid>
             </div>
-          )}
-          {/* {!showLoader && pendingAppts == 0 && 
+          )} */}
+          {!showLoader && pendingAppts == 0 && 
             <React.Fragment>
               <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', paddingTop: '56px'}}>Onayınızı bekleyen randevu bulunmamaktadır 👍</Typography>
               <Typography variant="body2" color="textSecondary" style={{textAlign: 'center', paddingTop: '16px'}}>Sosyal medyada paylaştığınız kişisel sayfanız üzerinden sizden randevu alan danışanlarınızın isteklerini buradan onaylayabilirsiniz. </Typography>
             </React.Fragment>
-          } */}
+          }
           {!showLoader && pendingAppts > 0 && 
             <main className={classes.content}>
               {/* <Typography variant="body2" style={{textAlign: 'center', paddingTop: '56px'}}>Bu özellik çok yakında hizmetinizde...</Typography> */}

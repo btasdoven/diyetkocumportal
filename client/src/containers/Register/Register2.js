@@ -208,6 +208,37 @@ const styles = theme => ({
   },
 });
   
+const ReduxFormSelect = ({name, label, values, ...props}) => (
+  <FormControl
+    //margin="normal"
+    style={{width: '100%'}}
+  >
+    <InputLabel shrink={true} id={label}>{label}</InputLabel>
+
+    <Field
+      name={name}
+      options={values}
+      component={renderSelect}
+      {...props}
+    />
+  </FormControl>
+)
+
+const renderSelect = props => {
+  const { input, options } = props;
+
+  return (
+    <Select 
+      {...input} 
+      onChange={value => input.onChange(value)} 
+      onBlur={() => input.onBlur(input.value)} 
+      value={input.value}
+    >
+      {options.map((val) => <MenuItem key={val.value} value={val.value}>{val.label}</MenuItem>)}
+    </Select>
+  )
+}
+
 const ReduxFormCheckBox = ({name, label, ...props}) => (
     <Field
       name={name}
@@ -537,7 +568,36 @@ class LandingPage extends React.Component {
             >
                 <div style={{paddingLeft:'24px', paddingRight: '24px'}}>
                     <Typography variant="h6" style={{textAlign:'center', color: '#32325d', fontWeight: 400, paddingBottom: '24px'}}>Senden birkaç bilgi rica ediyoruz</Typography>
-                    
+
+                    <FormControl margin="normal" fullWidth>
+                      <ReduxFormSelect
+                        name="how_they_heard_about_us"
+                        label="Bizi nereden duydunuz?"
+                        values={[
+                          {
+                          label: 'Arkadaşımın Instagram profinden',
+                          value: 'Arkadaşımın Instagram profinden',
+                          },
+                          {
+                          label: 'Instagram etiketlerinden',
+                          value: 'Instagram etiketlerinden',
+                          },
+                          {
+                          label: "Twittar'dan",
+                          value: "Twittar'dan",
+                          },
+                          {
+                          label: "Google'dan",
+                          value: "Google'dan",
+                          },
+                          {
+                          label: "Diğer",
+                          value: "Diğer",
+                          },
+                        ]}
+                      />
+                    </FormControl>
+
                     <FormControl margin="normal" fullWidth>
                         <Field
                             required
@@ -774,7 +834,7 @@ class LandingPage extends React.Component {
                 </div>
 
                 <div style={{paddingLeft:'24px', paddingRight: '24px'}}>
-                    <Typography variant="h6" style={{textAlign:'center', color: '#32325d', fontWeight: 400, paddingBottom: '24px'}}>Üyeliğin başarıyla oluşturuldu</Typography>
+                    <Typography variant="h6" style={{textAlign:'center', color: '#32325d', fontWeight: 400, paddingBottom: '24px'}}>Üyeliğin başarıyla oluşturuldu.</Typography>
                     
                     <Typography variant="body1" color="textSecondary" style={{paddingBottom: '16px', textAlign: 'center'}}>
                         Diyet Koçum'u dijital asistanın olarak tercih ettiğin için teşekkürler.
