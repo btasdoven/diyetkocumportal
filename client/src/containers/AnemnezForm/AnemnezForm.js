@@ -29,6 +29,7 @@ import { DatePickerInput } from '../../components/DateTimePicker';
 import { getDanisanProfile, putDanisanProfile } from '../../store/reducers/api.danisanProfile';
 import SpeedDial from '../SpeedDial/SpeedDial';
 import KanTahlili from './Tahliller';
+import CircularLoader from "../../components/CircularLoader";
 
 
 
@@ -344,7 +345,7 @@ class Envanter extends React.Component {
         </Button>
         <Divider style={{marginTop: '8px', marginBottom: '8px'}} /> */}
 
-        { showLoader && renderLoadingButton(classes) }
+        { showLoader && <CircularLoader /> }
         { !showLoader && 
           <span>
             <Form
@@ -857,7 +858,7 @@ class Envanter extends React.Component {
                     <Grid item xs={12}>
                       <ReduxFormTextField name="alisveris_yapan" label="Alışverişi kim yapar?" />
                     </Grid>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                       <ReduxFormTextField name="anne_yas_kilo" label="Annenizin yaşı ve kilosu" />
                     </Grid>
                     <Grid item xs={12}>
@@ -868,7 +869,7 @@ class Envanter extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <ReduxFormTextField name="kardes_yas_kilo" label="Kardeşinizin yaşı ve kilosu" />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </ExpansionPanelDetails>
               </ExpansionPanel>

@@ -13,6 +13,7 @@ import { getDietitianAppointments } from '../../store/reducers/api.dietitianAppo
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 import InfoCard from './InfoCard';
 import InfoCard3 from './InfoCard3';
+import CircularLoader from '../../components/CircularLoader';
 
 
 
@@ -180,7 +181,7 @@ class Dashboard extends React.Component {
           </Grid>
           <Grid container>
             <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
-              { showLoader1 && renderLoadingButton(classes) }
+              { showLoader1 && <CircularLoader /> }
               { !showLoader1 && 
                 <InfoCard3 
                   // title="19 MAYIS 2020 - 23 NİSAN 2020" 
@@ -192,7 +193,7 @@ class Dashboard extends React.Component {
               }
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
-              { showLoader2 && renderLoadingButton(classes) }
+              { showLoader2 && <CircularLoader /> }
               { !showLoader2 && 
                 <InfoCard3 
                   // title="19 MAYIS 2020 - 23 NİSAN 2020" 
@@ -204,7 +205,7 @@ class Dashboard extends React.Component {
               }
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={4} style={{padding: '8px'}}>
-              { showLoader3 && renderLoadingButton(classes) }
+              { showLoader3 && <CircularLoader /> }
               { !showLoader3 && 
                 <InfoCard3 
                   // title="19 MAYIS 2020 - 23 NİSAN 2020" 

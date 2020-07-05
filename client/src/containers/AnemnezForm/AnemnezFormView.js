@@ -1,3 +1,4 @@
+import CircularLoader from "../../components/CircularLoader"
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
@@ -267,7 +268,7 @@ class Envanter extends React.Component {
     const linkInfo = showLoader ? undefined : this.props.apiLinks[this.state.linkId].data;
 
     if (showLoader)
-      return renderLoadingButton(classes)
+      return <CircularLoader />
     else if (linkInfo.userId == undefined || linkInfo.danisanUserName == undefined)
       return (
         <div className={classes.rootLoading}>

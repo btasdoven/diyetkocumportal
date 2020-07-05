@@ -9,7 +9,7 @@ const styles = theme => ({
     justifyContent: "center",
     width: '100%',
     alignItems: "center",
-    marginTop: theme.spacing(5)
+    padding: theme.spacing(5)
   },
   buttonProgress: {
     top: '50%',

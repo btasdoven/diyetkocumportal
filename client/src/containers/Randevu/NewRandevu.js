@@ -38,6 +38,7 @@ import { getDietitianAppointments, putDietitianAppointment } from '../../store/r
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
 import SpeedDial from '../SpeedDial/SpeedDial';
 import PersonalPage from './PersonalPage';
+import CircularLoader from "../../components/CircularLoader";
 
 
 
@@ -457,7 +458,7 @@ class NewRandevuWrapper extends React.Component {
         }
 
         if (showLoader) {
-          return renderLoadingButton(classes);
+          return <CircularLoader />
         }
 
         var multipleOffices = user && Object.keys(user.addresses).length > 1;

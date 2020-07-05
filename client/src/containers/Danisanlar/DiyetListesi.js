@@ -19,6 +19,7 @@ import { bindActionCreators } from "redux";
 import { Field, Form, reduxForm } from "redux-form";
 import { getDanisanDietList, putDanisanDietList } from '../../store/reducers/api.danisanDietList';
 import SpeedDial from '../SpeedDial/SpeedDial';
+import CircularLoader from "../../components/CircularLoader";
 
 
 
@@ -204,7 +205,7 @@ class Envanter extends React.Component {
 
     return (
       <div className={classes.root}>
-        { showLoader && renderLoadingButton(classes) }
+        { showLoader && <CircularLoader /> }
         { !showLoader && 
           <Form
             onSubmit={this.props.handleSubmit(this.onSubmitInternal)}

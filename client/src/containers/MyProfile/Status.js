@@ -52,6 +52,7 @@ import { bindActionCreators } from "redux";
 import { Field, Form, reduxForm } from "redux-form";
 import { registerEvent } from '../../components/Signin/PageTracker';
 import { getDietitianProfile, putDietitianProfile } from '../../store/reducers/api.dietitianProfile';
+import CircularLoader from "../../components/CircularLoader";
 
 
 
@@ -453,7 +454,7 @@ class Envanter extends React.Component {
         </Button>
         <Divider style={{marginTop: '8px', marginBottom: '8px'}} /> */}
 
-        { showLoader && renderLoadingButton(classes) }
+        { showLoader && <CircularLoader /> }
         { !showLoader && 
           <span>
             <Form

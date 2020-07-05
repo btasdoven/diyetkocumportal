@@ -1,3 +1,5 @@
+
+import CircularLoader from "../../components/CircularLoader"
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -245,7 +247,7 @@ class Envanter extends React.Component {
             </div> */}
           </div>
 
-          { showLoader && renderLoadingButton(classes) }
+          { showLoader && <CircularLoader /> }
           {/* { !showLoader && (danisans == undefined || Object.keys(danisans).length == 0) && (
             <IntroInstaVideo 
               noItemText={"Şu an için hiç kayıtlı danışanınız yok 😞"}

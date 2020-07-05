@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux";
 import ExtendedLink from '../../components/ExtendedLink';
 import { userService } from '../../services/user.service';
 import { getAllDietitians } from '../../store/reducers/api.allDietitians';
+import CircularLoader from '../../components/CircularLoader';
 
 const styles = theme => ({
   root: {
@@ -104,7 +105,7 @@ class DietianList extends React.Component {
 
     return (
       <Fragment>
-        { showLoader && renderLoadingButton(classes) }
+        { showLoader && <CircularLoader /> }
         { !showLoader && (
           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
             {dietitians.map((step, index) => (

@@ -1,4 +1,4 @@
-
+import CircularLoader from "../../components/CircularLoader"
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -412,7 +412,7 @@ class Envanter extends React.Component {
         </Button>
         <Divider style={{marginTop: '8px', marginBottom: '8px'}} /> */}
 
-        { showLoader && renderLoadingButton(classes) }
+        { showLoader && <CircularLoader /> }
         { !showLoader && 
           <span>
             <SpeedDial

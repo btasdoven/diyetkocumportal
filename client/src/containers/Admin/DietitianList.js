@@ -15,6 +15,7 @@ import { bindActionCreators } from "redux";
 import { Field, reduxForm } from "redux-form";
 import { userService } from '../../services/user.service';
 import { deleteDietitian, getAllDietitians } from '../../store/reducers/api.allDietitians';
+import CircularLoader from "../../components/CircularLoader"
 
 const styles = theme => ({
   profile: {
@@ -221,85 +222,85 @@ class Envanter extends React.Component {
         onSubmit={this.props.handleSubmit(this.onSubmitInternal)}
         name={this.props.form}
       >  
-        { showLoader && renderLoadingButton(classes) }
-          { !showLoader && (
-            <div style={{maxWidth: '100%'}}>
-              <MaterialTable
-                columns={[
-                  {
-                    title: 'Avatar',
-                    field: 'url',
-                    render: rowData => <Avatar
-                      className={classes.avatar}
-                      src={userService.getStaticFileUri(rowData.url)}
-                    />
-                  },
-                  { title: "Name", field: "name" },
-                  { title: "Insta", field: "username" },
-                  { title: "LastActivityDate", field: "last_activity_date" },
-                  { title: "CreateDate", field: "create_date", type: 'datetime' },
-                  { title: "PremiumUntil", field: "premium_until", type: 'datetime' },
-                  { title: "AddressType", field: "addressType" },
-                  { title: "Danisan", field: "danisanCount", type: 'numeric' },
-                  { title: "Randevu", field: "randevuCount", type: 'numeric' },
-                  { title: "Blog", field: "blogCount", type: 'numeric' },
-                  { title: "PageView", field: "pageViewCount", type: 'numeric' },
-                ]}
-                data={dietitians}
-                title=""
-                detailPanel={rowData => {
-                  return (
-                    <div style={{display:'flex', flexDirection: 'column', width: '100%', padding: '16px'}}>
-                      { rowData.isAdmin == true && (<Typography variant="body1">ADMİN KULLANICI</Typography>)}
-                      <Typography variant="body1">Tel: {rowData.tel}</Typography> 
-                      <Typography variant="body1">E-mail: {rowData.email}</Typography>
-                      <Typography variant="body1">Referans: {rowData.refDietitian}</Typography>
-                      <pre>Adresses: {JSON.stringify(rowData.addresses, null, 4)}</pre>
-                      <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(rowData.username)}>Delete</Button>
-                    </div>
-                  )
-                }}
-                options={{
-                  paging: false,
-                  emptyRowsWhenPaging: false
-                }}
-              />
+        { showLoader && <CircularLoader /> }
+        { !showLoader && (
+          <div style={{maxWidth: '100%'}}>
+            <MaterialTable
+              columns={[
+                {
+                  title: 'Avatar',
+                  field: 'url',
+                  render: rowData => <Avatar
+                    className={classes.avatar}
+                    src={userService.getStaticFileUri(rowData.url)}
+                  />
+                },
+                { title: "Name", field: "name" },
+                { title: "Insta", field: "username" },
+                { title: "LastActivityDate", field: "last_activity_date" },
+                { title: "CreateDate", field: "create_date", type: 'datetime' },
+                { title: "PremiumUntil", field: "premium_until", type: 'datetime' },
+                { title: "AddressType", field: "addressType" },
+                { title: "Danisan", field: "danisanCount", type: 'numeric' },
+                { title: "Randevu", field: "randevuCount", type: 'numeric' },
+                { title: "Blog", field: "blogCount", type: 'numeric' },
+                { title: "PageView", field: "pageViewCount", type: 'numeric' },
+              ]}
+              data={dietitians}
+              title=""
+              detailPanel={rowData => {
+                return (
+                  <div style={{display:'flex', flexDirection: 'column', width: '100%', padding: '16px'}}>
+                    { rowData.isAdmin == true && (<Typography variant="body1">ADMİN KULLANICI</Typography>)}
+                    <Typography variant="body1">Tel: {rowData.tel}</Typography> 
+                    <Typography variant="body1">E-mail: {rowData.email}</Typography>
+                    <Typography variant="body1">Referans: {rowData.refDietitian}</Typography>
+                    <pre>Adresses: {JSON.stringify(rowData.addresses, null, 4)}</pre>
+                    <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(rowData.username)}>Delete</Button>
+                  </div>
+                )
+              }}
+              options={{
+                paging: false,
+                emptyRowsWhenPaging: false
+              }}
+            />
 
-              {/* {dietitians.map((step, index) => (
-                <ExpansionPanel key={index}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <List disablePadding>
-                      <ListItem key={index}>
-                        <ListItemAvatar>
-                          <Avatar
-                            className={classes.avatar}
-                            src={userService.getStaticFileUri(dietitians[index].url)}
-                            alt={dietitians[index].name}
-                          />
-                        </ListItemAvatar>
-                        <ListItemText primary={dietitians[index].name} secondary={dietitians[index].username + (dietitians[index].isAdmin ? ' (Admin)' : '')} />
-                      </ListItem>
-                    </List>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails style={{flexDirection: 'column'}}>
-                    <Typography variant="body2">Hesap Acma Tarihi: {dietitians[index].create_date}</Typography>
-                    <Typography variant="body2">Premium Bitim Tarihi: {dietitians[index].premium_until}</Typography>
-                    <Typography variant="body2">Danisan Sayisi: {dietitians[index].danisanCount}</Typography> 
-                    <Typography variant="body2">Randevu Sayisi: {dietitians[index].randevuCount}</Typography> 
-                    <Typography variant="body2">Blog Sayisi: {dietitians[index].blogCount}</Typography> 
-                    <Typography variant="body2">Tel: {dietitians[index].tel}</Typography> 
-                    <Typography variant="body2">E-mail: {dietitians[index].email}</Typography>
-                    <Typography variant="body2">Referans: {dietitians[index].refDietitian}</Typography> <br />
-                    <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(dietitians[index].username)}>Delete</Button>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
-              ))} */}
-            </div>
-          )}
+            {/* {dietitians.map((step, index) => (
+              <ExpansionPanel key={index}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <List disablePadding>
+                    <ListItem key={index}>
+                      <ListItemAvatar>
+                        <Avatar
+                          className={classes.avatar}
+                          src={userService.getStaticFileUri(dietitians[index].url)}
+                          alt={dietitians[index].name}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText primary={dietitians[index].name} secondary={dietitians[index].username + (dietitians[index].isAdmin ? ' (Admin)' : '')} />
+                    </ListItem>
+                  </List>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails style={{flexDirection: 'column'}}>
+                  <Typography variant="body2">Hesap Acma Tarihi: {dietitians[index].create_date}</Typography>
+                  <Typography variant="body2">Premium Bitim Tarihi: {dietitians[index].premium_until}</Typography>
+                  <Typography variant="body2">Danisan Sayisi: {dietitians[index].danisanCount}</Typography> 
+                  <Typography variant="body2">Randevu Sayisi: {dietitians[index].randevuCount}</Typography> 
+                  <Typography variant="body2">Blog Sayisi: {dietitians[index].blogCount}</Typography> 
+                  <Typography variant="body2">Tel: {dietitians[index].tel}</Typography> 
+                  <Typography variant="body2">E-mail: {dietitians[index].email}</Typography>
+                  <Typography variant="body2">Referans: {dietitians[index].refDietitian}</Typography> <br />
+                  <Button variant="contained" color="secondary" onClick={this.onDeleteDietitian(dietitians[index].username)}>Delete</Button>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            ))} */}
+          </div>
+        )}
       </form>  
     )}
 };

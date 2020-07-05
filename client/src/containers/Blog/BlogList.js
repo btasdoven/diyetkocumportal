@@ -1,3 +1,5 @@
+
+import CircularLoader from "../../components/CircularLoader"
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -17,12 +19,6 @@ import { bindActionCreators } from "redux";
 import ExtendedLink from "../../components/ExtendedLink";
 import { userService } from '../../services/user.service';
 import { getAllPosts } from '../../store/reducers/api.allPosts';
-
-
-
-
-
-
 
 moment.locale('tr')
 
@@ -152,7 +148,7 @@ class LandingPage extends React.Component {
         /> */}
 
         <main className={classes.layoutToolbar} style={{margin:'auto'}}>
-            { showLoader && renderLoadingButton(classes) }
+            { showLoader && <CircularLoader /> }
             { !showLoader && Object.keys(postsPerUser).map((userId) => {
                 if (postsPerUser[userId].filter(post => post.postImg != undefined).length == 0) {
                   return;

@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Field, Form, reduxForm } from "redux-form";
 import { getDanisanDietList, putDanisanDietList } from '../../store/reducers/api.danisanDietList';
+import CircularLoader from "../../components/CircularLoader";
 
 
 
@@ -185,7 +186,7 @@ class Envanter extends React.Component {
         </Button>
         <Divider style={{marginTop: '8px', marginBottom: '8px'}} /> */}
 
-        { showLoader && renderLoadingButton(classes) }
+        { showLoader && <CircularLoader /> }
         { !showLoader && !doesDietListExist && (
           <div className={classes.rootLoading}>
             <Typography style={{textAlign: 'center', marginTop: '8px'}} variant="body2">Diyetisyeniniz diyet programınızı daha paylaşmadı.</Typography>

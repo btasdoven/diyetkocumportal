@@ -1,4 +1,4 @@
-
+import CircularLoader from "../../components/CircularLoader"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -314,7 +314,7 @@ class DietianList extends React.Component {
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            { showLoader && renderLoadingButton(classes) }
+            { showLoader && <CircularLoader /> }
             { !showLoader && (
               <List className={classes.dietitanList}>
                 {dietitians.map((step, index) => (

@@ -765,7 +765,7 @@ app.get("/:userId", (req, res, next) => {
   htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Cache-Control', 'max-age=31536000');
+      res.setHeader('Cache-Control', 'max-age=86400');
       res.send(subParams(str, title, descr, img, url, jsonld));    
     });
 });
@@ -821,7 +821,7 @@ app.get("/:userId/blog/:blogId", (req, res, next) => {
   htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Cache-Control', 'max-age=31536000');
+      res.setHeader('Cache-Control', 'max-age=86400');
       res.send(subParams(str, title, descr, img, url, jsonld));    
     });
 });
@@ -843,7 +843,7 @@ app.get("/l/:linkId", (req, res, next) => {
   htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Cache-Control', 'max-age=31536000');
+      res.setHeader('Cache-Control', 'max-age=86400');
       res.send(subParams(str, title, descr, img, url));    
     });
 });
@@ -857,7 +857,7 @@ app.get("*", (req, res, next) => {
   htmlTemplate()    
     .then((str) => {
       res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Cache-Control', 'max-age=31536000');
+      res.setHeader('Cache-Control', 'max-age=86400');
       res.send(subParams(str, title, descr, img, url));    
     });
 });

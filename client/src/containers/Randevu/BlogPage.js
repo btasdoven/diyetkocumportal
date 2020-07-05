@@ -23,6 +23,7 @@ import { bindActionCreators } from "redux";
 import ExtendedLink from '../../components/ExtendedLink';
 import { userService } from '../../services/user.service';
 import { getDietitianProfile } from '../../store/reducers/api.dietitianProfile';
+import CircularLoader from "../../components/CircularLoader";
 
 const styles = theme => ({
     root: {
@@ -142,7 +143,7 @@ class BlogPage extends React.Component {
         const { classes } = this.props;
         
         if (showLoader) {
-            return renderLoadingButton(classes);
+            return <CircularLoader />;
         }
 
         var userProfile = this.props.apiDietitianProfile[this.state.userId].data;

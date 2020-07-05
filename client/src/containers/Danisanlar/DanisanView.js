@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import UserDetails from './Danisan';
+import CircularLoader from '../../components/CircularLoader';
 
 const styles = theme => ({
   root: {
@@ -110,7 +111,7 @@ class Envanter extends React.Component {
     return (
         // <div className={classes.root}>
         <div className={classes.main}>
-            { showLoader && renderLoadingButton(classes) }
+            { showLoader && <CircularLoader /> }
             { !showLoader && 
                 <span> 
                   {/* <Card key={idx} className={classes.card}>
