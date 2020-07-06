@@ -302,9 +302,9 @@ class LandingPage extends React.Component {
                     {/* <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/enler">
                       HAFTANIN ENLERİ
                     </Button> */}
-                    <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/blog">
+                    {/* <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/blog">
                       BLOG YAZILARI
-                    </Button>
+                    </Button> */}
                     <Button color="secondary" style={{fontFamily: 'Prompt, sans-serif', color: 'white', marginRight: '8px'}} component={ExtendedLink} to="/signin">
                       GİRİŞ YAP
                     </Button>
@@ -337,7 +337,7 @@ class LandingPage extends React.Component {
             <MenuItem component={ExtendedLink} to={"/signin"} onClick={this.handleMenuClose}>Diyetisyen Girişi</MenuItem>
             <MenuItem component={ExtendedLink} to={"/signup"} onClick={this.handleMenuClose}>Diyetisyen Kaydı</MenuItem>
             {/* <MenuItem component={ExtendedLink} to={"/enler"} onClick={this.handleMenuClose}>Haftanın Enleri</MenuItem> */}
-            <MenuItem component={ExtendedLink} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem>
+            {/* <MenuItem component={ExtendedLink} to={"/blog"} onClick={this.handleMenuClose}>Blog Yazıları</MenuItem> */}
           </Menu>
 
           <div style={{paddingTop: '15vh', width: '100%', paddingLeft: '16px', paddingRight: '16px', textAlign: 'center', color: 'white'}}>

@@ -904,6 +904,7 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.uzmanlik_alanlari_v2 = userInfo.uzmanlik_alanlari_v2
       r.profile.ozgecmis = userInfo.ozgecmis
       r.profile.online_diyet = userInfo.online_diyet
+      r.profile.yuzyuze_diyet = userInfo.yuzyuze_diyet
 
       if (userInfo.addresses != undefined) {
         r.profile.addresses = userInfo.addresses
@@ -941,7 +942,8 @@ exports.signUpUser = function(uname, userInfo) {
         //status: 'pending',
         create_date: r.profile.create_date,
         premium_until: r.profile.premium_until,
-        refDietitian: userInfo.refDietitian
+        refDietitian: userInfo.refDietitian,
+        refSource: userInfo.how_they_heard_about_us
       }
     
       if (userInfo.refDietitian != undefined) {
@@ -971,7 +973,7 @@ exports.signUpUser = function(uname, userInfo) {
         ? "TEST - " + uname + " - "
         : "PROD - " + uname + " - "
     
-      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify({ userInfo: rows[0].users[uname], profile: r.profile }, null, 4))
+      email.sendEmail('newmessage@diyetkocum.net', titleSuffix, 'new user created', JSON.stringify({ userInfo: userInfo, userMetadata: rows[0].users[uname], profile: r.profile }, null, 4))
     
       return Promise.resolve(userInfo);
     // })
