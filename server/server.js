@@ -770,6 +770,52 @@ app.get("/:userId", (req, res, next) => {
     });
 });
 
+app.get("/diyetisyen/:slugifiedName", (req, res, next) => {
+  var user = dal.getDietitianProfileBySlugifiedName(req.params.slugifiedName);
+
+  var title ='Diyet Koçum'
+  var descr = 'Diyetisyenlerin Dijital Asistanı'
+  var img = 'static/favicon_lg.png'  
+  var url = `https://diyetkocum.net${req.originalUrl}`
+  var jsonld = undefined;
+    
+  if (user != undefined && Object.keys(user).length > 0) {
+    var userId = user.username
+    
+    title = (user.unvan != undefined ? user.unvan + ' ' : '') + user.name + " (@" + userId + ")"
+    descr = 'Diyet Koçum üzerinden tüm yazıları gör, danışan yorumlarını incele, ofis bilgilerine ulaş ya da randevu al'
+    img = user.url
+  
+    jsonld = {
+      "@context" : "http://schema.org",
+      "@type" : "LocalBusiness",
+      "name" : user.name,
+      "image" : `https://diyetkocum.net/${user.url}`,
+      "url" : `https://diyetkocum.net/${userId}`,
+      "aggregateRating" : {
+        "@type" : "AggregateRating",
+        "ratingValue" : "5",
+        "ratingCount" : "13"
+      }
+    }
+
+    if (user.addresses != undefined && Object.keys(user.addresses).length > 0) {
+      jsonld.address = {
+        "@type" : "PostalAddress",
+        "streetAddress" : user.addresses[Object.keys(user.addresses)[0]].address,
+        "addressCountry" : "TR"
+      }
+    }
+  }  
+
+  htmlTemplate()    
+    .then((str) => {
+      res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Cache-Control', 'max-age=86400');
+      res.send(subParams(str, title, descr, img, url, jsonld));    
+    });
+});
+
 app.get("/:userId/blog/:blogId", (req, res, next) => {
   var user = dal.getDietitianProfile(req.params.userId);
   var post = dal.getPost(req.params.userId, req.params.blogId)

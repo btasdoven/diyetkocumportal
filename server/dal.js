@@ -15,20 +15,8 @@ const sitemap = require('./sitemap')
 require('moment/locale/tr');
 moment.locale("tr")
 
-/**
- * Shuffles array in place.
- * @param {Array} a items An array containing the items.
- */
-function shuffle(a) {
-  var j, x, i;
-  for (i = a.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      x = a[i];
-      a[i] = a[j];
-      a[j] = x;
-  }
-  return a;
-}
+
+const slugifiedNameToUserIdMap = {}
 
 const rows = {
   0: {
@@ -608,6 +596,13 @@ var taskUpgradeStg = () => {
     //   changed = true;
     // }
 
+    if (rows[id].profile.username == undefined) {
+      rows[id].profile.username = id;
+      changed = true;
+    }
+
+    slugifiedNameToUserIdMap[slugify(rows[id].profile.name)] = id;
+
     if (!changed) {
       return Promise.resolve()
     }
@@ -619,12 +614,14 @@ var taskUpgradeStg = () => {
 
 var taskCreateSiteMap = () => {
   var dietitians = Object.keys(rows[0].users).filter(user => rows[0].users[user].isAdmin != true).map(user => { 
-    return { dietitian: user}
+    return { username: user, name: slugify(rows[user].profile.name) }
   });
+
+  console.log(slugifiedNameToUserIdMap)
 
   var posts = []
   dietitians.forEach(user=> {
-    Object.keys(rows[user.dietitian].profile.posts).forEach(p => posts.push({dietitian: user.dietitian, post: p}))
+    Object.keys(rows[user.username].profile.posts).forEach(p => posts.push({ ...user, post: p}))
   })
 
   sitemap.createSiteMapXml(dietitians, posts);
@@ -642,12 +639,12 @@ var taskCreateSiteMap = () => {
   });
 
   var changed = false
-  Object.keys(rows[0].users).forEach(u => {
-    if (rows[0].users[u].url != rows[u].profile.url) {
-      rows[0].users[u].url = rows[u].profile.url
-      changed = true
-    }
-  });
+  // Object.keys(rows[0].users).forEach(u => {
+  //   if (rows[0].users[u].url != rows[u].profile.url) {
+  //     rows[0].users[u].url = rows[u].profile.url
+  //     changed = true
+  //   }
+  // });
 
   if (changed) {
     storage.setItem('0', rows[0]);
@@ -2276,4 +2273,45 @@ var ensureDirectoryExistence = function(filePath) {
   }
   ensureDirectoryExistence(dirname);
   fs.mkdirSync(dirname);
+}
+
+exports.getDietitianProfileBySlugifiedName = function(name) {
+  var id = slugifiedNameToUserIdMap[name];
+
+  if (id == undefined ||
+      rows[id] == undefined) {
+    return undefined;
+  }
+
+  return rows[id].profile;
+}
+
+function slugify(string) {
+  const a = 'àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõőṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;'
+  const b = 'aaaaaaaaaacccddeeeeeeeegghiiiiiilmnnnnoooooooooprrsssssttuuuuuuuuuwxyyzzz------'
+  const p = new RegExp(a.split('').join('|'), 'g')
+
+  return string.toString().toLocaleLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+    .replace(/&/g, '-and-') // Replace & with 'and'
+    .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, '') // Trim - from end of text
+}
+
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = a[i];
+      a[i] = a[j];
+      a[j] = x;
+  }
+  return a;
 }

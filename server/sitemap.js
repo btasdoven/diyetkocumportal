@@ -10,11 +10,12 @@ exports.createSiteMapXml = function(dietitians, posts) {
   var urls = ['', '/blog', '/enler']
 
   dietitians.forEach(d => {
-    urls.push(`/${d.dietitian}`)
+    urls.push(`/${d.username}`)
+    urls.push(`/diyetisyen/${d.name}`)
   })
 
   posts.forEach(p => {
-    urls.push(`/${p.dietitian}/blog/${p.post}`)
+    urls.push(`/${p.username}/blog/${p.post}`)
   })
 
 var urlsStr = urls.map(u => `
