@@ -1953,6 +1953,7 @@ exports.getAllPosts = function () {
 
   Object.keys(rows).forEach((userId) => {
     if (userId == '0' || userId == '1' ||
+        rows[0].users[userId] == undefined ||
         rows[0].users[userId].status == 'pending' || 
         rows[0].users[userId].isAdmin == true) {
       return;
@@ -2015,7 +2016,7 @@ exports.getAllDietitians = function (isAdmin) {
   ret = []
   
   Object.keys(rows).forEach((userId) => {
-    if (userId == '0' || userId == '1') {
+    if (userId == '0' || userId == '1' || rows[0].users[userId] == undefined) {
       return;
     }
 
@@ -2066,7 +2067,7 @@ exports.getDietitianProfiles = function () {
   ret = []
 
   Object.keys(rows).forEach((userId) => {
-    if (userId == '0' || userId == '1' || userId == 'demo') {
+    if (userId == '0' || userId == '1' || userId == 'demo' || rows[0].users[userId] == undefined) {
       return;
     }
 
