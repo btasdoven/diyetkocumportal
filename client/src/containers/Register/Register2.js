@@ -575,8 +575,8 @@ class LandingPage extends React.Component {
                         label="Bizi nereden duydunuz?"
                         values={[
                           {
-                          label: 'Arkadaşımın Instagram profinden',
-                          value: 'Arkadaşımın Instagram profinden',
+                          label: 'Arkadaşımın Instagram profilinden',
+                          value: 'Arkadaşımın Instagram profilinden',
                           },
                           {
                           label: 'Instagram etiketlerinden',
