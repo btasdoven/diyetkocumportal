@@ -100,6 +100,7 @@ class App extends Component {
                 <Switch>
                   <DashboardNonSignedRoute exact path="/signup" component={Register} />
                   <Route path="/d/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/>
+                  {/* <Route path="/diyetisyen/:diyetisyenUserName" render={(props) => <Redirect to={`/${props.match.params.diyetisyenUserName}`} />}/> */}
                   
                   {localUser && <Route exact path="/" render={(props) => <Redirect to={`/t`} />} />}
                   {!localUser && <EmptyRoute exact path="/" component={NewLandingPage2Tracked} />}

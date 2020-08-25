@@ -245,6 +245,10 @@ async function asyncForEach(array, callback) {
   }
 }
 
+function clone(a) {
+  return JSON.parse(JSON.stringify(a));
+}
+
 var taskInitStg = () => {
   return storage.init({ dir: 'stg', logging: true })
 };
@@ -275,9 +279,7 @@ var taskInitNewDietitians = () => {
     var r = await storage.getItem(id.toString());
     if (JSON.stringify(r) == '{}' || r == undefined) {
       r = { 
-        profile: {
-          ...rows[1].profile 
-        }
+        profile: clone(rows[1].profile)
       };
       
       r.profile.email = rows[0].users[id].email
@@ -572,6 +574,29 @@ var taskUpgradeStg = () => {
       changed = true;
     }
 
+    var idsWithDefaultPic = [
+      'ece.uunal', 'fatmausluoglu', 'dyt.edabasaran', 'duygu_cicekk', 'ezgii_kayaaa', 'dyt.meryemyakupoglu', 'dytozgeucar', 'dyt_dilaracetin', 'dyt.asyayaman', 'edayrdmc', 'kilalkuloglu', 'turkbusra96'
+    ]
+
+    if (idsWithDefaultPic.includes(id)) {
+      photoCount = 8;
+      randomPhotoId = Math.floor(Math.random() * (photoCount - 1) + 1)
+      instaProfileUrl = `https://diyetkocum.net/api/v1/public/avatars/${randomPhotoId}.png`
+
+      oldLocalProfilePath = `public/${id}/${id}.png`
+
+      ensureDirectoryExistence(oldLocalProfilePath)
+
+      downloadAndSaveProfilePicture(instaProfileUrl, oldLocalProfilePath, () => {
+        console.log('done ', oldLocalProfilePath);
+
+        sharp(oldLocalProfilePath)
+          .png()
+          .resize(56, 56) // width, height
+          .toFile(oldLocalProfilePath.replace('.png', '-64x64.png'));
+      });
+    }
+
     // if (!rows[id].profile.url.endsWith(".webp")) {
     //   var now = Date.now()
     //   var oldLocalPath = rows[id].profile.url.replace('api/v1/', '')
@@ -732,7 +757,7 @@ exports.loginUser = function(uname, pwd) {
       // First login?
       //
       if (rows[id] == undefined) {
-        rows[id] = { ...rows[1] };
+        rows[id] = clone(rows[1])
         storage.setItem(id.toString(), rows[id]);
       }
 
@@ -851,7 +876,10 @@ exports.signUpUser = function(uname, userInfo) {
   //     console.log(instaProfileUrl);
 
       //instaProfileUrl = instaProfileUrl.replace(/\\u0026/g, '&')
-      instaProfileUrl = 'https://diyetkocum.net/api/v1/public/diyetkocumnet.png'
+      photoCount = 8;
+      randomPhotoId = Math.floor(Math.random() * (photoCount - 1) + 1)
+      instaProfileUrl = `https://diyetkocum.net/api/v1/public/avatars/${randomPhotoId}.png`
+
       oldLocalProfilePath = `public/${uname}/${uname}.png`
 
       ensureDirectoryExistence(oldLocalProfilePath)
@@ -876,9 +904,7 @@ exports.signUpUser = function(uname, userInfo) {
       });
 
       var r = { 
-        profile: {
-          ...rows[1].profile 
-        }
+        profile: clone(rows[1].profile)
       };
       
       createDate = moment(Date.now())
@@ -902,6 +928,7 @@ exports.signUpUser = function(uname, userInfo) {
       r.profile.ozgecmis = userInfo.ozgecmis
       r.profile.online_diyet = userInfo.online_diyet
       r.profile.yuzyuze_diyet = userInfo.yuzyuze_diyet
+      r.profile.gender = userInfo.gender
 
       if (userInfo.addresses != undefined) {
         r.profile.addresses = userInfo.addresses

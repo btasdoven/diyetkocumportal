@@ -583,12 +583,33 @@ class LandingPage extends React.Component {
                           value: 'Instagram etiketlerinden',
                           },
                           {
-                          label: "Twittar'dan",
-                          value: "Twittar'dan",
+                          label: "Twitter'dan",
+                          value: "Twitter'dan",
                           },
                           {
                           label: "Google'dan",
                           value: "Google'dan",
+                          },
+                          {
+                          label: "Diğer",
+                          value: "Diğer",
+                          },
+                        ]}
+                      />
+                    </FormControl>
+
+                    <FormControl margin="normal" fullWidth>
+                      <ReduxFormSelect
+                        name="gender"
+                        label="Cinsiyetin"
+                        values={[
+                          {
+                          label: 'Erkek',
+                          value: 'Erkek',
+                          },
+                          {
+                          label: 'Kadın',
+                          value: 'Kadın',
                           },
                           {
                           label: "Diğer",
