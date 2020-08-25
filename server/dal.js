@@ -595,6 +595,8 @@ var taskUpgradeStg = () => {
           .resize(56, 56) // width, height
           .toFile(oldLocalProfilePath.replace('.png', '-64x64.png'));
       });
+
+      changed = true;
     }
 
     // if (!rows[id].profile.url.endsWith(".webp")) {
