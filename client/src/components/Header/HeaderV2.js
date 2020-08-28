@@ -158,14 +158,14 @@ class HeaderV2 extends React.Component {
                         )}
                         
                         {!this.noButton && !this.props.backButton && !this.props.onBackButtonClick && (
-                            <span edge="start" style={{display: 'flex'}}>
+                            <ExtendedLink edge="start" style={{display: 'flex'}} to ="/">
                                 <Avatar alt="diyet koçum diyetisyen asistan" edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
                                 {!this.props.title && (
                                     <Typography variant="h6" style={{position: 'absolute', display: 'flex', alignItems: 'center', left: '36px', width: 'calc(100% - 36px)', top: 0, height: '56px', fontWeight: 100, color: 'white', textAlign: 'center', fontFamily: 'Prompt,sans-serif'}}>
                                         diyetkoçum
                                     </Typography>
                                 )}
-                            </span>
+                            </ExtendedLink>
                         )}
 
                         {(!this.props.permanentDrawer || this.state.user == undefined || this.props.sideBar == false) &&

@@ -282,10 +282,10 @@ class LandingPage extends React.Component {
 
           <AppBar elevation={0} position="static" className={classes.appBar}>
             <Toolbar className={classes.layoutToolbar}>
-              <span edge="start" style={{display: 'flex'}}>
+              <ExtendedLink edge="start" style={{display: 'flex'}} to="/">
                 <Avatar alt="diyet koçum diyetisyen asistan" edge="start" src='/static/favicon.png' style={{marginRight: '4px', width: '32px', height:'32px'}}/>
                 <Typography variant="h6" style={{fontWeight: 100, color: 'white', fontFamily: 'Prompt,sans-serif'}}>diyetkoçum</Typography>
-              </span>
+              </ExtendedLink>
               <span edge="end">
                 { this.props.width == 'xs' &&
                   <Fragment>
