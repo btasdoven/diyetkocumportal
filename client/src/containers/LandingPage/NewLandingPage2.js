@@ -519,10 +519,10 @@ class LandingPage extends React.Component {
             </Grid>
           </Grid> */}
 
-          <div style={{width: '100%', paddingTop: '48px', paddingBottom: '24px' }}>
+          {/* <div style={{width: '100%', paddingTop: '48px', paddingBottom: '24px' }}>
             <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '32px'}}>Bizi Tercih Edenler</Typography>
             <LandingPageDietitianList />
-          </div>
+          </div> */}
 
           {/* <div style={{width: '100%', paddingTop: '48px', paddingBottom: '48px' }}>
             <Typography variant="h5" style={{color: '#32325d', paddingLeft:'24px', fontWeight: 400, paddingBottom: '16px'}}>Diyetisyen Değil Misin?</Typography>

@@ -574,31 +574,6 @@ var taskUpgradeStg = () => {
       changed = true;
     }
 
-    var idsWithDefaultPic = [
-      'ece.uunal', 'fatmausluoglu', 'dyt.edabasaran', 'duygu_cicekk', 'ezgii_kayaaa', 'dyt.meryemyakupoglu', 'dytozgeucar', 'dyt_dilaracetin', 'dyt.asyayaman', 'edayrdmc', 'kilalkuloglu', 'turkbusra96'
-    ]
-
-    if (idsWithDefaultPic.includes(id)) {
-      photoCount = 8;
-      randomPhotoId = Math.floor(Math.random() * (photoCount - 1) + 1)
-      instaProfileUrl = `https://diyetkocum.net/api/v1/public/avatars/${randomPhotoId}.png`
-
-      oldLocalProfilePath = `public/${id}/${id}.png`
-
-      ensureDirectoryExistence(oldLocalProfilePath)
-
-      downloadAndSaveProfilePicture(instaProfileUrl, oldLocalProfilePath, () => {
-        console.log('done ', oldLocalProfilePath);
-
-        sharp(oldLocalProfilePath)
-          .png()
-          .resize(56, 56) // width, height
-          .toFile(oldLocalProfilePath.replace('.png', '-64x64.png'));
-      });
-
-      changed = true;
-    }
-
     // if (!rows[id].profile.url.endsWith(".webp")) {
     //   var now = Date.now()
     //   var oldLocalPath = rows[id].profile.url.replace('api/v1/', '')
