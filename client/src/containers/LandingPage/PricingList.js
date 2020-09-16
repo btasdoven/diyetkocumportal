@@ -207,7 +207,7 @@ const TextMobileStepper = (props) => {
 
             <div style={{textAlign: 'center', paddingTop: '12px'}}>
               <Typography component="span" variant="h4" color="textPrimary">
-                49₺
+                49.99₺
               </Typography>
               <Typography component="span" variant="h5" color="textSecondary">
                 /ay
