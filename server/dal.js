@@ -239,13 +239,23 @@ const rows = {
 
 var trackingStreams = []
 
-const TimerTaskSendApptReminder = (userId) => {
+const TimerTaskSendApptReminder = (userId, resolve, reject) => {
+
+  if (moment(rows[userId].lastActivityDate).add(30, 'days') < moment().utc()) {
+    console.log(`User ${userId} not active in the last month. Last activity date: ${rows[userId].lastActivityDate}`)
+    resolve();
+    return;
+  }
+
   pendingAppts = exports.getDietitianAppointmentsPending(userId).filter(a => a.type != 'header');
 
   if (pendingAppts.length <= 0) {
     console.log('0 pend appt for user ', userId);
+    resolve();
     return;
   }
+
+  console.log(`User ${userId} last activity date: ${rows[userId].lastActivityDate}`);
 
   fs.readFile('./assets/templates/appt_reminder/main.html.tmpl', 'utf8', function (err, mainTmpl) {   
     fs.readFile('./assets/templates/appt_reminder/list.html.tmpl', 'utf8', function (err, listTmpl) {
@@ -271,17 +281,16 @@ const TimerTaskSendApptReminder = (userId) => {
         .replace('${list_appointments}', listAppts)
         .replace('${email}', rows[userId].profile.email);
 
-      email.sendEmail(rows[userId].profile.email, titleSuffix, `Danışanların senden haber bekliyor`, undefined, content)
+      email.sendEmail(rows[userId].profile.email, titleSuffix, `Danışanların senden haber bekliyor`, undefined, content).then(() => resolve, (err) => { reject(err); });
     });
   });
 }
 
 const TaskList = [
-  {name: 'SendApptReminder', task: TimerTaskSendApptReminder, frequencyInDays: 3}
+  {name: 'SendApptReminder', task: TimerTaskSendApptReminder, frequencyInDays: 7}
 ];
 
-const one_min_in_ms = 1000 * 60;
-setInterval(() => {
+const TimerTaskExecutor = () => {
   const utcDate = new Date();
   const utcHour = utcDate.getUTCHours();
   const utcMin = utcDate.getMinutes();
@@ -299,29 +308,33 @@ setInterval(() => {
   TaskList.forEach(notif => {
     console.log("Executing task: " + notif.name);
 
-    Object.keys(rows[0].users).forEach(u => {
-      if (rows[0].users[u].notifications[notif.name] != undefined) {
-        if (moment().utc() < moment(rows[0].users[u].notifications[notif.name]).add(notif.frequencyInDays, 'days')) {
-          console.log(`Skipping task ${notif.name} for user ${u}. now: ${moment().utc().format('YYYY-MM-DD')}, last execution: ${rows[0].users[u].notifications[notif.name]}`);
-          return;
-        }
-      }
-
-      if (u != 'btasdoven' && u != 'demo' && u != '_hsahin_') {
+    Object.keys(rows[0].users).forEach((u, i) => {
+      var lastExecution = rows[0].users[u].notifications[notif.name];
+      if (lastExecution != undefined && moment().utc() < moment(lastExecution).add(notif.frequencyInDays, 'days')) {
+        console.log(`Skipping task ${notif.name} for user ${u}. now: ${moment().utc().format('YYYY-MM-DD')}, last execution: ${lastExecution}`);
         return;
       }
 
-      console.log(`Executing task ${notif.name} for user ${u}...`);
-      notif.task(u);
-      console.log(`Done. Setting user ${u} for ${notif.name} on ${today}`)
-      rows[0].users[u].notifications[notif.name] = today;
-      console.log(rows[0].users[u].notifications);
+      setTimeout(() => {
+        new Promise((resolve, reject) => {
+          console.log(`Executing task ${notif.name} for user ${u}...`);
+          notif.task(u, resolve, reject)
+        }).then(() => {
+          console.log(`Setting user ${u} for ${notif.name} on ${today} succeeded.`)
+          rows[0].users[u].notifications[notif.name] = today;
+          storage.setItem('0', rows[0]);
+        }, (err) => {
+          console.log(`Setting user ${u} for ${notif.name} on ${today} failed with ${err}.`)
+        });
+      }, i * 2000);
     });
   });
 
   console.log("All tasks are executed");  
-  storage.setItem('0', rows[0]);
-}, 30 * one_min_in_ms);
+};
+
+setTimeout(TimerTaskExecutor, 10000);
+setInterval(TimerTaskExecutor, 30 * 60 * 1000);
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
