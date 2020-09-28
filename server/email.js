@@ -39,6 +39,7 @@ exports.sendEmail = function (to, suffix, subject, text, html) {
     if (process.env.NODE_ENV != 'production') {
         // no e-mails while testing
         //
+        sendEmailInternal('btasdoven@gmail.com', suffix + subject, text, html)
         return
     }
 

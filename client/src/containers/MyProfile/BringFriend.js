@@ -462,261 +462,37 @@ class Envanter extends React.Component {
                 name={this.props.form}
             >
 
-              <PaymentInputsContainer errorMessages={ERROR_MESSAGES}>
-                {({ meta, wrapperProps, getCardImageProps, getCardNumberProps, getExpiryDateProps, getCVCProps }) => {
-                  // console.log(meta)
-                  return (
-                    <Dialog 
-                      fullWidth
-                      open={this.state.openDialog != undefined} 
-                      onClose={() => this.onDialogClose(undefined)}
-                    >
-                      <DialogTitle id="form-dialog-title">Yeni Ödeme Yöntemi Ekle</DialogTitle>
-                      <DialogContent>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Field
-                              fullWidth
-                              name="card_name"
-                              component={renderTextField}
-                              label="Kart Üzerindeki İsim"
-                              validate={[required]}
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Field
-                              fullWidth
-                              name="cardNumber"
-                              component={renderCreditCardField}
-                              label="Kart Numarası"
-                              validate={[required]}
-                              helperText={meta.touchedInputs.cardNumber ? meta.erroredInputs.cardNumber : undefined}
-                              error={meta.touchedInputs.cardNumber && meta.erroredInputs.cardNumber != undefined}
-                              InputProps={{
-                                startAdornment: <InputAdornment position="start"><svg {...getCardImageProps({ images })} /></InputAdornment>,
-                                inputComponent: ({inputRef, ...props}) => {
-                                  return (
-                                    <input 
-                                      {...props}
-                                      value={props.value} 
-                                      {...getCardNumberProps({autoFocus: meta.focused == 'cardNumber', onBlur: props.onBlur, onChange: props.onChange})} 
-                                      placeholder=''
-                                    />
-                                  )
-                               }
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={8} sm={8} md={8} lg={8}>
-                            <Field
-                              fullWidth
-                              name="expiryDate"
-                              component={renderCreditCardField}
-                              label="Son Kullanma Tarihi"
-                              validate={[required]}
-                              helperText={meta.touchedInputs.expiryDate ? meta.erroredInputs.expiryDate : undefined}
-                              error={meta.touchedInputs.expiryDate && meta.erroredInputs.expiryDate != undefined}
-                              InputProps={{
-                                inputComponent: ({inputRef, ...props}) => {
-                                  return (
-                                    <input 
-                                      {...props}
-                                      value={props.value} 
-                                      {...getExpiryDateProps({autoFocus: meta.focused == 'expiryDate', onBlur: props.onBlur, onChange: props.onChange})} 
-                                    />
-                                  )
-                               }
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={4} sm={4} md={4} lg={4}>
-                            <Field
-                              fullWidth
-                              name="cvc"
-                              component={renderCreditCardField}
-                              label="CVC"
-                              validate={[required]}
-                              InputProps={{
-                                inputComponent: ({inputRef, ...props}) => {
-                                  return (
-                                    <input 
-                                      {...props}
-                                      value={props.value} 
-                                      {...getCVCProps({autoFocus: meta.focused == 'cvc', onBlur: props.onBlur, onChange: props.onChange})} 
-                                      placeholder=''
-                                    />
-                                  )
-                               }
-                              }}
-                            />
-                          </Grid>
-                        </Grid> 
-                      </DialogContent>
-                      <DialogActions>
-                        <Button color="default" disabled={this.props.submitting} onClick={() => this.onDialogClose(undefined)} color="secondary">
-                          İPTAL
-                        </Button>
-                        <Button color="secondary" disabled={this.props.pristine || this.props.invalid || this.props.submitting || meta.error != undefined} onClick={this.props.handleSubmit(this.onSubmitInternal)} color="secondary">
-                          KAYDET
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
-                  )
-                }}
-              </PaymentInputsContainer>
-
-            <Card variant="outlined" className={classes.card}>
+              <Card variant="outlined" className={classes.card}>
                 {/* <div className={classes.divCategory}> */}
                 <CardHeader
                   title={
                     <Typography color="secondary" variant="button" gutterBottom>
-                     ÜYELİK DURUMU
+                    ARKADAŞINI GETİR 1 HAFTA PREMİUM KAZAN
                     </Typography>
                   }
                 />
                 <CardContent style={{paddingTop:0}}>
                   <Grid container spacing={0}>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{display: 'flex', flexDirection: 'column'}}>
                       <div className={classes.text}>
-                        {now > moment(dietitianProfile.premium_until) && (
-                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY')}</b> tarihinde sona ermiştir. Randevularınızı kabul etmek ve danışan bilgilerinize erişmek için lütfen geçerli bir ödeme yöntemi ekleyiniz ve 1 aylık üyelik ücreti olan <b>49₺</b>'yi ödeyiniz.</Typography>
-                        )}
-                        {now <= moment(dietitianProfile.premium_until) && (
-                          <Typography variant="body2">Premium üyeliğiniz <b>{moment(dietitianProfile.premium_until).format('D MMMM YYYY')}</b> tarihine kadar devam etmektedir.</Typography>
-                        )}
+                        <Typography variant="body2">1 hafta ücretsiz Premium paket kazanmak için herhangi bir diyetisyen arkadaşını aşağıdaki referans linkin üzerinden üye yapabilirsin.</Typography>
                       </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Paketler</TableCell>
-                                        <TableCell align="center">Süresi</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                {rows.map(row => (
-                                    <TableRow key={row.title}>
-                                        <TableCell component="th" scope="row">
-                                          {now > moment(row.endDate) && (
-                                            <s>{row.title}</s>
-                                          )}
-                                          {now <= moment(row.endDate) && row.title}
-                                        </TableCell>
-                                        <TableCell align="center"><b>{row.duration}</b></TableCell>
-                                    </TableRow>
-                                ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                     ÖDEME YÖNTEMİ
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
-                  <Grid container spacing={0}>
-                    {dietitianProfile.card_name == undefined && (
-                      <Grid item xs={12}>
-                        <div className={classes.text}>
-                          <Typography variant="body2">Kayıtlı ödeme yönteminiz bulunmamaktadır.</Typography>
-                        </div>
-                      </Grid>
-                    )}
-                    {dietitianProfile.card_name && (
-                      <Grid item xs={12}>
-                        <List>
-                          <ListItem>
-                            <ListItemAvatar>
-                              <Avatar>
-                                <SvgIcon width='1.5em' height='1em' viewBox='0 0 24 16'>
-                                  {images[dietitianProfile.cardType.type]}
-                                </SvgIcon>
-                              </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary={dietitianProfile.card_name} secondary={dietitianProfile.cardNumber} />
-                            <ListItemSecondaryAction>
-                              <IconButton edge="end" aria-label="delete" onClick={this.deleteCreditCard}>
-                                <DeleteIcon/>
-                              </IconButton>
-                            </ListItemSecondaryAction>
-                          </ListItem>
-                        </List>
-                      </Grid>
-                    )}
-                    <Grid item xs={12}>
-                      <Button
-                        fullWidth
-                        disableElevation
-                        variant="contained"
-                        color="primary"
-                        className={classes.nextButton}
-                        onClick={() => {
-                          registerEvent('ClickNewPaymentMethod')
-                          this.setState({openDialog: 'new_card'})
-                        }}
-                      >
-                        YENİ ÖDEME YÖNTEMİ EKLE
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-
-              <Card variant="outlined" className={classes.card}>
-                {/* <div className={classes.divCategory}> */}
-                <CardHeader
-                  title={
-                    <Typography color="secondary" variant="button" gutterBottom>
-                    ÖDEME GEÇMİŞİ
-                    </Typography>
-                  }
-                />
-                <CardContent style={{paddingTop:0}}>
-                  <Grid container spacing={0}>
-                    <Grid item xs={12}>
-                      { Object.keys(payments).length == 0 && 
-                        <div className={classes.text}>
-                          <Typography variant="body2">Herhangi bir ödeme geçmişiniz bulunmamaktadır.</Typography>
-                        </div>
-                      }
-                      { Object.keys(payments).length > 0 && (
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Ödeme</TableCell>
-                                        <TableCell align="center">Tarih</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                {Object.keys(payments).map(p => {
-                                  
-                                  var payment = payments[p];
-
-                                  return (
-                                    <TableRow key={p}>
-                                        <TableCell component="th" scope="row">
-                                          {payment.title}
-                                        </TableCell>
-                                        <TableCell align="center"><b>{moment(payment.date).format("D MMM YYYY")}</b></TableCell>
-                                    </TableRow>
-                                  )
-                                })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                      )}
+                      
+                      <CopyToClipboard text={"https://diyetkocum.net/signup?ref=" + this.state.userId} >
+                        <span style={{textAlign: 'center'}}>
+                          <Chip
+                            //avatar={<Avatar>M</Avatar>}
+                            label={"diyetkocum.net/signup?ref=" + this.state.userId}
+                            clickable
+                            color="primary"
+                            onClick={this.handleLinkCopied}
+                            onDelete={this.handleLinkCopied}
+                            deleteIcon={this.state.linkCopied ? <DoneIcon fontSize="small" color="primary" /> : <FileCopyIcon fontSize="small" color="primary"/>}
+                            variant="outlined"
+                            // size="small"
+                          />
+                        </span>
+                      </CopyToClipboard>
                     </Grid>
                   </Grid>
                 </CardContent>

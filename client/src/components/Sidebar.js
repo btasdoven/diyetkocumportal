@@ -184,9 +184,15 @@ class Sidebar extends React.Component {
                   <StarsRoundedIcon fontSize="small"/>
                 </ListItemIcon>
               </ListItem>
-              {/* <ListItem button component={ExtendedLink} to='/blog' selected={location.pathname === '/blog'}>
+              <ListItem button component={ExtendedLink} to='/campaign' selected={location.pathname === '/campaign'}>
+                <Typography variant="overline">ARKADAŞINI GETİR</Typography>
+                {/* <ListItemIcon style={{marginLeft: '4px', color: 'orange'}}>
+                  <StarsRoundedIcon fontSize="small"/>
+                </ListItemIcon> */}
+              </ListItem>
+              <ListItem button component={ExtendedLink} to='/blog' selected={location.pathname === '/blog'}>
                 <Typography variant="overline">BLOG YAZILARI</Typography>
-              </ListItem> */}
+              </ListItem>
             </List>
           </Collapse>
               

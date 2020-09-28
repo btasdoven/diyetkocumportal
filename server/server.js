@@ -234,9 +234,16 @@ var isPremiumUser = function (req, res, next) {
 
     if (!dal.isPremiumUser(req.params.userId)) {
       // console.log('setting premium', req.originalUrl, req.params, req.session.views)
-      res.setHeader('Content-Type', 'application/json');
-      res.status(401).json({code: 'PREMIUM_EXPIRED', message: "Premium üyeliğiniz aktif değil. Tekrar giriş yapınız."});
-      return;
+
+      if (req.body && req.body.cvc) {
+        // This must be for adding a new credit card to possibly extend premium date?
+        // Allow the PUT request. 
+        //
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(401).json({code: 'PREMIUM_EXPIRED', message: "Premium üyeliğiniz aktif değil. Tekrar giriş yapınız."});
+        return;
+      }
     }
   }
 
@@ -326,6 +333,7 @@ app.get("/api/v1/users/:userId/profile", (req, res, next) => {
     res.json(dal.getDietitianProfile(req.params.userId));
   }), delayInResponseInMs);
 });
+
 
 app.put("/api/v1/users/:userId/profile", verifyJwtToken, isPremiumUser, (req, res, next) => {
   setTimeout((function() {

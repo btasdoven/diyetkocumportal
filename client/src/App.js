@@ -15,6 +15,7 @@ import MainLayout from "./layouts/MainLayout";
 
 const MyProfile = React.lazy(() => import( "./containers/MyProfile/MyProfile"))
 const ProfileStatus = React.lazy(() => import( "./containers/MyProfile/Status"))
+const ProfileBringFriend = React.lazy(() => import( "./containers/MyProfile/BringFriend"))
 const CommentList = React.lazy(() => import( "./containers/MyProfile/Comments"))
 const NewCommentPage = React.lazy(() => import( './containers/MyProfile/NewCommentPage'))
 const Signin = React.lazy(() => import( "./containers/Signin/Signin2"))
@@ -125,6 +126,7 @@ class App extends Component {
 
                   {localUser && <DashboardRoute exact path="/home" component={Dashboard} />}
                   {localUser && <DashboardRoute exact path="/status" component={ProfileStatus} />}
+                  {localUser && <DashboardRoute exact path="/campaign" component={ProfileBringFriend} />}
                   {localUser && <DashboardRoute exact path="/cmt" component={CommentList} />}
                   {localUser && <DashboardRoute exact path="/c" component={DanisanList} />}
                   {localUser && <DashboardRoute exact backButton="/c" path="/c/:danisan" component={DanisanView} />}

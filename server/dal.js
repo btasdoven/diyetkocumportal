@@ -239,6 +239,90 @@ const rows = {
 
 var trackingStreams = []
 
+const TimerTaskSendApptReminder = (userId) => {
+  pendingAppts = exports.getDietitianAppointmentsPending(userId).filter(a => a.type != 'header');
+
+  if (pendingAppts.length <= 0) {
+    console.log('0 pend appt for user ', userId);
+    return;
+  }
+
+  fs.readFile('./assets/templates/appt_reminder/main.html.tmpl', 'utf8', function (err, mainTmpl) {   
+    fs.readFile('./assets/templates/appt_reminder/list.html.tmpl', 'utf8', function (err, listTmpl) {
+      listAppts = ''
+
+      pendingAppts.forEach(appt => {
+        var apptTypeText = appt.type == 'online_diet' ? 'Online Diyet' : appt.type == 'appointment' ? 'Yüz Yüze Randevu' : '';
+        var apptDate = appt.type == 'appointment' ? moment(appt.value.date).format("D MMMM YYYY") + ', ' + appt.value.startTime : '';
+        apptText = listTmpl
+          .replace('${name}', appt.value.name)
+          .replace('${appt_type}', apptTypeText)
+          .replace('${date}', apptDate);
+
+        listAppts += apptText;
+      })
+  
+      var titleSuffix = process.env.NODE_ENV !== 'production' 
+        ? "TEST - " + userId + " - "
+        : "PROD - " + userId + " - "
+
+      var content = mainTmpl
+        .replace('${name}', rows[userId].profile.name)
+        .replace('${list_appointments}', listAppts)
+        .replace('${email}', rows[userId].profile.email);
+
+      email.sendEmail(rows[userId].profile.email, titleSuffix, `Danışanların senden haber bekliyor`, undefined, content)
+    });
+  });
+}
+
+const TaskList = [
+  {name: 'SendApptReminder', task: TimerTaskSendApptReminder, frequencyInDays: 3}
+];
+
+const one_min_in_ms = 1000 * 60;
+setInterval(() => {
+  const utcDate = new Date();
+  const utcHour = utcDate.getUTCHours();
+  const utcMin = utcDate.getMinutes();
+  const today = moment().utc().format('YYYY-MM-DD');
+
+  if (process.env.NODE_ENV == 'production' ) {
+    if (utcHour != 9 || utcMin > 30) {
+      // Not between 9am - 9:30am UTC, skip.
+      //
+      console.log(`Skipping interval execution. hour: ${utcHour}, min: ${utcMin}`);
+      return;
+    }
+  }
+  
+  TaskList.forEach(notif => {
+    console.log("Executing task: " + notif.name);
+
+    Object.keys(rows[0].users).forEach(u => {
+      if (rows[0].users[u].notifications[notif.name] != undefined) {
+        if (moment().utc() < moment(rows[0].users[u].notifications[notif.name]).add(notif.frequencyInDays, 'days')) {
+          console.log(`Skipping task ${notif.name} for user ${u}. now: ${moment().utc().format('YYYY-MM-DD')}, last execution: ${rows[0].users[u].notifications[notif.name]}`);
+          return;
+        }
+      }
+
+      if (u != 'btasdoven' && u != 'demo' && u != '_hsahin_') {
+        return;
+      }
+
+      console.log(`Executing task ${notif.name} for user ${u}...`);
+      notif.task(u);
+      console.log(`Done. Setting user ${u} for ${notif.name} on ${today}`)
+      rows[0].users[u].notifications[notif.name] = today;
+      console.log(rows[0].users[u].notifications);
+    });
+  });
+
+  console.log("All tasks are executed");  
+  storage.setItem('0', rows[0]);
+}, 30 * one_min_in_ms);
+
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
@@ -648,6 +732,13 @@ var taskCreateSiteMap = () => {
   //   }
   // });
 
+  Object.keys(rows[0].users).forEach(u => {
+    if (rows[0].users[u].notifications == undefined) {
+      rows[0].users[u].notifications = {}
+      changed = true
+    }
+  });
+
   if (changed) {
     storage.setItem('0', rows[0]);
   }
@@ -944,7 +1035,8 @@ exports.signUpUser = function(uname, userInfo) {
         create_date: r.profile.create_date,
         premium_until: r.profile.premium_until,
         refDietitian: userInfo.refDietitian,
-        refSource: userInfo.how_they_heard_about_us
+        refSource: userInfo.how_they_heard_about_us,
+        notifications: {},
       }
     
       if (userInfo.refDietitian != undefined) {

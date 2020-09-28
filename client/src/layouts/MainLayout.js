@@ -89,7 +89,7 @@ class MainLayout extends Component {
           'Premium üyeliğinizi yenilemeniz gerekmektedir.',
           //'Undo', () => handleUndo()
         )
-        }
+      }
     }
   }
 
@@ -108,6 +108,7 @@ class MainLayout extends Component {
     // console.log('redirect', this.state.user, this.props.location)
 
     if (this.props.location.pathname != '/status' &&
+        this.props.location.pathname != '/campaign' &&
         this.state.user != undefined && 
         this.state.user.premium_until != undefined &&
         moment(this.state.user.premium_until) < moment.utc()) {

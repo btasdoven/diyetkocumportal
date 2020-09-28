@@ -133,7 +133,7 @@ class LandingPage extends React.Component {
   render() {
     const { classes } = this.props;
     const showLoader = !this.isLoaded();
-    const posts = showLoader ? undefined : this.props.apiAllPosts.data;
+    const posts = showLoader ? undefined : this.props.apiAllPosts.data.filter(p => p['userId'] == 'demo');
     const postsPerUser = showLoader ? undefined : groupBy(posts, 'userId');
     const ratio = isWidthUp('xs', this.props.width) ? (750 - 64) / 4 : 40;
     const unit = isWidthUp('xs', this.props.width) ? 'px' : 'vw';
