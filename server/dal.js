@@ -281,7 +281,10 @@ const TimerTaskSendApptReminder = (userId, resolve, reject) => {
         .replace('${list_appointments}', listAppts)
         .replace('${email}', rows[userId].profile.email);
 
-      email.sendEmail(rows[userId].profile.email, titleSuffix, `Danışanların senden haber bekliyor`, undefined, content).then(() => resolve, (err) => { reject(err); });
+      exports.logActivity(userId, "Sending e-mail for SendApptReminderTask");
+      email.sendEmail(rows[userId].profile.email, titleSuffix, `Danışanların senden haber bekliyor`, undefined, content).then(() => {
+        resolve();
+      }, (err) => { reject(err); });
     });
   });
 }
@@ -297,7 +300,7 @@ const TimerTaskExecutor = () => {
   const today = moment().utc().format('YYYY-MM-DD');
 
   if (process.env.NODE_ENV == 'production' ) {
-    if (utcHour != 9 || utcMin > 30) {
+    if (utcHour != 10 || utcMin > 30) {
       // Not between 9am - 9:30am UTC, skip.
       //
       console.log(`Skipping interval execution. hour: ${utcHour}, min: ${utcMin}`);
@@ -320,10 +323,12 @@ const TimerTaskExecutor = () => {
           console.log(`Executing task ${notif.name} for user ${u}...`);
           notif.task(u, resolve, reject)
         }).then(() => {
+          exports.logActivity(u, `Setting user ${u} for ${notif.name} on ${today} succeeded.`);
           console.log(`Setting user ${u} for ${notif.name} on ${today} succeeded.`)
           rows[0].users[u].notifications[notif.name] = today;
           storage.setItem('0', rows[0]);
         }, (err) => {
+          exports.logActivity(u, `Setting user ${u} for ${notif.name} on ${today} failed with ${err}.`);
           console.log(`Setting user ${u} for ${notif.name} on ${today} failed with ${err}.`)
         });
       }, i * 2000);
@@ -2344,13 +2349,16 @@ exports.trackActivity = function (loggedInUser, userId, event) {
   if (loggedInUser == undefined || loggedInUser == '') 
     return Promise.resolve();
 
+  exports.logActivity(loggedInUser, event);
+  return Promise.resolve();
+}
+
+exports.logActivity = function (loggedInUser, event) {
   if (trackingStreams[loggedInUser] == undefined) {
     trackingStreams[loggedInUser] = fs.createWriteStream(`tracking/${loggedInUser}.csv`, {flags:'a'});
   }
 
   trackingStreams[loggedInUser].write(`${loggedInUser},${moment(Date.now()).format()},${event}\n`);
-
-  return Promise.resolve();
 }
 
 exports.trackTopic = function (topic, email) {

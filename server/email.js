@@ -19,8 +19,9 @@ var sendEmailInternal = function (to, subject, text, html) {
         html: html,
     };
     
-    if (process.env.NODE_ENV == 'production')
+    if (process.env.NODE_ENV != 'production') {
         console.log(mailOptions)
+    }
 
     return new Promise( (resolve, reject) => {
         transporter.sendMail(mailOptions, function(error, info){
