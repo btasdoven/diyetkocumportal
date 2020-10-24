@@ -1589,7 +1589,7 @@ exports.makePayment = function(userId, callerUser) {
     rows[userId].profile.payments = {}
   }
 
-  var premiumStartDate = moment.utc() > rows[0].users[userId].premium_until ? moment.utc() : rows[0].users[userId].premium_until
+  var premiumStartDate = moment.utc() > moment(rows[0].users[userId].premium_until) ? moment.utc() : moment(rows[0].users[userId].premium_until)
   rows[userId].profile.payments[moment.utc().format()] = { title: '1 aylık Premium üyelik', date: premiumStartDate.format()}
   rows[userId].profile.premium_until = premiumStartDate.add(1, 'months').format()
   rows[0].users[userId].premium_until = premiumStartDate.add(1, 'months').format()
